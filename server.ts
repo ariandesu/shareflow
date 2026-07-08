@@ -38,10 +38,10 @@ async function startServer() {
       return res.status(400).json({ error: "Text is required" });
     }
 
-    // Generate a unique 6-character Base62 code
-    let code = generateBase62Code(6);
+    // Generate a unique 4-character Base62 code
+    let code = generateBase62Code(4);
     while (textStore.has(code)) {
-      code = generateBase62Code(6);
+      code = generateBase62Code(4);
     }
 
     const snippet: TextSnippet = {

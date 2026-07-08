@@ -141,7 +141,7 @@ export function TextShare() {
               onChange={(e) => setRetrieveCode(e.target.value)}
               placeholder="Enter Code"
               className="flex-1 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none text-center font-bold tracking-widest text-lg text-white placeholder:text-white/20 normal-case"
-              maxLength={6}
+              maxLength={4}
             />
             <button
               type="submit"

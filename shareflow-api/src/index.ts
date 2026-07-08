@@ -83,7 +83,7 @@ app.post("/api/text", async (c) => {
   let isUnique = false;
 
   while (!isUnique && attempts < maxAttempts) {
-    code = generateBase62Code(6);
+    code = generateBase62Code(4);
     const { data, error } = await supabase
       .from("snippets")
       .select("id")
