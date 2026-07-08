@@ -140,13 +140,13 @@ export function TextShare() {
               value={retrieveCode}
               onChange={(e) => setRetrieveCode(e.target.value)}
               placeholder="Enter Code"
-              className="flex-1 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none text-center font-bold tracking-widest text-lg text-white placeholder:text-white/20 uppercase"
+              className="flex-1 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none text-center font-bold tracking-widest text-lg text-white placeholder:text-white/20 normal-case"
               maxLength={6}
             />
             <button
               type="submit"
               disabled={retrieveLoading || !retrieveCode.trim()}
-              className="bg-white text-black px-6 font-black uppercase tracking-widest text-sm hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center justify-center"
+              className="bg-white text-black px-6 py-4 min-h-[58px] font-black uppercase tracking-widest text-sm hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center justify-center"
             >
               Fetch
             </button>

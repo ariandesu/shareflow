@@ -110,12 +110,30 @@ export function Layout() {
         </div>
       </header>
 
-      {/* Mobile menu */}
+      {/* Mobile menu (Sidebar Drawer Overlay) */}
       {isMenuOpen && (
-        <div className="md:hidden border-b border-white/10 bg-[#0A0A0A]">
-          <div className="pt-2 pb-3 space-y-1">
-            <div className="px-4 py-2 flex items-center justify-between border-b border-white/10 mb-2">
-              <span className="text-sm font-bold uppercase tracking-widest text-white/50">Theme</span>
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-45 md:hidden"
+            onClick={() => setIsMenuOpen(false)}
+          />
+          {/* Sidebar Drawer */}
+          <div className="fixed top-0 left-0 h-full w-[280px] bg-[#0A0A0A] border-r border-white/10 z-50 flex flex-col p-6 overflow-y-auto md:hidden transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+              <Link to="/" className="text-xl font-black tracking-tighter uppercase flex items-center" onClick={() => setIsMenuOpen(false)}>
+                <span className="bg-white text-black px-1 mr-1">SHARE</span>FLOW
+              </Link>
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="p-1 rounded-md text-white/50 hover:text-white hover:bg-white/5 focus:outline-none transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="px-4 py-2 flex items-center justify-between border-b border-white/10 mb-4">
+              <span className="text-xs font-bold uppercase tracking-widest text-white/50">Theme</span>
               <button
                 onClick={() => setIsLightMode(!isLightMode)}
                 className="p-2 rounded-md text-white/50 hover:text-white hover:bg-white/5 transition-colors"
@@ -123,22 +141,25 @@ export function Layout() {
                 {isLightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
               </button>
             </div>
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                  location.pathname === item.href
-                    ? "bg-white/5 border-white text-white"
-                    : "border-transparent text-white/50 hover:bg-white/5 hover:border-white/30 hover:text-white"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+
+            <nav className="flex flex-col gap-1">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block px-4 py-2.5 border-l-4 text-sm font-medium transition-colors ${
+                    location.pathname === item.href
+                      ? "bg-white/5 border-white text-white"
+                      : "border-transparent text-white/50 hover:bg-white/5 hover:border-white/30 hover:text-white"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
           </div>
-        </div>
+        </>
       )}
 
       <main className="flex-1 w-full mx-auto p-6 sm:p-12 overflow-hidden flex flex-col">
