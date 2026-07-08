@@ -1,0 +1,156 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+body.light-theme {
+  background-color: #FAFAFA !important;
+  color: #111 !important;
+}
+
+body.light-theme .bg-\[\#0A0A0A\] {
+  background-color: #FAFAFA !important;
+}
+body.light-theme .bg-\[\#0A0A0A\]\/90 {
+  background-color: rgba(250, 250, 250, 0.9) !important;
+}
+body.light-theme .bg-\[\#111\] {
+  background-color: #FFFFFF !important;
+}
+body.light-theme .bg-black {
+  background-color: #FFFFFF !important;
+}
+body.light-theme .bg-black\/20 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+body.light-theme .bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+body.light-theme .bg-white {
+  background-color: #111 !important;
+}
+body.light-theme .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+body.light-theme .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+body.light-theme .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light-theme .text-\[\#F5F5F5\] {
+  color: #111 !important;
+}
+body.light-theme .text-white {
+  color: #111 !important;
+}
+body.light-theme .text-white\/20 {
+  color: rgba(0, 0, 0, 0.3) !important;
+}
+body.light-theme .text-white\/30 {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+body.light-theme .text-white\/40 {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+body.light-theme .text-white\/50 {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+body.light-theme .text-white\/60 {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+body.light-theme .text-white\/80 {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+body.light-theme .text-black {
+  color: #fff !important;
+}
+
+body.light-theme .border-white {
+  border-color: #111 !important;
+}
+body.light-theme .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+body.light-theme .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+body.light-theme .border-white\/30 {
+  border-color: rgba(0, 0, 0, 0.3) !important;
+}
+body.light-theme .border-white\/40 {
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+body.light-theme .border-white\/50 {
+  border-color: rgba(0, 0, 0, 0.5) !important;
+}
+body.light-theme .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+body.light-theme .border-black {
+  border-color: #fff !important;
+}
+
+body.light-theme .hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+body.light-theme .hover\:bg-white\/10:hover {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+body.light-theme .group:hover .group-hover\:bg-black {
+  background-color: #fff !important;
+}
+body.light-theme .group:hover .group-hover\:text-white {
+  color: #111 !important;
+}
+body.light-theme .hover\:text-white:hover {
+  color: #111 !important;
+}
+body.light-theme .hover\:border-white:hover {
+  border-color: #111 !important;
+}
+body.light-theme .hover\:border-white\/30:hover {
+  border-color: rgba(0, 0, 0, 0.3) !important;
+}
+body.light-theme .focus\:border-white\/30:focus {
+  border-color: rgba(0, 0, 0, 0.3) !important;
+}
+body.light-theme .focus\:border-white\/50:focus {
+  border-color: rgba(0, 0, 0, 0.5) !important;
+}
+body.light-theme .ring-white\/20:focus {
+  --tw-ring-color: rgba(0, 0, 0, 0.2) !important;
+}
+body.light-theme .accent-white {
+  accent-color: #111 !important;
+}
+
+body.light-theme .light-theme-invert {
+  background-color: #fff !important;
+  color: #111 !important;
+}
+body.light-theme .light-theme-text-muted {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+body.light-theme .light-theme-btn {
+  border-color: #fff !important;
+  color: #fff !important;
+}
+body.light-theme .group:hover .light-theme-btn {
+  background-color: #fff !important;
+  color: #111 !important;
+}
+
+/* Base custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+body.light-theme .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}

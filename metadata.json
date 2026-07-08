@@ -1,0 +1,6 @@
+{
+  "name": "ShareFlow",
+  "description": "The Cloudflare of Free Online Tools. A suite of completely free, login-less utility tools including Text Share, QR Generator, Gradient Generator, and more.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

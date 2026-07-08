@@ -1,0 +1,254 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { 
+  FileText, 
+  QrCode, 
+  Palette, 
+  Key, 
+  Hash, 
+  Binary, 
+  FileJson, 
+  FileCode2,
+  Square,
+  Layout,
+  Grid3X3,
+  Ruler,
+  Fingerprint,
+  LockOpen,
+  Search,
+  Minimize,
+  Maximize,
+  ShieldCheck
+} from "lucide-react";
+import { motion } from "motion/react";
+
+const tools = [
+  {
+    name: "Text Share",
+    description: "Secure, instant, anonymous text sharing. Auto-expiring links.",
+    icon: <FileText className="w-6 h-6 text-black" />,
+    href: "/text-share",
+    featured: true,
+  },
+  {
+    name: "QR Generator",
+    description: "Custom, vector-ready codes.",
+    icon: <QrCode className="w-5 h-5 text-white" />,
+    href: "/qr-generator",
+  },
+  {
+    name: "Gradient Studio",
+    description: "CSS3 & Tailwind palettes.",
+    icon: <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-[0_0_15px_rgba(99,102,241,0.4)]"></div>,
+    href: "/gradient-generator",
+  },
+  {
+    name: "JSON Format",
+    description: "Clean, validate & minify.",
+    icon: <div className="font-mono text-white/40 text-lg">{`{ ... }`}</div>,
+    href: "/json-formatter",
+  },
+  {
+    name: "Password Gen",
+    description: "Strong entropy keys.",
+    icon: <Key className="w-5 h-5 text-white" />,
+    href: "/password-generator",
+  },
+  {
+    name: "UUID Gen",
+    description: "Valid version 4 UUIDs.",
+    icon: <Hash className="w-5 h-5 text-white" />,
+    href: "/uuid",
+  },
+  {
+    name: "Base64",
+    description: "Encode or decode strings.",
+    icon: <Binary className="w-5 h-5 text-white" />,
+    href: "/base64",
+  },
+  {
+    name: "Markdown Preview",
+    description: "Write & preview in real-time.",
+    icon: <FileCode2 className="w-5 h-5 text-white" />,
+    href: "/markdown-preview",
+  },
+  {
+    name: "Color Picker",
+    description: "Select and convert HEX, RGB, HSL.",
+    icon: <Palette className="w-5 h-5 text-white" />,
+    href: "/color-picker",
+  },
+  {
+    name: "Box Shadow",
+    description: "Visual CSS shadow generator.",
+    icon: <Square className="w-5 h-5 text-white" />,
+    href: "/box-shadow",
+  },
+  {
+    name: "Flexbox",
+    description: "Flexbox layout playground.",
+    icon: <Layout className="w-5 h-5 text-white" />,
+    href: "/flexbox",
+  },
+  {
+    name: "Grid Gen",
+    description: "Visual CSS Grid builder.",
+    icon: <Grid3X3 className="w-5 h-5 text-white" />,
+    href: "/grid",
+  },
+  {
+    name: "Unit Conv",
+    description: "Convert CSS sizes and bytes.",
+    icon: <Ruler className="w-5 h-5 text-white" />,
+    href: "/unit-converter",
+  },
+  {
+    name: "Hash Gen",
+    description: "MD5, SHA-1, SHA-256 hashes.",
+    icon: <Fingerprint className="w-5 h-5 text-white" />,
+    href: "/hash-generator",
+  },
+  {
+    name: "JWT Decoder",
+    description: "Decode token payloads.",
+    icon: <LockOpen className="w-5 h-5 text-white" />,
+    href: "/jwt-decoder",
+  },
+  {
+    name: "Regex Tester",
+    description: "Test JS regular expressions.",
+    icon: <Search className="w-5 h-5 text-white" />,
+    href: "/regex-tester",
+  },
+  {
+    name: "Image Compress",
+    description: "Browser-based JPEG compression.",
+    icon: <Minimize className="w-5 h-5 text-white" />,
+    href: "/image-compressor",
+  },
+  {
+    name: "Image Resize",
+    description: "Precise aspect ratio scaling.",
+    icon: <Maximize className="w-5 h-5 text-white" />,
+    href: "/image-resizer",
+  },
+  {
+    name: "EXIF Remover",
+    description: "Strip photo metadata.",
+    icon: <ShieldCheck className="w-5 h-5 text-white" />,
+    href: "/exif-remover",
+  },
+];
+
+export function Home() {
+  return (
+    <div className="flex-1 flex flex-col w-full h-full max-w-6xl mx-auto">
+      {/* Hero Header */}
+      <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pt-4">
+        <div className="max-w-2xl">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-[50px] sm:text-[80px] font-bold leading-[0.85] tracking-tighter uppercase mb-4"
+          >
+            Utility<br/>
+            <span className="text-transparent border-t-0" style={{ WebkitTextStroke: "1px white" }}>Universe</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-white/50 max-w-md"
+          >
+            The high-performance toolkit for developers and creators. No accounts. No subscriptions. 100% serverless at the edge.
+          </motion.p>
+        </div>
+        <div className="flex flex-col items-start md:items-end gap-2">
+          <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">API Health</span>
+          <div className="flex gap-1 h-4">
+            <div className="w-1.5 bg-green-500/80 rounded-full"></div>
+            <div className="w-1.5 bg-green-500/80 rounded-full"></div>
+            <div className="w-1.5 bg-green-500/80 rounded-full"></div>
+            <div className="w-1.5 bg-green-500/80 rounded-full"></div>
+            <div className="w-1.5 bg-green-500/80 rounded-full"></div>
+            <div className="w-1.5 bg-green-500/80 rounded-full"></div>
+            <div className="w-1.5 bg-yellow-500/80 rounded-full"></div>
+            <div className="w-1.5 bg-green-500/80 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tool Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
+        {tools.map((tool, index) => (
+          tool.featured ? (
+            <motion.div
+              key={tool.name}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 + index * 0.05 }}
+              className="sm:col-span-2 row-span-1 bg-white text-black p-6 flex flex-col justify-between group h-[300px]"
+            >
+              <Link to={tool.href} className="flex flex-col h-full justify-between">
+                <div>
+                  <div className="flex justify-between items-start">
+                    <span className="text-xs font-bold uppercase tracking-widest bg-black text-white px-2 py-0.5 light-theme-invert">Flagship</span>
+                    {tool.icon}
+                  </div>
+                  <h3 className="text-4xl font-bold tracking-tighter uppercase mt-4">{tool.name}</h3>
+                  <p className="text-black/60 text-sm mt-2 font-medium light-theme-text-muted">{tool.description}</p>
+                </div>
+                <div className="mt-8 w-full py-4 border-2 border-black font-black text-center uppercase text-sm tracking-widest group-hover:bg-black group-hover:text-white transition-colors light-theme-btn">
+                  Start Pasting
+                </div>
+              </Link>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={tool.name}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 + index * 0.05 }}
+            >
+              <Link
+                to={tool.href}
+                className="block bg-white/5 border border-white/10 p-6 flex flex-col justify-between hover:bg-white/10 transition-all h-full min-h-[160px]"
+              >
+                <div className="mb-4">
+                  {React.isValidElement(tool.icon) && tool.icon.type !== 'div' ? (
+                     <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
+                       {tool.icon}
+                     </div>
+                  ) : (
+                    tool.icon
+                  )}
+                </div>
+                <div>
+                  <h4 className="font-bold uppercase tracking-tighter text-lg">{tool.name}</h4>
+                  <p className="text-xs text-white/40">{tool.description}</p>
+                </div>
+              </Link>
+            </motion.div>
+          )
+        ))}
+
+        {/* API Access */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className="sm:col-span-2 lg:col-span-2 bg-[#111] border-2 border-dashed border-white/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between group gap-4 min-h-[160px]"
+        >
+          <div className="max-w-[100%] sm:max-w-[60%]">
+            <h4 className="font-bold uppercase tracking-tighter text-xl">Developer Gateway (Coming Soon)</h4>
+            <p className="text-xs text-white/40 mt-1">Scale ShareFlow tools in your own applications. Generous free tier with Redis caching.</p>
+          </div>
+          <div className="flex flex-col items-start sm:items-end gap-3 w-full sm:w-auto">
+            <span className="text-[10px] text-white/20 font-mono">v1/api/endpoint</span>
+            <button className="px-4 py-2 bg-white/20 text-white/50 text-[10px] font-black uppercase tracking-widest cursor-not-allowed whitespace-nowrap">Coming Soon</button>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
