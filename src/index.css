@@ -188,3 +188,14 @@ body.light-theme #ad-slot-tool-page span {
     font-size: 28px !important;
   }
 }
+
+/* Stroke text outline style for headings */
+.stroke-text {
+  color: transparent !important;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+body.light-theme .stroke-text {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.85) !important;
+}
+
