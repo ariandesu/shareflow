@@ -9,23 +9,6 @@ interface SEOContentProps {
 }
 
 export function SEOContent({ title, description, steps, faqs }: SEOContentProps) {
-  React.useEffect(() => {
-    const script = document.createElement('script');
-    script.dataset.zone = '11258520';
-    script.src = 'https://n6wxm.com/vignette.min.js';
-    
-    const target = [document.documentElement, document.body].filter(Boolean).pop();
-    if (target) {
-      target.appendChild(script);
-    }
-    
-    return () => {
-      if (target && script.parentNode === target) {
-        target.removeChild(script);
-      }
-    };
-  }, []);
-
   return (
     <div className="mt-16 border-t border-white/10 pt-16 space-y-16 max-w-5xl mx-auto w-full">
       {/* Google Ad Space */}
