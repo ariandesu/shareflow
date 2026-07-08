@@ -1,0 +1,21 @@
+{
+  "name": "shareflow-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
+    "@upstash/redis": "^1.28.4",
+    "hono": "^4.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240320.0",
+    "typescript": "^5.4.2",
+    "wrangler": "^3.34.1"
+  }
+}
