@@ -72,16 +72,16 @@ export function TextShare() {
   return (
     <div className="max-w-4xl mx-auto space-y-12">
       <div className="text-left space-y-2">
-        <h1 className="text-[40px] leading-none font-bold tracking-tighter uppercase">Text Share</h1>
+        <h1 className="text-[28px] sm:text-[40px] leading-none font-bold tracking-tighter uppercase">Text Share</h1>
         <p className="text-white/50 text-sm">Share text instantly without logging in.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
         {/* Create Share */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="bg-white/5 border border-white/10 p-6 flex flex-col justify-between"
+          className="bg-white/5 border border-white/10 p-4 sm:p-6 flex flex-col justify-between"
         >
           <div className="flex justify-between items-start mb-6">
             <span className="text-xs font-bold uppercase tracking-widest bg-white text-black px-2 py-0.5">Share</span>
@@ -127,14 +127,14 @@ export function TextShare() {
         <motion.div 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="bg-white/5 border border-white/10 p-6 flex flex-col justify-between"
+          className="bg-white/5 border border-white/10 p-4 sm:p-6 flex flex-col justify-between"
         >
           <div className="flex justify-between items-start mb-6">
             <span className="text-xs font-bold uppercase tracking-widest bg-white/20 text-white px-2 py-0.5">Retrieve</span>
             <Search className="w-5 h-5 text-white/50" />
           </div>
           
-          <form onSubmit={handleRetrieve} className="flex gap-2 mb-6">
+          <form onSubmit={handleRetrieve} className="flex flex-col sm:flex-row gap-2 mb-6">
             <input
               type="text"
               value={retrieveCode}

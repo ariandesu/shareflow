@@ -86,7 +86,7 @@ export function GradientGenerator() {
   return (
     <div className="max-w-5xl mx-auto space-y-12">
       <div className="text-left space-y-2">
-        <h1 className="text-[40px] leading-none font-bold tracking-tighter uppercase">Gradient Studio</h1>
+        <h1 className="text-[28px] sm:text-[40px] leading-none font-bold tracking-tighter uppercase">Gradient Studio</h1>
         <p className="text-white/50 text-sm">Create beautiful, advanced CSS gradients instantly.</p>
       </div>
 
@@ -100,7 +100,7 @@ export function GradientGenerator() {
           style={{ background: cssValue }}
         />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-8 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 p-4 sm:p-6 md:p-8 border-b border-white/10">
           <div className="space-y-6">
             <h3 className="text-sm font-bold uppercase tracking-widest text-white/80">Settings</h3>
             
@@ -211,9 +211,9 @@ export function GradientGenerator() {
           </div>
         </div>
 
-        <div className="p-6 md:p-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-black/20">
+        <div className="p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-black/20">
           <div className="flex-1 bg-[#0A0A0A] p-4 border border-white/10 w-full overflow-x-auto">
-            <code className="text-white/80 font-mono text-xs sm:text-sm whitespace-nowrap">
+            <code className="text-white/80 font-mono text-xs whitespace-nowrap">
               background: {cssValue};
             </code>
           </div>

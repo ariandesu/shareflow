@@ -154,3 +154,37 @@ body.light-theme .group:hover .light-theme-btn {
 body.light-theme .custom-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
 }
+
+/* FAQ text visibility */
+.faq-question {
+  color: rgba(255, 255, 255, 0.9);
+}
+.faq-answer {
+  color: rgba(255, 255, 255, 0.5);
+}
+body.light-theme .faq-question {
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+body.light-theme .faq-answer {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+body.light-theme .faq-item {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Ad space light mode */
+body.light-theme #ad-slot-tool-page {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+body.light-theme #ad-slot-tool-page span {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 28px !important;
+  }
+}

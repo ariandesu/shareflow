@@ -11,6 +11,26 @@ interface SEOContentProps {
 export function SEOContent({ title, description, steps, faqs }: SEOContentProps) {
   return (
     <div className="mt-16 border-t border-white/10 pt-16 space-y-16 max-w-5xl mx-auto w-full">
+      {/* Google Ad Space */}
+      <div className="w-full">
+        <div 
+          className="w-full min-h-[90px] md:min-h-[120px] bg-white/5 border border-white/10 border-dashed flex items-center justify-center"
+          id="ad-slot-tool-page"
+        >
+          {/* 
+            Replace this div with your Google AdSense code:
+            <ins className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+              data-ad-slot="XXXXXXXXXX"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+          */}
+          <span className="text-[10px] uppercase tracking-widest text-white/20 font-bold">Ad Space</span>
+        </div>
+      </div>
+
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -48,9 +68,9 @@ export function SEOContent({ title, description, steps, faqs }: SEOContentProps)
         
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white/5 p-6 border border-white/10 space-y-2 hover:border-white/20 transition-colors">
-              <h3 className="text-sm font-bold tracking-wider text-white/90">{faq.question}</h3>
-              <p className="text-sm text-white/50 leading-relaxed">{faq.answer}</p>
+            <div key={index} className="faq-item bg-white/5 p-6 border border-white/10 space-y-2 hover:border-white/20 transition-colors">
+              <h3 className="faq-question text-sm font-bold tracking-wider">{faq.question}</h3>
+              <p className="faq-answer text-sm leading-relaxed">{faq.answer}</p>
             </div>
           ))}
         </div>
