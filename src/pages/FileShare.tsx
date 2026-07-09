@@ -193,7 +193,7 @@ export function FileShare() {
 
           const sendNextChunk = () => {
             while (offset < buffer.byteLength) {
-              if (channel.bufferedAmount > 8 * 1024 * 1024) { // 8MB threshold
+              if (channel.bufferedAmount > 1 * 1024 * 1024) { // 1MB threshold
                 channel.onbufferedamountlow = () => {
                   channel.onbufferedamountlow = null;
                   sendNextChunk();
@@ -300,7 +300,7 @@ export function FileShare() {
       }
 
       try {
-        const res = await fetch(`${API_BASE_URL}/api/file/p2p/${code}/answer`);
+        const res = await fetch(`${API_BASE_URL}/api/file/p2p/${code}/answer?t=${Date.now()}`);
         if (!res.ok) return;
 
         const data = await res.json();

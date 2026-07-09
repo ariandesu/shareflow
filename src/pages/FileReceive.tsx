@@ -60,7 +60,7 @@ export function FileReceive() {
     setStatus("fetching");
     setErrorMsg("");
     try {
-      const res = await fetch(`${API_BASE_URL}/api/file/${fileCode}`);
+      const res = await fetch(`${API_BASE_URL}/api/file/${fileCode}?t=${Date.now()}`);
       if (!res.ok) {
         throw new Error("File link has expired or code is incorrect.");
       }
@@ -85,7 +85,7 @@ export function FileReceive() {
       if (!metadata.offer) {
         setStatus("fetching");
         try {
-          const res = await fetch(`${API_BASE_URL}/api/file/${code}`);
+          const res = await fetch(`${API_BASE_URL}/api/file/${code}?t=${Date.now()}`);
           if (!res.ok) throw new Error("P2P session has expired.");
           const data: FileMetadata = await res.json();
           if (data.offer) {
