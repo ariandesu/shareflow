@@ -262,8 +262,8 @@ export function FileReceive() {
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    placeholder="e.g. A1B2"
-                    className="flex-1 px-4 py-4 bg-black/5 font-bold uppercase tracking-widest text-lg outline-none focus:bg-black/10 transition-colors placeholder-black/30 text-black border-b border-black/10 sm:border-b-0 sm:border-r dark:border-white/10"
+                    placeholder="e.g. a1B2"
+                    className="flex-1 px-4 py-4 bg-black/5 font-bold tracking-widest text-lg outline-none focus:bg-black/10 transition-colors placeholder-black/30 text-black border-b border-black/10 sm:border-b-0 sm:border-r dark:border-white/10"
                     maxLength={10}
                     required
                   />

@@ -590,8 +590,8 @@ export function FileShare() {
                     type="text"
                     value={receiveCode}
                     onChange={(e) => setReceiveCode(e.target.value)}
-                    placeholder="e.g. A1B2"
-                    className="flex-1 px-4 py-3 font-bold uppercase tracking-widest text-lg outline-none bg-transparent text-black placeholder:text-black/30 border-b border-black sm:border-b-0 sm:border-r border-black"
+                    placeholder="e.g. a1B2"
+                    className="flex-1 px-4 py-3 font-bold tracking-widest text-lg outline-none bg-transparent text-black placeholder:text-black/30 border-b border-black sm:border-b-0 sm:border-r border-black"
                     maxLength={6}
                     required
                   />
