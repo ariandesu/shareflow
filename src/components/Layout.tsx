@@ -64,7 +64,7 @@ export function Layout() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-sans flex flex-col">
-      <header className="h-20 border-b border-white/10 px-4 sm:px-10 flex items-center justify-between sticky top-0 z-10 bg-[#0A0A0A]/90 backdrop-blur-sm">
+      <header className="h-20 border-b border-white/10 px-4 sm:px-10 flex items-center justify-between sticky top-0 z-40 bg-[#0A0A0A]/90 backdrop-blur-sm">
         <div className="flex items-center gap-8 w-full">
           <div className="flex items-center justify-between w-full md:w-auto">
             <Link to="/" className="text-2xl font-black tracking-tighter uppercase flex items-center">
