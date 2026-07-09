@@ -437,7 +437,7 @@ export function FileShare() {
                         onClick={startShare}
                         className="w-full py-3 bg-black text-white font-black uppercase tracking-widest text-xs hover:bg-black/80 transition-colors light-theme-invert"
                       >
-                        Generate Link
+                        Start Sharing
                       </button>
                     </div>
                   )}

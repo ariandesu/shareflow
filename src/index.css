@@ -140,6 +140,37 @@ body.light-theme .group:hover .light-theme-btn {
   color: #111 !important;
 }
 
+body.light-theme .text-white\/70 {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+body.light-theme .text-black\/30 {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+body.light-theme .text-black\/50 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+body.light-theme .text-black\/60 {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+body.light-theme .hover\:text-black\/50:hover {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+body.light-theme .hover\:border-black\/50:hover {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+body.light-theme .placeholder-black\/30 {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+body.light-theme .placeholder\:text-black\/30 {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+body.light-theme .bg-black\/5 {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+body.light-theme .border-black\/10 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
 /* Base custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
