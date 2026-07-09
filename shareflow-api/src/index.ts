@@ -205,7 +205,7 @@ app.get("/api/text/:code", async (c) => {
   return c.json(snippet);
 });
 
-// 3. POST /api/file -> Upload a small file to R2
+// 3. POST /api/file -> Upload a small file to R2 (Cloud Sync)
 app.post("/api/file", async (c) => {
   const body = await c.req.parseBody();
   const file = body['file'] as File;
@@ -215,15 +215,12 @@ app.post("/api/file", async (c) => {
     return c.json({ error: "File must be smaller than 10MB" }, 400);
   }
 
-  const redis = getRedis(c.env);
-  if (!redis) return c.json({ error: "Server configuration error" }, 500);
-
   let code = "";
   let isUnique = false;
   let attempts = 0;
   while (!isUnique && attempts < 5) {
     code = generateBase62Code(4);
-    const existing = await redis.get(`file:${code}`);
+    const existing = await c.env.BUCKET.head(code);
     if (!existing) isUnique = true;
     attempts++;
   }
@@ -233,71 +230,142 @@ app.post("/api/file", async (c) => {
   const arrayBuffer = await file.arrayBuffer();
   await c.env.BUCKET.put(code, arrayBuffer, {
     httpMetadata: { contentType: file.type || 'application/octet-stream' },
-    customMetadata: { filename: file.name }
+    customMetadata: { 
+      filename: file.name,
+      size: String(file.size),
+      mimeType: file.type || 'application/octet-stream',
+      expiresAt: String(Date.now() + 24 * 60 * 60 * 1000) // 24 Hours
+    }
   });
-
-  const metadata = {
-    type: 'server',
-    name: file.name,
-    size: file.size,
-    mimeType: file.type || 'application/octet-stream',
-    createdAt: Date.now()
-  };
-  await redis.set(`file:${code}`, JSON.stringify(metadata), { ex: 86400 });
 
   return c.json({ code });
 });
 
-// 4. POST /api/file/p2p -> Register a P2P session
+// 4. POST /api/file/p2p -> Register a P2P session with SDP offer
 app.post("/api/file/p2p", async (c) => {
-  const { name, size, mimeType } = await c.req.json<{ name?: string, size?: number, mimeType?: string }>();
-  if (!name || size === undefined) return c.json({ error: "Name and size required" }, 400);
-
-  const redis = getRedis(c.env);
-  if (!redis) return c.json({ error: "Server configuration error" }, 500);
+  const { name, size, mimeType, offer } = await c.req.json<{ name?: string, size?: number, mimeType?: string, offer?: any }>();
+  if (!name || size === undefined || !offer) {
+    return c.json({ error: "Name, size, and WebRTC offer are required" }, 400);
+  }
 
   let code = "";
   let isUnique = false;
   let attempts = 0;
   while (!isUnique && attempts < 5) {
     code = generateBase62Code(4);
-    const existing = await redis.get(`file:${code}`);
-    if (!existing) isUnique = true;
+    const existing = await c.env.BUCKET.head(`p2p-${code}`);
+    const existingFile = await c.env.BUCKET.head(code);
+    if (!existing && !existingFile) isUnique = true;
     attempts++;
   }
 
   if (!isUnique) return c.json({ error: "Failed to generate unique code" }, 500);
 
-  const metadata = {
+  const sessionData = JSON.stringify({
     type: 'p2p',
     name,
     size,
     mimeType: mimeType || 'application/octet-stream',
+    offer,
     createdAt: Date.now()
-  };
-  await redis.set(`file:${code}`, JSON.stringify(metadata), { ex: 86400 });
+  });
+
+  await c.env.BUCKET.put(`p2p-${code}`, sessionData, {
+    customMetadata: {
+      expiresAt: String(Date.now() + 10 * 60 * 1000) // 10 minutes
+    }
+  });
 
   return c.json({ code });
 });
 
-// 5. GET /api/file/:code -> Get file metadata
-app.get("/api/file/:code", async (c) => {
+// 5. POST /api/file/p2p/:code/answer -> Receiver posts SDP answer
+app.post("/api/file/p2p/:code/answer", async (c) => {
   const code = c.req.param("code");
-  const redis = getRedis(c.env);
-  if (!redis) return c.json({ error: "Server configuration error" }, 500);
+  const { answer } = await c.req.json<{ answer?: any }>();
+  if (!answer) return c.json({ error: "Answer is required" }, 400);
 
-  const data = await redis.get(`file:${code}`);
-  if (!data) return c.json({ error: "File not found or expired" }, 404);
+  await c.env.BUCKET.put(`p2p-answer-${code}`, JSON.stringify({ answer }), {
+    customMetadata: {
+      expiresAt: String(Date.now() + 10 * 60 * 1000)
+    }
+  });
 
-  return c.json(data);
+  return c.json({ success: true });
 });
 
-// 6. GET /api/file/:code/download -> Download R2 file
+// 6. GET /api/file/p2p/:code/answer -> Sender polls for SDP answer
+app.get("/api/file/p2p/:code/answer", async (c) => {
+  const code = c.req.param("code");
+  const obj = await c.env.BUCKET.get(`p2p-answer-${code}`);
+  if (!obj) {
+    return c.json({ status: "waiting" });
+  }
+
+  const text = await obj.text();
+  const data = JSON.parse(text);
+  
+  c.executionCtx.waitUntil(c.env.BUCKET.delete(`p2p-answer-${code}`));
+
+  return c.json({ status: "ready", answer: data.answer });
+});
+
+// 7. GET /api/file/:code -> Get file or P2P metadata
+app.get("/api/file/:code", async (c) => {
+  const code = c.req.param("code");
+
+  // Check if it is a Server File
+  const fileObj = await c.env.BUCKET.head(code);
+  if (fileObj) {
+    const expiresAt = Number(fileObj.customMetadata?.expiresAt);
+    if (expiresAt && Date.now() > expiresAt) {
+      c.executionCtx.waitUntil(c.env.BUCKET.delete(code));
+      return c.json({ error: "File has expired" }, 410);
+    }
+    return c.json({
+      type: 'server',
+      name: fileObj.customMetadata?.filename || 'download',
+      size: Number(fileObj.customMetadata?.size || fileObj.size),
+      mimeType: fileObj.customMetadata?.mimeType || fileObj.httpMetadata?.contentType || 'application/octet-stream',
+      createdAt: fileObj.uploaded.getTime()
+    });
+  }
+
+  // Check if it is a P2P Session
+  const p2pObj = await c.env.BUCKET.get(`p2p-${code}`);
+  if (p2pObj) {
+    const expiresAt = Number(p2pObj.customMetadata?.expiresAt);
+    if (expiresAt && Date.now() > expiresAt) {
+      c.executionCtx.waitUntil(c.env.BUCKET.delete(`p2p-${code}`));
+      return c.json({ error: "P2P session has expired" }, 410);
+    }
+    const text = await p2pObj.text();
+    const data = JSON.parse(text);
+    return c.json({
+      type: 'p2p',
+      name: data.name,
+      size: data.size,
+      mimeType: data.mimeType,
+      createdAt: data.createdAt,
+      offer: data.offer
+    });
+  }
+
+  return c.json({ error: "File not found or expired" }, 404);
+});
+
+// 8. GET /api/file/:code/download -> Download R2 file
 app.get("/api/file/:code/download", async (c) => {
   const code = c.req.param("code");
   const object = await c.env.BUCKET.get(code);
   
   if (!object) return c.json({ error: "File not found in storage" }, 404);
+
+  const expiresAt = Number(object.customMetadata?.expiresAt);
+  if (expiresAt && Date.now() > expiresAt) {
+    c.executionCtx.waitUntil(c.env.BUCKET.delete(code));
+    return c.json({ error: "File has expired" }, 410);
+  }
 
   const headers = new Headers();
   object.writeHttpMetadata(headers);

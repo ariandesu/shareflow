@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight } from "lucide-react";
+import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight, HelpCircle, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import Peer, { DataConnection } from "peerjs";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
@@ -12,6 +11,7 @@ type FileMetadata = {
   size: number;
   mimeType: string;
   createdAt: number;
+  offer?: any;
 };
 
 export function FileReceive() {
@@ -24,18 +24,25 @@ export function FileReceive() {
   const [progress, setProgress] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   
-  const peerRef = useRef<Peer | null>(null);
-  const connRef = useRef<DataConnection | null>(null);
-  const receivedBufferRef = useRef<Uint8Array | null>(null);
+  const pcRef = useRef<RTCPeerConnection | null>(null);
+  const receivedChunksRef = useRef<ArrayBuffer[]>([]);
+  const receivedSizeRef = useRef<number>(0);
 
   useEffect(() => {
     if (id) {
       fetchMetadata(id);
     }
     return () => {
-      if (peerRef.current) peerRef.current.destroy();
+      cleanupWebRTC();
     };
   }, [id]);
+
+  const cleanupWebRTC = () => {
+    if (pcRef.current) {
+      pcRef.current.close();
+      pcRef.current = null;
+    }
+  };
 
   const handleCodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +57,7 @@ export function FileReceive() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/file/${fileCode}`);
       if (!res.ok) {
-        throw new Error("File not found or expired");
+        throw new Error("File link has expired or code is incorrect.");
       }
       const data: FileMetadata = await res.json();
       setMetadata(data);
@@ -65,88 +72,117 @@ export function FileReceive() {
     if (!metadata) return;
 
     if (metadata.type === "server") {
-      // Server file: trigger direct download
+      // Server-side download (R2)
       window.location.href = `${API_BASE_URL}/api/file/${code}/download`;
     } else {
-      // P2P file: initiate WebRTC connection
+      // Direct WebRTC P2P download
       startP2PDownload();
     }
   };
 
-  const startP2PDownload = () => {
-    if (!metadata) return;
+  const startP2PDownload = async () => {
+    if (!metadata || !metadata.offer) {
+      setErrorMsg("P2P connection details not found. Sender might be offline.");
+      setStatus("error");
+      return;
+    }
+
     setStatus("receiving");
     setProgress(0);
     setErrorMsg("");
+    receivedChunksRef.current = [];
+    receivedSizeRef.current = 0;
 
     try {
-      const peer = new Peer({ debug: 2 });
-      peerRef.current = peer;
+      const pc = new RTCPeerConnection({
+        iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+      });
+      pcRef.current = pc;
 
-      peer.on('open', (id) => {
-        console.log('My peer ID is: ' + id);
-        // Connect to sender
-        const conn = peer.connect(`shareflow-${code}`);
-        connRef.current = conn;
+      // Handle data channel from sender
+      pc.ondatachannel = (event) => {
+        const channel = event.channel;
+        channel.binaryType = "arraybuffer";
 
-        // Pre-allocate buffer
-        receivedBufferRef.current = new Uint8Array(metadata.size);
-
-        conn.on('open', () => {
-          console.log("Connected to sender");
-        });
-
-        conn.on('data', (data: any) => {
-          if (data.type === 'metadata') {
-            console.log("Receiving:", data.name);
-          } else if (data.type === 'chunk') {
-            const chunk = new Uint8Array(data.data as ArrayBuffer);
-            if (receivedBufferRef.current) {
-               receivedBufferRef.current.set(chunk, data.offset);
-               setProgress(Math.min(100, Math.round(((data.offset + chunk.length) / metadata.size) * 100)));
-            }
-          } else if (data.type === 'done') {
+        channel.onmessage = (e) => {
+          if (e.data === "__EOF__") {
+            // Completed! Create file download.
             setStatus("success");
+            const blob = new Blob(receivedChunksRef.current, { type: metadata.mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = metadata.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
             
-            // Trigger browser download
-            if (receivedBufferRef.current) {
-              const blob = new Blob([receivedBufferRef.current], { type: metadata.mimeType });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = metadata.name;
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              URL.revokeObjectURL(url);
-            }
+            cleanupWebRTC();
+          } else {
+            // Buffer chunk
+            const chunk = e.data as ArrayBuffer;
+            receivedChunksRef.current.push(chunk);
+            receivedSizeRef.current += chunk.byteLength;
+            setProgress(Math.min(100, Math.round((receivedSizeRef.current / metadata.size) * 100)));
           }
-        });
+        };
 
-        conn.on('close', () => {
+        channel.onclose = () => {
           if (status !== "success") {
-            setErrorMsg("Sender disconnected before transfer completed.");
+            setErrorMsg("Direct P2P link terminated before file could be fully transferred.");
             setStatus("error");
           }
-        });
-      });
+        };
 
-      peer.on('error', (err) => {
-        setErrorMsg(`Connection error: ${err.message}`);
-        setStatus("error");
-      });
+        channel.onerror = () => {
+          setErrorMsg("Data channel error occurred during transmission.");
+          setStatus("error");
+        };
+      };
+
+      // Set remote SDP offer
+      await pc.setRemoteDescription(new RTCSessionDescription(metadata.offer));
+
+      // Create answer and wait for ICE gathering complete
+      pc.onicegatheringstatechange = async () => {
+        if (pc.iceGatheringState === "complete") {
+          const localDesc = pc.localDescription;
+          if (localDesc) {
+            // Post answer back to signaling backend
+            try {
+              const res = await fetch(`${API_BASE_URL}/api/file/p2p/${code}/answer`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ answer: localDesc })
+              });
+
+              if (!res.ok) {
+                throw new Error("Failed to post connection answer to sender.");
+              }
+            } catch (e: any) {
+              setErrorMsg(e.message || "Failed to post answer");
+              setStatus("error");
+            }
+          }
+        }
+      };
+
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+
     } catch (err: any) {
-      setErrorMsg(err.message || "Failed to start P2P transfer");
+      setErrorMsg(err.message || "Failed to initiate WebRTC P2P download.");
       setStatus("error");
     }
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center min-h-[calc(100vh-140px)] w-full max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="flex-1 flex flex-col items-center justify-start min-h-[calc(100vh-140px)] w-full max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 gap-12">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-xl bg-white text-black p-8 sm:p-12 shadow-2xl relative overflow-hidden"
+        className="w-full max-w-xl bg-white border border-black/10 dark:border-white/10 text-black p-8 sm:p-12 shadow-2xl relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 w-32 h-32 bg-black/5 rounded-bl-full -z-0"></div>
         
@@ -169,7 +205,7 @@ export function FileReceive() {
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="e.g. A1B2"
-                    className="flex-1 px-4 py-4 bg-black/5 font-bold uppercase tracking-widest text-lg outline-none focus:bg-black/10 transition-colors placeholder-black/30"
+                    className="flex-1 px-4 py-4 bg-black/5 font-bold uppercase tracking-widest text-lg outline-none focus:bg-black/10 transition-colors placeholder-black/30 text-black"
                     maxLength={10}
                     required
                   />
@@ -204,7 +240,7 @@ export function FileReceive() {
               <div className="w-20 h-20 bg-black/5 rounded-full flex items-center justify-center mb-6">
                 <FileIcon className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-2xl font-black text-center break-all mb-2">{metadata.name}</h3>
+              <h3 className="text-2xl font-black text-center break-all mb-2 text-black">{metadata.name}</h3>
               <p className="text-sm font-medium text-black/50 uppercase tracking-widest mb-2">
                 {(metadata.size / (1024*1024)).toFixed(2)} MB
               </p>
@@ -233,7 +269,7 @@ export function FileReceive() {
               className="flex flex-col items-center justify-center py-12 relative z-10"
             >
               <Wifi className="w-12 h-12 text-black animate-pulse mb-6" />
-              <div className="w-full flex justify-between font-bold uppercase tracking-widest text-xs mb-4">
+              <div className="w-full flex justify-between font-bold uppercase tracking-widest text-xs mb-4 text-black">
                 <span>Receiving from Peer...</span>
                 <span>{progress}%</span>
               </div>
@@ -260,13 +296,13 @@ export function FileReceive() {
               <div className="w-20 h-20 bg-black text-white flex items-center justify-center rounded-full mb-6 light-theme-invert">
                 <Check className="w-10 h-10" />
               </div>
-              <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">Download Complete</h3>
+              <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 text-black">Download Complete</h3>
               <p className="text-black/60 font-medium text-center mb-8">
                 Your file has been successfully received. Check your browser downloads.
               </p>
               <button 
                 onClick={() => { setStatus("idle"); setCode(""); navigate("/f"); }}
-                className="font-bold uppercase tracking-widest text-sm border-b-2 border-black pb-1 hover:text-black/50 hover:border-black/50 transition-colors"
+                className="font-bold uppercase tracking-widest text-sm border-b-2 border-black pb-1 hover:text-black/50 hover:border-black/50 transition-colors text-black"
               >
                 Receive Another File
               </button>
@@ -282,11 +318,11 @@ export function FileReceive() {
               <div className="w-16 h-16 bg-red-500 text-white flex items-center justify-center mb-6">
                 <X className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Error</h3>
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-2 text-black">Error</h3>
               <p className="text-black/60 font-medium mb-8 max-w-sm">{errorMsg}</p>
               <button 
                 onClick={() => setStatus("idle")}
-                className="font-bold uppercase tracking-widest text-sm border-b-2 border-black pb-1 hover:text-black/50 transition-colors"
+                className="font-bold uppercase tracking-widest text-sm border-b-2 border-black pb-1 hover:text-black/50 transition-colors text-black"
               >
                 Try Again
               </button>
@@ -294,6 +330,26 @@ export function FileReceive() {
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* User Guide & FAQ Section */}
+      <div className="w-full max-w-xl flex flex-col gap-8 bg-white/5 border border-white/10 p-8 sm:p-12 text-white">
+        <div>
+          <h3 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2 mb-6">
+            <BookOpen className="w-6 h-6 text-white" /> How to Receive Files
+          </h3>
+          <ul className="list-decimal pl-5 space-y-3 text-sm text-white/70">
+            <li>Enter the secure 4-character code provided by the sender.</li>
+            <li>Click the checkmark/arrow button to retrieve the file details.</li>
+            <li>Review the file name, size, and source type (Edge Cloud or Direct P2P).</li>
+            <li>Click <strong>Download File</strong> to begin the transfer:
+              <ul className="list-disc pl-5 mt-2 space-y-1">
+                <li>Cloud downloads will start instantly.</li>
+                <li>Direct P2P downloads will connect to the sender's browser and stream the file. Make sure both pages remain open.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
