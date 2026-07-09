@@ -226,7 +226,7 @@ export default function MetadataViewer() {
             </label>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 flex-1">
             {/* Preview */}
             {preview && (
               <div className="bg-[#0A0A0A] border border-white/10 p-4 flex items-center justify-center">

@@ -161,9 +161,9 @@ export default function ScientificCalculator() {
           onClick={onClick}
           className={`
             w-full h-[32px] rounded-lg shadow-sm border-b-[3px] border-black/20 active:border-b-0 active:translate-y-[3px] transition-all font-bold flex items-center justify-center
-            ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-white text-lg" : 
-              isOp ? "bg-[#333] text-white hover:bg-[#444] text-lg" : 
-              "bg-[#252525] text-white hover:bg-[#353535] text-[11px] px-1"}
+            ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-[#FFF] text-lg" : 
+              isOp ? "bg-[#333] text-[#FFF] hover:bg-[#444] text-lg" : 
+              "bg-[#252525] text-[#FFF] hover:bg-[#353535] text-[11px] px-1"}
           `}
         >
           {label}
@@ -196,9 +196,9 @@ export default function ScientificCalculator() {
 
         {/* Branding */}
         <div className="relative z-10 flex justify-between items-start px-2 pt-2">
-          <div className="text-white text-xs font-black tracking-widest italic">CASIO</div>
+          <div className="text-[#FFF] text-xs font-black tracking-widest italic">CASIO</div>
           <div className="text-right">
-            <div className="text-white text-[10px] font-bold">fx-991EX</div>
+            <div className="text-[#FFF] text-[10px] font-bold">fx-991EX</div>
             <div className="text-[#A0A0A0] text-[8px] tracking-widest">CLASSWIZ</div>
           </div>
         </div>
@@ -322,7 +322,7 @@ export default function ScientificCalculator() {
             <Btn label="." onClick={() => insert(".")} type="number" />
             <Btn label="×10ˣ" onClick={() => insert("x10^")} type="number" shiftL="π" alphaL="e" />
             <Btn label="Ans" onClick={() => insert("Ans")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
-            <Btn label="=" onClick={handleEqual} type="operator" btnClassName="bg-[#333] text-white hover:bg-[#444]" />
+            <Btn label="=" onClick={handleEqual} type="operator" btnClassName="bg-[#333] text-[#FFF] hover:bg-[#444]" />
           </div>
           
         </div>

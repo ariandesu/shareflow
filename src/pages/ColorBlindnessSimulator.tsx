@@ -121,11 +121,11 @@ export default function ColorBlindnessSimulator() {
             {/* Controls */}
             <div className="bg-white/5 p-6 border border-white/10 space-y-4">
               <div className="flex flex-wrap gap-4 items-center justify-between">
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <button onClick={() => setView("side")} className={`px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${view === "side" ? "bg-white text-black border-white" : "border-white/20 text-white/60"}`}>Side by Side</button>
                   <button onClick={() => setView("grid")} className={`px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${view === "grid" ? "bg-white text-black border-white" : "border-white/20 text-white/60"}`}>Grid</button>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" id="cb-change" />
                   <label htmlFor="cb-change" className="cursor-pointer text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white underline underline-offset-4">Change Image</label>
                 </div>

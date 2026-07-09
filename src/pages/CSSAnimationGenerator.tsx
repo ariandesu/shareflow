@@ -167,7 +167,7 @@ export default function CSSAnimationGenerator() {
         <p className="text-white/50 text-sm">Generate CSS keyframe animations with live preview.</p>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 flex-1">
         {/* Controls */}
         <div className="bg-white/5 p-6 border border-white/10 flex flex-col space-y-6 overflow-y-auto">
           <h3 className="text-xs font-bold uppercase tracking-widest text-white/50 pb-4 border-b border-white/10">Settings</h3>
@@ -175,7 +175,7 @@ export default function CSSAnimationGenerator() {
           {/* Presets */}
           <div className="space-y-2">
             <label className="block text-xs font-bold uppercase tracking-widest text-white/50">Preset</label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {Object.keys(PRESETS).map(p => (
                 <button key={p} onClick={() => setPreset(p)} className={`py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${preset === p ? "bg-white text-black border-white" : "border-white/20 text-white/60 hover:border-white/40"}`}>
                   {p}

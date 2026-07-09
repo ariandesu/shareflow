@@ -150,7 +150,7 @@ export default function ImageConverter() {
             </label>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 flex-1">
             {/* Settings Panel */}
             <div className="bg-white/5 p-6 border border-white/10 flex flex-col space-y-6">
               <div className="flex justify-between items-center pb-4 border-b border-white/10">

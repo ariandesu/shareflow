@@ -159,7 +159,7 @@ export default function CountdownTimer() {
               type="text" value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Timer label (optional)"
               className="w-full p-3 bg-[#0A0A0A] border border-white/10 outline-none text-sm text-white/80"
             />
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <label className="block text-xs font-bold uppercase tracking-widest text-white/50">Hours</label>
                 <input type="number" min={0} max={99} value={hours} onChange={(e) => setHours(Math.max(0, parseInt(e.target.value) || 0))}

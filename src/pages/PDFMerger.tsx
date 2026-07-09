@@ -121,7 +121,7 @@ export default function PDFMerger() {
             </label>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 flex-1">
             <div className="lg:col-span-2 bg-white/5 p-6 border border-white/10 flex flex-col space-y-4">
               <div className="flex justify-between items-center pb-4 border-b border-white/10">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-white/50">Documents ({pdfFiles.length}) · {totalPages} pages</h3>

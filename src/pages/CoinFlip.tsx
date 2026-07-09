@@ -153,7 +153,7 @@ export default function CoinFlip() {
           <h3 className="text-xs font-bold uppercase tracking-widest text-white/50">Multi-Flip</h3>
           <div className="flex gap-3 items-center">
             <span className="text-xs text-white/50">Flip</span>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {[10, 100, 1000].map(n => (
                 <button key={n} onClick={() => setMultiCount(n)} className={`px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${multiCount === n ? "bg-white text-black border-white" : "border-white/20 text-white/60"}`}>
                   {n}

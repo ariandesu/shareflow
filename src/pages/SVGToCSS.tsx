@@ -70,7 +70,7 @@ export default function SVGToCSS() {
         <div className="bg-white/5 p-6 border border-white/10 flex flex-col space-y-4">
           <div className="flex justify-between items-center pb-4 border-b border-white/10">
             <h3 className="text-xs font-bold uppercase tracking-widest text-white/50">SVG Input</h3>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <input type="file" accept=".svg" onChange={handleFileUpload} className="hidden" id="svg-upload" />
               <label htmlFor="svg-upload" className="cursor-pointer flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white">
                 <Upload className="w-3 h-3" /> Upload
@@ -87,7 +87,7 @@ export default function SVGToCSS() {
           />
 
           {/* Encode mode toggle */}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <button onClick={() => setEncodeMode("url")} className={`px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${encodeMode === "url" ? "bg-white text-black border-white" : "border-white/20 text-white/60"}`}>
               URL Encode
             </button>

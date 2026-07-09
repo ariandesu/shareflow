@@ -106,7 +106,7 @@ export default function PDFToImages() {
             <div className="flex flex-wrap gap-4 items-end bg-white/5 p-6 border border-white/10">
               <div className="space-y-2">
                 <label className="block text-xs font-bold uppercase tracking-widest text-white/50">Format</label>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {(["png", "jpeg"] as OutputFormat[]).map(f => (
                     <button key={f} onClick={() => setFormat(f)} className={`px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${format === f ? "bg-white text-black border-white" : "border-white/20 text-white/60"}`}>
                       {f === "jpeg" ? "JPG" : "PNG"}
@@ -116,7 +116,7 @@ export default function PDFToImages() {
               </div>
               <div className="space-y-2">
                 <label className="block text-xs font-bold uppercase tracking-widest text-white/50">Scale</label>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {[1, 2, 3].map(s => (
                     <button key={s} onClick={() => setScale(s)} className={`px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${scale === s ? "bg-white text-black border-white" : "border-white/20 text-white/60"}`}>
                       {s}x

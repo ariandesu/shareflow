@@ -132,7 +132,7 @@ export default function ZIndexVisualizer() {
         <p className="text-white/50 text-sm">Visualize z-index stacking order in a 3D isometric view.</p>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 flex-1">
         {/* Layer editor */}
         <div className="bg-white/5 p-6 border border-white/10 flex flex-col space-y-6 overflow-y-auto">
           <div className="flex justify-between items-center pb-4 border-b border-white/10">
