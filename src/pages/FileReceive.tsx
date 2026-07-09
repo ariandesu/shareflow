@@ -189,11 +189,14 @@ export function FileReceive() {
 
       // Signaling helper: post answer to backend when ICE is complete
       let answerSent = false;
+      let iceTimeout: number;
+
       const handleIceComplete = async () => {
         if (answerSent) return;
         const localDesc = pc.localDescription;
         if (localDesc) {
           answerSent = true;
+          window.clearTimeout(iceTimeout);
           try {
             const res = await fetch(`${API_BASE_URL}/api/file/p2p/${code}/answer`, {
               method: "POST",
@@ -228,6 +231,11 @@ export function FileReceive() {
 
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
+
+      // Fallback: If ICE gathering hangs, send what we have after 2.5 seconds
+      iceTimeout = window.setTimeout(() => {
+        handleIceComplete();
+      }, 2500);
 
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to initiate WebRTC P2P download.");

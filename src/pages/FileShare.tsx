@@ -274,10 +274,10 @@ export function FileShare() {
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
 
-        // Fallback: If ICE gathering is not finished in 1s, send what we have
+        // Fallback: If ICE gathering is not finished in 2.5s, send what we have
         iceTimeout = window.setTimeout(() => {
           handleIceComplete();
-        }, 1000);
+        }, 2500);
 
       } catch (err: any) {
         setErrorMsg(err.message || "Failed to initialize WebRTC connection");
