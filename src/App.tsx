@@ -7,6 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
 import { TextShare } from "./pages/TextShare";
+import { FileShare } from "./pages/FileShare";
+import { FileReceive } from "./pages/FileReceive";
+import { TextReceive } from "./pages/TextReceive";
 import { QRGenerator } from "./pages/QRGenerator";
 import { GradientGenerator } from "./pages/GradientGenerator";
 import { PasswordGenerator } from "./pages/PasswordGenerator";
@@ -49,6 +52,11 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="text-share" element={<TextShare />} />
+          {/* File Share Routes */}
+          <Route path="file-share" element={<FileShare />} />
+          <Route path="f" element={<FileReceive />} />
+          <Route path="f/:id" element={<FileReceive />} />
+
           <Route path="qr-generator" element={<QRGenerator />} />
           <Route path="gradient-generator" element={<GradientGenerator />} />
           <Route path="password-generator" element={<PasswordGenerator />} />

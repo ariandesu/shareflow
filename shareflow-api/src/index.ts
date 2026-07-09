@@ -205,4 +205,113 @@ app.get("/api/text/:code", async (c) => {
   return c.json(snippet);
 });
 
+// 3. POST /api/file -> Upload a small file to R2
+app.post("/api/file", async (c) => {
+  const body = await c.req.parseBody();
+  const file = body['file'] as File;
+  if (!file) return c.json({ error: "File is required" }, 400);
+
+  if (file.size > 10 * 1024 * 1024) {
+    return c.json({ error: "File must be smaller than 10MB" }, 400);
+  }
+
+  const redis = getRedis(c.env);
+  if (!redis) return c.json({ error: "Server configuration error" }, 500);
+
+  let code = "";
+  let isUnique = false;
+  let attempts = 0;
+  while (!isUnique && attempts < 5) {
+    code = generateBase62Code(4);
+    const existing = await redis.get(`file:${code}`);
+    if (!existing) isUnique = true;
+    attempts++;
+  }
+
+  if (!isUnique) return c.json({ error: "Failed to generate unique code" }, 500);
+
+  const arrayBuffer = await file.arrayBuffer();
+  await c.env.BUCKET.put(code, arrayBuffer, {
+    httpMetadata: { contentType: file.type || 'application/octet-stream' },
+    customMetadata: { filename: file.name }
+  });
+
+  const metadata = {
+    type: 'server',
+    name: file.name,
+    size: file.size,
+    mimeType: file.type || 'application/octet-stream',
+    createdAt: Date.now()
+  };
+  await redis.set(`file:${code}`, JSON.stringify(metadata), { ex: 86400 });
+
+  return c.json({ code });
+});
+
+// 4. POST /api/file/p2p -> Register a P2P session
+app.post("/api/file/p2p", async (c) => {
+  const { name, size, mimeType } = await c.req.json<{ name?: string, size?: number, mimeType?: string }>();
+  if (!name || size === undefined) return c.json({ error: "Name and size required" }, 400);
+
+  const redis = getRedis(c.env);
+  if (!redis) return c.json({ error: "Server configuration error" }, 500);
+
+  let code = "";
+  let isUnique = false;
+  let attempts = 0;
+  while (!isUnique && attempts < 5) {
+    code = generateBase62Code(4);
+    const existing = await redis.get(`file:${code}`);
+    if (!existing) isUnique = true;
+    attempts++;
+  }
+
+  if (!isUnique) return c.json({ error: "Failed to generate unique code" }, 500);
+
+  const metadata = {
+    type: 'p2p',
+    name,
+    size,
+    mimeType: mimeType || 'application/octet-stream',
+    createdAt: Date.now()
+  };
+  await redis.set(`file:${code}`, JSON.stringify(metadata), { ex: 86400 });
+
+  return c.json({ code });
+});
+
+// 5. GET /api/file/:code -> Get file metadata
+app.get("/api/file/:code", async (c) => {
+  const code = c.req.param("code");
+  const redis = getRedis(c.env);
+  if (!redis) return c.json({ error: "Server configuration error" }, 500);
+
+  const data = await redis.get(`file:${code}`);
+  if (!data) return c.json({ error: "File not found or expired" }, 404);
+
+  return c.json(data);
+});
+
+// 6. GET /api/file/:code/download -> Download R2 file
+app.get("/api/file/:code/download", async (c) => {
+  const code = c.req.param("code");
+  const object = await c.env.BUCKET.get(code);
+  
+  if (!object) return c.json({ error: "File not found in storage" }, 404);
+
+  const headers = new Headers();
+  object.writeHttpMetadata(headers);
+  headers.set('etag', object.httpEtag);
+  if (object.customMetadata?.filename) {
+    const encodedName = encodeURIComponent(object.customMetadata.filename);
+    headers.set('Content-Disposition', `attachment; filename*=UTF-8''${encodedName}`);
+  } else {
+    headers.set('Content-Disposition', `attachment; filename="download"`);
+  }
+
+  return new Response(object.body as ReadableStream, {
+    headers,
+  });
+});
+
 export default app;

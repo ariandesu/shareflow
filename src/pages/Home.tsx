@@ -40,6 +40,14 @@ import { motion } from "motion/react";
 
 const tools = [
   {
+    name: "File Share",
+    category: "Flagship",
+    description: "Transfer files up to 10MB via cloud or unlimited size via P2P.",
+    icon: <FileUp className="w-6 h-6 text-black" />,
+    href: "/file-share",
+    featured: true,
+  },
+  {
     name: "Text Share",
     category: "Flagship",
     description: "Secure, instant, anonymous text sharing. Auto-expiring links.",
