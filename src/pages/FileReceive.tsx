@@ -81,7 +81,27 @@ export function FileReceive() {
       window.location.href = `${API_BASE_URL}/api/file/${code}/download`;
     } else {
       // Direct WebRTC P2P download
-      startP2PDownload();
+      // If offer isn't present, try re-fetching the updated session data from the server
+      if (!metadata.offer) {
+        setStatus("fetching");
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/file/${code}`);
+          if (!res.ok) throw new Error("P2P session has expired.");
+          const data: FileMetadata = await res.json();
+          if (data.offer) {
+            metadata.offer = data.offer;
+            setMetadata(metadata);
+            startP2PDownload();
+          } else {
+            throw new Error("P2P connection details not fully established yet. Try again in 2 seconds.");
+          }
+        } catch (err: any) {
+          setErrorMsg(err.message || "Failed to establish direct P2P link.");
+          setStatus("error");
+        }
+      } else {
+        startP2PDownload();
+      }
     }
   };
 

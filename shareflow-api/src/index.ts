@@ -241,11 +241,11 @@ app.post("/api/file", async (c) => {
   return c.json({ code });
 });
 
-// 4. POST /api/file/p2p -> Register a P2P session with SDP offer
+// 4. POST /api/file/p2p -> Register a P2P session (instantly generates code)
 app.post("/api/file/p2p", async (c) => {
   const { name, size, mimeType, offer } = await c.req.json<{ name?: string, size?: number, mimeType?: string, offer?: any }>();
-  if (!name || size === undefined || !offer) {
-    return c.json({ error: "Name, size, and WebRTC offer are required" }, 400);
+  if (!name || size === undefined) {
+    return c.json({ error: "Name and size are required" }, 400);
   }
 
   let code = "";
@@ -266,7 +266,7 @@ app.post("/api/file/p2p", async (c) => {
     name,
     size,
     mimeType: mimeType || 'application/octet-stream',
-    offer,
+    offer: offer || null,
     createdAt: Date.now()
   });
 
@@ -277,6 +277,28 @@ app.post("/api/file/p2p", async (c) => {
   });
 
   return c.json({ code });
+});
+
+// 4b. POST /api/file/p2p/:code/offer -> Upload SDP offer in the background
+app.post("/api/file/p2p/:code/offer", async (c) => {
+  const code = c.req.param("code");
+  const { offer } = await c.req.json<{ offer?: any }>();
+  if (!offer) return c.json({ error: "WebRTC offer is required" }, 400);
+
+  const obj = await c.env.BUCKET.get(`p2p-${code}`);
+  if (!obj) return c.json({ error: "P2P session not found" }, 404);
+
+  const text = await obj.text();
+  const data = JSON.parse(text);
+  data.offer = offer;
+
+  await c.env.BUCKET.put(`p2p-${code}`, JSON.stringify(data), {
+    customMetadata: {
+      expiresAt: String(Date.now() + 10 * 60 * 1000)
+    }
+  });
+
+  return c.json({ success: true });
 });
 
 // 5. POST /api/file/p2p/:code/answer -> Receiver posts SDP answer

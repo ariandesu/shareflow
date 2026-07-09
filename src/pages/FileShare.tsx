@@ -129,6 +129,28 @@ export function FileShare() {
       try {
         cleanupWebRTC();
 
+        // 1. Instantly register P2P session on server to get code
+        const initRes = await fetch(`${API_BASE_URL}/api/file/p2p`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: file.name,
+            size: file.size,
+            mimeType: file.type
+          })
+        });
+
+        if (!initRes.ok) {
+          const errData = await initRes.json();
+          throw new Error(errData.error || "Failed to initialize P2P session code");
+        }
+
+        const initData = await initRes.json();
+        const code = initData.code;
+        setShareCode(code);
+        setStatus("waiting_peer");
+
+        // 2. Setup RTCPeerConnection in the background
         const pc = new RTCPeerConnection({
           iceServers: [
             { urls: "stun:stun.l.google.com:19302" },
@@ -187,7 +209,6 @@ export function FileShare() {
 
             // EOF transmission
             channel.send("__EOF__");
-            // Senders waits for the ACK onmessage before cleaning up
           };
 
           sendNextChunk();
@@ -205,23 +226,21 @@ export function FileShare() {
           setStatus("error");
         };
 
-        // Signaling helper: trigger post offer when ICE is complete
+        // Signaling helper: trigger post offer in the background when ICE is complete
         let offerSent = false;
+        let iceTimeout: number;
+
         const handleIceComplete = async () => {
           if (offerSent) return;
           const localDesc = pc.localDescription;
           if (localDesc) {
             offerSent = true;
+            window.clearTimeout(iceTimeout);
             try {
-              const res = await fetch(`${API_BASE_URL}/api/file/p2p`, {
+              const res = await fetch(`${API_BASE_URL}/api/file/p2p/${code}/offer`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  name: file.name,
-                  size: file.size,
-                  mimeType: file.type,
-                  offer: localDesc
-                })
+                body: JSON.stringify({ offer: localDesc })
               });
               
               if (!res.ok) {
@@ -230,15 +249,11 @@ export function FileShare() {
                 throw new Error(errData.error || "Failed to register connection offer");
               }
 
-              const data = await res.json();
-              setShareCode(data.code);
-
               // Start polling for SDP answer from receiver
-              startPollingAnswer(data.code, pc);
+              startPollingAnswer(code, pc);
             } catch (e: any) {
               offerSent = false; // Reset on failure to allow retry
-              setErrorMsg(e.message || "Failed to register signaling offer");
-              setStatus("error");
+              console.error("Failed to upload background offer:", e);
             }
           }
         };
@@ -258,6 +273,11 @@ export function FileShare() {
 
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
+
+        // Fallback: If ICE gathering is not finished in 1s, send what we have
+        iceTimeout = window.setTimeout(() => {
+          handleIceComplete();
+        }, 1000);
 
       } catch (err: any) {
         setErrorMsg(err.message || "Failed to initialize WebRTC connection");
