@@ -28,6 +28,11 @@ export function FileReceive() {
   const receivedChunksRef = useRef<ArrayBuffer[]>([]);
   const receivedSizeRef = useRef<number>(0);
 
+  const statusRef = useRef(status);
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
+
   useEffect(() => {
     if (id) {
       fetchMetadata(id);
@@ -95,7 +100,11 @@ export function FileReceive() {
 
     try {
       const pc = new RTCPeerConnection({
-        iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+        iceServers: [
+          { urls: "stun:stun.l.google.com:19302" },
+          { urls: "stun:stun1.l.google.com:19302" },
+          { urls: "stun:stun2.l.google.com:19302" }
+        ]
       });
       pcRef.current = pc;
 
@@ -118,7 +127,11 @@ export function FileReceive() {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            cleanupWebRTC();
+            // Send ACK back to sender to allow them to close connection cleanly
+            channel.send("ACK");
+
+            // Delay closing slightly so ACK has time to deliver
+            setTimeout(cleanupWebRTC, 1000);
           } else {
             // Buffer chunk
             const chunk = e.data as ArrayBuffer;
@@ -129,7 +142,7 @@ export function FileReceive() {
         };
 
         channel.onclose = () => {
-          if (status !== "success") {
+          if (statusRef.current !== "success") {
             setErrorMsg("Direct P2P link terminated before file could be fully transferred.");
             setStatus("error");
           }
