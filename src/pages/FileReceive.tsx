@@ -157,27 +157,42 @@ export function FileReceive() {
       // Set remote SDP offer
       await pc.setRemoteDescription(new RTCSessionDescription(metadata.offer));
 
-      // Create answer and wait for ICE gathering complete
-      pc.onicegatheringstatechange = async () => {
-        if (pc.iceGatheringState === "complete") {
-          const localDesc = pc.localDescription;
-          if (localDesc) {
-            // Post answer back to signaling backend
-            try {
-              const res = await fetch(`${API_BASE_URL}/api/file/p2p/${code}/answer`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ answer: localDesc })
-              });
+      // Signaling helper: post answer to backend when ICE is complete
+      let answerSent = false;
+      const handleIceComplete = async () => {
+        if (answerSent) return;
+        const localDesc = pc.localDescription;
+        if (localDesc) {
+          answerSent = true;
+          try {
+            const res = await fetch(`${API_BASE_URL}/api/file/p2p/${code}/answer`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ answer: localDesc })
+            });
 
-              if (!res.ok) {
-                throw new Error("Failed to post connection answer to sender.");
-              }
-            } catch (e: any) {
-              setErrorMsg(e.message || "Failed to post answer");
-              setStatus("error");
+            if (!res.ok) {
+              answerSent = false; // Reset on failure to allow retry
+              throw new Error("Failed to post connection answer to sender.");
             }
+          } catch (e: any) {
+            answerSent = false; // Reset on failure to allow retry
+            setErrorMsg(e.message || "Failed to post answer");
+            setStatus("error");
           }
+        }
+      };
+
+      // Dual check for ICE gathering completion (browser compatibility)
+      pc.onicecandidate = (event) => {
+        if (event.candidate === null) {
+          handleIceComplete();
+        }
+      };
+
+      pc.onicegatheringstatechange = () => {
+        if (pc.iceGatheringState === "complete") {
+          handleIceComplete();
         }
       };
 

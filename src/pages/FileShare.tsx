@@ -196,9 +196,12 @@ export function FileShare() {
         };
 
         // Signaling helper: trigger post offer when ICE is complete
+        let offerSent = false;
         const handleIceComplete = async () => {
+          if (offerSent) return;
           const localDesc = pc.localDescription;
           if (localDesc) {
+            offerSent = true;
             try {
               const res = await fetch(`${API_BASE_URL}/api/file/p2p`, {
                 method: "POST",
@@ -212,6 +215,7 @@ export function FileShare() {
               });
               
               if (!res.ok) {
+                offerSent = false; // Reset on failure to allow retry
                 const errData = await res.json();
                 throw new Error(errData.error || "Failed to register connection offer");
               }
@@ -222,6 +226,7 @@ export function FileShare() {
               // Start polling for SDP answer from receiver
               startPollingAnswer(data.code, pc);
             } catch (e: any) {
+              offerSent = false; // Reset on failure to allow retry
               setErrorMsg(e.message || "Failed to register signaling offer");
               setStatus("error");
             }
@@ -368,7 +373,7 @@ export function FileShare() {
 
                   {file && (
                     <div className="flex flex-col gap-4">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div 
                           onClick={() => setMode("server")}
                           className={`p-3 border-2 flex flex-col gap-1 cursor-pointer transition-all ${

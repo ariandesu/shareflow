@@ -304,8 +304,6 @@ app.get("/api/file/p2p/:code/answer", async (c) => {
 
   const text = await obj.text();
   const data = JSON.parse(text);
-  
-  c.executionCtx.waitUntil(c.env.BUCKET.delete(`p2p-answer-${code}`));
 
   return c.json({ status: "ready", answer: data.answer });
 });

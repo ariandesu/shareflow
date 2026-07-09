@@ -183,7 +183,7 @@ export function Layout() {
         </div>
       </>
 
-      <main className="flex-1 w-full mx-auto p-6 sm:p-12 overflow-hidden flex flex-col">
+      <main className="flex-1 w-full mx-auto p-4 sm:p-12 flex flex-col">
         <Outlet />
       </main>
 
