@@ -138,14 +138,16 @@ export default function ScientificCalculator() {
     shiftL, 
     alphaL, 
     type = "normal", 
-    className = "" 
+    className = "",
+    btnClassName = ""
   }: { 
     label: string | React.ReactNode, 
     onClick: () => void, 
     shiftL?: string, 
     alphaL?: string, 
     type?: "normal" | "number" | "operator" | "nav",
-    className?: string
+    className?: string,
+    btnClassName?: string
   }) => {
     const isNum = type === "number";
     const isOp = type === "operator";
@@ -158,8 +160,8 @@ export default function ScientificCalculator() {
         <button
           onClick={onClick}
           className={`
-            w-full h-[32px] rounded-lg shadow-sm border-b-[3px] border-black/20 active:border-b-0 active:translate-y-[3px] transition-all font-bold
-            ${isNum ? "bg-[#EAEAEA] text-black hover:bg-white text-lg" : 
+            w-full h-[32px] rounded-lg shadow-sm border-b-[3px] border-black/20 active:border-b-0 active:translate-y-[3px] transition-all font-bold flex items-center justify-center
+            ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-white text-lg" : 
               isOp ? "bg-[#333] text-white hover:bg-[#444] text-lg" : 
               "bg-[#252525] text-white hover:bg-[#353535] text-[11px] px-1"}
           `}
@@ -175,7 +177,7 @@ export default function ScientificCalculator() {
       
       {/* 3D Calculator Body - Exact fx-991EX replica */}
       <div 
-        className="relative w-[340px] h-[680px] bg-[#EAEAEA] rounded-3xl shadow-2xl p-4 flex flex-col flex-shrink-0"
+        className="relative w-[340px] h-auto min-h-[720px] pb-6 bg-[#EAEAEA] rounded-3xl shadow-2xl p-4 flex flex-col flex-shrink-0"
         style={{
           boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,255,255,0.8), inset 0 -5px 15px rgba(0,0,0,0.2)",
           backgroundImage: "linear-gradient(to bottom, #F5F5F5 0%, #D5D5D5 100%)"
@@ -307,20 +309,20 @@ export default function ScientificCalculator() {
             <Btn label="4" onClick={() => insert("4")} type="number" shiftL="MATRIX" />
             <Btn label="5" onClick={() => insert("5")} type="number" shiftL="VECTOR" />
             <Btn label="6" onClick={() => insert("6")} type="number" />
-            <Btn label="×" onClick={() => insert("×")} type="normal" className="bg-[#D3D3D3] text-black" />
-            <Btn label="÷" onClick={() => insert("÷")} type="normal" className="bg-[#D3D3D3] text-black" />
+            <Btn label="×" onClick={() => insert("×")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
+            <Btn label="÷" onClick={() => insert("÷")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
 
             <Btn label="1" onClick={() => insert("1")} type="number" shiftL="STAT" />
             <Btn label="2" onClick={() => insert("2")} type="number" shiftL="CMPLX" />
             <Btn label="3" onClick={() => insert("3")} type="number" shiftL="BASE" />
-            <Btn label="+" onClick={() => insert("+")} type="normal" className="bg-[#D3D3D3] text-black" />
-            <Btn label="-" onClick={() => insert("-")} type="normal" className="bg-[#D3D3D3] text-black" />
+            <Btn label="+" onClick={() => insert("+")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
+            <Btn label="-" onClick={() => insert("-")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
 
             <Btn label="0" onClick={() => insert("0")} type="number" />
             <Btn label="." onClick={() => insert(".")} type="number" />
             <Btn label="×10ˣ" onClick={() => insert("x10^")} type="number" shiftL="π" alphaL="e" />
-            <Btn label="Ans" onClick={() => insert("Ans")} type="normal" className="bg-[#D3D3D3] text-black" />
-            <Btn label="=" onClick={handleEqual} type="operator" className="bg-[#333] text-white" />
+            <Btn label="Ans" onClick={() => insert("Ans")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
+            <Btn label="=" onClick={handleEqual} type="operator" btnClassName="bg-[#333] text-white hover:bg-[#444]" />
           </div>
           
         </div>
