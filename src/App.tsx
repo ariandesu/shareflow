@@ -25,6 +25,22 @@ import RegexTester from "./pages/RegexTester";
 import ImageCompressor from "./pages/ImageCompressor";
 import ImageResizer from "./pages/ImageResizer";
 import EXIFRemover from "./pages/EXIFRemover";
+import ImageConverter from "./pages/ImageConverter";
+import PDFMerger from "./pages/PDFMerger";
+import PDFSplitter from "./pages/PDFSplitter";
+import PDFToImages from "./pages/PDFToImages";
+import ImagesToPDF from "./pages/ImagesToPDF";
+import MetadataViewer from "./pages/MetadataViewer";
+import CountdownTimer from "./pages/CountdownTimer";
+import ScientificCalculator from "./pages/ScientificCalculator";
+import SVGToCSS from "./pages/SVGToCSS";
+import CSSAnimationGenerator from "./pages/CSSAnimationGenerator";
+import ColorBlindnessSimulator from "./pages/ColorBlindnessSimulator";
+import DiceRoller from "./pages/DiceRoller";
+import CoinFlip from "./pages/CoinFlip";
+import CSVViewer from "./pages/CSVViewer";
+import HTMLBeautifier from "./pages/HTMLBeautifier";
+import ZIndexVisualizer from "./pages/ZIndexVisualizer";
 
 export default function App() {
   return (
@@ -51,6 +67,22 @@ export default function App() {
           <Route path="image-compressor" element={<ImageCompressor />} />
           <Route path="image-resizer" element={<ImageResizer />} />
           <Route path="exif-remover" element={<EXIFRemover />} />
+          <Route path="image-converter" element={<ImageConverter />} />
+          <Route path="pdf-merger" element={<PDFMerger />} />
+          <Route path="pdf-splitter" element={<PDFSplitter />} />
+          <Route path="pdf-to-images" element={<PDFToImages />} />
+          <Route path="images-to-pdf" element={<ImagesToPDF />} />
+          <Route path="metadata-viewer" element={<MetadataViewer />} />
+          <Route path="countdown-timer" element={<CountdownTimer />} />
+          <Route path="calculator" element={<ScientificCalculator />} />
+          <Route path="svg-to-css" element={<SVGToCSS />} />
+          <Route path="css-animation" element={<CSSAnimationGenerator />} />
+          <Route path="color-blindness" element={<ColorBlindnessSimulator />} />
+          <Route path="dice-roller" element={<DiceRoller />} />
+          <Route path="coin-flip" element={<CoinFlip />} />
+          <Route path="csv-viewer" element={<CSVViewer />} />
+          <Route path="html-beautifier" element={<HTMLBeautifier />} />
+          <Route path="z-index" element={<ZIndexVisualizer />} />
         </Route>
       </Routes>
     </BrowserRouter>

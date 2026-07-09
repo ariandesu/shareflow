@@ -44,6 +44,22 @@ export function Layout() {
     { name: "Image Compressor", href: "/image-compressor" },
     { name: "Image Resizer", href: "/image-resizer" },
     { name: "EXIF Remover", href: "/exif-remover" },
+    { name: "Image Converter", href: "/image-converter" },
+    { name: "PDF Merger", href: "/pdf-merger" },
+    { name: "PDF Splitter", href: "/pdf-splitter" },
+    { name: "PDF to Images", href: "/pdf-to-images" },
+    { name: "Images to PDF", href: "/images-to-pdf" },
+    { name: "Metadata Viewer", href: "/metadata-viewer" },
+    { name: "Countdown Timer", href: "/countdown-timer" },
+    { name: "Calculator", href: "/calculator" },
+    { name: "SVG to CSS", href: "/svg-to-css" },
+    { name: "CSS Animation", href: "/css-animation" },
+    { name: "Color Blindness", href: "/color-blindness" },
+    { name: "Dice Roller", href: "/dice-roller" },
+    { name: "Coin Flip", href: "/coin-flip" },
+    { name: "CSV Viewer", href: "/csv-viewer" },
+    { name: "HTML Beautifier", href: "/html-beautifier" },
+    { name: "Z-Index", href: "/z-index" },
   ];
 
   return (

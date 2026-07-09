@@ -18,7 +18,23 @@ import {
   Search,
   Minimize,
   Maximize,
-  ShieldCheck
+  ShieldCheck,
+  RefreshCw,
+  FileUp,
+  Scissors,
+  Image as ImageIcon,
+  FileImage,
+  FileSearch,
+  Timer,
+  Calculator,
+  Code2,
+  Sparkles,
+  Eye,
+  Dices,
+  Coins,
+  Table2,
+  AlignLeft,
+  Layers
 } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -137,6 +153,102 @@ const tools = [
     description: "Strip photo metadata.",
     icon: <ShieldCheck className="w-5 h-5 text-white" />,
     href: "/exif-remover",
+  },
+  {
+    name: "Image Convert",
+    description: "PNG, JPG, WebP, AVIF converter.",
+    icon: <RefreshCw className="w-5 h-5 text-white" />,
+    href: "/image-converter",
+  },
+  {
+    name: "PDF Merger",
+    description: "Combine multiple PDFs.",
+    icon: <FileUp className="w-5 h-5 text-white" />,
+    href: "/pdf-merger",
+  },
+  {
+    name: "PDF Splitter",
+    description: "Extract or split PDF pages.",
+    icon: <Scissors className="w-5 h-5 text-white" />,
+    href: "/pdf-splitter",
+  },
+  {
+    name: "PDF to Images",
+    description: "Render PDF pages as PNG/JPG.",
+    icon: <ImageIcon className="w-5 h-5 text-white" />,
+    href: "/pdf-to-images",
+  },
+  {
+    name: "Images to PDF",
+    description: "Combine images into a PDF.",
+    icon: <FileImage className="w-5 h-5 text-white" />,
+    href: "/images-to-pdf",
+  },
+  {
+    name: "Metadata",
+    description: "View file EXIF & properties.",
+    icon: <FileSearch className="w-5 h-5 text-white" />,
+    href: "/metadata-viewer",
+  },
+  {
+    name: "Timer",
+    description: "Multiple countdown timers.",
+    icon: <Timer className="w-5 h-5 text-white" />,
+    href: "/countdown-timer",
+  },
+  {
+    name: "Calculator",
+    description: "Scientific calculator.",
+    icon: <Calculator className="w-5 h-5 text-white" />,
+    href: "/calculator",
+  },
+  {
+    name: "SVG to CSS",
+    description: "Convert SVG to data URI CSS.",
+    icon: <Code2 className="w-5 h-5 text-white" />,
+    href: "/svg-to-css",
+  },
+  {
+    name: "CSS Animation",
+    description: "Generate keyframe animations.",
+    icon: <Sparkles className="w-5 h-5 text-white" />,
+    href: "/css-animation",
+  },
+  {
+    name: "Color Blind",
+    description: "Simulate color vision deficiency.",
+    icon: <Eye className="w-5 h-5 text-white" />,
+    href: "/color-blindness",
+  },
+  {
+    name: "Dice Roller",
+    description: "D4–D100 with crypto random.",
+    icon: <Dices className="w-5 h-5 text-white" />,
+    href: "/dice-roller",
+  },
+  {
+    name: "Coin Flip",
+    description: "Animated coin with stats.",
+    icon: <Coins className="w-5 h-5 text-white" />,
+    href: "/coin-flip",
+  },
+  {
+    name: "CSV Viewer",
+    description: "Sort, filter, search CSV data.",
+    icon: <Table2 className="w-5 h-5 text-white" />,
+    href: "/csv-viewer",
+  },
+  {
+    name: "HTML Beautify",
+    description: "Format & minify HTML code.",
+    icon: <AlignLeft className="w-5 h-5 text-white" />,
+    href: "/html-beautifier",
+  },
+  {
+    name: "Z-Index",
+    description: "3D z-index layer visualizer.",
+    icon: <Layers className="w-5 h-5 text-white" />,
+    href: "/z-index",
   },
 ];
 
