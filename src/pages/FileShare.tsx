@@ -133,7 +133,17 @@ export function FileShare() {
           iceServers: [
             { urls: "stun:stun.l.google.com:19302" },
             { urls: "stun:stun1.l.google.com:19302" },
-            { urls: "stun:stun2.l.google.com:19302" }
+            { urls: "stun:stun2.l.google.com:19302" },
+            {
+              urls: [
+                "stun:openrelay.metered.ca:80",
+                "turn:openrelay.metered.ca:80?transport=udp",
+                "turn:openrelay.metered.ca:80?transport=tcp",
+                "turn:openrelay.metered.ca:443?transport=tcp"
+              ],
+              username: "openrelay",
+              credential: "openrelay"
+            }
           ]
         });
         pcRef.current = pc;
@@ -555,19 +565,19 @@ export function FileShare() {
 
               <form onSubmit={handleReceiveSubmit} className="flex flex-col gap-4">
                 <label className="text-xs font-bold uppercase tracking-widest text-black/50">Secure Code</label>
-                <div className="flex border border-black">
+                <div className="flex flex-col sm:flex-row border border-black">
                   <input
                     type="text"
                     value={receiveCode}
                     onChange={(e) => setReceiveCode(e.target.value)}
                     placeholder="e.g. A1B2"
-                    className="flex-1 px-4 py-3 font-bold uppercase tracking-widest text-lg outline-none bg-transparent text-black placeholder:text-black/30"
+                    className="flex-1 px-4 py-3 font-bold uppercase tracking-widest text-lg outline-none bg-transparent text-black placeholder:text-black/30 border-b border-black sm:border-b-0 sm:border-r border-black"
                     maxLength={6}
                     required
                   />
                   <button 
                     type="submit"
-                    className="px-6 bg-black text-white hover:bg-black/80 transition-colors flex items-center justify-center light-theme-invert"
+                    className="py-3 px-6 bg-black text-white hover:bg-black/80 transition-colors flex items-center justify-center light-theme-invert w-full sm:w-20"
                   >
                     <ArrowRight className="w-5 h-5 text-white" />
                   </button>

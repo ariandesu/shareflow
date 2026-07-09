@@ -103,7 +103,17 @@ export function FileReceive() {
         iceServers: [
           { urls: "stun:stun.l.google.com:19302" },
           { urls: "stun:stun1.l.google.com:19302" },
-          { urls: "stun:stun2.l.google.com:19302" }
+          { urls: "stun:stun2.l.google.com:19302" },
+          {
+            urls: [
+              "stun:openrelay.metered.ca:80",
+              "turn:openrelay.metered.ca:80?transport=udp",
+              "turn:openrelay.metered.ca:80?transport=tcp",
+              "turn:openrelay.metered.ca:443?transport=tcp"
+            ],
+            username: "openrelay",
+            credential: "openrelay"
+          }
         ]
       });
       pcRef.current = pc;
@@ -227,21 +237,21 @@ export function FileReceive() {
             >
               <form onSubmit={handleCodeSubmit} className="flex flex-col gap-4">
                 <label className="text-xs font-bold uppercase tracking-widest text-black/50">Enter Secure Code</label>
-                <div className="flex">
+                <div className="flex flex-col sm:flex-row border border-black/10 dark:border-white/10">
                   <input
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="e.g. A1B2"
-                    className="flex-1 px-4 py-4 bg-black/5 font-bold uppercase tracking-widest text-lg outline-none focus:bg-black/10 transition-colors placeholder-black/30 text-black"
+                    className="flex-1 px-4 py-4 bg-black/5 font-bold uppercase tracking-widest text-lg outline-none focus:bg-black/10 transition-colors placeholder-black/30 text-black border-b border-black/10 sm:border-b-0 sm:border-r dark:border-white/10"
                     maxLength={10}
                     required
                   />
                   <button 
                     type="submit"
-                    className="px-6 bg-black text-white hover:bg-black/80 transition-colors light-theme-invert flex items-center justify-center"
+                    className="py-4 px-6 bg-black text-white hover:bg-black/80 transition-colors light-theme-invert flex items-center justify-center w-full sm:w-20"
                   >
-                    <ArrowRight className="w-6 h-6" />
+                    <ArrowRight className="w-6 h-6 text-white" />
                   </button>
                 </div>
               </form>
