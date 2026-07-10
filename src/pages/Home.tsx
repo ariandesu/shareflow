@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { 
-  FileText, 
-  QrCode, 
-  Palette, 
-  Key, 
-  Hash, 
-  Binary, 
-  FileJson, 
+import {
+  FileText,
+  QrCode,
+  Palette,
+  Key,
+  Hash,
+  Binary,
+  FileJson,
   FileCode2,
   Square,
   Layout,
@@ -301,15 +301,15 @@ export function Home() {
       {/* Hero Header */}
       <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pt-4">
         <div className="max-w-2xl">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-[42px] sm:text-[72px] font-black leading-[1.1] tracking-tighter uppercase mb-4"
           >
-            Utility<br/>
+            Utility<br />
             <span className="bg-white text-black px-3 py-0.5 mt-1 inline-block">Universe</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -333,10 +333,10 @@ export function Home() {
         </div>
       </div>
 
-      
+
       {/* Tool Grid Categories */}
       <div className="flex flex-col gap-12 flex-1">
-        
+
         {/* Flagship */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {tools.filter(t => t.featured).map((tool, index) => (
@@ -357,7 +357,7 @@ export function Home() {
                   <p className="text-black/60 text-sm mt-2 font-medium light-theme-text-muted">{tool.description}</p>
                 </div>
                 <div className="mt-8 w-full py-4 border-2 border-black font-black text-center uppercase text-sm tracking-widest group-hover:bg-black group-hover:text-white transition-colors light-theme-btn">
-                  Start Pasting
+                  Start Shareing
                 </div>
               </Link>
             </motion.div>
@@ -385,9 +385,9 @@ export function Home() {
                   >
                     <div className="mb-4">
                       {React.isValidElement(tool.icon) && tool.icon.type !== 'div' ? (
-                         <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
-                           {tool.icon}
-                         </div>
+                        <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
+                          {tool.icon}
+                        </div>
                       ) : (
                         tool.icon
                       )}
@@ -404,7 +404,7 @@ export function Home() {
         ))}
 
         {/* API Access */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
