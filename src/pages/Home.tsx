@@ -403,20 +403,20 @@ export function Home() {
           </div>
         ))}
 
-        {/* API Access */}
+        {/* Developer Gateway */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
-          className="bg-[#111] border-2 border-dashed border-white/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between group gap-4 min-h-[160px] mt-4"
+          className="bg-[#111] border-2 border-white/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between group gap-4 min-h-[160px] mt-4"
         >
           <div className="max-w-[100%] sm:max-w-[60%]">
-            <h4 className="font-bold uppercase tracking-tighter text-xl">Developer Gateway (Coming Soon)</h4>
-            <p className="text-xs text-white/40 mt-1">Scale ShareFlow tools in your own applications. Generous free tier with Redis caching.</p>
+            <h4 className="font-bold uppercase tracking-tighter text-xl">Developer Gateway</h4>
+            <p className="text-xs text-white/40 mt-1">Build with ShareFlow — API keys, usage tracking, full REST API. Sign up and start integrating.</p>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-3 w-full sm:w-auto">
-            <span className="text-[10px] text-white/20 font-mono">v1/api/endpoint</span>
-            <button className="px-4 py-2 bg-white/20 text-white/50 text-[10px] font-black uppercase tracking-widest cursor-not-allowed whitespace-nowrap">Coming Soon</button>
+            <span className="text-[10px] text-white/20 font-mono">v1/api/live</span>
+            <Link to="/dev" className="px-4 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest whitespace-nowrap hover:bg-white/80 transition-colors">Sign In</Link>
           </div>
         </motion.div>
       </div>

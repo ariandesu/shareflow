@@ -25,6 +25,28 @@ const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 
 app.use("/*", cors({ origin: "*", allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], allowHeaders: ["Content-Type", "Authorization"] }));
 
+app.get("/", (c) => c.json({ name: "ShareFlow API", version: "1.0.0", docs: "https://shareflow.mhr3d.online/dev" }));
+
+app.post("/api/admin/setup", async (c) => {
+  const auth = c.req.header("Authorization") || "";
+  const key = auth.replace("Bearer ", "");
+  if (key !== c.env.API_MASTER_KEY) return c.json({ error: "Unauthorized" }, 401);
+  const { email, password, name } = await c.req.json<any>();
+  if (!email || !password) return c.json({ error: "Email and password required" }, 400);
+  const normalizedEmail = email.toLowerCase().trim();
+  const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+  const existing = await supabase.from("users").select("id, role").eq("email", normalizedEmail).maybeSingle();
+  if (existing.data) {
+    await supabase.from("users").update({ role: "admin" }).eq("id", existing.data.id);
+    return c.json({ message: "User already exists, promoted to admin" });
+  }
+  const salt = generateHex(16);
+  const passwordHash = await hashPassword(password, salt);
+  const { data: user, error } = await supabase.from("users").insert({ email: normalizedEmail, password_hash: `${salt}:${passwordHash}`, name: name || normalizedEmail.split("@")[0], role: "admin" }).select().single();
+  if (error) return c.json({ error: "Setup failed", detail: error.message }, 500);
+  return c.json({ message: "Admin user created", email: user.email });
+});
+
 const BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function generateCode(length: number): string {
@@ -88,7 +110,7 @@ app.post("/api/auth/register", async (c) => {
   const salt = generateHex(16);
   const passwordHash = await hashPassword(password, salt);
   const { data: user, error } = await supabase.from("users").insert({ email: normalizedEmail, password_hash: `${salt}:${passwordHash}`, name: name || normalizedEmail.split("@")[0], role: "user" }).select().single();
-  if (error) return c.json({ error: "Registration failed" }, 500);
+  if (error) return c.json({ error: "Registration failed", detail: error.message }, 500);
   const token = generateHex(32);
   await supabase.from("sessions").insert({ user_id: user.id, token, expires_at: new Date(Date.now() + 7 * 86400000).toISOString() });
   return c.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
