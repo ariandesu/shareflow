@@ -24,25 +24,27 @@ const Btn = ({
   onClick: () => void,
   shiftL?: string,
   alphaL?: string,
-  type?: "normal" | "number" | "operator" | "nav",
+  type?: "normal" | "number" | "operator" | "blue" | "nav",
   className?: string,
   btnClassName?: string
 }) => {
   const isNum = type === "number";
   const isOp = type === "operator";
+  const isBlue = type === "blue";
 
   return (
-    <div className={`flex flex-col items-center justify-end h-[50px] relative ${className}`}>
-      {shiftL && <span className="absolute top-[-14px] text-[9px] text-[#C0A040] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
-      {alphaL && <span className="absolute top-[-14px] text-[9px] text-[#E03050] font-bold tracking-tighter right-0">{alphaL}</span>}
+    <div className={`flex flex-col items-center justify-end h-[46px] relative ${className}`}>
+      {shiftL && <span className="absolute top-[-14px] text-[9px] text-[#FFD54A] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
+      {alphaL && <span className="absolute top-[-14px] text-[9px] text-[#FF4D88] font-bold tracking-tighter right-0">{alphaL}</span>}
 
       <button
         onClick={onClick}
         className={`
-          w-full h-[32px] rounded-lg shadow-sm border-b-[3px] border-black/20 active:border-b-0 active:translate-y-[3px] transition-all font-bold flex items-center justify-center
-          ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-[#FFF] text-lg" :
-            isOp ? "bg-[#333] text-[#FFF] hover:bg-[#444] text-lg" :
-            "bg-[#252525] text-[#FFF] hover:bg-[#353535] text-[11px] px-1"}
+          w-full h-[30px] rounded-lg shadow-sm border-b-[2px] border-black/25 active:border-b-0 active:translate-y-[2px] transition-all font-bold flex items-center justify-center text-xs
+          ${btnClassName ? btnClassName : isNum ? "bg-[#FFFFFF] text-[#1E1E1E] hover:bg-[#F0F0F0] text-sm" :
+            isOp ? "bg-[#4A4A4A] text-[#FFF] hover:bg-[#5A5A5A] text-sm" :
+            isBlue ? "bg-[#1D6CFF] text-[#FFF] hover:bg-[#1A5FE0] text-sm" :
+            "bg-[#2B2B2B] text-[#FFF] hover:bg-[#353535] text-[10px] px-1"}
         `}
       >
         {label}
@@ -180,35 +182,27 @@ export default function ScientificCalculator() {
     <div className="max-w-6xl mx-auto h-full flex flex-col xl:flex-row gap-12 items-center justify-center p-4">
 
       <div
-        className="relative w-[340px] h-auto min-h-[720px] pb-6 bg-[#EAEAEA] rounded-3xl shadow-2xl p-4 flex flex-col flex-shrink-0"
+        className="relative w-[340px] h-auto min-h-[720px] pb-6 bg-[#1E1E1E] rounded-3xl shadow-2xl p-4 flex flex-col flex-shrink-0"
         style={{
-          boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,255,255,0.8), inset 0 -5px 15px rgba(0,0,0,0.2)",
-          backgroundImage: "linear-gradient(to bottom, #F5F5F5 0%, #D5D5D5 100%)"
+          boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.1), inset 0 -5px 15px rgba(0,0,0,0.3)",
         }}
       >
-        <div
-          className="absolute top-0 left-0 w-full h-[260px] bg-[#1A1A1A] rounded-t-3xl rounded-b-[40px] z-0 overflow-hidden"
-          style={{
-            backgroundImage: "radial-gradient(#333 1px, transparent 1px), radial-gradient(#333 1px, transparent 1px)",
-            backgroundSize: "8px 8px",
-            backgroundPosition: "0 0, 4px 4px",
-            boxShadow: "inset 0 -10px 20px rgba(0,0,0,0.5)"
-          }}
-        />
-
-        <div className="relative z-10 flex justify-between items-start px-2 pt-2">
+        {/* Top Branding Bar */}
+        <div className="flex justify-between items-start px-1 pt-1 pb-2">
           <div className="text-[#FFF] text-xs font-black tracking-widest italic">CASIO</div>
           <div className="text-right">
             <div className="text-[#FFF] text-[10px] font-bold">fx-991EX</div>
-            <div className="text-[#A0A0A0] text-[8px] tracking-widest">CLASSWIZ</div>
+            <div className="text-[#888] text-[8px] tracking-widest">CLASSWIZ</div>
           </div>
         </div>
 
-        <div className="relative z-10 w-24 h-4 bg-[#111] border border-[#444] rounded-sm mx-auto mt-2 grid grid-cols-4 gap-px p-px">
-          <div className="bg-[#1A0A00]"></div><div className="bg-[#1A0A00]"></div><div className="bg-[#1A0A00]"></div><div className="bg-[#1A0A00]"></div>
+        {/* Solar Panel */}
+        <div className="w-20 h-3.5 bg-[#0A0A0A] border border-[#333] rounded-sm ml-auto grid grid-cols-4 gap-px p-px">
+          <div className="bg-[#1A0800]"></div><div className="bg-[#1A0800]"></div><div className="bg-[#1A0800]"></div><div className="bg-[#1A0800]"></div>
         </div>
 
-        <div className="relative z-10 mt-3 w-full h-[120px] bg-[#9EA798] border-[6px] border-[#2A2A2A] rounded-lg p-2 shadow-inner flex flex-col font-mono text-[#111]">
+        {/* LCD Screen */}
+        <div className="mt-2.5 w-full h-[120px] bg-[#9EA798] border-[5px] border-[#1A1A1A] rounded-lg p-2 shadow-inner flex flex-col font-mono text-[#111]">
           <div className="flex justify-between items-center text-[10px] h-4 mb-1">
             <div className="flex gap-2">
               <span className={shiftState === "SHIFT" ? "font-black" : "opacity-10"}>S</span>
@@ -250,57 +244,86 @@ export default function ScientificCalculator() {
           </div>
         </div>
 
-        <div className="relative z-10 flex-1 mt-6 px-1 flex flex-col gap-5">
+        {/* Keyboard */}
+        <div className="flex-1 mt-4 px-1 flex flex-col gap-4">
 
-          <div className="grid grid-cols-6 gap-x-2 gap-y-6">
-            <Btn label="SHIFT" onClick={toggleShift} shiftL="" className="col-span-1" />
-            <Btn label="ALPHA" onClick={toggleAlpha} shiftL="" className="col-span-1" />
-
-            <div className="col-span-2 relative flex items-center justify-center -mt-4">
-              <div className="w-[80px] h-[60px] bg-[#111] rounded-[30px] border-[3px] border-[#333] shadow-lg relative flex items-center justify-center overflow-hidden active:scale-95 transition-transform">
-                <div className="w-[50px] h-[30px] bg-[#222] rounded-[15px] absolute shadow-inner" />
-                <button onClick={() => handleNav("UP")} className="absolute top-0 w-full h-[20px]" />
-                <button onClick={() => handleNav("DOWN")} className="absolute bottom-0 w-full h-[20px]" />
-                <button onClick={() => handleNav("LEFT")} className="absolute left-0 w-[20px] h-full" />
-                <button onClick={() => handleNav("RIGHT")} className="absolute right-0 w-[20px] h-full" />
-                <div className="absolute text-[#444] text-[8px] font-bold top-1">▲</div>
-                <div className="absolute text-[#444] text-[8px] font-bold bottom-1">▼</div>
-                <div className="absolute text-[#444] text-[8px] font-bold left-2">◀</div>
-                <div className="absolute text-[#444] text-[8px] font-bold right-2">▶</div>
+          {/* Row 1-2: SHIFT, ALPHA, D-PAD, MENU, ON + OPTN, CALC, D-PAD bottom, ∫, x */}
+          <div className="grid grid-cols-6 gap-x-2" style={{ gridTemplateRows: "auto auto", gap: "8px" }}>
+            <div style={{ gridRow: 1, gridColumn: 1 }}>
+              <Btn label="SHIFT" onClick={toggleShift} type="normal" />
+            </div>
+            <div style={{ gridRow: 1, gridColumn: 2 }}>
+              <Btn label="ALPHA" onClick={toggleAlpha} type="normal" />
+            </div>
+            <div style={{ gridRow: "1 / 3", gridColumn: "3 / 5" }} className="flex items-center justify-center">
+              <div className="w-[72px] h-[72px] bg-[#111] rounded-full border-[3px] border-[#2A2A2A] shadow-lg relative flex items-center justify-center overflow-hidden active:scale-95 transition-transform">
+                <div className="w-[44px] h-[30px] bg-[#1A1A1A] rounded-md absolute shadow-inner" />
+                <button onClick={() => handleNav("UP")} className="absolute top-0 left-[18px] w-[36px] h-[22px] z-10 cursor-pointer" />
+                <button onClick={() => handleNav("DOWN")} className="absolute bottom-0 left-[18px] w-[36px] h-[22px] z-10 cursor-pointer" />
+                <button onClick={() => handleNav("LEFT")} className="absolute left-0 top-[16px] w-[22px] h-[40px] z-10 cursor-pointer" />
+                <button onClick={() => handleNav("RIGHT")} className="absolute right-0 top-[16px] w-[22px] h-[40px] z-10 cursor-pointer" />
+                <button onClick={() => handleNav("UP")} className="absolute text-[#666] text-[7px] font-bold top-0.5 z-20 pointer-events-none">▲</button>
+                <button onClick={() => handleNav("DOWN")} className="absolute text-[#666] text-[7px] font-bold bottom-0.5 z-20 pointer-events-none">▼</button>
+                <button onClick={() => handleNav("LEFT")} className="absolute text-[#666] text-[7px] font-bold left-1.5 z-20 pointer-events-none">◀</button>
+                <button onClick={() => handleNav("RIGHT")} className="absolute text-[#666] text-[7px] font-bold right-1.5 z-20 pointer-events-none">▶</button>
+                <div className="w-[16px] h-[16px] bg-[#222] rounded-full border border-[#444] flex items-center justify-center z-20">
+                  <span className="text-[#555] text-[5px] font-bold">EXE</span>
+                </div>
               </div>
             </div>
+            <div style={{ gridRow: 1, gridColumn: 5 }}>
+              <Btn label="MENU" onClick={toggleMenu} alphaL="SETUP" />
+            </div>
+            <div style={{ gridRow: 1, gridColumn: 6 }}>
+              <Btn label="ON" onClick={ac} type="operator" />
+            </div>
 
-            <Btn label="MENU" onClick={toggleMenu} shiftL="SETUP" className="col-span-1" />
-            <Btn label="ON" onClick={ac} className="col-span-1" />
+            <div style={{ gridRow: 2, gridColumn: 1 }}>
+              <Btn label="OPTN" onClick={() => {}} />
+            </div>
+            <div style={{ gridRow: 2, gridColumn: 2 }}>
+              <Btn label="CALC" onClick={() => {}} shiftL="=" />
+            </div>
+            <div style={{ gridRow: 2, gridColumn: 5 }}>
+              <Btn label="∫dx" onClick={() => insert("integrate(")} shiftL="d/dx" />
+            </div>
+            <div style={{ gridRow: 2, gridColumn: 6 }}>
+              <Btn label="x" onClick={() => insert("x")} />
+            </div>
+          </div>
 
-            <Btn label="OPTN" onClick={() => {}} className="col-span-1" />
-            <Btn label="CALC" onClick={() => {}} shiftL="=" className="col-span-1" />
-            <Btn label="∫dx" onClick={() => insert("integrate(")} shiftL="d/dx" className="col-span-1" />
-            <Btn label="x" onClick={() => insert("x")} className="col-span-1" />
+          {/* Row 3: Fraction, √, x², x^, log, ln */}
+          <div className="grid grid-cols-6 gap-x-2">
             <Btn label="■/□" onClick={() => insert("(")} shiftL="a■/□" className="col-span-1" />
             <Btn label="√■" onClick={() => insert("√(")} shiftL="³√■" className="col-span-1" />
-
             <Btn label="x²" onClick={() => insert("²")} shiftL="x³" className="col-span-1" />
             <Btn label="x^■" onClick={() => insert("^")} shiftL="x√■" className="col-span-1" />
             <Btn label="log" onClick={() => insert("log(")} shiftL="10^■" className="col-span-1" />
             <Btn label="ln" onClick={() => insert("ln(")} shiftL="e^■" className="col-span-1" />
+          </div>
+
+          {/* Row 4: (-), °'", x⁻¹, sin, cos, tan */}
+          <div className="grid grid-cols-6 gap-x-2">
             <Btn label="(-)" onClick={() => insert("-")} className="col-span-1" />
             <Btn label={'°\'"'} onClick={() => {}} shiftL="←" className="col-span-1" />
-
             <Btn label="x⁻¹" onClick={() => insert("^-1")} shiftL="x!" className="col-span-1" />
             <Btn label="sin" onClick={() => insert("sin(")} shiftL="sin⁻¹" className="col-span-1" />
             <Btn label="cos" onClick={() => insert("cos(")} shiftL="cos⁻¹" className="col-span-1" />
             <Btn label="tan" onClick={() => insert("tan(")} shiftL="tan⁻¹" className="col-span-1" />
+          </div>
+
+          {/* Row 5: STO, ENG, (, ), S⇔D, M+ */}
+          <div className="grid grid-cols-6 gap-x-2">
             <Btn label="STO" onClick={() => {}} shiftL="RECALL" className="col-span-1" />
             <Btn label="ENG" onClick={() => {}} shiftL="i" className="col-span-1" />
-
             <Btn label="(" onClick={() => insert("(")} className="col-span-1" />
             <Btn label=")" onClick={() => insert(")")} shiftL="x" alphaL="Y" className="col-span-1" />
             <Btn label="S⇔D" onClick={() => {}} className="col-span-1" />
             <Btn label="M+" onClick={() => {}} shiftL="M-" alphaL="M" className="col-span-1" />
           </div>
 
-          <div className="grid grid-cols-5 gap-3 mt-4">
+          {/* Numpad */}
+          <div className="grid grid-cols-5 gap-2.5 mt-1">
             <Btn label="7" onClick={() => insert("7")} type="number" shiftL="CONST" />
             <Btn label="8" onClick={() => insert("8")} type="number" shiftL="CONV" />
             <Btn label="9" onClick={() => insert("9")} type="number" shiftL="RESET" />
@@ -310,20 +333,20 @@ export default function ScientificCalculator() {
             <Btn label="4" onClick={() => insert("4")} type="number" shiftL="MATRIX" />
             <Btn label="5" onClick={() => insert("5")} type="number" shiftL="VECTOR" />
             <Btn label="6" onClick={() => insert("6")} type="number" />
-            <Btn label="×" onClick={() => insert("×")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
-            <Btn label="÷" onClick={() => insert("÷")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
+            <Btn label="×" onClick={() => insert("×")} type="operator" />
+            <Btn label="÷" onClick={() => insert("÷")} type="operator" />
 
             <Btn label="1" onClick={() => insert("1")} type="number" shiftL="STAT" />
             <Btn label="2" onClick={() => insert("2")} type="number" shiftL="CMPLX" />
             <Btn label="3" onClick={() => insert("3")} type="number" shiftL="BASE" />
-            <Btn label="+" onClick={() => insert("+")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
-            <Btn label="-" onClick={() => insert("-")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
+            <Btn label="+" onClick={() => insert("+")} type="operator" />
+            <Btn label="-" onClick={() => insert("-")} type="operator" />
 
             <Btn label="0" onClick={() => insert("0")} type="number" />
             <Btn label="." onClick={() => insert(".")} type="number" />
             <Btn label="×10ˣ" onClick={() => insert("x10^")} type="number" shiftL="π" alphaL="e" />
-            <Btn label="Ans" onClick={() => insert("Ans")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
-            <Btn label="=" onClick={handleEqual} type="operator" btnClassName="bg-[#333] text-[#FFF] hover:bg-[#444]" />
+            <Btn label="Ans" onClick={() => insert("Ans")} type="normal" btnClassName="bg-[#4A4A4A] text-white hover:bg-[#5A5A5A] text-sm" />
+            <Btn label="=" onClick={handleEqual} type="blue" />
           </div>
 
         </div>
