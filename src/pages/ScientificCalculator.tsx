@@ -24,34 +24,54 @@ const Btn = ({
   onClick: () => void,
   shiftL?: string,
   alphaL?: string,
-  type?: "normal" | "number" | "operator" | "blue" | "nav",
+  type?: "normal" | "number" | "operator" | "blue" | "yellow" | "red",
   className?: string,
   btnClassName?: string
 }) => {
-  const isNum = type === "number";
-  const isOp = type === "operator";
-  const isBlue = type === "blue";
+  const styles: Record<string, string> = {
+    number: "bg-[#FFFFFF] text-[#1E1E1E] hover:bg-[#F0F0F0] text-sm",
+    operator: "bg-[#4A4A4A] text-[#FFF] hover:bg-[#5A5A5A] text-sm",
+    blue: "bg-[#1D6CFF] text-[#FFF] hover:bg-[#1A5FE0] text-sm",
+    yellow: "bg-[#FFD54A] text-[#1E1E1E] hover:bg-[#FFC107] text-sm",
+    red: "bg-[#E53935] text-[#FFF] hover:bg-[#D32F2F] text-sm",
+    normal: "bg-[#2B2B2B] text-[#FFF] hover:bg-[#353535] text-[10px] px-1",
+  };
 
   return (
-    <div className={`flex flex-col items-center justify-end h-[46px] relative ${className}`}>
-      {shiftL && <span className="absolute top-[-14px] text-[9px] text-[#FFD54A] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
-      {alphaL && <span className="absolute top-[-14px] text-[9px] text-[#FF4D88] font-bold tracking-tighter right-0">{alphaL}</span>}
+    <div className={`flex flex-col items-center justify-end h-[44px] relative ${className}`}>
+      {shiftL && <span className="absolute top-[-13px] text-[8px] text-[#FFD54A] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
+      {alphaL && <span className="absolute top-[-13px] text-[8px] text-[#FF4D88] font-bold tracking-tighter right-0">{alphaL}</span>}
 
       <button
         onClick={onClick}
-        className={`
-          w-full h-[30px] rounded-lg shadow-sm border-b-[2px] border-black/25 active:border-b-0 active:translate-y-[2px] transition-all font-bold flex items-center justify-center text-xs
-          ${btnClassName ? btnClassName : isNum ? "bg-[#FFFFFF] text-[#1E1E1E] hover:bg-[#F0F0F0] text-sm" :
-            isOp ? "bg-[#4A4A4A] text-[#FFF] hover:bg-[#5A5A5A] text-sm" :
-            isBlue ? "bg-[#1D6CFF] text-[#FFF] hover:bg-[#1A5FE0] text-sm" :
-            "bg-[#2B2B2B] text-[#FFF] hover:bg-[#353535] text-[10px] px-1"}
-        `}
+        className={`w-full h-[28px] rounded-md shadow-sm border-b-[2px] border-black/25 active:border-b-0 active:translate-y-[2px] transition-all font-bold flex items-center justify-center text-xs ${btnClassName || styles[type]}`}
       >
         {label}
       </button>
     </div>
   );
 };
+
+const DPadBtn = ({ dir, onClick }: { dir: "UP" | "DOWN" | "LEFT" | "RIGHT", onClick: () => void }) => {
+  const arrows: Record<string, string> = { UP: "▲", DOWN: "▼", LEFT: "◀", RIGHT: "▶" };
+  return (
+    <button
+      onClick={onClick}
+      className="w-full h-[28px] bg-[#1A1A1A] rounded-md border border-[#333] text-[#666] text-[9px] font-bold hover:bg-[#222] active:scale-95 transition-all flex items-center justify-center cursor-pointer shadow-sm"
+    >
+      {arrows[dir]}
+    </button>
+  );
+};
+
+const DPadCenter = ({ onClick }: { onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="w-full h-[28px] bg-[#222] rounded-full border border-[#444] text-[#777] text-[6px] font-bold hover:bg-[#2A2A2A] active:scale-95 transition-all flex items-center justify-center cursor-pointer shadow-sm"
+  >
+    EXE
+  </button>
+);
 
 export default function ScientificCalculator() {
   const [mode, setMode] = useState<CalcMode>("COMP");
@@ -187,7 +207,7 @@ export default function ScientificCalculator() {
           boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.1), inset 0 -5px 15px rgba(0,0,0,0.3)",
         }}
       >
-        {/* Top Branding Bar */}
+        {/* Branding */}
         <div className="flex justify-between items-start px-1 pt-1 pb-2">
           <div className="text-[#FFF] text-xs font-black tracking-widest italic">CASIO</div>
           <div className="text-right">
@@ -245,106 +265,91 @@ export default function ScientificCalculator() {
         </div>
 
         {/* Keyboard */}
-        <div className="flex-1 mt-4 px-1 flex flex-col gap-4">
+        <div className="flex-1 mt-4 px-0.5 flex flex-col gap-1.5">
 
-          {/* Row 1-2: SHIFT, ALPHA, D-PAD, MENU, ON + OPTN, CALC, D-PAD bottom, ∫, x */}
-          <div className="grid grid-cols-6 gap-x-2" style={{ gridTemplateRows: "auto auto", gap: "8px" }}>
-            <div style={{ gridRow: 1, gridColumn: 1 }}>
-              <Btn label="SHIFT" onClick={toggleShift} type="normal" />
-            </div>
-            <div style={{ gridRow: 1, gridColumn: 2 }}>
-              <Btn label="ALPHA" onClick={toggleAlpha} type="normal" />
-            </div>
-            <div style={{ gridRow: "1 / 3", gridColumn: "3 / 5" }} className="flex items-center justify-center">
-              <div className="w-[72px] h-[72px] bg-[#111] rounded-full border-[3px] border-[#2A2A2A] shadow-lg relative flex items-center justify-center overflow-hidden active:scale-95 transition-transform">
-                <div className="w-[44px] h-[30px] bg-[#1A1A1A] rounded-md absolute shadow-inner" />
-                <button onClick={() => handleNav("UP")} className="absolute top-0 left-[18px] w-[36px] h-[22px] z-10 cursor-pointer" />
-                <button onClick={() => handleNav("DOWN")} className="absolute bottom-0 left-[18px] w-[36px] h-[22px] z-10 cursor-pointer" />
-                <button onClick={() => handleNav("LEFT")} className="absolute left-0 top-[16px] w-[22px] h-[40px] z-10 cursor-pointer" />
-                <button onClick={() => handleNav("RIGHT")} className="absolute right-0 top-[16px] w-[22px] h-[40px] z-10 cursor-pointer" />
-                <button onClick={() => handleNav("UP")} className="absolute text-[#666] text-[7px] font-bold top-0.5 z-20 pointer-events-none">▲</button>
-                <button onClick={() => handleNav("DOWN")} className="absolute text-[#666] text-[7px] font-bold bottom-0.5 z-20 pointer-events-none">▼</button>
-                <button onClick={() => handleNav("LEFT")} className="absolute text-[#666] text-[7px] font-bold left-1.5 z-20 pointer-events-none">◀</button>
-                <button onClick={() => handleNav("RIGHT")} className="absolute text-[#666] text-[7px] font-bold right-1.5 z-20 pointer-events-none">▶</button>
-                <div className="w-[16px] h-[16px] bg-[#222] rounded-full border border-[#444] flex items-center justify-center z-20">
-                  <span className="text-[#555] text-[5px] font-bold">EXE</span>
-                </div>
-              </div>
-            </div>
-            <div style={{ gridRow: 1, gridColumn: 5 }}>
-              <Btn label="MENU" onClick={toggleMenu} alphaL="SETUP" />
-            </div>
-            <div style={{ gridRow: 1, gridColumn: 6 }}>
-              <Btn label="ON" onClick={ac} type="operator" />
-            </div>
-
-            <div style={{ gridRow: 2, gridColumn: 1 }}>
-              <Btn label="OPTN" onClick={() => {}} />
-            </div>
-            <div style={{ gridRow: 2, gridColumn: 2 }}>
-              <Btn label="CALC" onClick={() => {}} shiftL="=" />
-            </div>
-            <div style={{ gridRow: 2, gridColumn: 5 }}>
-              <Btn label="∫dx" onClick={() => insert("integrate(")} shiftL="d/dx" />
-            </div>
-            <div style={{ gridRow: 2, gridColumn: 6 }}>
-              <Btn label="x" onClick={() => insert("x")} />
-            </div>
+          {/* Row 1: SHIFT, ALPHA, REPLAY_UP, MENU, SETUP, ON */}
+          <div className="grid grid-cols-6 gap-x-1.5">
+            <Btn label="SHIFT" onClick={toggleShift} type="yellow" />
+            <Btn label="ALPHA" onClick={toggleAlpha} type="red" />
+            <DPadBtn dir="UP" onClick={() => handleNav("UP")} />
+            <Btn label="MENU" onClick={toggleMenu} />
+            <Btn label="SETUP" onClick={() => {}} />
+            <Btn label="ON" onClick={ac} />
           </div>
 
-          {/* Row 3: Fraction, √, x², x^, log, ln */}
-          <div className="grid grid-cols-6 gap-x-2">
-            <Btn label="■/□" onClick={() => insert("(")} shiftL="a■/□" className="col-span-1" />
-            <Btn label="√■" onClick={() => insert("√(")} shiftL="³√■" className="col-span-1" />
-            <Btn label="x²" onClick={() => insert("²")} shiftL="x³" className="col-span-1" />
-            <Btn label="x^■" onClick={() => insert("^")} shiftL="x√■" className="col-span-1" />
-            <Btn label="log" onClick={() => insert("log(")} shiftL="10^■" className="col-span-1" />
-            <Btn label="ln" onClick={() => insert("ln(")} shiftL="e^■" className="col-span-1" />
+          {/* Row 2: REPLAY_LEFT, REPLAY_CENTER(EXE), REPLAY_RIGHT */}
+          <div className="grid grid-cols-6 gap-x-1.5">
+            <div />
+            <DPadBtn dir="LEFT" onClick={() => handleNav("LEFT")} />
+            <DPadCenter onClick={handleEqual} />
+            <DPadBtn dir="RIGHT" onClick={() => handleNav("RIGHT")} />
+            <div />
+            <div />
           </div>
 
-          {/* Row 4: (-), °'", x⁻¹, sin, cos, tan */}
-          <div className="grid grid-cols-6 gap-x-2">
-            <Btn label="(-)" onClick={() => insert("-")} className="col-span-1" />
-            <Btn label={'°\'"'} onClick={() => {}} shiftL="←" className="col-span-1" />
-            <Btn label="x⁻¹" onClick={() => insert("^-1")} shiftL="x!" className="col-span-1" />
-            <Btn label="sin" onClick={() => insert("sin(")} shiftL="sin⁻¹" className="col-span-1" />
-            <Btn label="cos" onClick={() => insert("cos(")} shiftL="cos⁻¹" className="col-span-1" />
-            <Btn label="tan" onClick={() => insert("tan(")} shiftL="tan⁻¹" className="col-span-1" />
+          {/* Row 3: OPTN, CALC, REPLAY_DOWN, ∫dx, Σ */}
+          <div className="grid grid-cols-6 gap-x-1.5">
+            <Btn label="OPTN" onClick={() => {}} />
+            <Btn label="CALC" onClick={() => {}} shiftL="SOLVE=" />
+            <DPadBtn dir="DOWN" onClick={() => handleNav("DOWN")} />
+            <Btn label="∫dx" onClick={() => insert("integrate(")} shiftL="d/dx" />
+            <Btn label="Σ" onClick={() => insert("sigma(")} shiftL="Σ(" />
+            <div />
           </div>
 
-          {/* Row 5: STO, ENG, (, ), S⇔D, M+ */}
-          <div className="grid grid-cols-6 gap-x-2">
-            <Btn label="STO" onClick={() => {}} shiftL="RECALL" className="col-span-1" />
-            <Btn label="ENG" onClick={() => {}} shiftL="i" className="col-span-1" />
-            <Btn label="(" onClick={() => insert("(")} className="col-span-1" />
-            <Btn label=")" onClick={() => insert(")")} shiftL="x" alphaL="Y" className="col-span-1" />
-            <Btn label="S⇔D" onClick={() => {}} className="col-span-1" />
-            <Btn label="M+" onClick={() => {}} shiftL="M-" alphaL="M" className="col-span-1" />
+          {/* Row 4: x³√, √□, x², x^■, log□□, ln */}
+          <div className="grid grid-cols-6 gap-x-1.5 mt-1">
+            <Btn label="x³√" onClick={() => insert("cuberoot(")} shiftL="x⁻¹" />
+            <Btn label="√□" onClick={() => insert("√(")} shiftL="³√" />
+            <Btn label="x²" onClick={() => insert("²")} shiftL="x³" />
+            <Btn label="x^■" onClick={() => insert("^")} shiftL="x^□" />
+            <Btn label="log□□" onClick={() => insert("log(")} shiftL="10^x" />
+            <Btn label="ln" onClick={() => insert("ln(")} shiftL="e^x" />
+          </div>
+
+          {/* Row 5: (-), ° ' '', x⁻¹, sin, cos, tan */}
+          <div className="grid grid-cols-6 gap-x-1.5">
+            <Btn label="(-)" onClick={() => insert("-")} shiftL="Ans" />
+            <Btn label={"° ' ''"} onClick={() => {}} shiftL="←→" />
+            <Btn label="x⁻¹" onClick={() => insert("^-1")} shiftL="Abs" />
+            <Btn label="sin" onClick={() => insert("sin(")} shiftL="sin⁻¹" alphaL="D" />
+            <Btn label="cos" onClick={() => insert("cos(")} shiftL="cos⁻¹" alphaL="E" />
+            <Btn label="tan" onClick={() => insert("tan(")} shiftL="tan⁻¹" alphaL="F" />
+          </div>
+
+          {/* Row 6: STO, ENG, (, ), S⇔D, M+ */}
+          <div className="grid grid-cols-6 gap-x-1.5">
+            <Btn label="STO" onClick={() => {}} shiftL="RCL" />
+            <Btn label="ENG" onClick={() => {}} shiftL="←" />
+            <Btn label="(" onClick={() => insert("(")} />
+            <Btn label=")" onClick={() => insert(")")} shiftL="x" alphaL="Y" />
+            <Btn label="S⇔D" onClick={() => {}} />
+            <Btn label="M+" onClick={() => {}} shiftL="M-" alphaL="M" />
           </div>
 
           {/* Numpad */}
-          <div className="grid grid-cols-5 gap-2.5 mt-1">
+          <div className="grid grid-cols-5 gap-1.5 mt-1">
             <Btn label="7" onClick={() => insert("7")} type="number" shiftL="CONST" />
             <Btn label="8" onClick={() => insert("8")} type="number" shiftL="CONV" />
             <Btn label="9" onClick={() => insert("9")} type="number" shiftL="RESET" />
-            <Btn label="DEL" onClick={del} type="operator" shiftL="INS" />
-            <Btn label="AC" onClick={ac} type="operator" shiftL="OFF" />
+            <Btn label="DEL" onClick={del} type="blue" shiftL="INS" />
+            <Btn label="AC" onClick={ac} type="blue" shiftL="OFF" />
 
-            <Btn label="4" onClick={() => insert("4")} type="number" shiftL="MATRIX" />
-            <Btn label="5" onClick={() => insert("5")} type="number" shiftL="VECTOR" />
+            <Btn label="4" onClick={() => insert("4")} type="number" />
+            <Btn label="5" onClick={() => insert("5")} type="number" />
             <Btn label="6" onClick={() => insert("6")} type="number" />
-            <Btn label="×" onClick={() => insert("×")} type="operator" />
-            <Btn label="÷" onClick={() => insert("÷")} type="operator" />
+            <Btn label="×" onClick={() => insert("×")} type="operator" shiftL="Pol" />
+            <Btn label="÷" onClick={() => insert("÷")} type="operator" shiftL="Rec" />
 
-            <Btn label="1" onClick={() => insert("1")} type="number" shiftL="STAT" />
-            <Btn label="2" onClick={() => insert("2")} type="number" shiftL="CMPLX" />
-            <Btn label="3" onClick={() => insert("3")} type="number" shiftL="BASE" />
-            <Btn label="+" onClick={() => insert("+")} type="operator" />
+            <Btn label="1" onClick={() => insert("1")} type="number" shiftL="Rnd" />
+            <Btn label="2" onClick={() => insert("2")} type="number" shiftL="Ran#" alphaL="RanInt" />
+            <Btn label="3" onClick={() => insert("3")} type="number" shiftL="π" alphaL="e" />
+            <Btn label="+" onClick={() => insert("+")} type="operator" shiftL="%" />
             <Btn label="-" onClick={() => insert("-")} type="operator" />
 
             <Btn label="0" onClick={() => insert("0")} type="number" />
             <Btn label="." onClick={() => insert(".")} type="number" />
-            <Btn label="×10ˣ" onClick={() => insert("x10^")} type="number" shiftL="π" alphaL="e" />
+            <Btn label="×10ˣ" onClick={() => insert("x10^")} type="number" />
             <Btn label="Ans" onClick={() => insert("Ans")} type="normal" btnClassName="bg-[#4A4A4A] text-white hover:bg-[#5A5A5A] text-sm" />
             <Btn label="=" onClick={handleEqual} type="blue" />
           </div>
