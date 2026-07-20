@@ -95,13 +95,17 @@ export default function ScientificCalculator() {
     }
   };
 
+  const MODES: CalcMode[] = ["COMP", "CMPLX", "BASE-N", "MATRIX", "VECTOR", "STAT", "DIST", "SPREAD", "TABLE", "EQN", "INEQ", "RATIO"];
+  const selectMode = (idx: number) => {
+    setMode(MODES[idx]);
+    setIsMenuOpen(false);
+    setDisplayInput("");
+    setDisplayResult("");
+  };
+
   const handleEqual = () => {
     if (isMenuOpen) {
-      const modes: CalcMode[] = ["COMP", "CMPLX", "BASE-N", "MATRIX", "VECTOR", "STAT", "DIST", "SPREAD", "TABLE", "EQN", "INEQ", "RATIO"];
-      setMode(modes[menuCursor]);
-      setIsMenuOpen(false);
-      setDisplayInput("");
-      setDisplayResult("");
+      selectMode(menuCursor);
       return;
     }
 
@@ -233,9 +237,9 @@ export default function ScientificCalculator() {
             {isMenuOpen ? (
               <div className="grid grid-cols-4 grid-rows-3 gap-1 h-full p-1 bg-[#9EA798] absolute inset-0">
                 {["Calculate", "Complex", "Base-N", "Matrix", "Vector", "Statistics", "Distrib.", "Spreadsheet", "Table", "Equation", "Inequal.", "Ratio"].map((m, i) => (
-                  <div key={i} className={`flex items-center justify-center text-[8px] font-bold text-center leading-none border ${menuCursor === i ? "bg-black text-[#9EA798] border-black" : "border-transparent"}`}>
+                  <button key={i} onClick={() => selectMode(i)} className={`flex items-center justify-center text-[8px] font-bold text-center leading-none border cursor-pointer ${menuCursor === i ? "bg-black text-[#9EA798] border-black" : "border-transparent hover:bg-black/20"}`}>
                     {m}
-                  </div>
+                  </button>
                 ))}
               </div>
             ) : (
