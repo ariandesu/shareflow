@@ -10,6 +10,46 @@ m.config({ number: "BigNumber", precision: 14 });
 type CalcMode = "COMP" | "CMPLX" | "BASE-N" | "MATRIX" | "VECTOR" | "STAT" | "DIST" | "SPREAD" | "TABLE" | "EQN" | "INEQ" | "RATIO";
 type ShiftState = "NONE" | "SHIFT" | "ALPHA";
 
+const Btn = ({ 
+  label, 
+  onClick, 
+  shiftL, 
+  alphaL, 
+  type = "normal", 
+  className = "",
+  btnClassName = ""
+}: { 
+  label: string | React.ReactNode, 
+  onClick: () => void, 
+  shiftL?: string, 
+  alphaL?: string, 
+  type?: "normal" | "number" | "operator" | "nav",
+  className?: string,
+  btnClassName?: string
+}) => {
+  const isNum = type === "number";
+  const isOp = type === "operator";
+  
+  return (
+    <div className={`flex flex-col items-center justify-end h-[50px] relative ${className}`}>
+      {shiftL && <span className="absolute top-[-14px] text-[9px] text-[#C0A040] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
+      {alphaL && <span className="absolute top-[-14px] text-[9px] text-[#E03050] font-bold tracking-tighter right-0">{alphaL}</span>}
+      
+      <button
+        onClick={onClick}
+        className={`
+          w-full h-[32px] rounded-lg shadow-sm border-b-[3px] border-black/20 active:border-b-0 active:translate-y-[3px] transition-all font-bold flex items-center justify-center
+          ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-[#FFF] text-lg" : 
+            isOp ? "bg-[#333] text-[#FFF] hover:bg-[#444] text-lg" : 
+            "bg-[#252525] text-[#FFF] hover:bg-[#353535] text-[11px] px-1"}
+        `}
+      >
+        {label}
+      </button>
+    </div>
+  );
+};
+
 export default function ScientificCalculator() {
   const [mode, setMode] = useState<CalcMode>("COMP");
   const [shiftState, setShiftState] = useState<ShiftState>("NONE");
@@ -130,47 +170,6 @@ export default function ScientificCalculator() {
   const toggleShift = () => setShiftState(s => s === "SHIFT" ? "NONE" : "SHIFT");
   const toggleAlpha = () => setShiftState(s => s === "ALPHA" ? "NONE" : "ALPHA");
   const toggleMenu = () => { setIsMenuOpen(!isMenuOpen); setShiftState("NONE"); };
-
-  // Helper for buttons
-  const Btn = ({ 
-    label, 
-    onClick, 
-    shiftL, 
-    alphaL, 
-    type = "normal", 
-    className = "",
-    btnClassName = ""
-  }: { 
-    label: string | React.ReactNode, 
-    onClick: () => void, 
-    shiftL?: string, 
-    alphaL?: string, 
-    type?: "normal" | "number" | "operator" | "nav",
-    className?: string,
-    btnClassName?: string
-  }) => {
-    const isNum = type === "number";
-    const isOp = type === "operator";
-    
-    return (
-      <div className={`flex flex-col items-center justify-end h-[50px] relative ${className}`}>
-        {shiftL && <span className="absolute top-[-14px] text-[9px] text-[#C0A040] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
-        {alphaL && <span className="absolute top-[-14px] text-[9px] text-[#E03050] font-bold tracking-tighter right-0">{alphaL}</span>}
-        
-        <button
-          onClick={onClick}
-          className={`
-            w-full h-[32px] rounded-lg shadow-sm border-b-[3px] border-black/20 active:border-b-0 active:translate-y-[3px] transition-all font-bold flex items-center justify-center
-            ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-[#FFF] text-lg" : 
-              isOp ? "bg-[#333] text-[#FFF] hover:bg-[#444] text-lg" : 
-              "bg-[#252525] text-[#FFF] hover:bg-[#353535] text-[11px] px-1"}
-          `}
-        >
-          {label}
-        </button>
-      </div>
-    );
-  };
 
   return (
     <div className="max-w-6xl mx-auto h-full flex flex-col xl:flex-row gap-12 items-center justify-center p-4">

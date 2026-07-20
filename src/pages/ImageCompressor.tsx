@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Upload, Download, Image as ImageIcon } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
@@ -11,6 +11,7 @@ export default function ImageCompressor() {
   const [originalSize, setOriginalSize] = useState(0);
   const [compressedSize, setCompressedSize] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const generationRef = useRef(0);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
@@ -24,8 +25,11 @@ export default function ImageCompressor() {
   };
 
   const compressImage = (url: string, q: number) => {
+    generationRef.current++;
+    const currentGen = generationRef.current;
     const img = new Image();
     img.onload = () => {
+      if (currentGen !== generationRef.current) return;
       const canvas = canvasRef.current;
       if (!canvas) return;
       canvas.width = img.width;
@@ -42,6 +46,7 @@ export default function ImageCompressor() {
       const decoded = atob(base64str);
       setCompressedSize(decoded.length);
     };
+    img.onerror = () => console.error("Failed to load image");
     img.src = url;
   };
 

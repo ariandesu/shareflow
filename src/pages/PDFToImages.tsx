@@ -52,7 +52,7 @@ export default function PDFToImages() {
         canvas.height = viewport.height;
         const ctx = canvas.getContext("2d")!;
 
-        // @ts-ignore - pdfjs-dist types require canvas but canvasContext works at runtime
+        // @ts-expect-error - pdfjs-dist types require canvas but canvasContext works at runtime
         await page.render({ canvasContext: ctx, viewport }).promise;
 
         const url = canvas.toDataURL(fmt === "jpeg" ? "image/jpeg" : "image/png", 0.92);
@@ -71,11 +71,13 @@ export default function PDFToImages() {
   };
 
   const downloadAll = () => {
-    pages.forEach(page => {
-      const link = document.createElement("a");
-      link.href = page.url;
-      link.download = `page-${page.pageNum}.${format === "jpeg" ? "jpg" : "png"}`;
-      link.click();
+    pages.forEach((page, i) => {
+      setTimeout(() => {
+        const link = document.createElement("a");
+        link.href = page.url;
+        link.download = `page-${page.pageNum}.${format === "jpeg" ? "jpg" : "png"}`;
+        link.click();
+      }, i * 200);
     });
   };
 

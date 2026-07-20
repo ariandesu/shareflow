@@ -21,8 +21,8 @@ export function Base64() {
       }
     }
   } catch (e) {
-    if (mode === "decode" && !error) {
-      setError("Invalid Base64 string");
+    if (!error) {
+      setError(mode === "decode" ? "Invalid Base64 string" : "Failed to encode input");
     }
   }
 

@@ -78,7 +78,8 @@ export function FileReceive() {
 
     if (metadata.type === "server") {
       // Server-side download (R2)
-      window.location.href = `${API_BASE_URL}/api/file/${code}/download`;
+      const safeCode = code.replace(/[^a-zA-Z0-9]/g, "");
+      window.location.href = `${API_BASE_URL}/api/file/${safeCode}/download`;
     } else {
       // Direct WebRTC P2P download
       // If offer isn't present, try re-fetching the updated session data from the server
@@ -160,7 +161,7 @@ export function FileReceive() {
             URL.revokeObjectURL(url);
             
             // Send ACK back to sender to allow them to close connection cleanly
-            channel.send("ACK");
+            try { channel.send("ACK"); } catch (_) {}
 
             // Delay closing slightly so ACK has time to deliver
             setTimeout(cleanupWebRTC, 1000);

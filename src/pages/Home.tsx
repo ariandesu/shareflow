@@ -357,7 +357,7 @@ export function Home() {
                   <p className="text-black/60 text-sm mt-2 font-medium light-theme-text-muted">{tool.description}</p>
                 </div>
                 <div className="mt-8 w-full py-4 border-2 border-black font-black text-center uppercase text-sm tracking-widest group-hover:bg-black group-hover:text-white transition-colors light-theme-btn">
-                  Start Shareing
+                  Start Sharing
                 </div>
               </Link>
             </motion.div>

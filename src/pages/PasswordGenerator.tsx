@@ -12,6 +12,8 @@ export function PasswordGenerator() {
   const [symbols, setSymbols] = useState(true);
   const [copied, setCopied] = useState(false);
 
+  const [hasSelection, setHasSelection] = useState(true);
+
   const generatePassword = () => {
     let chars = "";
     if (uppercase) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -21,12 +23,16 @@ export function PasswordGenerator() {
 
     if (chars === "") {
       setPassword("Please select at least one option.");
+      setHasSelection(false);
       return;
     }
 
+    setHasSelection(true);
     let generated = "";
+    const arr = new Uint32Array(1);
     for (let i = 0; i < length; i++) {
-      generated += chars.charAt(Math.floor(Math.random() * chars.length));
+      crypto.getRandomValues(arr);
+      generated += chars.charAt(arr[0] % chars.length);
     }
     setPassword(generated);
   };
@@ -36,7 +42,7 @@ export function PasswordGenerator() {
   }, [length, uppercase, lowercase, numbers, symbols]);
 
   const copyToClipboard = () => {
-    if (password === "Please select at least one option.") return;
+    if (!hasSelection) return;
     navigator.clipboard.writeText(password);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);

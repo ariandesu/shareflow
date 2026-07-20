@@ -30,11 +30,12 @@ export default function ImagesToPDF() {
   };
 
   const loadImage = (file: File): Promise<ImageFile> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
         resolve({ file, url: URL.createObjectURL(file), id: crypto.randomUUID(), width: img.width, height: img.height });
       };
+      img.onerror = () => reject(new Error("Failed to load image"));
       img.src = URL.createObjectURL(file);
     });
   };
@@ -121,6 +122,7 @@ export default function ImagesToPDF() {
 
       const pdfBytes = await pdf.save();
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
       setPdfUrl(URL.createObjectURL(blob));
     } catch (err) {
       console.error("Build failed:", err);

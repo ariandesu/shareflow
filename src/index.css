@@ -125,11 +125,15 @@ body.light-theme .accent-white {
 }
 
 body.light-theme .light-theme-invert {
-  background-color: #fff !important;
+  background-color: #111 !important;
+  color: #fff !important;
+}
+body.light-theme .light-theme-btn {
+  border-color: #111 !important;
   color: #111 !important;
 }
 body.light-theme .light-theme-text-muted {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 body.light-theme .light-theme-btn {
   border-color: #fff !important;
@@ -206,7 +210,7 @@ body.light-theme .faq-item {
 
 /* Mobile responsive fixes */
 @media (max-width: 640px) {
-  h1 {
+  h1, h2, [class*="text-4xl"], [class*="text-5xl"], [class*="text-6xl"], [class*="text-7xl"], [class*="text-8xl"], [class*="text-\[42px\]"], [class*="text-\[40px\]"], [class*="text-\[3[0-9]"] {
     font-size: 28px !important;
   }
 }

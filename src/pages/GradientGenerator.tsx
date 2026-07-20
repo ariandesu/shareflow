@@ -47,7 +47,7 @@ export function GradientGenerator() {
     if (colors.length >= 8) return;
     const lastColor = colors[colors.length - 1];
     const newStop = Math.min(lastColor.stop + 20, 100);
-    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+    const randomColor = '#' + Math.floor(Math.random()*16777216).toString(16).padStart(6, '0');
     
     setColors([...colors, { id: Math.random().toString(), color: randomColor, stop: newStop }]);
   };
@@ -62,7 +62,7 @@ export function GradientGenerator() {
   };
 
   const generateRandomColors = () => {
-    const randomColor = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+    const randomColor = () => '#' + Math.floor(Math.random()*16777216).toString(16).padStart(6, '0');
     
     setColors(colors.map(c => ({
       ...c,

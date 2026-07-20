@@ -29,6 +29,7 @@ export default function ImageResizer() {
         setAspectRatio(img.width / img.height);
         generateResized(img, img.width, img.height);
       };
+      img.onerror = () => console.error("Failed to load image");
       img.src = url;
     }
   };
@@ -72,6 +73,7 @@ export default function ImageResizer() {
       draw(imgElement);
     } else {
       img.onload = () => draw(img);
+      img.onerror = () => console.error("Failed to load image");
       img.src = originalUrl;
     }
   };

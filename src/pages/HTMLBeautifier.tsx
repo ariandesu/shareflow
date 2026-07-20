@@ -29,8 +29,17 @@ export default function HTMLBeautifier() {
 
     while (i < formatted.length) {
       if (formatted[i] === "<") {
-        // Find end of tag
-        const tagEnd = formatted.indexOf(">", i);
+        // Find end of tag (handling > inside quoted attribute values)
+        let tagEnd = i;
+        let inSingleQuote = false;
+        let inDoubleQuote = false;
+        while (tagEnd < formatted.length) {
+          const ch = formatted[tagEnd];
+          if (ch === '"' && !inSingleQuote) inDoubleQuote = !inDoubleQuote;
+          else if (ch === "'" && !inDoubleQuote) inSingleQuote = !inSingleQuote;
+          else if (ch === ">" && !inSingleQuote && !inDoubleQuote) break;
+          tagEnd++;
+        }
         if (tagEnd === -1) break;
         
         const tag = formatted.substring(i, tagEnd + 1);

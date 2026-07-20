@@ -43,20 +43,23 @@ export default function ImageConverter() {
     const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith("image/"));
     if (droppedFiles.length) {
       setFiles(prev => [...prev, ...droppedFiles]);
+      converted.forEach(c => URL.revokeObjectURL(c.convertedUrl));
       setConverted([]);
     }
-  }, []);
+  }, [converted]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = Array.from(e.target.files || []);
     if (selected.length) {
       setFiles(prev => [...prev, ...selected]);
+      converted.forEach(c => URL.revokeObjectURL(c.convertedUrl));
       setConverted([]);
     }
   };
 
   const removeFile = (index: number) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
+    converted.forEach(c => URL.revokeObjectURL(c.convertedUrl));
     setConverted([]);
   };
 
@@ -106,6 +109,7 @@ export default function ImageConverter() {
         console.error("Conversion error:", err);
       }
     }
+    converted.forEach(c => URL.revokeObjectURL(c.convertedUrl));
     setConverted(results);
     setIsConverting(false);
   };
@@ -120,6 +124,7 @@ export default function ImageConverter() {
 
   const reset = () => {
     setFiles([]);
+    converted.forEach(c => URL.revokeObjectURL(c.convertedUrl));
     setConverted([]);
     if (inputRef.current) inputRef.current.value = "";
   };
@@ -189,7 +194,7 @@ export default function ImageConverter() {
                   {(Object.keys(formatLabels) as OutputFormat[]).map((fmt) => (
                     <button
                       key={fmt}
-                      onClick={() => { setFormat(fmt); setConverted([]); }}
+                      onClick={() => { setFormat(fmt); converted.forEach(c => URL.revokeObjectURL(c.convertedUrl)); setConverted([]); }}
                       className={`py-2 text-xs font-bold uppercase tracking-widest border transition-colors ${format === fmt ? "bg-white text-black border-white" : "border-white/20 text-white/60 hover:border-white/40"}`}
                     >
                       {formatLabels[fmt]}
@@ -205,7 +210,7 @@ export default function ImageConverter() {
                     <label className="block text-xs font-bold uppercase tracking-widest text-white/50">Quality</label>
                     <span className="text-xs font-mono text-white/80">{quality}%</span>
                   </div>
-                  <input type="range" min="1" max="100" value={quality} onChange={(e) => { setQuality(Number(e.target.value)); setConverted([]); }} className="w-full accent-white" />
+                  <input type="range" min="1" max="100" value={quality} onChange={(e) => { setQuality(Number(e.target.value)); converted.forEach(c => URL.revokeObjectURL(c.convertedUrl)); setConverted([]); }} className="w-full accent-white" />
                 </div>
               )}
 

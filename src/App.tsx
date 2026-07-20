@@ -44,6 +44,18 @@ import CSVViewer from "./pages/CSVViewer";
 import HTMLBeautifier from "./pages/HTMLBeautifier";
 import ZIndexVisualizer from "./pages/ZIndexVisualizer";
 
+function NotFound() {
+  return (
+    <div className="flex-1 flex flex-col items-center justify-center min-h-[calc(100vh-140px)] text-center px-4">
+      <h1 className="text-8xl font-black tracking-tighter text-white/10">404</h1>
+      <p className="text-xl font-bold text-white/50 mt-4 uppercase tracking-wider">Page not found</p>
+      <a href="/" className="mt-8 px-6 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-white/80 transition-colors">
+        Go Home
+      </a>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -91,6 +103,7 @@ export default function App() {
           <Route path="csv-viewer" element={<CSVViewer />} />
           <Route path="html-beautifier" element={<HTMLBeautifier />} />
           <Route path="z-index" element={<ZIndexVisualizer />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

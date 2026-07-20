@@ -64,7 +64,7 @@ export function TextShare() {
   };
 
   const copyToClipboard = (textToCopy: string) => {
-    navigator.clipboard.writeText(textToCopy);
+    navigator.clipboard.writeText(textToCopy).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

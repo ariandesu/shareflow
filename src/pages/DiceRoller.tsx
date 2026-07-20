@@ -47,7 +47,13 @@ export default function DiceRoller() {
       const randomValues = Array.from({ length: count }, () => {
         const arr = new Uint32Array(1);
         crypto.getRandomValues(arr);
-        return (arr[0] % config.max) + 1;
+        const maxValid = 0x100000000 - (0x100000000 % config.max);
+        let value = arr[0];
+        while (value >= maxValid) {
+          crypto.getRandomValues(arr);
+          value = arr[0];
+        }
+        return (value % config.max) + 1;
       });
       setCurrentValues(randomValues);
       animCount++;
@@ -57,7 +63,13 @@ export default function DiceRoller() {
         const finalValues = Array.from({ length: count }, () => {
           const arr = new Uint32Array(1);
           crypto.getRandomValues(arr);
-          return (arr[0] % config.max) + 1;
+          const maxValid = 0x100000000 - (0x100000000 % config.max);
+          let value = arr[0];
+          while (value >= maxValid) {
+            crypto.getRandomValues(arr);
+            value = arr[0];
+          }
+          return (value % config.max) + 1;
         });
         setCurrentValues(finalValues);
         setHistory(prev => [{

@@ -56,8 +56,9 @@ export default function PDFSplitter() {
       const trimmed = part.trim();
       const rangeMatch = trimmed.match(/^(\d+)\s*-\s*(\d+)$/);
       if (rangeMatch) {
-        const start = Math.max(1, parseInt(rangeMatch[1]));
-        const end = Math.min(pageCount, parseInt(rangeMatch[2]));
+        let start = Math.max(1, parseInt(rangeMatch[1]));
+        let end = Math.min(pageCount, parseInt(rangeMatch[2]));
+        if (start > end) [start, end] = [end, start];
         for (let i = start; i <= end; i++) pages.add(i);
       } else {
         const num = parseInt(trimmed);
@@ -70,6 +71,7 @@ export default function PDFSplitter() {
   const splitPDF = async () => {
     if (!pdfBytes) return;
     setIsSplitting(true);
+    splitUrls.forEach(u => URL.revokeObjectURL(u.url));
     setSplitUrls([]);
 
     try {

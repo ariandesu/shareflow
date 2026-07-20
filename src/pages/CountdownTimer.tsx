@@ -18,7 +18,7 @@ export default function CountdownTimer() {
       const saved = localStorage.getItem("sf-timers");
       if (saved) {
         const parsed = JSON.parse(saved);
-        return parsed.map((t: Timer) => ({ ...t, isFinished: t.targetTime <= Date.now() && t.isRunning }));
+        return parsed.map((t: Timer) => ({ ...t, isFinished: "isFinished" in t ? t.isFinished : (t.targetTime <= Date.now() && t.isRunning) }));
       }
     } catch {}
     return [];

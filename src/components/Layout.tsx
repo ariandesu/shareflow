@@ -4,6 +4,7 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 
 export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isLightMode, setIsLightMode] = useState(() => {
     return localStorage.getItem("theme") === "light";
   });
@@ -97,16 +98,28 @@ export function Layout() {
                   {item.name}
                 </Link>
               ))}
-              <div className="relative group flex items-center">
-                <button className="hover:text-white transition-colors">
+              <div className="relative flex items-center">
+                <button
+                  onClick={() => setIsToolsOpen(!isToolsOpen)}
+                  onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setIsToolsOpen(false); }}
+                  className="hover:text-white transition-colors"
+                  aria-expanded={isToolsOpen}
+                  aria-haspopup="true"
+                >
                   More Tools
                 </button>
-                <div className="absolute left-0 top-full mt-2 w-56 bg-[#111] border border-white/10 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20 max-h-[70vh] overflow-y-auto">
+                <div
+                  className={`absolute left-0 top-full mt-2 w-56 bg-[#111] border border-white/10 shadow-lg transition-all duration-200 z-20 max-h-[70vh] overflow-y-auto ${
+                    isToolsOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+                  }`}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
                   <div className="py-2 flex flex-col">
                     {navigation.slice(4).map((item) => (
                       <Link
                         key={item.name}
                         to={item.href}
+                        onClick={() => setIsToolsOpen(false)}
                         className="px-4 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors"
                       >
                         {item.name}
@@ -183,7 +196,7 @@ export function Layout() {
         </div>
       </>
 
-      <main className="flex-1 w-full mx-auto p-4 sm:p-12 flex flex-col">
+      <main className="flex-1 w-full mx-auto px-3 sm:px-12 py-4 flex flex-col">
         <Outlet />
       </main>
 

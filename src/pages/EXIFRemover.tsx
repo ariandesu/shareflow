@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Upload, ShieldCheck, ShieldAlert } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
@@ -7,17 +7,20 @@ export default function EXIFRemover() {
   const [file, setFile] = useState<File | null>(null);
   const [cleanedUrl, setCleanedUrl] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const previewUrlRef = useRef<string | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (selected) {
       setFile(selected);
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
       const url = URL.createObjectURL(selected);
-      removeExif(url);
+      previewUrlRef.current = url;
+      removeExif(url, selected.type);
     }
   };
 
-  const removeExif = (url: string) => {
+  const removeExif = (url: string, fileType: string) => {
     const img = new Image();
     img.onload = () => {
       const canvas = canvasRef.current;
@@ -29,9 +32,12 @@ export default function EXIFRemover() {
       
       // Drawing to canvas and exporting strips EXIF metadata automatically
       ctx.drawImage(img, 0, 0);
-      const dataUrl = canvas.toDataURL("image/jpeg", 1.0);
+      const hasAlpha = fileType === "image/png";
+      const format = hasAlpha ? "image/png" : "image/jpeg";
+      const dataUrl = canvas.toDataURL(format, 1.0);
       setCleanedUrl(dataUrl);
     };
+    img.onerror = () => console.error("Failed to load image");
     img.src = url;
   };
 

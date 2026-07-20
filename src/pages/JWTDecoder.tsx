@@ -24,9 +24,10 @@ export default function JWTDecoder() {
       setPayload(JSON.stringify(decodedPayload, null, 2));
 
       // Decode header manually
+      const base64urlToBase64 = (s: string) => s.replace(/-/g, "+").replace(/_/g, "/");
       const headerBase64 = input.split('.')[0];
       if (headerBase64) {
-        const decodedHeader = JSON.parse(atob(headerBase64));
+        const decodedHeader = JSON.parse(atob(base64urlToBase64(headerBase64)));
         setHeader(JSON.stringify(decodedHeader, null, 2));
       }
       

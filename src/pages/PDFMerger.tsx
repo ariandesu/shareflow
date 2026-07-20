@@ -18,17 +18,6 @@ export default function PDFMerger() {
   const [isMerging, setIsMerging] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
 
-  const handleDrop = useCallback(async (e: React.DragEvent) => {
-    e.preventDefault();
-    const files = Array.from(e.dataTransfer.files).filter(f => f.type === "application/pdf");
-    await addFiles(files);
-  }, []);
-
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    await addFiles(files);
-  };
-
   const addFiles = async (files: File[]) => {
     const newPdfs: PDFFile[] = [];
     for (const file of files) {
@@ -47,6 +36,17 @@ export default function PDFMerger() {
     }
     setPdfFiles(prev => [...prev, ...newPdfs]);
     setMergedUrl("");
+  };
+
+  const handleDrop = useCallback(async (e: React.DragEvent) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type === "application/pdf");
+    await addFiles(files);
+  }, [addFiles]);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    await addFiles(files);
   };
 
   const removeFile = (id: string) => {
@@ -81,6 +81,7 @@ export default function PDFMerger() {
       }
       const mergedBytes = await merged.save();
       const blob = new Blob([mergedBytes], { type: "application/pdf" });
+      if (mergedUrl) URL.revokeObjectURL(mergedUrl);
       setMergedUrl(URL.createObjectURL(blob));
       setMergedSize(blob.size);
     } catch (err) {

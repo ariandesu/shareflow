@@ -34,7 +34,10 @@ interface P2PSession {
 }
 const p2pSessions = new Map<string, P2PSession>();
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
 
 // Base62 character set
 const BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -52,11 +55,31 @@ function isCodeTaken(code: string): boolean {
   return textStore.has(code) || fileStore.has(code) || p2pSessions.has(code);
 }
 
+// Periodic cleanup of expired entries (every 5 minutes)
+const TTL = {
+  TEXT: 24 * 60 * 60 * 1000,
+  FILE: 24 * 60 * 60 * 1000,
+  P2P: 10 * 60 * 1000,
+};
+function evictExpired() {
+  const now = Date.now();
+  for (const [key, val] of textStore) {
+    if (now - val.createdAt > TTL.TEXT) textStore.delete(key);
+  }
+  for (const [key, val] of fileStore) {
+    if (now - val.createdAt > TTL.FILE) fileStore.delete(key);
+  }
+  for (const [key, val] of p2pSessions) {
+    if (now - val.createdAt > TTL.P2P) p2pSessions.delete(key);
+  }
+}
+
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
   app.use(express.json());
+  setInterval(evictExpired, 5 * 60 * 1000);
 
   // Text API Routes
   app.post("/api/text", (req, res) => {
@@ -79,7 +102,8 @@ async function startServer() {
 
     textStore.set(code, snippet);
 
-    res.json({ code, url: `${req.protocol}://${req.get("host")}/t/${code}` });
+    const host = req.get("host") || "localhost:3000";
+    res.json({ code, url: `${req.protocol}://${host}/t/${code}` });
   });
 
   app.get("/api/text/:code", (req, res) => {

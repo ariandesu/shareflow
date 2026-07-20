@@ -29,6 +29,7 @@ export default function MetadataViewer() {
 
     // Image-specific
     if (selected.type.startsWith("image/")) {
+      if (preview) URL.revokeObjectURL(preview);
       const url = URL.createObjectURL(selected);
       setPreview(url);
       
@@ -197,7 +198,7 @@ export default function MetadataViewer() {
 
   const copyAll = () => {
     const text = metadata.map(m => `${m.key}: ${m.value}`).join("\n");
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

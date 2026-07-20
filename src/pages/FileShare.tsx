@@ -104,11 +104,13 @@ export function FileShare() {
 
         xhr.onload = () => {
           if (xhr.status >= 200 && xhr.status < 300) {
-            const data = JSON.parse(xhr.responseText);
+            let data;
+            try { data = JSON.parse(xhr.responseText); } catch { data = { error: "Invalid server response" }; }
             setShareCode(data.code);
             setStatus("success");
           } else {
-            const err = JSON.parse(xhr.responseText || '{"error":"Upload failed"}');
+            let err;
+            try { err = JSON.parse(xhr.responseText || '{"error":"Upload failed"}'); } catch { err = { error: "Upload failed" }; }
             setErrorMsg(err.error || "Upload failed");
             setStatus("error");
           }
