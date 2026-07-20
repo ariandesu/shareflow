@@ -62,6 +62,10 @@ export default function ScientificCalculator() {
   const [ans, setAns] = useState("0");
 
   const calculatorRef = useRef<HTMLDivElement>(null);
+  const historyRef = useRef(history);
+  const historyIndexRef = useRef(historyIndex);
+  useEffect(() => { historyRef.current = history; }, [history]);
+  useEffect(() => { historyIndexRef.current = historyIndex; }, [historyIndex]);
 
   // --- Core Engine ---
   const evaluateExpression = (expr: string) => {
@@ -136,6 +140,7 @@ export default function ScientificCalculator() {
     setDisplayInput("");
     setDisplayResult("");
     setShiftState("NONE");
+    setIsMenuOpen(false);
   };
 
   // Keyboard navigation
@@ -149,19 +154,21 @@ export default function ScientificCalculator() {
     }
 
     if (dir === "UP") {
-      if (historyIndex > 0) {
-        setHistoryIndex(i => i - 1);
-        setDisplayInput(history[historyIndex - 1]);
+      if (historyIndexRef.current > 0) {
+        const newIdx = historyIndexRef.current - 1;
+        setHistoryIndex(newIdx);
+        setDisplayInput(historyRef.current[newIdx]);
         setDisplayResult("");
       }
     }
     if (dir === "DOWN") {
-      if (historyIndex < history.length - 1) {
-        setHistoryIndex(i => i + 1);
-        setDisplayInput(history[historyIndex + 1]);
+      if (historyIndexRef.current < historyRef.current.length - 1) {
+        const newIdx = historyIndexRef.current + 1;
+        setHistoryIndex(newIdx);
+        setDisplayInput(historyRef.current[newIdx]);
         setDisplayResult("");
       } else {
-        setHistoryIndex(history.length);
+        setHistoryIndex(historyRef.current.length);
         setDisplayInput("");
       }
     }
@@ -169,7 +176,7 @@ export default function ScientificCalculator() {
 
   const toggleShift = () => setShiftState(s => s === "SHIFT" ? "NONE" : "SHIFT");
   const toggleAlpha = () => setShiftState(s => s === "ALPHA" ? "NONE" : "ALPHA");
-  const toggleMenu = () => { setIsMenuOpen(!isMenuOpen); setShiftState("NONE"); };
+  const toggleMenu = () => { setIsMenuOpen(o => { if (!o) setMenuCursor(0); return !o; }); setShiftState("NONE"); };
 
   return (
     <div className="max-w-6xl mx-auto h-full flex flex-col xl:flex-row gap-12 items-center justify-center p-4">
@@ -225,9 +232,9 @@ export default function ScientificCalculator() {
           <div className="flex-1 flex flex-col overflow-hidden relative">
             {isMenuOpen ? (
               <div className="grid grid-cols-4 grid-rows-3 gap-1 h-full p-1 bg-[#9EA798] absolute inset-0">
-                {["1:Calculate", "2:Complex", "3:Base-N", "4:Matrix", "5:Vector", "6:Statistics", "7:Distribution", "8:Spreadsheet", "9:Table", "A:Equation", "B:Inequal", "C:Ratio"].map((m, i) => (
+                {["Calculate", "Complex", "Base-N", "Matrix", "Vector", "Statistics", "Distrib.", "Spreadsheet", "Table", "Equation", "Inequal.", "Ratio"].map((m, i) => (
                   <div key={i} className={`flex items-center justify-center text-[8px] font-bold text-center leading-none border ${menuCursor === i ? "bg-black text-[#9EA798] border-black" : "border-transparent"}`}>
-                    {m.split(":")[1].substring(0, 5)}
+                    {m}
                   </div>
                 ))}
               </div>
