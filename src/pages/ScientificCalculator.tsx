@@ -1,46 +1,47 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
 import * as math from "mathjs";
 import { SEOContent } from "../components/SEOContent";
 
-// Math.js configuration
 const m = math.create(math.all, {});
 m.config({ number: "BigNumber", precision: 14 });
 
 type CalcMode = "COMP" | "CMPLX" | "BASE-N" | "MATRIX" | "VECTOR" | "STAT" | "DIST" | "SPREAD" | "TABLE" | "EQN" | "INEQ" | "RATIO";
 type ShiftState = "NONE" | "SHIFT" | "ALPHA";
 
-const Btn = ({ 
-  label, 
-  onClick, 
-  shiftL, 
-  alphaL, 
-  type = "normal", 
+const MODES: CalcMode[] = ["COMP", "CMPLX", "BASE-N", "MATRIX", "VECTOR", "STAT", "DIST", "SPREAD", "TABLE", "EQN", "INEQ", "RATIO"];
+const MODE_LABELS = ["Calculate", "Complex", "Base-N", "Matrix", "Vector", "Statistics", "Distrib.", "Spreadsheet", "Table", "Equation", "Inequal.", "Ratio"];
+
+const Btn = ({
+  label,
+  onClick,
+  shiftL,
+  alphaL,
+  type = "normal",
   className = "",
   btnClassName = ""
-}: { 
-  label: string | React.ReactNode, 
-  onClick: () => void, 
-  shiftL?: string, 
-  alphaL?: string, 
+}: {
+  label: string | React.ReactNode,
+  onClick: () => void,
+  shiftL?: string,
+  alphaL?: string,
   type?: "normal" | "number" | "operator" | "nav",
   className?: string,
   btnClassName?: string
 }) => {
   const isNum = type === "number";
   const isOp = type === "operator";
-  
+
   return (
     <div className={`flex flex-col items-center justify-end h-[50px] relative ${className}`}>
       {shiftL && <span className="absolute top-[-14px] text-[9px] text-[#C0A040] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
       {alphaL && <span className="absolute top-[-14px] text-[9px] text-[#E03050] font-bold tracking-tighter right-0">{alphaL}</span>}
-      
+
       <button
         onClick={onClick}
         className={`
           w-full h-[32px] rounded-lg shadow-sm border-b-[3px] border-black/20 active:border-b-0 active:translate-y-[3px] transition-all font-bold flex items-center justify-center
-          ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-[#FFF] text-lg" : 
-            isOp ? "bg-[#333] text-[#FFF] hover:bg-[#444] text-lg" : 
+          ${btnClassName ? btnClassName : isNum ? "bg-[#EAEAEA] text-black hover:bg-[#FFF] text-lg" :
+            isOp ? "bg-[#333] text-[#FFF] hover:bg-[#444] text-lg" :
             "bg-[#252525] text-[#FFF] hover:bg-[#353535] text-[11px] px-1"}
         `}
       >
@@ -61,17 +62,15 @@ export default function ScientificCalculator() {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [ans, setAns] = useState("0");
 
-  const calculatorRef = useRef<HTMLDivElement>(null);
-  const historyRef = useRef(history);
-  const historyIndexRef = useRef(historyIndex);
-  useEffect(() => { historyRef.current = history; }, [history]);
-  useEffect(() => { historyIndexRef.current = historyIndex; }, [historyIndex]);
+  const S = useRef({ mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans });
+  useEffect(() => {
+    S.current = { mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans };
+  });
 
-  // --- Core Engine ---
-  const evaluateExpression = (expr: string) => {
+  const evaluate = (expr: string) => {
     try {
       if (!expr.trim()) return "";
-      // Replace display symbols with mathjs compatible syntax
+      const s = S.current;
       let parsed = expr
         .replace(/×/g, "*")
         .replace(/÷/g, "/")
@@ -80,22 +79,17 @@ export default function ScientificCalculator() {
         .replace(/²/g, "^2")
         .replace(/³/g, "^3")
         .replace(/x10\^/g, "*10^")
-        .replace(/Ans/g, ans);
-
+        .replace(/Ans/g, s.ans);
       const result = m.evaluate(parsed);
-      
       let formatted = m.format(result, { precision: 12, upperExp: 10, lowerExp: -10 });
-      // Clean up for display
       formatted = formatted.replace(/\*/g, "×").replace(/\//g, "÷");
-      
       setAns(result.toString());
       return formatted;
-    } catch (e) {
+    } catch {
       return "Math ERROR";
     }
   };
 
-  const MODES: CalcMode[] = ["COMP", "CMPLX", "BASE-N", "MATRIX", "VECTOR", "STAT", "DIST", "SPREAD", "TABLE", "EQN", "INEQ", "RATIO"];
   const selectMode = (idx: number) => {
     setMode(MODES[idx]);
     setIsMenuOpen(false);
@@ -104,22 +98,50 @@ export default function ScientificCalculator() {
   };
 
   const handleEqual = () => {
-    if (isMenuOpen) {
-      selectMode(menuCursor);
+    const s = S.current;
+    if (s.isMenuOpen) {
+      selectMode(s.menuCursor);
       return;
     }
-
-    if (!displayInput) return;
-    const res = evaluateExpression(displayInput);
+    if (!s.displayInput) return;
+    const res = evaluate(s.displayInput);
     setDisplayResult(res);
-    setHistory(prev => [...prev, displayInput]);
-    setHistoryIndex(history.length);
+    setHistory(prev => [...prev, s.displayInput]);
+    setHistoryIndex(s.history.length);
     setShiftState("NONE");
   };
 
+  const handleNav = (dir: "UP" | "DOWN" | "LEFT" | "RIGHT") => {
+    const s = S.current;
+    if (s.isMenuOpen) {
+      if (dir === "RIGHT") setMenuCursor(c => (c + 1) % 12);
+      if (dir === "LEFT") setMenuCursor(c => (c - 1 + 12) % 12);
+      if (dir === "DOWN") setMenuCursor(c => (c + 4) % 12);
+      if (dir === "UP") setMenuCursor(c => (c - 4 + 12) % 12);
+      return;
+    }
+    if (dir === "UP" && s.historyIndex > 0) {
+      const idx = s.historyIndex - 1;
+      setHistoryIndex(idx);
+      setDisplayInput(s.history[idx]);
+      setDisplayResult("");
+    }
+    if (dir === "DOWN") {
+      if (s.historyIndex < s.history.length - 1) {
+        const idx = s.historyIndex + 1;
+        setHistoryIndex(idx);
+        setDisplayInput(s.history[idx]);
+        setDisplayResult("");
+      } else {
+        setHistoryIndex(s.history.length);
+        setDisplayInput("");
+      }
+    }
+  };
+
   const insert = (val: string) => {
-    if (displayResult && displayResult !== "Math ERROR") {
-      // If we already have a result, and user types an operator, carry over Ans
+    const s = S.current;
+    if (s.displayResult && s.displayResult !== "Math ERROR") {
       if (["+", "-", "×", "÷", "^", "²"].includes(val)) {
         setDisplayInput("Ans" + val);
       } else {
@@ -133,7 +155,7 @@ export default function ScientificCalculator() {
   };
 
   const del = () => {
-    if (displayResult) {
+    if (S.current.displayResult) {
       setDisplayResult("");
       return;
     }
@@ -147,54 +169,24 @@ export default function ScientificCalculator() {
     setIsMenuOpen(false);
   };
 
-  // Keyboard navigation
-  const handleNav = (dir: "UP" | "DOWN" | "LEFT" | "RIGHT") => {
-    if (isMenuOpen) {
-      if (dir === "RIGHT") setMenuCursor(c => (c + 1) % 12);
-      if (dir === "LEFT") setMenuCursor(c => (c - 1 + 12) % 12);
-      if (dir === "DOWN") setMenuCursor(c => (c + 4) % 12);
-      if (dir === "UP") setMenuCursor(c => (c - 4 + 12) % 12);
-      return;
-    }
-
-    if (dir === "UP") {
-      if (historyIndexRef.current > 0) {
-        const newIdx = historyIndexRef.current - 1;
-        setHistoryIndex(newIdx);
-        setDisplayInput(historyRef.current[newIdx]);
-        setDisplayResult("");
-      }
-    }
-    if (dir === "DOWN") {
-      if (historyIndexRef.current < historyRef.current.length - 1) {
-        const newIdx = historyIndexRef.current + 1;
-        setHistoryIndex(newIdx);
-        setDisplayInput(historyRef.current[newIdx]);
-        setDisplayResult("");
-      } else {
-        setHistoryIndex(historyRef.current.length);
-        setDisplayInput("");
-      }
-    }
-  };
-
   const toggleShift = () => setShiftState(s => s === "SHIFT" ? "NONE" : "SHIFT");
   const toggleAlpha = () => setShiftState(s => s === "ALPHA" ? "NONE" : "ALPHA");
-  const toggleMenu = () => { setIsMenuOpen(o => { if (!o) setMenuCursor(0); return !o; }); setShiftState("NONE"); };
+  const toggleMenu = () => {
+    setIsMenuOpen(o => { if (!o) setMenuCursor(0); return !o; });
+    setShiftState("NONE");
+  };
 
   return (
     <div className="max-w-6xl mx-auto h-full flex flex-col xl:flex-row gap-12 items-center justify-center p-4">
-      
-      {/* 3D Calculator Body - Exact fx-991EX replica */}
-      <div 
+
+      <div
         className="relative w-[340px] h-auto min-h-[720px] pb-6 bg-[#EAEAEA] rounded-3xl shadow-2xl p-4 flex flex-col flex-shrink-0"
         style={{
           boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,255,255,0.8), inset 0 -5px 15px rgba(0,0,0,0.2)",
           backgroundImage: "linear-gradient(to bottom, #F5F5F5 0%, #D5D5D5 100%)"
         }}
       >
-        {/* Carbon Fiber Top Section */}
-        <div 
+        <div
           className="absolute top-0 left-0 w-full h-[260px] bg-[#1A1A1A] rounded-t-3xl rounded-b-[40px] z-0 overflow-hidden"
           style={{
             backgroundImage: "radial-gradient(#333 1px, transparent 1px), radial-gradient(#333 1px, transparent 1px)",
@@ -204,7 +196,6 @@ export default function ScientificCalculator() {
           }}
         />
 
-        {/* Branding */}
         <div className="relative z-10 flex justify-between items-start px-2 pt-2">
           <div className="text-[#FFF] text-xs font-black tracking-widest italic">CASIO</div>
           <div className="text-right">
@@ -213,14 +204,11 @@ export default function ScientificCalculator() {
           </div>
         </div>
 
-        {/* Solar Panel Fake */}
         <div className="relative z-10 w-24 h-4 bg-[#111] border border-[#444] rounded-sm mx-auto mt-2 grid grid-cols-4 gap-px p-px">
           <div className="bg-[#1A0A00]"></div><div className="bg-[#1A0A00]"></div><div className="bg-[#1A0A00]"></div><div className="bg-[#1A0A00]"></div>
         </div>
 
-        {/* LCD Screen */}
         <div className="relative z-10 mt-3 w-full h-[120px] bg-[#9EA798] border-[6px] border-[#2A2A2A] rounded-lg p-2 shadow-inner flex flex-col font-mono text-[#111]">
-          {/* Status Bar */}
           <div className="flex justify-between items-center text-[10px] h-4 mb-1">
             <div className="flex gap-2">
               <span className={shiftState === "SHIFT" ? "font-black" : "opacity-10"}>S</span>
@@ -232,12 +220,19 @@ export default function ScientificCalculator() {
             </div>
           </div>
 
-          {/* Screen Content */}
           <div className="flex-1 flex flex-col overflow-hidden relative">
             {isMenuOpen ? (
               <div className="grid grid-cols-4 grid-rows-3 gap-1 h-full p-1 bg-[#9EA798] absolute inset-0">
-                {["Calculate", "Complex", "Base-N", "Matrix", "Vector", "Statistics", "Distrib.", "Spreadsheet", "Table", "Equation", "Inequal.", "Ratio"].map((m, i) => (
-                  <button key={i} onClick={() => selectMode(i)} className={`flex items-center justify-center text-[8px] font-bold text-center leading-none border cursor-pointer ${menuCursor === i ? "bg-black text-[#9EA798] border-black" : "border-transparent hover:bg-black/20"}`}>
+                {MODE_LABELS.map((m, i) => (
+                  <button
+                    key={i}
+                    onClick={() => selectMode(i)}
+                    className={`flex items-center justify-center text-[8px] font-bold text-center leading-none border cursor-pointer ${
+                      menuCursor === i
+                        ? "bg-black text-[#9EA798] border-black"
+                        : "border-transparent hover:bg-black/20"
+                    }`}
+                  >
                     {m}
                   </button>
                 ))}
@@ -255,15 +250,12 @@ export default function ScientificCalculator() {
           </div>
         </div>
 
-        {/* Keyboard Area */}
         <div className="relative z-10 flex-1 mt-6 px-1 flex flex-col gap-5">
-          
-          {/* Top Function Keys */}
+
           <div className="grid grid-cols-6 gap-x-2 gap-y-6">
             <Btn label="SHIFT" onClick={toggleShift} shiftL="" className="col-span-1" />
             <Btn label="ALPHA" onClick={toggleAlpha} shiftL="" className="col-span-1" />
-            
-            {/* D-PAD Placeholder - spans 2 cols */}
+
             <div className="col-span-2 relative flex items-center justify-center -mt-4">
               <div className="w-[80px] h-[60px] bg-[#111] rounded-[30px] border-[3px] border-[#333] shadow-lg relative flex items-center justify-center overflow-hidden active:scale-95 transition-transform">
                 <div className="w-[50px] h-[30px] bg-[#222] rounded-[15px] absolute shadow-inner" />
@@ -308,7 +300,6 @@ export default function ScientificCalculator() {
             <Btn label="M+" onClick={() => {}} shiftL="M-" alphaL="M" className="col-span-1" />
           </div>
 
-          {/* Main Numpad */}
           <div className="grid grid-cols-5 gap-3 mt-4">
             <Btn label="7" onClick={() => insert("7")} type="number" shiftL="CONST" />
             <Btn label="8" onClick={() => insert("8")} type="number" shiftL="CONV" />
@@ -334,11 +325,10 @@ export default function ScientificCalculator() {
             <Btn label="Ans" onClick={() => insert("Ans")} type="normal" btnClassName="bg-[#D3D3D3] text-black hover:bg-[#EAEAEA]" />
             <Btn label="=" onClick={handleEqual} type="operator" btnClassName="bg-[#333] text-[#FFF] hover:bg-[#444]" />
           </div>
-          
+
         </div>
       </div>
 
-      {/* Information Panel */}
       <div className="flex-1 max-w-xl space-y-6">
         <SEOContent
           title="Casio fx-991EX ClassWiz Emulator"
