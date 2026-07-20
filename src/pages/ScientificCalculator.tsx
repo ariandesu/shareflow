@@ -3,7 +3,7 @@ import * as math from "mathjs";
 import { SEOContent } from "../components/SEOContent";
 
 const m = math.create(math.all, {});
-m.config({ number: "BigNumber", precision: 14 });
+m.config({ number: "BigNumber", precision: 14, angle: "deg" });
 
 type CalcMode = "COMP" | "CMPLX" | "BASE-N" | "MATRIX" | "VECTOR" | "STAT" | "DIST" | "SPREAD" | "TABLE" | "EQN" | "INEQ" | "RATIO";
 type ShiftState = "NONE" | "SHIFT" | "ALPHA";
@@ -30,22 +30,9 @@ const gridAreas = [
   `n0 n0 n0 n0 n0 n0 dot dot dot dot dot dot exp exp exp exp exp exp ans ans ans ans ans ans eq eq eq eq eq eq`
 ];
 
-interface Marking {
-  t: string;
-  c: string;
-}
+interface Marking { t: string; c: string; }
 
-interface ButtonConfig {
-  label: string;
-  onClick: () => void;
-  bg: string;
-  fg: string;
-  markings: Marking[];
-}
-
-type ButtonMap = Record<string, ButtonConfig>;
-
-const Btn = ({ cfg, gridName }: { cfg: ButtonConfig; gridName: string }) => (
+const Btn = ({ cfg, gridName }: { cfg: { label: string; onClick: () => void; bg: string; fg: string; markings: Marking[] }; gridName: string }) => (
   <div className="flex flex-col items-center justify-end h-[44px] relative" style={{ gridArea: gridName }}>
     {cfg.markings.length > 0 && (
       <div className="flex gap-1 text-[7px] font-bold leading-none mb-px flex-wrap justify-center">
@@ -90,18 +77,23 @@ export default function ScientificCalculator() {
   const S = useRef({ mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans });
   useEffect(() => { S.current = { mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans }; });
 
+  const memRef = useRef(0);
+  const ansRef = useRef("0");
+
   const evaluate = (expr: string) => {
     try {
       if (!expr.trim()) return "";
-      const s = S.current;
       let parsed = expr
         .replace(/×/g, "*").replace(/÷/g, "/").replace(/π/g, "pi")
         .replace(/√\(/g, "sqrt(").replace(/²/g, "^2").replace(/³/g, "^3")
-        .replace(/x10\^/g, "*10^").replace(/Ans/g, s.ans);
+        .replace(/x10\^/g, "*10^").replace(/e\^\(/g, "exp(").replace(/%/g, "/100")
+        .replace(/Ans/g, ansRef.current);
       const result = m.evaluate(parsed);
       let formatted = m.format(result, { precision: 12, upperExp: 10, lowerExp: -10 });
       formatted = formatted.replace(/\*/g, "×").replace(/\//g, "÷");
-      setAns(result.toString());
+      const str = result.toString();
+      setAns(str);
+      ansRef.current = str;
       return formatted;
     } catch { return "Math ERROR"; }
   };
@@ -140,20 +132,24 @@ export default function ScientificCalculator() {
         setHistoryIndex(idx);
         setDisplayInput(s.history[idx]);
         setDisplayResult("");
-      } else {
-        setHistoryIndex(s.history.length);
-        setDisplayInput("");
-      }
+      } else { setHistoryIndex(s.history.length); setDisplayInput(""); }
     }
   };
 
   const insert = (val: string) => {
     const s = S.current;
     if (s.displayResult && s.displayResult !== "Math ERROR") {
-      if (["+", "-", "×", "÷", "^", "²"].includes(val)) setDisplayInput("Ans" + val);
-      else setDisplayInput(val);
+      if (["+", "-", "×", "÷", "^"].includes(val)) {
+        setDisplayInput("Ans" + val);
+      } else if (["²", "³", "!", "%"].includes(val)) {
+        setDisplayInput(s.displayResult + val);
+      } else {
+        setDisplayInput(val);
+      }
       setDisplayResult("");
-    } else setDisplayInput(prev => prev + val);
+    } else {
+      setDisplayInput(prev => prev + val);
+    }
     setShiftState("NONE");
   };
 
@@ -167,53 +163,65 @@ export default function ScientificCalculator() {
   const toggleAlpha = () => setShiftState(s => s === "ALPHA" ? "NONE" : "ALPHA");
   const toggleMenu = () => { setIsMenuOpen(o => { if (!o) setMenuCursor(0); return !o; }); setShiftState("NONE"); };
 
-  const btns: ButtonMap = {
+  const storeMem = () => { const s = S.current; const v = parseFloat(s.displayResult || s.displayInput); if (!isNaN(v)) memRef.current = v; };
+  const recallMem = () => insert(memRef.current.toString());
+  const memPlus = () => { const s = S.current; const v = parseFloat(s.displayResult || s.displayInput); if (!isNaN(v)) memRef.current += v; };
+  const memMinus = () => { const s = S.current; const v = parseFloat(s.displayResult || s.displayInput); if (!isNaN(v)) memRef.current -= v; };
+
+  const action = (primary: () => void, shift?: () => void, alpha?: () => void) => () => {
+    const st = S.current.shiftState;
+    if (st === "SHIFT" && shift) { shift(); setShiftState("NONE"); return; }
+    if (st === "ALPHA" && alpha) { alpha(); setShiftState("NONE"); return; }
+    primary();
+  };
+
+  const btns: Record<string, { label: string; onClick: () => void; bg: string; fg: string; markings: Marking[] }> = {
     shift: { label: "SHIFT", onClick: toggleShift, bg: "#F2D06B", fg: "#1a1a1a", markings: [] },
     alpha: { label: "ALPHA", onClick: toggleAlpha, bg: "#D9534F", fg: "#ffffff", markings: [] },
     menu: { label: "MENU", onClick: toggleMenu, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "SETUP", c: "SHIFT" }] },
     on: { label: "ON", onClick: ac, bg: "#2b2b2b", fg: "#ffffff", markings: [] },
     optn: { label: "OPTN", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "OR", c: "SHIFT" }] },
-    calc: { label: "CALC", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "SOLVE", c: "SHIFT" }, { t: "=", c: "ALPHA" }] },
-    integ: { label: "∫dx", onClick: () => insert("integrate("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "d/dx", c: "SHIFT" }, { t: ":", c: "ALPHA" }] },
-    sigma: { label: "x", onClick: () => insert("x"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Σ", c: "SHIFT" }, { t: "=", c: "ALPHA" }] },
+    calc: { label: "CALC", onClick: action(() => {}, () => {}, () => insert("=")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "SOLVE", c: "SHIFT" }, { t: "=", c: "ALPHA" }] },
+    integ: { label: "∫dx", onClick: action(() => insert("integrate("), () => insert("derivative("), () => insert(":")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "d/dx", c: "SHIFT" }, { t: ":", c: "ALPHA" }] },
+    sigma: { label: "x", onClick: action(() => insert("x"), () => insert("Σ(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Σ", c: "SHIFT" }, { t: "=", c: "ALPHA" }] },
     frac: { label: "□/□", onClick: () => insert("("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "a⌐b/c", c: "SHIFT" }] },
-    sqrt: { label: "√□", onClick: () => insert("√("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "³√", c: "SHIFT" }] },
-    sq: { label: "x²", onClick: () => insert("²"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x³", c: "SHIFT" }, { t: "DEC", c: "BASEN" }] },
-    pow: { label: "x^■", onClick: () => insert("^"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "ˣ√", c: "SHIFT" }, { t: "HEX", c: "BASEN" }] },
-    log: { label: "log□□", onClick: () => insert("log("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "10ˣ", c: "SHIFT" }, { t: "BIN", c: "BASEN" }] },
-    ln: { label: "ln", onClick: () => insert("ln("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "eˣ", c: "SHIFT" }, { t: "OCT", c: "BASEN" }] },
-    neg: { label: "(-)", onClick: () => insert("-"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "log", c: "SHIFT" }, { t: "A", c: "ALPHA" }] },
-    dms: { label: "° ' ''", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "FACT", c: "SHIFT" }, { t: "B", c: "ALPHA" }] },
-    rec: { label: "x⁻¹", onClick: () => insert("^-1"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x!", c: "SHIFT" }, { t: "C", c: "ALPHA" }] },
-    sin: { label: "sin", onClick: () => insert("sin("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "sin⁻¹", c: "SHIFT" }, { t: "D", c: "ALPHA" }] },
-    cos: { label: "cos", onClick: () => insert("cos("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "cos⁻¹", c: "SHIFT" }, { t: "E", c: "ALPHA" }] },
-    tan: { label: "tan", onClick: () => insert("tan("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "tan⁻¹", c: "SHIFT" }, { t: "F", c: "ALPHA" }] },
-    sto: { label: "STO", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "RECALL", c: "SHIFT" }] },
+    sqrt: { label: "√□", onClick: action(() => insert("√("), () => insert("cbrt(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "³√", c: "SHIFT" }] },
+    sq: { label: "x²", onClick: action(() => insert("²"), () => insert("³")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x³", c: "SHIFT" }, { t: "DEC", c: "BASEN" }] },
+    pow: { label: "x^■", onClick: action(() => insert("^"), () => insert("nthRoot(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "ˣ√", c: "SHIFT" }, { t: "HEX", c: "BASEN" }] },
+    log: { label: "log□□", onClick: action(() => insert("log("), () => insert("10^(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "10ˣ", c: "SHIFT" }, { t: "BIN", c: "BASEN" }] },
+    ln: { label: "ln", onClick: action(() => insert("ln("), () => insert("e^(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "eˣ", c: "SHIFT" }, { t: "OCT", c: "BASEN" }] },
+    neg: { label: "(-)", onClick: action(() => insert("-"), () => insert("log("), () => insert("A")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "log", c: "SHIFT" }, { t: "A", c: "ALPHA" }] },
+    dms: { label: "° ' ''", onClick: action(() => {}, () => insert("!"), () => insert("B")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "FACT", c: "SHIFT" }, { t: "B", c: "ALPHA" }] },
+    rec: { label: "x⁻¹", onClick: action(() => insert("^-1"), () => insert("!"), () => insert("C")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x!", c: "SHIFT" }, { t: "C", c: "ALPHA" }] },
+    sin: { label: "sin", onClick: action(() => insert("sin("), () => insert("asin("), () => insert("D")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "sin⁻¹", c: "SHIFT" }, { t: "D", c: "ALPHA" }] },
+    cos: { label: "cos", onClick: action(() => insert("cos("), () => insert("acos("), () => insert("E")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "cos⁻¹", c: "SHIFT" }, { t: "E", c: "ALPHA" }] },
+    tan: { label: "tan", onClick: action(() => insert("tan("), () => insert("atan("), () => insert("F")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "tan⁻¹", c: "SHIFT" }, { t: "F", c: "ALPHA" }] },
+    sto: { label: "STO", onClick: action(storeMem, recallMem), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "RECALL", c: "SHIFT" }] },
     eng: { label: "ENG", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "∠", c: "CMPLX" }, { t: "←", c: "CMPLX" }] },
-    lp: { label: "(", onClick: () => insert("("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Abs", c: "SHIFT" }] },
-    rp: { label: ")", onClick: () => insert(")"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: ",", c: "SHIFT" }, { t: "x", c: "ALPHA" }] },
-    sd: { label: "S⇔D", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "a⌐b/c⇔d/c", c: "SHIFT" }, { t: "Y", c: "ALPHA" }] },
-    mplus: { label: "M+", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "M-", c: "SHIFT" }, { t: "M", c: "ALPHA" }] },
-    n7: { label: "7", onClick: () => insert("7"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONST", c: "SHIFT" }] },
-    n8: { label: "8", onClick: () => insert("8"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONV", c: "SHIFT" }] },
-    n9: { label: "9", onClick: () => insert("9"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "RESET", c: "SHIFT" }] },
-    del: { label: "DEL", onClick: del, bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "INS", c: "SHIFT" }, { t: "UNDO", c: "ALPHA" }] },
-    ac: { label: "AC", onClick: ac, bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "OFF", c: "SHIFT" }] },
+    lp: { label: "(", onClick: action(() => insert("("), () => insert("abs(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Abs", c: "SHIFT" }] },
+    rp: { label: ")", onClick: action(() => insert(")"), () => insert(","), () => insert("x")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: ",", c: "SHIFT" }, { t: "x", c: "ALPHA" }] },
+    sd: { label: "S⇔D", onClick: action(() => {}, () => {}, () => insert("Y")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "a⌐b/c⇔d/c", c: "SHIFT" }, { t: "Y", c: "ALPHA" }] },
+    mplus: { label: "M+", onClick: action(memPlus, memMinus, () => insert("M")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "M-", c: "SHIFT" }, { t: "M", c: "ALPHA" }] },
+    n7: { label: "7", onClick: action(() => insert("7"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONST", c: "SHIFT" }] },
+    n8: { label: "8", onClick: action(() => insert("8"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONV", c: "SHIFT" }] },
+    n9: { label: "9", onClick: action(() => insert("9"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "RESET", c: "SHIFT" }] },
+    del: { label: "DEL", onClick: action(del, () => {}, () => {}), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "INS", c: "SHIFT" }, { t: "UNDO", c: "ALPHA" }] },
+    ac: { label: "AC", onClick: action(ac, () => {}), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "OFF", c: "SHIFT" }] },
     n4: { label: "4", onClick: () => insert("4"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n5: { label: "5", onClick: () => insert("5"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n6: { label: "6", onClick: () => insert("6"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
-    mul: { label: "×", onClick: () => insert("×"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "nPr", c: "SHIFT" }] },
-    div: { label: "÷", onClick: () => insert("÷"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "nCr", c: "SHIFT" }] },
+    mul: { label: "×", onClick: action(() => insert("×"), () => insert("permutations(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "nPr", c: "SHIFT" }] },
+    div: { label: "÷", onClick: action(() => insert("÷"), () => insert("combinations(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "nCr", c: "SHIFT" }] },
     n1: { label: "1", onClick: () => insert("1"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n2: { label: "2", onClick: () => insert("2"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n3: { label: "3", onClick: () => insert("3"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
-    add: { label: "+", onClick: () => insert("+"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Pol", c: "SHIFT" }] },
-    sub: { label: "−", onClick: () => insert("-"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Rec", c: "SHIFT" }] },
-    n0: { label: "0", onClick: () => insert("0"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Rnd", c: "SHIFT" }] },
-    dot: { label: ".", onClick: () => insert("."), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Ran#", c: "SHIFT" }, { t: "RanInt", c: "ALPHA" }] },
-    exp: { label: "×10ˣ", onClick: () => insert("x10^"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "π", c: "SHIFT" }, { t: "e", c: "ALPHA" }] },
-    ans: { label: "Ans", onClick: () => insert("Ans"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "%", c: "SHIFT" }] },
-    eq: { label: "=", onClick: handleEqual, bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "≈", c: "SHIFT" }] },
+    add: { label: "+", onClick: action(() => insert("+"), () => {}), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Pol", c: "SHIFT" }] },
+    sub: { label: "−", onClick: action(() => insert("-"), () => {}), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Rec", c: "SHIFT" }] },
+    n0: { label: "0", onClick: action(() => insert("0"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Rnd", c: "SHIFT" }] },
+    dot: { label: ".", onClick: action(() => insert("."), () => insert("random()"), () => insert("randomInt(")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Ran#", c: "SHIFT" }, { t: "RanInt", c: "ALPHA" }] },
+    exp: { label: "×10ˣ", onClick: action(() => insert("x10^"), () => insert("π"), () => insert("e")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "π", c: "SHIFT" }, { t: "e", c: "ALPHA" }] },
+    ans: { label: "Ans", onClick: action(() => insert("Ans"), () => {}), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "%", c: "SHIFT" }] },
+    eq: { label: "=", onClick: action(handleEqual, () => {}), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "≈", c: "SHIFT" }] },
   };
 
   const gridKeys = ["shift", "alpha", "menu", "on", "optn", "calc", "integ", "sigma", "frac", "sqrt", "sq", "pow", "log", "ln", "neg", "dms", "rec", "sin", "cos", "tan", "sto", "eng", "lp", "rp", "sd", "mplus", "n7", "n8", "n9", "del", "ac", "n4", "n5", "n6", "mul", "div", "n1", "n2", "n3", "add", "sub", "n0", "dot", "exp", "ans", "eq"];
