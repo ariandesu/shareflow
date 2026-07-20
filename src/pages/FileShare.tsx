@@ -230,7 +230,7 @@ export function FileShare() {
         let offerSent = false;
         let iceTimeout: number;
 
-        const handleIceComplete = async () => {
+        const handleIceComplete = async (retryCount = 0) => {
           if (offerSent) return;
           const localDesc = pc.localDescription;
           if (localDesc) {
@@ -244,16 +244,23 @@ export function FileShare() {
               });
               
               if (!res.ok) {
-                offerSent = false; // Reset on failure to allow retry
-                const errData = await res.json();
-                throw new Error(errData.error || "Failed to register connection offer");
+                offerSent = false;
+                throw new Error("Failed to register connection offer");
               }
 
               // Start polling for SDP answer from receiver
               startPollingAnswer(code, pc);
             } catch (e: any) {
-              offerSent = false; // Reset on failure to allow retry
-              console.error("Failed to upload background offer:", e);
+              offerSent = false;
+              if (retryCount < 3) {
+                const delay = [1000, 2000, 4000][retryCount];
+                console.warn(`Offer POST failed, retrying in ${delay}ms (${retryCount + 1}/3):`, e.message);
+                setTimeout(() => handleIceComplete(retryCount + 1), delay);
+              } else {
+                console.error("Failed to upload offer after 3 retries:", e);
+                setErrorMsg("Failed to establish P2P connection. Please try again.");
+                setStatus("error");
+              }
             }
           }
         };

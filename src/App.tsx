@@ -9,7 +9,6 @@ import { Home } from "./pages/Home";
 import { TextShare } from "./pages/TextShare";
 import { FileShare } from "./pages/FileShare";
 import { FileReceive } from "./pages/FileReceive";
-import { TextReceive } from "./pages/TextReceive";
 import { QRGenerator } from "./pages/QRGenerator";
 import { GradientGenerator } from "./pages/GradientGenerator";
 import { PasswordGenerator } from "./pages/PasswordGenerator";
@@ -56,6 +55,7 @@ export default function App() {
           <Route path="file-share" element={<FileShare />} />
           <Route path="f" element={<FileReceive />} />
           <Route path="f/:id" element={<FileReceive />} />
+          <Route path="t/:id" element={<TextShare />} />
 
           <Route path="qr-generator" element={<QRGenerator />} />
           <Route path="gradient-generator" element={<GradientGenerator />} />

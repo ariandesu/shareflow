@@ -89,9 +89,9 @@ export function FileReceive() {
           if (!res.ok) throw new Error("P2P session has expired.");
           const data: FileMetadata = await res.json();
           if (data.offer) {
-            metadata.offer = data.offer;
-            setMetadata(metadata);
-            startP2PDownload();
+            const updatedMetadata = { ...metadata, offer: data.offer };
+            setMetadata(updatedMetadata);
+            startP2PDownload(updatedMetadata);
           } else {
             throw new Error("P2P connection details not fully established yet. Try again in 2 seconds.");
           }
@@ -100,13 +100,14 @@ export function FileReceive() {
           setStatus("error");
         }
       } else {
-        startP2PDownload();
+        startP2PDownload(metadata);
       }
     }
   };
 
-  const startP2PDownload = async () => {
-    if (!metadata || !metadata.offer) {
+  const startP2PDownload = async (meta?: FileMetadata) => {
+    const target = meta || metadata;
+    if (!target || !target.offer) {
       setErrorMsg("P2P connection details not found. Sender might be offline.");
       setStatus("error");
       return;
@@ -147,11 +148,11 @@ export function FileReceive() {
           if (e.data === "__EOF__") {
             // Completed! Create file download.
             setStatus("success");
-            const blob = new Blob(receivedChunksRef.current, { type: metadata.mimeType });
+            const blob = new Blob(receivedChunksRef.current, { type: target.mimeType });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = metadata.name;
+            a.download = target.name;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -167,7 +168,7 @@ export function FileReceive() {
             const chunk = e.data as ArrayBuffer;
             receivedChunksRef.current.push(chunk);
             receivedSizeRef.current += chunk.byteLength;
-            setProgress(Math.min(100, Math.round((receivedSizeRef.current / metadata.size) * 100)));
+            setProgress(Math.min(100, Math.round((receivedSizeRef.current / target.size) * 100)));
           }
         };
 
@@ -185,7 +186,7 @@ export function FileReceive() {
       };
 
       // Set remote SDP offer
-      await pc.setRemoteDescription(new RTCSessionDescription(metadata.offer));
+      await pc.setRemoteDescription(new RTCSessionDescription(target.offer));
 
       // Signaling helper: post answer to backend when ICE is complete
       let answerSent = false;
