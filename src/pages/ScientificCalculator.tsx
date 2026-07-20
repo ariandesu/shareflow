@@ -292,7 +292,10 @@ export default function ScientificCalculator() {
           <div className="bg-[#1A0800]"></div><div className="bg-[#1A0800]"></div><div className="bg-[#1A0800]"></div><div className="bg-[#1A0800]"></div>
         </div>
 
-        <div className="mt-2.5 w-full h-[120px] bg-[#9EA798] border-[5px] border-[#1A1A1A] rounded-lg p-2 shadow-inner flex flex-col font-mono text-[#111]">
+        <div className="flex justify-center mt-1.5">
+          <span className="text-[7px] text-[#666] tracking-[2px] font-mono">UNDER DEVELOPMENT</span>
+        </div>
+        <div className="mt-1 w-full h-[120px] bg-[#9EA798] border-[5px] border-[#1A1A1A] rounded-lg p-2 shadow-inner flex flex-col font-mono text-[#111]">
           <div className="flex justify-between items-center text-[10px] h-4 mb-1">
             <div className="flex gap-2">
               <span className={shiftState === "SHIFT" ? "font-black" : "opacity-10"}>S</span>
@@ -346,7 +349,7 @@ export default function ScientificCalculator() {
           ]}
           faqs={[
             { question: "Is this a real ROM emulator?", answer: "No, it's a CSS/React UI replica. The math evaluation is handled by Math.js rather than the original Casio firmware." },
-            { question: "What modes are functional?", answer: "The UI features the entire 12-app grid. Currently, COMP (General Calculation) maps to the core evaluate engine." },
+            { question: "Which modes work?", answer: "COMP (general calculation) is fully functional with trig, logs, powers, factorials, nPr/nCr, random numbers, and memory. BASE-N converts between DEC/HEX/BIN/OCT. CMPLX supports complex arithmetic. The remaining 9 modes (MATRIX, VECTOR, STAT, etc.) are under development." },
             { question: "How do I use SHIFT/ALPHA?", answer: "Click SHIFT or ALPHA once to toggle the state (indicated by S/A on the LCD screen), then click your target button." },
           ]}
         />
