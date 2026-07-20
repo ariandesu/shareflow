@@ -14,8 +14,9 @@ type AuthContextType = {
   user: User | null;
   token: string | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<{ error?: string }>;
-  signup: (email: string, password: string, name: string) => Promise<{ error?: string }>;
+  login: (email: string, password: string) => Promise<{ error?: string; requires_2fa?: boolean; email?: string }>;
+  verify2FA: (email: string, code: string) => Promise<{ error?: string }>;
+  signup: (email: string, password: string, name: string) => Promise<{ error?: string; message?: string }>;
   logout: () => Promise<void>;
   isAdmin: boolean;
 };
@@ -45,6 +46,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await fetch(`${API_BASE}/api/auth/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
       const d = await res.json();
       if (!res.ok) return { error: d.error || "Login failed" };
+      if (d.requires_2fa) return { requires_2fa: true, email: d.email };
+      localStorage.setItem("sf_token", d.token);
+      setToken(d.token);
+      setUser(d.user);
+      return {};
+    } catch { return { error: "Network error" }; }
+  };
+
+  const verify2FA = async (email: string, code: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/verify-2fa`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, code }) });
+      const d = await res.json();
+      if (!res.ok) return { error: d.error || "Verification failed" };
       localStorage.setItem("sf_token", d.token);
       setToken(d.token);
       setUser(d.user);
@@ -57,10 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await fetch(`${API_BASE}/api/auth/register`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password, name }) });
       const d = await res.json();
       if (!res.ok) return { error: d.error || "Registration failed" };
-      localStorage.setItem("sf_token", d.token);
-      setToken(d.token);
-      setUser(d.user);
-      return {};
+      return { message: d.message };
     } catch { return { error: "Network error" }; }
   };
 
@@ -72,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, signup, logout, isAdmin: user?.role === "admin" }}>
+    <AuthContext.Provider value={{ user, token, loading, login, verify2FA, signup, logout, isAdmin: user?.role === "admin" }}>
       {children}
     </AuthContext.Provider>
   );

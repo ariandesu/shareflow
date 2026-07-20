@@ -17,6 +17,7 @@ export default function DeveloperLogin() {
     const result = await login(email, password);
     setLoading(false);
     if (result.error) setError(result.error);
+    else if (result.requires_2fa) navigate("/dev/verify-2fa", { state: { email: result.email } });
     else navigate("/dev/dashboard");
   };
 

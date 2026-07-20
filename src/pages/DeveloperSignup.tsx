@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function DeveloperSignup() {
@@ -8,8 +8,8 @@ export default function DeveloperSignup() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
   const { signup } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,8 +18,24 @@ export default function DeveloperSignup() {
     const result = await signup(email, password, name || email.split("@")[0]);
     setLoading(false);
     if (result.error) setError(result.error);
-    else navigate("/dev/dashboard");
+    else setSent(true);
   };
+
+  if (sent) {
+    return (
+      <div className="flex-1 flex items-center justify-center py-16 px-4">
+        <div className="w-full max-w-sm text-center">
+          <h1 className="text-3xl font-black tracking-tighter uppercase mb-1">Check Your Email</h1>
+          <p className="text-white/50 text-sm mb-6">A 6-digit verification code was sent to</p>
+          <p className="text-white/70 font-mono text-sm mb-8">{email}</p>
+          <p className="text-xs text-white/30">Enter the code on the login page after verifying. Code expires in 24 hours.</p>
+          <Link to="/dev/login" className="inline-block mt-6 px-6 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-white/80 transition-colors">
+            Go to Sign In
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex items-center justify-center py-16 px-4">
