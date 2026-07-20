@@ -11,54 +11,68 @@ type ShiftState = "NONE" | "SHIFT" | "ALPHA";
 const MODES: CalcMode[] = ["COMP", "CMPLX", "BASE-N", "MATRIX", "VECTOR", "STAT", "DIST", "SPREAD", "TABLE", "EQN", "INEQ", "RATIO"];
 const MODE_LABELS = ["Calculate", "Complex", "Base-N", "Matrix", "Vector", "Statistics", "Distrib.", "Spreadsheet", "Table", "Equation", "Inequal.", "Ratio"];
 
-const Btn = ({
-  label,
-  onClick,
-  shiftL,
-  alphaL,
-  type = "normal",
-  className = "",
-  btnClassName = ""
-}: {
-  label: string | React.ReactNode,
-  onClick: () => void,
-  shiftL?: string,
-  alphaL?: string,
-  type?: "normal" | "number" | "blue" | "yellow" | "red",
-  className?: string,
-  btnClassName?: string
-}) => {
-  const styles: Record<string, string> = {
-    number: "bg-[#FFFFFF] text-[#1E1E1E] hover:bg-[#F0F0F0] text-sm",
-    blue: "bg-[#1D6CFF] text-[#FFF] hover:bg-[#1A5FE0] text-sm",
-    yellow: "bg-[#FFD54A] text-[#1E1E1E] hover:bg-[#FFC107] text-sm",
-    red: "bg-[#E53935] text-[#FFF] hover:bg-[#D32F2F] text-sm",
-    normal: "bg-[#2B2B2B] text-[#FFF] hover:bg-[#353535] text-[10px] px-1",
-  };
-
-  return (
-    <div className={`flex flex-col items-center justify-end h-[44px] relative ${className}`}>
-      {shiftL && <span className="absolute top-[-13px] text-[8px] text-[#FFD54A] font-bold tracking-tighter w-full text-center left-0">{shiftL}</span>}
-      {alphaL && <span className="absolute top-[-13px] text-[8px] text-[#FF4D88] font-bold tracking-tighter right-0">{alphaL}</span>}
-
-      <button
-        onClick={onClick}
-        className={`w-full h-[28px] rounded-md shadow-sm border-b-[2px] border-black/25 active:border-b-0 active:translate-y-[2px] transition-all font-bold flex items-center justify-center text-xs ${btnClassName || styles[type]}`}
-      >
-        {label}
-      </button>
-    </div>
-  );
+const MARKING_COLORS: Record<string, string> = {
+  SHIFT: "#E8B339",
+  ALPHA: "#E0506A",
+  BASEN: "#3A86C8",
+  CMPLX: "#8A5CF0",
 };
 
-const ExeBtn = ({ onClick }: { onClick: () => void }) => (
-  <div className="flex flex-col items-center justify-end h-[44px] relative">
+const gridAreas = [
+  `shift shift shift shift shift alpha alpha alpha alpha alpha replay replay replay replay replay replay replay replay replay replay menu menu menu menu menu on on on on on`,
+  `optn optn optn optn optn calc calc calc calc calc replay replay replay replay replay replay replay replay replay replay integ integ integ integ integ sigma sigma sigma sigma sigma`,
+  `frac frac frac frac frac sqrt sqrt sqrt sqrt sqrt sq sq sq sq sq pow pow pow pow pow log log log log log ln ln ln ln ln`,
+  `neg neg neg neg neg dms dms dms dms dms rec rec rec rec rec sin sin sin sin sin cos cos cos cos cos tan tan tan tan tan`,
+  `sto sto sto sto sto eng eng eng eng eng lp lp lp lp lp rp rp rp rp rp sd sd sd sd sd mplus mplus mplus mplus mplus`,
+  `n7 n7 n7 n7 n7 n7 n8 n8 n8 n8 n8 n8 n9 n9 n9 n9 n9 n9 del del del del del del ac ac ac ac ac ac`,
+  `n4 n4 n4 n4 n4 n4 n5 n5 n5 n5 n5 n5 n6 n6 n6 n6 n6 n6 mul mul mul mul mul mul div div div div div div`,
+  `n1 n1 n1 n1 n1 n1 n2 n2 n2 n2 n2 n2 n3 n3 n3 n3 n3 n3 add add add add add add sub sub sub sub sub sub`,
+  `n0 n0 n0 n0 n0 n0 dot dot dot dot dot dot exp exp exp exp exp exp ans ans ans ans ans ans eq eq eq eq eq eq`
+];
+
+interface Marking {
+  t: string;
+  c: string;
+}
+
+interface ButtonConfig {
+  label: string;
+  onClick: () => void;
+  bg: string;
+  fg: string;
+  markings: Marking[];
+}
+
+type ButtonMap = Record<string, ButtonConfig>;
+
+const Btn = ({ cfg, gridName }: { cfg: ButtonConfig; gridName: string }) => (
+  <div className="flex flex-col items-center justify-end h-[44px] relative" style={{ gridArea: gridName }}>
+    {cfg.markings.length > 0 && (
+      <div className="flex gap-1 text-[7px] font-bold leading-none mb-px flex-wrap justify-center">
+        {cfg.markings.map((m, i) => (
+          <span key={i} style={{ color: MARKING_COLORS[m.c] || "#FFF" }}>{m.t}</span>
+        ))}
+      </div>
+    )}
     <button
-      onClick={onClick}
-      className="w-full h-[28px] rounded-full bg-[#2B2B2B] text-[#FFF] hover:bg-[#353535] shadow-sm border-b-[2px] border-black/25 active:border-b-0 active:translate-y-[2px] transition-all font-bold flex items-center justify-center text-[7px]"
+      onClick={cfg.onClick}
+      className="w-full h-[28px] rounded-md shadow-sm border-b-[2px] border-black/25 active:border-b-0 active:translate-y-[2px] transition-all font-bold flex items-center justify-center text-[10px]"
+      style={{ backgroundColor: cfg.bg, color: cfg.fg }}
     >
-      EXE
+      {cfg.label}
     </button>
+  </div>
+);
+
+const ReplayPad = ({ onNav }: { onNav: (dir: "UP" | "DOWN" | "LEFT" | "RIGHT") => void }) => (
+  <div className="relative w-full h-full flex items-center justify-center" style={{ gridArea: "replay" }}>
+    <div className="w-[100px] h-[90px] bg-[#1A1A1A] rounded-[18px] border-[3px] border-[#2A2A2A] relative shadow-inner">
+      <button onClick={() => onNav("UP")} className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-7 flex items-center justify-center text-[#666] text-[10px] font-bold hover:text-[#999] cursor-pointer z-10">▲</button>
+      <button onClick={() => onNav("DOWN")} className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-7 flex items-center justify-center text-[#666] text-[10px] font-bold hover:text-[#999] cursor-pointer z-10">▼</button>
+      <button onClick={() => onNav("LEFT")} className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-7 flex items-center justify-center text-[#666] text-[10px] font-bold hover:text-[#999] cursor-pointer z-10">◀</button>
+      <button onClick={() => onNav("RIGHT")} className="absolute right-0 top-1/2 -translate-y-1/2 h-8 w-7 flex items-center justify-center text-[#666] text-[10px] font-bold hover:text-[#999] cursor-pointer z-10">▶</button>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22px] h-[22px] bg-[#1E1E1E] rounded-full border border-[#333] shadow-inner" />
+    </div>
   </div>
 );
 
@@ -74,46 +88,29 @@ export default function ScientificCalculator() {
   const [ans, setAns] = useState("0");
 
   const S = useRef({ mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans });
-  useEffect(() => {
-    S.current = { mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans };
-  });
+  useEffect(() => { S.current = { mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans }; });
 
   const evaluate = (expr: string) => {
     try {
       if (!expr.trim()) return "";
       const s = S.current;
       let parsed = expr
-        .replace(/×/g, "*")
-        .replace(/÷/g, "/")
-        .replace(/π/g, "pi")
-        .replace(/√\(/g, "sqrt(")
-        .replace(/²/g, "^2")
-        .replace(/³/g, "^3")
-        .replace(/x10\^/g, "*10^")
-        .replace(/Ans/g, s.ans);
+        .replace(/×/g, "*").replace(/÷/g, "/").replace(/π/g, "pi")
+        .replace(/√\(/g, "sqrt(").replace(/²/g, "^2").replace(/³/g, "^3")
+        .replace(/x10\^/g, "*10^").replace(/Ans/g, s.ans);
       const result = m.evaluate(parsed);
       let formatted = m.format(result, { precision: 12, upperExp: 10, lowerExp: -10 });
       formatted = formatted.replace(/\*/g, "×").replace(/\//g, "÷");
       setAns(result.toString());
       return formatted;
-    } catch {
-      return "Math ERROR";
-    }
+    } catch { return "Math ERROR"; }
   };
 
-  const selectMode = (idx: number) => {
-    setMode(MODES[idx]);
-    setIsMenuOpen(false);
-    setDisplayInput("");
-    setDisplayResult("");
-  };
+  const selectMode = (idx: number) => { setMode(MODES[idx]); setIsMenuOpen(false); setDisplayInput(""); setDisplayResult(""); };
 
   const handleEqual = () => {
     const s = S.current;
-    if (s.isMenuOpen) {
-      selectMode(s.menuCursor);
-      return;
-    }
+    if (s.isMenuOpen) { selectMode(s.menuCursor); return; }
     if (!s.displayInput) return;
     const res = evaluate(s.displayInput);
     setDisplayResult(res);
@@ -153,48 +150,79 @@ export default function ScientificCalculator() {
   const insert = (val: string) => {
     const s = S.current;
     if (s.displayResult && s.displayResult !== "Math ERROR") {
-      if (["+", "-", "×", "÷", "^", "²"].includes(val)) {
-        setDisplayInput("Ans" + val);
-      } else {
-        setDisplayInput(val);
-      }
+      if (["+", "-", "×", "÷", "^", "²"].includes(val)) setDisplayInput("Ans" + val);
+      else setDisplayInput(val);
       setDisplayResult("");
-    } else {
-      setDisplayInput(prev => prev + val);
-    }
+    } else setDisplayInput(prev => prev + val);
     setShiftState("NONE");
   };
 
   const del = () => {
-    if (S.current.displayResult) {
-      setDisplayResult("");
-      return;
-    }
+    if (S.current.displayResult) { setDisplayResult(""); return; }
     setDisplayInput(prev => prev.slice(0, -1));
   };
 
-  const ac = () => {
-    setDisplayInput("");
-    setDisplayResult("");
-    setShiftState("NONE");
-    setIsMenuOpen(false);
-  };
-
+  const ac = () => { setDisplayInput(""); setDisplayResult(""); setShiftState("NONE"); setIsMenuOpen(false); };
   const toggleShift = () => setShiftState(s => s === "SHIFT" ? "NONE" : "SHIFT");
   const toggleAlpha = () => setShiftState(s => s === "ALPHA" ? "NONE" : "ALPHA");
-  const toggleMenu = () => {
-    setIsMenuOpen(o => { if (!o) setMenuCursor(0); return !o; });
-    setShiftState("NONE");
+  const toggleMenu = () => { setIsMenuOpen(o => { if (!o) setMenuCursor(0); return !o; }); setShiftState("NONE"); };
+
+  const btns: ButtonMap = {
+    shift: { label: "SHIFT", onClick: toggleShift, bg: "#F2D06B", fg: "#1a1a1a", markings: [] },
+    alpha: { label: "ALPHA", onClick: toggleAlpha, bg: "#D9534F", fg: "#ffffff", markings: [] },
+    menu: { label: "MENU", onClick: toggleMenu, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "SETUP", c: "SHIFT" }] },
+    on: { label: "ON", onClick: ac, bg: "#2b2b2b", fg: "#ffffff", markings: [] },
+    optn: { label: "OPTN", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "OR", c: "SHIFT" }] },
+    calc: { label: "CALC", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "SOLVE", c: "SHIFT" }, { t: "=", c: "ALPHA" }] },
+    integ: { label: "∫dx", onClick: () => insert("integrate("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "d/dx", c: "SHIFT" }, { t: ":", c: "ALPHA" }] },
+    sigma: { label: "x", onClick: () => insert("x"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Σ", c: "SHIFT" }, { t: "=", c: "ALPHA" }] },
+    frac: { label: "□/□", onClick: () => insert("("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "a⌐b/c", c: "SHIFT" }] },
+    sqrt: { label: "√□", onClick: () => insert("√("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "³√", c: "SHIFT" }] },
+    sq: { label: "x²", onClick: () => insert("²"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x³", c: "SHIFT" }, { t: "DEC", c: "BASEN" }] },
+    pow: { label: "x^■", onClick: () => insert("^"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "ˣ√", c: "SHIFT" }, { t: "HEX", c: "BASEN" }] },
+    log: { label: "log□□", onClick: () => insert("log("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "10ˣ", c: "SHIFT" }, { t: "BIN", c: "BASEN" }] },
+    ln: { label: "ln", onClick: () => insert("ln("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "eˣ", c: "SHIFT" }, { t: "OCT", c: "BASEN" }] },
+    neg: { label: "(-)", onClick: () => insert("-"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "log", c: "SHIFT" }, { t: "A", c: "ALPHA" }] },
+    dms: { label: "° ' ''", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "FACT", c: "SHIFT" }, { t: "B", c: "ALPHA" }] },
+    rec: { label: "x⁻¹", onClick: () => insert("^-1"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x!", c: "SHIFT" }, { t: "C", c: "ALPHA" }] },
+    sin: { label: "sin", onClick: () => insert("sin("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "sin⁻¹", c: "SHIFT" }, { t: "D", c: "ALPHA" }] },
+    cos: { label: "cos", onClick: () => insert("cos("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "cos⁻¹", c: "SHIFT" }, { t: "E", c: "ALPHA" }] },
+    tan: { label: "tan", onClick: () => insert("tan("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "tan⁻¹", c: "SHIFT" }, { t: "F", c: "ALPHA" }] },
+    sto: { label: "STO", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "RECALL", c: "SHIFT" }] },
+    eng: { label: "ENG", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "∠", c: "CMPLX" }, { t: "←", c: "CMPLX" }] },
+    lp: { label: "(", onClick: () => insert("("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Abs", c: "SHIFT" }] },
+    rp: { label: ")", onClick: () => insert(")"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: ",", c: "SHIFT" }, { t: "x", c: "ALPHA" }] },
+    sd: { label: "S⇔D", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "a⌐b/c⇔d/c", c: "SHIFT" }, { t: "Y", c: "ALPHA" }] },
+    mplus: { label: "M+", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "M-", c: "SHIFT" }, { t: "M", c: "ALPHA" }] },
+    n7: { label: "7", onClick: () => insert("7"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONST", c: "SHIFT" }] },
+    n8: { label: "8", onClick: () => insert("8"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONV", c: "SHIFT" }] },
+    n9: { label: "9", onClick: () => insert("9"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "RESET", c: "SHIFT" }] },
+    del: { label: "DEL", onClick: del, bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "INS", c: "SHIFT" }, { t: "UNDO", c: "ALPHA" }] },
+    ac: { label: "AC", onClick: ac, bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "OFF", c: "SHIFT" }] },
+    n4: { label: "4", onClick: () => insert("4"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
+    n5: { label: "5", onClick: () => insert("5"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
+    n6: { label: "6", onClick: () => insert("6"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
+    mul: { label: "×", onClick: () => insert("×"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "nPr", c: "SHIFT" }] },
+    div: { label: "÷", onClick: () => insert("÷"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "nCr", c: "SHIFT" }] },
+    n1: { label: "1", onClick: () => insert("1"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
+    n2: { label: "2", onClick: () => insert("2"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
+    n3: { label: "3", onClick: () => insert("3"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
+    add: { label: "+", onClick: () => insert("+"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Pol", c: "SHIFT" }] },
+    sub: { label: "−", onClick: () => insert("-"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Rec", c: "SHIFT" }] },
+    n0: { label: "0", onClick: () => insert("0"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Rnd", c: "SHIFT" }] },
+    dot: { label: ".", onClick: () => insert("."), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Ran#", c: "SHIFT" }, { t: "RanInt", c: "ALPHA" }] },
+    exp: { label: "×10ˣ", onClick: () => insert("x10^"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "π", c: "SHIFT" }, { t: "e", c: "ALPHA" }] },
+    ans: { label: "Ans", onClick: () => insert("Ans"), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "%", c: "SHIFT" }] },
+    eq: { label: "=", onClick: handleEqual, bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "≈", c: "SHIFT" }] },
   };
+
+  const gridKeys = ["shift", "alpha", "menu", "on", "optn", "calc", "integ", "sigma", "frac", "sqrt", "sq", "pow", "log", "ln", "neg", "dms", "rec", "sin", "cos", "tan", "sto", "eng", "lp", "rp", "sd", "mplus", "n7", "n8", "n9", "del", "ac", "n4", "n5", "n6", "mul", "div", "n1", "n2", "n3", "add", "sub", "n0", "dot", "exp", "ans", "eq"];
 
   return (
     <div className="max-w-6xl mx-auto h-full flex flex-col xl:flex-row gap-12 items-center justify-center p-4">
 
-      <div
-        className="relative w-[340px] h-auto min-h-[720px] pb-6 bg-[#1E1E1E] rounded-3xl shadow-2xl p-4 flex flex-col flex-shrink-0"
-        style={{
-          boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.1), inset 0 -5px 15px rgba(0,0,0,0.3)",
-        }}
+      <div className="relative w-[340px] h-auto min-h-[720px] pb-6 bg-[#1E1E1E] rounded-3xl shadow-2xl p-4 flex flex-col flex-shrink-0"
+        style={{ boxShadow: "0 20px 40px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.1), inset 0 -5px 15px rgba(0,0,0,0.3)" }}
       >
         <div className="flex justify-between items-start px-1 pt-1 pb-2">
           <div className="text-[#FFF] text-xs font-black tracking-widest italic">CASIO</div>
@@ -215,136 +243,42 @@ export default function ScientificCalculator() {
               <span className={shiftState === "ALPHA" ? "font-black" : "opacity-10"}>A</span>
               <span className="font-bold">{mode}</span>
             </div>
-            <div className="flex gap-1 font-bold">
-              <span>D</span><span>Math</span><span>▼</span>
-            </div>
+            <div className="flex gap-1 font-bold"><span>D</span><span>Math</span><span>▼</span></div>
           </div>
-
           <div className="flex-1 flex flex-col overflow-hidden relative">
             {isMenuOpen ? (
               <div className="grid grid-cols-4 grid-rows-3 gap-1 h-full p-1 bg-[#9EA798] absolute inset-0">
                 {MODE_LABELS.map((m, i) => (
-                  <button
-                    key={i}
-                    onClick={() => selectMode(i)}
-                    className={`flex items-center justify-center text-[8px] font-bold text-center leading-none border cursor-pointer ${
-                      menuCursor === i
-                        ? "bg-black text-[#9EA798] border-black"
-                        : "border-transparent hover:bg-black/20"
-                    }`}
-                  >
-                    {m}
-                  </button>
+                  <button key={i} onClick={() => selectMode(i)}
+                    className={`flex items-center justify-center text-[8px] font-bold text-center leading-none border cursor-pointer ${menuCursor === i ? "bg-black text-[#9EA798] border-black" : "border-transparent hover:bg-black/20"}`}
+                  >{m}</button>
                 ))}
               </div>
             ) : (
               <>
-                <div className="flex-1 text-sm leading-tight break-all">
-                  {displayInput}
-                </div>
-                <div className="h-8 text-right text-3xl font-bold tracking-tight">
-                  {displayResult}
-                </div>
+                <div className="flex-1 text-sm leading-tight break-all">{displayInput}</div>
+                <div className="h-8 text-right text-3xl font-bold tracking-tight">{displayResult}</div>
               </>
             )}
           </div>
         </div>
 
-        <div className="flex-1 mt-4 px-0.5 flex flex-col gap-1.5">
-
-          {/* Row 1: SHIFT, ALPHA, ▲, MENU, SETUP, ON */}
-          <div className="grid grid-cols-6 gap-x-1.5">
-            <Btn label="SHIFT" onClick={toggleShift} type="yellow" />
-            <Btn label="ALPHA" onClick={toggleAlpha} type="red" />
-            <Btn label="▲" onClick={() => handleNav("UP")} type="normal" />
-            <Btn label="MENU" onClick={toggleMenu} type="normal" />
-            <Btn label="SETUP" onClick={() => {}} type="normal" />
-            <Btn label="ON" onClick={ac} type="normal" />
-          </div>
-
-          {/* Row 2: ◀, EXE, ▶, Σ( */}
-          <div className="grid grid-cols-6 gap-x-1.5">
-            <Btn label="◀" onClick={() => handleNav("LEFT")} type="normal" shiftL="SOLVE=" />
-            <ExeBtn onClick={handleEqual} />
-            <Btn label="▶" onClick={() => handleNav("RIGHT")} type="normal" shiftL="d/dx" />
-            <Btn label="Σ(" onClick={() => insert("Σ(")} type="normal" />
-            <div />
-            <div />
-          </div>
-
-          {/* Row 3: OPTN, CALC, ▼, ∫dx, Σ, e^x */}
-          <div className="grid grid-cols-6 gap-x-1.5">
-            <Btn label="OPTN" onClick={() => {}} type="normal" shiftL="x⁻¹" />
-            <Btn label="CALC" onClick={() => {}} type="normal" shiftL="³√" />
-            <Btn label="▼" onClick={() => handleNav("DOWN")} type="normal" />
-            <Btn label="∫dx" onClick={() => insert("integrate(")} type="normal" shiftL="x^□" />
-            <Btn label="Σ" onClick={() => insert("Σ")} type="normal" shiftL="10^x" />
-            <Btn label="e^x" onClick={() => insert("e^(")} type="normal" />
-          </div>
-
-          {/* Row 4: x³√, √□, x², x^■, log□□, ln */}
-          <div className="grid grid-cols-6 gap-x-1.5 mt-1">
-            <Btn label="x³√" onClick={() => insert("cuberoot(")} type="normal" shiftL="Ans" />
-            <Btn label="√□" onClick={() => insert("√(")} type="normal" shiftL="↔" />
-            <Btn label="x²" onClick={() => insert("²")} type="normal" shiftL="Abs" />
-            <Btn label="x^■" onClick={() => insert("^")} type="normal" shiftL="sin⁻¹" alphaL="D" />
-            <Btn label="log□□" onClick={() => insert("log(")} type="normal" shiftL="cos⁻¹" alphaL="E" />
-            <Btn label="ln" onClick={() => insert("ln(")} type="normal" shiftL="tan⁻¹" alphaL="F" />
-          </div>
-
-          {/* Row 5: (-), ° ' '', x⁻¹, sin, cos, tan */}
-          <div className="grid grid-cols-6 gap-x-1.5">
-            <Btn label="(-)" onClick={() => insert("-")} type="normal" shiftL="RCL" />
-            <Btn label={"° ' ''"} onClick={() => {}} type="normal" shiftL="←" />
-            <Btn label="x⁻¹" onClick={() => insert("^-1")} type="normal" />
-            <Btn label="sin" onClick={() => insert("sin(")} type="normal" shiftL="x" alphaL="Y" />
-            <Btn label="cos" onClick={() => insert("cos(")} type="normal" />
-            <Btn label="tan" onClick={() => insert("tan(")} type="normal" shiftL="M-" alphaL="M" />
-          </div>
-
-          {/* Row 6: STO, ENG, (, ), S⇔D, M+ */}
-          <div className="grid grid-cols-6 gap-x-1.5">
-            <Btn label="STO" onClick={() => {}} type="normal" shiftL="CONST" />
-            <Btn label="ENG" onClick={() => {}} type="normal" shiftL="CONV" />
-            <Btn label="(" onClick={() => insert("(")} type="normal" shiftL="RESET" />
-            <Btn label=")" onClick={() => insert(")")} type="normal" />
-            <Btn label="S⇔D" onClick={() => {}} type="normal" shiftL="INS" />
-            <Btn label="M+" onClick={() => {}} type="normal" shiftL="OFF" />
-          </div>
-
-          {/* Numpad */}
-          <div className="grid grid-cols-5 gap-1.5 mt-1">
-            <Btn label="7" onClick={() => insert("7")} type="number" />
-            <Btn label="8" onClick={() => insert("8")} type="number" />
-            <Btn label="9" onClick={() => insert("9")} type="number" />
-            <Btn label="DEL" onClick={del} type="blue" shiftL="Pol" />
-            <Btn label="AC" onClick={ac} type="blue" shiftL="Rec" />
-
-            <Btn label="4" onClick={() => insert("4")} type="number" shiftL="Rnd" />
-            <Btn label="5" onClick={() => insert("5")} type="number" shiftL="Ran#" alphaL="RanInt" />
-            <Btn label="6" onClick={() => insert("6")} type="number" shiftL="π" alphaL="e" />
-            <Btn label="×" onClick={() => insert("×")} type="normal" shiftL="%" />
-            <Btn label="÷" onClick={() => insert("÷")} type="normal" />
-
-            <Btn label="1" onClick={() => insert("1")} type="number" />
-            <Btn label="2" onClick={() => insert("2")} type="number" />
-            <Btn label="3" onClick={() => insert("3")} type="number" />
-            <Btn label="+" onClick={() => insert("+")} type="normal" />
-            <Btn label="-" onClick={() => insert("-")} type="normal" />
-
-            <Btn label="0" onClick={() => insert("0")} type="number" />
-            <Btn label="." onClick={() => insert(".")} type="number" />
-            <Btn label="×10ˣ" onClick={() => insert("x10^")} type="number" />
-            <Btn label="Ans" onClick={() => insert("Ans")} type="normal" />
-            <Btn label="=" onClick={handleEqual} type="blue" />
-          </div>
-
+        <div className="flex-1 mt-3 px-0.5"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(30, 1fr)",
+            gridTemplateRows: "auto auto auto auto auto auto auto auto auto",
+            gridTemplateAreas: gridAreas.map(r => `"${r}"`).join(" "),
+            gap: "5px 3px",
+          }}
+        >
+          {gridKeys.map(name => name === "replay" ? null : <Btn key={name} cfg={btns[name]} gridName={name} />)}
+          <ReplayPad onNav={handleNav} />
         </div>
       </div>
 
       <div className="flex-1 max-w-xl space-y-6">
-        <SEOContent
-          title="Casio fx-991EX ClassWiz Emulator"
+        <SEOContent title="Casio fx-991EX ClassWiz Emulator"
           description="A 100% UI replica of the legendary Casio fx-991EX ClassWiz scientific calculator, powered by Math.js for advanced evaluation."
           steps={[
             { title: "Standard Operations", description: "Use the keypad just like the physical hardware for calculations." },
