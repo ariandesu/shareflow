@@ -150,15 +150,23 @@ app.get("/api/auth/me", requireUser, async (c) => {
 // ─── API Keys ─────────────────────────────────────────────────────────────────
 
 app.post("/api/keys", requireUser, async (c) => {
-  const user = c.get("user");
-  const { name } = await c.req.json<any>();
-  if (!name) return c.json({ error: "Key name is required" }, 400);
-  const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
-  const key = "sf_" + generateHex(24);
-  const prefix = key.substring(0, 10);
-  const { data, error } = await supabase.from("api_keys").insert({ user_id: user.id, name, key, prefix }).select().single();
-  if (error) return c.json({ error: "Failed to create key" }, 500);
-  return c.json({ id: data.id, name: data.name, key: data.key, prefix: data.prefix, created_at: data.created_at });
+  try {
+    const user = c.get("user");
+    const { name } = await c.req.json<any>();
+    if (!name) return c.json({ error: "Key name is required" }, 400);
+    const key = "sf_" + generateHex(24);
+    const prefix = key.substring(0, 10);
+    const res = await fetch(`${c.env.SUPABASE_URL}/rest/v1/api_keys`, {
+      method: "POST", headers: { "Content-Type": "application/json", apikey: c.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${c.env.SUPABASE_ANON_KEY}`, Prefer: "return=representation" },
+      body: JSON.stringify({ user_id: user.id, name, key_value: key, prefix }),
+    });
+    if (!res.ok) { const err = await res.text(); return c.json({ error: "Failed to create key", status: res.status, detail: err?.substring(0, 500) }, 500); }
+    const data = await res.json();
+    const row = Array.isArray(data) ? data[0] : data;
+    return c.json({ id: row.id, name: row.name, key: row.key_value, prefix: row.prefix, created_at: row.created_at });
+  } catch (e: any) {
+    return c.json({ error: "Exception", detail: e?.message || String(e) }, 500);
+  }
 });
 
 app.get("/api/keys", requireUser, async (c) => {
@@ -190,10 +198,36 @@ app.get("/api/keys/usage", requireUser, async (c) => {
 
 // ─── Admin ─────────────────────────────────────────────────────────────────────
 
+async function adminFetch(url: string, env: Bindings, opts?: any) {
+  return fetch(`${env.SUPABASE_URL}/rest/v1/${url}`, {
+    headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`, ...opts?.headers },
+    ...opts,
+  });
+}
+
 app.get("/api/admin/users", requireAdmin, async (c) => {
   const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
-  const { data } = await supabase.from("users").select("id, email, name, role, created_at, last_login_at").order("created_at", { ascending: false });
-  return c.json({ users: data || [] });
+  const { data: users } = await supabase.from("users").select("id, email, name, role, created_at, last_login_at").order("created_at", { ascending: false });
+  if (!users) return c.json({ users: [] });
+  const userIds = users.map((u: any) => u.id);
+  const { data: usageCounts } = await supabase.from("api_usage_logs").select("user_id", { count: "exact", head: false });
+  const countMap: Record<string, number> = {};
+  if (usageCounts) {
+    for (const log of usageCounts) { const uid = (log as any).user_id; if (uid) countMap[uid] = (countMap[uid] || 0) + 1; }
+  }
+  const enriched = users.map((u: any) => ({ ...u, total_requests: countMap[u.id] || 0, suspended: false }));
+  return c.json({ users: enriched });
+});
+
+app.get("/api/admin/users/:id/usage", requireAdmin, async (c) => {
+  const id = c.req.param("id");
+  const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+  const { data: keys } = await supabase.from("api_keys").select("id, name, key_value, created_at").eq("user_id", id);
+  if (!keys) return c.json({ keys: [], usage: [] });
+  const keyIds = keys.map((k: any) => k.id);
+  if (keyIds.length === 0) return c.json({ keys: [], usage: [] });
+  const { data: logs } = await supabase.from("api_usage_logs").select("*").in("api_key_id", keyIds).order("created_at", { ascending: false }).limit(200);
+  return c.json({ keys, usage: logs || [] });
 });
 
 app.get("/api/admin/keys", requireAdmin, async (c) => {
@@ -209,12 +243,22 @@ app.get("/api/admin/stats", requireAdmin, async (c) => {
     supabase.from("api_keys").select("id", { count: "exact", head: true }),
     supabase.from("api_usage_logs").select("id", { count: "exact", head: true }),
   ]);
-  const { data: recentLogs } = await supabase.from("api_usage_logs").select("created_at, endpoint, status").order("created_at", { ascending: false }).limit(50);
+  const { data: recentLogs } = await supabase.from("api_usage_logs").select("created_at, endpoint, status, method").order("created_at", { ascending: false }).limit(50);
+  const { data: topUsers } = await supabase.from("api_usage_logs").select("user_id").limit(5000);
+  const userCounts: Record<string, number> = {};
+  if (topUsers) { for (const r of topUsers) { const uid = (r as any).user_id; if (uid) userCounts[uid] = (userCounts[uid] || 0) + 1; } }
+  const topUserIds = Object.entries(userCounts).sort((a: any, b: any) => b[1] - a[1]).slice(0, 10).map(([id]) => id);
+  let topUsersDetail: any[] = [];
+  if (topUserIds.length > 0) {
+    const { data: ud } = await supabase.from("users").select("id, email, name").in("id", topUserIds);
+    if (ud) topUsersDetail = topUserIds.map(id => ({ id, email: (ud as any).find((u: any) => u.id === id)?.email || "unknown", name: (ud as any).find((u: any) => u.id === id)?.name || "unknown", requests: userCounts[id] }));
+  }
   return c.json({
     totalUsers: usersRes.count || 0,
     totalKeys: keysRes.count || 0,
     totalRequests: logsRes.count || 0,
     recentRequests: recentLogs || [],
+    topUsers: topUsersDetail,
   });
 });
 
@@ -227,6 +271,18 @@ app.put("/api/admin/users/:id/role", requireAdmin, async (c) => {
   return c.json({ success: true });
 });
 
+app.put("/api/admin/users/:id/suspend", requireAdmin, async (c) => {
+  const id = c.req.param("id");
+  const { suspended } = await c.req.json<any>();
+  const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+  const res = await fetch(`${c.env.SUPABASE_URL}/rest/v1/users?id=eq.${id}`, {
+    method: "PATCH", headers: { "Content-Type": "application/json", apikey: c.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${c.env.SUPABASE_ANON_KEY}` },
+    body: JSON.stringify({ suspended }),
+  });
+  if (!res.ok) return c.json({ error: "Failed to update user" }, 500);
+  return c.json({ success: true, suspended });
+});
+
 // ─── API Key Middleware for public API routes ────────────────────────────────
 
 async function apiKeyAuth(c: any, next: any) {
@@ -234,7 +290,7 @@ async function apiKeyAuth(c: any, next: any) {
   const key = auth.replace("Bearer ", "");
   if (key && key.startsWith("sf_")) {
     const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
-    const { data } = await supabase.from("api_keys").select("id, user_id").eq("key", key).eq("revoked", false).maybeSingle();
+    const { data } = await supabase.from("api_keys").select("id, user_id").eq("key_value", key).eq("revoked", false).maybeSingle();
     if (data) {
       c.set("api_key_id", data.id);
       c.set("api_user_id", data.user_id);
