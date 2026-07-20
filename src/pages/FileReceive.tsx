@@ -148,6 +148,7 @@ export function FileReceive() {
           if (e.data === "__EOF__") {
             // Completed! Create file download.
             setStatus("success");
+            statusRef.current = "success";
             const blob = new Blob(receivedChunksRef.current, { type: target.mimeType });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");

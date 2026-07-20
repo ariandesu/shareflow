@@ -178,6 +178,7 @@ export function FileShare() {
         channel.onmessage = (e) => {
           if (e.data === "ACK") {
             setStatus("success");
+            statusRef.current = "success";
             cleanupWebRTC();
           }
         };
