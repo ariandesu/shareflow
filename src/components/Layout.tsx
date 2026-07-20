@@ -62,6 +62,7 @@ export function Layout() {
     { name: "CSV Viewer", href: "/csv-viewer" },
     { name: "HTML Beautifier", href: "/html-beautifier" },
     { name: "Z-Index", href: "/z-index" },
+    { name: "Developer Portal", href: "/dev" },
   ];
 
   return (
