@@ -7,6 +7,7 @@ m.config({ number: "BigNumber", precision: 14, angle: "deg" });
 
 type CalcMode = "COMP" | "CMPLX" | "BASE-N" | "MATRIX" | "VECTOR" | "STAT" | "DIST" | "SPREAD" | "TABLE" | "EQN" | "INEQ" | "RATIO";
 type ShiftState = "NONE" | "SHIFT" | "ALPHA";
+type CalcBase = "DEC" | "HEX" | "BIN" | "OCT";
 
 const MODES: CalcMode[] = ["COMP", "CMPLX", "BASE-N", "MATRIX", "VECTOR", "STAT", "DIST", "SPREAD", "TABLE", "EQN", "INEQ", "RATIO"];
 const MODE_LABELS = ["Calculate", "Complex", "Base-N", "Matrix", "Vector", "Statistics", "Distrib.", "Spreadsheet", "Table", "Equation", "Inequal.", "Ratio"];
@@ -73,12 +74,17 @@ export default function ScientificCalculator() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [ans, setAns] = useState("0");
+  const [calcBase, setCalcBase] = useState<CalcBase>("DEC");
 
-  const S = useRef({ mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans });
-  useEffect(() => { S.current = { mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans }; });
+  const S = useRef({ mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans, calcBase });
+  useEffect(() => { S.current = { mode, shiftState, displayInput, displayResult, isMenuOpen, menuCursor, history, historyIndex, ans, calcBase }; });
 
   const memRef = useRef(0);
   const ansRef = useRef("0");
+
+  const knownFns = new Set(["abs","acos","asin","atan","cbrt","combinations","cos","csc","cot","sec",
+    "derivative","exp","integrate","ln","log","nthRoot","permutations","random","randomInt","round",
+    "sin","sqrt","tan","pi","e","i","true","false","Infinity","NaN"]);
 
   const evaluate = (expr: string) => {
     try {
@@ -88,17 +94,48 @@ export default function ScientificCalculator() {
         .replace(/√\(/g, "sqrt(").replace(/²/g, "^2").replace(/³/g, "^3")
         .replace(/x10\^/g, "*10^").replace(/e\^\(/g, "exp(").replace(/%/g, "/100")
         .replace(/Ans/g, ansRef.current);
-      const result = m.evaluate(parsed);
-      let formatted = m.format(result, { precision: 12, upperExp: 10, lowerExp: -10 });
+
+      const curMode = S.current.mode;
+      const curBase = S.current.calcBase;
+
+      if (curMode === "BASE-N") {
+        const radix = curBase === "DEC" ? 10 : curBase === "HEX" ? 16 : curBase === "BIN" ? 2 : 8;
+        if (curBase === "HEX") {
+          parsed = parsed.replace(/\b([0-9A-Fa-f]+)\b/g, m =>
+            knownFns.has(m.toLowerCase()) ? m : parseInt(m, 16).toString()
+          );
+        } else if (curBase === "BIN") {
+          parsed = parsed.replace(/\b([01]+)\b/g, m => parseInt(m, 2).toString());
+        } else if (curBase === "OCT") {
+          parsed = parsed.replace(/\b([0-7]+)\b/g, m => parseInt(m, 8).toString());
+        }
+      }
+
+      const raw = m.evaluate(parsed);
+
+      if (curMode === "BASE-N") {
+        const radix = curBase === "DEC" ? 10 : curBase === "HEX" ? 16 : curBase === "BIN" ? 2 : 8;
+        const num = Math.round(Number(raw));
+        return num.toString(radix).toUpperCase();
+      }
+
+      let formatted = m.format(raw, { precision: 12, upperExp: 10, lowerExp: -10 });
       formatted = formatted.replace(/\*/g, "×").replace(/\//g, "÷");
-      const str = result.toString();
+      const str = raw.toString();
       setAns(str);
       ansRef.current = str;
       return formatted;
     } catch { return "Math ERROR"; }
   };
 
-  const selectMode = (idx: number) => { setMode(MODES[idx]); setIsMenuOpen(false); setDisplayInput(""); setDisplayResult(""); };
+  const selectMode = (idx: number) => {
+    const m = MODES[idx];
+    setMode(m);
+    setIsMenuOpen(false);
+    setDisplayInput("");
+    setDisplayResult("");
+    if (m !== "BASE-N") setCalcBase("DEC");
+  };
 
   const handleEqual = () => {
     const s = S.current;
@@ -168,8 +205,19 @@ export default function ScientificCalculator() {
   const memPlus = () => { const s = S.current; const v = parseFloat(s.displayResult || s.displayInput); if (!isNaN(v)) memRef.current += v; };
   const memMinus = () => { const s = S.current; const v = parseFloat(s.displayResult || s.displayInput); if (!isNaN(v)) memRef.current -= v; };
 
-  const action = (primary: () => void, shift?: () => void, alpha?: () => void) => () => {
+  const switchBase = (b: CalcBase) => {
+    if (S.current.mode === "BASE-N") {
+      setCalcBase(b);
+      setDisplayInput("");
+      setDisplayResult("");
+    }
+  };
+
+  const action = (primary: () => void, shift?: () => void, alpha?: () => void, baseNFn?: () => void) => () => {
     const st = S.current.shiftState;
+    const curMode = S.current.mode;
+    if (curMode === "BASE-N" && baseNFn) { baseNFn(); setShiftState("NONE"); return; }
+    if (curMode === "CMPLX" && baseNFn) { baseNFn(); setShiftState("NONE"); return; }
     if (st === "SHIFT" && shift) { shift(); setShiftState("NONE"); return; }
     if (st === "ALPHA" && alpha) { alpha(); setShiftState("NONE"); return; }
     primary();
@@ -186,10 +234,10 @@ export default function ScientificCalculator() {
     sigma: { label: "x", onClick: action(() => insert("x"), () => insert("Σ(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Σ", c: "SHIFT" }, { t: "=", c: "ALPHA" }] },
     frac: { label: "□/□", onClick: () => insert("("), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "a⌐b/c", c: "SHIFT" }] },
     sqrt: { label: "√□", onClick: action(() => insert("√("), () => insert("cbrt(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "³√", c: "SHIFT" }] },
-    sq: { label: "x²", onClick: action(() => insert("²"), () => insert("³")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x³", c: "SHIFT" }, { t: "DEC", c: "BASEN" }] },
-    pow: { label: "x^■", onClick: action(() => insert("^"), () => insert("nthRoot(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "ˣ√", c: "SHIFT" }, { t: "HEX", c: "BASEN" }] },
-    log: { label: "log□□", onClick: action(() => insert("log("), () => insert("10^(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "10ˣ", c: "SHIFT" }, { t: "BIN", c: "BASEN" }] },
-    ln: { label: "ln", onClick: action(() => insert("ln("), () => insert("e^(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "eˣ", c: "SHIFT" }, { t: "OCT", c: "BASEN" }] },
+    sq: { label: "x²", onClick: action(() => insert("²"), () => insert("³"), undefined, () => switchBase("DEC")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x³", c: "SHIFT" }, { t: "DEC", c: "BASEN" }] },
+    pow: { label: "x^■", onClick: action(() => insert("^"), () => insert("nthRoot("), undefined, () => switchBase("HEX")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "ˣ√", c: "SHIFT" }, { t: "HEX", c: "BASEN" }] },
+    log: { label: "log□□", onClick: action(() => insert("log("), () => insert("10^("), undefined, () => switchBase("BIN")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "10ˣ", c: "SHIFT" }, { t: "BIN", c: "BASEN" }] },
+    ln: { label: "ln", onClick: action(() => insert("ln("), () => insert("e^("), undefined, () => switchBase("OCT")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "eˣ", c: "SHIFT" }, { t: "OCT", c: "BASEN" }] },
     neg: { label: "(-)", onClick: action(() => insert("-"), () => insert("log("), () => insert("A")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "log", c: "SHIFT" }, { t: "A", c: "ALPHA" }] },
     dms: { label: "° ' ''", onClick: action(() => {}, () => insert("!"), () => insert("B")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "FACT", c: "SHIFT" }, { t: "B", c: "ALPHA" }] },
     rec: { label: "x⁻¹", onClick: action(() => insert("^-1"), () => insert("!"), () => insert("C")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "x!", c: "SHIFT" }, { t: "C", c: "ALPHA" }] },
@@ -197,16 +245,16 @@ export default function ScientificCalculator() {
     cos: { label: "cos", onClick: action(() => insert("cos("), () => insert("acos("), () => insert("E")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "cos⁻¹", c: "SHIFT" }, { t: "E", c: "ALPHA" }] },
     tan: { label: "tan", onClick: action(() => insert("tan("), () => insert("atan("), () => insert("F")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "tan⁻¹", c: "SHIFT" }, { t: "F", c: "ALPHA" }] },
     sto: { label: "STO", onClick: action(storeMem, recallMem), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "RECALL", c: "SHIFT" }] },
-    eng: { label: "ENG", onClick: () => {}, bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "∠", c: "CMPLX" }, { t: "←", c: "CMPLX" }] },
+    eng: { label: "ENG", onClick: action(() => {}, () => {}, undefined, () => insert("∠")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "∠", c: "CMPLX" }, { t: "←", c: "CMPLX" }] },
     lp: { label: "(", onClick: action(() => insert("("), () => insert("abs(")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Abs", c: "SHIFT" }] },
     rp: { label: ")", onClick: action(() => insert(")"), () => insert(","), () => insert("x")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: ",", c: "SHIFT" }, { t: "x", c: "ALPHA" }] },
     sd: { label: "S⇔D", onClick: action(() => {}, () => {}, () => insert("Y")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "a⌐b/c⇔d/c", c: "SHIFT" }, { t: "Y", c: "ALPHA" }] },
     mplus: { label: "M+", onClick: action(memPlus, memMinus, () => insert("M")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "M-", c: "SHIFT" }, { t: "M", c: "ALPHA" }] },
-    n7: { label: "7", onClick: action(() => insert("7"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONST", c: "SHIFT" }] },
-    n8: { label: "8", onClick: action(() => insert("8"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONV", c: "SHIFT" }] },
-    n9: { label: "9", onClick: action(() => insert("9"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "RESET", c: "SHIFT" }] },
-    del: { label: "DEL", onClick: action(del, () => {}, () => {}), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "INS", c: "SHIFT" }, { t: "UNDO", c: "ALPHA" }] },
-    ac: { label: "AC", onClick: action(ac, () => {}), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "OFF", c: "SHIFT" }] },
+    n7: { label: "7", onClick: action(() => insert("7")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONST", c: "SHIFT" }] },
+    n8: { label: "8", onClick: action(() => insert("8")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "CONV", c: "SHIFT" }] },
+    n9: { label: "9", onClick: action(() => insert("9")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "RESET", c: "SHIFT" }] },
+    del: { label: "DEL", onClick: action(del), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "INS", c: "SHIFT" }, { t: "UNDO", c: "ALPHA" }] },
+    ac: { label: "AC", onClick: action(ac), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "OFF", c: "SHIFT" }] },
     n4: { label: "4", onClick: () => insert("4"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n5: { label: "5", onClick: () => insert("5"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n6: { label: "6", onClick: () => insert("6"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
@@ -215,13 +263,13 @@ export default function ScientificCalculator() {
     n1: { label: "1", onClick: () => insert("1"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n2: { label: "2", onClick: () => insert("2"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
     n3: { label: "3", onClick: () => insert("3"), bg: "#f2f2f2", fg: "#1a1a1a", markings: [] },
-    add: { label: "+", onClick: action(() => insert("+"), () => {}), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Pol", c: "SHIFT" }] },
-    sub: { label: "−", onClick: action(() => insert("-"), () => {}), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Rec", c: "SHIFT" }] },
-    n0: { label: "0", onClick: action(() => insert("0"), () => {}), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Rnd", c: "SHIFT" }] },
+    add: { label: "+", onClick: action(() => insert("+")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Pol", c: "SHIFT" }] },
+    sub: { label: "−", onClick: action(() => insert("-")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "Rec", c: "SHIFT" }] },
+    n0: { label: "0", onClick: action(() => insert("0")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Rnd", c: "SHIFT" }] },
     dot: { label: ".", onClick: action(() => insert("."), () => insert("random()"), () => insert("randomInt(")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "Ran#", c: "SHIFT" }, { t: "RanInt", c: "ALPHA" }] },
     exp: { label: "×10ˣ", onClick: action(() => insert("x10^"), () => insert("π"), () => insert("e")), bg: "#f2f2f2", fg: "#1a1a1a", markings: [{ t: "π", c: "SHIFT" }, { t: "e", c: "ALPHA" }] },
-    ans: { label: "Ans", onClick: action(() => insert("Ans"), () => {}), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "%", c: "SHIFT" }] },
-    eq: { label: "=", onClick: action(handleEqual, () => {}), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "≈", c: "SHIFT" }] },
+    ans: { label: "Ans", onClick: action(() => insert("Ans")), bg: "#2b2b2b", fg: "#ffffff", markings: [{ t: "%", c: "SHIFT" }] },
+    eq: { label: "=", onClick: action(handleEqual), bg: "#2f6fed", fg: "#ffffff", markings: [{ t: "≈", c: "SHIFT" }] },
   };
 
   const gridKeys = ["shift", "alpha", "menu", "on", "optn", "calc", "integ", "sigma", "frac", "sqrt", "sq", "pow", "log", "ln", "neg", "dms", "rec", "sin", "cos", "tan", "sto", "eng", "lp", "rp", "sd", "mplus", "n7", "n8", "n9", "del", "ac", "n4", "n5", "n6", "mul", "div", "n1", "n2", "n3", "add", "sub", "n0", "dot", "exp", "ans", "eq"];
@@ -249,9 +297,12 @@ export default function ScientificCalculator() {
             <div className="flex gap-2">
               <span className={shiftState === "SHIFT" ? "font-black" : "opacity-10"}>S</span>
               <span className={shiftState === "ALPHA" ? "font-black" : "opacity-10"}>A</span>
-              <span className="font-bold">{mode}</span>
+              <span className="font-bold">{mode === "BASE-N" ? calcBase : mode}</span>
             </div>
-            <div className="flex gap-1 font-bold"><span>D</span><span>Math</span><span>▼</span></div>
+            <div className="flex gap-1 font-bold">
+              <span>{mode === "CMPLX" ? "CMPLX" : mode === "BASE-N" ? "BASE" : "D"}</span>
+              <span>Math</span><span>▼</span>
+            </div>
           </div>
           <div className="flex-1 flex flex-col overflow-hidden relative">
             {isMenuOpen ? (
