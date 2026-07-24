@@ -27,6 +27,7 @@ export function Layout() {
   const navigation = [
     { name: "All Tools", href: "/" },
     { name: "Text Share", href: "/text-share" },
+    { name: "Code Helper", href: "/code-helper" },
     { name: "File Share", href: "/file-share" },
     { name: "QR Generator", href: "/qr-generator" },
     { name: "Gradient Gen", href: "/gradient-generator" },

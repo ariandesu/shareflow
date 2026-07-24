@@ -56,6 +56,13 @@ const tools = [
     featured: true,
   },
   {
+    name: "Code Helper",
+    category: "Developer",
+    description: "Code-powered assistance provided via Qwen Code.",
+    icon: <Code2 className="w-5 h-5 text-white" />,
+    href: "/code-helper",
+  },
+  {
     name: "QR Generator",
     category: "Utilities",
     description: "Custom, vector-ready codes.",

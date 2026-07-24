@@ -165,26 +165,6 @@ app.post("/api/auth/login", async (c) => {
   const check = await hashPassword(password, salt);
   if (check !== hash) return c.json({ error: "Invalid email or password" }, 401);
   if (!user.verified) return c.json({ error: "Email not verified. Check your inbox for the verification code." }, 403);
-  const code = generateAuthCode();
-  await supabase.from("auth_codes").insert({ user_id: user.id, code, type: "2fa", expires_at: new Date(Date.now() + 600000).toISOString() });
-  sendEmail(c.env, normalizedEmail, "Your ShareFlow login code",
-    `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px;background:#111;color:#f5f5f5;border:1px solid #333"><h2 style="margin:0 0 16px;font-weight:900;letter-spacing:-1px;text-transform:uppercase"><span style="background:#fff;color:#000;padding:0 4px">SHARE</span>FLOW</h2><p style="color:#999;font-size:14px">Enter this code to complete sign-in:</p><div style="font-size:32px;font-weight:900;letter-spacing:8px;text-align:center;padding:24px;background:#000;margin:16px 0;font-family:monospace">${code}</div><p style="color:#666;font-size:12px">Code expires in 10 minutes. If you didn't request this, ignore this email.</p></div>`);
-  return c.json({ requires_2fa: true, email: normalizedEmail });
-});
-
-app.post("/api/auth/verify-2fa", async (c) => {
-  const { email, code } = await c.req.json<any>();
-  if (!email || !code) return c.json({ error: "Email and code required" }, 400);
-  const normalizedEmail = email.toLowerCase().trim();
-  const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
-  const { data: user } = await supabase.from("users").select("*").eq("email", normalizedEmail).maybeSingle();
-  if (!user) return c.json({ error: "User not found" }, 404);
-  const { data: authCode } = await supabase.from("auth_codes")
-    .select("*").eq("user_id", user.id).eq("code", code).eq("type", "2fa").eq("used", false)
-    .gte("expires_at", new Date().toISOString()).maybeSingle();
-  if (!authCode) return c.json({ error: "Invalid or expired code" }, 401);
-  await supabase.from("auth_codes").update({ used: true }).eq("id", authCode.id);
-  await supabase.from("auth_codes").delete().eq("user_id", user.id).eq("type", "2fa").eq("used", true);
   const token = generateHex(32);
   await supabase.from("sessions").insert({ user_id: user.id, token, expires_at: new Date(Date.now() + 7 * 86400000).toISOString() });
   await supabase.from("users").update({ last_login_at: new Date().toISOString() }).eq("id", user.id);
@@ -223,8 +203,8 @@ app.post("/api/keys", requireUser, async (c) => {
     const data = await res.json();
     const row = Array.isArray(data) ? data[0] : data;
     return c.json({ id: row.id, name: row.name, key: row.key_value, prefix: row.prefix, created_at: row.created_at });
-  } catch (e: any) {
-    return c.json({ error: "Exception", detail: e?.message || String(e) }, 500);
+  } catch (e) {
+    return c.json({ error: "Exception", detail: e instanceof Error ? e.message : String(e) }, 500);
   }
 });
 

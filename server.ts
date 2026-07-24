@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import crypto from "crypto";
 import multer from "multer";
+import https from "https";
 
 // Simple in-memory store for text snippets
 // In production, this would be Supabase or Redis
@@ -251,6 +252,126 @@ async function startServer() {
     res.setHeader("Content-Disposition", `attachment; filename*=UTF-8''${encodedName}`);
     res.setHeader("Content-Type", file.mimeType);
     res.send(file.buffer);
+  });
+
+  // POST /api/ai/models - Fetch available models dynamically for any provider API key
+  app.post("/api/ai/models", async (req, res) => {
+    const { apiKey, baseUrl } = req.body;
+    if (!apiKey) {
+      return res.status(400).json({ error: "API key is required to fetch models" });
+    }
+
+    try {
+      const targetBase = baseUrl || "https://integrate.api.nvidia.com/v1";
+      const parsedUrl = new URL(targetBase.endsWith("/models") ? targetBase : `${targetBase.replace(/\/+$/, "")}/models`);
+
+      const options = {
+        hostname: parsedUrl.hostname,
+        port: parsedUrl.port || 443,
+        path: parsedUrl.pathname + parsedUrl.search,
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "User-Agent": "ShareFlow/1.0"
+        },
+        rejectUnauthorized: false
+      };
+
+      const modelReq = https.request(options, (modelRes) => {
+        let body = "";
+        modelRes.on("data", (chunk) => (body += chunk));
+        modelRes.on("end", () => {
+          try {
+            const parsed = JSON.parse(body);
+            res.json(parsed);
+          } catch (e) {
+            res.status(500).json({ error: "Invalid JSON response from provider models endpoint: " + body });
+          }
+        });
+      });
+
+      modelReq.setTimeout(15000, () => {
+        modelReq.destroy();
+        res.status(504).json({ error: "Models request timed out after 15 seconds." });
+      });
+
+      modelReq.on("error", (err) => {
+        if (!res.headersSent) {
+          res.status(500).json({ error: err.message || "Failed to fetch models from provider" });
+        }
+      });
+
+      modelReq.end();
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || "Invalid provider base URL" });
+    }
+  });
+
+  // POST /api/qwen/chat - Universal multi-provider AI chat endpoint
+  app.post("/api/qwen/chat", async (req, res) => {
+    const { messages, apiKey, model, baseUrl } = req.body;
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({ error: "Messages array is required" });
+    }
+
+    try {
+      const targetApiKey = apiKey || process.env.NVIDIA_API_KEY || "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";
+      const targetModel = model || "deepseek-ai/deepseek-v4-pro";
+      const rawBase = baseUrl || "https://integrate.api.nvidia.com/v1";
+      const targetUrl = new URL(rawBase.endsWith("/chat/completions") ? rawBase : `${rawBase.replace(/\/+$/, "")}/chat/completions`);
+
+      const payload = JSON.stringify({
+        model: targetModel,
+        messages,
+        temperature: 1,
+        top_p: 0.95,
+        max_tokens: 8192,
+        ...(targetUrl.hostname.includes("nvidia.com") ? { chat_template_kwargs: { thinking: false } } : {})
+      });
+
+      const options = {
+        hostname: targetUrl.hostname,
+        port: targetUrl.port || 443,
+        path: targetUrl.pathname + targetUrl.search,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(payload),
+          "Authorization": `Bearer ${targetApiKey}`,
+          "User-Agent": "ShareFlow/1.0"
+        },
+        rejectUnauthorized: false
+      };
+
+      const aiReq = https.request(options, (aiRes) => {
+        let body = "";
+        aiRes.on("data", (chunk) => (body += chunk));
+        aiRes.on("end", () => {
+          try {
+            const parsed = JSON.parse(body);
+            res.json(parsed);
+          } catch (e) {
+            res.status(500).json({ error: "Invalid JSON response from AI Provider: " + body });
+          }
+        });
+      });
+
+      aiReq.setTimeout(30000, () => {
+        aiReq.destroy();
+        res.status(504).json({ error: "AI Provider request timed out after 30 seconds. The upstream API may be down or the API key may be expired." });
+      });
+
+      aiReq.on("error", (err) => {
+        if (!res.headersSent) {
+          res.status(500).json({ error: err.message || "Network error connecting to AI Provider" });
+        }
+      });
+
+      aiReq.write(payload);
+      aiReq.end();
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || "Failed to process chat request" });
+    }
   });
 
   // Vite middleware for development

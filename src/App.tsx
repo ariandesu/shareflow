@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
 import { TextShare } from "./pages/TextShare";
+import { CodeHelper } from "./pages/CodeHelper";
 import { FileShare } from "./pages/FileShare";
 import { FileReceive } from "./pages/FileReceive";
 import { QRGenerator } from "./pages/QRGenerator";
@@ -49,7 +50,6 @@ import DeveloperLogin from "./pages/DeveloperLogin";
 import DeveloperSignup from "./pages/DeveloperSignup";
 import DeveloperDashboard from "./pages/DeveloperDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
-import Verify2FA from "./pages/Verify2FA";
 
 function NotFound() {
   return (
@@ -71,6 +71,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="text-share" element={<TextShare />} />
+            <Route path="code-helper" element={<CodeHelper />} />
             {/* File Share Routes */}
             <Route path="file-share" element={<FileShare />} />
             <Route path="f" element={<FileReceive />} />
@@ -116,7 +117,6 @@ export default function App() {
             <Route path="dev" element={<DeveloperGateway />} />
             <Route path="dev/login" element={<DeveloperLogin />} />
             <Route path="dev/signup" element={<DeveloperSignup />} />
-            <Route path="dev/verify-2fa" element={<Verify2FA />} />
             <Route path="dev/dashboard" element={<DeveloperDashboard />} />
             <Route path="dev/admin" element={<AdminDashboard />} />
 

@@ -3,136 +3,382 @@ import { cors } from "hono/cors";
 import { createClient } from "@supabase/supabase-js";
 import { Redis } from "@upstash/redis/cloudflare";
 const app = new Hono();
-// Enable CORS
-app.use("/*", cors({
-    origin: "*", // Or specific domains like the Cloudflare Pages URL
-    allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
-}));
-// Base62 character set
+app.use("/*", cors({ origin: "*", allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], allowHeaders: ["Content-Type", "Authorization"] }));
 const BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-function generateBase62Code(length) {
-    let code = "";
+function generateCode(length) {
     const array = new Uint8Array(length);
     crypto.getRandomValues(array);
-    for (let i = 0; i < length; i++) {
-        const index = array[i] % BASE62.length;
-        code += BASE62[index];
-    }
-    return code;
+    return Array.from(array).map(b => BASE62[b % BASE62.length]).join("");
 }
-// 1. POST /api/text -> Create a new snippet
-app.post("/api/text", async (c) => {
-    const { text } = await c.req.json();
-    if (!text || typeof text !== "string") {
-        return c.json({ error: "Text is required" }, 400);
-    }
-    // Set up clients
+function generateHex(bytes) {
+    const array = new Uint8Array(bytes);
+    crypto.getRandomValues(array);
+    return Array.from(array).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function getRedis(env) {
+    if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN)
+        return new Redis({ url: env.UPSTASH_REDIS_REST_URL, token: env.UPSTASH_REDIS_REST_TOKEN });
+    return null;
+}
+async function hashPassword(password, salt) {
+    const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+    const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: new TextEncoder().encode(salt), iterations: 100000, hash: "SHA-256" }, key, 256);
+    return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+async function getUserFromToken(c) {
+    const auth = c.req.header("Authorization") || "";
+    const token = auth.replace("Bearer ", "");
+    if (!token)
+        return null;
     const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
-    const redis = new Redis({
-        url: c.env.UPSTASH_REDIS_REST_URL,
-        token: c.env.UPSTASH_REDIS_REST_TOKEN,
-    });
-    // Check rate limit by IP (limit: 10 shares per minute)
-    const clientIP = c.req.header("CF-Connecting-IP") || "anonymous";
-    const rateLimitKey = `ratelimit:${clientIP}`;
-    const currentCount = await redis.incr(rateLimitKey);
-    if (currentCount === 1) {
-        await redis.expire(rateLimitKey, 60); // 1 minute window
+    const { data } = await supabase.from("sessions").select("*, users!inner(*)").eq("token", token).gte("expires_at", new Date().toISOString()).maybeSingle();
+    return data?.users || null;
+}
+async function requireUser(c, next) {
+    const user = await getUserFromToken(c);
+    if (!user)
+        return c.json({ error: "Unauthorized" }, 401);
+    c.set("user", user);
+    await next();
+}
+async function requireAdmin(c, next) {
+    const user = await getUserFromToken(c);
+    if (!user)
+        return c.json({ error: "Unauthorized" }, 401);
+    if (user.role !== "admin")
+        return c.json({ error: "Forbidden" }, 403);
+    c.set("user", user);
+    await next();
+}
+// ─── Auth ──────────────────────────────────────────────────────────────────────
+app.post("/api/auth/register", async (c) => {
+    const { email, password, name } = await c.req.json();
+    if (!email || !password)
+        return c.json({ error: "Email and password required" }, 400);
+    if (password.length < 6)
+        return c.json({ error: "Password must be at least 6 characters" }, 400);
+    const normalizedEmail = email.toLowerCase().trim();
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const existing = await supabase.from("users").select("id").eq("email", normalizedEmail).maybeSingle();
+    if (existing.data)
+        return c.json({ error: "Email already registered" }, 409);
+    const salt = generateHex(16);
+    const passwordHash = await hashPassword(password, salt);
+    const { data: user, error } = await supabase.from("users").insert({ email: normalizedEmail, password_hash: `${salt}:${passwordHash}`, name: name || normalizedEmail.split("@")[0], role: "user" }).select().single();
+    if (error)
+        return c.json({ error: "Registration failed" }, 500);
+    const token = generateHex(32);
+    await supabase.from("sessions").insert({ user_id: user.id, token, expires_at: new Date(Date.now() + 7 * 86400000).toISOString() });
+    return c.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+});
+app.post("/api/auth/login", async (c) => {
+    const { email, password } = await c.req.json();
+    if (!email || !password)
+        return c.json({ error: "Email and password required" }, 400);
+    const normalizedEmail = email.toLowerCase().trim();
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const { data: user } = await supabase.from("users").select("*").eq("email", normalizedEmail).maybeSingle();
+    if (!user)
+        return c.json({ error: "Invalid email or password" }, 401);
+    const [salt, hash] = user.password_hash.split(":");
+    const check = await hashPassword(password, salt);
+    if (check !== hash)
+        return c.json({ error: "Invalid email or password" }, 401);
+    const token = generateHex(32);
+    await supabase.from("sessions").insert({ user_id: user.id, token, expires_at: new Date(Date.now() + 7 * 86400000).toISOString() });
+    await supabase.from("users").update({ last_login_at: new Date().toISOString() }).eq("id", user.id);
+    return c.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+});
+app.post("/api/auth/logout", async (c) => {
+    const auth = c.req.header("Authorization") || "";
+    const token = auth.replace("Bearer ", "");
+    if (token) {
+        const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+        await supabase.from("sessions").delete().eq("token", token);
     }
-    if (currentCount > 10) {
-        return c.json({ error: "Rate limit exceeded. Please try again in a minute." }, 429);
-    }
-    let code = "";
-    let attempts = 0;
-    const maxAttempts = 5;
-    let isUnique = false;
-    while (!isUnique && attempts < maxAttempts) {
-        code = generateBase62Code(6);
-        // Check if code is unique in Supabase
-        const { data, error } = await supabase
-            .from("snippets")
-            .select("id")
-            .eq("id", code)
-            .maybeSingle();
-        if (!error && !data) {
-            isUnique = true;
-        }
-        attempts++;
-    }
-    if (!isUnique) {
-        return c.json({ error: "Failed to generate unique code. Please try again." }, 500);
-    }
-    // Save to Supabase
-    const { error: dbError } = await supabase.from("snippets").insert({
-        id: code,
-        text,
-        views: 0,
-    });
-    if (dbError) {
-        return c.json({ error: `Database error: ${dbError.message}` }, 500);
-    }
-    // Cache snippet in Upstash Redis (expires in 24 hours)
-    const cacheSnippet = { id: code, text, views: 0, createdAt: Date.now() };
-    await redis.set(`snippet:${code}`, JSON.stringify(cacheSnippet), { ex: 86400 });
-    // Get request origin to return full share URL
-    const origin = c.req.url ? new URL(c.req.url).origin : "";
+    return c.json({ success: true });
+});
+app.get("/api/auth/me", requireUser, async (c) => {
+    const user = c.get("user");
+    return c.json({ user: { id: user.id, email: user.email, name: user.name, role: user.role, created_at: user.created_at } });
+});
+// ─── API Keys ─────────────────────────────────────────────────────────────────
+app.post("/api/keys", requireUser, async (c) => {
+    const user = c.get("user");
+    const { name } = await c.req.json();
+    if (!name)
+        return c.json({ error: "Key name is required" }, 400);
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const key = "sf_" + generateHex(24);
+    const prefix = key.substring(0, 10);
+    const { data, error } = await supabase.from("api_keys").insert({ user_id: user.id, name, key, prefix }).select().single();
+    if (error)
+        return c.json({ error: "Failed to create key" }, 500);
+    return c.json({ id: data.id, name: data.name, key: data.key, prefix: data.prefix, created_at: data.created_at });
+});
+app.get("/api/keys", requireUser, async (c) => {
+    const user = c.get("user");
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const { data } = await supabase.from("api_keys").select("id, name, prefix, created_at, last_used_at, revoked").eq("user_id", user.id).order("created_at", { ascending: false });
+    return c.json({ keys: data || [] });
+});
+app.delete("/api/keys/:id", requireUser, async (c) => {
+    const user = c.get("user");
+    const id = c.req.param("id");
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const { data: key } = await supabase.from("api_keys").select("id").eq("id", id).eq("user_id", user.id).maybeSingle();
+    if (!key)
+        return c.json({ error: "Key not found" }, 404);
+    await supabase.from("api_keys").update({ revoked: true }).eq("id", id);
+    return c.json({ success: true });
+});
+app.get("/api/keys/usage", requireUser, async (c) => {
+    const user = c.get("user");
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const { data: keys } = await supabase.from("api_keys").select("id, name, prefix").eq("user_id", user.id);
+    if (!keys || keys.length === 0)
+        return c.json({ usage: [] });
+    const keyIds = keys.map(k => k.id);
+    const { data: logs } = await supabase.from("api_usage_logs").select("*").in("api_key_id", keyIds).order("created_at", { ascending: false }).limit(100);
+    return c.json({ usage: logs || [], keys });
+});
+// ─── Admin ─────────────────────────────────────────────────────────────────────
+app.get("/api/admin/users", requireAdmin, async (c) => {
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const { data } = await supabase.from("users").select("id, email, name, role, created_at, last_login_at").order("created_at", { ascending: false });
+    return c.json({ users: data || [] });
+});
+app.get("/api/admin/keys", requireAdmin, async (c) => {
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const { data } = await supabase.from("api_keys").select("*, users(email, name)").order("created_at", { ascending: false });
+    return c.json({ keys: data || [] });
+});
+app.get("/api/admin/stats", requireAdmin, async (c) => {
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const [usersRes, keysRes, logsRes] = await Promise.all([
+        supabase.from("users").select("id", { count: "exact", head: true }),
+        supabase.from("api_keys").select("id", { count: "exact", head: true }),
+        supabase.from("api_usage_logs").select("id", { count: "exact", head: true }),
+    ]);
+    const { data: recentLogs } = await supabase.from("api_usage_logs").select("created_at, endpoint, status").order("created_at", { ascending: false }).limit(50);
     return c.json({
-        code,
-        url: `${origin}/t/${code}`,
+        totalUsers: usersRes.count || 0,
+        totalKeys: keysRes.count || 0,
+        totalRequests: logsRes.count || 0,
+        recentRequests: recentLogs || [],
     });
 });
-// 2. GET /api/text/:code -> Retrieve a snippet
-app.get("/api/text/:code", async (c) => {
-    const code = c.req.param("code");
-    if (!code) {
-        return c.json({ error: "Code is required" }, 400);
-    }
-    const redis = new Redis({
-        url: c.env.UPSTASH_REDIS_REST_URL,
-        token: c.env.UPSTASH_REDIS_REST_TOKEN,
-    });
+app.put("/api/admin/users/:id/role", requireAdmin, async (c) => {
+    const id = c.req.param("id");
+    const { role } = await c.req.json();
+    if (!["user", "admin"].includes(role))
+        return c.json({ error: "Invalid role" }, 400);
     const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
-    const redisKey = `snippet:${code}`;
-    // Try Cache First
-    let cached = await redis.get(redisKey);
-    if (cached) {
-        // Update local object view count
-        const views = (cached.views || 0) + 1;
-        cached.views = views;
-        // Save updated view count back to cache
-        await redis.set(redisKey, JSON.stringify(cached), { keepTtl: true });
-        // Update DB views asynchronously in background
-        c.executionCtx.waitUntil((async () => {
-            await supabase.rpc("increment_snippet_views", { snippet_id: code });
-        })());
-        return c.json(cached);
+    await supabase.from("users").update({ role }).eq("id", id);
+    return c.json({ success: true });
+});
+// ─── API Key Middleware for public API routes ────────────────────────────────
+async function apiKeyAuth(c, next) {
+    const auth = c.req.header("Authorization") || "";
+    const key = auth.replace("Bearer ", "");
+    if (key && key.startsWith("sf_")) {
+        const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+        const { data } = await supabase.from("api_keys").select("id, user_id").eq("key", key).eq("revoked", false).maybeSingle();
+        if (data) {
+            c.set("api_key_id", data.id);
+            c.set("api_user_id", data.user_id);
+            supabase.from("api_keys").update({ last_used_at: new Date().toISOString() }).eq("id", data.id).then(() => { });
+        }
     }
-    // Query Database
-    const { data, error } = await supabase
-        .from("snippets")
-        .select("*")
-        .eq("id", code)
-        .maybeSingle();
-    if (error || !data) {
-        return c.json({ error: "Text snippet not found" }, 404);
+    await next();
+}
+async function logUsage(c, next) {
+    await next();
+    const apiKeyId = c.get("api_key_id");
+    if (apiKeyId) {
+        const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+        const url = new URL(c.req.url);
+        supabase.from("api_usage_logs").insert({
+            api_key_id: apiKeyId, user_id: c.get("api_user_id"),
+            endpoint: url.pathname, method: c.req.method, status: c.res.status, ip: c.req.header("CF-Connecting-IP") || "",
+        }).then(() => { });
     }
-    // Increment views in DB
-    const { data: updatedData } = await supabase
-        .from("snippets")
-        .update({ views: data.views + 1 })
-        .eq("id", code)
-        .select()
-        .maybeSingle();
+}
+// ─── Existing Routes (with API key middleware) ─────────────────────────────
+app.post("/api/text", apiKeyAuth, logUsage, async (c) => {
+    const { text } = await c.req.json();
+    if (!text || typeof text !== "string")
+        return c.json({ error: "Text is required" }, 400);
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    const redis = getRedis(c.env);
+    if (redis) {
+        try {
+            const clientIP = c.req.header("CF-Connecting-IP") || "anonymous";
+            const count = await redis.incr(`ratelimit:${clientIP}`);
+            if (count === 1)
+                await redis.expire(`ratelimit:${clientIP}`, 60);
+            if (count > 10)
+                return c.json({ error: "Rate limit exceeded" }, 429);
+        }
+        catch { }
+    }
+    let code = "";
+    for (let i = 0; i < 5; i++) {
+        code = generateCode(4);
+        const { data } = await supabase.from("snippets").select("id").eq("id", code).maybeSingle();
+        if (!data)
+            break;
+    }
+    const { error: dbError } = await supabase.from("snippets").insert({ id: code, text, views: 0 });
+    if (dbError)
+        return c.json({ error: "Database error" }, 500);
+    if (redis) {
+        try {
+            await redis.set(`snippet:${code}`, JSON.stringify({ id: code, text, views: 0, createdAt: Date.now() }), { ex: 86400 });
+        }
+        catch { }
+    }
+    const origin = new URL(c.req.url).origin;
+    return c.json({ code, url: `${origin}/t/${code}` });
+});
+app.get("/api/text/:code", apiKeyAuth, logUsage, async (c) => {
+    const code = c.req.param("code");
+    const redis = getRedis(c.env);
+    const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY);
+    if (redis) {
+        try {
+            const cached = await redis.get(`snippet:${code}`);
+            if (cached) {
+                cached.views = (cached.views || 0) + 1;
+                await redis.set(`snippet:${code}`, JSON.stringify(cached), { keepTtl: true });
+                c.executionCtx.waitUntil((async () => { try {
+                    await supabase.rpc("increment_snippet_views", { snippet_id: code });
+                }
+                catch { } })());
+                return c.json(cached);
+            }
+        }
+        catch { }
+    }
+    const { data, error } = await supabase.from("snippets").select("*").eq("id", code).maybeSingle();
+    if (error || !data)
+        return c.json({ error: "Not found" }, 404);
+    const { data: updatedData } = await supabase.from("snippets").update({ views: data.views + 1 }).eq("id", code).select().maybeSingle();
     const finalData = updatedData || data;
-    const snippet = {
-        id: finalData.id,
-        text: finalData.text,
-        views: finalData.views,
-        createdAt: new Date(finalData.created_at).getTime(),
-    };
-    // Cache snippet in Redis
-    await redis.set(redisKey, JSON.stringify(snippet), { ex: 86400 });
+    const snippet = { id: finalData.id, text: finalData.text, views: finalData.views, createdAt: new Date(finalData.created_at).getTime() };
+    if (redis) {
+        try {
+            await redis.set(`snippet:${code}`, JSON.stringify(snippet), { ex: 86400 });
+        }
+        catch { }
+    }
     return c.json(snippet);
+});
+app.post("/api/file", apiKeyAuth, logUsage, async (c) => {
+    const body = await c.req.parseBody();
+    const file = body['file'];
+    if (!file)
+        return c.json({ error: "File is required" }, 400);
+    if (file.size > 10 * 1024 * 1024)
+        return c.json({ error: "File must be smaller than 10MB" }, 400);
+    let code = "";
+    for (let i = 0; i < 5; i++) {
+        code = generateCode(4);
+        const existing = await c.env.BUCKET.head(code);
+        if (!existing)
+            break;
+    }
+    const arrayBuffer = await file.arrayBuffer();
+    await c.env.BUCKET.put(code, arrayBuffer, {
+        httpMetadata: { contentType: file.type || 'application/octet-stream' },
+        customMetadata: { filename: file.name, size: String(file.size), mimeType: file.type || 'application/octet-stream', expiresAt: String(Date.now() + 24 * 60 * 60 * 1000) }
+    });
+    return c.json({ code });
+});
+app.post("/api/file/p2p", apiKeyAuth, logUsage, async (c) => {
+    const { name, size, mimeType } = await c.req.json();
+    if (!name || size === undefined)
+        return c.json({ error: "Name and size are required" }, 400);
+    let code = "";
+    for (let i = 0; i < 5; i++) {
+        code = generateCode(4);
+        const exists = await c.env.BUCKET.head(`p2p-${code}`);
+        const file = await c.env.BUCKET.head(code);
+        if (!exists && !file)
+            break;
+    }
+    await c.env.BUCKET.put(`p2p-${code}`, JSON.stringify({ type: 'p2p', name, size, mimeType: mimeType || 'application/octet-stream', offer: null, createdAt: Date.now() }), {
+        customMetadata: { expiresAt: String(Date.now() + 10 * 60 * 1000) }
+    });
+    return c.json({ code });
+});
+app.post("/api/file/p2p/:code/offer", apiKeyAuth, logUsage, async (c) => {
+    const code = c.req.param("code");
+    const { offer } = await c.req.json();
+    if (!offer)
+        return c.json({ error: "WebRTC offer is required" }, 400);
+    const obj = await c.env.BUCKET.get(`p2p-${code}`);
+    if (!obj)
+        return c.json({ error: "P2P session not found" }, 404);
+    const data = JSON.parse(await obj.text());
+    data.offer = offer;
+    await c.env.BUCKET.put(`p2p-${code}`, JSON.stringify(data), { customMetadata: { expiresAt: String(Date.now() + 10 * 60 * 1000) } });
+    return c.json({ success: true });
+});
+app.post("/api/file/p2p/:code/answer", async (c) => {
+    const code = c.req.param("code");
+    const { answer } = await c.req.json();
+    if (!answer)
+        return c.json({ error: "Answer is required" }, 400);
+    await c.env.BUCKET.put(`p2p-answer-${code}`, JSON.stringify({ answer }), { customMetadata: { expiresAt: String(Date.now() + 10 * 60 * 1000) } });
+    return c.json({ success: true });
+});
+app.get("/api/file/p2p/:code/answer", async (c) => {
+    const code = c.req.param("code");
+    const obj = await c.env.BUCKET.get(`p2p-answer-${code}`);
+    if (!obj)
+        return c.json({ status: "waiting" });
+    const data = JSON.parse(await obj.text());
+    return c.json({ status: "ready", answer: data.answer });
+});
+app.get("/api/file/:code", apiKeyAuth, logUsage, async (c) => {
+    const code = c.req.param("code");
+    const fileObj = await c.env.BUCKET.head(code);
+    if (fileObj) {
+        const expiresAt = Number(fileObj.customMetadata?.expiresAt);
+        if (expiresAt && Date.now() > expiresAt) {
+            c.executionCtx.waitUntil(c.env.BUCKET.delete(code));
+            return c.json({ error: "File has expired" }, 410);
+        }
+        return c.json({ type: 'server', name: fileObj.customMetadata?.filename || 'download', size: Number(fileObj.customMetadata?.size || fileObj.size), mimeType: fileObj.customMetadata?.mimeType || 'application/octet-stream', createdAt: fileObj.uploaded.getTime() });
+    }
+    const p2pObj = await c.env.BUCKET.get(`p2p-${code}`);
+    if (p2pObj) {
+        const expiresAt = Number(p2pObj.customMetadata?.expiresAt);
+        if (expiresAt && Date.now() > expiresAt) {
+            c.executionCtx.waitUntil(c.env.BUCKET.delete(`p2p-${code}`));
+            return c.json({ error: "P2P session has expired" }, 410);
+        }
+        const data = JSON.parse(await p2pObj.text());
+        return c.json({ type: 'p2p', name: data.name, size: data.size, mimeType: data.mimeType, createdAt: data.createdAt, offer: data.offer });
+    }
+    return c.json({ error: "File not found or expired" }, 404);
+});
+app.get("/api/file/:code/download", async (c) => {
+    const code = c.req.param("code");
+    const object = await c.env.BUCKET.get(code);
+    if (!object)
+        return c.json({ error: "File not found" }, 404);
+    const expiresAt = Number(object.customMetadata?.expiresAt);
+    if (expiresAt && Date.now() > expiresAt) {
+        c.executionCtx.waitUntil(c.env.BUCKET.delete(code));
+        return c.json({ error: "File has expired" }, 410);
+    }
+    const headers = new Headers();
+    object.writeHttpMetadata(headers);
+    headers.set('etag', object.httpEtag);
+    if (object.customMetadata?.filename)
+        headers.set('Content-Disposition', `attachment; filename*=UTF-8''${encodeURIComponent(object.customMetadata.filename)}`);
+    return new Response(object.body, { headers });
 });
 export default app;
