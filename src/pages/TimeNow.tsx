@@ -10,6 +10,22 @@ function pad(n: number): string {
 export default function TimeNow() {
   const [now, setNow] = useState(() => new Date());
   const [showUtc, setShowUtc] = useState(false);
+  const [format12, setFormat12] = useState(() => {
+    try {
+      return localStorage.getItem("time-format") === "12";
+    } catch {
+      return false;
+    }
+  });
+
+  const setFormat = (v: boolean) => {
+    setFormat12(v);
+    try {
+      localStorage.setItem("time-format", v ? "12" : "24");
+    } catch {
+      /* noop */
+    }
+  };
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
@@ -59,11 +75,14 @@ export default function TimeNow() {
             <MapPin className="w-3 h-3" /> {tz} · {offsetLabel} · {tzShort}
           </div>
           <p className="text-6xl sm:text-8xl md:text-9xl font-black tabular-nums tracking-tighter leading-none">
-            {pad(now.getHours())}:{pad(now.getMinutes())}
-            <span className="text-2xl sm:text-4xl md:text-5xl text-white/50 align-top ml-2 tabular-nums">{pad(now.getSeconds())}</span>
+            {format12 ? h12 : pad(now.getHours())}:{pad(now.getMinutes())}
+            <span className="text-2xl sm:text-4xl md:text-5xl text-white/50 align-top ml-2 tabular-nums">
+              {pad(now.getSeconds())}
+              {format12 && <span className={`ml-2 align-middle text-xl sm:text-2xl md:text-3xl ${ampm === "PM" ? "text-white/70" : "text-white/50"}`}>{ampm}</span>}
+            </span>
           </p>
           <p className="text-white/60 font-mono text-sm mt-6">{dateLong}</p>
-          <p className="text-white/30 text-xs mt-2">{t12}</p>
+          <p className="text-white/30 text-xs mt-2">{format12 ? t24 : t12}</p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -97,10 +116,23 @@ export default function TimeNow() {
               <RefreshCw className="w-3 h-3" /> {showUtc ? "Hide" : "UTC"}
             </button>
           </div>
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-[10px] text-white/40 uppercase tracking-widest">24h</p>
-              <p className="font-mono text-sm">{t24}</p>
+              <p className="text-[10px] text-white/40 uppercase tracking-widest">Format</p>
+              <div className="flex mt-1.5 border border-white/15">
+                <button
+                  onClick={() => setFormat(false)}
+                  className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${!format12 ? "bg-white text-black" : "text-white/50 hover:text-white"}`}
+                >
+                  24H
+                </button>
+                <button
+                  onClick={() => setFormat(true)}
+                  className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors border-l border-white/15 ${format12 ? "bg-white text-black" : "text-white/50 hover:text-white"}`}
+                >
+                  12H
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -131,6 +163,7 @@ export default function TimeNow() {
         ]}
         faqs={[
           { question: "Which timezone is shown?", answer: "Your browser's current timezone, detected automatically via the Intl API." },
+          { question: "Can I switch between 12h and 24h?", answer: "Yes — use the Format toggle on the page. Your choice is remembered between visits." },
           { question: "Does it update live?", answer: "Yes — the clock ticks every second and always stays in sync." },
           { question: "Does it respect daylight saving?", answer: "Yes. The offset comes from your system time, so DST is handled automatically." },
         ]}

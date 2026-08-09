@@ -3,28 +3,17 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { Menu, X, Sun, Moon, Clock } from "lucide-react";
 
 function NavClock() {
-  const [time, setTime] = useState(() => new Date());
-
-  useEffect(() => {
-    const id = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  const pad = (n: number) => String(n).padStart(2, "0");
-  const seconds = pad(time.getSeconds());
-  const hhmm = `${pad(time.getHours())}:${pad(time.getMinutes())}`;
+  const { pathname } = useLocation();
 
   return (
     <Link
       to="/time"
-      title="Current time in your timezone"
-      className="flex items-center gap-2 rounded-md px-2.5 py-1.5 text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+      className={`flex items-center gap-2 rounded-md px-2.5 py-1.5 transition-colors ${
+        pathname === "/time" ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
+      }`}
     >
       <Clock className="h-4 w-4" />
-      <span className="font-mono tabular-nums text-sm leading-none">
-        {hhmm}
-        <span className={`text-white/40 ${seconds === "00" ? "animate-pulse" : ""}`}>:{seconds}</span>
-      </span>
+      <span className="text-sm font-medium">Time Now</span>
     </Link>
   );
 }
