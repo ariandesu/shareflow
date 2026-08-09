@@ -45,6 +45,19 @@ import CoinFlip from "./pages/CoinFlip";
 import CSVViewer from "./pages/CSVViewer";
 import HTMLBeautifier from "./pages/HTMLBeautifier";
 import ZIndexVisualizer from "./pages/ZIndexVisualizer";
+import PDFTextExtractor from "./pages/PDFTextExtractor";
+import PDFPageRemover from "./pages/PDFPageRemover";
+import TextDiff from "./pages/TextDiff";
+import CSVJsonConverter from "./pages/CSVJsonConverter";
+import EpochConverter from "./pages/EpochConverter";
+import WordCounter from "./pages/WordCounter";
+import CaseConverter from "./pages/CaseConverter";
+import TimezoneConverter from "./pages/TimezoneConverter";
+import ColorContrastChecker from "./pages/ColorContrastChecker";
+import PercentageCalculator from "./pages/PercentageCalculator";
+import LoremIpsum from "./pages/LoremIpsum";
+import IDGenerator from "./pages/IDGenerator";
+import TimeNow from "./pages/TimeNow";
 import DeveloperGateway from "./pages/DeveloperGateway";
 import DeveloperLogin from "./pages/DeveloperLogin";
 import DeveloperSignup from "./pages/DeveloperSignup";
@@ -112,6 +125,19 @@ export default function App() {
             <Route path="csv-viewer" element={<CSVViewer />} />
             <Route path="html-beautifier" element={<HTMLBeautifier />} />
             <Route path="z-index" element={<ZIndexVisualizer />} />
+            <Route path="pdf-text-extractor" element={<PDFTextExtractor />} />
+            <Route path="pdf-page-remover" element={<PDFPageRemover />} />
+            <Route path="text-diff" element={<TextDiff />} />
+            <Route path="csv-json" element={<CSVJsonConverter />} />
+            <Route path="epoch-converter" element={<EpochConverter />} />
+            <Route path="word-counter" element={<WordCounter />} />
+            <Route path="case-converter" element={<CaseConverter />} />
+            <Route path="timezone-converter" element={<TimezoneConverter />} />
+            <Route path="color-contrast" element={<ColorContrastChecker />} />
+            <Route path="percentage-calculator" element={<PercentageCalculator />} />
+            <Route path="lorem-ipsum" element={<LoremIpsum />} />
+            <Route path="id-generator" element={<IDGenerator />} />
+            <Route path="time" element={<TimeNow />} />
 
             {/* Developer Gateway */}
             <Route path="dev" element={<DeveloperGateway />} />

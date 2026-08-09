@@ -1,6 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Clock } from "lucide-react";
+
+function NavClock() {
+  const [time, setTime] = useState(() => new Date());
+
+  useEffect(() => {
+    const id = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const seconds = pad(time.getSeconds());
+  const hhmm = `${pad(time.getHours())}:${pad(time.getMinutes())}`;
+
+  return (
+    <Link
+      to="/time"
+      title="Current time in your timezone"
+      className="flex items-center gap-2 rounded-md px-2.5 py-1.5 text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+    >
+      <Clock className="h-4 w-4" />
+      <span className="font-mono tabular-nums text-sm leading-none">
+        {hhmm}
+        <span className={`text-white/40 ${seconds === "00" ? "animate-pulse" : ""}`}>:{seconds}</span>
+      </span>
+    </Link>
+  );
+}
 
 export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -131,13 +158,16 @@ export function Layout() {
                 </div>
               </div>
             </nav>
-            <button
-              onClick={() => setIsLightMode(!isLightMode)}
-              className="p-2 rounded-md text-white/50 hover:text-white hover:bg-white/5 transition-colors"
-              title="Toggle theme"
-            >
-              {isLightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-            </button>
+            <div className="flex items-center gap-2">
+              <NavClock />
+              <button
+                onClick={() => setIsLightMode(!isLightMode)}
+                className="p-2 rounded-md text-white/50 hover:text-white hover:bg-white/5 transition-colors"
+                title="Toggle theme"
+              >
+                {isLightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -170,7 +200,7 @@ export function Layout() {
           </div>
 
           <div className="px-4 py-2 flex items-center justify-between border-b border-white/10 mb-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-white/50">Theme</span>
+            <NavClock />
             <button
               onClick={() => setIsLightMode(!isLightMode)}
               className="p-2 rounded-md text-white/50 hover:text-white hover:bg-white/5 transition-colors"
