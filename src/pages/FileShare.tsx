@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Upload, X, Copy, Check, File as FileIcon, ArrowRight, Zap, Cloud, Download, Server, Wifi, HelpCircle, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { AdBanner } from "../components/AdBanner";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export function FileShare() {
   const navigate = useNavigate();
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [mode, setMode] = useState<"server" | "p2p">("server");
   const [status, setStatus] = useState<"idle" | "uploading" | "waiting_peer" | "transferring" | "success" | "error">("idle");
   const [progress, setProgress] = useState(0);
@@ -17,8 +18,10 @@ export function FileShare() {
   const [receiveCode, setReceiveCode] = useState("");
   
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const addMoreInputRef = useRef<HTMLInputElement>(null);
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const pollIntervalRef = useRef<number | null>(null);
+  const totalSentRef = useRef<number>(0);
   
   // Ref to track status inside WebRTC asynchronous callbacks
   const statusRef = useRef(status);
@@ -43,11 +46,16 @@ export function FileShare() {
     }
   };
 
+  const totalSize = files.reduce((sum, f) => sum + f.size, 0);
+  const isMultiFile = files.length > 1;
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = e.target.files?.[0];
-    if (selected) {
-      setFile(selected);
-      if (selected.size > 10 * 1024 * 1024) {
+    const selected = Array.from(e.target.files || []);
+    if (selected.length > 0) {
+      setFiles(selected);
+      const largest = Math.max(...selected.map((f) => f.size));
+      const total = selected.reduce((sum, f) => sum + f.size, 0);
+      if (largest > 10 * 1024 * 1024 || total > 10 * 1024 * 1024) {
         setMode("p2p");
       } else {
         setMode("server");
@@ -59,38 +67,74 @@ export function FileShare() {
     }
   };
 
+  const handleAddMoreFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(e.target.files || []);
+    if (selected.length === 0) return;
+    setFiles((prev) => {
+      const next = [...prev, ...selected];
+      const largest = Math.max(...next.map((f) => f.size));
+      const total = next.reduce((sum, f) => sum + f.size, 0);
+      if (largest > 10 * 1024 * 1024 || total > 10 * 1024 * 1024) {
+        setMode("p2p");
+      } else {
+        setMode("server");
+      }
+      return next;
+    });
+    setStatus("idle");
+    setShareCode("");
+    setErrorMsg("");
+    setProgress(0);
+    e.target.value = "";
+  };
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const dropped = e.dataTransfer.files?.[0];
-    if (dropped) {
-      setFile(dropped);
-      if (dropped.size > 10 * 1024 * 1024) setMode("p2p");
+    const dropped = Array.from(e.dataTransfer.files || []);
+    if (dropped.length > 0) {
+      setFiles(dropped);
+      const largest = Math.max(...dropped.map((f) => f.size));
+      const total = dropped.reduce((sum, f) => sum + f.size, 0);
+      if (largest > 10 * 1024 * 1024 || total > 10 * 1024 * 1024) setMode("p2p");
       else setMode("server");
       setStatus("idle");
       setShareCode("");
     }
   };
 
+  const removeFile = (index: number) => {
+    setFiles((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      if (next.length === 0) {
+        setStatus("idle");
+        setShareCode("");
+        setErrorMsg("");
+        setProgress(0);
+      }
+      return next;
+    });
+  };
+
   const startShare = async () => {
-    if (!file) return;
+    if (files.length === 0) return;
     setStatus(mode === "server" ? "uploading" : "waiting_peer");
     setErrorMsg("");
     setProgress(0);
 
     if (mode === "server") {
       // Cloud sync upload (R2)
-      if (file.size > 10 * 1024 * 1024) {
-        setErrorMsg("Cloud Sync is limited to 10MB. Use Direct P2P for larger files.");
+      if (totalSize > 10 * 1024 * 1024) {
+        setErrorMsg("Cloud Sync is limited to 10MB total. Use Direct P2P for larger files.");
         setStatus("error");
         return;
       }
       
       const formData = new FormData();
-      formData.append("file", file);
+      files.forEach((f) => formData.append("files", f));
 
       try {
         const xhr = new XMLHttpRequest();
@@ -136,9 +180,14 @@ export function FileShare() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: file.name,
-            size: file.size,
-            mimeType: file.type
+            name: isMultiFile ? `${files[0].name} +${files.length - 1}` : files[0].name,
+            size: totalSize,
+            mimeType: files[0].type,
+            files: files.map((f) => ({
+              name: f.name,
+              size: f.size,
+              mimeType: f.type || "application/octet-stream",
+            }))
           })
         });
 
@@ -189,32 +238,46 @@ export function FileShare() {
         channel.onopen = async () => {
           console.log("WebRTC Data Channel opened!");
           setStatus("transferring");
+          totalSentRef.current = 0;
           
-          const buffer = await file.arrayBuffer();
-          let offset = 0;
-          const chunkLength = 16384; // 16KB
+          // Send manifest describing all files
+          const manifest = files.map((f) => ({
+            name: f.name,
+            size: f.size,
+            mimeType: f.type || "application/octet-stream",
+          }));
+          channel.send("__MANIFEST__" + JSON.stringify(manifest));
 
-          const sendNextChunk = () => {
-            while (offset < buffer.byteLength) {
-              if (channel.bufferedAmount > 1 * 1024 * 1024) { // 1MB threshold
-                channel.onbufferedamountlow = () => {
-                  channel.onbufferedamountlow = null;
-                  sendNextChunk();
-                };
-                return;
+          let totalSent = 0;
+
+          for (const file of files) {
+            const buffer = await file.arrayBuffer();
+            let offset = 0;
+            const chunkLength = 16384; // 16KB
+
+            const sendNextChunk = () => {
+              while (offset < buffer.byteLength) {
+                if (channel.bufferedAmount > 1 * 1024 * 1024) { // 1MB threshold
+                  channel.onbufferedamountlow = () => {
+                    channel.onbufferedamountlow = null;
+                    sendNextChunk();
+                  };
+                  return;
+                }
+
+                const chunk = buffer.slice(offset, offset + chunkLength);
+                channel.send(chunk);
+                offset += chunkLength;
+                totalSentRef.current += chunk.byteLength;
+                setProgress(Math.min(100, Math.round((totalSentRef.current / totalSize) * 100)));
               }
+            };
 
-              const chunk = buffer.slice(offset, offset + chunkLength);
-              channel.send(chunk);
-              offset += chunkLength;
-              setProgress(Math.min(100, Math.round((offset / buffer.byteLength) * 100)));
-            }
+            sendNextChunk();
+          }
 
-            // EOF transmission
-            channel.send("__EOF__");
-          };
-
-          sendNextChunk();
+          // EOF transmission
+          channel.send("__EOF__");
         };
 
         channel.onclose = () => {
@@ -337,11 +400,12 @@ export function FileShare() {
   };
 
   const reset = () => {
-    setFile(null);
+    setFiles([]);
     setStatus("idle");
     setShareCode("");
     setErrorMsg("");
     setProgress(0);
+    totalSentRef.current = 0;
     cleanupWebRTC();
   };
 
@@ -379,7 +443,7 @@ export function FileShare() {
                 >
                   <div 
                     className={`border-4 border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
-                      file ? 'border-black bg-black/5' : 'border-black/20 hover:border-black/50 hover:bg-black/5'
+                      files.length > 0 ? 'border-black bg-black/5' : 'border-black/20 hover:border-black/50 hover:bg-black/5'
                     }`}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
@@ -389,42 +453,78 @@ export function FileShare() {
                       type="file" 
                       ref={fileInputRef} 
                       onChange={handleFileChange} 
+                      multiple
+                      onClick={(e) => e.stopPropagation()}
                       className="hidden" 
                     />
+                    <input 
+                      type="file"
+                      ref={addMoreInputRef}
+                      onChange={handleAddMoreFiles}
+                      multiple
+                      onClick={(e) => e.stopPropagation()}
+                      className="hidden"
+                    />
                     
-                    {file ? (
-                      <div className="flex flex-col items-center gap-2">
-                        <FileIcon className="w-10 h-10 text-black" />
-                        <div>
-                          <p className="font-bold text-sm text-black break-all">{file.name}</p>
-                          <p className="text-xs font-medium text-black/50">{(file.size / (1024*1024)).toFixed(2)} MB</p>
+                    {files.length > 0 ? (
+                      <div className="w-full flex flex-col gap-2">
+                        <div className="flex items-center justify-center gap-2 mb-1">
+                          <FileIcon className="w-6 h-6 text-black" />
+                          <span className="font-bold text-sm text-black">{files.length} file{files.length > 1 ? "s" : ""}</span>
+                        </div>
+                        <div className="max-h-44 overflow-y-auto divide-y divide-black/10 border border-black/10">
+                          {files.map((f, i) => (
+                            <div key={i} className="flex items-center justify-between gap-3 px-3 py-2 bg-black/5">
+                              <div className="flex-1 min-w-0 text-left">
+                                <p className="font-bold text-xs text-black truncate">{f.name}</p>
+                                <p className="text-[10px] font-medium text-black/50">{(f.size / (1024*1024)).toFixed(2)} MB</p>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); removeFile(i); }}
+                                className="w-6 h-6 bg-black text-white flex items-center justify-center hover:bg-black/70 transition-colors light-theme-invert"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <p className="text-[10px] font-medium text-black/50">{(totalSize / (1024*1024)).toFixed(2)} MB total</p>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); addMoreInputRef.current?.click(); }}
+                            className="flex-1 py-2.5 border-2 border-black text-black font-black uppercase tracking-widest text-[10px] hover:bg-black hover:text-white transition-colors"
+                          >
+                            Add More Files
+                          </button>
                         </div>
                       </div>
                     ) : (
                       <div className="flex flex-col items-center gap-2 text-black/50">
                         <Upload className="w-10 h-10 text-black" />
                         <div>
-                          <p className="font-bold text-sm text-black">Drag & Drop file here</p>
+                          <p className="font-bold text-sm text-black">Drag & Drop file(s) here</p>
                           <p className="text-xs">or click to browse</p>
                         </div>
                       </div>
                     )}
                   </div>
 
-                  {file && (
+                  {files.length > 0 && (
                     <div className="flex flex-col gap-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div 
                           onClick={() => setMode("server")}
                           className={`p-3 border-2 flex flex-col gap-1 cursor-pointer transition-all ${
                             mode === "server" ? "border-black bg-black text-white" : "border-black/10 hover:border-black/30"
-                          } ${file.size > 10 * 1024 * 1024 ? "opacity-50 pointer-events-none" : ""}`}
+                          } ${totalSize > 10 * 1024 * 1024 ? "opacity-50 pointer-events-none" : ""}`}
                         >
                           <div className="flex items-center gap-1 font-bold text-xs">
                             <Cloud className="w-4 h-4" /> Cloud Sync
                           </div>
                           <p className="text-[10px] opacity-70">
-                            Edge servers. 24h limit. Max 10MB.
+                            Edge servers. 24h limit. Max 10MB total.
                           </p>
                         </div>
 
@@ -624,6 +724,8 @@ export function FileShare() {
 
       </div>
 
+      <AdBanner />
+
       {/* User Guide & FAQ Section */}
       <div className="w-full max-w-6xl flex flex-col md:flex-row gap-8 bg-white/5 border border-white/10 p-8 sm:p-12 text-white">
         <div className="flex-1">
@@ -631,11 +733,11 @@ export function FileShare() {
             <BookOpen className="w-6 h-6 text-white" /> User Guide
           </h3>
           <ul className="list-decimal pl-5 space-y-3 text-sm text-white/70">
-            <li>Select a file using the drag-and-drop region or click to browse.</li>
+            <li>Select one or more files using the drag-and-drop region or click to browse.</li>
             <li>Choose a sharing strategy:
               <ul className="list-disc pl-5 mt-2 space-y-1">
-                <li><strong>Cloud Sync:</strong> Best for fast sharing of files up to 10MB. File is uploaded to secure Cloudflare R2 edge nodes and deletes automatically after 24 hours.</li>
-                <li><strong>Direct P2P:</strong> Ideal for files of any size (unlimited). Initiates a direct connection from your browser to the receiver. Senders must keep the browser tab open during transfer.</li>
+                <li><strong>Cloud Sync:</strong> Best for fast sharing of several files totaling up to 10MB. Files are uploaded to secure Cloudflare R2 edge nodes and delete automatically after 24 hours.</li>
+                <li><strong>Direct P2P:</strong> Ideal for files of any size (unlimited) or large batches. Initiates a direct connection from your browser to the receiver. Senders must keep the browser tab open during transfer.</li>
               </ul>
             </li>
             <li>Copy the generated 4-character code or full link, and share it with the receiver.</li>

@@ -405,35 +405,69 @@ app.get("/api/text/:code", apiKeyAuth, logUsage, async (c) => {
 });
 
 app.post("/api/file", apiKeyAuth, logUsage, async (c) => {
-  const body = await c.req.parseBody();
-  const file = body['file'] as File;
-  if (!file) return c.json({ error: "File is required" }, 400);
-  if (file.size > 10 * 1024 * 1024) return c.json({ error: "File must be smaller than 10MB" }, 400);
+  const formData = await c.req.formData();
+  const files: File[] = [];
+  for (const value of formData.values()) {
+    if (value instanceof File) files.push(value);
+  }
+  if (files.length === 0) {
+    const body = await c.req.parseBody();
+    const single = body['file'];
+    if (single instanceof File) files.push(single);
+  }
+  if (files.length === 0) return c.json({ error: "At least one file is required" }, 400);
+  for (const file of files) {
+    if (file.size > 10 * 1024 * 1024) return c.json({ error: "Each file must be smaller than 10MB" }, 400);
+  }
   let code = "";
   for (let i = 0; i < 5; i++) {
     code = generateCode(4);
     const existing = await c.env.BUCKET.head(code);
     if (!existing) break;
   }
-  const arrayBuffer = await file.arrayBuffer();
-  await c.env.BUCKET.put(code, arrayBuffer, {
-    httpMetadata: { contentType: file.type || 'application/octet-stream' },
-    customMetadata: { filename: file.name, size: String(file.size), mimeType: file.type || 'application/octet-stream', expiresAt: String(Date.now() + 24 * 60 * 60 * 1000) }
-  });
+  if (files.length === 1) {
+    const file = files[0];
+    const arrayBuffer = await file.arrayBuffer();
+    await c.env.BUCKET.put(code, arrayBuffer, {
+      httpMetadata: { contentType: file.type || 'application/octet-stream' },
+      customMetadata: { filename: file.name, size: String(file.size), mimeType: file.type || 'application/octet-stream', expiresAt: String(Date.now() + 24 * 60 * 60 * 1000) }
+    });
+  } else {
+    const manifest = { format: 'manifest', files: files.map((f) => ({ name: f.name, size: f.size, mimeType: f.type || 'application/octet-stream' })) };
+    await c.env.BUCKET.put(`batch-${code}`, JSON.stringify(manifest), {
+      httpMetadata: { contentType: 'application/json' },
+      customMetadata: { manifest: 'true', expiresAt: String(Date.now() + 24 * 60 * 60 * 1000) }
+    });
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const arrayBuffer = await file.arrayBuffer();
+      await c.env.BUCKET.put(`batch-${code}-${i}`, arrayBuffer, {
+        httpMetadata: { contentType: file.type || 'application/octet-stream' },
+        customMetadata: { filename: file.name, size: String(file.size), mimeType: file.type || 'application/octet-stream', expiresAt: String(Date.now() + 24 * 60 * 60 * 1000) }
+      });
+    }
+  }
   return c.json({ code });
 });
 
 app.post("/api/file/p2p", apiKeyAuth, logUsage, async (c) => {
-  const { name, size, mimeType } = await c.req.json<any>();
+  const body = await c.req.json<any>();
+  const p2pFiles = Array.isArray(body.files) ? body.files : [];
+  const name = body.name || (p2pFiles[0] && p2pFiles[0].name);
+  const size = body.size !== undefined ? body.size : p2pFiles.reduce((sum: number, f: any) => sum + (f.size || 0), 0);
   if (!name || size === undefined) return c.json({ error: "Name and size are required" }, 400);
   let code = "";
   for (let i = 0; i < 5; i++) {
     code = generateCode(4);
     const exists = await c.env.BUCKET.head(`p2p-${code}`);
     const file = await c.env.BUCKET.head(code);
-    if (!exists && !file) break;
+    const batch = await c.env.BUCKET.head(`batch-${code}`);
+    if (!exists && !file && !batch) break;
   }
-  await c.env.BUCKET.put(`p2p-${code}`, JSON.stringify({ type: 'p2p', name, size, mimeType: mimeType || 'application/octet-stream', offer: null, createdAt: Date.now() }), {
+  const sessionFiles = p2pFiles.length > 0
+    ? p2pFiles.map((f: any) => ({ name: f.name, size: f.size, mimeType: f.mimeType || 'application/octet-stream' }))
+    : [{ name, size, mimeType: body.mimeType || 'application/octet-stream' }];
+  await c.env.BUCKET.put(`p2p-${code}`, JSON.stringify({ type: 'p2p', name: sessionFiles.length > 1 ? `${sessionFiles.length} files` : name, size, mimeType: body.mimeType || 'application/octet-stream', files: sessionFiles, offer: null, createdAt: Date.now() }), {
     customMetadata: { expiresAt: String(Date.now() + 10 * 60 * 1000) }
   });
   return c.json({ code });
@@ -469,33 +503,64 @@ app.get("/api/file/p2p/:code/answer", async (c) => {
 
 app.get("/api/file/:code", apiKeyAuth, logUsage, async (c) => {
   const code = c.req.param("code");
+  const batchObj = await c.env.BUCKET.get(`batch-${code}`);
+  if (batchObj) {
+    const expiresAt = Number(batchObj.customMetadata?.expiresAt);
+    if (expiresAt && Date.now() > expiresAt) {
+      c.executionCtx.waitUntil(c.env.BUCKET.delete(`batch-${code}`));
+      return c.json({ error: "Files have expired" }, 410);
+    }
+    const batch = JSON.parse(await batchObj.text());
+    return c.json({
+      type: 'server',
+      name: `${batch.files.length} files`,
+      size: batch.files.reduce((sum: number, f: any) => sum + f.size, 0),
+      mimeType: batch.files[0]?.mimeType || 'application/octet-stream',
+      createdAt: batchObj.uploaded.getTime(),
+      files: batch.files,
+      count: batch.files.length,
+    });
+  }
   const fileObj = await c.env.BUCKET.head(code);
   if (fileObj) {
     const expiresAt = Number(fileObj.customMetadata?.expiresAt);
     if (expiresAt && Date.now() > expiresAt) { c.executionCtx.waitUntil(c.env.BUCKET.delete(code)); return c.json({ error: "File has expired" }, 410); }
-    return c.json({ type: 'server', name: fileObj.customMetadata?.filename || 'download', size: Number(fileObj.customMetadata?.size || fileObj.size), mimeType: fileObj.customMetadata?.mimeType || 'application/octet-stream', createdAt: fileObj.uploaded.getTime() });
+    return c.json({ type: 'server', name: fileObj.customMetadata?.filename || 'download', size: Number(fileObj.customMetadata?.size || fileObj.size), mimeType: fileObj.customMetadata?.mimeType || 'application/octet-stream', createdAt: fileObj.uploaded.getTime(), files: [{ name: fileObj.customMetadata?.filename || 'download', size: Number(fileObj.customMetadata?.size || fileObj.size), mimeType: fileObj.customMetadata?.mimeType || 'application/octet-stream' }], count: 1 });
   }
   const p2pObj = await c.env.BUCKET.get(`p2p-${code}`);
   if (p2pObj) {
     const expiresAt = Number(p2pObj.customMetadata?.expiresAt);
     if (expiresAt && Date.now() > expiresAt) { c.executionCtx.waitUntil(c.env.BUCKET.delete(`p2p-${code}`)); return c.json({ error: "P2P session has expired" }, 410); }
     const data = JSON.parse(await p2pObj.text());
-    return c.json({ type: 'p2p', name: data.name, size: data.size, mimeType: data.mimeType, createdAt: data.createdAt, offer: data.offer });
+    return c.json({ type: 'p2p', name: data.name || data.files[0]?.name, size: data.size, mimeType: data.mimeType, createdAt: data.createdAt, offer: data.offer, files: data.files || [{ name: data.name, size: data.size, mimeType: data.mimeType }], count: (data.files || []).length });
   }
   return c.json({ error: "File not found or expired" }, 404);
 });
 
-app.get("/api/file/:code/download", async (c) => {
+app.get("/api/file/:code/download/:index?", async (c) => {
   const code = c.req.param("code");
-  const object = await c.env.BUCKET.get(code);
-  if (!object) return c.json({ error: "File not found" }, 404);
-  const expiresAt = Number(object.customMetadata?.expiresAt);
+  const index = parseInt(c.req.param("index") || "0", 10) || 0;
+  const object = await c.env.BUCKET.get(`batch-${code}`);
+  if (object) {
+    const fileObj = await c.env.BUCKET.get(`batch-${code}-${index}`);
+    if (!fileObj) return c.json({ error: "File not found" }, 404);
+    const expiresAt = Number(fileObj.customMetadata?.expiresAt);
+    if (expiresAt && Date.now() > expiresAt) { c.executionCtx.waitUntil(c.env.BUCKET.delete(`batch-${code}-${index}`)); return c.json({ error: "File has expired" }, 410); }
+    const headers = new Headers();
+    fileObj.writeHttpMetadata(headers);
+    headers.set('etag', fileObj.httpEtag);
+    if (fileObj.customMetadata?.filename) headers.set('Content-Disposition', `attachment; filename*=UTF-8''${encodeURIComponent(fileObj.customMetadata.filename)}`);
+    return new Response(fileObj.body as ReadableStream, { headers });
+  }
+  const single = await c.env.BUCKET.get(code);
+  if (!single) return c.json({ error: "File not found" }, 404);
+  const expiresAt = Number(single.customMetadata?.expiresAt);
   if (expiresAt && Date.now() > expiresAt) { c.executionCtx.waitUntil(c.env.BUCKET.delete(code)); return c.json({ error: "File has expired" }, 410); }
   const headers = new Headers();
-  object.writeHttpMetadata(headers);
-  headers.set('etag', object.httpEtag);
-  if (object.customMetadata?.filename) headers.set('Content-Disposition', `attachment; filename*=UTF-8''${encodeURIComponent(object.customMetadata.filename)}`);
-  return new Response(object.body as ReadableStream, { headers });
+  single.writeHttpMetadata(headers);
+  headers.set('etag', single.httpEtag);
+  if (single.customMetadata?.filename) headers.set('Content-Disposition', `attachment; filename*=UTF-8''${encodeURIComponent(single.customMetadata.filename)}`);
+  return new Response(single.body as ReadableStream, { headers });
 });
 
 export default app;

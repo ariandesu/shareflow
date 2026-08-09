@@ -16,19 +16,28 @@ interface TextSnippet {
 const textStore = new Map<string, TextSnippet>();
 
 // In-memory stores for file sharing
-interface FileRecord {
+interface FileEntry {
   buffer: Buffer;
   filename: string;
   mimeType: string;
   size: number;
+}
+interface FileRecord {
+  files: FileEntry[];
   createdAt: number;
 }
 const fileStore = new Map<string, FileRecord>();
 
+interface P2PFileMeta {
+  name: string;
+  size: number;
+  mimeType: string;
+}
 interface P2PSession {
   name: string;
   size: number;
   mimeType: string;
+  files: P2PFileMeta[];
   offer: any;
   answer: any;
   createdAt: number;
@@ -123,13 +132,16 @@ async function startServer() {
 
   // File API Routes (for local dev — mirrors shareflow-api/src/index.ts)
 
-  // POST /api/file — upload file to server
-  app.post("/api/file", upload.single("file"), (req, res) => {
-    if (!req.file) {
-      return res.status(400).json({ error: "File is required" });
+  // POST /api/file — upload file(s) to server
+  app.post("/api/file", upload.array("files", 20), (req, res) => {
+    const uploaded = (req.files as Express.Multer.File[] | undefined) || [];
+    if (uploaded.length === 0) {
+      return res.status(400).json({ error: "At least one file is required" });
     }
-    if (req.file.size > 10 * 1024 * 1024) {
-      return res.status(400).json({ error: "File must be smaller than 10MB" });
+    for (const f of uploaded) {
+      if (f.size > 10 * 1024 * 1024) {
+        return res.status(400).json({ error: "Each file must be smaller than 10MB" });
+      }
     }
 
     let code = generateBase62Code(4);
@@ -138,10 +150,12 @@ async function startServer() {
     }
 
     fileStore.set(code, {
-      buffer: req.file.buffer,
-      filename: req.file.originalname,
-      mimeType: req.file.mimetype,
-      size: req.file.size,
+      files: uploaded.map((f) => ({
+        buffer: f.buffer,
+        filename: f.originalname,
+        mimeType: f.mimetype,
+        size: f.size,
+      })),
       createdAt: Date.now(),
     });
 
@@ -150,7 +164,12 @@ async function startServer() {
 
   // POST /api/file/p2p — register P2P session
   app.post("/api/file/p2p", (req, res) => {
-    const { name, size, mimeType } = req.body;
+    const body = req.body;
+    const p2pFiles = Array.isArray(body.files) ? body.files : [];
+    const name = body.name || (p2pFiles[0] && p2pFiles[0].name);
+    const size = body.size !== undefined
+      ? body.size
+      : p2pFiles.reduce((sum: number, f: any) => sum + (f.size || 0), 0);
     if (!name || size === undefined) {
       return res.status(400).json({ error: "Name and size are required" });
     }
@@ -160,10 +179,19 @@ async function startServer() {
       code = generateBase62Code(4);
     }
 
+    const sessionFiles: P2PFileMeta[] = p2pFiles.length > 0
+      ? p2pFiles.map((f: any) => ({
+          name: f.name,
+          size: f.size,
+          mimeType: f.mimeType || "application/octet-stream",
+        }))
+      : [{ name, size, mimeType: body.mimeType || "application/octet-stream" }];
+
     p2pSessions.set(code, {
-      name,
+      name: name.split(",").slice(0, 2).join(", ") || name,
       size,
-      mimeType: mimeType || "application/octet-stream",
+      mimeType: body.mimeType || "application/octet-stream",
+      files: sessionFiles,
       offer: null,
       answer: null,
       createdAt: Date.now(),
@@ -219,10 +247,16 @@ async function startServer() {
     if (file) {
       return res.json({
         type: "server",
-        name: file.filename,
-        size: file.size,
-        mimeType: file.mimeType,
+        name: file.files.length > 1 ? `${file.files.length} files` : file.files[0].filename,
+        size: file.files.reduce((sum, f) => sum + f.size, 0),
+        mimeType: file.files[0].mimeType,
         createdAt: file.createdAt,
+        files: file.files.map((f) => ({
+          name: f.filename,
+          size: f.size,
+          mimeType: f.mimeType,
+        })),
+        count: file.files.length,
       });
     }
 
@@ -235,23 +269,28 @@ async function startServer() {
         mimeType: session.mimeType,
         createdAt: session.createdAt,
         offer: session.offer,
+        files: session.files,
+        count: session.files.length,
       });
     }
 
     res.status(404).json({ error: "File not found or expired" });
   });
 
-  // GET /api/file/:code/download — download server-uploaded file
-  app.get("/api/file/:code/download", (req, res) => {
-    const { code } = req.params;
+  // GET /api/file/:code/download/:index — download one server-uploaded file (index optional, defaults to 0)
+  app.get("/api/file/:code/download/:index?", (req, res) => {
+    const { code, index } = req.params;
     const file = fileStore.get(code);
 
     if (!file) return res.status(404).json({ error: "File not found" });
 
-    const encodedName = encodeURIComponent(file.filename);
+    const idx = Math.min(Math.max(parseInt(index || "0", 10) || 0, 0), file.files.length - 1);
+    const entry = file.files[idx];
+
+    const encodedName = encodeURIComponent(entry.filename);
     res.setHeader("Content-Disposition", `attachment; filename*=UTF-8''${encodedName}`);
-    res.setHeader("Content-Type", file.mimeType);
-    res.send(file.buffer);
+    res.setHeader("Content-Type", entry.mimeType);
+    res.send(entry.buffer);
   });
 
   // POST /api/ai/models - Fetch available models dynamically for any provider API key

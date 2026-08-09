@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { AdBanner } from './AdBanner';
 
 interface SEOContentProps {
   title: string;
@@ -11,6 +12,8 @@ interface SEOContentProps {
 export function SEOContent({ title, description, steps, faqs }: SEOContentProps) {
   return (
     <div className="mt-16 border-t border-white/10 pt-16 space-y-16 max-w-5xl mx-auto w-full">
+      <AdBanner />
+
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

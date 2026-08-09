@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Copy, Check, Send, Search } from "lucide-react";
+import { Copy, Check, Send, Search, X } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
 
 export function TextShare() {
@@ -69,6 +69,14 @@ export function TextShare() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const [fetchedCopied, setFetchedCopied] = useState(false);
+
+  const copyFetchedText = () => {
+    navigator.clipboard.writeText(retrievedText).catch(() => {});
+    setFetchedCopied(true);
+    setTimeout(() => setFetchedCopied(false), 2000);
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-12">
       <div className="text-left space-y-2">
@@ -88,12 +96,23 @@ export function TextShare() {
             <Send className="w-5 h-5 text-white/50" />
           </div>
           
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Paste your text here..."
-            className="w-full h-48 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none resize-none font-mono text-sm text-white/80 placeholder:text-white/20 mb-4"
-          />
+          <div className="relative mb-4">
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Paste your text here..."
+              className="w-full h-48 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none resize-none font-mono text-sm text-white/80 placeholder:text-white/20"
+            />
+            {text && (
+              <button
+                onClick={() => setText("")}
+                title="Clear text"
+                className="absolute top-2 right-2 p-2 bg-white/10 text-white hover:bg-red-500 hover:text-white transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
           {error && <p className="text-red-400 text-xs mb-4 uppercase tracking-widest">{error}</p>}
           
           <button
@@ -162,11 +181,12 @@ export function TextShare() {
             />
             {retrievedText && (
                <button
-                  onClick={() => copyToClipboard(retrievedText)}
-                  className="absolute top-2 right-2 p-2 bg-white text-black hover:bg-white/80 transition-colors"
+                  onClick={copyFetchedText}
+                  className="absolute top-2 right-2 p-2 bg-white text-black hover:bg-white/80 transition-colors flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest"
                   title="Copy text"
                 >
-                  <Copy className="w-4 h-4" />
+                  {fetchedCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  {fetchedCopied ? "Copied" : "Copy"}
                 </button>
             )}
           </div>

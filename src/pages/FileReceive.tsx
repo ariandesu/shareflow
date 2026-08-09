@@ -2,8 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight, HelpCircle, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { AdBanner } from "../components/AdBanner";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+
+type FileMeta = {
+  name: string;
+  size: number;
+  mimeType: string;
+};
 
 type FileMetadata = {
   type: "server" | "p2p";
@@ -12,6 +19,8 @@ type FileMetadata = {
   mimeType: string;
   createdAt: number;
   offer?: any;
+  files?: FileMeta[];
+  count?: number;
 };
 
 export function FileReceive() {
@@ -27,6 +36,8 @@ export function FileReceive() {
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const receivedChunksRef = useRef<ArrayBuffer[]>([]);
   const receivedSizeRef = useRef<number>(0);
+  const manifestRef = useRef<FileMeta[] | null>(null);
+  const currentFileNamesRef = useRef<string[]>([]);
 
   const statusRef = useRef(status);
   useEffect(() => {
@@ -73,13 +84,32 @@ export function FileReceive() {
     }
   };
 
+  const fileList = (meta: FileMetadata): FileMeta[] =>
+    meta.files && meta.files.length > 0
+      ? meta.files
+      : [{ name: meta.name, size: meta.size, mimeType: meta.mimeType }];
+
   const handleDownload = async () => {
     if (!metadata) return;
 
     if (metadata.type === "server") {
-      // Server-side download (R2)
+      // Server-side download (R2) — download each file
       const safeCode = code.replace(/[^a-zA-Z0-9]/g, "");
-      window.location.href = `${API_BASE_URL}/api/file/${safeCode}/download`;
+      const files = fileList(metadata);
+      if (files.length <= 1) {
+        window.location.href = `${API_BASE_URL}/api/file/${safeCode}/download/0`;
+      } else {
+        // Trigger sequential downloads via hidden links to avoid replacing page
+        for (let i = 0; i < files.length; i++) {
+          const a = document.createElement("a");
+          a.href = `${API_BASE_URL}/api/file/${safeCode}/download/${i}`;
+          a.download = files[i].name || `file-${i + 1}`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          await new Promise((r) => setTimeout(r, 120));
+        }
+      }
     } else {
       // Direct WebRTC P2P download
       // If offer isn't present, try re-fetching the updated session data from the server
@@ -119,6 +149,8 @@ export function FileReceive() {
     setErrorMsg("");
     receivedChunksRef.current = [];
     receivedSizeRef.current = 0;
+    manifestRef.current = fileList(target);
+    currentFileNamesRef.current = fileList(target).map((f) => f.name);
 
     try {
       const pc = new RTCPeerConnection({
@@ -146,8 +178,53 @@ export function FileReceive() {
         channel.binaryType = "arraybuffer";
 
         channel.onmessage = (e) => {
+          if (typeof e.data === "string" && e.data.startsWith("__MANIFEST__")) {
+            try {
+              const parsed = JSON.parse(e.data.replace("__MANIFEST__", ""));
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                manifestRef.current = parsed;
+                currentFileNamesRef.current = parsed.map((f: any) => f.name);
+              }
+            } catch (_) {}
+            return;
+          }
+
           if (e.data === "__EOF__") {
-            // Completed! Create file download.
+            // Completed! Create file downloads.
+            setStatus("success");
+            statusRef.current = "success";
+
+            const manifest = manifestRef.current || fileList(target);
+            const totalSize = manifest.reduce((sum, f) => sum + f.size, 0);
+            const allParts = receivedChunksRef.current;
+            const concatenated = new Uint8Array(totalSize);
+            let offset = 0;
+            for (const part of allParts) {
+              concatenated.set(new Uint8Array(part), offset);
+              offset += part.byteLength;
+            }
+
+            let blobOffset = 0;
+            manifest.forEach((file, i) => {
+              const fileBytes = concatenated.slice(blobOffset, blobOffset + file.size);
+              blobOffset += file.size;
+              const blob = new Blob([fileBytes], { type: file.mimeType || "application/octet-stream" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = currentFileNamesRef.current[i] || file.name || `file-${i + 1}`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            });
+
+            // Send ACK back to sender to allow them to close connection cleanly
+            try { channel.send("ACK"); } catch (_) {}
+
+            // Delay closing slightly so ACK has time to deliver
+            setTimeout(cleanupWebRTC, 1000);
+          } else if (e.data === "__EOF__LEGACY") {
             setStatus("success");
             statusRef.current = "success";
             const blob = new Blob(receivedChunksRef.current, { type: target.mimeType });
@@ -159,18 +236,16 @@ export function FileReceive() {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            
-            // Send ACK back to sender to allow them to close connection cleanly
             try { channel.send("ACK"); } catch (_) {}
-
-            // Delay closing slightly so ACK has time to deliver
             setTimeout(cleanupWebRTC, 1000);
           } else {
             // Buffer chunk
             const chunk = e.data as ArrayBuffer;
             receivedChunksRef.current.push(chunk);
             receivedSizeRef.current += chunk.byteLength;
-            setProgress(Math.min(100, Math.round((receivedSizeRef.current / target.size) * 100)));
+            const manifest = manifestRef.current || [{ name: target.name, size: target.size, mimeType: target.mimeType }];
+            const totalSize = manifest.reduce((sum, f) => sum + f.size, 0);
+            setProgress(Math.min(100, Math.round((receivedSizeRef.current / totalSize) * 100)));
           }
         };
 
@@ -309,11 +384,24 @@ export function FileReceive() {
               <div className="w-20 h-20 bg-black/5 rounded-full flex items-center justify-center mb-6">
                 <FileIcon className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-2xl font-black text-center break-all mb-2 text-black">{metadata.name}</h3>
-              <p className="text-sm font-medium text-black/50 uppercase tracking-widest mb-2">
-                {(metadata.size / (1024*1024)).toFixed(2)} MB
+              <h3 className="text-2xl font-black text-center break-all mb-2 text-black">
+                {(metadata.count && metadata.count > 1) ? `${metadata.count} Files` : metadata.name}
+              </h3>
+              <p className="text-sm font-medium text-black/50 uppercase tracking-widest mb-4">
+                {(metadata.size / (1024*1024)).toFixed(2)} MB total
               </p>
               
+              {metadata.count && metadata.count > 1 && (
+                <div className="w-full max-h-40 overflow-y-auto mb-6 bg-black/5 border border-black/10 divide-y divide-black/10">
+                  {fileList(metadata).map((f, i) => (
+                    <div key={i} className="flex items-center justify-between gap-4 px-4 py-2">
+                      <span className="text-xs font-bold text-black truncate">{f.name}</span>
+                      <span className="text-[10px] font-medium text-black/50 shrink-0">{(f.size / (1024*1024)).toFixed(2)} MB</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="flex items-center gap-2 mb-8 bg-black/5 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-black/60">
                 {metadata.type === "server" ? (
                   <>Edge Cloud <span className="w-2 h-2 rounded-full bg-green-500"></span></>
@@ -326,7 +414,7 @@ export function FileReceive() {
                 onClick={handleDownload}
                 className="w-full bg-black text-white py-4 font-black uppercase tracking-widest hover:bg-black/80 transition-colors light-theme-invert flex justify-center items-center gap-2"
               >
-                <Download className="w-5 h-5" /> Download File
+                <Download className="w-5 h-5" /> {metadata.count && metadata.count > 1 ? `Download All (${metadata.count})` : "Download File"}
               </button>
             </motion.div>
           )}
@@ -399,6 +487,8 @@ export function FileReceive() {
           )}
         </AnimatePresence>
       </motion.div>
+
+      <AdBanner />
 
       {/* User Guide & FAQ Section */}
       <div className="w-full max-w-xl flex flex-col gap-8 bg-white/5 border border-white/10 p-8 sm:p-12 text-white">
