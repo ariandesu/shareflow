@@ -80,20 +80,48 @@ export function detectProvider(key: string, customBaseUrl?: string): { provider:
   return { provider: "Custom", baseUrl: PROVIDER_DEFAULT_URLS["Custom"] };
 }
 
-const STORAGE_KEY = "sf_saved_ai_keys";
+const STORAGE_KEY = "sf_saved_ai_keys_enc";
+
+function encodeSecret(str: string): string {
+  try {
+    const salt = "SF_SECURE_2026_V1";
+    let result = "";
+    for (let i = 0; i < str.length; i++) {
+      result += String.fromCharCode(str.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
+    }
+    return btoa(result);
+  } catch {
+    return str;
+  }
+}
+
+function decodeSecret(str: string): string {
+  try {
+    const salt = "SF_SECURE_2026_V1";
+    const decoded = atob(str);
+    let result = "";
+    for (let i = 0; i < decoded.length; i++) {
+      result += String.fromCharCode(decoded.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
+    }
+    return result;
+  } catch {
+    return str;
+  }
+}
 
 export function getSavedApiKeys(): SavedApiKey[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
+    const rawEnc = localStorage.getItem(STORAGE_KEY);
+    if (!rawEnc) {
       const legacyKey = localStorage.getItem("sf_code_helper_api_key");
       if (legacyKey) {
-        const detected = detectProvider(legacyKey);
+        const cleanLegacy = legacyKey.startsWith("enc:") ? decodeSecret(legacyKey.slice(4)) : legacyKey;
+        const detected = detectProvider(cleanLegacy);
         const legacyObj: SavedApiKey = {
           id: "legacy-1",
           name: `${detected.provider} Key`,
           provider: detected.provider,
-          key: legacyKey,
+          key: cleanLegacy,
           baseUrl: detected.baseUrl,
           createdAt: new Date().toISOString()
         };
@@ -101,7 +129,8 @@ export function getSavedApiKeys(): SavedApiKey[] {
       }
       return [];
     }
-    return JSON.parse(raw);
+    const decrypted = decodeSecret(rawEnc);
+    return JSON.parse(decrypted);
   } catch {
     return [];
   }
@@ -120,8 +149,8 @@ export function saveApiKey(key: string, name?: string, customProvider?: SavedApi
     existing.name = keyName;
     existing.provider = provider;
     existing.baseUrl = baseUrl;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(keys));
-    localStorage.setItem("sf_code_helper_api_key", cleanKey);
+    localStorage.setItem(STORAGE_KEY, encodeSecret(JSON.stringify(keys)));
+    localStorage.setItem("sf_code_helper_api_key", `enc:${encodeSecret(cleanKey)}`);
     return existing;
   }
 
@@ -135,8 +164,9 @@ export function saveApiKey(key: string, name?: string, customProvider?: SavedApi
   };
 
   const updated = [newKeyObj, ...keys];
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  localStorage.setItem("sf_code_helper_api_key", cleanKey);
+  localStorage.setItem(STORAGE_KEY, encodeSecret(JSON.stringify(updated)));
+  localStorage.setItem("sf_code_helper_api_key", `enc:${encodeSecret(cleanKey)}`);
+  return newKeyObj;
   return newKeyObj;
 }
 

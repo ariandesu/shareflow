@@ -139,12 +139,14 @@ export default function App() {
             <Route path="id-generator" element={<IDGenerator />} />
             <Route path="time" element={<TimeNow />} />
 
-            {/* Developer Gateway */}
+            {/* Developer & Admin Portal */}
             <Route path="dev" element={<DeveloperGateway />} />
             <Route path="dev/login" element={<DeveloperLogin />} />
             <Route path="dev/signup" element={<DeveloperSignup />} />
             <Route path="dev/dashboard" element={<DeveloperDashboard />} />
             <Route path="dev/admin" element={<AdminDashboard />} />
+            <Route path="admin" element={<AdminDashboard />} />
+            <Route path="admin/dashboard" element={<AdminDashboard />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>
