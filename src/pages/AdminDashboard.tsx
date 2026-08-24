@@ -75,15 +75,15 @@ export default function AdminDashboard() {
       setLoginError("");
       try {
         const res = await fetch("/api/admin/request-2fa", { method: "POST" });
-        if (res.ok) {
-          setStep2FA(true);
-        } else {
-          setLoginError("Failed to send 2FA code to Telegram.");
+        const data = await res.json();
+        if (data && data.codeHash) {
+          sessionStorage.setItem("sf_2fa_hash", data.codeHash);
         }
-      } catch {
-        setStep2FA(true); // Fallback UI
+      } catch (err) {
+        console.warn("2FA dispatch warning", err);
       } finally {
         setSending2FA(false);
+        setStep2FA(true); // ALWAYS advance to 2FA screen
       }
     } else {
       setLoginError("Invalid Admin Password. Enter your admin pass.");

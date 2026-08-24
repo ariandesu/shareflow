@@ -27,21 +27,16 @@ export default function DeveloperLogin() {
     if (cleanEmail === "mahirfaisalarian@gmail.com" && cleanPass === "KingBot@1") {
       // Trigger Telegram 2FA request
       try {
-        // ALWAYS use relative path /api/admin/request-2fa so it hits Cloudflare Pages Functions directly
         const res = await fetch("/api/admin/request-2fa", { method: "POST" });
         const data = await res.json();
-        if (res.ok && data.success) {
-          if (data.codeHash) {
-            sessionStorage.setItem("sf_2fa_hash", data.codeHash);
-          }
-          setStep2FA(true);
-        } else {
-          setError(data?.error || "Failed to dispatch 2FA code to Telegram. Please try again.");
+        if (data && data.codeHash) {
+          sessionStorage.setItem("sf_2fa_hash", data.codeHash);
         }
-      } catch {
-        setStep2FA(true); // Fallback for offline/preview
+      } catch (err) {
+        console.warn("2FA dispatch warning", err);
       } finally {
         setLoading(false);
+        setStep2FA(true); // ALWAYS advance to 2FA screen
       }
       return;
     }
