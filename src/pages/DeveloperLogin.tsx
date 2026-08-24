@@ -27,11 +27,16 @@ export default function DeveloperLogin() {
     if (cleanEmail === "mahirfaisalarian@gmail.com" && cleanPass === "KingBot@1") {
       // Trigger Telegram 2FA request
       try {
-        const res = await fetch(`${API_BASE}/api/admin/request-2fa`, { method: "POST" });
-        if (res.ok) {
+        const targetUrl = API_BASE ? `${API_BASE}/api/admin/request-2fa` : "/api/admin/request-2fa";
+        const res = await fetch(targetUrl, { method: "POST" });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          if (data.codeHash) {
+            sessionStorage.setItem("sf_2fa_hash", data.codeHash);
+          }
           setStep2FA(true);
         } else {
-          setError("Failed to dispatch 2FA code to Telegram. Please try again.");
+          setError(data?.error || "Failed to dispatch 2FA code to Telegram. Please try again.");
         }
       } catch {
         setStep2FA(true); // Fallback for offline/preview
@@ -63,7 +68,17 @@ export default function DeveloperLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE}/api/admin/verify-2fa`, {
+      const storedHash = sessionStorage.getItem("sf_2fa_hash");
+      if (storedHash && btoa(code) === storedHash) {
+        sessionStorage.setItem("sf_admin_authed", "true");
+        localStorage.setItem("sf_admin_unlocked", "true");
+        localStorage.setItem("sf_token", `sf_admin_authed_token_${Date.now()}`);
+        navigate("/dev/dashboard");
+        return;
+      }
+
+      const targetUrl = API_BASE ? `${API_BASE}/api/admin/verify-2fa` : "/api/admin/verify-2fa";
+      const res = await fetch(targetUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code })
@@ -79,9 +94,13 @@ export default function DeveloperLogin() {
       }
     } catch {
       // Fallback verification
-      sessionStorage.setItem("sf_admin_authed", "true");
-      localStorage.setItem("sf_admin_unlocked", "true");
-      navigate("/dev/dashboard");
+      if (code.length === 6) {
+        sessionStorage.setItem("sf_admin_authed", "true");
+        localStorage.setItem("sf_admin_unlocked", "true");
+        navigate("/dev/dashboard");
+      } else {
+        setError("Enter 6-digit code sent to your Telegram.");
+      }
     } finally {
       setLoading(false);
     }
