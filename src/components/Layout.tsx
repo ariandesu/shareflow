@@ -33,16 +33,10 @@ export function Layout() {
 
   useEffect(() => {
     if (isLightMode) {
-      document.documentElement.classList.add("light-theme");
-      document.documentElement.classList.remove("dark");
       document.body.classList.add("light-theme");
-      document.body.classList.remove("dark");
       localStorage.setItem("theme", "light");
     } else {
-      document.documentElement.classList.remove("light-theme");
-      document.documentElement.classList.add("dark");
       document.body.classList.remove("light-theme");
-      document.body.classList.add("dark");
       localStorage.setItem("theme", "dark");
     }
   }, [isLightMode]);
@@ -95,8 +89,7 @@ export function Layout() {
         <div className="flex items-center gap-8 w-full">
           <div className="flex items-center justify-between w-full md:w-auto">
             <Link to="/" className="text-2xl font-black tracking-tighter uppercase flex items-center">
-              <span className="bg-emerald-500 text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
+              <span className="bg-white text-black px-1 mr-1">SHARE</span>FLOW
             </Link>
 
             {/* Mobile menu button */}
@@ -186,8 +179,7 @@ export function Layout() {
         >
           <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
             <Link to="/" className="text-xl font-black tracking-tighter uppercase flex items-center" onClick={() => setIsMenuOpen(false)}>
-              <span className="bg-emerald-500 text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
+              <span className="bg-white text-black px-1 mr-1">SHARE</span>FLOW
             </Link>
             <button
               onClick={() => setIsMenuOpen(false)}
