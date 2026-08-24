@@ -85,6 +85,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
           <Route path="products" element={<Products />} />
+          <Route path="developer-starter-kits" element={<Products />} />
             <Route path="text-share" element={<TextShare />} />
 
             {/* File Share Routes */}

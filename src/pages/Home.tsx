@@ -445,31 +445,94 @@ export function Home() {
       {/* Tool Grid Categories */}
       <div className="flex flex-col gap-12 flex-1">
 
-        {/* Flagship */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {tools.filter(t => t.featured).map((tool, index) => (
+        {/* STORE BANNER HIGHLIGHT */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent border border-emerald-500/30 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-xl"
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest bg-emerald-500 text-slate-950 px-2 py-0.5 rounded">
+                Store Featured
+              </span>
+              <span className="text-xs text-emerald-400 font-semibold">100% Free Downloads</span>
+            </div>
+            <h3 className="text-2xl font-black uppercase tracking-tight text-white">Developer Starter Kits & Boilerplates</h3>
+            <p className="text-xs text-white/60">FastAPI + SQLite, Multi-Threaded Async Web Scraper, Docker PDF Cheatsheets & more.</p>
+          </div>
+          <Link
+            to="/products"
+            className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-widest rounded-xl transition-all hover:scale-105 whitespace-nowrap shadow-lg flex items-center gap-2"
+          >
+            <Sparkles className="w-4 h-4" /> Explore Store →
+          </Link>
+        </motion.div>
+
+        {/* FLAGSHIP SIDE-BY-SIDE HERO SECTION (FILE SHARE & TEXT SHARE) */}
+        <div>
+          <div className="flex items-center gap-4 mb-4">
+            <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Flagship Tools</h2>
+            <div className="h-px bg-white/10 flex-1"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* FILE SHARE CARD */}
             <motion.div
-              key={tool.name}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 + index * 0.05 }}
-              className="sm:col-span-2 row-span-1 bg-white text-black p-6 flex flex-col justify-between group h-[300px]"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white text-slate-950 p-8 rounded-3xl flex flex-col justify-between group shadow-2xl hover:shadow-emerald-500/10 transition-all border border-white"
             >
-              <Link to={tool.href} className="flex flex-col h-full justify-between">
+              <Link to="/file-share" className="flex flex-col h-full justify-between space-y-6">
                 <div>
-                  <div className="flex justify-between items-start">
-                    <span className="text-xs font-bold uppercase tracking-widest bg-black text-white px-2 py-0.5 light-theme-invert">Flagship</span>
-                    {tool.icon}
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] font-extrabold uppercase tracking-widest bg-slate-950 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">
+                      Flagship #1
+                    </span>
+                    <div className="p-3 bg-slate-100 rounded-2xl">
+                      <FileUp className="w-8 h-8 text-slate-900" />
+                    </div>
                   </div>
-                  <h3 className="text-4xl font-bold tracking-tighter uppercase mt-4">{tool.name}</h3>
-                  <p className="text-black/60 text-sm mt-2 font-medium light-theme-text-muted">{tool.description}</p>
+                  <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-slate-950">File Share</h3>
+                  <p className="text-slate-600 text-sm mt-3 font-medium leading-relaxed">
+                    Transfer files up to 10MB via high-speed Cloudflare edge storage or unlimited file sizes via encrypted peer-to-peer WebRTC connection.
+                  </p>
                 </div>
-                <div className="mt-8 w-full py-4 border-2 border-black font-black text-center uppercase text-sm tracking-widest group-hover:bg-black group-hover:text-white transition-colors light-theme-btn">
-                  Start Sharing
+                <div className="mt-6 w-full py-4 bg-slate-950 text-white font-extrabold text-center uppercase text-xs tracking-widest rounded-2xl group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors shadow-md">
+                  Launch File Share →
                 </div>
               </Link>
             </motion.div>
-          ))}
+
+            {/* TEXT SHARE CARD */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white text-slate-950 p-8 rounded-3xl flex flex-col justify-between group shadow-2xl hover:shadow-emerald-500/10 transition-all border border-white"
+            >
+              <Link to="/text-share" className="flex flex-col h-full justify-between space-y-6">
+                <div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] font-extrabold uppercase tracking-widest bg-slate-950 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">
+                      Flagship #2
+                    </span>
+                    <div className="p-3 bg-slate-100 rounded-2xl">
+                      <FileText className="w-8 h-8 text-slate-900" />
+                    </div>
+                  </div>
+                  <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-slate-950">Text Share</h3>
+                  <p className="text-slate-600 text-sm mt-3 font-medium leading-relaxed">
+                    Instant, anonymous text and code sharing. Create secure, self-destructing links with custom expiration timers and view counter protection.
+                  </p>
+                </div>
+                <div className="mt-6 w-full py-4 bg-slate-950 text-white font-extrabold text-center uppercase text-xs tracking-widest rounded-2xl group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors shadow-md">
+                  Launch Text Share →
+                </div>
+              </Link>
+            </motion.div>
+          </div>
         </div>
 
         {/* Categories */}
