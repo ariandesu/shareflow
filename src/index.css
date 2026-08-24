@@ -2,31 +2,55 @@
 @plugin "@tailwindcss/typography";
 
 /* ==========================================================================
-   SHAREFLOW CLEAN THEME ARCHITECTURE
+   SHAREFLOW CLEAN THEME ENGINE ARCHITECTURE
    ========================================================================== */
 
-/* Dark Mode Base (Default) */
-body {
-  background-color: #0A0A0A;
-  color: #F5F5F5;
+/* Dark Mode Base */
+html.dark, body.dark, body:not(.light-theme) {
+  background-color: #0A0A0A !important;
+  color: #F5F5F5 !important;
 }
 
 /* Light Mode Base */
-body.light-theme {
+html.light-theme, body.light-theme {
   background-color: #F8F9FA !important;
   color: #0F172A !important;
 }
 
-/* Global Light Mode Text Color Normalization */
-body.light-theme p,
-body.light-theme span:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
-body.light-theme h1:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme h2:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme h3:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme h4:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme label,
-body.light-theme div:not(.bg-[#0F172A]):not(.bg-slate-950):not(.bg-black):not(.bg-emerald-500):not(.bg-emerald-600) {
-  color: #0F172A;
+/* Convert all card surfaces & containers in Light Mode */
+body.light-theme .bg-\[\#0A0A0A\],
+body.light-theme .bg-\[\#0A0A0A\]\/90,
+body.light-theme .bg-\[\#0A0A0A\]\/80,
+body.light-theme .bg-\[\#111\],
+body.light-theme .bg-\[\#0E0E0E\],
+body.light-theme .bg-\[\#131926\],
+body.light-theme .bg-slate-900,
+body.light-theme .bg-slate-900\/60,
+body.light-theme .bg-slate-950,
+body.light-theme .bg-black\/50,
+body.light-theme .bg-black\/40,
+body.light-theme .bg-black\/20,
+body.light-theme .bg-black\/5,
+body.light-theme .bg-white\/5,
+body.light-theme .bg-white\/10,
+body.light-theme .bg-white\/15,
+body.light-theme .bg-white\/20 {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+/* All Text in Light Mode */
+body.light-theme h1:not(.light-theme-dark-badge *),
+body.light-theme h2:not(.light-theme-dark-badge *),
+body.light-theme h3:not(.light-theme-dark-badge *),
+body.light-theme h4:not(.light-theme-dark-badge *),
+body.light-theme p:not(.light-theme-dark-badge *),
+body.light-theme span:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+body.light-theme div:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+body.light-theme a:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+body.light-theme label {
+  color: #0F172A !important;
 }
 
 body.light-theme .text-white\/80,
@@ -39,16 +63,51 @@ body.light-theme .text-white\/20 {
   color: #475569 !important;
 }
 
-/* Light Theme Container Overrides */
-body.light-theme .bg-\[\#0A0A0A\],
-body.light-theme .bg-\[\#0A0A0A\]\/90,
-body.light-theme .bg-\[\#0A0A0A\]\/80,
-body.light-theme .bg-\[\#111\],
-body.light-theme .bg-\[\#0E0E0E\],
-body.light-theme .bg-\[\#131926\],
-body.light-theme .bg-slate-900\/60 {
-  background-color: #F8F9FA !important;
-  border-color: #E2E8F0 !important;
+/* SVG Stroke in Light Mode */
+body.light-theme svg:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
+  stroke: #0F172A !important;
+  color: #0F172A !important;
+}
+
+/* Emerald Colors in Light Mode */
+body.light-theme .text-emerald-400,
+body.light-theme .text-emerald-300 {
+  color: #047857 !important;
+}
+
+body.light-theme .bg-emerald-500\/10 {
+  background-color: #ECFDF5 !important;
+  border-color: #A7F3D0 !important;
+  color: #047857 !important;
+}
+
+body.light-theme .bg-emerald-500\/20 {
+  background-color: #D1FAE5 !important;
+  border-color: #6EE7B7 !important;
+  color: #047857 !important;
+}
+
+body.light-theme .bg-emerald-500,
+body.light-theme .bg-emerald-600 {
+  background-color: #059669 !important;
+  color: #FFFFFF !important;
+}
+
+body.light-theme .bg-emerald-500 *,
+body.light-theme .bg-emerald-600 * {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* Explicit Dark Badges & CTAs in Light Mode */
+body.light-theme .light-theme-dark-badge {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+}
+
+body.light-theme .light-theme-dark-badge * {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
 }
 
 /* Form Controls in Light Mode */
