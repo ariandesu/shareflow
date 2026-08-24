@@ -23,7 +23,7 @@ const PRODUCTS: Product[] = [
     category: "Developer Starter Kits",
     price: "$4.99",
     downloadUrl: "/products/fastapi-sqlite-starter-kit.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/fastapi-sqlite-starter-kit",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com",
     features: [
       "FastAPI 0.110+ & Async SQLite WAL adapter",
       "Pydantic v2 validation & JWT Auth",
@@ -38,7 +38,7 @@ const PRODUCTS: Product[] = [
     category: "Developer Starter Kits",
     price: "$3.99",
     downloadUrl: "/products/async-web-scraper-engine.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/async-web-scraper-engine",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com",
     features: [
       "Async HTTPX request pool & proxy rotation",
       "Headless Playwright browser integration",
@@ -53,7 +53,7 @@ const PRODUCTS: Product[] = [
     category: "DevOps Guides",
     price: "$2.99",
     downloadUrl: "/products/fastapi-sqlite-starter-kit.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/docker-k8s-cheatsheet",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com",
     features: [
       "50+ essential Docker & kubectl CLI snippets",
       "Container optimization & multi-stage builds",
@@ -69,7 +69,6 @@ export default function Products() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [adViewed, setAdViewed] = useState(false);
   const [couponCode, setCouponCode] = useState("");
-  const [gumroadUrl, setGumroadUrl] = useState("");
   const [copiedCoupon, setCopiedCoupon] = useState(false);
 
   const handleStartUnlock = (product: Product) => {
@@ -78,7 +77,6 @@ export default function Products() {
     setIsUnlocked(false);
     setAdViewed(false);
     setCouponCode("");
-    setGumroadUrl("");
   };
 
   const handleOpenAdLink = () => {
@@ -92,7 +90,7 @@ export default function Products() {
       setAdViewed(false);
     } else {
       setIsUnlocked(true);
-      // Mint single-use 100% OFF Gumroad coupon code
+      // Mint single-use 100% OFF coupon code
       try {
         const res = await fetch("/api/mint-coupon", {
           method: "POST",
@@ -102,18 +100,13 @@ export default function Products() {
         const data = await res.json();
         if (data && data.couponCode) {
           setCouponCode(data.couponCode);
-          setGumroadUrl(data.gumroadUrl);
         } else {
           const fallbackHash = Math.random().toString(36).substring(2, 8).toUpperCase();
-          const code = `SF100_${(selectedProduct?.id || "FREE").split("-")[0].toUpperCase()}_${fallbackHash}`;
-          setCouponCode(code);
-          setGumroadUrl(`${selectedProduct?.gumroadBaseUrl || "https://mhr3d.gumroad.com"}?wanted=true&discount_code=${code}`);
+          setCouponCode(`SF100_${(selectedProduct?.id || "FREE").split("-")[0].toUpperCase()}_${fallbackHash}`);
         }
       } catch {
         const fallbackHash = Math.random().toString(36).substring(2, 8).toUpperCase();
-        const code = `SF100_${(selectedProduct?.id || "FREE").split("-")[0].toUpperCase()}_${fallbackHash}`;
-        setCouponCode(code);
-        setGumroadUrl(`${selectedProduct?.gumroadBaseUrl || "https://mhr3d.gumroad.com"}?wanted=true&discount_code=${code}`);
+        setCouponCode(`SF100_${(selectedProduct?.id || "FREE").split("-")[0].toUpperCase()}_${fallbackHash}`);
       }
     }
   };
@@ -125,13 +118,13 @@ export default function Products() {
         {/* HERO SECTION */}
         <div className="text-center space-y-4 py-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
-            <Gift className="w-4 h-4" /> Gumroad Products & 100% OFF Coupon Engine
+            <Gift className="w-4 h-4" /> 100% Free Developer Products
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Developer Starter Kits & Gumroad Store
+            Developer Starter Kits & Products
           </h1>
           <p className="text-white/60 max-w-2xl mx-auto text-sm sm:text-base">
-            Download production code templates & DevOps guides. Buy on Gumroad or watch 5 quick ad steps to mint a 100% OFF single-use Gumroad coupon!
+            Download production-ready code templates, DevOps guides, and datasets. Watch 5 quick ad steps to unlock instant 100% free downloads and claim your single-use coupon!
           </p>
         </div>
 
@@ -167,7 +160,7 @@ export default function Products() {
                   onClick={() => handleStartUnlock(prod)}
                   className="w-full py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-lg"
                 >
-                  <Sparkles className="w-4 h-4" /> Watch Ads → Mint 100% OFF Coupon
+                  <Sparkles className="w-4 h-4" /> Watch Ads → Unlock FREE
                 </button>
                 <a
                   href={prod.gumroadBaseUrl}
@@ -175,7 +168,7 @@ export default function Products() {
                   rel="noopener noreferrer"
                   className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                 >
-                  <ShoppingBag className="w-3.5 h-3.5" /> Buy on Gumroad ({prod.price})
+                  <ShoppingBag className="w-3.5 h-3.5" /> Visit Gumroad Store ({prod.price})
                 </a>
               </div>
             </div>
@@ -188,7 +181,7 @@ export default function Products() {
             <div className="bg-[#131926] border border-white/15 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl relative">
               <div className="flex justify-between items-center border-b border-white/10 pb-4">
                 <h3 className="font-bold text-white text-base flex items-center gap-2">
-                  <Gift className="w-5 h-5 text-emerald-400" /> Unlock 100% OFF Gumroad Coupon
+                  <Gift className="w-5 h-5 text-emerald-400" /> Unlock Free Product
                 </h3>
                 <button
                   onClick={() => setSelectedProduct(null)}
@@ -201,7 +194,7 @@ export default function Products() {
               <div className="space-y-2">
                 <h4 className="font-semibold text-sm text-emerald-300">{selectedProduct.title}</h4>
                 <p className="text-xs text-white/60">
-                  Complete 5 quick sponsor ad steps to mint your single-use 100% OFF Gumroad coupon code!
+                  Complete 5 quick sponsor ad steps to claim your 100% free direct download link and coupon code!
                 </p>
               </div>
 
@@ -247,7 +240,7 @@ export default function Products() {
                     className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2"
                   >
                     <Play className="w-4 h-4 fill-slate-950" />
-                    {adStep === 5 ? "Complete Final Step & Mint Coupon" : `Proceed to Step ${adStep + 1} →`}
+                    {adStep === 5 ? "Complete Final Step & Unlock" : `Proceed to Step ${adStep + 1} →`}
                   </button>
                 </div>
               ) : (
@@ -256,42 +249,39 @@ export default function Products() {
                     <ShieldCheck className="w-8 h-8" />
                   </div>
                   <div className="space-y-1">
-                    <h4 className="font-bold text-white text-base">100% OFF Coupon Minted!</h4>
-                    <p className="text-xs text-white/60">Your single-use Gumroad coupon code has been generated.</p>
+                    <h4 className="font-bold text-white text-base">Product Unlocked 100% FREE!</h4>
+                    <p className="text-xs text-white/60">Thank you for supporting ShareFlow. Your download is ready.</p>
                   </div>
 
-                  {/* COUPON CODE BOX */}
-                  <div className="p-3 bg-slate-900 rounded-xl border border-emerald-500/40 flex items-center justify-between font-mono text-xs text-emerald-300">
-                    <span className="font-bold tracking-wider">{couponCode}</span>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(couponCode);
-                        setCopiedCoupon(true);
-                        setTimeout(() => setCopiedCoupon(false), 2000);
-                      }}
-                      className="px-2 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded flex items-center gap-1 text-[11px]"
-                    >
-                      {copiedCoupon ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                      {copiedCoupon ? "Copied" : "Copy"}
-                    </button>
-                  </div>
-
-                  <a
-                    href={gumroadUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-lg"
-                  >
-                    <ShoppingBag className="w-4 h-4" /> Claim 100% FREE on Gumroad →
-                  </a>
-
+                  {/* DIRECT ZIP DOWNLOAD BUTTON */}
                   <a
                     href={selectedProduct.downloadUrl}
                     download
-                    className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-white/10"
+                    className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 transition-colors shadow-lg"
                   >
-                    <Download className="w-4 h-4" /> Direct ZIP Download (Backup)
+                    <Download className="w-5 h-5" /> Download Product ZIP (100% FREE)
                   </a>
+
+                  {/* COUPON CODE BOX */}
+                  {couponCode && (
+                    <div className="pt-2 border-t border-white/10 space-y-2">
+                      <span className="text-[11px] text-white/50 block">Single-Use 100% OFF Coupon Code:</span>
+                      <div className="p-3 bg-slate-900 rounded-xl border border-emerald-500/40 flex items-center justify-between font-mono text-xs text-emerald-300">
+                        <span className="font-bold tracking-wider">{couponCode}</span>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(couponCode);
+                            setCopiedCoupon(true);
+                            setTimeout(() => setCopiedCoupon(false), 2000);
+                          }}
+                          className="px-2 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded flex items-center gap-1 text-[11px]"
+                        >
+                          {copiedCoupon ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copiedCoupon ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -300,12 +290,12 @@ export default function Products() {
         )}
 
         <SEOContent
-          title="Free Developer Starter Kits & Gumroad Coupons"
-          description="Download production-ready FastAPI, Web Scraper, and DevOps starter kits for free via 100% OFF single-use Gumroad coupons on ShareFlow."
+          title="Free Developer Starter Kits & Digital Products"
+          description="Download production-ready FastAPI, Web Scraper, and DevOps starter kits for free via ShareFlow."
           steps={[
             { title: "Browse Products", description: "Select from production code templates and DevOps guides." },
             { title: "Watch 5 Quick Steps", description: "Support free tools by viewing developer sponsor banners." },
-            { title: "Mint 100% OFF Coupon", description: "Get your single-use Gumroad coupon code and claim for 100% free!" }
+            { title: "Instant Download", description: "Get your 100% free product zip file instantly." }
           ]}
         />
       </div>
