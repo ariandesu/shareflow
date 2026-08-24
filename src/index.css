@@ -143,7 +143,14 @@ body.light-theme .light-theme-dark-card button {
   color: #0F172A !important;
 }
 
-/* Custom Scrollbar */
+/* Badge & Highlight Spans (e.g. bg-white text-black or bg-black text-white) */
+body.light-theme .bg-white.text-black,
+body.light-theme .bg-black.text-white,
+body.light-theme .bg-slate-950.text-white,
+body.light-theme .bg-[#0A0A0A].text-white {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+}
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
