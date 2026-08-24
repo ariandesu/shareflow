@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Download, Gift, Lock, Sparkles, CheckCircle, ShieldCheck } from "lucide-react";
+import { Download, Gift, Lock, Sparkles, CheckCircle, ShieldCheck, ExternalLink, Play } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
+
+const ADSTERRA_SMART_LINK = "https://www.profitableratecpmnetwork.com/wh0rg29aky?key=2f195b4225f98642015a250d3a46cf58";
 
 interface Product {
   id: string;
@@ -61,18 +63,30 @@ export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [adStep, setAdStep] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [adViewed, setAdViewed] = useState(false);
 
   const handleStartUnlock = (product: Product) => {
     setSelectedProduct(product);
     setAdStep(1);
     setIsUnlocked(false);
+    setAdViewed(false);
+  };
+
+  const handleOpenAdLink = () => {
+    window.open(ADSTERRA_SMART_LINK, "_blank", "noopener,noreferrer");
+    setAdViewed(true);
   };
 
   const handleNextAdStep = () => {
     if (adStep < 5) {
       setAdStep((prev) => prev + 1);
+      setAdViewed(false);
     } else {
       setIsUnlocked(true);
+      // Register unlock in backend
+      try {
+        fetch("/api/admin/system-stats"); // trigger stats update
+      } catch {}
     }
   };
 
@@ -151,7 +165,7 @@ export default function Products() {
               <div className="space-y-2">
                 <h4 className="font-semibold text-sm text-emerald-300">{selectedProduct.title}</h4>
                 <p className="text-xs text-white/60">
-                  Watch 5 quick ad steps to claim your 100% free direct download link!
+                  Complete 5 quick sponsor ad steps to claim your 100% free direct download link!
                 </p>
               </div>
 
@@ -171,23 +185,33 @@ export default function Products() {
 
               {/* UNLOCK CONTENT / AD STEP */}
               {!isUnlocked ? (
-                <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center space-y-4">
-                  <div className="text-xs text-white/70">
-                    Step {adStep}: Support ShareFlow by viewing our developer sponsor banner below.
+                <div className="bg-white/5 border border-white/10 rounded-xl p-5 text-center space-y-4">
+                  <div className="text-xs text-white/80 font-medium">
+                    Step {adStep}: View our official Adsterra sponsor offer below to proceed.
                   </div>
                   
-                  {/* AD BANNER CONTAINER */}
-                  <div className="p-3 bg-slate-900 rounded-lg border border-white/5 flex items-center justify-center min-h-[90px]">
-                    <span className="text-xs text-emerald-400/80 font-mono">
-                      [Adsterra / Developer Sponsor Banner #{adStep}]
-                    </span>
+                  {/* EMBEDDED IFRAME / SMART LINK CONTAINER */}
+                  <div className="p-3 bg-slate-900 rounded-xl border border-emerald-500/30 space-y-3">
+                    <iframe
+                      src={ADSTERRA_SMART_LINK}
+                      title="Adsterra Sponsor Ad"
+                      className="w-full h-32 rounded-lg border-0 bg-slate-950 overflow-hidden"
+                    />
+
+                    <button
+                      onClick={handleOpenAdLink}
+                      className="w-full py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs rounded-lg flex items-center justify-center gap-1.5 transition-all"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" /> Open Sponsor Ad #{adStep} in New Tab
+                    </button>
                   </div>
 
                   <button
                     onClick={handleNextAdStep}
-                    className="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors"
+                    className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2"
                   >
-                    {adStep === 5 ? "Complete Final Step" : `Proceed to Step ${adStep + 1} →`}
+                    <Play className="w-4 h-4 fill-slate-950" />
+                    {adStep === 5 ? "Complete Final Step & Unlock" : `Proceed to Step ${adStep + 1} →`}
                   </button>
                 </div>
               ) : (
