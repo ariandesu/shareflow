@@ -23,7 +23,7 @@ const PRODUCTS: Product[] = [
     category: "Developer Starter Kits",
     price: "$4.99",
     downloadUrl: "/products/fastapi-sqlite-starter-kit.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/fastapi-sqlite-starter-kit",
     features: [
       "FastAPI 0.110+ & Async SQLite WAL adapter",
       "Pydantic v2 validation & JWT Auth",
@@ -38,7 +38,7 @@ const PRODUCTS: Product[] = [
     category: "Developer Starter Kits",
     price: "$3.99",
     downloadUrl: "/products/async-web-scraper-engine.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/async-web-scraper-engine",
     features: [
       "Async HTTPX request pool & proxy rotation",
       "Headless Playwright browser integration",
@@ -59,21 +59,6 @@ const PRODUCTS: Product[] = [
       "Container optimization & multi-stage builds",
       "Kubernetes Deployment, Service, and Ingress specs",
       "Print-ready PDF cheat sheet"
-    ]
-  },
-  {
-    id: "global-tech-salaries-2026",
-    title: "Global Tech Salaries 2026 CSV Dataset",
-    description: "Audited, curated CSV dataset containing 1,500+ verified engineering, AI/ML, and DevOps compensation datapoints across 45+ countries.",
-    category: "Data & Datasets",
-    price: "$3.99",
-    downloadUrl: "/products/global-tech-salaries-2026.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com",
-    features: [
-      "1,500+ clean, structured compensation rows",
-      "Job titles, experience levels, & country breakdowns",
-      "Remote ratio & currency conversions included",
-      "CSV, JSON, & SQLite ready format"
     ]
   }
 ];
