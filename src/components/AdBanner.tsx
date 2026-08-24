@@ -17,12 +17,16 @@ export function AdBanner() {
 
     const script = document.createElement('script');
     script.src = 'https://www.highperformanceformat.com/fe7cb2fec465f699a20edc2d1f421752/invoke.js';
+    script.async = true;
+
     container.appendChild(script);
 
     return () => {
-      container.removeChild(script);
+      if (container && container.contains(script)) {
+        container.removeChild(script);
+      }
     };
   }, []);
 
-  return <div ref={adRef} className="flex justify-center" />;
+  return <div ref={adRef} className="flex justify-center my-4 overflow-hidden min-h-[90px]" />;
 }
