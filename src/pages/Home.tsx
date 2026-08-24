@@ -482,24 +482,24 @@ export function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 p-8 rounded-3xl flex flex-col justify-between group shadow-xl hover:shadow-emerald-500/10 transition-all"
+              className="bg-white dark:bg-[#111] border-2 border-slate-200 dark:border-white/10 p-8 rounded-3xl flex flex-col justify-between group shadow-xl hover:shadow-2xl transition-all"
             >
               <Link to="/file-share" className="flex flex-col h-full justify-between space-y-6">
                 <div>
                   <div className="flex justify-between items-center">
-                    <span className="text-[11px] font-extrabold uppercase tracking-widest bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40 px-3 py-1 rounded-full">
+                    <span className="text-[11px] font-extrabold uppercase tracking-widest bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40 px-3.5 py-1 rounded-full">
                       Flagship #1
                     </span>
                     <div className="p-3 bg-emerald-500/10 dark:bg-white/10 rounded-2xl">
-                      <FileUp className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+                      <FileUp className="w-8 h-8 text-emerald-700 dark:text-emerald-400" />
                     </div>
                   </div>
                   <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-slate-950 dark:text-white">File Share</h3>
-                  <p className="text-slate-600 dark:text-white/70 text-sm mt-3 font-medium leading-relaxed">
+                  <p className="text-slate-700 dark:text-white/70 text-sm mt-3 font-semibold leading-relaxed">
                     Transfer files up to 10MB via high-speed Cloudflare edge storage or unlimited file sizes via encrypted peer-to-peer WebRTC connection.
                   </p>
                 </div>
-                <div className="mt-6 w-full py-4 bg-emerald-600 text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 font-extrabold text-center uppercase text-xs tracking-widest rounded-2xl transition-colors shadow-md">
+                <div className="mt-6 w-full py-4 bg-slate-950 text-white hover:bg-emerald-600 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 font-extrabold text-center uppercase text-xs tracking-widest rounded-2xl transition-all shadow-md">
                   Launch File Share →
                 </div>
               </Link>
@@ -510,24 +510,24 @@ export function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 p-8 rounded-3xl flex flex-col justify-between group shadow-xl hover:shadow-emerald-500/10 transition-all"
+              className="bg-white dark:bg-[#111] border-2 border-slate-200 dark:border-white/10 p-8 rounded-3xl flex flex-col justify-between group shadow-xl hover:shadow-2xl transition-all"
             >
               <Link to="/text-share" className="flex flex-col h-full justify-between space-y-6">
                 <div>
                   <div className="flex justify-between items-center">
-                    <span className="text-[11px] font-extrabold uppercase tracking-widest bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40 px-3 py-1 rounded-full">
+                    <span className="text-[11px] font-extrabold uppercase tracking-widest bg-emerald-500/10 text-emerald-700 border border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40 px-3.5 py-1 rounded-full">
                       Flagship #2
                     </span>
                     <div className="p-3 bg-emerald-500/10 dark:bg-white/10 rounded-2xl">
-                      <FileText className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+                      <FileText className="w-8 h-8 text-emerald-700 dark:text-emerald-400" />
                     </div>
                   </div>
                   <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-slate-950 dark:text-white">Text Share</h3>
-                  <p className="text-slate-600 dark:text-white/70 text-sm mt-3 font-medium leading-relaxed">
+                  <p className="text-slate-700 dark:text-white/70 text-sm mt-3 font-semibold leading-relaxed">
                     Instant, anonymous text and code sharing. Create secure, self-destructing links with custom expiration timers and view counter protection.
                   </p>
                 </div>
-                <div className="mt-6 w-full py-4 bg-emerald-600 text-white hover:bg-emerald-500 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 font-extrabold text-center uppercase text-xs tracking-widest rounded-2xl transition-colors shadow-md">
+                <div className="mt-6 w-full py-4 bg-slate-950 text-white hover:bg-emerald-600 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 font-extrabold text-center uppercase text-xs tracking-widest rounded-2xl transition-all shadow-md">
                   Launch Text Share →
                 </div>
               </Link>

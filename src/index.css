@@ -26,7 +26,6 @@ body.light-theme .bg-\[\#0E0E0E\],
 body.light-theme .bg-\[\#131926\],
 body.light-theme .bg-slate-900,
 body.light-theme .bg-slate-900\/60,
-body.light-theme .bg-slate-950,
 body.light-theme .bg-black\/50,
 body.light-theme .bg-black\/40,
 body.light-theme .bg-black\/20,
@@ -36,19 +35,18 @@ body.light-theme .bg-white\/10,
 body.light-theme .bg-white\/15,
 body.light-theme .bg-white\/20 {
   background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
+  border-color: #CBD5E1 !important;
   color: #0F172A !important;
 }
 
 /* All Text in Light Mode */
-body.light-theme h1:not(.light-theme-dark-badge *),
-body.light-theme h2:not(.light-theme-dark-badge *),
-body.light-theme h3:not(.light-theme-dark-badge *),
-body.light-theme h4:not(.light-theme-dark-badge *),
-body.light-theme p:not(.light-theme-dark-badge *),
-body.light-theme span:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
-body.light-theme div:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
-body.light-theme a:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+body.light-theme h1:not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h2:not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h3:not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h4:not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme p:not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme span:not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme div:not(.bg-emerald-500):not(.bg-emerald-600):not(.bg-slate-950):not(.bg-black),
 body.light-theme label {
   color: #0F172A !important;
 }
@@ -60,11 +58,11 @@ body.light-theme .text-white\/50,
 body.light-theme .text-white\/40,
 body.light-theme .text-white\/30,
 body.light-theme .text-white\/20 {
-  color: #475569 !important;
+  color: #334155 !important;
 }
 
 /* SVG Stroke in Light Mode */
-body.light-theme svg:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
+body.light-theme svg:not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black *) {
   stroke: #0F172A !important;
   color: #0F172A !important;
 }
@@ -87,27 +85,24 @@ body.light-theme .bg-emerald-500\/20 {
   color: #047857 !important;
 }
 
-body.light-theme .bg-emerald-500,
-body.light-theme .bg-emerald-600 {
-  background-color: #059669 !important;
+/* Button & Dark Container Text Protection Rule */
+body.light-theme .bg-slate-950,
+body.light-theme .bg-black,
+body.light-theme .bg-emerald-600,
+body.light-theme .bg-emerald-500 {
   color: #FFFFFF !important;
 }
 
-body.light-theme .bg-emerald-500 *,
-body.light-theme .bg-emerald-600 * {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-}
-
-/* Explicit Dark Badges & CTAs in Light Mode */
-body.light-theme .light-theme-dark-badge {
-  background-color: #0F172A !important;
+body.light-theme .bg-slate-950 *,
+body.light-theme .bg-black *,
+body.light-theme .bg-emerald-600 *,
+body.light-theme .bg-emerald-500 * {
   color: #FFFFFF !important;
 }
 
-body.light-theme .light-theme-dark-badge * {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
+body.light-theme .bg-slate-950 p,
+body.light-theme .bg-black p {
+  color: #CBD5E1 !important;
 }
 
 /* Form Controls in Light Mode */
