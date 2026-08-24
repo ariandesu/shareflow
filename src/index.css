@@ -17,6 +17,28 @@ body.light-theme {
   color: #0F172A !important;
 }
 
+/* Global Light Mode Text Color Normalization */
+body.light-theme p,
+body.light-theme span:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+body.light-theme h1:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h2:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h3:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h4:not(.bg-[#0F172A] *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme label,
+body.light-theme div:not(.bg-[#0F172A]):not(.bg-slate-950):not(.bg-black):not(.bg-emerald-500):not(.bg-emerald-600) {
+  color: #0F172A;
+}
+
+body.light-theme .text-white\/80,
+body.light-theme .text-white\/70,
+body.light-theme .text-white\/60,
+body.light-theme .text-white\/50,
+body.light-theme .text-white\/40,
+body.light-theme .text-white\/30,
+body.light-theme .text-white\/20 {
+  color: #475569 !important;
+}
+
 /* Light Theme Container Overrides */
 body.light-theme .bg-\[\#0A0A0A\],
 body.light-theme .bg-\[\#0A0A0A\]\/90,
