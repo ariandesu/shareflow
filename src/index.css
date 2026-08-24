@@ -3,23 +3,16 @@
 
 /* ==========================================================================
    SHAREFLOW UNIVERSAL LIGHT THEME ARCHITECTURE
-   Guarantees 100% legibility, clean white canvas, and zero contrast defects.
+   Guarantees 100% legibility, clean white canvas, visible icons, and zero contrast defects.
    ========================================================================== */
 
+/* 1. Base Body Canvas & Default Text */
 body.light-theme {
   background-color: #FFFFFF !important;
   color: #0F172A !important;
 }
 
-/* Force light background on all main page containers */
-body.light-theme div:not(.light-theme-dark-card):not(.bg-black):not(.bg-slate-950):not(.bg-emerald-500):not(.bg-emerald-400),
-body.light-theme header,
-body.light-theme main,
-body.light-theme footer,
-body.light-theme section {
-  background-color: transparent;
-}
-
+/* 2. Convert All Dark Container Panels & Surfaces to Crisp Light Cards */
 body.light-theme .bg-\[\#0A0A0A\],
 body.light-theme .bg-\[\#0A0A0A\]\/90,
 body.light-theme .bg-\[\#0A0A0A\]\/80,
@@ -27,12 +20,17 @@ body.light-theme .bg-\[\#0A0A0A\]\/50,
 body.light-theme .bg-\[\#111\],
 body.light-theme .bg-\[\#0E0E0E\],
 body.light-theme .bg-\[\#131926\],
-body.light-theme .bg-slate-900\/60 {
-  background-color: #F8F9FA !important;
+body.light-theme .bg-slate-900,
+body.light-theme .bg-slate-900\/60,
+body.light-theme .bg-slate-950,
+body.light-theme .bg-slate-950\/80,
+body.light-theme .bg-slate-950\/90 {
+  background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
+  color: #0F172A !important;
 }
 
-/* Light Mode Card Surfaces */
+/* 3. Glassmorphism & Card Overrides */
 body.light-theme .bg-white\/5,
 body.light-theme .bg-white\/10,
 body.light-theme .bg-white\/15,
@@ -42,9 +40,10 @@ body.light-theme .bg-black\/10 {
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  color: #0F172A !important;
 }
 
-/* Typography in Light Mode */
+/* 4. Universal Typography Normalization */
 body.light-theme h1:not(.light-theme-dark-card *),
 body.light-theme h2:not(.light-theme-dark-card *),
 body.light-theme h3:not(.light-theme-dark-card *),
@@ -53,6 +52,13 @@ body.light-theme p:not(.light-theme-dark-card *),
 body.light-theme span:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-slate-950 *),
 body.light-theme a:not(.light-theme-dark-card *):not(.bg-emerald-500 *),
 body.light-theme label {
+  color: #0F172A !important;
+}
+
+body.light-theme .text-white,
+body.light-theme .text-\[\#F5F5F5\],
+body.light-theme .text-white\/90,
+body.light-theme .text-white\/80 {
   color: #0F172A !important;
 }
 
@@ -65,7 +71,14 @@ body.light-theme .text-white\/20 {
   color: #475569 !important;
 }
 
-/* Emerald Accents in Light Mode */
+/* ==========================================================================
+   5. LUCIDE & SVG ICON LIGHT MODE FIX (FORCE DARK STROKE ON LIGHT CARDS)
+   ========================================================================== */
+body.light-theme svg:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-400 *):not(.bg-black *):not(.bg-slate-950 *) {
+  stroke: #0F172A !important;
+  color: #0F172A !important;
+}
+
 body.light-theme .text-emerald-400,
 body.light-theme .text-emerald-300 {
   color: #047857 !important;
@@ -94,7 +107,7 @@ body.light-theme .bg-emerald-400 * {
   color: #FFFFFF !important;
 }
 
-/* Form Controls in Light Mode */
+/* 6. Form Control Normalization (Inputs, Textareas, Selects) */
 body.light-theme input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
 body.light-theme textarea,
 body.light-theme select {
@@ -109,10 +122,8 @@ body.light-theme textarea::placeholder {
 }
 
 /* ==========================================================================
-   EXPLICIT DARK CONTAINERS IN LIGHT MODE (Flagship Cards, Dark CTAs, Badges)
-   Must preserve crisp WHITE text inside dark backgrounds!
+   7. EXPLICIT DARK CONTAINERS IN LIGHT MODE (Flagship Cards, Dark CTAs, Badges)
    ========================================================================== */
-
 body.light-theme .light-theme-dark-card,
 body.light-theme .bg-slate-950,
 body.light-theme .bg-black {
@@ -124,6 +135,13 @@ body.light-theme .bg-black {
 body.light-theme .light-theme-dark-card *,
 body.light-theme .bg-slate-950 *,
 body.light-theme .bg-black * {
+  color: #FFFFFF !important;
+}
+
+body.light-theme .light-theme-dark-card svg,
+body.light-theme .bg-slate-950 svg,
+body.light-theme .bg-black svg {
+  stroke: #FFFFFF !important;
   color: #FFFFFF !important;
 }
 
@@ -145,6 +163,24 @@ body.light-theme .bg-slate-950 button,
 body.light-theme .bg-black button {
   background-color: #10B981 !important;
   color: #0F172A !important;
+}
+
+/* 8. Badge & Highlight Spans */
+body.light-theme .bg-white.text-black,
+body.light-theme .bg-black.text-white,
+body.light-theme .bg-slate-950.text-white {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+}
+
+/* 9. Border Overrides */
+body.light-theme .border-white,
+body.light-theme .border-white\/10,
+body.light-theme .border-white\/20,
+body.light-theme .border-white\/30,
+body.light-theme .border-white\/40,
+body.light-theme .border-white\/50 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Custom Scrollbar */
