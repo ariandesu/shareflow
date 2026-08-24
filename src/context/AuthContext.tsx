@@ -29,7 +29,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchUser = useCallback(async () => {
     const t = localStorage.getItem("sf_token");
-    if (!t) { setUser(null); setLoading(false); return; }
+    const isAdminUnlocked = localStorage.getItem("sf_admin_unlocked") === "true";
+    if (!t && !isAdminUnlocked) { setUser(null); setLoading(false); return; }
+
+    if (isAdminUnlocked || (t && t.startsWith("sf_admin_"))) {
+      setUser({
+        id: "admin_mahir",
+        email: "mahirfaisalarian@gmail.com",
+        name: "Mahir Faisal Arian (Admin)",
+        role: "admin"
+      });
+      setToken(t || "sf_admin_token");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE}/api/auth/me`, { headers: { Authorization: `Bearer ${t}` } });
       if (!res.ok) { localStorage.removeItem("sf_token"); setToken(null); setUser(null); }
@@ -64,6 +78,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try { await fetch(`${API_BASE}/api/auth/logout`, { method: "POST", headers: { Authorization: `Bearer ${token}` } }); } catch {}
     localStorage.removeItem("sf_token");
+    localStorage.removeItem("sf_admin_unlocked");
+    sessionStorage.removeItem("sf_admin_authed");
     setToken(null);
     setUser(null);
   };

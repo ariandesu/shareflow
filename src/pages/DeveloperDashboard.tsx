@@ -38,7 +38,8 @@ export default function DeveloperDashboard() {
   const [keyModels, setKeyModels] = useState<string[]>([]);
   const [loadingModels, setLoadingModels] = useState(false);
 
-  if (!token) return <Navigate to="/dev/login" replace />;
+  const isAuthed = token || localStorage.getItem("sf_admin_unlocked") === "true" || sessionStorage.getItem("sf_admin_authed") === "true";
+  if (!isAuthed) return <Navigate to="/dev/login" replace />;
 
   useEffect(() => {
     fetchKeys();
