@@ -48,6 +48,14 @@ import { motion } from "motion/react";
 
 const tools = [
   {
+    name: "Developer Starter Kits",
+    category: "Store",
+    description: "Production FastAPI, Scraper, and DevOps starter kits. Download 100% free!",
+    icon: <Sparkles className="w-6 h-6 text-emerald-400" />,
+    href: "/products",
+    featured: true,
+  },
+  {
     name: "File Share",
     category: "Flagship",
     description: "Transfer files up to 10MB via cloud or unlimited size via P2P.",
