@@ -68,7 +68,7 @@ export default function DeveloperLogin() {
         sessionStorage.setItem("sf_admin_authed", "true");
         localStorage.setItem("sf_admin_unlocked", "true");
         localStorage.setItem("sf_token", `sf_admin_authed_token_${Date.now()}`);
-        window.location.href = "/dev/dashboard";
+        window.location.href = "/admin";
         return;
       }
 
@@ -82,7 +82,7 @@ export default function DeveloperLogin() {
         sessionStorage.setItem("sf_admin_authed", "true");
         localStorage.setItem("sf_admin_unlocked", "true");
         localStorage.setItem("sf_token", data.token || "sf_admin_authed_token");
-        window.location.href = "/dev/dashboard";
+        window.location.href = "/admin";
       } else {
         setError(data?.error || "Invalid 2FA Verification Code.");
       }
@@ -91,7 +91,7 @@ export default function DeveloperLogin() {
       if (code.length === 6) {
         sessionStorage.setItem("sf_admin_authed", "true");
         localStorage.setItem("sf_admin_unlocked", "true");
-        window.location.href = "/dev/dashboard";
+        window.location.href = "/admin";
       } else {
         setError("Enter 6-digit code sent to your Telegram.");
       }
