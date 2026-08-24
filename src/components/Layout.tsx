@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Menu, X, Sun, Moon, Clock } from "lucide-react";
+import { FeedbackModal } from "./FeedbackModal";
 
 function NavClock() {
   const { pathname } = useLocation();
@@ -228,6 +229,7 @@ export function Layout() {
           <span>Cloudflare Edge: <span className="text-green-500/60 font-bold underline underline-offset-4 decoration-1">Active</span></span>
         </div>
       </footer>
+      <FeedbackModal />
     </div>
   );
 }

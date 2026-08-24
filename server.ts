@@ -175,6 +175,88 @@ async function startServer() {
     next();
   });
 
+  // 2FA Admin & Feedback State
+  const admin2FACodes = new Map<string, { code: string; expiresAt: number }>();
+  const feedbackStore: any[] = [];
+
+  // Telegram Alert Helper
+  const sendTelegramAlert = async (text: string) => {
+    try {
+      const token = process.env.TELEGRAM_BOT_TOKEN || "8852721755:AAHIgP3e2N9N9X6b_d3o4R1z";
+      const chatId = process.env.TELEGRAM_HOME_CHANNEL || "8941576242";
+      if (!token) return;
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text })
+      });
+    } catch (err) {
+      console.error("[Telegram Alert Error]", err);
+    }
+  };
+
+  // 1. Request Admin 2FA Code
+  app.post("/api/admin/request-2fa", async (req, res) => {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 5 * 60 * 1000;
+    admin2FACodes.set("active", { code, expiresAt });
+
+    const msg = `🔒 ShareFlow Admin 2FA Verification Code: ${code}\nRequested at: ${new Date().toLocaleTimeString()}\nExpires in 5 minutes.`;
+    await sendTelegramAlert(msg);
+
+    res.json({ success: true, message: "2FA code sent to admin Telegram." });
+  });
+
+  // 2. Verify Admin 2FA Code
+  app.post("/api/admin/verify-2fa", (req, res) => {
+    const { code } = req.body;
+    const record = admin2FACodes.get("active");
+
+    if (!record) {
+      return res.status(400).json({ success: false, error: "No 2FA code requested. Please request a new code." });
+    }
+    if (Date.now() > record.expiresAt) {
+      admin2FACodes.delete("active");
+      return res.status(400).json({ success: false, error: "2FA code expired. Please request a new code." });
+    }
+    if (record.code !== code) {
+      return res.status(400).json({ success: false, error: "Invalid 2FA verification code." });
+    }
+
+    admin2FACodes.delete("active");
+    res.json({ success: true, token: `sf_admin_token_${Date.now()}` });
+  });
+
+  // 3. Submit User Feedback / Problem Report
+  app.post("/api/feedback", async (req, res) => {
+    const { name, email, type, message, tool } = req.body;
+    if (!message || !message.trim()) {
+      return res.status(400).json({ success: false, error: "Feedback message is required." });
+    }
+
+    const entry = {
+      id: `fb_${Date.now()}`,
+      name: name || "Anonymous",
+      email: email || "N/A",
+      type: type || "general",
+      tool: tool || "Global",
+      message: message.trim(),
+      timestamp: new Date().toISOString()
+    };
+
+    feedbackStore.push(entry);
+
+    const alertMsg = `📩 New ShareFlow User Feedback!\n\nCategory: ${entry.type.toUpperCase()}\nTool: ${entry.tool}\nUser: ${entry.name} (${entry.email})\n\nMessage:\n"${entry.message}"`;
+    await sendTelegramAlert(alertMsg);
+
+    res.json({ success: true, message: "Feedback submitted successfully! Thank you for helping improve ShareFlow." });
+  });
+
+  // 4. Get All Feedback (Admin)
+  app.get("/api/feedback", (req, res) => {
+    res.json({ success: true, feedback: feedbackStore });
+  });
+
   // System Stats API for Admin Dashboard Telemetry
   app.get("/api/admin/system-stats", (req, res) => {
     const mem = process.memoryUsage();
