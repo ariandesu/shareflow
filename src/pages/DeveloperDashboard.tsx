@@ -162,15 +162,15 @@ export default function DeveloperDashboard() {
               </h2>
             </div>
             <p className="text-xs text-white/50">
-              Save AI API keys from NVIDIA NIM, OpenAI, OpenRouter, Groq, Alibaba Qwen, or Custom endpoints for present & future Code Helper sessions.
+              Save AI API keys from NVIDIA NIM, OpenAI, OpenRouter, Groq, Alibaba Qwen, or Custom endpoints for developer tools.
             </p>
           </div>
 
           <button
-            onClick={() => navigate("/code-helper")}
+            onClick={() => navigate("/developer-gateway")}
             className="px-4 py-2 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-xs uppercase tracking-widest hover:bg-emerald-500/30 transition-colors whitespace-nowrap"
           >
-            Launch Code Helper →
+            Launch Developer Gateway →
           </button>
         </div>
 

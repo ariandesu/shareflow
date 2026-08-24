@@ -8,7 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
 import { TextShare } from "./pages/TextShare";
-import { CodeHelper } from "./pages/CodeHelper";
+
 import { FileShare } from "./pages/FileShare";
 import { FileReceive } from "./pages/FileReceive";
 import { QRGenerator } from "./pages/QRGenerator";
@@ -84,7 +84,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="text-share" element={<TextShare />} />
-            <Route path="code-helper" element={<CodeHelper />} />
+
             {/* File Share Routes */}
             <Route path="file-share" element={<FileShare />} />
             <Route path="f" element={<FileReceive />} />
