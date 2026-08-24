@@ -33,7 +33,7 @@ const PRODUCTS: Product[] = [
     description: "Production Python web scraping framework using httpx, BeautifulSoup4, and Playwright for bypassing anti-bot walls.",
     category: "Developer Starter Kits",
     price: "$3.99",
-    downloadUrl: "/products/fastapi-sqlite-starter-kit.zip",
+    downloadUrl: "/products/async-web-scraper-engine.zip",
     features: [
       "Async HTTPX request pool & proxy rotation",
       "Headless Playwright browser integration",
