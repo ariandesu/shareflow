@@ -21,7 +21,6 @@ html.light-theme, body.light-theme {
 body.light-theme .bg-\[\#0A0A0A\],
 body.light-theme .bg-\[\#0A0A0A\]\/90,
 body.light-theme .bg-\[\#0A0A0A\]\/80,
-body.light-theme .bg-\[\#111\],
 body.light-theme .bg-\[\#0E0E0E\],
 body.light-theme .bg-\[\#131926\],
 body.light-theme .bg-slate-900,
@@ -39,15 +38,15 @@ body.light-theme .bg-white\/20 {
   color: #0F172A !important;
 }
 
-/* All Text in Light Mode */
-body.light-theme h1:not(.light-theme-dark-badge *),
-body.light-theme h2:not(.light-theme-dark-badge *),
-body.light-theme h3:not(.light-theme-dark-badge *),
-body.light-theme h4:not(.light-theme-dark-badge *),
-body.light-theme p:not(.light-theme-dark-badge *),
-body.light-theme span:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
-body.light-theme div:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
-body.light-theme a:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+/* All Canvas Text in Light Mode (EXCEPT inside dark flagship cards) */
+body.light-theme h1:not(.light-theme-dark-card *),
+body.light-theme h2:not(.light-theme-dark-card *),
+body.light-theme h3:not(.light-theme-dark-card *),
+body.light-theme h4:not(.light-theme-dark-card *),
+body.light-theme p:not(.light-theme-dark-card *),
+body.light-theme span:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+body.light-theme div:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+body.light-theme a:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
 body.light-theme label {
   color: #0F172A !important;
 }
@@ -62,8 +61,25 @@ body.light-theme .text-white\/20 {
   color: #475569 !important;
 }
 
+/* EXPLICIT PURE WHITE TEXT PROTECTION FOR FLAGSHIP DARK CARDS IN LIGHT MODE */
+body.light-theme .light-theme-dark-card {
+  background-color: #0F172A !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #FFFFFF !important;
+}
+
+body.light-theme .light-theme-dark-card h3,
+body.light-theme .light-theme-dark-card h4,
+body.light-theme .light-theme-dark-card span:not(.text-slate-950) {
+  color: #FFFFFF !important;
+}
+
+body.light-theme .light-theme-dark-card p {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
 /* SVG Stroke in Light Mode */
-body.light-theme svg:not(.light-theme-dark-badge *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
+body.light-theme svg:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
   stroke: #0F172A !important;
   color: #0F172A !important;
 }
@@ -95,24 +111,6 @@ body.light-theme .bg-emerald-600 {
 body.light-theme .bg-emerald-500 *,
 body.light-theme .bg-emerald-600 * {
   color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-}
-
-body.light-theme .bg-emerald-500 svg,
-body.light-theme .bg-emerald-600 svg {
-  stroke: #0F172A !important;
-  color: #0F172A !important;
-}
-
-/* Explicit Dark Badges & CTAs in Light Mode */
-body.light-theme .light-theme-dark-badge {
-  background-color: #0F172A !important;
-  color: #FFFFFF !important;
-}
-
-body.light-theme .light-theme-dark-badge * {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
 }
 
 /* Form Controls in Light Mode */
