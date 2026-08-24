@@ -423,13 +423,13 @@ export function FileShare() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-stretch">
         
         {/* Share Card */}
-        <div className="w-full bg-white border border-black/10 dark:border-white/10 text-black p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[450px]">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-black/5 rounded-bl-full -z-0"></div>
+        <div className="w-full bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[450px] rounded-3xl">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full -z-0"></div>
           
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-black uppercase tracking-tighter">Send<span className="text-black/30">File</span></h2>
-              <div className="text-[10px] font-bold bg-black text-white px-3 py-1 uppercase tracking-widest light-theme-invert">
+              <h2 className="text-3xl font-black uppercase tracking-tighter">Send<span className="text-slate-400 dark:text-white/30">File</span></h2>
+              <div className="text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 uppercase tracking-widest rounded-full">
                 Zero cost
               </div>
             </div>
@@ -679,13 +679,13 @@ export function FileShare() {
         </div>
 
         {/* Receive Card */}
-        <div className="w-full bg-white border border-black/10 dark:border-white/10 text-black p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[450px]">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-black/5 rounded-bl-full -z-0"></div>
+        <div className="w-full bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[450px] rounded-3xl">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full -z-0"></div>
           
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
             <div>
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-black uppercase tracking-tighter">Receive<span className="text-black/30">File</span></h2>
+                <h2 className="text-3xl font-black uppercase tracking-tighter">Receive<span className="text-slate-400 dark:text-white/30">File</span></h2>
                 <Download className="w-6 h-6 text-black" />
               </div>
               

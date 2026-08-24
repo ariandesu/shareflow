@@ -89,8 +89,8 @@ export function Layout() {
         <div className="flex items-center gap-8 w-full">
           <div className="flex items-center justify-between w-full md:w-auto">
             <Link to="/" className="text-2xl font-black tracking-tighter uppercase flex items-center">
-              <span className="bg-slate-950 text-white dark:bg-white dark:text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
+              <span className="bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
+              <span className="text-[#0F172A] dark:text-white font-black">FLOW</span>
             </Link>
 
             {/* Mobile menu button */}
@@ -180,8 +180,8 @@ export function Layout() {
         >
           <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
             <Link to="/" className="text-xl font-black tracking-tighter uppercase flex items-center" onClick={() => setIsMenuOpen(false)}>
-              <span className="bg-slate-950 text-white dark:bg-white dark:text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
+              <span className="bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
+              <span className="text-[#0F172A] dark:text-white font-black">FLOW</span>
             </Link>
             <button
               onClick={() => setIsMenuOpen(false)}
