@@ -23,7 +23,7 @@ export async function onRequestPost(context: { request: Request; env: Env }) {
       );
     }
 
-    const token = context.env.TELEGRAM_BOT_TOKEN || "8852721755:AAHIgP3e2N9N9X6b_d3o4R1z";
+    const token = context.env.TELEGRAM_BOT_TOKEN || "8852721755:AAH-52j_uQpp2n79US1S00VmiG3pmYke-Pk";
     const chatId = context.env.TELEGRAM_HOME_CHANNEL || "8941576242";
 
     const alertMsg = `📩 New ShareFlow User Feedback!\n\nCategory: ${(type || "general").toUpperCase()}\nTool: ${tool || "Global"}\nUser: ${name || "Anonymous"} (${email || "N/A"})\n\nMessage:\n"${message.trim()}"`;

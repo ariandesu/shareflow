@@ -16,7 +16,7 @@ export async function onRequestPost(context: { env: Env }) {
     const envToken = (context.env.TELEGRAM_BOT_TOKEN || "").trim();
     const envChatId = (context.env.TELEGRAM_HOME_CHANNEL || "").trim();
 
-    const token = (envToken && envToken.length > 20) ? envToken : "8852721755:AAHIgP3e2N9N9X6b_d3o4R1z";
+    const token = (envToken && envToken.length > 20) ? envToken : "8852721755:AAH-52j_uQpp2n79US1S00VmiG3pmYke-Pk";
     const chatId = (envChatId && envChatId.length > 3) ? envChatId : "8941576242";
 
     const msg = `🔒 ShareFlow Admin 2FA Verification Code: ${code}\nRequested at: ${new Date().toLocaleTimeString()}\nExpires in 5 minutes.`;
