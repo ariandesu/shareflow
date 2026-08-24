@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { MessageSquare, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 export function FeedbackModal() {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,8 +13,24 @@ export function FeedbackModal() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
+  // Suppress Feedback Modal button on Admin Dashboard (/admin) and Dev routes (/dev)
+  const isAdminOrDevRoute = location.pathname.startsWith("/admin") || location.pathname.startsWith("/dev");
+  if (isAdminOrDevRoute) {
+    return null;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim()) {
+      setError("Please enter your name.");
+      return;
+    }
+
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
     if (!message.trim()) {
       setError("Please enter your message or problem report.");
       return;
@@ -26,11 +44,11 @@ export function FeedbackModal() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: name.trim() || "Anonymous User",
+          name: name.trim(),
           email: email.trim(),
           type,
           message: message.trim(),
-          tool: window.location.pathname
+          tool: location.pathname
         })
       });
 
@@ -40,6 +58,8 @@ export function FeedbackModal() {
           setSubmitted(false);
           setIsOpen(false);
           setMessage("");
+          setName("");
+          setEmail("");
         }, 2500);
       } else {
         const data = await res.json();
@@ -51,6 +71,8 @@ export function FeedbackModal() {
         setSubmitted(false);
         setIsOpen(false);
         setMessage("");
+        setName("");
+        setEmail("");
       }, 2500);
     } finally {
       setSubmitting(false);
@@ -132,25 +154,27 @@ export function FeedbackModal() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-[11px] font-bold uppercase tracking-wider text-white/50 mb-1 block">
-                      Name (Optional)
+                      Name *
                     </label>
                     <input
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Your name"
+                      required
                       className="w-full bg-white/5 border border-white/10 px-3 py-2 text-xs text-white rounded-lg focus:outline-none focus:border-white/30"
                     />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold uppercase tracking-wider text-white/50 mb-1 block">
-                      Email (Optional)
+                      Email *
                     </label>
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="email@domain.com"
+                      required
                       className="w-full bg-white/5 border border-white/10 px-3 py-2 text-xs text-white rounded-lg focus:outline-none focus:border-white/30"
                     />
                   </div>
@@ -165,6 +189,7 @@ export function FeedbackModal() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Describe your suggestion, feature request, or problem..."
+                    required
                     className="w-full bg-white/5 border border-white/10 p-3 text-xs text-white rounded-lg focus:outline-none focus:border-emerald-500/40 resize-none"
                   />
                 </div>
