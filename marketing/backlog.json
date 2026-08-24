@@ -1,0 +1,32 @@
+{
+  "nextTools": [
+    {
+      "name": "JsonToCsvPro",
+      "category": "Developer",
+      "description": "Advanced JSON to CSV transformer with nested flatten.",
+      "icon": "Repeat",
+      "seo": "json to csv converter"
+    },
+    {
+      "name": "ColorPaletteExtractor",
+      "category": "Image",
+      "description": "Extract dominant colors from any image.",
+      "icon": "Palette",
+      "seo": "image color palette generator"
+    },
+    {
+      "name": "CronGenerator",
+      "category": "Developer",
+      "description": "Visual cron expression builder & explainer.",
+      "icon": "Clock",
+      "seo": "cron generator"
+    },
+    {
+      "name": "SvgMinify",
+      "category": "Developer",
+      "description": "Minify and optimize SVG instantly.",
+      "icon": "Code2",
+      "seo": "svg minifier"
+    }
+  ]
+}
