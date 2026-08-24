@@ -74,7 +74,7 @@ export default function AdminDashboard() {
       setSending2FA(true);
       setLoginError("");
       try {
-        const res = await fetch(`${API_BASE}/api/admin/request-2fa`, { method: "POST" });
+        const res = await fetch("/api/admin/request-2fa", { method: "POST" });
         if (res.ok) {
           setStep2FA(true);
         } else {
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
     setSending2FA(true);
     setLoginError("");
     try {
-      const res = await fetch(`${API_BASE}/api/admin/verify-2fa`, {
+      const res = await fetch("/api/admin/verify-2fa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code })

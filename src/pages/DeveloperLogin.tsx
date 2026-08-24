@@ -27,8 +27,8 @@ export default function DeveloperLogin() {
     if (cleanEmail === "mahirfaisalarian@gmail.com" && cleanPass === "KingBot@1") {
       // Trigger Telegram 2FA request
       try {
-        const targetUrl = API_BASE ? `${API_BASE}/api/admin/request-2fa` : "/api/admin/request-2fa";
-        const res = await fetch(targetUrl, { method: "POST" });
+        // ALWAYS use relative path /api/admin/request-2fa so it hits Cloudflare Pages Functions directly
+        const res = await fetch("/api/admin/request-2fa", { method: "POST" });
         const data = await res.json();
         if (res.ok && data.success) {
           if (data.codeHash) {
@@ -77,8 +77,7 @@ export default function DeveloperLogin() {
         return;
       }
 
-      const targetUrl = API_BASE ? `${API_BASE}/api/admin/verify-2fa` : "/api/admin/verify-2fa";
-      const res = await fetch(targetUrl, {
+      const res = await fetch("/api/admin/verify-2fa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code })
