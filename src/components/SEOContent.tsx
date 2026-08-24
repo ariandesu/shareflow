@@ -1,12 +1,12 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { AdBanner } from './AdBanner';
 
 interface SEOContentProps {
   title: string;
   description: string;
   steps: { title: string; description: string }[];
-  faqs: { question: string; answer: string }[];
+  faqs?: { question: string; answer: string }[];
 }
 
 export function SEOContent({ title, description, steps, faqs }: SEOContentProps) {
@@ -38,26 +38,28 @@ export function SEOContent({ title, description, steps, faqs }: SEOContentProps)
         </div>
       </motion.div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="space-y-8 pb-16"
-      >
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold tracking-tighter uppercase">Frequently Asked Questions</h2>
-          <p className="text-white/50 text-sm">Common questions about the {title}.</p>
-        </div>
-        
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div key={index} className="faq-item bg-white/5 p-6 border border-white/10 space-y-2 hover:border-white/20 transition-colors">
-              <h3 className="faq-question text-sm font-bold tracking-wider">{faq.question}</h3>
-              <p className="faq-answer text-sm leading-relaxed">{faq.answer}</p>
-            </div>
-          ))}
-        </div>
-      </motion.div>
+      {faqs && faqs.length > 0 && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-8 pb-16"
+        >
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold tracking-tighter uppercase">Frequently Asked Questions</h2>
+            <p className="text-white/50 text-sm">Common questions about the {title}.</p>
+          </div>
+          
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="faq-item bg-white/5 p-6 border border-white/10 space-y-2 hover:border-white/20 transition-colors">
+                <h3 className="faq-question text-sm font-bold tracking-wider">{faq.question}</h3>
+                <p className="faq-answer text-sm leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
