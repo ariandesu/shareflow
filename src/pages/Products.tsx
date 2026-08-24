@@ -52,13 +52,28 @@ const PRODUCTS: Product[] = [
     description: "Comprehensive CLI reference guide for Docker, Docker Compose, and Kubernetes cluster management in production.",
     category: "DevOps Guides",
     price: "$2.99",
-    downloadUrl: "/products/fastapi-sqlite-starter-kit.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com",
+    downloadUrl: "/products/docker-k8s-cheatsheet.zip",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/docker-k8s-cheatsheet",
     features: [
       "50+ essential Docker & kubectl CLI snippets",
       "Container optimization & multi-stage builds",
       "Kubernetes Deployment, Service, and Ingress specs",
       "Print-ready PDF cheat sheet"
+    ]
+  },
+  {
+    id: "global-tech-salaries-2026",
+    title: "Global Tech Salaries 2026 CSV Dataset",
+    description: "Audited, curated CSV dataset containing 1,500+ verified engineering, AI/ML, and DevOps compensation datapoints across 45+ countries.",
+    category: "Data & Datasets",
+    price: "$3.99",
+    downloadUrl: "/products/global-tech-salaries-2026.zip",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com",
+    features: [
+      "1,500+ clean, structured compensation rows",
+      "Job titles, experience levels, & country breakdowns",
+      "Remote ratio & currency conversions included",
+      "CSV, JSON, & SQLite ready format"
     ]
   }
 ];

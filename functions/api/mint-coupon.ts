@@ -23,6 +23,11 @@ const GUMROAD_PRODUCTS: Record<string, { url: string; id: string; priceCents: st
     url: "https://mhr3d.gumroad.com/l/docker-k8s-cheatsheet",
     id: "Urkw8_vxSl21nYaa7fovqw==",
     priceCents: "299"
+  },
+  "global-tech-salaries-2026": {
+    url: "https://mhr3d.gumroad.com/l/global-tech-salaries-2026",
+    id: "lFVu-h44136Dvi63J50jtw==",
+    priceCents: "399"
   }
 };
 
