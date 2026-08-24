@@ -415,7 +415,7 @@ export function Home() {
             className="text-[42px] sm:text-[72px] font-black leading-[1.1] tracking-tighter uppercase mb-4"
           >
             Utility<br />
-            <span className="bg-white text-black px-3 py-0.5 mt-1 inline-block">Universe</span>
+            <span className="bg-slate-950 text-white dark:bg-white dark:text-slate-950 px-3 py-0.5 mt-1 inline-block rounded-md">Universe</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -490,8 +490,8 @@ export function Home() {
                     <span className="text-[11px] font-extrabold uppercase tracking-widest bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/40">
                       Flagship #1
                     </span>
-                    <div className="p-3 bg-white/10 rounded-2xl">
-                      <FileUp className="w-8 h-8 text-emerald-400" />
+                    <div className="p-3 bg-emerald-500/20 rounded-2xl border border-emerald-500/40">
+                      <FileUp className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                     </div>
                   </div>
                   <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-white">File Share</h3>
@@ -518,8 +518,8 @@ export function Home() {
                     <span className="text-[11px] font-extrabold uppercase tracking-widest bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/40">
                       Flagship #2
                     </span>
-                    <div className="p-3 bg-white/10 rounded-2xl">
-                      <FileText className="w-8 h-8 text-emerald-400" />
+                    <div className="p-3 bg-emerald-500/20 rounded-2xl border border-emerald-500/40">
+                      <FileText className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                     </div>
                   </div>
                   <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-white">Text Share</h3>
@@ -587,7 +587,7 @@ export function Home() {
           </div>
           <div className="flex flex-col items-start sm:items-end gap-3 w-full sm:w-auto">
             <span className="text-[10px] text-white/20 font-mono">v1/api/live</span>
-            <Link to="/dev" className="px-4 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest whitespace-nowrap hover:bg-white/80 transition-colors">Sign In</Link>
+            <Link to="/dev" className="px-5 py-2.5 bg-slate-950 text-white dark:bg-white dark:text-slate-950 text-xs font-black uppercase tracking-widest whitespace-nowrap hover:bg-emerald-600 hover:text-white transition-colors rounded-lg shadow-md">Sign In</Link>
           </div>
         </motion.div>
       </div>
