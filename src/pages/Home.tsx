@@ -412,10 +412,10 @@ export function Home() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-[42px] sm:text-[72px] font-black leading-[1.1] tracking-tighter uppercase mb-4 text-[#0F172A] dark:text-white"
+            className="text-[42px] sm:text-[72px] font-black leading-[1.1] tracking-tighter uppercase mb-4 text-slate-950 dark:text-white"
           >
             Utility<br />
-            <span className="bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] px-3 py-0.5 mt-1 inline-block rounded-md">Universe</span>
+            <span className="text-emerald-600 dark:text-emerald-400">Universe</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
