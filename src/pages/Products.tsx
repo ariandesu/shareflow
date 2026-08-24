@@ -249,39 +249,41 @@ export default function Products() {
                     <ShieldCheck className="w-8 h-8" />
                   </div>
                   <div className="space-y-1">
-                    <h4 className="font-bold text-white text-base">Product Unlocked 100% FREE!</h4>
-                    <p className="text-xs text-white/60">Thank you for supporting ShareFlow. Your download is ready.</p>
+                    <h4 className="font-bold text-white text-base">100% OFF Gumroad Coupon Unlocked!</h4>
+                    <p className="text-xs text-white/60">
+                      Copy your single-use 100% OFF coupon code below and claim your product on Gumroad for $0.00!
+                    </p>
                   </div>
 
-                  {/* DIRECT ZIP DOWNLOAD BUTTON */}
-                  <a
-                    href={selectedProduct.downloadUrl}
-                    download
-                    className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 transition-colors shadow-lg"
-                  >
-                    <Download className="w-5 h-5" /> Download Product ZIP (100% FREE)
-                  </a>
-
                   {/* COUPON CODE BOX */}
-                  {couponCode && (
-                    <div className="pt-2 border-t border-white/10 space-y-2">
-                      <span className="text-[11px] text-white/50 block">Single-Use 100% OFF Coupon Code:</span>
-                      <div className="p-3 bg-slate-900 rounded-xl border border-emerald-500/40 flex items-center justify-between font-mono text-xs text-emerald-300">
-                        <span className="font-bold tracking-wider">{couponCode}</span>
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(couponCode);
-                            setCopiedCoupon(true);
-                            setTimeout(() => setCopiedCoupon(false), 2000);
-                          }}
-                          className="px-2 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded flex items-center gap-1 text-[11px]"
-                        >
-                          {copiedCoupon ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                          {copiedCoupon ? "Copied" : "Copy"}
-                        </button>
-                      </div>
+                  <div className="p-3.5 bg-slate-900 rounded-xl border border-emerald-500/50 space-y-2">
+                    <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-widest block">
+                      Single-Use 100% OFF Coupon Code
+                    </span>
+                    <div className="flex items-center justify-between font-mono text-sm text-emerald-300 bg-slate-950 p-2.5 rounded-lg border border-emerald-500/30">
+                      <span className="font-extrabold tracking-wider">{couponCode || "SF100_PROD_FREE"}</span>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(couponCode || "SF100_PROD_FREE");
+                          setCopiedCoupon(true);
+                          setTimeout(() => setCopiedCoupon(false), 2000);
+                        }}
+                        className="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-md flex items-center gap-1 text-xs font-sans font-bold"
+                      >
+                        {copiedCoupon ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                        {copiedCoupon ? "Copied" : "Copy Code"}
+                      </button>
                     </div>
-                  )}
+                  </div>
+
+                  <a
+                    href={`https://mhr3d.gumroad.com/l/${selectedProduct.id}?wanted=true&discount_code=${couponCode}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-xl hover:scale-[1.02]"
+                  >
+                    <ShoppingBag className="w-4 h-4" /> Claim 100% FREE on Gumroad →
+                  </a>
                 </div>
               )}
 
