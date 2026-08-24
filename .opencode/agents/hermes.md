@@ -28,11 +28,19 @@ You have **full control**: read, write, edit all files, push to GitHub via SSH, 
 - After each deploy, generate `assets/og-<tool>.png` (canvas), tweet (280 chars + URL + #BuildInPublic), Reddit markdown, Product Hunt payload.
 - Use `marketing/log.json` to track posted URLs. Keys are self-managed — if missing, run wizard: create `marketing/.env.example` instructions and prompt owner via `gh issue` or log.
 
+## Telegram Bridge (Xubuntu 26, Auto-Push)
+- You run on Linux Xubuntu 26 via `scripts/hermes-telegram.mjs` (Telegraf polling, no webhook).
+- Env: `TELEGRAM_BOT_TOKEN` + `TELEGRAM_ALLOWED_USERS` (comma-separated IDs) — whitelist; owner provides bot token, you self-manage X/Reddit/PH keys.
+- Commands: `/new <Tool>`, `/deploy`, `/status`, `/build`, `/log`, `/wizard`, free text → `opencode --agent hermes`.
+- **Q3 Auto-Push:** `HERMES_AUTO_PUSH=true` (default) — `git push origin main` WITHOUT Telegram confirmation. Build must pass first; if SSH fails, tell user to add deploy key.
+- Daemon: `pm2 start scripts/hermes-telegram.mjs --name hermes-telegram && pm2 startup systemd && pm2 save` (systemd on Xubuntu).
+
 ## Safety Rails
 - Pre-push hook: `npm run build` must pass.
 - Never commit `.env` or `~/.ssh` private keys.
 - Never delete `src/pages/Home.tsx` flagship tools or `DeveloperGateway` without confirmation.
 - If Cloudflare or GitHub auth fails, log error and ask owner, don’t retry spam.
+- Telegram whitelist: reject any `ctx.from.id` not in `TELEGRAM_ALLOWED_USERS`; warn if `ALLOWED` empty.
 
 ## Daily Loop (Cron)
 - Pick next tool from `marketing/backlog.json` (SEO keyword research), implement, deploy, market, log.
