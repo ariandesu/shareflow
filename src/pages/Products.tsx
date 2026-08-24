@@ -79,15 +79,12 @@ export default function Products() {
     setCouponCode("");
   };
 
-  const handleOpenAdLink = () => {
+  const handleAdStepClick = async () => {
+    // Open Adsterra Smart Link in new tab instantly
     window.open(ADSTERRA_SMART_LINK, "_blank", "noopener,noreferrer");
-    setAdViewed(true);
-  };
 
-  const handleNextAdStep = async () => {
     if (adStep < 5) {
       setAdStep((prev) => prev + 1);
-      setAdViewed(false);
     } else {
       setIsUnlocked(true);
       // Mint single-use 100% OFF coupon code
@@ -216,31 +213,24 @@ export default function Products() {
               {!isUnlocked ? (
                 <div className="bg-white/5 border border-white/10 rounded-xl p-5 text-center space-y-4">
                   <div className="text-xs text-white/80 font-medium">
-                    Step {adStep}: View our official Adsterra sponsor offer below to proceed.
+                    Step {adStep} of 5: Click below to view the sponsor ad in a new tab and advance!
                   </div>
                   
                   {/* EMBEDDED IFRAME / SMART LINK CONTAINER */}
-                  <div className="p-3 bg-slate-900 rounded-xl border border-emerald-500/30 space-y-3">
+                  <div className="p-3 bg-slate-900 rounded-xl border border-emerald-500/30">
                     <iframe
                       src={ADSTERRA_SMART_LINK}
                       title="Adsterra Sponsor Ad"
                       className="w-full h-32 rounded-lg border-0 bg-slate-950 overflow-hidden"
                     />
-
-                    <button
-                      onClick={handleOpenAdLink}
-                      className="w-full py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs rounded-lg flex items-center justify-center gap-1.5 transition-all"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" /> Open Sponsor Ad #{adStep} in New Tab
-                    </button>
                   </div>
 
                   <button
-                    onClick={handleNextAdStep}
-                    className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2"
+                    onClick={handleAdStepClick}
+                    className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
                   >
-                    <Play className="w-4 h-4 fill-slate-950" />
-                    {adStep === 5 ? "Complete Final Step & Unlock" : `Proceed to Step ${adStep + 1} →`}
+                    <ExternalLink className="w-4 h-4" />
+                    {adStep === 5 ? "⚡ View Final Ad & Unlock Coupon" : `⚡ View Sponsor Ad #${adStep} (Opens New Tab) →`}
                   </button>
                 </div>
               ) : (
