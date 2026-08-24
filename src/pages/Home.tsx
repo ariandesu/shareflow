@@ -491,7 +491,7 @@ export function Home() {
                       Flagship #1
                     </span>
                     <div className="p-3.5 bg-white/10 rounded-2xl group-hover:bg-emerald-500 transition-colors">
-                      <FileUp className="w-8 h-8 text-emerald-400 group-hover:text-slate-950 group-hover:scale-110 transition-transform" />
+                      <FileUp className="w-8 h-8 text-emerald-400 stroke-emerald-400 group-hover:text-slate-950 group-hover:stroke-slate-950 group-hover:scale-110 transition-all" />
                     </div>
                   </div>
                   <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-white group-hover:text-emerald-400 transition-colors">File Share</h3>
@@ -519,7 +519,7 @@ export function Home() {
                       Flagship #2
                     </span>
                     <div className="p-3.5 bg-white/10 rounded-2xl group-hover:bg-emerald-500 transition-colors">
-                      <FileText className="w-8 h-8 text-emerald-400 group-hover:text-slate-950 group-hover:scale-110 transition-transform" />
+                      <FileText className="w-8 h-8 text-emerald-400 stroke-emerald-400 group-hover:text-slate-950 group-hover:stroke-slate-950 group-hover:scale-110 transition-all" />
                     </div>
                   </div>
                   <h3 className="text-4xl font-black tracking-tighter uppercase mt-6 text-white group-hover:text-emerald-400 transition-colors">Text Share</h3>
