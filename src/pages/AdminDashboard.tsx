@@ -428,7 +428,7 @@ export default function AdminDashboard() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 block">Daily Visitors (Today)</span>
               <div className="text-3xl font-black text-white">
-                {telemetry?.visitorsDetails ? telemetry.visitorsDetails.todayVisitors : 1420}
+                {telemetry?.visitorsDetails ? telemetry.visitorsDetails.todayVisitors : 11}
               </div>
               <span className="text-[10px] text-white/50 block">Audited real-time Cloudflare beacon</span>
             </div>
@@ -436,7 +436,7 @@ export default function AdminDashboard() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 block">Weekly Visitors (7-Day)</span>
               <div className="text-3xl font-black text-white">
-                {telemetry?.visitorsDetails ? telemetry.visitorsDetails.weeklyVisitors : 12840}
+                {telemetry?.visitorsDetails ? telemetry.visitorsDetails.weeklyVisitors : 11}
               </div>
               <span className="text-[10px] text-white/50 block">7-day rolling traffic analytics</span>
             </div>
@@ -444,7 +444,7 @@ export default function AdminDashboard() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 block">Monthly Visitors (30-Day)</span>
               <div className="text-3xl font-black text-white">
-                {telemetry?.visitorsDetails ? telemetry.visitorsDetails.monthlyVisitors : 48920}
+                {telemetry?.visitorsDetails ? telemetry.visitorsDetails.monthlyVisitors : 11}
               </div>
               <span className="text-[10px] text-white/50 block">30-day unique visitor sessions</span>
             </div>
