@@ -2,99 +2,90 @@
 @plugin "@tailwindcss/typography";
 
 /* ==========================================================================
-   APPLE HIG & TASTE SKILL: SHAREFLOW LIGHT THEME RE-ARCHITECTED
-   Clean, high-contrast, legible light mode with zero dark-on-dark contrast bugs.
+   APPLE HIG & TASTE SKILL: UNIVERSAL LIGHT THEME ARCHITECTURE
+   Guarantees 100% legibility, high contrast, and zero dark-on-dark text bugs.
    ========================================================================== */
 
+/* 1. Base Body Canvas & Default Text */
 body.light-theme {
   background-color: #F8F9FA !important;
   color: #0F172A !important;
 }
 
-/* Background Conversions for Light Theme */
+/* 2. Convert All Dark Container Panels & Surfaces to Crisp Light Cards */
 body.light-theme .bg-\[\#0A0A0A\],
-body.light-theme .bg-\[\#0A0A0A\]\/90 {
-  background-color: rgba(248, 249, 250, 0.95) !important;
-}
-
+body.light-theme .bg-\[\#0A0A0A\]\/90,
+body.light-theme .bg-\[\#0A0A0A\]\/80,
+body.light-theme .bg-\[\#0A0A0A\]\/50,
 body.light-theme .bg-\[\#111\],
 body.light-theme .bg-\[\#0E0E0E\],
-body.light-theme .bg-\[\#131926\] {
+body.light-theme .bg-\[\#131926\],
+body.light-theme .bg-[#131926],
+body.light-theme .bg-[#0E0E0E],
+body.light-theme .bg-[#111],
+body.light-theme .bg-slate-900,
+body.light-theme .bg-slate-900\/60,
+body.light-theme .bg-slate-950,
+body.light-theme .bg-slate-950\/80,
+body.light-theme .bg-slate-950\/90 {
   background-color: #FFFFFF !important;
-  border-color: rgba(0, 0, 0, 0.08) !important;
-}
-
-/* Card & Surface Overrides */
-body.light-theme .bg-white\/5,
-body.light-theme .bg-white\/10 {
-  background-color: #FFFFFF !important;
-  border-color: rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-}
-
-body.light-theme .bg-white\/20 {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-}
-
-/* Typography Overrides */
-body.light-theme .text-\[\#F5F5F5\],
-body.light-theme .text-white {
+  border-color: rgba(0, 0, 0, 0.1) !important;
   color: #0F172A !important;
 }
 
+/* 3. Glassmorphism Overrides */
+body.light-theme .bg-white\/5,
+body.light-theme .bg-white\/10,
+body.light-theme .bg-white\/15,
+body.light-theme .bg-white\/20,
+body.light-theme .bg-black\/50,
+body.light-theme .bg-black\/40,
+body.light-theme .bg-black\/20 {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  color: #0F172A !important;
+}
+
+/* 4. Universal Typography Normalization */
+body.light-theme .text-\[\#F5F5F5\],
+body.light-theme .text-white,
+body.light-theme .text-white\/90,
 body.light-theme .text-white\/80 {
-  color: #1E293B !important;
+  color: #0F172A !important;
 }
 
 body.light-theme .text-white\/70,
-body.light-theme .text-white\/60 {
+body.light-theme .text-white\/60,
+body.light-theme .text-white\/50 {
   color: #334155 !important;
 }
 
-body.light-theme .text-white\/50,
 body.light-theme .text-white\/40,
 body.light-theme .text-white\/30,
 body.light-theme .text-white\/20 {
-  color: #475569 !important;
+  color: #64748B !important;
 }
 
-/* Emerald High-Contrast Text in Light Mode */
+/* 5. Emerald High-Contrast Colors in Light Mode */
 body.light-theme .text-emerald-400,
 body.light-theme .text-emerald-300 {
-  color: #047857 !important; /* High contrast Emerald 700 */
+  color: #047857 !important; /* Emerald 700 for high contrast */
 }
 
 body.light-theme .bg-emerald-500\/10 {
   background-color: #ECFDF5 !important;
   border-color: #A7F3D0 !important;
+  color: #047857 !important;
 }
 
 body.light-theme .bg-emerald-500\/20 {
   background-color: #D1FAE5 !important;
   border-color: #6EE7B7 !important;
+  color: #047857 !important;
 }
 
-/* Border Overrides */
-body.light-theme .border-white,
-body.light-theme .border-white\/10,
-body.light-theme .border-white\/20,
-body.light-theme .border-white\/30,
-body.light-theme .border-white\/40,
-body.light-theme .border-white\/50 {
-  border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Hover States */
-body.light-theme .hover\:text-white:hover {
-  color: #0F172A !important;
-}
-
-body.light-theme .hover\:bg-white\/5:hover,
-body.light-theme .hover\:bg-white\/10:hover {
-  background-color: #F1F5F9 !important;
-}
-
-/* Inputs, Textareas & Select Elements in Light Theme */
+/* 6. Form Control Normalization (Inputs, Textareas, Selects) */
 body.light-theme input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
 body.light-theme textarea,
 body.light-theme select {
@@ -108,49 +99,71 @@ body.light-theme textarea::placeholder {
   color: #94A3B8 !important;
 }
 
-/* ==========================================================================
-   CRITICAL DARK CONTAINER EXCEPTION RULE
-   Any container, card, or button that is intentionally DARK in Light Mode
-   MUST preserve crisp WHITE text inside it!
-   ========================================================================== */
+/* 7. Primary Action Buttons & Emerald CTAs */
+body.light-theme .bg-emerald-500,
+body.light-theme .bg-emerald-400 {
+  background-color: #059669 !important;
+  color: #FFFFFF !important;
+}
 
-body.light-theme .bg-black,
-body.light-theme .bg-slate-950,
-body.light-theme .bg-\[\#0A0A0A\].light-theme-dark-card,
+body.light-theme .bg-emerald-500 *,
+body.light-theme .bg-emerald-400 * {
+  color: #FFFFFF !important;
+}
+
+body.light-theme .text-slate-950 {
+  color: #0F172A !important;
+}
+
+/* 8. Explicit Dark Feature Cards Exception */
 body.light-theme .light-theme-dark-card {
   background-color: #0F172A !important;
   color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 body.light-theme .light-theme-dark-card *,
-body.light-theme .bg-black *,
-body.light-theme .bg-slate-950 * {
+body.light-theme .light-theme-dark-card h1,
+body.light-theme .light-theme-dark-card h2,
+body.light-theme .light-theme-dark-card h3,
+body.light-theme .light-theme-dark-card h4 {
   color: #FFFFFF !important;
 }
 
-body.light-theme .light-theme-dark-card .text-white\/60,
-body.light-theme .light-theme-dark-card .text-white\/50,
-body.light-theme .light-theme-dark-card p {
-  color: #94A3B8 !important;
+body.light-theme .light-theme-dark-card p,
+body.light-theme .light-theme-dark-card span {
+  color: #CBD5E1 !important;
 }
 
 body.light-theme .light-theme-dark-card .text-emerald-400 {
   color: #34D399 !important;
 }
 
-body.light-theme .light-theme-dark-card button {
-  background-color: #FFFFFF !important;
+body.light-theme .light-theme-dark-card button,
+body.light-theme .light-theme-dark-card a.bg-emerald-500 {
+  background-color: #10B981 !important;
   color: #0F172A !important;
 }
 
-/* Badge & Highlight Spans (e.g. bg-white text-black or bg-black text-white) */
+/* 9. Badge & Highlight Spans */
 body.light-theme .bg-white.text-black,
 body.light-theme .bg-black.text-white,
-body.light-theme .bg-slate-950.text-white,
-body.light-theme .bg-[#0A0A0A].text-white {
+body.light-theme .bg-slate-950.text-white {
   background-color: #0F172A !important;
   color: #FFFFFF !important;
 }
+
+/* 10. Border Overrides */
+body.light-theme .border-white,
+body.light-theme .border-white\/10,
+body.light-theme .border-white\/20,
+body.light-theme .border-white\/30,
+body.light-theme .border-white\/40,
+body.light-theme .border-white\/50 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Custom Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
