@@ -7,6 +7,7 @@ import {
   Key,
   Hash,
   Binary,
+  Database,
   FileJson,
   FileCode2,
   Square,
