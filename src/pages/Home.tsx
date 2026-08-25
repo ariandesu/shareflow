@@ -108,6 +108,20 @@ const tools = [
     href: "/json-to-zod",
   },
   {
+    name: "SQL Formatter",
+    category: "Developer",
+    description: "Format & beautify SQL.",
+    icon: <Database className="w-5 h-5 text-emerald-400" />,
+    href: "/sql-formatter",
+  },
+  {
+    name: "Cron Generator",
+    category: "Utilities",
+    description: "Visual cron schedule builder.",
+    icon: <Clock className="w-5 h-5 text-emerald-400" />,
+    href: "/cron-generator",
+  },
+  {
     name: "Password Gen",
     category: "Utilities",
     description: "Strong entropy keys.",

@@ -61,6 +61,8 @@ import IDGenerator from "./pages/IDGenerator";
 import TimeNow from "./pages/TimeNow";
 import JSONToTypeScript from "./pages/JSONToTypeScript";
 import JSONToZod from "./pages/JSONToZod";
+import SQLFormatter from "./pages/SQLFormatter";
+import CronGenerator from "./pages/CronGenerator";
 import DeveloperGateway from "./pages/DeveloperGateway";
 import DeveloperLogin from "./pages/DeveloperLogin";
 import DeveloperSignup from "./pages/DeveloperSignup";
@@ -104,6 +106,8 @@ export default function App() {
             <Route path="json-formatter" element={<JSONFormatter />} />
           <Route path="json-to-typescript" element={<JSONToTypeScript />} />
           <Route path="json-to-zod" element={<JSONToZod />} />
+          <Route path="sql-formatter" element={<SQLFormatter />} />
+          <Route path="cron-generator" element={<CronGenerator />} />
             <Route path="markdown-preview" element={<MarkdownPreview />} />
             <Route path="color-picker" element={<ColorPicker />} />
             <Route path="box-shadow" element={<BoxShadowGenerator />} />
