@@ -10,7 +10,7 @@ function NavClock() {
     <Link
       to="/time"
       className={`flex items-center gap-2 rounded-md px-2.5 py-1.5 transition-colors ${
-        pathname === "/time" ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
+        pathname === "/time" ? "text-slate-950 dark:text-white font-bold" : "text-slate-600 dark:text-white/60 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
       }`}
     >
       <Clock className="h-4 w-4" />
@@ -84,20 +84,20 @@ export function Layout() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-sans flex flex-col">
-      <header className="h-20 border-b border-white/10 px-4 sm:px-10 flex items-center justify-between sticky top-0 z-40 bg-[#0A0A0A]/90 backdrop-blur-sm">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0A] text-slate-950 dark:text-[#F5F5F5] font-sans flex flex-col">
+      <header className="h-20 border-b border-slate-200 dark:border-white/10 px-4 sm:px-10 flex items-center justify-between sticky top-0 z-40 bg-white/90 dark:bg-[#0A0A0A]/90 backdrop-blur-sm">
         <div className="flex items-center gap-8 w-full">
           <div className="flex items-center justify-between w-full md:w-auto">
             <Link to="/" className="text-2xl font-black tracking-tighter uppercase flex items-center">
-              <span className="bg-[#0F172A] text-white dark:bg-white dark:text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-[#0F172A] dark:text-white font-black">FLOW</span>
+              <span className="bg-emerald-500 text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
+              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
             </Link>
 
             {/* Mobile menu button */}
             <div className="flex items-center md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-white/50 hover:text-white hover:bg-white/5 focus:outline-none transition-colors"
+                className="inline-flex items-center justify-center p-2 rounded-md text-slate-600 dark:text-white/50 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 focus:outline-none transition-colors"
               >
                 {isMenuOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
               </button>
@@ -106,13 +106,13 @@ export function Layout() {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6 w-full justify-between">
-            <nav className="flex gap-6 text-sm font-medium text-white/50">
+            <nav className="flex gap-6 text-sm font-medium text-slate-600 dark:text-white/60">
               {navigation.slice(0, 4).map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`hover:text-white transition-colors ${
-                    location.pathname === item.href ? "text-white font-bold" : ""
+                  className={`hover:text-slate-950 dark:hover:text-white transition-colors ${
+                    location.pathname === item.href ? "text-slate-950 dark:text-white font-bold" : ""
                   }`}
                 >
                   {item.name}
@@ -122,7 +122,7 @@ export function Layout() {
                 <button
                   onClick={() => setIsToolsOpen(!isToolsOpen)}
                   onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setIsToolsOpen(false); }}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-slate-950 dark:hover:text-white transition-colors"
                   aria-expanded={isToolsOpen}
                   aria-haspopup="true"
                 >
@@ -153,7 +153,7 @@ export function Layout() {
               <NavClock />
               <button
                 onClick={() => setIsLightMode(!isLightMode)}
-                className="p-2 rounded-md text-white/50 hover:text-white hover:bg-white/5 transition-colors"
+                className="p-2 rounded-md text-slate-600 dark:text-white/50 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 title="Toggle theme"
               >
                 {isLightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
@@ -180,8 +180,8 @@ export function Layout() {
         >
           <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
             <Link to="/" className="text-xl font-black tracking-tighter uppercase flex items-center" onClick={() => setIsMenuOpen(false)}>
-              <span className="bg-[#0F172A] text-white dark:bg-white dark:text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-[#0F172A] dark:text-white font-black">FLOW</span>
+              <span className="bg-emerald-500 text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
+              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
             </Link>
             <button
               onClick={() => setIsMenuOpen(false)}
