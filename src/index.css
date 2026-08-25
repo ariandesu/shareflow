@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 /* ==========================================================================
-   SHAREFLOW CLEAN THEME ENGINE ARCHITECTURE
+   SHAREFLOW CLEAN LIGHT THEME ENGINE ARCHITECTURE
    ========================================================================== */
 
 /* Dark Mode Base (Default) */
@@ -23,21 +23,30 @@ body.light-theme .bg-\[\#111\],
 body.light-theme .bg-\[\#0E0E0E\],
 body.light-theme .bg-\[\#131926\],
 body.light-theme .bg-slate-900,
-body.light-theme .bg-slate-950 {
+body.light-theme .bg-slate-950,
+body.light-theme .bg-black\/50,
+body.light-theme .bg-black\/20,
+body.light-theme .bg-white\/5,
+body.light-theme .bg-white\/10 {
   background-color: #FFFFFF !important;
   border-color: #CBD5E1 !important;
   color: #0F172A !important;
 }
 
-/* All Text in Light Mode (EXCEPT inside dark feature cards or dark buttons) */
+/* Light Theme Card Borders */
+body.light-theme .border-white\/10,
+body.light-theme .border-white\/20,
+body.light-theme .border-black\/10 {
+  border-color: #CBD5E1 !important;
+}
+
+/* Light Theme Typography Normalization */
 body.light-theme h1:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
 body.light-theme h2:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
 body.light-theme h3:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
 body.light-theme h4:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
 body.light-theme p:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
 body.light-theme span:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme div:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black),
-body.light-theme a:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black),
 body.light-theme label {
   color: #0F172A !important;
 }
@@ -51,7 +60,7 @@ body.light-theme .text-white\/20 {
   color: #475569 !important;
 }
 
-/* SVG Stroke in Light Mode (Default for light backgrounds) */
+/* Light Theme Lucide SVG Stroke Rules */
 body.light-theme svg:not(.light-theme-dark-card *):not(button *):not(.bg-slate-950 *):not(.bg-black *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
   stroke: #0F172A !important;
   color: #0F172A !important;
@@ -71,7 +80,7 @@ body.light-theme .bg-emerald-600 svg {
   color: #0F172A !important;
 }
 
-/* Explicit Pure White Text Protection for Flagship Dark Cards in Light Mode */
+/* Explicit Pure White Text Protection for Flagship Dark Cards */
 body.light-theme .light-theme-dark-card {
   background-color: #0F172A !important;
   color: #FFFFFF !important;

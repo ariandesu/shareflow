@@ -457,13 +457,13 @@ export function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-white/50 max-w-md"
+            className="text-slate-600 dark:text-white/60 font-semibold max-w-md"
           >
             The high-performance toolkit for developers and creators. No accounts. No subscriptions. 100% serverless at the edge.
           </motion.p>
         </div>
         <div className="flex flex-col items-start md:items-end gap-2">
-          <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">API Health</span>
+          <span className="text-[10px] uppercase tracking-widest text-slate-500 dark:text-white/40 font-bold">API Health</span>
           <div className="flex gap-1 h-4">
             <div className="w-1.5 bg-green-500/80 rounded-full"></div>
             <div className="w-1.5 bg-green-500/80 rounded-full"></div>
@@ -494,8 +494,8 @@ export function Home() {
               </span>
               <span className="text-xs text-emerald-400 font-semibold">100% Free Downloads</span>
             </div>
-            <h3 className="text-2xl font-black uppercase tracking-tight text-white">Developer Starter Kits & Boilerplates</h3>
-            <p className="text-xs text-white/60">FastAPI + SQLite, Multi-Threaded Async Web Scraper, Docker PDF Cheatsheets & more.</p>
+            <h3 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">Developer Starter Kits & Boilerplates</h3>
+            <p className="text-xs text-slate-600 dark:text-white/60 font-semibold">FastAPI + SQLite, Multi-Threaded Async Web Scraper, Docker PDF Cheatsheets & more.</p>
           </div>
           <Link
             to="/products"
@@ -508,8 +508,8 @@ export function Home() {
         {/* FLAGSHIP SIDE-BY-SIDE HERO SECTION (FILE SHARE & TEXT SHARE) */}
         <div>
           <div className="flex items-center gap-4 mb-4">
-            <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Flagship Tools</h2>
-            <div className="h-px bg-white/10 flex-1"></div>
+            <h2 className="text-2xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">Flagship Tools</h2>
+            <div className="h-px bg-slate-200 dark:bg-white/10 flex-1"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -575,8 +575,8 @@ export function Home() {
         {["Developer", "Image", "PDF", "Utilities"].map((cat, catIdx) => (
           <div key={cat}>
             <div className="flex items-center gap-4 mb-6">
-              <h2 className="text-2xl font-black uppercase tracking-tighter">{cat} Tools</h2>
-              <div className="h-px bg-white/10 flex-1"></div>
+              <h2 className="text-2xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">{cat} Tools</h2>
+              <div className="h-px bg-slate-200 dark:bg-white/10 flex-1"></div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {tools.filter(t => t.category === cat).map((tool, index) => (
@@ -588,11 +588,11 @@ export function Home() {
                 >
                   <Link
                     to={tool.href}
-                    className="block bg-white/5 border border-white/10 p-6 flex flex-col justify-between hover:bg-white/10 transition-all h-full min-h-[160px]"
+                    className="block bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 flex flex-col justify-between hover:border-emerald-500 transition-all h-full min-h-[160px] rounded-xl shadow-sm"
                   >
                     <div className="mb-4">
                       {React.isValidElement(tool.icon) && tool.icon.type !== 'div' ? (
-                        <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
+                        <div className="w-10 h-10 border border-slate-200 dark:border-white/20 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-transparent">
                           {tool.icon}
                         </div>
                       ) : (
@@ -600,8 +600,8 @@ export function Home() {
                       )}
                     </div>
                     <div>
-                      <h4 className="font-bold uppercase tracking-tighter text-lg">{tool.name}</h4>
-                      <p className="text-xs text-white/40">{tool.description}</p>
+                      <h4 className="font-bold uppercase tracking-tighter text-lg text-slate-950 dark:text-white">{tool.name}</h4>
+                      <p className="text-xs text-slate-600 dark:text-white/40 font-medium">{tool.description}</p>
                     </div>
                   </Link>
                 </motion.div>
@@ -615,14 +615,14 @@ export function Home() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
-          className="bg-[#111] border-2 border-white/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between group gap-4 min-h-[160px] mt-4"
+          className="bg-white dark:bg-[#111] border-2 border-slate-200 dark:border-white/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between group gap-4 min-h-[160px] mt-4 rounded-2xl shadow-xl"
         >
           <div className="max-w-[100%] sm:max-w-[60%]">
-            <h4 className="font-bold uppercase tracking-tighter text-xl">Developer Gateway</h4>
-            <p className="text-xs text-white/40 mt-1">Build with ShareFlow — API keys, usage tracking, full REST API. Sign up and start integrating.</p>
+            <h4 className="font-bold uppercase tracking-tighter text-xl text-slate-950 dark:text-white">Developer Gateway</h4>
+            <p className="text-xs text-slate-600 dark:text-white/40 font-semibold mt-1">Build with ShareFlow — API keys, usage tracking, full REST API. Sign up and start integrating.</p>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-3 w-full sm:w-auto">
-            <span className="text-[10px] text-white/20 font-mono">v1/api/live</span>
+            <span className="text-[10px] text-slate-500 dark:text-white/20 font-mono">v1/api/live</span>
             <Link to="/dev" className="px-5 py-2.5 bg-slate-950 text-white dark:bg-white dark:text-slate-950 text-xs font-black uppercase tracking-widest whitespace-nowrap hover:bg-emerald-600 hover:text-white transition-colors rounded-lg shadow-md">Sign In</Link>
           </div>
         </motion.div>

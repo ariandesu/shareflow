@@ -33,10 +33,16 @@ export function Layout() {
 
   useEffect(() => {
     if (isLightMode) {
+      document.documentElement.classList.add("light-theme");
+      document.documentElement.classList.remove("dark");
       document.body.classList.add("light-theme");
+      document.body.classList.remove("dark");
       localStorage.setItem("theme", "light");
     } else {
+      document.documentElement.classList.remove("light-theme");
+      document.documentElement.classList.add("dark");
       document.body.classList.remove("light-theme");
+      document.body.classList.add("dark");
       localStorage.setItem("theme", "dark");
     }
   }, [isLightMode]);
