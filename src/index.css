@@ -5,7 +5,7 @@
    SHAREFLOW CLEAN THEME ENGINE ARCHITECTURE
    ========================================================================== */
 
-/* Dark Mode Base */
+/* Dark Mode Base (Default) */
 html.dark, body.dark, body:not(.light-theme) {
   background-color: #0A0A0A !important;
   color: #F5F5F5 !important;
@@ -17,41 +17,31 @@ html.light-theme, body.light-theme {
   color: #0F172A !important;
 }
 
-/* Convert all card surfaces & containers in Light Mode */
+/* Convert all card surfaces in Light Mode */
 body.light-theme .bg-\[\#0A0A0A\],
-body.light-theme .bg-\[\#0A0A0A\]\/90,
-body.light-theme .bg-\[\#0A0A0A\]\/80,
+body.light-theme .bg-\[\#111\],
 body.light-theme .bg-\[\#0E0E0E\],
 body.light-theme .bg-\[\#131926\],
 body.light-theme .bg-slate-900,
-body.light-theme .bg-slate-900\/60,
-body.light-theme .bg-black\/50,
-body.light-theme .bg-black\/40,
-body.light-theme .bg-black\/20,
-body.light-theme .bg-black\/5,
-body.light-theme .bg-white\/5,
-body.light-theme .bg-white\/10,
-body.light-theme .bg-white\/15,
-body.light-theme .bg-white\/20 {
+body.light-theme .bg-slate-950 {
   background-color: #FFFFFF !important;
   border-color: #CBD5E1 !important;
   color: #0F172A !important;
 }
 
-/* All Canvas Text in Light Mode (EXCEPT inside dark flagship cards) */
-body.light-theme h1:not(.light-theme-dark-card *),
-body.light-theme h2:not(.light-theme-dark-card *),
-body.light-theme h3:not(.light-theme-dark-card *),
-body.light-theme h4:not(.light-theme-dark-card *),
-body.light-theme p:not(.light-theme-dark-card *),
-body.light-theme span:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
-body.light-theme div:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
-body.light-theme a:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *),
+/* All Text in Light Mode (EXCEPT inside dark feature cards or dark buttons) */
+body.light-theme h1:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h2:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h3:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme h4:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme p:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme span:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black *),
+body.light-theme div:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black),
+body.light-theme a:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black),
 body.light-theme label {
   color: #0F172A !important;
 }
 
-body.light-theme .text-white\/80,
 body.light-theme .text-white\/70,
 body.light-theme .text-white\/60,
 body.light-theme .text-white\/50,
@@ -61,10 +51,29 @@ body.light-theme .text-white\/20 {
   color: #475569 !important;
 }
 
-/* EXPLICIT PURE WHITE TEXT PROTECTION FOR FLAGSHIP DARK CARDS IN LIGHT MODE */
+/* SVG Stroke in Light Mode (Default for light backgrounds) */
+body.light-theme svg:not(.light-theme-dark-card *):not(button *):not(.bg-slate-950 *):not(.bg-black *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
+  stroke: #0F172A !important;
+  color: #0F172A !important;
+}
+
+/* Button & Dark Container SVG Protection in Light Mode */
+body.light-theme button svg,
+body.light-theme .bg-slate-950 svg,
+body.light-theme .bg-black svg {
+  stroke: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+body.light-theme .bg-emerald-500 svg,
+body.light-theme .bg-emerald-600 svg {
+  stroke: #0F172A !important;
+  color: #0F172A !important;
+}
+
+/* Explicit Pure White Text Protection for Flagship Dark Cards in Light Mode */
 body.light-theme .light-theme-dark-card {
   background-color: #0F172A !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
   color: #FFFFFF !important;
 }
 
@@ -78,100 +87,9 @@ body.light-theme .light-theme-dark-card p {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
-/* SVG Stroke in Light Mode */
-body.light-theme svg:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
-  stroke: #0F172A !important;
-  color: #0F172A !important;
-}
-
-/* Emerald Colors in Light Mode */
-body.light-theme .text-emerald-400,
-body.light-theme .text-emerald-300 {
-  color: #047857 !important;
-}
-
-body.light-theme .bg-emerald-500\/10 {
-  background-color: #ECFDF5 !important;
-  border-color: #A7F3D0 !important;
-  color: #047857 !important;
-}
-
-body.light-theme .bg-emerald-500\/20 {
-  background-color: #D1FAE5 !important;
-  border-color: #6EE7B7 !important;
-  color: #047857 !important;
-}
-
-body.light-theme .bg-emerald-500,
-body.light-theme .bg-emerald-600 {
-  background-color: #059669 !important;
+/* Primary Action Buttons */
+body.light-theme button.bg-slate-950,
+body.light-theme a.bg-slate-950 {
+  background-color: #0F172A !important;
   color: #FFFFFF !important;
-}
-
-body.light-theme .bg-emerald-500 *,
-body.light-theme .bg-emerald-600 * {
-  color: #FFFFFF !important;
-}
-
-/* Form Controls in Light Mode */
-body.light-theme input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
-body.light-theme textarea,
-body.light-theme select {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
-}
-
-body.light-theme input::placeholder,
-body.light-theme textarea::placeholder {
-  color: #94A3B8 !important;
-}
-
-/* Custom Scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
-body.light-theme .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-/* FAQ Typography */
-.faq-question {
-  color: rgba(255, 255, 255, 0.9);
-}
-.faq-answer {
-  color: rgba(255, 255, 255, 0.5);
-}
-body.light-theme .faq-question {
-  color: #0F172A !important;
-}
-body.light-theme .faq-answer {
-  color: #475569 !important;
-}
-body.light-theme .faq-item {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-}
-
-/* Mobile responsive typography */
-@media (max-width: 640px) {
-  h1, h2, [class*="text-4xl"], [class*="text-5xl"], [class*="text-6xl"], [class*="text-7xl"], [class*="text-8xl"], [class*="text-\[42px\]"], [class*="text-\[40px\]"], [class*="text-\[3[0-9]"] {
-    font-size: 28px !important;
-  }
-}
-
-/* Stroke text outline style for headings */
-.stroke-text {
-  color: transparent !important;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9) !important;
-}
-body.light-theme .stroke-text {
-  -webkit-text-stroke: 1px rgba(15, 23, 42, 0.9) !important;
 }

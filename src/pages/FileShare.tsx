@@ -423,7 +423,7 @@ export function FileShare() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-stretch">
         
         {/* Share Card */}
-        <div className="w-full bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[450px] rounded-3xl">
+        <div className="w-full bg-white dark:bg-[#111] border-2 border-slate-300 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[480px] rounded-3xl">
           <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full -z-0"></div>
           
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
@@ -443,7 +443,7 @@ export function FileShare() {
                 >
                   <div 
                     className={`border-4 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
-                      files.length > 0 ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-white/20 hover:border-emerald-500 dark:hover:border-emerald-400 bg-slate-50 dark:bg-black/40'
+                      files.length > 0 ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-400 dark:border-white/20 hover:border-emerald-600 dark:hover:border-emerald-400 bg-slate-100/80 dark:bg-black/40'
                     }`}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
@@ -679,7 +679,7 @@ export function FileShare() {
         </div>
 
         {/* Receive Card */}
-        <div className="w-full bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[450px] rounded-3xl">
+        <div className="w-full bg-white dark:bg-[#111] border-2 border-slate-300 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[480px] rounded-3xl">
           <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full -z-0"></div>
           
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
