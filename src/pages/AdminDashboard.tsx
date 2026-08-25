@@ -89,16 +89,19 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (adminAuth) {
       loadAllAdminData();
+      const interval = setInterval(() => {
+        loadAllAdminData();
+      }, 5000);
+      return () => clearInterval(interval);
     }
   }, [adminAuth]);
 
   const loadAllAdminData = async () => {
-    setLoading(true);
     try {
       const [telRes, userRes, keyRes] = await Promise.all([
-        fetch("/api/admin/system-stats"),
-        fetch("/api/admin/users"),
-        fetch("/api/admin/api-keys")
+        fetch("/api/admin/system-stats", { cache: "no-store" }),
+        fetch("/api/admin/users", { cache: "no-store" }),
+        fetch("/api/admin/api-keys", { cache: "no-store" })
       ]);
 
       if (telRes.ok) {
@@ -351,7 +354,8 @@ export default function AdminDashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/10 pb-6 gap-4">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-2">
-            <ShieldCheck className="w-4 h-4" /> Admin Master Control
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-1"></span>
+            <ShieldCheck className="w-4 h-4" /> Admin Control • Realtime Pulse (5s Live Sync)
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight">ShareFlow Admin Dashboard</h1>
           <p className="text-xs text-white/50">Logged in as Mahir Faisal Arian (Admin)</p>
