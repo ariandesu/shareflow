@@ -428,7 +428,7 @@ export function FileShare() {
           
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-black uppercase tracking-tighter">Send<span className="text-slate-400 dark:text-white/30">File</span></h2>
+              <h2 className="text-3xl font-black uppercase tracking-tighter">Send <span className="text-slate-400 dark:text-white/30">File</span></h2>
               <div className="text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 uppercase tracking-widest rounded-full">
                 Zero cost
               </div>
@@ -685,7 +685,7 @@ export function FileShare() {
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
             <div>
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-black uppercase tracking-tighter">Receive<span className="text-slate-400 dark:text-white/30">File</span></h2>
+                <h2 className="text-3xl font-black uppercase tracking-tighter">Receive <span className="text-slate-400 dark:text-white/30">File</span></h2>
                 <Download className="w-6 h-6 text-slate-950 dark:text-white" />
               </div>
               
