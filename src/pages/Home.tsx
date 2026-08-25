@@ -94,6 +94,13 @@ const tools = [
     href: "/json-formatter",
   },
   {
+    name: "JSON -> TS",
+    category: "Developer",
+    description: "Convert JSON to TypeScript.",
+    icon: <Code2 className="w-5 h-5 text-emerald-400" />,
+    href: "/json-to-typescript",
+  },
+  {
     name: "Password Gen",
     category: "Utilities",
     description: "Strong entropy keys.",
