@@ -122,6 +122,13 @@ const tools = [
     href: "/cron-generator",
   },
   {
+    name: "JSONPath Extractor",
+    category: "Developer",
+    description: "Query nested JSON data.",
+    icon: <Search className="w-5 h-5 text-emerald-400" />,
+    href: "/json-path-extractor",
+  },
+  {
     name: "Password Gen",
     category: "Utilities",
     description: "Strong entropy keys.",
