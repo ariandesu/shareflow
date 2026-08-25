@@ -442,8 +442,8 @@ export function FileShare() {
                   className="flex flex-col gap-6"
                 >
                   <div 
-                    className={`border-4 border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
-                      files.length > 0 ? 'border-black bg-black/5' : 'border-black/20 hover:border-black/50 hover:bg-black/5'
+                    className={`border-4 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
+                      files.length > 0 ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-white/20 hover:border-emerald-500 dark:hover:border-emerald-400 bg-slate-50 dark:bg-black/40'
                     }`}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
@@ -469,43 +469,43 @@ export function FileShare() {
                     {files.length > 0 ? (
                       <div className="w-full flex flex-col gap-2">
                         <div className="flex items-center justify-center gap-2 mb-1">
-                          <FileIcon className="w-6 h-6 text-black" />
-                          <span className="font-bold text-sm text-black">{files.length} file{files.length > 1 ? "s" : ""}</span>
+                          <FileIcon className="w-6 h-6 text-slate-950 dark:text-white" />
+                          <span className="font-bold text-sm text-slate-950 dark:text-white">{files.length} file{files.length > 1 ? "s" : ""}</span>
                         </div>
-                        <div className="max-h-44 overflow-y-auto divide-y divide-black/10 border border-black/10">
+                        <div className="max-h-44 overflow-y-auto divide-y divide-slate-200 dark:divide-white/10 border border-slate-200 dark:border-white/10 rounded-xl">
                           {files.map((f, i) => (
-                            <div key={i} className="flex items-center justify-between gap-3 px-3 py-2 bg-black/5">
+                            <div key={i} className="flex items-center justify-between gap-3 px-3 py-2 bg-slate-100 dark:bg-white/5">
                               <div className="flex-1 min-w-0 text-left">
-                                <p className="font-bold text-xs text-black truncate">{f.name}</p>
-                                <p className="text-[10px] font-medium text-black/50">{(f.size / (1024*1024)).toFixed(2)} MB</p>
+                                <p className="font-bold text-xs text-slate-950 dark:text-white truncate">{f.name}</p>
+                                <p className="text-[10px] font-medium text-slate-500 dark:text-white/50">{(f.size / (1024*1024)).toFixed(2)} MB</p>
                               </div>
                               <button
                                 type="button"
                                 onClick={(e) => { e.stopPropagation(); removeFile(i); }}
-                                className="w-6 h-6 bg-black text-white flex items-center justify-center hover:bg-black/70 transition-colors light-theme-invert"
+                                className="w-6 h-6 bg-slate-950 text-white rounded flex items-center justify-center hover:bg-red-600 transition-colors"
                               >
                                 <X className="w-3.5 h-3.5" />
                               </button>
                             </div>
                           ))}
                         </div>
-                        <p className="text-[10px] font-medium text-black/50">{(totalSize / (1024*1024)).toFixed(2)} MB total</p>
+                        <p className="text-[10px] font-medium text-slate-500 dark:text-white/50">{(totalSize / (1024*1024)).toFixed(2)} MB total</p>
                         <div className="flex gap-2">
                           <button
                             type="button"
                             onClick={(e) => { e.stopPropagation(); addMoreInputRef.current?.click(); }}
-                            className="flex-1 py-2.5 border-2 border-black text-black font-black uppercase tracking-widest text-[10px] hover:bg-black hover:text-white transition-colors"
+                            className="flex-1 py-2.5 border-2 border-slate-950 text-slate-950 dark:border-white dark:text-white font-black uppercase tracking-widest text-[10px] hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-slate-950 transition-colors rounded-xl"
                           >
                             Add More Files
                           </button>
                         </div>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center gap-2 text-black/50">
-                        <Upload className="w-10 h-10 text-black" />
+                      <div className="flex flex-col items-center gap-2 text-slate-500 dark:text-white/50">
+                        <Upload className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
                         <div>
-                          <p className="font-bold text-sm text-black">Drag & Drop file(s) here</p>
-                          <p className="text-xs">or click to browse</p>
+                          <p className="font-bold text-sm text-slate-950 dark:text-white">Drag & Drop file(s) here</p>
+                          <p className="text-xs text-slate-600 dark:text-white/60">or click to browse</p>
                         </div>
                       </div>
                     )}
@@ -686,37 +686,37 @@ export function FileShare() {
             <div>
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-3xl font-black uppercase tracking-tighter">Receive<span className="text-slate-400 dark:text-white/30">File</span></h2>
-                <Download className="w-6 h-6 text-black" />
+                <Download className="w-6 h-6 text-slate-950 dark:text-white" />
               </div>
               
-              <p className="text-sm text-black/60 mb-6 font-medium">
+              <p className="text-sm text-slate-600 dark:text-white/60 mb-6 font-medium">
                 Enter the secure 4-character code shared by the sender to locate, connect, and download the transfer.
               </p>
 
               <form onSubmit={handleReceiveSubmit} className="flex flex-col gap-4">
-                <label className="text-xs font-bold uppercase tracking-widest text-black/50">Secure Code</label>
-                <div className="flex flex-col sm:flex-row border border-black">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-600 dark:text-white/50">Secure Code</label>
+                <div className="flex flex-col sm:flex-row border border-slate-300 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
                   <input
                     type="text"
                     value={receiveCode}
                     onChange={(e) => setReceiveCode(e.target.value)}
                     placeholder="e.g. a1B2"
-                    className="flex-1 px-4 py-3 font-bold tracking-widest text-lg outline-none bg-transparent text-black placeholder:text-black/30 border-b border-black sm:border-b-0 sm:border-r border-black"
+                    className="flex-1 px-4 py-3 font-bold tracking-widest text-lg outline-none bg-slate-50 dark:bg-black/40 text-slate-950 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/30 border-b border-slate-300 sm:border-b-0 sm:border-r dark:border-white/10"
                     maxLength={6}
                     required
                   />
                   <button 
                     type="submit"
-                    className="py-3 px-6 bg-black text-white hover:bg-black/80 transition-colors flex items-center justify-center light-theme-invert w-full sm:w-20"
+                    className="py-3 px-6 bg-slate-950 text-white hover:bg-emerald-600 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 transition-colors flex items-center justify-center w-full sm:w-20"
                   >
-                    <ArrowRight className="w-5 h-5 text-white" />
+                    <ArrowRight className="w-5 h-5 text-white dark:text-slate-950" />
                   </button>
                 </div>
               </form>
             </div>
 
-            <div className="bg-black/5 p-4 border border-black/10 text-xs text-black/60">
-              <span className="font-bold text-black uppercase block mb-1">Notice</span>
+            <div className="bg-slate-50 dark:bg-black/40 p-4 border border-slate-200 dark:border-white/10 rounded-2xl text-xs text-slate-600 dark:text-white/60">
+              <span className="font-bold text-slate-950 dark:text-white uppercase block mb-1">Notice</span>
               If the file was sent using <strong>Direct P2P</strong>, please verify with the sender that their browser tab remains open.
             </div>
           </div>
