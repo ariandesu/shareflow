@@ -101,6 +101,13 @@ const tools = [
     href: "/json-to-typescript",
   },
   {
+    name: "JSON -> Zod",
+    category: "Developer",
+    description: "Convert JSON to Zod schema.",
+    icon: <ShieldCheck className="w-5 h-5 text-emerald-400" />,
+    href: "/json-to-zod",
+  },
+  {
     name: "Password Gen",
     category: "Utilities",
     description: "Strong entropy keys.",

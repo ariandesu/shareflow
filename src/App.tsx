@@ -60,6 +60,7 @@ import LoremIpsum from "./pages/LoremIpsum";
 import IDGenerator from "./pages/IDGenerator";
 import TimeNow from "./pages/TimeNow";
 import JSONToTypeScript from "./pages/JSONToTypeScript";
+import JSONToZod from "./pages/JSONToZod";
 import DeveloperGateway from "./pages/DeveloperGateway";
 import DeveloperLogin from "./pages/DeveloperLogin";
 import DeveloperSignup from "./pages/DeveloperSignup";
@@ -102,6 +103,7 @@ export default function App() {
             <Route path="base64" element={<Base64 />} />
             <Route path="json-formatter" element={<JSONFormatter />} />
           <Route path="json-to-typescript" element={<JSONToTypeScript />} />
+          <Route path="json-to-zod" element={<JSONToZod />} />
             <Route path="markdown-preview" element={<MarkdownPreview />} />
             <Route path="color-picker" element={<ColorPicker />} />
             <Route path="box-shadow" element={<BoxShadowGenerator />} />
