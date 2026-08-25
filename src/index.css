@@ -2,22 +2,22 @@
 @plugin "@tailwindcss/typography";
 
 /* ==========================================================================
-   SHAREFLOW CLEAN LIGHT THEME ENGINE ARCHITECTURE
+   SHAREFLOW PURE LIGHT THEME ARCHITECTURE
    ========================================================================== */
 
-/* Dark Mode Base (Default) */
+/* Dark Mode (Default) */
 html.dark, body.dark, body:not(.light-theme) {
-  background-color: #0A0A0A !important;
-  color: #F5F5F5 !important;
+  background-color: #0A0A0A;
+  color: #F5F5F5;
 }
 
-/* Light Mode Base */
+/* Pure Light Mode Canvas */
 html.light-theme, body.light-theme {
   background-color: #F8F9FA !important;
   color: #0F172A !important;
 }
 
-/* Convert all card surfaces in Light Mode */
+/* Light Theme Card Surface Overrides */
 body.light-theme .bg-\[\#0A0A0A\],
 body.light-theme .bg-\[\#111\],
 body.light-theme .bg-\[\#0E0E0E\],
@@ -29,25 +29,21 @@ body.light-theme .bg-black\/20,
 body.light-theme .bg-white\/5,
 body.light-theme .bg-white\/10 {
   background-color: #FFFFFF !important;
-  border-color: #CBD5E1 !important;
+  border-color: #E2E8F0 !important;
   color: #0F172A !important;
 }
 
-/* Light Theme Card Borders */
-body.light-theme .border-white\/10,
-body.light-theme .border-white\/20,
-body.light-theme .border-black\/10 {
-  border-color: #CBD5E1 !important;
+/* Light Theme Typography Normalization */
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme p,
+body.light-theme label {
+  color: #0F172A !important;
 }
 
-/* Light Theme Typography Normalization */
-body.light-theme h1:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme h2:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme h3:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme h4:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme p:not(.light-theme-dark-card *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme span:not(.light-theme-dark-card *):not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *):not(.bg-black *),
-body.light-theme label {
+body.light-theme span:not(.bg-emerald-500 *):not(.bg-emerald-600 *):not(.bg-slate-950 *) {
   color: #0F172A !important;
 }
 
@@ -60,45 +56,24 @@ body.light-theme .text-white\/20 {
   color: #475569 !important;
 }
 
-/* Light Theme Lucide SVG Stroke Rules */
-body.light-theme svg:not(.light-theme-dark-card *):not(button *):not(.bg-slate-950 *):not(.bg-black *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
+/* Light Theme Lucide SVG Vectors */
+body.light-theme svg:not(button *):not(.bg-slate-950 *):not(.bg-emerald-500 *):not(.bg-emerald-600 *) {
   stroke: #0F172A !important;
   color: #0F172A !important;
 }
 
-/* Button & Dark Container SVG Protection in Light Mode */
+/* Button Text & Icon Protection */
+body.light-theme button,
+body.light-theme a.bg-slate-950,
+body.light-theme a.bg-emerald-600,
+body.light-theme a.bg-emerald-500 {
+  color: #FFFFFF !important;
+}
+
 body.light-theme button svg,
-body.light-theme .bg-slate-950 svg,
-body.light-theme .bg-black svg {
+body.light-theme a.bg-slate-950 svg,
+body.light-theme a.bg-emerald-600 svg,
+body.light-theme a.bg-emerald-500 svg {
   stroke: #FFFFFF !important;
-  color: #FFFFFF !important;
-}
-
-body.light-theme .bg-emerald-500 svg,
-body.light-theme .bg-emerald-600 svg {
-  stroke: #0F172A !important;
-  color: #0F172A !important;
-}
-
-/* Explicit Pure White Text Protection for Flagship Dark Cards */
-body.light-theme .light-theme-dark-card {
-  background-color: #0F172A !important;
-  color: #FFFFFF !important;
-}
-
-body.light-theme .light-theme-dark-card h3,
-body.light-theme .light-theme-dark-card h4,
-body.light-theme .light-theme-dark-card span:not(.text-slate-950) {
-  color: #FFFFFF !important;
-}
-
-body.light-theme .light-theme-dark-card p {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Primary Action Buttons */
-body.light-theme button.bg-slate-950,
-body.light-theme a.bg-slate-950 {
-  background-color: #0F172A !important;
   color: #FFFFFF !important;
 }
