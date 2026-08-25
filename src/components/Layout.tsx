@@ -32,20 +32,12 @@ export function Layout() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (isLightMode) {
-      document.documentElement.classList.add("light-theme");
-      document.documentElement.classList.remove("dark");
-      document.body.classList.add("light-theme");
-      document.body.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      document.documentElement.classList.remove("light-theme");
-      document.documentElement.classList.add("dark");
-      document.body.classList.remove("light-theme");
-      document.body.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
-  }, [isLightMode]);
+    document.documentElement.classList.add("dark");
+    document.documentElement.classList.remove("light-theme");
+    document.body.classList.add("dark");
+    document.body.classList.remove("light-theme");
+    localStorage.setItem("theme", "dark");
+  }, []);
 
   const navigation = [
     { name: "All Tools", href: "/" },
@@ -157,13 +149,6 @@ export function Layout() {
             </nav>
             <div className="flex items-center gap-2">
               <NavClock />
-              <button
-                onClick={() => setIsLightMode(!isLightMode)}
-                className="p-2 rounded-md text-slate-600 dark:text-white/50 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
-                title="Toggle theme"
-              >
-                {isLightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-              </button>
             </div>
           </div>
         </div>
