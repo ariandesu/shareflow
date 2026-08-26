@@ -13,8 +13,16 @@ export async function onRequestGet() {
   let adsterraConnected = false;
 
   try {
-    const adUrl = `https://api3.adsterratools.com/publisher/stats.json?api_key=${adsterraApiKey}`;
-    const adRes = await fetch(adUrl);
+    const nowObj = new Date(now);
+    const startStr = "2026-08-01";
+    const finishStr = nowObj.toISOString().split("T")[0];
+    const adUrl = `https://api3.adsterratools.com/publisher/stats.json?start_date=${startStr}&finish_date=${finishStr}`;
+    const adRes = await fetch(adUrl, {
+      headers: {
+        "Accept": "application/json",
+        "X-API-Key": adsterraApiKey
+      }
+    });
     if (adRes.ok) {
       adsterraStats = await adRes.json();
       adsterraConnected = true;
