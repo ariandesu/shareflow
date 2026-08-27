@@ -60,6 +60,36 @@ const PRODUCTS: Product[] = [
       "Kubernetes Deployment, Service, and Ingress specs",
       "Print-ready PDF cheat sheet"
     ]
+  },
+  {
+    id: "global-tech-salaries-2026",
+    title: "Global Tech Salaries 2026 CSV Dataset",
+    description: "Audited compensation dataset featuring 1,500+ compensation rows across software engineering, AI/ML, DevOps, and data roles worldwide.",
+    category: "Data & Research",
+    price: "$3.99",
+    downloadUrl: "/products/global-tech-salaries-2026.zip",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/global-tech-salaries-2026",
+    features: [
+      "1,500+ real audited compensation records",
+      "Software, AI/ML, DevOps & Security roles",
+      "Remote vs On-site compensation benchmarks",
+      "Clean CSV format ready for Pandas / Excel"
+    ]
+  },
+  {
+    id: "async-telegram-bot-boilerplate",
+    title: "Async Python Telegram Bot Starter Kit",
+    description: "Production-ready async Telegram bot boilerplate with python-telegram-bot v20+, asyncio, aiosqlite database, and Docker setup.",
+    category: "Developer Starter Kits",
+    price: "$4.99",
+    downloadUrl: "/products/async-telegram-bot-boilerplate.zip",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/async-telegram-bot-boilerplate",
+    features: [
+      "python-telegram-bot v20+ & Asyncio engine",
+      "Async SQLite (aiosqlite) user storage",
+      "Command handlers (/start, /help, /stats)",
+      "Dockerfile & docker-compose configuration"
+    ]
   }
 ];
 

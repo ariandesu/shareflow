@@ -28,6 +28,11 @@ const GUMROAD_PRODUCTS: Record<string, { url: string; id: string; priceCents: st
     url: "https://mhr3d.gumroad.com/l/global-tech-salaries-2026",
     id: "lFVu-h44136Dvi63J50jtw==",
     priceCents: "399"
+  },
+  "async-telegram-bot-boilerplate": {
+    url: "https://mhr3d.gumroad.com/l/async-telegram-bot-boilerplate",
+    id: "lFVu-h44136Dvi63J50jtw==",
+    priceCents: "499"
   }
 };
 
