@@ -248,35 +248,40 @@ export function FileShare() {
           }));
           channel.send("__MANIFEST__" + JSON.stringify(manifest));
 
-          let totalSent = 0;
+          const chunkLength = 64 * 1024; // 64KB chunk for maximum throughput
+          const maxBufferedAmount = 1024 * 1024; // 1MB buffer cap
 
           for (const file of files) {
             const buffer = await file.arrayBuffer();
             let offset = 0;
-            const chunkLength = 16384; // 16KB
 
-            const sendNextChunk = () => {
-              while (offset < buffer.byteLength) {
-                if (channel.bufferedAmount > 1 * 1024 * 1024) { // 1MB threshold
+            while (offset < buffer.byteLength) {
+              if (channel.bufferedAmount > maxBufferedAmount) {
+                await new Promise<void>((resolve) => {
                   channel.onbufferedamountlow = () => {
                     channel.onbufferedamountlow = null;
-                    sendNextChunk();
+                    resolve();
                   };
-                  return;
-                }
-
-                const chunk = buffer.slice(offset, offset + chunkLength);
-                channel.send(chunk);
-                offset += chunkLength;
-                totalSentRef.current += chunk.byteLength;
-                setProgress(Math.min(100, Math.round((totalSentRef.current / totalSize) * 100)));
+                });
               }
-            };
 
-            sendNextChunk();
+              const chunk = buffer.slice(offset, offset + chunkLength);
+              channel.send(chunk);
+              offset += chunkLength;
+              totalSentRef.current += chunk.byteLength;
+              setProgress(Math.min(100, Math.round((totalSentRef.current / totalSize) * 100)));
+            }
           }
 
-          // EOF transmission
+          // EOF transmission after all chunks are flushed
+          if (channel.bufferedAmount > 0) {
+            await new Promise<void>((resolve) => {
+              channel.onbufferedamountlow = () => {
+                channel.onbufferedamountlow = null;
+                resolve();
+              };
+            });
+          }
           channel.send("__EOF__");
         };
 

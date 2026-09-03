@@ -408,12 +408,18 @@ app.post("/api/file", apiKeyAuth, logUsage, async (c) => {
   const formData = await c.req.formData();
   const files: File[] = [];
   for (const value of formData.values()) {
-    if (value instanceof File) files.push(value);
+    if (value && typeof value === "object" && "name" in value && "size" in value) {
+      files.push(value as unknown as File);
+    }
   }
   if (files.length === 0) {
     const body = await c.req.parseBody();
-    const single = body['file'];
-    if (single instanceof File) files.push(single);
+    for (const key of Object.keys(body)) {
+      const val = body[key];
+      if (val && typeof val === "object" && "name" in val && "size" in val) {
+        files.push(val as unknown as File);
+      }
+    }
   }
   if (files.length === 0) return c.json({ error: "At least one file is required" }, 400);
   for (const file of files) {
