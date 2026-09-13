@@ -1,20 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { motion } from "motion/react";
-import { Copy, Check, Send, Search, X } from "lucide-react";
+import { Copy, Check, Send, Search, X, Link as LinkIcon } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
 
 export function TextShare() {
+  const { id } = useParams<{ id?: string }>();
+
   const [text, setText] = useState("");
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [sharedUrl, setSharedUrl] = useState("");
   const [copied, setCopied] = useState(false);
+  const [urlCopied, setUrlCopied] = useState(false);
   const [error, setError] = useState("");
 
-  const [retrieveCode, setRetrieveCode] = useState("");
+  const [retrieveCode, setRetrieveCode] = useState(id || "");
   const [retrievedText, setRetrievedText] = useState("");
   const [retrieveLoading, setRetrieveLoading] = useState(false);
   const [retrieveError, setRetrieveError] = useState("");
+
+  const fetchSnippetByCode = async (targetCode: string) => {
+    if (!targetCode.trim()) return;
+    setRetrieveLoading(true);
+    setRetrieveError("");
+    setRetrievedText("");
+    try {
+      const baseUrl = import.meta.env.VITE_API_URL || "";
+      const res = await fetch(`${baseUrl}/api/text/${targetCode.trim().toUpperCase()}`);
+      const data = await res.json();
+      if (res.ok && (data.text || data.success)) {
+        setRetrievedText(data.text || "");
+      } else {
+        setRetrieveError(data.error || "Snippet not found");
+      }
+    } catch (err) {
+      setRetrieveError("An error occurred. Please try again.");
+    } finally {
+      setRetrieveLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      setRetrieveCode(id.toUpperCase());
+      fetchSnippetByCode(id);
+    }
+  }, [id]);
 
   const handleShare = async () => {
     if (!text.trim()) return;
@@ -28,9 +60,11 @@ export function TextShare() {
         body: JSON.stringify({ text }),
       });
       const data = await res.json();
-      if (res.ok) {
-        setCode(data.code);
-        setSharedUrl(data.url);
+      if (res.ok && (data.code || data.success)) {
+        const snippetCode = data.code;
+        const fullUrl = data.url || `${window.location.origin}/t/${snippetCode}`;
+        setCode(snippetCode);
+        setSharedUrl(fullUrl);
       } else {
         setError(data.error || "Failed to share text");
       }
@@ -43,30 +77,19 @@ export function TextShare() {
 
   const handleRetrieve = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!retrieveCode.trim()) return;
-    setRetrieveLoading(true);
-    setRetrieveError("");
-    setRetrievedText("");
-    try {
-      const baseUrl = import.meta.env.VITE_API_URL || "";
-      const res = await fetch(`${baseUrl}/api/text/${retrieveCode.trim()}`);
-      const data = await res.json();
-      if (res.ok) {
-        setRetrievedText(data.text);
-      } else {
-        setRetrieveError(data.error || "Snippet not found");
-      }
-    } catch (err) {
-      setRetrieveError("An error occurred. Please try again.");
-    } finally {
-      setRetrieveLoading(false);
-    }
+    await fetchSnippetByCode(retrieveCode);
   };
 
   const copyToClipboard = (textToCopy: string) => {
     navigator.clipboard.writeText(textToCopy).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const copyUrlToClipboard = (urlToCopy: string) => {
+    navigator.clipboard.writeText(urlToCopy).catch(() => {});
+    setUrlCopied(true);
+    setTimeout(() => setUrlCopied(false), 2000);
   };
 
   const [fetchedCopied, setFetchedCopied] = useState(false);
@@ -124,20 +147,44 @@ export function TextShare() {
           </button>
 
           {code && (
-            <div className="mt-6 p-4 bg-white/10 border border-white/20">
-              <p className="text-[10px] text-white/50 uppercase tracking-widest mb-2 font-bold">Success</p>
-              <div className="flex items-center space-x-2">
-                <code className="flex-1 bg-[#0A0A0A] px-3 py-2 border border-white/10 text-lg font-bold text-white text-center tracking-widest">
-                  {code}
-                </code>
-                <button
-                  onClick={() => copyToClipboard(code)}
-                  className="p-3 bg-white text-black hover:bg-white/80 transition-colors"
-                  title="Copy code"
-                >
-                  {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                </button>
+            <div className="mt-6 p-4 bg-white/10 border border-white/20 space-y-3">
+              <div>
+                <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1.5 font-bold">Code</p>
+                <div className="flex items-center space-x-2">
+                  <code className="flex-1 bg-[#0A0A0A] px-3 py-2 border border-white/10 text-lg font-bold text-white text-center tracking-widest">
+                    {code}
+                  </code>
+                  <button
+                    onClick={() => copyToClipboard(code)}
+                    className="p-3 bg-white text-black hover:bg-white/80 transition-colors"
+                    title="Copy code"
+                  >
+                    {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                  </button>
+                </div>
               </div>
+
+              {sharedUrl && (
+                <div>
+                  <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1.5 font-bold">Shareable URL</p>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value={sharedUrl}
+                      className="flex-1 bg-[#0A0A0A] px-3 py-2 border border-white/10 text-xs font-mono text-white/80 truncate"
+                    />
+                    <button
+                      onClick={() => copyUrlToClipboard(sharedUrl)}
+                      className="p-2.5 bg-white text-black hover:bg-white/80 transition-colors flex items-center gap-1 text-xs font-bold uppercase tracking-widest"
+                      title="Copy URL"
+                    >
+                      {urlCopied ? <Check className="w-4 h-4" /> : <LinkIcon className="w-4 h-4" />}
+                      {urlCopied ? "Copied" : "Copy Link"}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </motion.div>
@@ -157,17 +204,17 @@ export function TextShare() {
             <input
               type="text"
               value={retrieveCode}
-              onChange={(e) => setRetrieveCode(e.target.value)}
+              onChange={(e) => setRetrieveCode(e.target.value.toUpperCase())}
               placeholder="Enter Code"
-              className="flex-1 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none text-center font-bold tracking-widest text-lg text-white placeholder:text-white/20 normal-case"
-              maxLength={4}
+              className="flex-1 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none text-center font-bold tracking-widest text-lg text-white placeholder:text-white/20 uppercase"
+              maxLength={6}
             />
             <button
               type="submit"
               disabled={retrieveLoading || !retrieveCode.trim()}
               className="bg-white text-black px-6 py-4 min-h-[58px] font-black uppercase tracking-widest text-sm hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center justify-center"
             >
-              Fetch
+              {retrieveLoading ? "Fetching..." : "Fetch"}
             </button>
           </form>
           {retrieveError && <p className="text-red-400 text-xs mb-4 uppercase tracking-widest">{retrieveError}</p>}
