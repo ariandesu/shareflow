@@ -4,6 +4,7 @@
  */
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
@@ -118,8 +119,9 @@ function NotFound() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -200,5 +202,6 @@ export default function App() {
         </Routes>
       </AuthProvider>
     </BrowserRouter>
+  </ThemeProvider>
   );
 }

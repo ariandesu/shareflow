@@ -19,14 +19,14 @@ export function ThreeVisualizer() {
 
     // Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 4.2;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
     // Group for all rotating objects
@@ -208,7 +208,7 @@ export function ThreeVisualizer() {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full min-h-[340px] relative overflow-hidden cursor-grab active:cursor-grabbing rounded-2xl bg-white"
+      className="w-full h-full min-h-[340px] relative overflow-hidden cursor-grab active:cursor-grabbing rounded-2xl bg-transparent"
     />
   );
 }
