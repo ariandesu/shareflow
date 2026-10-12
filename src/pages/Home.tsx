@@ -4,7 +4,7 @@
  */
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FileUp,
   FileText,
@@ -15,12 +15,7 @@ import {
   CheckCircle2,
   AlertCircle
 } from "lucide-react";
-import { HeroSwitcher, HeroVariantId } from "../components/hero/HeroSwitcher";
-import { HeroVariant1 } from "../components/hero/HeroVariant1";
-import { HeroVariant2 } from "../components/hero/HeroVariant2";
 import { HeroVariant3 } from "../components/hero/HeroVariant3";
-import { HeroVariant4 } from "../components/hero/HeroVariant4";
-import { HeroVariant5 } from "../components/hero/HeroVariant5";
 
 interface ToolItem {
   name: string;
@@ -40,6 +35,14 @@ const TOOLS_LIST: ToolItem[] = [
   { name: "Base64 Converter", desc: "Encode and decode raw strings, files, and images in Base64.", href: "/base64", icon: "📦", category: "dev" },
   { name: "Markdown Preview", desc: "Live GitHub-flavored Markdown editor with instant HTML export.", href: "/markdown-preview", icon: "📝", category: "dev" },
   { name: "Cron Generator", desc: "Visual schedule builder for UNIX cron jobs with explanations.", href: "/cron-generator", icon: "⏱️", category: "dev" },
+  { name: "Scientific Calculator", desc: "Perform complex arithmetic, trigonometry, logarithms, and scientific math.", href: "/scientific-calculator", icon: "🧮", category: "dev" },
+  { name: "SVG to CSS", desc: "Convert SVG code or files into CSS background images and data URLs.", href: "/svg-to-css", icon: "🎨", category: "dev" },
+  { name: "Z-Index Visualizer", desc: "Interactive 3D stacking context and z-index layering visualizer.", href: "/z-index", icon: "📑", category: "dev" },
+  { name: "Text Diff", desc: "Compare and highlight character-level differences between two texts.", href: "/text-diff", icon: "🔍", category: "dev" },
+  { name: "Word Counter", desc: "Count words, characters, sentences, paragraphs, and reading time.", href: "/word-counter", icon: "📊", category: "dev" },
+  { name: "Timezone Converter", desc: "Convert timestamps and schedules across world timezones seamlessly.", href: "/timezone-converter", icon: "🌐", category: "dev" },
+  { name: "Time Now", desc: "Accurate current atomic time, UTC offsets, and world clocks.", href: "/time", icon: "⏰", category: "dev" },
+  { name: "Unit Converter", desc: "Convert length, mass, digital storage, temperature, and speed units.", href: "/unit-converter", icon: "📐", category: "dev" },
 
   // Security & Crypto
   { name: "JWT Decoder", desc: "Decode headers, claims, and verify JSON Web Token signatures.", href: "/jwt-decoder", icon: "🔑", category: "security" },
@@ -64,18 +67,7 @@ const TOOLS_LIST: ToolItem[] = [
 ];
 
 export function Home() {
-  const [currentVariant, setCurrentVariant] = useState<HeroVariantId>(() => {
-    try {
-      const saved = localStorage.getItem("shareflow_hero_variant");
-      if (saved && ["variant1", "variant2", "variant3", "variant4", "variant5"].includes(saved)) {
-        return saved as HeroVariantId;
-      }
-    } catch {
-      // ignore
-    }
-    return "variant1";
-  });
-
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<"all" | "dev" | "pdf" | "media" | "security">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
@@ -85,15 +77,6 @@ export function Home() {
     setTimeout(() => {
       setToastMessage(null);
     }, 3200);
-  };
-
-  const handleVariantChange = (variant: HeroVariantId) => {
-    setCurrentVariant(variant);
-    try {
-      localStorage.setItem("shareflow_hero_variant", variant);
-    } catch {
-      // ignore
-    }
   };
 
   // Filter tools
@@ -125,17 +108,8 @@ export function Home() {
         </div>
       )}
 
-      {/* Hero Switcher Control (Interactive Demo) */}
-      <HeroSwitcher currentVariant={currentVariant} onChangeVariant={handleVariantChange} />
-
-      {/* 5 Distinct Hero Section Designs */}
-      <div className="w-full transition-opacity duration-300">
-        {currentVariant === "variant1" && <HeroVariant1 onNotify={showToast} />}
-        {currentVariant === "variant2" && <HeroVariant2 onNotify={showToast} />}
-        {currentVariant === "variant3" && <HeroVariant3 onNotify={showToast} />}
-        {currentVariant === "variant4" && <HeroVariant4 onNotify={showToast} />}
-        {currentVariant === "variant5" && <HeroVariant5 onNotify={showToast} />}
-      </div>
+      {/* Minimal Dual Pod Hero Section */}
+      <HeroVariant3 onNotify={showToast} />
 
       {/* Flagship Bento Grid Section */}
       <section className="w-full max-w-7xl mx-auto flex flex-col gap-6">
@@ -153,7 +127,10 @@ export function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Card 1: P2P File Transfer (Span 8) */}
-          <div className="md:col-span-8 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div
+            onClick={() => navigate("/file-share")}
+            className="md:col-span-8 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group"
+          >
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <FileUp className="w-3.5 h-3.5" />
@@ -189,7 +166,10 @@ export function Home() {
           </div>
 
           {/* Card 2: Ephemeral Text Share (Span 4) */}
-          <div className="md:col-span-4 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div
+            onClick={() => navigate("/text-share")}
+            className="md:col-span-4 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group"
+          >
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <FileText className="w-3.5 h-3.5" />
@@ -229,7 +209,10 @@ export function Home() {
           </div>
 
           {/* Card 3: Developer Starter Kits (Span 6) */}
-          <div className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div
+            onClick={() => navigate("/products")}
+            className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group"
+          >
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <Layers className="w-3.5 h-3.5" />
@@ -267,7 +250,10 @@ export function Home() {
           </div>
 
           {/* Card 4: Edge Architecture (Span 6) */}
-          <div className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div
+            onClick={() => navigate("/file-share")}
+            className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer group"
+          >
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <Shield className="w-3.5 h-3.5" />

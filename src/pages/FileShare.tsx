@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Upload, X, Copy, Check, File as FileIcon, ArrowRight, Zap, Cloud, Download, Server, Wifi, HelpCircle, BookOpen, ShieldCheck, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AdBanner } from "../components/AdBanner";
@@ -9,6 +9,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export function FileShare() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toasts, showToast, dismissToast } = useCupertinoToast();
   const [files, setFiles] = useState<File[]>([]);
   const [mode, setMode] = useState<"server" | "p2p">("server");
@@ -24,6 +25,27 @@ export function FileShare() {
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const pollIntervalRef = useRef<number | null>(null);
   const totalSentRef = useRef<number>(0);
+
+  useEffect(() => {
+    const pendingFiles = (window as any).__pendingShareFiles || (location.state as any)?.files;
+    if (pendingFiles && Array.isArray(pendingFiles) && pendingFiles.length > 0) {
+      setFiles(pendingFiles);
+      const largest = Math.max(...pendingFiles.map((f: File) => f.size));
+      const total = pendingFiles.reduce((sum: number, f: File) => sum + f.size, 0);
+      if (largest > 10 * 1024 * 1024 || total > 10 * 1024 * 1024) {
+        setMode("p2p");
+      } else {
+        setMode("server");
+      }
+      delete (window as any).__pendingShareFiles;
+    }
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get("code") || (location.state as any)?.code;
+    if (code) {
+      setReceiveCode(code.toUpperCase());
+    }
+  }, [location]);
   
   // Ref to track status inside WebRTC asynchronous callbacks
   const statusRef = useRef(status);

@@ -13,7 +13,6 @@ import {
   Download,
   FileText,
   ShoppingBag,
-  Zap,
   Mail,
   Phone,
   ChevronRight,
@@ -129,13 +128,6 @@ export function Layout() {
                 <Moon className="w-4 h-4 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-rotate-12" />
               )}
             </button>
-            <Link
-              to="/file-share"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[13px] font-semibold shadow-sm shadow-[#0071e3]/20 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 hover:scale-105"
-            >
-              <Zap className="w-3.5 h-3.5" />
-              <span>Instant Share</span>
-            </Link>
           </div>
 
           {/* Mobile Actions & Menu Button */}

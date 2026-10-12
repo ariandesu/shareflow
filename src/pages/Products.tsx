@@ -150,14 +150,14 @@ export function Products() {
     <div className="w-full flex flex-col gap-10 pb-16">
       {/* Header */}
       <div className="text-center pt-4 sm:pt-6 flex flex-col items-center">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] text-[#0071e3] border border-[#d2d2d7]/50 mb-4 shadow-xs">
-          <Gift className="w-3.5 h-3.5 text-[#0071e3]" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-[#27272a] mb-4 shadow-xs">
+          <Gift className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#38bdf8]" />
           <span>FREE DEVELOPER STORE • PRODUCTION BLUEPRINTS</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] max-w-2xl leading-tight">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] dark:text-white max-w-2xl leading-tight">
           Battle-tested starter kits & engineering blueprints.
         </h1>
-        <p className="text-sm sm:text-base text-[#6e6e73] max-w-xl mt-3 leading-relaxed">
+        <p className="text-sm sm:text-base text-[#6e6e73] dark:text-[#a1a1aa] max-w-xl mt-3 leading-relaxed">
           Production backends, multi-threaded scrapers, and DevOps cheatsheets crafted for high-performance engineers. 100% free to unlock.
         </p>
       </div>
@@ -167,28 +167,28 @@ export function Products() {
         {PRODUCTS.map((prod) => (
           <div
             key={prod.id}
-            className="bg-white border border-[#e5e5ea] hover:border-[#0071e3] rounded-3xl p-6 sm:p-7 flex flex-col justify-between gap-6 shadow-xs hover:shadow-md transition-all duration-200 group"
+            className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] hover:border-[#0071e3] dark:hover:border-[#0071e3] rounded-3xl p-6 sm:p-7 flex flex-col justify-between gap-6 shadow-xs hover:shadow-md transition-all duration-200 group"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#f5f5f7] text-[#0071e3] border border-[#d2d2d7]/50">
+                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-[#27272a]">
                   {prod.category}
                 </span>
-                <span className="text-xs font-bold text-[#34c759] bg-[#eafaf1] px-2 py-0.5 rounded-full">
+                <span className="text-xs font-bold text-[#34c759] bg-[#eafaf1] dark:bg-[#34c759]/15 px-2 py-0.5 rounded-full">
                   Free Unlock
                 </span>
               </div>
 
-              <h3 className="text-lg font-bold text-[#1d1d1f] group-hover:text-[#0071e3] transition-colors leading-snug">
+              <h3 className="text-lg font-bold text-[#1d1d1f] dark:text-white group-hover:text-[#0071e3] transition-colors leading-snug">
                 {prod.title}
               </h3>
-              <p className="text-xs text-[#6e6e73] mt-2 leading-relaxed">
+              <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-2 leading-relaxed">
                 {prod.description}
               </p>
 
-              <div className="mt-4 pt-4 border-t border-[#e5e5ea] flex flex-col gap-1.5">
+              <div className="mt-4 pt-4 border-t border-[#e5e5ea] dark:border-[#27272a] flex flex-col gap-1.5">
                 {prod.features.map((feat, i) => (
-                  <div key={i} className="flex items-start gap-2 text-xs text-[#1d1d1f]">
+                  <div key={i} className="flex items-start gap-2 text-xs text-[#1d1d1f] dark:text-[#e4e4e7]">
                     <Check className="w-3.5 h-3.5 text-[#34c759] flex-shrink-0 mt-0.5" />
                     <span>{feat}</span>
                   </div>
@@ -212,37 +212,37 @@ export function Products() {
 
       {/* Unlock Modal */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/35 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#e5e5ea] relative text-left">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-white dark:bg-[#12141a] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#e5e5ea] dark:border-[#27272a] relative text-left">
             <button
               onClick={() => setSelectedProduct(null)}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] text-[#86868b] hover:text-[#1d1d1f] flex items-center justify-center text-sm font-bold"
+              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#86868b] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white flex items-center justify-center text-sm font-bold"
             >
               ✕
             </button>
 
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#eafaf1] text-[#34c759]">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#eafaf1] dark:bg-[#34c759]/15 text-[#34c759]">
                 Sponsored Unlock
               </span>
             </div>
-            <h3 className="text-xl font-bold text-[#1d1d1f]">{selectedProduct.title}</h3>
-            <p className="text-xs text-[#6e6e73] mt-1">{selectedProduct.description}</p>
+            <h3 className="text-xl font-bold text-[#1d1d1f] dark:text-white">{selectedProduct.title}</h3>
+            <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-1">{selectedProduct.description}</p>
 
-            <div className="mt-6 p-4 rounded-2xl bg-[#f5f5f7] border border-[#e5e5ea] flex flex-col gap-3">
+            <div className="mt-6 p-4 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] flex flex-col gap-3">
               {!isUnlocked ? (
                 <>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-[#1d1d1f]">Sponsor Verification Progress</span>
-                    <span className="font-mono font-bold text-[#0071e3]">{adStep} of 5</span>
+                    <span className="font-semibold text-[#1d1d1f] dark:text-white">Sponsor Verification Progress</span>
+                    <span className="font-mono font-bold text-[#0071e3] dark:text-[#38bdf8]">{adStep} of 5</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-[#e5e5ea] overflow-hidden">
+                  <div className="w-full h-2 rounded-full bg-[#e5e5ea] dark:bg-[#27272a] overflow-hidden">
                     <div
                       className="h-full bg-[#0071e3] rounded-full transition-all duration-300"
                       style={{ width: `${(adStep / 5) * 100}%` }}
                     />
                   </div>
-                  <p className="text-[11px] text-[#86868b] leading-relaxed">
+                  <p className="text-[11px] text-[#86868b] dark:text-[#a1a1aa] leading-relaxed">
                     Click below to visit our sponsor link. Once completed (step 5), your 100% OFF Gumroad coupon code will be automatically generated.
                   </p>
                   <button
@@ -256,8 +256,8 @@ export function Products() {
               ) : (
                 <div className="flex flex-col gap-3 text-center py-2">
                   <CheckCircle2 className="w-10 h-10 text-[#34c759] mx-auto" />
-                  <h4 className="font-bold text-base text-[#1d1d1f]">Starter Kit Unlocked!</h4>
-                  <p className="text-xs text-[#6e6e73]">
+                  <h4 className="font-bold text-base text-[#1d1d1f] dark:text-white">Starter Kit Unlocked!</h4>
+                  <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa]">
                     Use this 100% OFF coupon code on Gumroad to download your package for free:
                   </p>
                   <div className="flex items-center gap-2 mt-1">
@@ -265,7 +265,7 @@ export function Products() {
                       type="text"
                       readOnly
                       value={couponCode}
-                      className="flex-1 text-center font-mono font-bold text-sm py-2.5 px-3 bg-white border border-[#0071e3] rounded-xl text-[#0071e3]"
+                      className="flex-1 text-center font-mono font-bold text-sm py-2.5 px-3 bg-white dark:bg-[#12141a] border border-[#0071e3] rounded-xl text-[#0071e3] dark:text-[#38bdf8]"
                     />
                     <button
                       onClick={handleCopyCoupon}
@@ -278,7 +278,7 @@ export function Products() {
                     href={`${selectedProduct.gumroadBaseUrl}?wanted=true`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#1d1d1f] hover:bg-black text-white font-semibold text-xs flex items-center justify-center gap-2"
+                    className="mt-3 w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#1d1d1f] dark:bg-white hover:bg-black dark:hover:bg-[#f5f5f7] text-white dark:text-[#1d1d1f] font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
                   >
                     <span>Claim on Gumroad</span>
                     <ExternalLink className="w-3.5 h-3.5" />

@@ -12,7 +12,6 @@ import {
   Zap,
   ArrowRight,
   Lock,
-  Sparkles,
   CheckCircle2,
   KeyRound
 } from "lucide-react";
@@ -49,7 +48,7 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
       const fullCode = newDigits.join("");
       notify(`Joining peer room [${fullCode}]...`, "success");
       setTimeout(() => {
-        navigate(`/f?code=${encodeURIComponent(fullCode)}`);
+        navigate(`/file-share?code=${encodeURIComponent(fullCode)}`, { state: { code: fullCode } });
       }, 400);
     }
   };
@@ -69,32 +68,30 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
       return;
     }
     notify(`Joining peer room [${fullCode}]...`, "success");
-    navigate(`/f?code=${encodeURIComponent(fullCode)}`);
+    navigate(`/file-share?code=${encodeURIComponent(fullCode)}`, { state: { code: fullCode } });
   };
 
   const handleFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      notify(`Selected ${e.dataTransfer.files.length} file(s). Creating direct WebRTC stream...`, "success");
-      setTimeout(() => navigate("/file-share"), 400);
+      const fileList = Array.from(e.dataTransfer.files);
+      (window as any).__pendingShareFiles = fileList;
+      notify(`Selected ${fileList.length} file(s). Creating direct WebRTC stream...`, "success");
+      navigate("/file-share", { state: { files: fileList } });
     }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      notify(`Selected ${e.target.files.length} file(s). Entering room...`, "success");
-      setTimeout(() => navigate("/file-share"), 400);
+      const fileList = Array.from(e.target.files);
+      (window as any).__pendingShareFiles = fileList;
+      notify(`Selected ${fileList.length} file(s). Entering room...`, "success");
+      navigate("/file-share", { state: { files: fileList } });
     }
   };
 
   return (
     <section className="text-center pt-4 sm:pt-10 flex flex-col items-center w-full transition-colors duration-300">
-      {/* Pill Badge */}
-      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-white/10 mb-6 shadow-xs">
-        <Sparkles className="w-3.5 h-3.5" />
-        <span>Minimal P2P Transfer Architecture</span>
-      </div>
-
       {/* Hero Headline */}
       <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] max-w-4xl leading-[1.08] mb-5">
         Transfer Anything.{" "}

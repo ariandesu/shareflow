@@ -153,8 +153,8 @@ export function TextShare() {
         <div className="fixed top-20 right-4 sm:right-8 z-50 animate-in fade-in slide-in-from-top-4 duration-200">
           <div className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs font-semibold backdrop-blur-md ${
             toastMessage.type === "success"
-              ? "bg-white/95 border-[#34c759]/30 text-[#1d1d1f]"
-              : "bg-white/95 border-[#ff3b30]/30 text-[#ff3b30]"
+              ? "bg-white/95 dark:bg-[#12141a]/95 border-[#34c759]/30 text-[#1d1d1f] dark:text-white"
+              : "bg-white/95 dark:bg-[#12141a]/95 border-[#ff3b30]/30 text-[#ff3b30]"
           }`}>
             {toastMessage.type === "success" ? (
               <CheckCircle2 className="w-4 h-4 text-[#34c759] flex-shrink-0" />
@@ -168,27 +168,27 @@ export function TextShare() {
 
       {/* Header */}
       <div className="text-center pt-4 sm:pt-6 flex flex-col items-center">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] text-[#0071e3] border border-[#d2d2d7]/50 mb-4 shadow-xs">
-          <Shield className="w-3.5 h-3.5 text-[#0071e3]" />
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] dark:bg-[#1f222a] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-[#27272a] mb-4 shadow-xs">
+          <Shield className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#38bdf8]" />
           <span>EPHEMERAL SECRET SHARING • ZERO RETENTION</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] max-w-2xl leading-tight">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] dark:text-white max-w-2xl leading-tight">
           Secure, self-destructing text & secret notes.
         </h1>
-        <p className="text-sm sm:text-base text-[#6e6e73] max-w-xl mt-3 leading-relaxed">
+        <p className="text-sm sm:text-base text-[#6e6e73] dark:text-[#a1a1aa] max-w-xl mt-3 leading-relaxed">
           Safely pass API keys, tokens, and confidential notes. Encrypted client-side and automatically purged after retrieval.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         {/* Share Card */}
-        <div className="bg-white border border-[#e5e5ea] rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col justify-between gap-6">
+        <div className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col justify-between gap-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#0071e3]"></span>
-              <h3 className="font-bold text-base text-[#1d1d1f]">Compose Secret Note</h3>
+              <h3 className="font-bold text-base text-[#1d1d1f] dark:text-white">Compose Secret Note</h3>
             </div>
-            <span className="text-[11px] font-semibold text-[#86868b] flex items-center gap-1">
+            <span className="text-[11px] font-semibold text-[#86868b] dark:text-[#71717a] flex items-center gap-1">
               <Clock className="w-3 h-3" /> Auto-expires
             </span>
           </div>
@@ -199,13 +199,13 @@ export function TextShare() {
               onChange={(e) => setText(e.target.value)}
               placeholder="Paste your password, API token, or private note here..."
               rows={8}
-              className="w-full text-xs sm:text-sm font-mono p-4 rounded-2xl bg-[#f5f5f7] border border-[#e5e5ea] focus:border-[#0071e3] focus:bg-white focus:outline-none transition-colors resize-none text-[#1d1d1f]"
+              className="w-full text-xs sm:text-sm font-mono p-4 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] focus:border-[#0071e3] focus:bg-white dark:focus:bg-[#12141a] focus:outline-none transition-colors resize-none text-[#1d1d1f] dark:text-white placeholder-[#86868b] dark:placeholder-[#71717a]"
             />
             {text && (
               <button
                 type="button"
                 onClick={() => setText("")}
-                className="absolute top-3 right-3 p-1.5 rounded-lg bg-white/80 hover:bg-[#e5e5ea] text-[#86868b] hover:text-[#1d1d1f] transition-colors"
+                className="absolute top-3 right-3 p-1.5 rounded-lg bg-white/80 dark:bg-[#27272a]/80 hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#86868b] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white transition-colors"
                 title="Clear text"
               >
                 <X className="w-3.5 h-3.5" />
@@ -214,7 +214,7 @@ export function TextShare() {
           </div>
 
           {error && (
-            <div className="text-xs text-[#ff3b30] font-semibold bg-[#fff2f2] p-3 rounded-xl border border-[#ff3b30]/20">
+            <div className="text-xs text-[#ff3b30] font-semibold bg-[#fff2f2] dark:bg-[#ff3b30]/10 p-3 rounded-xl border border-[#ff3b30]/20">
               {error}
             </div>
           )}
@@ -230,13 +230,13 @@ export function TextShare() {
           </button>
 
           {code && (
-            <div className="p-4 bg-[#f5f5f7] rounded-2xl border border-[#e5e5ea] flex flex-col gap-3">
+            <div className="p-4 bg-[#f5f5f7] dark:bg-[#181a20] rounded-2xl border border-[#e5e5ea] dark:border-[#27272a] flex flex-col gap-3">
               <div>
-                <span className="text-[10px] font-bold text-[#86868b] uppercase tracking-wider block mb-1">
+                <span className="text-[10px] font-bold text-[#86868b] dark:text-[#71717a] uppercase tracking-wider block mb-1">
                   Access Code
                 </span>
                 <div className="flex items-center gap-2">
-                  <span className="flex-1 text-center font-mono font-bold text-lg py-2 bg-white border border-[#e5e5ea] rounded-xl text-[#0071e3]">
+                  <span className="flex-1 text-center font-mono font-bold text-lg py-2 bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-xl text-[#0071e3] dark:text-[#38bdf8]">
                     {code}
                   </span>
                   <button
@@ -252,7 +252,7 @@ export function TextShare() {
 
               {sharedUrl && (
                 <div>
-                  <span className="text-[10px] font-bold text-[#86868b] uppercase tracking-wider block mb-1">
+                  <span className="text-[10px] font-bold text-[#86868b] dark:text-[#71717a] uppercase tracking-wider block mb-1">
                     Direct Link
                   </span>
                   <div className="flex items-center gap-2">
@@ -260,7 +260,7 @@ export function TextShare() {
                       type="text"
                       readOnly
                       value={sharedUrl}
-                      className="flex-1 text-xs font-mono py-2 px-3 bg-white border border-[#e5e5ea] rounded-xl text-[#1d1d1f] truncate"
+                      className="flex-1 text-xs font-mono py-2 px-3 bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-xl text-[#1d1d1f] dark:text-white truncate"
                     />
                     <button
                       type="button"
@@ -278,18 +278,18 @@ export function TextShare() {
         </div>
 
         {/* Retrieve Card */}
-        <div className="bg-white border border-[#e5e5ea] rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col justify-between gap-6">
+        <div className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col justify-between gap-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#34c759]"></span>
-              <h3 className="font-bold text-base text-[#1d1d1f]">Retrieve Note</h3>
+              <h3 className="font-bold text-base text-[#1d1d1f] dark:text-white">Retrieve Note</h3>
             </div>
-            <span className="text-[11px] font-semibold text-[#86868b]">One-time access</span>
+            <span className="text-[11px] font-semibold text-[#86868b] dark:text-[#71717a]">One-time access</span>
           </div>
 
           <form onSubmit={handleRetrieve} className="flex flex-col gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#1d1d1f] mb-1.5">
+              <label className="block text-xs font-semibold text-[#1d1d1f] dark:text-white mb-1.5">
                 Note Access Code
               </label>
               <div className="flex gap-2">
@@ -299,12 +299,12 @@ export function TextShare() {
                   onChange={(e) => setRetrieveCode(e.target.value.toUpperCase())}
                   placeholder="e.g. 8X92A"
                   maxLength={10}
-                  className="flex-1 text-center font-mono font-bold text-sm uppercase py-3 px-4 rounded-xl bg-[#f5f5f7] border border-[#e5e5ea] focus:border-[#0071e3] focus:bg-white focus:outline-none transition-colors"
+                  className="flex-1 text-center font-mono font-bold text-sm uppercase py-3 px-4 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] focus:border-[#0071e3] focus:bg-white dark:focus:bg-[#12141a] focus:outline-none transition-colors text-[#1d1d1f] dark:text-white placeholder-[#86868b] dark:placeholder-[#71717a]"
                 />
                 <button
                   type="submit"
                   disabled={retrieveLoading || !retrieveCode.trim()}
-                  className="min-h-[44px] px-5 rounded-xl bg-[#1d1d1f] hover:bg-black disabled:opacity-50 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all focus:outline-none"
+                  className="min-h-[44px] px-5 rounded-xl bg-[#1d1d1f] dark:bg-white hover:bg-black dark:hover:bg-[#f5f5f7] disabled:opacity-50 text-white dark:text-[#1d1d1f] font-semibold text-xs flex items-center justify-center gap-1.5 transition-all focus:outline-none"
                 >
                   <Search className="w-3.5 h-3.5" />
                   <span>{retrieveLoading ? "Opening..." : "Retrieve"}</span>
@@ -314,13 +314,13 @@ export function TextShare() {
           </form>
 
           {retrieveError && (
-            <div className="text-xs text-[#ff3b30] font-semibold bg-[#fff2f2] p-3 rounded-xl border border-[#ff3b30]/20">
+            <div className="text-xs text-[#ff3b30] font-semibold bg-[#fff2f2] dark:bg-[#ff3b30]/10 p-3 rounded-xl border border-[#ff3b30]/20">
               {retrieveError}
             </div>
           )}
 
           {retrievedText && (
-            <div className="p-4 bg-[#f5f5f7] rounded-2xl border border-[#e5e5ea] flex flex-col gap-3">
+            <div className="p-4 bg-[#f5f5f7] dark:bg-[#181a20] rounded-2xl border border-[#e5e5ea] dark:border-[#27272a] flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold text-[#34c759] uppercase tracking-wider">
                   Decrypted Content
@@ -328,20 +328,20 @@ export function TextShare() {
                 <button
                   type="button"
                   onClick={copyFetchedText}
-                  className="text-xs font-semibold text-[#0071e3] hover:underline flex items-center gap-1"
+                  className="text-xs font-semibold text-[#0071e3] dark:text-[#38bdf8] hover:underline flex items-center gap-1"
                 >
                   {fetchedCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{fetchedCopied ? "Copied" : "Copy text"}</span>
                 </button>
               </div>
-              <pre className="p-3 bg-white rounded-xl border border-[#e5e5ea] font-mono text-xs text-[#1d1d1f] whitespace-pre-wrap break-all max-h-60 overflow-y-auto">
+              <pre className="p-3 bg-white dark:bg-[#12141a] rounded-xl border border-[#e5e5ea] dark:border-[#27272a] font-mono text-xs text-[#1d1d1f] dark:text-white whitespace-pre-wrap break-all max-h-60 overflow-y-auto">
                 {retrievedText}
               </pre>
             </div>
           )}
 
-          <div className="text-xs text-[#6e6e73] bg-[#f5f5f7] p-4 rounded-2xl border border-[#e5e5ea]">
-            <span className="font-bold text-[#1d1d1f] block mb-0.5">Privacy Notice</span>
+          <div className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] bg-[#f5f5f7] dark:bg-[#181a20] p-4 rounded-2xl border border-[#e5e5ea] dark:border-[#27272a]">
+            <span className="font-bold text-[#1d1d1f] dark:text-white block mb-0.5">Privacy Notice</span>
             Secret snippets are held strictly in memory and delete permanently after retrieval or expiration.
           </div>
         </div>

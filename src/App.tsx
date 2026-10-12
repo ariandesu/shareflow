@@ -128,6 +128,7 @@ export default function App() {
           <Route path="products" element={<Products />} />
           <Route path="developer-starter-kits" element={<Products />} />
             <Route path="text-share" element={<TextShare />} />
+            <Route path="text-share/:id" element={<TextShare />} />
 
             {/* File Share Routes */}
             <Route path="file-share" element={<FileShare />} />
@@ -166,6 +167,7 @@ export default function App() {
             <Route path="metadata-viewer" element={<MetadataViewer />} />
             <Route path="countdown-timer" element={<CountdownTimer />} />
             <Route path="calculator" element={<ScientificCalculator />} />
+            <Route path="scientific-calculator" element={<ScientificCalculator />} />
             <Route path="svg-to-css" element={<SVGToCSS />} />
             <Route path="css-animation" element={<CSSAnimationGenerator />} />
             <Route path="color-blindness" element={<ColorBlindnessSimulator />} />
