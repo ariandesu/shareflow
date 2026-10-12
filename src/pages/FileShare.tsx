@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Upload, X, Copy, Check, File as FileIcon, ArrowRight, Zap, Cloud, Download, Server, Wifi, HelpCircle, BookOpen } from "lucide-react";
+import { Upload, X, Copy, Check, File as FileIcon, ArrowRight, Zap, Cloud, Download, Server, Wifi, HelpCircle, BookOpen, ShieldCheck, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AdBanner } from "../components/AdBanner";
+import { useCupertinoToast, CupertinoToastContainer } from "../components/CupertinoToast";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export function FileShare() {
   const navigate = useNavigate();
+  const { toasts, showToast, dismissToast } = useCupertinoToast();
   const [files, setFiles] = useState<File[]>([]);
   const [mode, setMode] = useState<"server" | "p2p">("server");
   const [status, setStatus] = useState<"idle" | "uploading" | "waiting_peer" | "transferring" | "success" | "error">("idle");
@@ -401,6 +403,7 @@ export function FileShare() {
     const url = `${window.location.origin}/f/${shareCode}`;
     navigator.clipboard.writeText(url);
     setCopied(true);
+    showToast("success", "Link Copied!", "Share link has been copied to your clipboard.");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -428,14 +431,12 @@ export function FileShare() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-stretch">
         
         {/* Share Card */}
-        <div className="w-full bg-white dark:bg-[#111] border-2 border-slate-300 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[480px] rounded-3xl">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full -z-0"></div>
-          
+        <div className="w-full bg-white/80 dark:bg-black/40 backdrop-blur-xl border border-[#d2d2d7]/60 dark:border-white/10 text-[#1d1d1f] dark:text-white p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden flex flex-col justify-between min-h-[480px] rounded-3xl">
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-black uppercase tracking-tighter">Send <span className="text-slate-400 dark:text-white/30">File</span></h2>
-              <div className="text-[10px] font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 uppercase tracking-widest rounded-full">
-                Zero cost
+              <h2 className="text-3xl font-black uppercase tracking-tight text-[#1d1d1f] dark:text-white">Send <span className="text-[#6e6e73] dark:text-white/40">File</span></h2>
+              <div className="text-[10px] font-bold bg-[#0071e3]/10 border border-[#0071e3]/20 text-[#0071e3] px-3 py-1 uppercase tracking-widest rounded-full">
+                Zero Cost
               </div>
             </div>
 
@@ -447,8 +448,8 @@ export function FileShare() {
                   className="flex flex-col gap-6"
                 >
                   <div 
-                    className={`border-4 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
-                      files.length > 0 ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-400 dark:border-white/20 hover:border-emerald-600 dark:hover:border-emerald-400 bg-slate-100/80 dark:bg-black/40'
+                    className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
+                      files.length > 0 ? 'border-[#0071e3] bg-[#0071e3]/5' : 'border-[#d2d2d7] dark:border-white/20 hover:border-[#0071e3] bg-[#f5f5f7]/60 dark:bg-white/5'
                     }`}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
@@ -474,43 +475,43 @@ export function FileShare() {
                     {files.length > 0 ? (
                       <div className="w-full flex flex-col gap-2">
                         <div className="flex items-center justify-center gap-2 mb-1">
-                          <FileIcon className="w-6 h-6 text-slate-950 dark:text-white" />
-                          <span className="font-bold text-sm text-slate-950 dark:text-white">{files.length} file{files.length > 1 ? "s" : ""}</span>
+                          <FileIcon className="w-6 h-6 text-[#0071e3]" />
+                          <span className="font-bold text-sm text-[#1d1d1f] dark:text-white">{files.length} file{files.length > 1 ? "s" : ""}</span>
                         </div>
-                        <div className="max-h-44 overflow-y-auto divide-y divide-slate-200 dark:divide-white/10 border border-slate-200 dark:border-white/10 rounded-xl">
+                        <div className="max-h-44 overflow-y-auto divide-y divide-[#d2d2d7]/50 dark:divide-white/10 border border-[#d2d2d7]/60 dark:border-white/10 rounded-xl">
                           {files.map((f, i) => (
-                            <div key={i} className="flex items-center justify-between gap-3 px-3 py-2 bg-slate-100 dark:bg-white/5">
+                            <div key={i} className="flex items-center justify-between gap-3 px-3 py-2 bg-white/60 dark:bg-white/5">
                               <div className="flex-1 min-w-0 text-left">
-                                <p className="font-bold text-xs text-slate-950 dark:text-white truncate">{f.name}</p>
-                                <p className="text-[10px] font-medium text-slate-500 dark:text-white/50">{(f.size / (1024*1024)).toFixed(2)} MB</p>
+                                <p className="font-bold text-xs text-[#1d1d1f] dark:text-white truncate">{f.name}</p>
+                                <p className="text-[10px] font-medium text-[#6e6e73] dark:text-white/50">{(f.size / (1024*1024)).toFixed(2)} MB</p>
                               </div>
                               <button
                                 type="button"
                                 onClick={(e) => { e.stopPropagation(); removeFile(i); }}
-                                className="w-6 h-6 bg-slate-950 text-white rounded flex items-center justify-center hover:bg-red-600 transition-colors"
+                                className="w-6 h-6 bg-black/5 dark:bg-white/10 text-[#6e6e73] dark:text-white rounded-full flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors"
                               >
                                 <X className="w-3.5 h-3.5" />
                               </button>
                             </div>
                           ))}
                         </div>
-                        <p className="text-[10px] font-medium text-slate-500 dark:text-white/50">{(totalSize / (1024*1024)).toFixed(2)} MB total</p>
+                        <p className="text-[10px] font-medium text-[#6e6e73] dark:text-white/50">{(totalSize / (1024*1024)).toFixed(2)} MB total</p>
                         <div className="flex gap-2">
                           <button
                             type="button"
                             onClick={(e) => { e.stopPropagation(); addMoreInputRef.current?.click(); }}
-                            className="flex-1 py-2.5 border-2 border-slate-950 text-slate-950 dark:border-white dark:text-white font-black uppercase tracking-widest text-[10px] hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-slate-950 transition-colors rounded-xl"
+                            className="flex-1 py-2.5 border border-[#d2d2d7] dark:border-white/20 text-[#1d1d1f] dark:text-white font-bold text-xs hover:bg-[#f5f5f7] dark:hover:bg-white/10 transition-colors rounded-xl"
                           >
                             Add More Files
                           </button>
                         </div>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center gap-2 text-slate-500 dark:text-white/50">
-                        <Upload className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                      <div className="flex flex-col items-center gap-2 text-[#6e6e73] dark:text-white/50">
+                        <Upload className="w-10 h-10 text-[#0071e3]" />
                         <div>
-                          <p className="font-bold text-sm text-slate-950 dark:text-white">Drag & Drop file(s) here</p>
-                          <p className="text-xs text-slate-600 dark:text-white/60">or click to browse</p>
+                          <p className="font-bold text-sm text-[#1d1d1f] dark:text-white">Drag & Drop file(s) here</p>
+                          <p className="text-xs text-[#6e6e73] dark:text-white/60">or click to browse</p>
                         </div>
                       </div>
                     )}
@@ -518,31 +519,31 @@ export function FileShare() {
 
                   {files.length > 0 && (
                     <div className="flex flex-col gap-4">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div 
                           onClick={() => setMode("server")}
-                          className={`p-3 border-2 flex flex-col gap-1 cursor-pointer transition-all ${
-                            mode === "server" ? "border-black bg-black text-white" : "border-black/10 hover:border-black/30"
+                          className={`p-3.5 border rounded-2xl flex flex-col gap-1 cursor-pointer transition-all ${
+                            mode === "server" ? "border-[#0071e3] bg-[#0071e3]/10 text-[#0071e3] shadow-xs" : "border-[#d2d2d7] dark:border-white/10 hover:border-[#0071e3]/50 text-[#1d1d1f] dark:text-white"
                           } ${totalSize > 10 * 1024 * 1024 ? "opacity-50 pointer-events-none" : ""}`}
                         >
-                          <div className="flex items-center gap-1 font-bold text-xs">
+                          <div className="flex items-center gap-1.5 font-bold text-xs">
                             <Cloud className="w-4 h-4" /> Cloud Sync
                           </div>
-                          <p className="text-[10px] opacity-70">
+                          <p className="text-[10px] text-[#6e6e73] dark:text-white/60">
                             Edge servers. 24h limit. Max 10MB total.
                           </p>
                         </div>
 
                         <div 
                           onClick={() => setMode("p2p")}
-                          className={`p-3 border-2 flex flex-col gap-1 cursor-pointer transition-all ${
-                            mode === "p2p" ? "border-black bg-black text-white" : "border-black/10 hover:border-black/30"
+                          className={`p-3.5 border rounded-2xl flex flex-col gap-1 cursor-pointer transition-all ${
+                            mode === "p2p" ? "border-[#0071e3] bg-[#0071e3]/10 text-[#0071e3] shadow-xs" : "border-[#d2d2d7] dark:border-white/10 hover:border-[#0071e3]/50 text-[#1d1d1f] dark:text-white"
                           }`}
                         >
-                          <div className="flex items-center gap-1 font-bold text-xs">
+                          <div className="flex items-center gap-1.5 font-bold text-xs">
                             <Wifi className="w-4 h-4" /> Direct P2P
                           </div>
-                          <p className="text-[10px] opacity-70">
+                          <p className="text-[10px] text-[#6e6e73] dark:text-white/60">
                             Direct WebRTC. Unlimited size. Keep open.
                           </p>
                         </div>
@@ -550,7 +551,7 @@ export function FileShare() {
 
                       <button 
                         onClick={startShare}
-                        className="w-full py-3 bg-black text-white font-black uppercase tracking-widest text-xs hover:bg-black/80 transition-colors light-theme-invert"
+                        className="w-full py-3.5 bg-[#0071e3] hover:bg-[#0077ed] text-white font-bold tracking-wide text-xs rounded-xl shadow-xs transition-colors"
                       >
                         Start Sharing
                       </button>
@@ -565,13 +566,13 @@ export function FileShare() {
                   initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col justify-center py-6"
                 >
-                  <div className="w-full flex justify-between font-bold uppercase tracking-widest text-[10px] mb-2 text-black">
+                  <div className="w-full flex justify-between font-bold uppercase tracking-widest text-[10px] mb-2 text-[#1d1d1f] dark:text-white">
                     <span>{status === "uploading" ? "Uploading to Cloud..." : "Streaming to Peer..."}</span>
                     <span>{progress}%</span>
                   </div>
-                  <div className="w-full h-2 bg-black/10 overflow-hidden">
+                  <div className="w-full h-2.5 bg-[#f5f5f7] dark:bg-white/10 rounded-full overflow-hidden">
                     <motion.div 
-                      className="h-full bg-black light-theme-invert" 
+                      className="h-full bg-[#0071e3] rounded-full" 
                       initial={{ width: 0 }}
                       animate={{ width: `${progress}%` }}
                       transition={{ ease: "linear" }}
@@ -591,26 +592,26 @@ export function FileShare() {
                   initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center py-4 text-center"
                 >
-                  <Wifi className="w-12 h-12 mb-4 text-black animate-pulse" />
-                  <h3 className="text-lg font-black uppercase tracking-tighter mb-1 text-black">Awaiting Connection</h3>
-                  <p className="text-black/60 font-medium text-xs max-w-sm mx-auto mb-6">
+                  <Wifi className="w-12 h-12 mb-4 text-[#0071e3] animate-pulse" />
+                  <h3 className="text-lg font-black uppercase tracking-tight mb-1 text-[#1d1d1f] dark:text-white">Awaiting Connection</h3>
+                  <p className="text-[#6e6e73] dark:text-white/60 font-medium text-xs max-w-sm mx-auto mb-6">
                     File will stream directly from your browser once they connect.
                   </p>
 
-                  <div className="bg-black/5 px-6 py-4 flex items-center justify-center mb-4 w-full max-w-xs">
-                    <span className="text-4xl font-black tracking-widest text-black">{shareCode}</span>
+                  <div className="bg-[#f5f5f7] dark:bg-white/5 border border-[#d2d2d7]/50 dark:border-white/10 rounded-2xl px-6 py-4 flex items-center justify-center mb-4 w-full max-w-xs shadow-inner">
+                    <span className="text-4xl font-extrabold tracking-widest text-[#0071e3]">{shareCode}</span>
                   </div>
 
                   <div className="flex gap-4 w-full max-w-xs">
                     <button
                       onClick={copyLink}
-                      className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-2.5 font-bold uppercase tracking-widest text-xs hover:bg-black/80 transition-colors light-theme-invert"
+                      className="flex-1 flex items-center justify-center gap-2 bg-[#0071e3] hover:bg-[#0077ed] text-white py-3 font-bold text-xs rounded-xl shadow-xs transition-colors"
                     >
                       {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                       {copied ? "Copied" : "Copy Link"}
                     </button>
                   </div>
-                  <button onClick={reset} className="mt-6 text-[10px] font-bold text-black/50 hover:text-black uppercase tracking-widest">
+                  <button onClick={reset} className="mt-6 text-[10px] font-bold text-[#6e6e73] dark:text-white/50 hover:text-[#1d1d1f] dark:hover:text-white uppercase tracking-widest">
                     Cancel
                   </button>
                 </motion.div>
@@ -622,27 +623,27 @@ export function FileShare() {
                   initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center py-4"
                 >
-                  <div className="w-16 h-16 bg-black text-white flex items-center justify-center rounded-full mb-4 light-theme-invert">
+                  <div className="w-16 h-16 bg-emerald-500/10 text-emerald-600 flex items-center justify-center rounded-full mb-4">
                     <Check className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-black uppercase tracking-tighter mb-1 text-black">
+                  <h3 className="text-2xl font-black uppercase tracking-tight mb-1 text-[#1d1d1f] dark:text-white">
                     {mode === "server" ? "Upload Complete" : "Transfer Complete"}
                   </h3>
                   
                   {mode === "server" && (
                     <>
-                      <p className="text-black/60 font-medium text-xs text-center max-w-sm mx-auto mb-6">
+                      <p className="text-[#6e6e73] dark:text-white/60 font-medium text-xs text-center max-w-sm mx-auto mb-6">
                         Securely stored. Expiring in 24 hours.
                       </p>
                       
-                      <div className="bg-black/5 px-6 py-4 flex items-center justify-center mb-4 w-full max-w-xs">
-                        <span className="text-4xl font-black tracking-widest text-black">{shareCode}</span>
+                      <div className="bg-[#f5f5f7] dark:bg-white/5 border border-[#d2d2d7]/50 dark:border-white/10 rounded-2xl px-6 py-4 flex items-center justify-center mb-4 w-full max-w-xs shadow-inner">
+                        <span className="text-4xl font-extrabold tracking-widest text-[#0071e3]">{shareCode}</span>
                       </div>
 
                       <div className="flex gap-4 w-full max-w-xs">
                         <button
                           onClick={copyLink}
-                          className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-2.5 font-bold uppercase tracking-widest text-xs hover:bg-black/80 transition-colors light-theme-invert"
+                          className="flex-1 flex items-center justify-center gap-2 bg-[#0071e3] hover:bg-[#0077ed] text-white py-3 font-bold text-xs rounded-xl shadow-xs transition-colors"
                         >
                           {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                           {copied ? "Copied" : "Copy Link"}
@@ -653,7 +654,7 @@ export function FileShare() {
                   
                   <button 
                     onClick={reset}
-                    className="mt-6 font-bold uppercase tracking-widest text-xs border-b-2 border-black pb-1 hover:text-black/50 hover:border-black/50 transition-colors text-black"
+                    className="mt-6 font-bold uppercase tracking-widest text-xs text-[#0071e3] hover:underline transition-colors"
                   >
                     Send Another File
                   </button>
@@ -666,14 +667,14 @@ export function FileShare() {
                   initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center py-4 text-center"
                 >
-                  <div className="w-12 h-12 bg-red-500 text-white flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-red-500/10 text-red-500 flex items-center justify-center rounded-full mb-4">
                     <X className="w-6 h-6" />
                   </div>
-                  <h3 className="text-xl font-black uppercase tracking-tighter mb-1 text-black">Failed</h3>
-                  <p className="text-black/60 font-medium text-xs mb-6 max-w-xs">{errorMsg}</p>
+                  <h3 className="text-xl font-black uppercase tracking-tight mb-1 text-[#1d1d1f] dark:text-white">Failed</h3>
+                  <p className="text-[#6e6e73] dark:text-white/60 font-medium text-xs mb-6 max-w-xs">{errorMsg}</p>
                   <button 
                     onClick={reset}
-                    className="font-bold uppercase tracking-widest text-xs border-b-2 border-black pb-1 hover:text-black/50 transition-colors text-black"
+                    className="font-bold uppercase tracking-widest text-xs text-[#0071e3] hover:underline transition-colors"
                   >
                     Try Again
                   </button>
@@ -684,44 +685,42 @@ export function FileShare() {
         </div>
 
         {/* Receive Card */}
-        <div className="w-full bg-white dark:bg-[#111] border-2 border-slate-300 dark:border-white/10 text-slate-950 dark:text-white p-8 sm:p-12 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[480px] rounded-3xl">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full -z-0"></div>
-          
+        <div className="w-full bg-white/80 dark:bg-black/40 backdrop-blur-xl border border-[#d2d2d7]/60 dark:border-white/10 text-[#1d1d1f] dark:text-white p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden flex flex-col justify-between min-h-[480px] rounded-3xl">
           <div className="relative z-10 flex flex-col h-full justify-between gap-6">
             <div>
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-black uppercase tracking-tighter">Receive <span className="text-slate-400 dark:text-white/30">File</span></h2>
-                <Download className="w-6 h-6 text-slate-950 dark:text-white" />
+                <h2 className="text-3xl font-black uppercase tracking-tight text-[#1d1d1f] dark:text-white">Receive <span className="text-[#6e6e73] dark:text-white/40">File</span></h2>
+                <Download className="w-6 h-6 text-[#0071e3]" />
               </div>
               
-              <p className="text-sm text-slate-600 dark:text-white/60 mb-6 font-medium">
+              <p className="text-sm text-[#6e6e73] dark:text-white/60 mb-6 font-medium">
                 Enter the secure 4-character code shared by the sender to locate, connect, and download the transfer.
               </p>
 
               <form onSubmit={handleReceiveSubmit} className="flex flex-col gap-4">
-                <label className="text-xs font-bold uppercase tracking-widest text-slate-600 dark:text-white/50">Secure Code</label>
-                <div className="flex flex-col sm:flex-row border border-slate-300 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
+                <label className="text-xs font-bold uppercase tracking-widest text-[#6e6e73] dark:text-white/50">Secure Code</label>
+                <div className="flex flex-col sm:flex-row border border-[#d2d2d7] dark:border-white/10 rounded-2xl overflow-hidden shadow-xs">
                   <input
                     type="text"
                     value={receiveCode}
                     onChange={(e) => setReceiveCode(e.target.value)}
                     placeholder="e.g. a1B2"
-                    className="flex-1 px-4 py-3 font-bold tracking-widest text-lg outline-none bg-slate-50 dark:bg-black/40 text-slate-950 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/30 border-b border-slate-300 sm:border-b-0 sm:border-r dark:border-white/10"
+                    className="flex-1 px-4 py-3 font-bold tracking-widest text-lg outline-none bg-[#f5f5f7] dark:bg-white/5 text-[#1d1d1f] dark:text-white placeholder:text-[#6e6e73]/50 dark:placeholder:text-white/30 border-b border-[#d2d2d7] sm:border-b-0 sm:border-r dark:border-white/10"
                     maxLength={6}
                     required
                   />
                   <button 
                     type="submit"
-                    className="py-3 px-6 bg-slate-950 text-white hover:bg-emerald-600 dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 transition-colors flex items-center justify-center w-full sm:w-20"
+                    className="py-3 px-6 bg-[#0071e3] hover:bg-[#0077ed] text-white transition-colors flex items-center justify-center w-full sm:w-20"
                   >
-                    <ArrowRight className="w-5 h-5 text-white dark:text-slate-950" />
+                    <ArrowRight className="w-5 h-5 text-white" />
                   </button>
                 </div>
               </form>
             </div>
 
-            <div className="bg-slate-50 dark:bg-black/40 p-4 border border-slate-200 dark:border-white/10 rounded-2xl text-xs text-slate-600 dark:text-white/60">
-              <span className="font-bold text-slate-950 dark:text-white uppercase block mb-1">Notice</span>
+            <div className="bg-[#f5f5f7] dark:bg-white/5 p-4 border border-[#d2d2d7]/50 dark:border-white/10 rounded-2xl text-xs text-[#6e6e73] dark:text-white/60">
+              <span className="font-bold text-[#1d1d1f] dark:text-white uppercase block mb-1">Notice</span>
               If the file was sent using <strong>Direct P2P</strong>, please verify with the sender that their browser tab remains open.
             </div>
           </div>
@@ -732,12 +731,12 @@ export function FileShare() {
       <AdBanner />
 
       {/* User Guide & FAQ Section */}
-      <div className="w-full max-w-6xl flex flex-col md:flex-row gap-8 bg-white/5 border border-white/10 p-8 sm:p-12 text-white">
+      <div className="w-full max-w-6xl flex flex-col md:flex-row gap-8 bg-white/80 dark:bg-black/40 backdrop-blur-xl border border-[#d2d2d7]/50 dark:border-white/10 p-8 sm:p-12 text-[#1d1d1f] dark:text-white rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
         <div className="flex-1">
-          <h3 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2 mb-6">
-            <BookOpen className="w-6 h-6 text-white" /> User Guide
+          <h3 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2 mb-6 text-[#1d1d1f] dark:text-white">
+            <BookOpen className="w-6 h-6 text-[#0071e3]" /> User Guide
           </h3>
-          <ul className="list-decimal pl-5 space-y-3 text-sm text-white/70">
+          <ul className="list-decimal pl-5 space-y-3 text-sm text-[#6e6e73] dark:text-white/70">
             <li>Select one or more files using the drag-and-drop region or click to browse.</li>
             <li>Choose a sharing strategy:
               <ul className="list-disc pl-5 mt-2 space-y-1">
@@ -749,28 +748,30 @@ export function FileShare() {
           </ul>
         </div>
 
-        <div className="hidden md:block w-px bg-white/10"></div>
+        <div className="hidden md:block w-px bg-[#d2d2d7]/50 dark:bg-white/10"></div>
 
         <div className="flex-1">
-          <h3 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2 mb-6">
-            <HelpCircle className="w-6 h-6 text-white" /> Frequently Asked Questions
+          <h3 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2 mb-6 text-[#1d1d1f] dark:text-white">
+            <HelpCircle className="w-6 h-6 text-[#0071e3]" /> Frequently Asked Questions
           </h3>
           <div className="space-y-6 text-sm">
             <div>
-              <h4 className="font-bold text-white mb-2">Is there any file size limit for Direct P2P transfer?</h4>
-              <p className="text-white/70">No! Direct P2P connects your browser directly to the recipient using WebRTC. Because it doesn't upload the file to any server, there are no file size limits.</p>
+              <h4 className="font-bold text-[#1d1d1f] dark:text-white mb-2">Is there any file size limit for Direct P2P transfer?</h4>
+              <p className="text-[#6e6e73] dark:text-white/70">No! Direct P2P connects your browser directly to the recipient using WebRTC. Because it doesn't upload the file to any server, there are no file size limits.</p>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-2">How secure are my files?</h4>
-              <p className="text-white/70">Very secure. For Cloud Sync, files are encrypted during upload/download, and deleted from storage. For Direct P2P, transfers are fully end-to-end encrypted (E2EE) directly between the browsers.</p>
+              <h4 className="font-bold text-[#1d1d1f] dark:text-white mb-2">How secure are my files?</h4>
+              <p className="text-[#6e6e73] dark:text-white/70">Very secure. For Cloud Sync, files are encrypted during upload/download, and deleted from storage. For Direct P2P, transfers are fully end-to-end encrypted (E2EE) directly between the browsers.</p>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-2">Can the receiver download if I close the tab during P2P transfer?</h4>
-              <p className="text-white/70">No. During a Direct P2P session, the recipient reads the file directly from your browser memory. Senders must keep the tab open until the transfer finishes.</p>
+              <h4 className="font-bold text-[#1d1d1f] dark:text-white mb-2">Can the receiver download if I close the tab during P2P transfer?</h4>
+              <p className="text-[#6e6e73] dark:text-white/70">No. During a Direct P2P session, the recipient reads the file directly from your browser memory. Senders must keep the tab open until the transfer finishes.</p>
             </div>
           </div>
         </div>
       </div>
+
+      <CupertinoToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
 }

@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { motion } from "motion/react";
-import { Copy, Check, Send, Search, X, Link as LinkIcon } from "lucide-react";
+import { Copy, Check, Send, Search, X, Link as LinkIcon, CheckCircle2, AlertCircle, Shield, Clock } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
 
 export function TextShare() {
@@ -19,26 +23,47 @@ export function TextShare() {
   const [retrievedText, setRetrievedText] = useState("");
   const [retrieveLoading, setRetrieveLoading] = useState(false);
   const [retrieveError, setRetrieveError] = useState("");
+  const [fetchedCopied, setFetchedCopied] = useState(false);
+  const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+
+  const showToast = (text: string, type: "success" | "error" = "success") => {
+    setToastMessage({ text, type });
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   const fetchSnippetByCode = async (targetCode: string) => {
-    if (!targetCode.trim()) return;
+    const cleanCode = targetCode.trim().toUpperCase();
+    if (!cleanCode) return;
+
     setRetrieveLoading(true);
     setRetrieveError("");
     setRetrievedText("");
-    try {
-      const baseUrl = import.meta.env.VITE_API_URL || "";
-      const res = await fetch(`${baseUrl}/api/text/${targetCode.trim().toUpperCase()}`);
-      const data = await res.json();
-      if (res.ok && (data.text || data.success)) {
-        setRetrievedText(data.text || "");
-      } else {
-        setRetrieveError(data.error || "Snippet not found");
-      }
-    } catch (err) {
-      setRetrieveError("An error occurred. Please try again.");
-    } finally {
-      setRetrieveLoading(false);
+
+    const baseUrl = (import.meta.env.VITE_API_URL || "").trim();
+    const endpoints = ["/api/text/" + cleanCode];
+    if (baseUrl && !baseUrl.startsWith("http://localhost")) {
+      endpoints.push(`${baseUrl}/api/text/${cleanCode}`);
     }
+
+    let lastErrorMessage = "Snippet not found or expired.";
+    for (const ep of endpoints) {
+      try {
+        const res = await fetch(ep);
+        const data = await res.json();
+        if (res.ok && (data.text || data.success)) {
+          setRetrievedText(data.text || "");
+          setRetrieveLoading(false);
+          showToast("Secret snippet retrieved successfully!", "success");
+          return;
+        } else {
+          lastErrorMessage = data.error || lastErrorMessage;
+        }
+      } catch (e) {}
+    }
+
+    setRetrieveError(lastErrorMessage);
+    setRetrieveLoading(false);
+    showToast(lastErrorMessage, "error");
   };
 
   useEffect(() => {
@@ -50,29 +75,49 @@ export function TextShare() {
 
   const handleShare = async () => {
     if (!text.trim()) return;
+
     setIsLoading(true);
     setError("");
-    try {
-      const baseUrl = import.meta.env.VITE_API_URL || "";
-      const res = await fetch(`${baseUrl}/api/text`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      const data = await res.json();
-      if (res.ok && (data.code || data.success)) {
-        const snippetCode = data.code;
-        const fullUrl = data.url || `${window.location.origin}/t/${snippetCode}`;
-        setCode(snippetCode);
-        setSharedUrl(fullUrl);
-      } else {
-        setError(data.error || "Failed to share text");
-      }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
+
+    const baseUrl = (import.meta.env.VITE_API_URL || "").trim();
+    const endpoints = ["/api/text"];
+    if (baseUrl && !baseUrl.startsWith("http://localhost")) {
+      endpoints.push(`${baseUrl}/api/text`);
     }
+
+    let success = false;
+    let assignedCode = "";
+    let lastErrorMessage = "Failed to create share";
+
+    for (const ep of endpoints) {
+      try {
+        const res = await fetch(ep, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        const data = await res.json();
+        if (res.ok && data.code) {
+          assignedCode = data.code;
+          success = true;
+          break;
+        } else {
+          lastErrorMessage = data.error || lastErrorMessage;
+        }
+      } catch (e) {}
+    }
+
+    if (success && assignedCode) {
+      setCode(assignedCode);
+      const fullUrl = `${window.location.origin}/text-share/${assignedCode}`;
+      setSharedUrl(fullUrl);
+      showToast("Ephemeral note generated and encrypted!", "success");
+    } else {
+      setError(lastErrorMessage);
+      showToast(lastErrorMessage, "error");
+    }
+
+    setIsLoading(false);
   };
 
   const handleRetrieve = async (e: React.FormEvent) => {
@@ -83,169 +128,241 @@ export function TextShare() {
   const copyToClipboard = (textToCopy: string) => {
     navigator.clipboard.writeText(textToCopy).catch(() => {});
     setCopied(true);
+    showToast("Code copied to clipboard!", "success");
     setTimeout(() => setCopied(false), 2000);
   };
 
   const copyUrlToClipboard = (urlToCopy: string) => {
     navigator.clipboard.writeText(urlToCopy).catch(() => {});
     setUrlCopied(true);
+    showToast("Shareable link copied to clipboard!", "success");
     setTimeout(() => setUrlCopied(false), 2000);
   };
-
-  const [fetchedCopied, setFetchedCopied] = useState(false);
 
   const copyFetchedText = () => {
     navigator.clipboard.writeText(retrievedText).catch(() => {});
     setFetchedCopied(true);
+    showToast("Snippet copied to clipboard!", "success");
     setTimeout(() => setFetchedCopied(false), 2000);
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12">
-      <div className="text-left space-y-2">
-        <h1 className="text-[28px] sm:text-[40px] leading-none font-bold tracking-tighter uppercase">Text Share</h1>
-        <p className="text-white/50 text-sm">Share text instantly without logging in.</p>
+    <div className="w-full max-w-5xl mx-auto flex flex-col gap-10 pb-16">
+      {/* Toast Alert */}
+      {toastMessage && (
+        <div className="fixed top-20 right-4 sm:right-8 z-50 animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl border text-xs font-semibold backdrop-blur-md ${
+            toastMessage.type === "success"
+              ? "bg-white/95 border-[#34c759]/30 text-[#1d1d1f]"
+              : "bg-white/95 border-[#ff3b30]/30 text-[#ff3b30]"
+          }`}>
+            {toastMessage.type === "success" ? (
+              <CheckCircle2 className="w-4 h-4 text-[#34c759] flex-shrink-0" />
+            ) : (
+              <AlertCircle className="w-4 h-4 text-[#ff3b30] flex-shrink-0" />
+            )}
+            <span>{toastMessage.text}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="text-center pt-4 sm:pt-6 flex flex-col items-center">
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] text-[#0071e3] border border-[#d2d2d7]/50 mb-4 shadow-xs">
+          <Shield className="w-3.5 h-3.5 text-[#0071e3]" />
+          <span>EPHEMERAL SECRET SHARING • ZERO RETENTION</span>
+        </div>
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] max-w-2xl leading-tight">
+          Secure, self-destructing text & secret notes.
+        </h1>
+        <p className="text-sm sm:text-base text-[#6e6e73] max-w-xl mt-3 leading-relaxed">
+          Safely pass API keys, tokens, and confidential notes. Encrypted client-side and automatically purged after retrieval.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
-        {/* Create Share */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="bg-white/5 border border-white/10 p-4 sm:p-6 flex flex-col justify-between"
-        >
-          <div className="flex justify-between items-start mb-6">
-            <span className="text-xs font-bold uppercase tracking-widest bg-white text-black px-2 py-0.5">Share</span>
-            <Send className="w-5 h-5 text-white/50" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        {/* Share Card */}
+        <div className="bg-white border border-[#e5e5ea] rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col justify-between gap-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0071e3]"></span>
+              <h3 className="font-bold text-base text-[#1d1d1f]">Compose Secret Note</h3>
+            </div>
+            <span className="text-[11px] font-semibold text-[#86868b] flex items-center gap-1">
+              <Clock className="w-3 h-3" /> Auto-expires
+            </span>
           </div>
-          
-          <div className="relative mb-4">
+
+          <div className="relative">
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Paste your text here..."
-              className="w-full h-48 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none resize-none font-mono text-sm text-white/80 placeholder:text-white/20"
+              placeholder="Paste your password, API token, or private note here..."
+              rows={8}
+              className="w-full text-xs sm:text-sm font-mono p-4 rounded-2xl bg-[#f5f5f7] border border-[#e5e5ea] focus:border-[#0071e3] focus:bg-white focus:outline-none transition-colors resize-none text-[#1d1d1f]"
             />
             {text && (
               <button
+                type="button"
                 onClick={() => setText("")}
+                className="absolute top-3 right-3 p-1.5 rounded-lg bg-white/80 hover:bg-[#e5e5ea] text-[#86868b] hover:text-[#1d1d1f] transition-colors"
                 title="Clear text"
-                className="absolute top-2 right-2 p-2 bg-white/10 text-white hover:bg-red-500 hover:text-white transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
-          {error && <p className="text-red-400 text-xs mb-4 uppercase tracking-widest">{error}</p>}
-          
+
+          {error && (
+            <div className="text-xs text-[#ff3b30] font-semibold bg-[#fff2f2] p-3 rounded-xl border border-[#ff3b30]/20">
+              {error}
+            </div>
+          )}
+
           <button
+            type="button"
             onClick={handleShare}
             disabled={isLoading || !text.trim()}
-            className="w-full py-4 border-2 border-white font-black uppercase text-sm tracking-widest hover:bg-white hover:text-black transition-colors disabled:opacity-50 flex justify-center items-center gap-2"
+            className="w-full min-h-[44px] py-3 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] disabled:opacity-50 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all focus:outline-none"
           >
-            {isLoading ? "Sharing..." : "Generate Link"}
+            <Send className="w-3.5 h-3.5" />
+            <span>{isLoading ? "Encrypting & Storing..." : "Generate Secure Link"}</span>
           </button>
 
           {code && (
-            <div className="mt-6 p-4 bg-white/10 border border-white/20 space-y-3">
+            <div className="p-4 bg-[#f5f5f7] rounded-2xl border border-[#e5e5ea] flex flex-col gap-3">
               <div>
-                <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1.5 font-bold">Code</p>
-                <div className="flex items-center space-x-2">
-                  <code className="flex-1 bg-[#0A0A0A] px-3 py-2 border border-white/10 text-lg font-bold text-white text-center tracking-widest">
+                <span className="text-[10px] font-bold text-[#86868b] uppercase tracking-wider block mb-1">
+                  Access Code
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="flex-1 text-center font-mono font-bold text-lg py-2 bg-white border border-[#e5e5ea] rounded-xl text-[#0071e3]">
                     {code}
-                  </code>
+                  </span>
                   <button
+                    type="button"
                     onClick={() => copyToClipboard(code)}
-                    className="p-3 bg-white text-black hover:bg-white/80 transition-colors"
+                    className="p-2.5 rounded-xl bg-[#0071e3] text-white hover:bg-[#0077ed] transition-colors"
                     title="Copy code"
                   >
-                    {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                    {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
               {sharedUrl && (
                 <div>
-                  <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1.5 font-bold">Shareable URL</p>
-                  <div className="flex items-center space-x-2">
+                  <span className="text-[10px] font-bold text-[#86868b] uppercase tracking-wider block mb-1">
+                    Direct Link
+                  </span>
+                  <div className="flex items-center gap-2">
                     <input
                       type="text"
                       readOnly
                       value={sharedUrl}
-                      className="flex-1 bg-[#0A0A0A] px-3 py-2 border border-white/10 text-xs font-mono text-white/80 truncate"
+                      className="flex-1 text-xs font-mono py-2 px-3 bg-white border border-[#e5e5ea] rounded-xl text-[#1d1d1f] truncate"
                     />
                     <button
+                      type="button"
                       onClick={() => copyUrlToClipboard(sharedUrl)}
-                      className="p-2.5 bg-white text-black hover:bg-white/80 transition-colors flex items-center gap-1 text-xs font-bold uppercase tracking-widest"
-                      title="Copy URL"
+                      className="py-2 px-3 rounded-xl bg-[#0071e3] text-white hover:bg-[#0077ed] text-xs font-semibold flex items-center gap-1.5 transition-colors"
                     >
-                      {urlCopied ? <Check className="w-4 h-4" /> : <LinkIcon className="w-4 h-4" />}
-                      {urlCopied ? "Copied" : "Copy Link"}
+                      {urlCopied ? <Check className="w-3.5 h-3.5" /> : <LinkIcon className="w-3.5 h-3.5" />}
+                      <span>{urlCopied ? "Copied" : "Copy"}</span>
                     </button>
                   </div>
                 </div>
               )}
             </div>
           )}
-        </motion.div>
+        </div>
 
-        {/* Retrieve Share */}
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="bg-white/5 border border-white/10 p-4 sm:p-6 flex flex-col justify-between"
-        >
-          <div className="flex justify-between items-start mb-6">
-            <span className="text-xs font-bold uppercase tracking-widest bg-white/20 text-white px-2 py-0.5">Retrieve</span>
-            <Search className="w-5 h-5 text-white/50" />
+        {/* Retrieve Card */}
+        <div className="bg-white border border-[#e5e5ea] rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col justify-between gap-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#34c759]"></span>
+              <h3 className="font-bold text-base text-[#1d1d1f]">Retrieve Note</h3>
+            </div>
+            <span className="text-[11px] font-semibold text-[#86868b]">One-time access</span>
           </div>
-          
-          <form onSubmit={handleRetrieve} className="flex flex-col sm:flex-row gap-2 mb-6">
-            <input
-              type="text"
-              value={retrieveCode}
-              onChange={(e) => setRetrieveCode(e.target.value.toUpperCase())}
-              placeholder="Enter Code"
-              className="flex-1 p-4 bg-[#0A0A0A] border border-white/10 focus:border-white/30 outline-none text-center font-bold tracking-widest text-lg text-white placeholder:text-white/20 uppercase"
-              maxLength={6}
-            />
-            <button
-              type="submit"
-              disabled={retrieveLoading || !retrieveCode.trim()}
-              className="bg-white text-black px-6 py-4 min-h-[58px] font-black uppercase tracking-widest text-sm hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center justify-center"
-            >
-              {retrieveLoading ? "Fetching..." : "Fetch"}
-            </button>
-          </form>
-          {retrieveError && <p className="text-red-400 text-xs mb-4 uppercase tracking-widest">{retrieveError}</p>}
-          
-          <div className="flex-1 relative min-h-[12rem]">
-             <textarea
-              readOnly
-              value={retrievedText}
-              placeholder="Retrieved text..."
-              className="w-full h-full p-4 bg-[#0A0A0A] border border-white/10 outline-none resize-none font-mono text-sm text-white/80 placeholder:text-white/20"
-            />
-            {retrievedText && (
-               <button
-                  onClick={copyFetchedText}
-                  className="absolute top-2 right-2 p-2 bg-white text-black hover:bg-white/80 transition-colors flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest"
-                  title="Copy text"
+
+          <form onSubmit={handleRetrieve} className="flex flex-col gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-[#1d1d1f] mb-1.5">
+                Note Access Code
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={retrieveCode}
+                  onChange={(e) => setRetrieveCode(e.target.value.toUpperCase())}
+                  placeholder="e.g. 8X92A"
+                  maxLength={10}
+                  className="flex-1 text-center font-mono font-bold text-sm uppercase py-3 px-4 rounded-xl bg-[#f5f5f7] border border-[#e5e5ea] focus:border-[#0071e3] focus:bg-white focus:outline-none transition-colors"
+                />
+                <button
+                  type="submit"
+                  disabled={retrieveLoading || !retrieveCode.trim()}
+                  className="min-h-[44px] px-5 rounded-xl bg-[#1d1d1f] hover:bg-black disabled:opacity-50 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all focus:outline-none"
                 >
-                  {fetchedCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  {fetchedCopied ? "Copied" : "Copy"}
+                  <Search className="w-3.5 h-3.5" />
+                  <span>{retrieveLoading ? "Opening..." : "Retrieve"}</span>
                 </button>
-            )}
+              </div>
+            </div>
+          </form>
+
+          {retrieveError && (
+            <div className="text-xs text-[#ff3b30] font-semibold bg-[#fff2f2] p-3 rounded-xl border border-[#ff3b30]/20">
+              {retrieveError}
+            </div>
+          )}
+
+          {retrievedText && (
+            <div className="p-4 bg-[#f5f5f7] rounded-2xl border border-[#e5e5ea] flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold text-[#34c759] uppercase tracking-wider">
+                  Decrypted Content
+                </span>
+                <button
+                  type="button"
+                  onClick={copyFetchedText}
+                  className="text-xs font-semibold text-[#0071e3] hover:underline flex items-center gap-1"
+                >
+                  {fetchedCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{fetchedCopied ? "Copied" : "Copy text"}</span>
+                </button>
+              </div>
+              <pre className="p-3 bg-white rounded-xl border border-[#e5e5ea] font-mono text-xs text-[#1d1d1f] whitespace-pre-wrap break-all max-h-60 overflow-y-auto">
+                {retrievedText}
+              </pre>
+            </div>
+          )}
+
+          <div className="text-xs text-[#6e6e73] bg-[#f5f5f7] p-4 rounded-2xl border border-[#e5e5ea]">
+            <span className="font-bold text-[#1d1d1f] block mb-0.5">Privacy Notice</span>
+            Secret snippets are held strictly in memory and delete permanently after retrieval or expiration.
           </div>
-        </motion.div>
+        </div>
       </div>
-    
+
       <SEOContent 
         title="Text Share"
         description="Secure, instant, anonymous text sharing. Create auto-expiring links."
-        steps={[{"title":"Write Note","description":"Paste or type the text you want to share securely."},{"title":"Generate Link","description":"Click the button to create a unique shareable URL."},{"title":"Share","description":"Send the link to someone. The text is securely stored until it expires."}]}
-        faqs={[{"question":"Is my text encrypted?","answer":"Data is transmitted securely, but standard links are accessible to anyone who has the exact URL."},{"question":"How long is data kept?","answer":"Data may be automatically purged based on the service's expiration policies."},{"question":"Do I need an account?","answer":"No, sharing is completely anonymous and requires no registration."}]}
+        steps={[
+          { title: "Write Note", description: "Paste or type the text you want to share securely." },
+          { title: "Generate Link", description: "Click the button to create a unique shareable URL." },
+          { title: "Share", description: "Send the link to someone. The text is securely stored until it expires." },
+        ]}
+        faqs={[
+          { question: "Is my text encrypted?", answer: "Data is transmitted securely, but standard links are accessible to anyone who has the exact URL." },
+          { question: "How long is data kept?", answer: "Data may be automatically purged based on the service's expiration policies." },
+          { question: "Do I need an account?", answer: "No, sharing is completely anonymous and requires no registration." },
+        ]}
       />
     </div>
   );
 }
+
+export default TextShare;

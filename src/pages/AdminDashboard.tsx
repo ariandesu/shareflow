@@ -20,6 +20,8 @@ interface TelemetryData {
   visitorsDetails: {
     totalUniqueVisitors: number;
     todayVisitors: number;
+    weeklyVisitors?: number;
+    monthlyVisitors?: number;
     activeOnlineNow: number;
     topTrafficSources: { source: string; percentage: number }[];
   };

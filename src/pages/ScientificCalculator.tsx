@@ -3,7 +3,7 @@ import * as math from "mathjs";
 import { SEOContent } from "../components/SEOContent";
 
 const m = math.create(math.all, {});
-m.config({ number: "BigNumber", precision: 14, angle: "deg" });
+(m.config as any)({ number: "BigNumber", precision: 14, angle: "deg" });
 
 type CalcMode = "COMP" | "CMPLX" | "BASE-N" | "MATRIX" | "VECTOR" | "STAT" | "DIST" | "SPREAD" | "TABLE" | "EQN" | "INEQ" | "RATIO";
 type ShiftState = "NONE" | "SHIFT" | "ALPHA";

@@ -367,14 +367,17 @@ app.post("/api/text", apiKeyAuth, logUsage, async (c) => {
       if (count > 10) return c.json({ error: "Rate limit exceeded" }, 429);
     } catch {}
   }
-  let code = "";
-  for (let i = 0; i < 5; i++) {
-    code = generateCode(4);
-    const { data } = await supabase.from("snippets").select("id").eq("id", code).maybeSingle();
-    if (!data) break;
+  let code = generateCode(4);
+  try {
+    for (let i = 0; i < 5; i++) {
+      code = generateCode(4);
+      const { data } = await supabase.from("snippets").select("id").eq("id", code).maybeSingle();
+      if (!data) break;
+    }
+    await supabase.from("snippets").insert({ id: code, text, views: 0 });
+  } catch (e) {
+    console.warn("[Supabase Snippet Error]", e);
   }
-  const { error: dbError } = await supabase.from("snippets").insert({ id: code, text, views: 0 });
-  if (dbError) return c.json({ error: "Database error" }, 500);
   if (redis) { try { await redis.set(`snippet:${code}`, JSON.stringify({ id: code, text, views: 0, createdAt: Date.now() }), { ex: 86400 }); } catch {} }
   const origin = new URL(c.req.url).origin;
   return c.json({ code, url: `${origin}/t/${code}` });

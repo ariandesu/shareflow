@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sf-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0071e3" />
+      <stop offset="100%" stop-color="#34c759" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.18" />
+    </filter>
+  </defs>
+  <!-- Cupertino Squircle Background -->
+  <rect width="512" height="512" rx="116" fill="url(#sf-grad)" />
+  <!-- Elegant Flow / Transfer Emblem -->
+  <g filter="url(#shadow)" fill="none" stroke="#ffffff" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Top node -->
+    <circle cx="160" cy="176" r="32" fill="#ffffff" stroke="none" />
+    <!-- Bottom node -->
+    <circle cx="352" cy="336" r="32" fill="#ffffff" stroke="none" />
+    <!-- Dynamic S-curve connecting flow -->
+    <path d="M 160 216 C 160 304, 352 208, 352 296" />
+    <!-- Flow directional arrow accent -->
+    <path d="M 324 256 L 360 292 L 396 256" stroke-width="32" />
+  </g>
+</svg>

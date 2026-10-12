@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight, HelpCircle, BookOpen } from "lucide-react";
+import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight, HelpCircle, BookOpen, ShieldCheck, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AdBanner } from "../components/AdBanner";
+import { useCupertinoToast, CupertinoToastContainer } from "../components/CupertinoToast";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
@@ -26,6 +27,7 @@ type FileMetadata = {
 export function FileReceive() {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
+  const { toasts, showToast, dismissToast } = useCupertinoToast();
   
   const [code, setCode] = useState(id || "");
   const [status, setStatus] = useState<"idle" | "fetching" | "ready" | "receiving" | "success" | "error">("idle");
@@ -326,12 +328,10 @@ export function FileReceive() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-xl bg-white border border-black/10 dark:border-white/10 text-black p-8 sm:p-12 shadow-2xl relative overflow-hidden"
+        className="w-full max-w-xl bg-white/80 dark:bg-black/40 backdrop-blur-xl border border-[#d2d2d7]/60 dark:border-white/10 text-[#1d1d1f] dark:text-white p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden rounded-3xl"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-black/5 rounded-bl-full -z-0"></div>
-        
         <div className="flex items-center justify-between mb-8 relative z-10">
-          <h2 className="text-3xl font-black uppercase tracking-tighter">Receive<span className="text-black/30">File</span></h2>
+          <h2 className="text-3xl font-black uppercase tracking-tight text-[#1d1d1f] dark:text-white">Receive <span className="text-[#6e6e73] dark:text-white/40">File</span></h2>
         </div>
 
         <AnimatePresence mode="wait">
@@ -342,20 +342,20 @@ export function FileReceive() {
               className="flex flex-col gap-6 relative z-10"
             >
               <form onSubmit={handleCodeSubmit} className="flex flex-col gap-4">
-                <label className="text-xs font-bold uppercase tracking-widest text-black/50">Enter Secure Code</label>
-                <div className="flex flex-col sm:flex-row border border-black/10 dark:border-white/10">
+                <label className="text-xs font-bold uppercase tracking-widest text-[#6e6e73] dark:text-white/50">Enter Secure Code</label>
+                <div className="flex flex-col sm:flex-row border border-[#d2d2d7] dark:border-white/10 rounded-2xl overflow-hidden shadow-xs">
                   <input
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="e.g. a1B2"
-                    className="flex-1 px-4 py-4 bg-black/5 font-bold tracking-widest text-lg outline-none focus:bg-black/10 transition-colors placeholder-black/30 text-black border-b border-black/10 sm:border-b-0 sm:border-r dark:border-white/10"
+                    className="flex-1 px-4 py-4 bg-[#f5f5f7] dark:bg-white/5 font-bold tracking-widest text-lg outline-none focus:bg-white dark:focus:bg-white/10 transition-colors placeholder:text-[#6e6e73]/50 text-[#1d1d1f] dark:text-white border-b border-[#d2d2d7] sm:border-b-0 sm:border-r dark:border-white/10"
                     maxLength={10}
                     required
                   />
                   <button 
                     type="submit"
-                    className="py-4 px-6 bg-black text-white hover:bg-black/80 transition-colors light-theme-invert flex items-center justify-center w-full sm:w-20"
+                    className="py-4 px-6 bg-[#0071e3] hover:bg-[#0077ed] text-white transition-colors flex items-center justify-center w-full sm:w-20"
                   >
                     <ArrowRight className="w-6 h-6 text-white" />
                   </button>
@@ -370,8 +370,8 @@ export function FileReceive() {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center py-12 relative z-10"
             >
-              <Loader2 className="w-12 h-12 animate-spin text-black/50 mb-4" />
-              <p className="font-bold uppercase tracking-widest text-sm text-black/50">Locating File...</p>
+              <Loader2 className="w-12 h-12 animate-spin text-[#0071e3] mb-4" />
+              <p className="font-bold uppercase tracking-widest text-sm text-[#6e6e73] dark:text-white/50">Locating File...</p>
             </motion.div>
           )}
 
@@ -381,38 +381,38 @@ export function FileReceive() {
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
               className="flex flex-col items-center justify-center py-6 relative z-10"
             >
-              <div className="w-20 h-20 bg-black/5 rounded-full flex items-center justify-center mb-6">
-                <FileIcon className="w-10 h-10 text-black" />
+              <div className="w-20 h-20 bg-[#0071e3]/10 rounded-full flex items-center justify-center mb-6">
+                <FileIcon className="w-10 h-10 text-[#0071e3]" />
               </div>
-              <h3 className="text-2xl font-black text-center break-all mb-2 text-black">
+              <h3 className="text-2xl font-black text-center break-all mb-2 text-[#1d1d1f] dark:text-white">
                 {(metadata.count && metadata.count > 1) ? `${metadata.count} Files` : metadata.name}
               </h3>
-              <p className="text-sm font-medium text-black/50 uppercase tracking-widest mb-4">
+              <p className="text-sm font-medium text-[#6e6e73] dark:text-white/50 uppercase tracking-widest mb-4">
                 {(metadata.size / (1024*1024)).toFixed(2)} MB total
               </p>
               
               {metadata.count && metadata.count > 1 && (
-                <div className="w-full max-h-40 overflow-y-auto mb-6 bg-black/5 border border-black/10 divide-y divide-black/10">
+                <div className="w-full max-h-40 overflow-y-auto mb-6 bg-[#f5f5f7] dark:bg-white/5 border border-[#d2d2d7] dark:border-white/10 rounded-xl divide-y divide-[#d2d2d7] dark:divide-white/10">
                   {fileList(metadata).map((f, i) => (
                     <div key={i} className="flex items-center justify-between gap-4 px-4 py-2">
-                      <span className="text-xs font-bold text-black truncate">{f.name}</span>
-                      <span className="text-[10px] font-medium text-black/50 shrink-0">{(f.size / (1024*1024)).toFixed(2)} MB</span>
+                      <span className="text-xs font-bold text-[#1d1d1f] dark:text-white truncate">{f.name}</span>
+                      <span className="text-[10px] font-medium text-[#6e6e73] dark:text-white/50 shrink-0">{(f.size / (1024*1024)).toFixed(2)} MB</span>
                     </div>
                   ))}
                 </div>
               )}
 
-              <div className="flex items-center gap-2 mb-8 bg-black/5 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-black/60">
+              <div className="flex items-center gap-2 mb-8 bg-[#f5f5f7] dark:bg-white/5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-[#1d1d1f] dark:text-white/70 border border-[#d2d2d7]/50 dark:border-white/10">
                 {metadata.type === "server" ? (
-                  <>Edge Cloud <span className="w-2 h-2 rounded-full bg-green-500"></span></>
+                  <>Edge Cloud <span className="w-2 h-2 rounded-full bg-emerald-500"></span></>
                 ) : (
-                  <>Direct P2P <Wifi className="w-3 h-3 text-blue-500" /></>
+                  <>Direct P2P <Wifi className="w-3.5 h-3.5 text-[#0071e3]" /></>
                 )}
               </div>
 
               <button
                 onClick={handleDownload}
-                className="w-full bg-black text-white py-4 font-black uppercase tracking-widest hover:bg-black/80 transition-colors light-theme-invert flex justify-center items-center gap-2"
+                className="w-full bg-[#0071e3] hover:bg-[#0077ed] text-white py-4 font-bold tracking-wide rounded-2xl shadow-sm transition-colors flex justify-center items-center gap-2"
               >
                 <Download className="w-5 h-5" /> {metadata.count && metadata.count > 1 ? `Download All (${metadata.count})` : "Download File"}
               </button>
@@ -425,14 +425,14 @@ export function FileReceive() {
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
               className="flex flex-col items-center justify-center py-12 relative z-10"
             >
-              <Wifi className="w-12 h-12 text-black animate-pulse mb-6" />
-              <div className="w-full flex justify-between font-bold uppercase tracking-widest text-xs mb-4 text-black">
+              <Wifi className="w-12 h-12 text-[#0071e3] animate-pulse mb-6" />
+              <div className="w-full flex justify-between font-bold uppercase tracking-widest text-xs mb-4 text-[#1d1d1f] dark:text-white">
                 <span>Receiving from Peer...</span>
                 <span>{progress}%</span>
               </div>
-              <div className="w-full h-2 bg-black/10 overflow-hidden mb-6">
+              <div className="w-full h-2.5 bg-[#f5f5f7] dark:bg-white/10 rounded-full overflow-hidden mb-6">
                 <motion.div 
-                  className="h-full bg-black light-theme-invert" 
+                  className="h-full bg-[#0071e3] rounded-full" 
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
                   transition={{ ease: "linear" }}
@@ -450,16 +450,16 @@ export function FileReceive() {
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
               className="flex flex-col items-center justify-center py-12 relative z-10"
             >
-              <div className="w-20 h-20 bg-black text-white flex items-center justify-center rounded-full mb-6 light-theme-invert">
+              <div className="w-20 h-20 bg-emerald-500/10 text-emerald-600 flex items-center justify-center rounded-full mb-6">
                 <Check className="w-10 h-10" />
               </div>
-              <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 text-black">Download Complete</h3>
-              <p className="text-black/60 font-medium text-center mb-8">
+              <h3 className="text-3xl font-black uppercase tracking-tight mb-4 text-[#1d1d1f] dark:text-white">Download Complete</h3>
+              <p className="text-[#6e6e73] dark:text-white/60 font-medium text-center mb-8">
                 Your file has been successfully received. Check your browser downloads.
               </p>
               <button 
                 onClick={() => { setStatus("idle"); setCode(""); navigate("/f"); }}
-                className="font-bold uppercase tracking-widest text-sm border-b-2 border-black pb-1 hover:text-black/50 hover:border-black/50 transition-colors text-black"
+                className="font-bold uppercase tracking-widest text-sm text-[#0071e3] hover:underline"
               >
                 Receive Another File
               </button>
@@ -472,14 +472,14 @@ export function FileReceive() {
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
               className="flex flex-col items-center justify-center py-12 relative z-10 text-center"
             >
-              <div className="w-16 h-16 bg-red-500 text-white flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-red-500/10 text-red-500 flex items-center justify-center rounded-full mb-6">
                 <X className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-black uppercase tracking-tighter mb-2 text-black">Error</h3>
-              <p className="text-black/60 font-medium mb-8 max-w-sm">{errorMsg}</p>
+              <h3 className="text-2xl font-black uppercase tracking-tight mb-2 text-[#1d1d1f] dark:text-white">Error</h3>
+              <p className="text-[#6e6e73] dark:text-white/60 font-medium mb-8 max-w-sm">{errorMsg}</p>
               <button 
                 onClick={() => setStatus("idle")}
-                className="font-bold uppercase tracking-widest text-sm border-b-2 border-black pb-1 hover:text-black/50 transition-colors text-black"
+                className="font-bold uppercase tracking-widest text-sm text-[#0071e3] hover:underline"
               >
                 Try Again
               </button>
@@ -491,12 +491,12 @@ export function FileReceive() {
       <AdBanner />
 
       {/* User Guide & FAQ Section */}
-      <div className="w-full max-w-xl flex flex-col gap-8 bg-white/5 border border-white/10 p-8 sm:p-12 text-white">
+      <div className="w-full max-w-xl flex flex-col gap-8 bg-white/80 dark:bg-black/40 backdrop-blur-xl border border-[#d2d2d7]/50 dark:border-white/10 p-8 sm:p-12 text-[#1d1d1f] dark:text-white rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
         <div>
-          <h3 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2 mb-6">
-            <BookOpen className="w-6 h-6 text-white" /> How to Receive Files
+          <h3 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2 mb-6 text-[#1d1d1f] dark:text-white">
+            <BookOpen className="w-6 h-6 text-[#0071e3]" /> How to Receive Files
           </h3>
-          <ul className="list-decimal pl-5 space-y-3 text-sm text-white/70">
+          <ul className="list-decimal pl-5 space-y-3 text-sm text-[#6e6e73] dark:text-white/70">
             <li>Enter the secure 4-character code provided by the sender.</li>
             <li>Click the checkmark/arrow button to retrieve the file details.</li>
             <li>Review the file name, size, and source type (Edge Cloud or Direct P2P).</li>
@@ -509,6 +509,8 @@ export function FileReceive() {
           </ul>
         </div>
       </div>
+
+      <CupertinoToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
 }

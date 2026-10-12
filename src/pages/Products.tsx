@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Download, Gift, Lock, Sparkles, CheckCircle, ShieldCheck, ExternalLink, Play, Copy, Check, ShoppingBag } from "lucide-react";
-import { SEOContent } from "../components/SEOContent";
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-const ADSTERRA_SMART_LINK = "https://www.profitableratecpmnetwork.com/wh0rg29aky?key=2f195b4225f98642015a250d3a46cf58";
+import { useState } from "react";
+import { Download, Sparkles, Check, Gift, ArrowRight, ShieldCheck, ExternalLink, Copy, CheckCircle2 } from "lucide-react";
 
 interface Product {
   id: string;
@@ -15,41 +17,43 @@ interface Product {
   features: string[];
 }
 
+const ADSTERRA_SMART_LINK = "https://poochingdesolate.com/kbh3b1i8?key=2be98717904ae1521ea80373ae4d1933";
+
 const PRODUCTS: Product[] = [
   {
-    id: "fastapi-sqlite-starter-kit",
-    title: "Production FastAPI + SQLite Starter Kit",
-    description: "High-concurrency async FastAPI boilerplate with SQLite WAL mode, Pydantic v2 schemas, JWT authentication, and Docker setup.",
+    id: "fastapi-sqlite-starter",
+    title: "FastAPI + SQLite Production Starter Kit",
+    description: "Production-ready backend architecture with async SQLAlchemy 2.0, Alembic migrations, JWT authentication, and Pydantic v2 schemas.",
     category: "Developer Starter Kits",
     price: "$4.99",
-    downloadUrl: "/products/fastapi-sqlite-starter-kit.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/fastapi-sqlite-starter-kit",
+    downloadUrl: "/products/fastapi-sqlite-starter.zip",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/fastapi-sqlite-starter",
     features: [
-      "FastAPI 0.110+ & Async SQLite WAL adapter",
-      "Pydantic v2 validation & JWT Auth",
-      "Built-in Rate Limiter & Security Headers",
-      "Dockerfile & docker-compose included"
+      "SQLAlchemy 2.0 Async engine + SQLite WAL mode",
+      "Auto-generated Alembic migrations",
+      "JWT auth with refresh tokens & bcrypt hashing",
+      "Docker & docker-compose production configs"
     ]
   },
   {
-    id: "async-web-scraper-engine",
+    id: "async-scraper-engine",
     title: "Multi-Threaded Async Web Scraper Engine",
-    description: "Production Python web scraping framework using httpx, BeautifulSoup4, and Playwright for bypassing anti-bot walls.",
+    description: "High-performance Python web scraping engine built on httpx and BeautifulSoup4 with exponential backoff and rotating proxy pools.",
     category: "Developer Starter Kits",
-    price: "$3.99",
-    downloadUrl: "/products/async-web-scraper-engine.zip",
-    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/async-web-scraper-engine",
+    price: "$4.99",
+    downloadUrl: "/products/async-scraper-engine.zip",
+    gumroadBaseUrl: "https://mhr3d.gumroad.com/l/async-scraper-engine",
     features: [
-      "Async HTTPX request pool & proxy rotation",
-      "Headless Playwright browser integration",
-      "Automatic retries & exponential backoff",
-      "CSV & JSON pipeline exporters"
+      "Async HTTP client via httpx with connection pooling",
+      "Exponential backoff & dynamic jitter retry handler",
+      "Headless Chrome / Playwright hook support",
+      "Clean JSON and CSV streaming exporters"
     ]
   },
   {
     id: "docker-k8s-cheatsheet",
     title: "Docker & Kubernetes Mastery PDF Cheatsheet",
-    description: "Comprehensive CLI reference guide for Docker, Docker Compose, and Kubernetes cluster management in production.",
+    description: "Comprehensive CLI reference guide for Docker, Docker Compose, and Kubernetes cluster management in production environments.",
     category: "DevOps Guides",
     price: "$2.99",
     downloadUrl: "/products/docker-k8s-cheatsheet.zip",
@@ -58,13 +62,13 @@ const PRODUCTS: Product[] = [
       "50+ essential Docker & kubectl CLI snippets",
       "Container optimization & multi-stage builds",
       "Kubernetes Deployment, Service, and Ingress specs",
-      "Print-ready PDF cheat sheet"
+      "Print-ready high resolution PDF format"
     ]
   },
   {
     id: "global-tech-salaries-2026",
     title: "Global Tech Salaries 2026 CSV Dataset",
-    description: "Audited compensation dataset featuring 1,500+ compensation rows across software engineering, AI/ML, DevOps, and data roles worldwide.",
+    description: "Audited compensation dataset featuring 1,500+ compensation records across software engineering, AI/ML, DevOps, and data roles worldwide.",
     category: "Data & Research",
     price: "$3.99",
     downloadUrl: "/products/global-tech-salaries-2026.zip",
@@ -93,11 +97,10 @@ const PRODUCTS: Product[] = [
   }
 ];
 
-export default function Products() {
+export function Products() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [adStep, setAdStep] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
-  const [adViewed, setAdViewed] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [copiedCoupon, setCopiedCoupon] = useState(false);
 
@@ -105,19 +108,16 @@ export default function Products() {
     setSelectedProduct(product);
     setAdStep(1);
     setIsUnlocked(false);
-    setAdViewed(false);
     setCouponCode("");
   };
 
   const handleAdStepClick = async () => {
-    // Open Adsterra Smart Link in new tab instantly
     window.open(ADSTERRA_SMART_LINK, "_blank", "noopener,noreferrer");
 
     if (adStep < 5) {
       setAdStep((prev) => prev + 1);
     } else {
       setIsUnlocked(true);
-      // Mint single-use 100% OFF coupon code
       try {
         const res = await fetch("/api/mint-coupon", {
           method: "POST",
@@ -138,189 +138,159 @@ export default function Products() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#0b0f17] text-white p-4 sm:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
-        
-        {/* HERO SECTION */}
-        <div className="text-center space-y-4 py-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
-            <Gift className="w-4 h-4" /> 100% Free Developer Products
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Developer Starter Kits & Products
-          </h1>
-          <p className="text-white/60 max-w-2xl mx-auto text-sm sm:text-base">
-            Download production-ready code templates, DevOps guides, and datasets. Watch 5 quick ad steps to unlock instant 100% free downloads and claim your single-use coupon!
-          </p>
-        </div>
+  const handleCopyCoupon = () => {
+    if (couponCode) {
+      navigator.clipboard.writeText(couponCode);
+      setCopiedCoupon(true);
+      setTimeout(() => setCopiedCoupon(false), 2000);
+    }
+  };
 
-        {/* PRODUCTS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PRODUCTS.map((prod) => (
-            <div
-              key={prod.id}
-              className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col justify-between space-y-6 hover:border-emerald-500/40 transition-all shadow-xl"
-            >
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
-                    {prod.category}
-                  </span>
-                  <span className="text-sm font-semibold text-white/40">{prod.price}</span>
-                </div>
-                <h3 className="text-xl font-bold text-white">{prod.title}</h3>
-                <p className="text-xs text-white/60 leading-relaxed">{prod.description}</p>
-                
-                <ul className="space-y-2 pt-2">
-                  {prod.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-xs text-white/80">
-                      <CheckCircle className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+  return (
+    <div className="w-full flex flex-col gap-10 pb-16">
+      {/* Header */}
+      <div className="text-center pt-4 sm:pt-6 flex flex-col items-center">
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] text-[#0071e3] border border-[#d2d2d7]/50 mb-4 shadow-xs">
+          <Gift className="w-3.5 h-3.5 text-[#0071e3]" />
+          <span>FREE DEVELOPER STORE • PRODUCTION BLUEPRINTS</span>
+        </div>
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] max-w-2xl leading-tight">
+          Battle-tested starter kits & engineering blueprints.
+        </h1>
+        <p className="text-sm sm:text-base text-[#6e6e73] max-w-xl mt-3 leading-relaxed">
+          Production backends, multi-threaded scrapers, and DevOps cheatsheets crafted for high-performance engineers. 100% free to unlock.
+        </p>
+      </div>
+
+      {/* Product Catalog Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto w-full">
+        {PRODUCTS.map((prod) => (
+          <div
+            key={prod.id}
+            className="bg-white border border-[#e5e5ea] hover:border-[#0071e3] rounded-3xl p-6 sm:p-7 flex flex-col justify-between gap-6 shadow-xs hover:shadow-md transition-all duration-200 group"
+          >
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#f5f5f7] text-[#0071e3] border border-[#d2d2d7]/50">
+                  {prod.category}
+                </span>
+                <span className="text-xs font-bold text-[#34c759] bg-[#eafaf1] px-2 py-0.5 rounded-full">
+                  Free Unlock
+                </span>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
-                <button
-                  onClick={() => handleStartUnlock(prod)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-lg"
-                >
-                  <Sparkles className="w-4 h-4" /> Watch Ads → Unlock FREE
-                </button>
-                <a
-                  href={prod.gumroadBaseUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
-                >
-                  <ShoppingBag className="w-3.5 h-3.5" /> Visit Gumroad Store ({prod.price})
-                </a>
+              <h3 className="text-lg font-bold text-[#1d1d1f] group-hover:text-[#0071e3] transition-colors leading-snug">
+                {prod.title}
+              </h3>
+              <p className="text-xs text-[#6e6e73] mt-2 leading-relaxed">
+                {prod.description}
+              </p>
+
+              <div className="mt-4 pt-4 border-t border-[#e5e5ea] flex flex-col gap-1.5">
+                {prod.features.map((feat, i) => (
+                  <div key={i} className="flex items-start gap-2 text-xs text-[#1d1d1f]">
+                    <Check className="w-3.5 h-3.5 text-[#34c759] flex-shrink-0 mt-0.5" />
+                    <span>{feat}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* REWARDED AD UNLOCK MODAL */}
-        {selectedProduct && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-[#131926] border border-white/15 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl relative">
-              <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                <h3 className="font-bold text-white text-base flex items-center gap-2">
-                  <Gift className="w-5 h-5 text-emerald-400" /> Unlock Free Product
-                </h3>
-                <button
-                  onClick={() => setSelectedProduct(null)}
-                  className="text-white/40 hover:text-white text-sm"
-                >
-                  ✕
-                </button>
-              </div>
+            <div>
+              <button
+                type="button"
+                onClick={() => handleStartUnlock(prod)}
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all focus:outline-none"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Unlock for Free</span>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
 
-              <div className="space-y-2">
-                <h4 className="font-semibold text-sm text-emerald-300">{selectedProduct.title}</h4>
-                <p className="text-xs text-white/60">
-                  Complete 5 quick sponsor ad steps to claim your 100% free direct download link and coupon code!
-                </p>
-              </div>
+      {/* Unlock Modal */}
+      {selectedProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/35 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#e5e5ea] relative text-left">
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] text-[#86868b] hover:text-[#1d1d1f] flex items-center justify-center text-sm font-bold"
+            >
+              ✕
+            </button>
 
-              {/* STEP PROGRESS BAR */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-semibold">
-                  <span>Ad Progress</span>
-                  <span className="text-emerald-400">Step {adStep} of 5</span>
-                </div>
-                <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-emerald-400 transition-all duration-300"
-                    style={{ width: `${(adStep / 5) * 100}%` }}
-                  />
-                </div>
-              </div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#eafaf1] text-[#34c759]">
+                Sponsored Unlock
+              </span>
+            </div>
+            <h3 className="text-xl font-bold text-[#1d1d1f]">{selectedProduct.title}</h3>
+            <p className="text-xs text-[#6e6e73] mt-1">{selectedProduct.description}</p>
 
-              {/* UNLOCK CONTENT / AD STEP */}
+            <div className="mt-6 p-4 rounded-2xl bg-[#f5f5f7] border border-[#e5e5ea] flex flex-col gap-3">
               {!isUnlocked ? (
-                <div className="bg-white/5 border border-white/10 rounded-xl p-5 text-center space-y-4">
-                  <div className="text-xs text-white/80 font-medium">
-                    Step {adStep} of 5: Click below to view the sponsor ad in a new tab and advance!
+                <>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-[#1d1d1f]">Sponsor Verification Progress</span>
+                    <span className="font-mono font-bold text-[#0071e3]">{adStep} of 5</span>
                   </div>
-                  
-                  {/* EMBEDDED IFRAME / SMART LINK CONTAINER */}
-                  <div className="p-3 bg-slate-900 rounded-xl border border-emerald-500/30">
-                    <iframe
-                      src={ADSTERRA_SMART_LINK}
-                      title="Adsterra Sponsor Ad"
-                      className="w-full h-32 rounded-lg border-0 bg-slate-950 overflow-hidden"
+                  <div className="w-full h-2 rounded-full bg-[#e5e5ea] overflow-hidden">
+                    <div
+                      className="h-full bg-[#0071e3] rounded-full transition-all duration-300"
+                      style={{ width: `${(adStep / 5) * 100}%` }}
                     />
                   </div>
-
+                  <p className="text-[11px] text-[#86868b] leading-relaxed">
+                    Click below to visit our sponsor link. Once completed (step 5), your 100% OFF Gumroad coupon code will be automatically generated.
+                  </p>
                   <button
                     onClick={handleAdStepClick}
-                    className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
+                    className="w-full min-h-[44px] mt-2 py-3 px-4 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
                   >
-                    <ExternalLink className="w-4 h-4" />
-                    {adStep === 5 ? "⚡ View Final Ad & Unlock Coupon" : `⚡ View Sponsor Ad #${adStep} (Opens New Tab) →`}
+                    <span>{adStep === 0 ? "Start Step 1 (Visit Sponsor)" : `Continue Step ${adStep + 1} of 5`}</span>
+                    <ArrowRight className="w-4 h-4" />
                   </button>
-                </div>
+                </>
               ) : (
-                <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-5 text-center space-y-4">
-                  <div className="inline-flex p-3 rounded-full bg-emerald-500/20 text-emerald-400">
-                    <ShieldCheck className="w-8 h-8" />
+                <div className="flex flex-col gap-3 text-center py-2">
+                  <CheckCircle2 className="w-10 h-10 text-[#34c759] mx-auto" />
+                  <h4 className="font-bold text-base text-[#1d1d1f]">Starter Kit Unlocked!</h4>
+                  <p className="text-xs text-[#6e6e73]">
+                    Use this 100% OFF coupon code on Gumroad to download your package for free:
+                  </p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <input
+                      type="text"
+                      readOnly
+                      value={couponCode}
+                      className="flex-1 text-center font-mono font-bold text-sm py-2.5 px-3 bg-white border border-[#0071e3] rounded-xl text-[#0071e3]"
+                    />
+                    <button
+                      onClick={handleCopyCoupon}
+                      className="px-4 py-2.5 bg-[#0071e3] text-white rounded-xl text-xs font-semibold hover:bg-[#0077ed]"
+                    >
+                      {copiedCoupon ? "Copied" : "Copy"}
+                    </button>
                   </div>
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-white text-base">100% OFF Gumroad Coupon Unlocked!</h4>
-                    <p className="text-xs text-white/60">
-                      Copy your single-use 100% OFF coupon code below and claim your product on Gumroad for $0.00!
-                    </p>
-                  </div>
-
-                  {/* COUPON CODE BOX */}
-                  <div className="p-3.5 bg-slate-900 rounded-xl border border-emerald-500/50 space-y-2">
-                    <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-widest block">
-                      Single-Use 100% OFF Coupon Code
-                    </span>
-                    <div className="flex items-center justify-between font-mono text-sm text-emerald-300 bg-slate-950 p-2.5 rounded-lg border border-emerald-500/30">
-                      <span className="font-extrabold tracking-wider">{couponCode || "SF100_PROD_FREE"}</span>
-                      <button
-                        onClick={() => {
-                          navigator.clipboard.writeText(couponCode || "SF100_PROD_FREE");
-                          setCopiedCoupon(true);
-                          setTimeout(() => setCopiedCoupon(false), 2000);
-                        }}
-                        className="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-md flex items-center gap-1 text-xs font-sans font-bold"
-                      >
-                        {copiedCoupon ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                        {copiedCoupon ? "Copied" : "Copy Code"}
-                      </button>
-                    </div>
-                  </div>
-
                   <a
-                    href={`https://mhr3d.gumroad.com/l/${selectedProduct.id}?wanted=true&discount_code=${couponCode}`}
+                    href={`${selectedProduct.gumroadBaseUrl}?wanted=true`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-xl hover:scale-[1.02]"
+                    className="mt-3 w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#1d1d1f] hover:bg-black text-white font-semibold text-xs flex items-center justify-center gap-2"
                   >
-                    <ShoppingBag className="w-4 h-4" /> Claim 100% FREE on Gumroad →
+                    <span>Claim on Gumroad</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
               )}
-
             </div>
           </div>
-        )}
-
-        <SEOContent
-          title="Free Developer Starter Kits & Digital Products"
-          description="Download production-ready FastAPI, Web Scraper, and DevOps starter kits for free via ShareFlow."
-          steps={[
-            { title: "Browse Products", description: "Select from production code templates and DevOps guides." },
-            { title: "Watch 5 Quick Steps", description: "Support free tools by viewing developer sponsor banners." },
-            { title: "Instant Download", description: "Get your 100% free product zip file instantly." }
-          ]}
-        />
-      </div>
+        </div>
+      )}
     </div>
   );
 }
+
+export default Products;

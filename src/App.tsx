@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
@@ -72,12 +72,46 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 function NotFound() {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center min-h-[calc(100vh-140px)] text-center px-4">
-      <h1 className="text-8xl font-black tracking-tighter text-white/10">404</h1>
-      <p className="text-xl font-bold text-white/50 mt-4 uppercase tracking-wider">Page not found</p>
-      <a href="/" className="mt-8 px-6 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-white/80 transition-colors">
-        Go Home
-      </a>
+    <div className="flex-1 flex flex-col items-center justify-center min-h-[65vh] py-16 px-4 text-center">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#f5f5f7] text-[#6e6e73] border border-[#d2d2d7]/60 mb-6">
+        <span className="w-2 h-2 rounded-full bg-[#ff9500]"></span>
+        404 • Page Not Found
+      </div>
+      <h1 className="text-6xl sm:text-7xl font-extrabold tracking-tight text-[#1d1d1f] mb-4">
+        Lost in Transmission
+      </h1>
+      <p className="text-base sm:text-lg text-[#6e6e73] max-w-md mx-auto mb-8 font-normal leading-relaxed">
+        The link you followed doesn't exist, has expired, or was moved. Return home or pick a quick tool below.
+      </p>
+      <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+        <Link
+          to="/"
+          className="inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-sm font-semibold shadow-sm transition-all duration-150"
+        >
+          Return to Home
+        </Link>
+        <Link
+          to="/file-share"
+          className="inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 rounded-full bg-[#f5f5f7] hover:bg-[#e5e5ea] text-[#1d1d1f] text-sm font-semibold border border-[#d2d2d7] transition-all duration-150"
+        >
+          Start File Share
+        </Link>
+      </div>
+
+      <div className="pt-8 border-t border-[#e5e5ea] max-w-lg w-full">
+        <p className="text-xs text-[#86868b] uppercase tracking-wider font-semibold mb-3">Popular Transfer Tools</p>
+        <div className="flex flex-wrap justify-center items-center gap-3 text-xs font-medium text-[#6e6e73]">
+          <Link to="/file-share" className="hover:text-[#0071e3] transition-colors py-1">File Share</Link>
+          <span className="text-[#d2d2d7]">•</span>
+          <Link to="/f" className="hover:text-[#0071e3] transition-colors py-1">Receive Files</Link>
+          <span className="text-[#d2d2d7]">•</span>
+          <Link to="/text-share" className="hover:text-[#0071e3] transition-colors py-1">Text Share</Link>
+          <span className="text-[#d2d2d7]">•</span>
+          <Link to="/products" className="hover:text-[#0071e3] transition-colors py-1">Developer Starter Kits</Link>
+          <span className="text-[#d2d2d7]">•</span>
+          <Link to="/qr-generator" className="hover:text-[#0071e3] transition-colors py-1">QR Generator</Link>
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,26 +2,65 @@
 @plugin "@tailwindcss/typography";
 
 /* ==========================================================================
-   SHAREFLOW SLEEK DARK THEME ARCHITECTURE
+   SHAREFLOW CUPERTINO LIGHT THEME ARCHITECTURE
    ========================================================================== */
 
-html, body {
-  background-color: #0A0A0A !important;
-  color: #F5F5F5 !important;
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #fbfbfd;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-subtle: #e8f2fd;
+  --emerald: #34c759;
+  --emerald-subtle: #eafaf1;
+  --border: #d2d2d7;
+  --border-light: #e5e5ea;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.08);
 }
 
-/* Custom Scrollbar */
+html, body {
+  background-color: #ffffff !important;
+  color: #1d1d1f !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Plus Jakarta Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+}
+
+/* Custom Cupertino Light Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #f5f5f7;
 }
 ::-webkit-scrollbar-thumb {
-  background: #262626;
+  background: #d2d2d7;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #404040;
+  background: #86868b;
+}
+
+/* Prevent horizontal scroll on elements */
+img, svg, video, canvas, audio, iframe, embed, object {
+  max-width: 100%;
 }

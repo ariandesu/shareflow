@@ -1,227 +1,343 @@
-import React, { useState, useEffect } from "react";
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Menu, X, Sun, Moon, Clock } from "lucide-react";
+import {
+  Menu,
+  X,
+  Share2,
+  FileUp,
+  Download,
+  FileText,
+  ShoppingBag,
+  Wrench,
+  Shield,
+  Zap,
+  Mail,
+  Phone,
+  ExternalLink,
+  ChevronRight
+} from "lucide-react";
 import { FeedbackModal } from "./FeedbackModal";
-
-function NavClock() {
-  const { pathname } = useLocation();
-
-  return (
-    <Link
-      to="/time"
-      className={`flex items-center gap-2 rounded-md px-2.5 py-1.5 transition-colors ${
-        pathname === "/time" ? "text-slate-950 dark:text-white font-bold" : "text-slate-600 dark:text-white/60 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
-      }`}
-    >
-      <Clock className="h-4 w-4" />
-      <span className="text-sm font-medium">Time Now</span>
-    </Link>
-  );
-}
 
 export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isToolsOpen, setIsToolsOpen] = useState(false);
-  const [isLightMode, setIsLightMode] = useState(() => {
-    return localStorage.getItem("theme") === "light";
-  });
   const location = useLocation();
 
+  // Close mobile drawer on route change
   useEffect(() => {
+    setIsMenuOpen(false);
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    document.documentElement.classList.add("dark");
-    document.documentElement.classList.remove("light-theme");
-    document.body.classList.add("dark");
-    document.body.classList.remove("light-theme");
-    localStorage.setItem("theme", "dark");
-  }, []);
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
 
-  const navigation = [
-    { name: "All Tools", href: "/" },
-    { name: "Text Share", href: "/text-share" },
+  const navLinks = [
+    { name: "P2P File Share", href: "/file-share", icon: FileUp, badge: "P2P" },
+    { name: "Receive", href: "/f", icon: Download },
+    { name: "Text Share", href: "/text-share", icon: FileText, badge: "Burn" },
+    { name: "Developer Kits", href: "/products", icon: ShoppingBag, badge: "New" },
+  ];
 
-    { name: "File Share", href: "/file-share" },
+  const popularTools = [
     { name: "QR Generator", href: "/qr-generator" },
-    { name: "Gradient Gen", href: "/gradient-generator" },
-    { name: "Password Gen", href: "/password-generator" },
-    { name: "UUID", href: "/uuid" },
-    { name: "Base64", href: "/base64" },
     { name: "JSON Formatter", href: "/json-formatter" },
-    { name: "Markdown Preview", href: "/markdown-preview" },
-    { name: "Color Picker", href: "/color-picker" },
-    { name: "Box Shadow", href: "/box-shadow" },
-    { name: "Flexbox", href: "/flexbox" },
-    { name: "Grid Gen", href: "/grid" },
-    { name: "Unit Converter", href: "/unit-converter" },
-    { name: "Hash Gen", href: "/hash-generator" },
-    { name: "JWT Decoder", href: "/jwt-decoder" },
-    { name: "Regex Tester", href: "/regex-tester" },
-    { name: "Image Compressor", href: "/image-compressor" },
-    { name: "Image Resizer", href: "/image-resizer" },
-    { name: "EXIF Remover", href: "/exif-remover" },
-    { name: "Image Converter", href: "/image-converter" },
+    { name: "JSON to TS", href: "/json-to-typescript" },
     { name: "PDF Merger", href: "/pdf-merger" },
-    { name: "PDF Splitter", href: "/pdf-splitter" },
-    { name: "PDF to Images", href: "/pdf-to-images" },
-    { name: "Images to PDF", href: "/images-to-pdf" },
-    { name: "Metadata Viewer", href: "/metadata-viewer" },
-    { name: "Countdown Timer", href: "/countdown-timer" },
-    { name: "Calculator", href: "/calculator" },
-    { name: "SVG to CSS", href: "/svg-to-css" },
-    { name: "CSS Animation", href: "/css-animation" },
-    { name: "Color Blindness", href: "/color-blindness" },
-    { name: "Dice Roller", href: "/dice-roller" },
-    { name: "Coin Flip", href: "/coin-flip" },
-    { name: "CSV Viewer", href: "/csv-viewer" },
-    { name: "HTML Beautifier", href: "/html-beautifier" },
-    { name: "Z-Index", href: "/z-index" },
-    { name: "Developer Portal", href: "/dev" },
+    { name: "Image Compressor", href: "/image-compressor" },
+    { name: "Hash Generator", href: "/hash-generator" },
+    { name: "JWT Decoder", href: "/jwt-decoder" },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0A] text-slate-950 dark:text-[#F5F5F5] font-sans flex flex-col">
-      <header className="h-20 border-b border-slate-200 dark:border-white/10 px-4 sm:px-10 flex items-center justify-between sticky top-0 z-40 bg-white/90 dark:bg-[#0A0A0A]/90 backdrop-blur-sm">
-        <div className="flex items-center gap-8 w-full">
-          <div className="flex items-center justify-between w-full md:w-auto">
-            <Link to="/" className="text-2xl font-black tracking-tighter uppercase flex items-center">
-              <span className="bg-emerald-500 text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
-            </Link>
+    <div className="min-h-screen flex flex-col bg-[#fbfbfd] text-[#1d1d1f] font-sans antialiased overflow-x-hidden selection:bg-[#0071e3] selection:text-white">
+      {/* Top Edge Status Bar */}
+      <div className="w-full bg-[#1d1d1f] text-[#f5f5f7] text-[11px] font-medium py-1.5 px-4 text-center tracking-wide flex items-center justify-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-[#34c759] animate-pulse"></span>
+        <span>Cloudflare Edge Relay Active • Zero Server Egress • Client-Side AES-GCM-256</span>
+      </div>
 
-            {/* Mobile menu button */}
-            <div className="flex items-center md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-slate-600 dark:text-white/50 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 focus:outline-none transition-colors"
-              >
-                {isMenuOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
-              </button>
+      {/* Cupertino Frosted Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-[#e5e5ea] transition-all">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          {/* Brand Logo - Clickable (Instagram Reel Item #17) */}
+          <Link
+            to="/"
+            aria-label="ShareFlow Home"
+            className="flex items-center gap-2.5 group focus:outline-none"
+          >
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0071e3] to-[#34c759] flex items-center justify-center text-white shadow-sm shadow-[#0071e3]/20 group-hover:scale-105 transition-transform duration-200">
+              <Share2 className="w-5 h-5 text-white stroke-[2.2]" />
             </div>
-          </div>
-          
+            <div className="flex flex-col">
+              <span className="font-bold text-[17px] tracking-tight text-[#1d1d1f] group-hover:text-[#0071e3] transition-colors leading-none">
+                ShareFlow
+              </span>
+              <span className="text-[10px] text-[#86868b] tracking-wider uppercase font-semibold mt-0.5">
+                P2P DataChannels
+              </span>
+            </div>
+          </Link>
+
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6 w-full justify-between">
-            <nav className="flex gap-6 text-sm font-medium text-slate-600 dark:text-white/60">
-              {navigation.slice(0, 4).map((item) => (
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+            {navLinks.map((link) => {
+              const Icon = link.icon;
+              const isActive = location.pathname === link.href;
+              return (
                 <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`hover:text-slate-950 dark:hover:text-white transition-colors ${
-                    location.pathname === item.href ? "text-slate-950 dark:text-white font-bold" : ""
+                  key={link.name}
+                  to={link.href}
+                  className={`px-3.5 py-2 rounded-full text-[13px] font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                    isActive
+                      ? "bg-[#0071e3] text-white shadow-sm shadow-[#0071e3]/25"
+                      : "text-[#6e6e73] hover:text-[#1d1d1f] hover:bg-[#f5f5f7]"
                   }`}
                 >
-                  {item.name}
+                  <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-[#86868b]"}`} />
+                  <span>{link.name}</span>
+                  {link.badge && !isActive && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.2 bg-[#f5f5f7] text-[#0071e3] border border-[#d2d2d7]/50 rounded-full">
+                      {link.badge}
+                    </span>
+                  )}
                 </Link>
-              ))}
-              <div className="relative flex items-center">
-                <button
-                  onClick={() => setIsToolsOpen(!isToolsOpen)}
-                  onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setIsToolsOpen(false); }}
-                  className="hover:text-slate-950 dark:hover:text-white transition-colors"
-                  aria-expanded={isToolsOpen}
-                  aria-haspopup="true"
-                >
-                  More Tools
-                </button>
-                <div
-                  className={`absolute left-0 top-full mt-2 w-56 bg-[#111] border border-white/10 shadow-lg transition-all duration-200 z-20 max-h-[70vh] overflow-y-auto ${
-                    isToolsOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-                  }`}
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  <div className="py-2 flex flex-col">
-                    {navigation.slice(4).map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        onClick={() => setIsToolsOpen(false)}
-                        className="px-4 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </nav>
-            <div className="flex items-center gap-2">
-              <NavClock />
-            </div>
+              );
+            })}
+          </nav>
+
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-2.5">
+            <Link
+              to="/file-share"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[13px] font-semibold shadow-sm shadow-[#0071e3]/20 transition-all duration-150"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span>Instant Share</span>
+            </Link>
           </div>
+
+          {/* Mobile Menu Button (Instagram Reel Item #3) */}
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="md:hidden w-10 h-10 rounded-full flex items-center justify-center text-[#1d1d1f] hover:bg-[#f5f5f7] transition-colors focus:outline-none"
+          >
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </header>
 
-      {/* Mobile menu (Sidebar Drawer Overlay with transition in/out) */}
-      <>
-        {/* Backdrop */}
-        <div 
-          className={`fixed inset-0 bg-black/60 z-45 md:hidden transition-opacity duration-300 ${
-            isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          }`}
-          onClick={() => setIsMenuOpen(false)}
-        />
-        {/* Sidebar Drawer */}
-        <div 
-          className={`fixed top-0 left-0 h-full w-[280px] bg-[#0A0A0A] border-r border-white/10 z-50 flex flex-col p-6 overflow-y-auto md:hidden transition-transform duration-300 ease-in-out transform ${
-            isMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
-            <Link to="/" className="text-xl font-black tracking-tighter uppercase flex items-center" onClick={() => setIsMenuOpen(false)}>
-              <span className="bg-emerald-500 text-slate-950 px-1.5 py-0.5 mr-1 font-black rounded-sm">SHARE</span>
-              <span className="text-slate-950 dark:text-white font-black">FLOW</span>
-            </Link>
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="p-1 rounded-md text-white/50 hover:text-white hover:bg-white/5 focus:outline-none transition-colors"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
+      {/* Mobile Drawer (Instagram Reel Item #3) */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex flex-col justify-end">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsMenuOpen(false)}
+          />
 
-          <div className="px-4 py-2 flex items-center justify-between border-b border-white/10 mb-4">
-            <NavClock />
-            <button
-              onClick={() => setIsLightMode(!isLightMode)}
-              className="p-2 rounded-md text-white/50 hover:text-white hover:bg-white/5 transition-colors"
-            >
-              {isLightMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-            </button>
-          </div>
-
-          <nav className="flex flex-col gap-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
+          {/* Cupertino Slide Drawer */}
+          <div className="relative w-full max-h-[85vh] bg-white rounded-t-3xl shadow-2xl border-t border-[#e5e5ea] overflow-y-auto p-6 flex flex-col gap-6 animate-in slide-in-from-bottom duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-[#e5e5ea]">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-[#0071e3] flex items-center justify-center text-white font-bold text-sm">
+                  S
+                </div>
+                <span className="font-bold text-base text-[#1d1d1f]">Navigation Menu</span>
+              </div>
+              <button
+                type="button"
                 onClick={() => setIsMenuOpen(false)}
-                className={`block px-4 py-2.5 border-l-4 text-sm font-medium transition-colors ${
-                  location.pathname === item.href
-                    ? "bg-white/5 border-white text-white"
-                    : "border-transparent text-white/50 hover:bg-white/5 hover:border-white/30 hover:text-white"
-                }`}
+                className="w-8 h-8 rounded-full bg-[#f5f5f7] flex items-center justify-center text-[#6e6e73] hover:text-[#1d1d1f]"
               >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </>
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
-      <main className="flex-1 w-full mx-auto px-3 sm:px-12 py-4 flex flex-col">
+            {/* Primary Nav Links */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider mb-1">
+                Core Services
+              </span>
+              {navLinks.map((link) => {
+                const Icon = link.icon;
+                const isActive = location.pathname === link.href;
+                return (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold transition-colors ${
+                      isActive
+                        ? "bg-[#0071e3] text-white"
+                        : "bg-[#f5f5f7] text-[#1d1d1f] hover:bg-[#e5e5ea]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-5 h-5" />
+                      <span>{link.name}</span>
+                    </div>
+                    {link.badge && (
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        isActive ? "bg-white/20 text-white" : "bg-white text-[#0071e3] border border-[#d2d2d7]"
+                      }`}>
+                        {link.badge}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Quick Tools */}
+            <div className="flex flex-col gap-1.5 pt-2">
+              <span className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider mb-1">
+                Popular Utilities
+              </span>
+              <div className="grid grid-cols-2 gap-2">
+                {popularTools.map((tool) => (
+                  <Link
+                    key={tool.name}
+                    to={tool.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="px-3 py-2.5 rounded-xl bg-[#f5f5f7] hover:bg-[#e5e5ea] text-xs font-semibold text-[#1d1d1f] flex items-center justify-between"
+                  >
+                    <span>{tool.name}</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-[#86868b]" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact links inside mobile drawer */}
+            <div className="pt-4 border-t border-[#e5e5ea] flex flex-col gap-2 text-xs text-[#6e6e73]">
+              <a
+                href="mailto:support@shareflow.me"
+                className="flex items-center gap-2 p-2 rounded-xl bg-[#f5f5f7] text-[#0071e3] font-medium"
+              >
+                <Mail className="w-4 h-4" />
+                <span>support@shareflow.me</span>
+              </a>
+              <a
+                href="tel:+18005550199"
+                className="flex items-center gap-2 p-2 rounded-xl bg-[#f5f5f7] text-[#0071e3] font-medium"
+              >
+                <Phone className="w-4 h-4" />
+                <span>+1 (800) 555-0199</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main Page Content */}
+      <main className="flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-7xl flex flex-col">
         <Outlet />
       </main>
 
-      <footer className="h-12 border-t border-white/10 px-4 sm:px-10 flex flex-col sm:flex-row items-center justify-between text-[10px] text-white/20 font-medium uppercase tracking-[0.2em]">
-        <div className="mb-2 sm:mb-0">© {new Date().getFullYear()} ShareFlow Ecosystem</div>
-        <div className="flex gap-4 sm:gap-8 flex-wrap justify-center">
-          <span>Global Traffic: <span className="text-white/60">12.4M Ops/mo</span></span>
-          <span>Cloudflare Edge: <span className="text-green-500/60 font-bold underline underline-offset-4 decoration-1">Active</span></span>
+      {/* Cupertino Light Multi-Column Footer (Instagram Reel Items #7, #9, #18, #19) */}
+      <footer className="border-t border-[#e5e5ea] bg-white pt-14 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-[#6e6e73]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
+            {/* Col 1: Brand & Mission */}
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              <Link to="/" className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#0071e3] to-[#34c759] flex items-center justify-center text-white">
+                  <Share2 className="w-4 h-4" />
+                </div>
+                <span className="font-bold text-base text-[#1d1d1f]">ShareFlow</span>
+              </Link>
+              <p className="text-[#6e6e73] text-[13px] leading-relaxed max-w-sm">
+                Direct browser-to-browser WebRTC file & secret data sharing with zero server egress. Engineered with client-side AES-GCM-256 encryption.
+              </p>
+              <div className="flex flex-col gap-2 mt-1">
+                {/* Clickable Email (Instagram Reel Item #19) */}
+                <a
+                  href="mailto:support@shareflow.me"
+                  className="inline-flex items-center gap-2 text-[#0071e3] hover:underline font-medium"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>support@shareflow.me</span>
+                </a>
+                {/* Clickable Phone (Instagram Reel Item #18) */}
+                <a
+                  href="tel:+18005550199"
+                  className="inline-flex items-center gap-2 text-[#0071e3] hover:underline font-medium"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>+1 (800) 555-0199 (Developer Desk)</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Col 2: Flagship Transfer */}
+            <div className="flex flex-col gap-3">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-[#1d1d1f]">Transfer Suite</h4>
+              <ul className="flex flex-col gap-2">
+                <li><Link to="/file-share" className="hover:text-[#0071e3] transition-colors">P2P File Share</Link></li>
+                <li><Link to="/f" className="hover:text-[#0071e3] transition-colors">Receive File Stream</Link></li>
+                <li><Link to="/text-share" className="hover:text-[#0071e3] transition-colors">Ephemeral Text Share</Link></li>
+                <li><Link to="/products" className="hover:text-[#0071e3] transition-colors">Developer Starter Kits</Link></li>
+              </ul>
+            </div>
+
+            {/* Col 3: Developer Utilities */}
+            <div className="flex flex-col gap-3">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-[#1d1d1f]">Popular Utilities</h4>
+              <ul className="flex flex-col gap-2">
+                <li><Link to="/qr-generator" className="hover:text-[#0071e3] transition-colors">QR Code Generator</Link></li>
+                <li><Link to="/json-formatter" className="hover:text-[#0071e3] transition-colors">JSON Formatter</Link></li>
+                <li><Link to="/json-to-typescript" className="hover:text-[#0071e3] transition-colors">JSON to TypeScript</Link></li>
+                <li><Link to="/jwt-decoder" className="hover:text-[#0071e3] transition-colors">JWT Token Decoder</Link></li>
+                <li><Link to="/hash-generator" className="hover:text-[#0071e3] transition-colors">Hash Generator</Link></li>
+              </ul>
+            </div>
+
+            {/* Col 4: Media & Docs */}
+            <div className="flex flex-col gap-3">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-[#1d1d1f]">Media & Architecture</h4>
+              <ul className="flex flex-col gap-2">
+                <li><Link to="/image-compressor" className="hover:text-[#0071e3] transition-colors">Image Compressor</Link></li>
+                <li><Link to="/pdf-merger" className="hover:text-[#0071e3] transition-colors">PDF Merger</Link></li>
+                <li><Link to="/base64" className="hover:text-[#0071e3] transition-colors">Base64 Converter</Link></li>
+                <li><Link to="/regex-tester" className="hover:text-[#0071e3] transition-colors">Regex Playground</Link></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar: Copyright Year 2026 (Instagram Reel Item #9) */}
+          <div className="pt-8 border-t border-[#e5e5ea] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#86868b]">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-[#1d1d1f]">© 2026 ShareFlow</span>
+              <span>•</span>
+              <span>Direct WebRTC DataChannels</span>
+              <span>•</span>
+              <span>Zero Knowledge Architecture</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span>All operations client-side</span>
+              <span>•</span>
+              <span>Cloudflare Edge Relay</span>
+            </div>
+          </div>
         </div>
       </footer>
+
       <FeedbackModal />
     </div>
   );
