@@ -31,6 +31,8 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
   const [activeLogIndex, setActiveLogIndex] = useState(0);
   const [simulatedPackets, setSimulatedPackets] = useState(1420);
   const [copiedCode, setCopiedCode] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [activeTab, setActiveTab] = useState<"stream" | "telemetry">("stream");
 
   const logs = [
     "[WEBRTC_CORE] STUN signaling resolved via Cloudflare Edge relay",
@@ -133,6 +135,32 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
           </p>
         </div>
 
+        {/* Mode Tab Switcher */}
+        <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] w-fit shadow-xs">
+          <button
+            type="button"
+            onClick={() => setActiveTab("stream")}
+            className={`px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 ${
+              activeTab === "stream"
+                ? "bg-[#0071e3] text-white shadow-md shadow-[#0071e3]/20 scale-100"
+                : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white hover:bg-white dark:hover:bg-[#181a20]"
+            }`}
+          >
+            Direct P2P Stream Mode
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("telemetry")}
+            className={`px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 ${
+              activeTab === "telemetry"
+                ? "bg-[#0071e3] text-white shadow-md shadow-[#0071e3]/20 scale-100"
+                : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white hover:bg-white dark:hover:bg-[#181a20]"
+            }`}
+          >
+            Live Mesh Protocol Hub
+          </button>
+        </div>
+
         {/* Cyber Dual Console Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left Console: Quick Drop & Peer Connector */}
@@ -140,17 +168,26 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
             {/* Direct Send Dropzone */}
             <div
               onClick={() => fileInputRef.current?.click()}
-              onDragOver={(e) => e.preventDefault()}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+              }}
+              onDragLeave={() => setIsDragging(false)}
               onDrop={(e) => {
                 e.preventDefault();
+                setIsDragging(false);
                 if (e.dataTransfer.files.length > 0) {
                   notify(`Staged ${e.dataTransfer.files.length} file(s). Entering room...`, "success");
                   setTimeout(() => navigate("/file-share"), 400);
                 }
               }}
-              className="group cursor-pointer rounded-2xl border-2 border-dashed border-[#0071e3]/40 dark:border-[#0071e3]/60 hover:border-[#0071e3] dark:hover:border-[#38bdf8] bg-white dark:bg-[#12141a] p-6 sm:p-8 flex flex-col items-center justify-center text-center transition-all shadow-sm hover:shadow-md"
+              className={`group cursor-pointer rounded-2xl border-2 border-dashed ${
+                isDragging
+                  ? "border-[#0071e3] bg-[#0071e3]/10 dark:bg-[#0071e3]/20 scale-[1.02] shadow-lg shadow-[#0071e3]/20"
+                  : "border-[#0071e3]/40 dark:border-[#0071e3]/60 hover:border-[#0071e3] dark:hover:border-[#38bdf8] bg-white dark:bg-[#12141a]"
+              } p-6 sm:p-8 flex flex-col items-center justify-center text-center transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-sm hover:shadow-xl hover:scale-[1.01] active:scale-[0.99]`}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#0071e3]/10 dark:bg-[#0071e3]/20 text-[#0071e3] dark:text-[#38bdf8] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-[#0071e3]/10 dark:bg-[#0071e3]/20 text-[#0071e3] dark:text-[#38bdf8] flex items-center justify-center mb-3 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
                 <Zap className="w-6 h-6 stroke-[2.2]" />
               </div>
               <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white mb-1">
@@ -159,7 +196,7 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
               <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] max-w-sm mb-4">
                 Unlimited file sizes • Zero upload to server • In-memory AES-GCM-256
               </p>
-              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold shadow-sm transition-all">
+              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold shadow-sm transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 cursor-pointer">
                 Select Files from Machine
                 <ArrowRight className="w-3.5 h-3.5" />
               </span>
@@ -194,9 +231,9 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
               </div>
               <button
                 type="submit"
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#1d1d1f] dark:bg-white text-white dark:text-black font-semibold text-xs flex items-center justify-center gap-2 hover:opacity-90 transition-opacity self-end sm:mb-0.5"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 self-end sm:mb-0.5 cursor-pointer"
               >
-                <span>Connect</span>
+                <span>Launch Direct Peer Connection</span>
                 <CornerDownLeft className="w-3.5 h-3.5" />
               </button>
             </form>
@@ -226,9 +263,9 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
                 {logs.map((log, index) => (
                   <div
                     key={index}
-                    className={`p-2 rounded-lg transition-all ${
+                    className={`p-2.5 rounded-lg transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.02] hover:bg-white/15 cursor-default ${
                       index === activeLogIndex
-                        ? "bg-white/10 text-white border-l-2 border-[#0071e3]"
+                        ? "bg-white/10 text-white border-l-2 border-[#0071e3] scale-[1.01] shadow-xs"
                         : "opacity-60 text-zinc-400"
                     }`}
                   >
@@ -247,7 +284,7 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
               <button
                 type="button"
                 onClick={handleCopyQuickCode}
-                className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-mono flex items-center gap-1.5 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-mono flex items-center gap-1.5 transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 cursor-pointer"
               >
                 {copiedCode ? <Check className="w-3.5 h-3.5 text-[#34c759]" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedCode ? "Copied" : "Copy Code"}</span>
@@ -258,19 +295,19 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
 
         {/* Feature Badges */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7]">
+          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 hover:shadow-md cursor-default">
             <Shield className="w-4 h-4 text-[#34c759]" />
             <span>Zero Server Egress</span>
           </div>
-          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7]">
+          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 hover:shadow-md cursor-default">
             <Zap className="w-4 h-4 text-[#0071e3]" />
             <span>Direct WebRTC Pipe</span>
           </div>
-          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7]">
+          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 hover:shadow-md cursor-default">
             <Flame className="w-4 h-4 text-amber-500" />
             <span>Ephemeral Secrets</span>
           </div>
-          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7]">
+          <div className="p-3 rounded-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] flex items-center gap-2 text-[#1d1d1f] dark:text-[#f5f5f7] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 hover:shadow-md cursor-default">
             <Download className="w-4 h-4 text-purple-500" />
             <span>Unlimited File Size</span>
           </div>

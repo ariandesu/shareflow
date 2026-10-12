@@ -81,7 +81,7 @@ export function HeroSwitcher({ currentVariant, onChangeVariant }: HeroSwitcherPr
         {/* Top Control Header */}
         <div className="flex flex-wrap items-center justify-between gap-3 px-1 sm:px-2">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#0071e3] to-[#34c759] flex items-center justify-center text-white shadow-xs">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#0071e3] to-[#34c759] flex items-center justify-center text-white shadow-xs transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 hover:rotate-6 cursor-pointer">
               <Layers className="w-4 h-4" />
             </div>
             <div>
@@ -102,7 +102,7 @@ export function HeroSwitcher({ currentVariant, onChangeVariant }: HeroSwitcherPr
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] border border-[#e5e5ea] dark:border-[#27272a] text-xs font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] transition-all shadow-xs"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] border border-[#e5e5ea] dark:border-[#27272a] text-xs font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] shadow-xs cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95"
             >
               {theme === "dark" ? (
                 <>
@@ -129,20 +129,20 @@ export function HeroSwitcher({ currentVariant, onChangeVariant }: HeroSwitcherPr
                 key={v.id}
                 type="button"
                 onClick={() => onChangeVariant(v.id)}
-                className={`flex flex-col items-start gap-1 p-2.5 sm:p-3 rounded-2xl border text-left transition-all ${
+                className={`group flex flex-col items-start gap-1 p-2.5 sm:p-3 rounded-2xl border text-left cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.03] active:scale-[0.96] ${
                   isSelected
-                    ? "bg-[#0071e3] text-white border-[#0071e3] shadow-md shadow-[#0071e3]/25 scale-[1.02]"
+                    ? "bg-[#0071e3] text-white border-[#0071e3] shadow-md shadow-[#0071e3]/25 scale-[1.02] ring-2 ring-[#0071e3]/30"
                     : "bg-[#fbfbfd] dark:bg-[#181a20] text-[#1d1d1f] dark:text-[#f5f5f7] border-[#e5e5ea] dark:border-[#27272a] hover:border-[#0071e3]/50 hover:bg-white dark:hover:bg-[#1f222a]"
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-transform duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 ${
                     isSelected ? "bg-white/20 text-white" : "bg-[#f5f5f7] dark:bg-[#27272a] text-[#0071e3] dark:text-[#38bdf8]"
                   }`}>
                     <Icon className="w-3.5 h-3.5" />
                   </div>
                   {isSelected && (
-                    <span className="w-4 h-4 rounded-full bg-white text-[#0071e3] flex items-center justify-center text-[10px]">
+                    <span className="w-4 h-4 rounded-full bg-white text-[#0071e3] flex items-center justify-center text-[10px] animate-in zoom-in-50 duration-200">
                       <Check className="w-2.5 h-2.5 stroke-[3]" />
                     </span>
                   )}
@@ -150,7 +150,7 @@ export function HeroSwitcher({ currentVariant, onChangeVariant }: HeroSwitcherPr
                 <span className="text-xs font-bold leading-tight mt-1 truncate w-full">
                   {v.label}
                 </span>
-                <span className={`text-[10px] font-semibold ${
+                <span className={`text-[10px] font-semibold transition-colors duration-200 ${
                   isSelected ? "text-white/80" : "text-[#86868b] dark:text-[#a1a1aa]"
                 }`}>
                   {v.shortTag}

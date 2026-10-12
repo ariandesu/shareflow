@@ -2,6 +2,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring-snappy: cubic-bezier(0.2, 1.25, 0.4, 1);
+  --ease-spring-bouncy: cubic-bezier(0.47, 1.64, 0.41, 0.8);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* ==========================================================================
    SHAREFLOW CUPERTINO THEME ARCHITECTURE
    ========================================================================== */
@@ -22,6 +29,12 @@
   --border-light: #e5e5ea;
   --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
   --card-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.08);
+
+  /* Apple Cupertino Fluid Spring Physics */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring-snappy: cubic-bezier(0.2, 1.25, 0.4, 1);
+  --ease-spring-bouncy: cubic-bezier(0.47, 1.64, 0.41, 0.8);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html.dark {
@@ -100,4 +113,110 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 /* Prevent horizontal scroll on elements */
 img, svg, video, canvas, audio, iframe, embed, object {
   max-width: 100%;
+}
+
+/* ==========================================================================
+   APPLE FLUID SPRING ANIMATIONS & KEYFRAMES
+   ========================================================================== */
+
+@keyframes spring-pop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+@keyframes drawer-spring-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Helper Utility Classes for Spring Interactions */
+.hover-spring {
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-spring);
+}
+.hover-spring:hover {
+  transform: scale(1.05);
+}
+.hover-spring:active {
+  transform: scale(0.95);
+}
+
+.card-spring {
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.3s ease;
+}
+.card-spring:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+.card-spring:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.btn-spring {
+  transition: transform 0.3s var(--ease-spring), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-spring:hover {
+  transform: scale(1.03);
+}
+.btn-spring:active {
+  transform: scale(0.96);
+}
+
+.pill-spring {
+  transition: transform 0.3s var(--ease-spring-snappy), background-color 0.2s ease, color 0.2s ease;
+}
+.pill-spring:hover {
+  transform: scale(1.05);
+}
+.pill-spring:active {
+  transform: scale(0.95);
+}
+
+.animate-spring-pop {
+  animation: spring-pop 0.4s var(--ease-spring) both;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 3s ease-in-out infinite;
+}
+
+.animate-drawer-spring {
+  animation: drawer-spring-up 0.4s var(--ease-spring-snappy) both;
 }

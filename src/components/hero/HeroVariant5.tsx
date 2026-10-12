@@ -119,7 +119,7 @@ export function HeroVariant5({ onNotify }: HeroVariant5Props) {
               <button
                 type="button"
                 onClick={() => navigate("/file-share")}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-sm shadow-md shadow-[#0071e3]/25 flex items-center justify-center gap-2 transition-all"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-sm shadow-md shadow-[#0071e3]/25 flex items-center justify-center gap-2 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.03] active:scale-[0.96]"
               >
                 <Zap className="w-4 h-4" />
                 <span>Initialize Secure Room</span>
@@ -128,7 +128,7 @@ export function HeroVariant5({ onNotify }: HeroVariant5Props) {
               <button
                 type="button"
                 onClick={() => navigate("/f")}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white font-semibold text-sm border border-[#e5e5ea] dark:border-[#27272a] flex items-center justify-center gap-2 transition-all"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white font-semibold text-sm border border-[#e5e5ea] dark:border-[#27272a] flex items-center justify-center gap-2 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.03] active:scale-[0.96]"
               >
                 <Key className="w-4 h-4 text-[#34c759]" />
                 <span>Enter Room Code</span>

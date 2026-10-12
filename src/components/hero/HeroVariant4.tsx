@@ -46,8 +46,8 @@ export function HeroVariant4({ onNotify }: HeroVariant4Props) {
   return (
     <section className="text-center pt-2 sm:pt-6 flex flex-col items-center w-full transition-colors duration-300">
       {/* Network Badge */}
-      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-white/10 mb-5 shadow-xs">
-        <Wifi className="w-3.5 h-3.5 text-[#34c759]" />
+      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-white/10 mb-5 shadow-xs transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 cursor-default">
+        <Wifi className="w-3.5 h-3.5 text-[#34c759] animate-pulse" />
         <span>Decentralized WebRTC Mesh Network</span>
       </div>
 
@@ -76,7 +76,7 @@ export function HeroVariant4({ onNotify }: HeroVariant4Props) {
               setActiveNode("sender");
               notify("Sender Node: In-memory chunking with WebCrypto AES-GCM-256.", "success");
             }}
-            className={`cursor-pointer group flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all ${
+            className={`cursor-pointer group flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 ${
               activeNode === "sender"
                 ? "bg-[#0071e3]/10 border-[#0071e3] scale-105 shadow-lg"
                 : "bg-[#f5f5f7] dark:bg-[#181a20] border-[#e5e5ea] dark:border-[#27272a] hover:border-[#0071e3]/50"
@@ -123,7 +123,7 @@ export function HeroVariant4({ onNotify }: HeroVariant4Props) {
               setActiveNode("receiver");
               notify("Receiver Node: Real-time chunk reassembly into Blob with zero server hops.", "success");
             }}
-            className={`cursor-pointer group flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all ${
+            className={`cursor-pointer group flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 ${
               activeNode === "receiver"
                 ? "bg-[#34c759]/10 border-[#34c759] scale-105 shadow-lg"
                 : "bg-[#f5f5f7] dark:bg-[#181a20] border-[#e5e5ea] dark:border-[#27272a] hover:border-[#34c759]/50"
@@ -173,9 +173,9 @@ export function HeroVariant4({ onNotify }: HeroVariant4Props) {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="group flex flex-col items-center gap-1.5 p-2 sm:px-3 rounded-xl hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] transition-all hover:scale-105"
+                  className="group flex flex-col items-center gap-1.5 p-2 sm:px-3 rounded-xl hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 hover:-translate-y-1.5 active:scale-95"
                 >
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-tr ${item.color} text-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all`}>
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-tr ${item.color} text-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105`}>
                     <Icon className="w-5 h-5 stroke-[2.2]" />
                   </div>
                   <span className="text-[11px] font-bold text-[#1d1d1f] dark:text-[#f5f5f7] whitespace-nowrap">

@@ -39,6 +39,7 @@ export function HeroVariant1({ onNotify }: HeroVariant1Props) {
   const [transferSpeed, setTransferSpeed] = useState(94.8);
   const [copiedLink, setCopiedLink] = useState(false);
   const [stagedFilesCount, setStagedFilesCount] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const notify = (msg: string, type: "success" | "error" = "success") => {
     if (onNotify) {
@@ -121,10 +122,10 @@ export function HeroVariant1({ onNotify }: HeroVariant1Props) {
       <div className="relative mb-6 z-20">
         <div
           onClick={() => setIslandExpanded(!islandExpanded)}
-          className={`cursor-pointer transition-all duration-300 ease-out flex items-center justify-between gap-3 px-4 py-2 rounded-full border shadow-lg backdrop-blur-2xl ${
+          className={`cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-between gap-3 px-4 py-2 rounded-full border shadow-lg backdrop-blur-2xl hover:scale-105 active:scale-95 ${
             islandExpanded
-              ? "bg-black text-white dark:bg-white dark:text-black border-white/20 dark:border-black/20 scale-105 px-5 py-2.5"
-              : "bg-white/80 dark:bg-[#181a20]/90 text-[#1d1d1f] dark:text-[#f5f5f7] border-[#d2d2d7]/60 dark:border-white/10 hover:border-[#0071e3]/60"
+              ? "bg-black text-white dark:bg-white dark:text-black border-white/20 dark:border-black/20 scale-105 px-5 py-2.5 shadow-xl"
+              : "bg-white/80 dark:bg-[#181a20]/90 text-[#1d1d1f] dark:text-[#f5f5f7] border-[#d2d2d7]/60 dark:border-white/10 hover:border-[#0071e3]/60 hover:shadow-xl"
           }`}
         >
           {/* Status Indicator Left */}
@@ -233,12 +234,25 @@ export function HeroVariant1({ onNotify }: HeroVariant1Props) {
           <div className="bg-white dark:bg-[#181a20] border border-[#e5e5ea] dark:border-white/10 rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-5 text-left shadow-xs">
             {/* Drop Zone */}
             <div
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleFileDrop}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+              }}
+              onDragLeave={() => setIsDragging(false)}
+              onDrop={(e) => {
+                setIsDragging(false);
+                handleFileDrop(e);
+              }}
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-[#0071e3]/40 hover:border-[#0071e3] dark:border-[#0071e3]/50 dark:hover:border-[#38bdf8] bg-[#fbfbfd] hover:bg-[#0071e3]/5 dark:bg-[#12141a]/60 dark:hover:bg-[#0071e3]/10 rounded-2xl p-6 sm:p-8 text-center cursor-pointer transition-all duration-200 group"
+              className={`border-2 border-dashed ${
+                isDragging
+                  ? "border-[#0071e3] scale-[1.02] bg-[#0071e3]/10 dark:bg-[#0071e3]/20 shadow-lg shadow-[#0071e3]/20"
+                  : "border-[#0071e3]/40 hover:border-[#0071e3] dark:border-[#0071e3]/50 dark:hover:border-[#38bdf8] bg-[#fbfbfd] hover:bg-[#0071e3]/5 dark:bg-[#12141a]/60 dark:hover:bg-[#0071e3]/10"
+              } rounded-2xl p-6 sm:p-8 text-center cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group`}
             >
-              <div className="w-12 h-12 rounded-full bg-[#0071e3] text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0071e3]/20 group-hover:scale-110 transition-transform">
+              <div className={`w-12 h-12 rounded-full bg-[#0071e3] text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#0071e3]/20 ${
+                isDragging ? "scale-125 rotate-6" : "group-hover:scale-110 group-hover:-translate-y-0.5"
+              } transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]`}>
                 <Zap className="w-6 h-6 stroke-[2.2]" />
               </div>
               <div className="font-bold text-base text-[#1d1d1f] dark:text-[#f5f5f7] mb-1">
@@ -291,7 +305,7 @@ export function HeroVariant1({ onNotify }: HeroVariant1Props) {
               <button
                 type="button"
                 onClick={handleCopyP2PLink}
-                className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all focus:outline-none cursor-pointer"
+                className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus:outline-none cursor-pointer"
               >
                 {copiedLink ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 <span>{copiedLink ? "Link Copied!" : "Copy Instant P2P Link"}</span>
@@ -301,7 +315,7 @@ export function HeroVariant1({ onNotify }: HeroVariant1Props) {
                 type="button"
                 onClick={handleSimulateStream}
                 disabled={isSimulating}
-                className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#f5f5f7] dark:bg-[#12141a] hover:bg-[#e5e5ea] dark:hover:bg-zinc-800 disabled:opacity-60 text-[#1d1d1f] dark:text-[#f5f5f7] border border-[#d2d2d7] dark:border-white/10 text-xs font-semibold flex items-center justify-center gap-2 transition-all focus:outline-none cursor-pointer"
+                className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#f5f5f7] dark:bg-[#12141a] hover:bg-[#e5e5ea] dark:hover:bg-zinc-800 disabled:opacity-60 text-[#1d1d1f] dark:text-[#f5f5f7] border border-[#d2d2d7] dark:border-white/10 text-xs font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus:outline-none cursor-pointer shadow-xs"
               >
                 <Activity className="w-4 h-4 text-[#0071e3] dark:text-[#38bdf8]" />
                 <span>{isSimulating ? `Streaming (${simulatedProgress}%)` : "Test Speed Stream"}</span>

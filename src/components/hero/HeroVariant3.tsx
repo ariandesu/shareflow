@@ -26,6 +26,7 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState<"send" | "receive">("send");
   const [codeDigits, setCodeDigits] = useState(["", "", "", ""]);
+  const [isDragging, setIsDragging] = useState(false);
 
   const notify = (msg: string, type: "success" | "error" = "success") => {
     if (onNotify) onNotify(msg, type);
@@ -107,15 +108,15 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
       </p>
 
       {/* Dual Action Segmented Pod */}
-      <div className="w-full max-w-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 shadow-xl transition-all">
+      <div className="w-full max-w-xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
         {/* Segmented Switcher */}
-        <div className="grid grid-cols-2 p-1 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] mb-6">
+        <div className="grid grid-cols-2 p-1.5 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] mb-6 gap-1">
           <button
             type="button"
             onClick={() => setActiveTab("send")}
-            className={`py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+            className={`py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.02] active:scale-[0.96] ${
               activeTab === "send"
-                ? "bg-white dark:bg-[#27272a] text-[#1d1d1f] dark:text-white shadow-sm"
+                ? "bg-white dark:bg-[#27272a] text-[#1d1d1f] dark:text-white shadow-md scale-100"
                 : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
             }`}
           >
@@ -125,9 +126,9 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
           <button
             type="button"
             onClick={() => setActiveTab("receive")}
-            className={`py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+            className={`py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.02] active:scale-[0.96] ${
               activeTab === "receive"
-                ? "bg-white dark:bg-[#27272a] text-[#1d1d1f] dark:text-white shadow-sm"
+                ? "bg-white dark:bg-[#27272a] text-[#1d1d1f] dark:text-white shadow-md scale-100"
                 : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
             }`}
           >
@@ -141,11 +142,22 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
           <div className="flex flex-col gap-4 animate-in fade-in duration-200">
             <div
               onClick={() => fileInputRef.current?.click()}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleFileDrop}
-              className="border-2 border-dashed border-[#0071e3]/30 dark:border-[#0071e3]/50 hover:border-[#0071e3] dark:hover:border-[#38bdf8] bg-[#fbfbfd] hover:bg-[#0071e3]/5 dark:bg-[#181a20]/60 dark:hover:bg-[#0071e3]/10 rounded-2xl p-8 sm:p-10 cursor-pointer transition-all text-center group"
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+              }}
+              onDragLeave={() => setIsDragging(false)}
+              onDrop={(e) => {
+                setIsDragging(false);
+                handleFileDrop(e);
+              }}
+              className={`border-2 border-dashed ${
+                isDragging
+                  ? "border-[#0071e3] scale-[1.02] bg-[#0071e3]/10 dark:bg-[#0071e3]/20 shadow-lg shadow-[#0071e3]/20"
+                  : "border-[#0071e3]/30 dark:border-[#0071e3]/50 hover:border-[#0071e3] dark:hover:border-[#38bdf8] bg-[#fbfbfd] hover:bg-[#0071e3]/5 dark:bg-[#181a20]/60 dark:hover:bg-[#0071e3]/10"
+              } rounded-2xl p-8 sm:p-10 cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.01] active:scale-[0.99] text-center group`}
             >
-              <div className="w-14 h-14 rounded-2xl bg-[#0071e3] text-white flex items-center justify-center mx-auto mb-3.5 shadow-md shadow-[#0071e3]/20 group-hover:scale-105 transition-transform">
+              <div className="w-14 h-14 rounded-2xl bg-[#0071e3] text-white flex items-center justify-center mx-auto mb-3.5 shadow-md shadow-[#0071e3]/20 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
                 <FileUp className="w-7 h-7 stroke-[2.2]" />
               </div>
               <h3 className="font-bold text-base text-[#1d1d1f] dark:text-white mb-1">
@@ -166,7 +178,7 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
             <button
               type="button"
               onClick={() => navigate("/file-share")}
-              className="w-full py-3.5 rounded-2xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-sm shadow-md shadow-[#0071e3]/25 flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3.5 rounded-2xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-sm shadow-md shadow-[#0071e3]/25 flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.02] active:scale-95"
             >
               <span>Open Dedicated File Room</span>
               <ArrowRight className="w-4 h-4" />
@@ -191,7 +203,7 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
                     value={digit}
                     onChange={(e) => handleDigitChange(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
-                    className="w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border-2 border-[#e5e5ea] dark:border-[#27272a] text-center font-mono text-xl sm:text-2xl font-black text-[#1d1d1f] dark:text-white focus:outline-none focus:border-[#0071e3] dark:focus:border-[#38bdf8] transition-all uppercase"
+                    className="w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border-2 border-[#e5e5ea] dark:border-[#27272a] text-center font-mono text-xl sm:text-2xl font-black text-[#1d1d1f] dark:text-white focus:outline-none focus:border-[#0071e3] dark:focus:border-[#38bdf8] focus:scale-110 focus:shadow-lg focus:shadow-[#0071e3]/20 transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 uppercase"
                     placeholder="•"
                   />
                 ))}
@@ -204,7 +216,7 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-2xl bg-[#1d1d1f] dark:bg-white text-white dark:text-black font-semibold text-sm shadow-md flex items-center justify-center gap-2 hover:opacity-90 transition-all"
+              className="w-full py-3.5 rounded-2xl bg-[#1d1d1f] dark:bg-white text-white dark:text-black font-semibold text-sm shadow-md flex items-center justify-center gap-2 hover:opacity-90 cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.02] active:scale-95"
             >
               <KeyRound className="w-4 h-4" />
               <span>Connect &amp; Download Stream</span>
@@ -215,19 +227,19 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
 
       {/* Bottom Trust Indicators */}
       <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mt-10 text-xs text-[#6e6e73] dark:text-[#a1a1aa]">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 cursor-default">
           <CheckCircle2 className="w-4 h-4 text-[#34c759]" />
           <span>No file size limits</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 cursor-default">
           <ShieldCheck className="w-4 h-4 text-[#0071e3]" />
           <span>Client-side AES-GCM-256</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 cursor-default">
           <Zap className="w-4 h-4 text-amber-500" />
           <span>RAM-only streaming</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 hover:-translate-y-0.5 cursor-default">
           <Lock className="w-4 h-4 text-purple-500" />
           <span>Zero cloud egress</span>
         </div>

@@ -153,7 +153,7 @@ export function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Card 1: P2P File Transfer (Span 8) */}
-          <div className="md:col-span-8 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-md transition-all">
+          <div className="md:col-span-8 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <FileUp className="w-3.5 h-3.5" />
@@ -189,7 +189,7 @@ export function Home() {
           </div>
 
           {/* Card 2: Ephemeral Text Share (Span 4) */}
-          <div className="md:col-span-4 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-md transition-all">
+          <div className="md:col-span-4 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <FileText className="w-3.5 h-3.5" />
@@ -229,7 +229,7 @@ export function Home() {
           </div>
 
           {/* Card 3: Developer Starter Kits (Span 6) */}
-          <div className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-md transition-all">
+          <div className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <Layers className="w-3.5 h-3.5" />
@@ -267,7 +267,7 @@ export function Home() {
           </div>
 
           {/* Card 4: Edge Architecture (Span 6) */}
-          <div className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-md transition-all">
+          <div className="md:col-span-6 bg-[#f5f5f7] dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl p-6 sm:p-8 flex flex-col justify-between gap-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#e5e5ea] dark:border-[#27272a] text-[11px] font-bold mb-4">
                 <Shield className="w-3.5 h-3.5" />
@@ -347,7 +347,7 @@ export function Home() {
               key={cat.id}
               type="button"
               onClick={() => setSelectedCategory(cat.id as any)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 active:scale-95 ${
                 selectedCategory === cat.id
                   ? "bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f] shadow-xs"
                   : "bg-[#f5f5f7] dark:bg-[#181a20] text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white hover:bg-[#e5e5ea] dark:hover:bg-[#27272a]"
@@ -364,9 +364,9 @@ export function Home() {
             <Link
               key={tool.name}
               to={tool.href}
-              className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] hover:border-[#0071e3] dark:hover:border-[#0071e3] rounded-2xl p-5 flex items-start gap-4 hover:shadow-md transition-all duration-150 group"
+              className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] hover:border-[#0071e3] dark:hover:border-[#0071e3] rounded-2xl p-5 flex items-start gap-4 hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] flex items-center justify-center text-lg flex-shrink-0 group-hover:scale-105 transition-transform">
+              <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] flex items-center justify-center text-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
                 {tool.icon}
               </div>
               <div className="flex flex-col min-w-0">

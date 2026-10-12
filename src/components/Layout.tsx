@@ -74,7 +74,7 @@ export function Layout() {
             aria-label="ShareFlow Home"
             className="flex items-center gap-2.5 group focus:outline-none"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0071e3] to-[#34c759] flex items-center justify-center text-white shadow-sm shadow-[#0071e3]/20 group-hover:scale-105 transition-transform duration-200">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0071e3] to-[#34c759] flex items-center justify-center text-white shadow-sm shadow-[#0071e3]/20 group-hover:scale-105 group-active:scale-90 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
               <Share2 className="w-5 h-5 text-white stroke-[2.2]" />
             </div>
             <div className="flex flex-col">
@@ -96,7 +96,7 @@ export function Layout() {
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`px-3.5 py-2 rounded-full text-[13px] font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                  className={`px-3.5 py-2 rounded-full text-[13px] font-semibold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 hover:scale-105 flex items-center gap-1.5 ${
                     isActive
                       ? "bg-[#0071e3] text-white shadow-sm shadow-[#0071e3]/25"
                       : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a]"
@@ -121,17 +121,17 @@ export function Layout() {
               onClick={toggleTheme}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="w-9 h-9 rounded-full flex items-center justify-center text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] border border-transparent hover:border-[#e5e5ea] dark:hover:border-[#27272a] transition-all duration-150 focus:outline-none"
+              className="w-9 h-9 rounded-full flex items-center justify-center text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] border border-transparent hover:border-[#e5e5ea] dark:hover:border-[#27272a] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 hover:scale-105 focus:outline-none"
             >
               {theme === "dark" ? (
-                <Sun className="w-4 h-4 text-amber-400 transition-transform duration-200 hover:rotate-45" />
+                <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:rotate-45" />
               ) : (
-                <Moon className="w-4 h-4 transition-transform duration-200 hover:-rotate-12" />
+                <Moon className="w-4 h-4 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-rotate-12" />
               )}
             </button>
             <Link
               to="/file-share"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[13px] font-semibold shadow-sm shadow-[#0071e3]/20 transition-all duration-150"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[13px] font-semibold shadow-sm shadow-[#0071e3]/20 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 hover:scale-105"
             >
               <Zap className="w-3.5 h-3.5" />
               <span>Instant Share</span>
@@ -145,19 +145,19 @@ export function Layout() {
               onClick={toggleTheme}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] transition-colors focus:outline-none"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 hover:scale-105 focus:outline-none"
             >
               {theme === "dark" ? (
-                <Sun className="w-5 h-5 text-amber-400 transition-transform duration-200 hover:rotate-45" />
+                <Sun className="w-5 h-5 text-amber-400 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:rotate-45" />
               ) : (
-                <Moon className="w-5 h-5 transition-transform duration-200 hover:-rotate-12" />
+                <Moon className="w-5 h-5 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-rotate-12" />
               )}
             </button>
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[#1d1d1f] dark:text-white hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] transition-colors focus:outline-none"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#1d1d1f] dark:text-white hover:bg-[#f5f5f7] dark:hover:bg-[#1f222a] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 hover:scale-105 focus:outline-none"
             >
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -175,7 +175,7 @@ export function Layout() {
           />
 
           {/* Cupertino Slide Drawer */}
-          <div className="relative w-full max-h-[85vh] bg-white dark:bg-[#12141a] rounded-t-3xl shadow-2xl border-t border-[#e5e5ea] dark:border-[#27272a] overflow-y-auto p-6 flex flex-col gap-6 animate-in slide-in-from-bottom duration-200">
+          <div className="relative w-full max-h-[85vh] bg-white dark:bg-[#12141a] rounded-t-3xl shadow-2xl border-t border-[#e5e5ea] dark:border-[#27272a] overflow-y-auto p-6 flex flex-col gap-6 animate-drawer-spring">
             <div className="flex items-center justify-between pb-4 border-b border-[#e5e5ea] dark:border-[#27272a]">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-[#0071e3] flex items-center justify-center text-white font-bold text-sm">
@@ -186,7 +186,7 @@ export function Layout() {
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(false)}
-                className="w-8 h-8 rounded-full bg-[#f5f5f7] dark:bg-[#1f222a] flex items-center justify-center text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
+                className="w-8 h-8 rounded-full bg-[#f5f5f7] dark:bg-[#1f222a] flex items-center justify-center text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-90 hover:scale-105"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -205,7 +205,7 @@ export function Layout() {
                     key={link.name}
                     to={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold transition-colors ${
+                    className={`flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.02] active:scale-[0.96] ${
                       isActive
                         ? "bg-[#0071e3] text-white"
                         : "bg-[#f5f5f7] dark:bg-[#181a20] text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a]"
@@ -238,7 +238,7 @@ export function Layout() {
                     key={tool.name}
                     to={tool.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="px-3 py-2.5 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-xs font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center justify-between"
+                    className="px-3 py-2.5 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-xs font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center justify-between transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.03] active:scale-[0.96]"
                   >
                     <span>{tool.name}</span>
                     <ChevronRight className="w-3.5 h-3.5 text-[#86868b] dark:text-[#a1a1aa]" />
