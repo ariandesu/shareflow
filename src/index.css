@@ -220,3 +220,101 @@ img, svg, video, canvas, audio, iframe, embed, object {
 .animate-drawer-spring {
   animation: drawer-spring-up 0.4s var(--ease-spring-snappy) both;
 }
+
+/* ==========================================================================
+   GLOBAL COMPONENT VISIBILITY SYSTEM (LIGHT MODE RESTORATION)
+   Ensures that every utility page, form, card, input, and label that uses
+   dark-first utility classes (bg-white/5, border-white/10, text-white/50, etc.)
+   renders with crisp, high-contrast, beautiful Cupertino light styling in light mode.
+   ========================================================================== */
+html:not(.dark) {
+  /* Subtitles, labels, and muted text */
+  .text-white\/90,
+  .text-white\/80 {
+    color: #1d1d1f !important;
+  }
+  .text-white\/70,
+  .text-white\/60,
+  .text-white\/50 {
+    color: #52525b !important;
+  }
+  .text-white\/40,
+  .text-white\/30,
+  .text-white\/20 {
+    color: #71717a !important;
+  }
+
+  /* Headings, titles, and body text */
+  h1.text-white, h2.text-white, h3.text-white, h4.text-white,
+  p.text-white, span.text-white, div.text-white, label.text-white, th.text-white, td.text-white {
+    color: #1d1d1f !important;
+  }
+
+  /* Ensure text inside prominent buttons stays white */
+  button[class*="bg-[#0071e3]"],
+  button[class*="bg-[#0071e3]"] *,
+  button[class*="bg-black"],
+  button[class*="bg-black"] *,
+  button[class*="bg-zinc-900"],
+  button[class*="bg-zinc-900"] *,
+  a[class*="bg-[#0071e3]"],
+  a[class*="bg-[#0071e3]"] *,
+  a[class*="bg-black"],
+  a[class*="bg-black"] * {
+    color: #ffffff !important;
+  }
+
+  /* Card and Panel Backgrounds */
+  .bg-white\/5,
+  .bg-white\/10 {
+    background-color: #ffffff !important;
+    border-color: #e5e5ea !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Input, subpanel, and code box backgrounds */
+  .bg-\[\#0A0A0A\],
+  .bg-\[\#0a0a0a\],
+  .bg-\[\#000000\],
+  .bg-slate-900:not(button):not(a),
+  .bg-zinc-900:not(button):not(a) {
+    background-color: #f5f5f7 !important;
+    color: #1d1d1f !important;
+    border-color: #e5e5ea !important;
+  }
+
+  /* Transparent textareas and inputs inside white cards */
+  textarea.bg-transparent,
+  input.bg-transparent {
+    color: #1d1d1f !important;
+  }
+
+  /* All white translucency borders */
+  .border-white\/10,
+  .border-white\/20,
+  .border-white\/30,
+  .border-white\/40,
+  .border-white\/5 {
+    border-color: #e5e5ea !important;
+  }
+
+  /* Placeholder visibility */
+  .placeholder\:text-white\/20::placeholder,
+  .placeholder-white\/20::placeholder,
+  input::placeholder,
+  textarea::placeholder {
+    color: #86868b !important;
+    opacity: 1 !important;
+  }
+
+  /* Interactive hover transitions */
+  .hover\:border-white\/20:hover,
+  .hover\:border-white\/30:hover,
+  .hover\:border-white\/40:hover {
+    border-color: #0071e3 !important;
+  }
+  .hover\:text-white:hover {
+    color: #0071e3 !important;
+  }
+}
+

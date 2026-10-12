@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { FeedbackModal } from "./FeedbackModal";
+import { LiquidEther } from "./LiquidEther";
 
 export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -63,9 +64,26 @@ export function Layout() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fbfbfd] dark:bg-[#0b0c0e] text-[#1d1d1f] dark:text-[#f5f5f7] font-sans antialiased overflow-x-hidden selection:bg-[#0071e3] selection:text-white">
+    <div className="relative min-h-screen flex flex-col bg-[#fbfbfd] dark:bg-[#0b0c0e] text-[#1d1d1f] dark:text-[#f5f5f7] font-sans antialiased overflow-x-hidden selection:bg-[#0071e3] selection:text-white">
+      {/* Full-Screen LiquidEther WebGL Fluid Simulation Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30 dark:opacity-20 transition-opacity duration-700">
+        <LiquidEther
+          colors={
+            theme === "dark"
+              ? ["#0071e3", "#38bdf8", "#34c759", "#6366f1"]
+              : ["#0071e3", "#38bdf8", "#34c759", "#818cf8"]
+          }
+          mouseForce={22}
+          cursorSize={110}
+          autoDemo={true}
+          autoSpeed={0.4}
+          resolution={0.45}
+          BFECC={true}
+        />
+      </div>
+
       {/* Cupertino Frosted Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#0b0c0e]/85 border-b border-[#e5e5ea] dark:border-[#27272a] transition-all">
+      <header className="relative z-50 sticky top-0 backdrop-blur-xl bg-white/75 dark:bg-[#0b0c0e]/80 border-b border-[#e5e5ea]/80 dark:border-[#27272a]/80 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo - Clickable (Instagram Reel Item #17) */}
           <Link
@@ -261,12 +279,12 @@ export function Layout() {
       )}
 
       {/* Main Page Content */}
-      <main className="flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-7xl flex flex-col">
+      <main className="relative z-10 flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-7xl flex flex-col">
         <Outlet />
       </main>
 
       {/* Cupertino Light Multi-Column Footer (Instagram Reel Items #7, #9, #18, #19) */}
-      <footer className="border-t border-[#e5e5ea] dark:border-[#27272a] bg-white dark:bg-[#0b0c0e] pt-14 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-[#6e6e73] dark:text-[#a1a1aa] transition-colors">
+      <footer className="relative z-10 border-t border-[#e5e5ea]/80 dark:border-[#27272a]/80 bg-white/80 dark:bg-[#0b0c0e]/85 backdrop-blur-md pt-14 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-[#6e6e73] dark:text-[#a1a1aa] transition-colors">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
             {/* Col 1: Brand & Mission */}
