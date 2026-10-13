@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import {
   Activity, Users, Key, Server, RefreshCw, Lock, ShieldCheck,
-  Search, UserCheck, UserX, AlertTriangle, Plus, Trash2, Copy, Check
+  Search, UserCheck, UserX, AlertTriangle, Plus, Trash2, Copy, Check,
+  Monitor, Sparkles, Zap, Code2, ExternalLink, Image, Eye, EyeOff
 } from "lucide-react";
+import { WallpaperBundle } from "../types/wallpaper";
+import { PromptItem } from "../types/prompt";
 
 interface TelemetryData {
   serverPerformance: {
@@ -65,11 +68,36 @@ export default function AdminDashboard() {
     );
   });
 
-  const [activeTab, setActiveTab] = useState<"telemetry" | "users" | "apikeys">("telemetry");
+  const [activeTab, setActiveTab] = useState<"telemetry" | "users" | "apikeys" | "wallpapers" | "prompts">("telemetry");
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
   const [users, setUsers] = useState<UserRecord[]>([]);
   const [apiKeys, setApiKeys] = useState<ApiKeyRecord[]>([]);
+  const [wallpapers, setWallpapers] = useState<WallpaperBundle[]>([]);
+  const [prompts, setPrompts] = useState<PromptItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Wallpaper Form State
+  const [newWpTitle, setNewWpTitle] = useState("");
+  const [newWpCategory, setNewWpCategory] = useState<any>("Desktop 8K");
+  const [newWpResolution, setNewWpResolution] = useState("7680x4320");
+  const [newWpItems, setNewWpItems] = useState(12);
+  const [newWpPrice, setNewWpPrice] = useState("$4.99");
+  const [newWpPreview, setNewWpPreview] = useState("");
+  const [newWpGumroad, setNewWpGumroad] = useState("");
+  const [newWpFeatures, setNewWpFeatures] = useState("Lossless PNG (HDR10), Wide Color Gamut, Master Quality");
+
+  // Prompt Form State
+  const [newPromptTitle, setNewPromptTitle] = useState("");
+  const [newPromptTool, setNewPromptTool] = useState<any>("v0");
+  const [newPromptCategory, setNewPromptCategory] = useState<any>("Landing Page");
+  const [newPromptIsFree, setNewPromptIsFree] = useState(true);
+  const [newPromptPriceBdt, setNewPromptPriceBdt] = useState(49);
+  const [newPromptPriceUsd, setNewPromptPriceUsd] = useState(0.99);
+  const [newPromptContent, setNewPromptContent] = useState("");
+  const [newPromptSystem, setNewPromptSystem] = useState("You are an elite principal UI/UX frontend designer.");
+  const [newPromptSupportKori, setNewPromptSupportKori] = useState("https://www.supportkori.com/mhr3d");
+  const [newPromptGumroad, setNewPromptGumroad] = useState("https://mhr3d.gumroad.com");
+  const [newPromptPreview, setNewPromptPreview] = useState("");
 
   // User Management State
   const [userSearch, setUserSearch] = useState("");
@@ -100,10 +128,12 @@ export default function AdminDashboard() {
 
   const loadAllAdminData = async () => {
     try {
-      const [telRes, userRes, keyRes] = await Promise.all([
+      const [telRes, userRes, keyRes, wpRes, prRes] = await Promise.all([
         fetch("/api/admin/system-stats", { cache: "no-store" }),
         fetch("/api/admin/users", { cache: "no-store" }),
-        fetch("/api/admin/api-keys", { cache: "no-store" })
+        fetch("/api/admin/api-keys", { cache: "no-store" }),
+        fetch("/api/wallpapers?all=true", { cache: "no-store" }),
+        fetch("/api/prompts?all=true", { cache: "no-store" })
       ]);
 
       if (telRes.ok) {
@@ -117,6 +147,14 @@ export default function AdminDashboard() {
       if (keyRes.ok) {
         const d = await keyRes.json();
         setApiKeys(d.keys || []);
+      }
+      if (wpRes.ok) {
+        const d = await wpRes.json();
+        setWallpapers(d.wallpapers || []);
+      }
+      if (prRes.ok) {
+        const d = await prRes.json();
+        setPrompts(d.prompts || []);
       }
     } catch (err) {
       console.error("Admin data load error", err);
@@ -257,6 +295,127 @@ export default function AdminDashboard() {
     }
   };
 
+  // Wallpaper Handlers
+  const handleCreateWallpaper = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newWpTitle.trim()) return;
+    try {
+      const newBundle = {
+        title: newWpTitle.trim(),
+        category: newWpCategory,
+        resolution: newWpResolution,
+        aspectRatio: newWpCategory === "Mobile OLED" ? "9:19.5" : newWpCategory === "Dual Monitor" ? "32:9" : "16:9",
+        itemCount: newWpItems,
+        format: "Lossless PNG (HDR10)",
+        previewUrl: newWpPreview.trim() || "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+        price: newWpPrice,
+        gumroadSlug: newWpTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        gumroadBaseUrl: newWpGumroad.trim() || "https://mhr3d.gumroad.com",
+        features: newWpFeatures.split(",").map(s => s.trim()).filter(Boolean),
+        tags: [newWpCategory, "Wallpaper", "Ultra-HD"],
+        featured: true
+      };
+      const res = await fetch("/api/wallpapers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newBundle)
+      });
+      const data = await res.json();
+      if (res.ok && data.wallpaper) {
+        setWallpapers(prev => [data.wallpaper, ...prev]);
+        setNewWpTitle("");
+        setNewWpPreview("");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleToggleWallpaper = async (id: string) => {
+    try {
+      const res = await fetch(`/api/wallpapers/${id}/toggle`, { method: "PATCH" });
+      if (res.ok) {
+        setWallpapers(prev => prev.map(w => w.id === id ? { ...w, active: !w.active } : w));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteWallpaper = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this wallpaper bundle?")) return;
+    try {
+      const res = await fetch(`/api/wallpapers/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setWallpapers(prev => prev.filter(w => w.id !== id));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Prompt Handlers
+  const handleCreatePrompt = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPromptTitle.trim() || !newPromptContent.trim()) return;
+    try {
+      const newItem = {
+        title: newPromptTitle.trim(),
+        description: `Curated AI website design prompt for ${newPromptTool}.`,
+        category: newPromptCategory,
+        targetTool: newPromptTool,
+        isFree: newPromptIsFree,
+        priceBdt: newPromptIsFree ? undefined : newPromptPriceBdt,
+        priceUsd: newPromptIsFree ? undefined : newPromptPriceUsd,
+        promptContent: newPromptContent.trim(),
+        systemInstruction: newPromptSystem.trim(),
+        previewImage: newPromptPreview.trim() || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+        livePreviewUrl: "https://superdesign.dev",
+        supportKoriUrl: newPromptIsFree ? undefined : newPromptSupportKori.trim(),
+        gumroadUrl: newPromptIsFree ? undefined : newPromptGumroad.trim(),
+        tags: [newPromptTool, newPromptCategory, "AI Prompt"],
+        features: ["Production Ready", "Tailwind CSS", "React Component"]
+      };
+      const res = await fetch("/api/prompts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newItem)
+      });
+      const data = await res.json();
+      if (res.ok && data.prompt) {
+        setPrompts(prev => [data.prompt, ...prev]);
+        setNewPromptTitle("");
+        setNewPromptContent("");
+        setNewPromptPreview("");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleTogglePrompt = async (id: string) => {
+    try {
+      const res = await fetch(`/api/prompts/${id}/toggle`, { method: "PATCH" });
+      if (res.ok) {
+        setPrompts(prev => prev.map(p => p.id === id ? { ...p, active: !p.active } : p));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeletePrompt = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this prompt?")) return;
+    try {
+      const res = await fetch(`/api/prompts/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setPrompts(prev => prev.filter(p => p.id !== id));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Render 2FA Guard if not authed
   if (!adminAuth) {
     return (
@@ -386,10 +545,10 @@ export default function AdminDashboard() {
       </div>
 
       {/* NAVIGATION TABS */}
-      <div className="flex border-b border-white/10 space-x-2">
+      <div className="flex border-b border-white/10 space-x-2 overflow-x-auto">
         <button
           onClick={() => setActiveTab("telemetry")}
-          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all ${
+          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all whitespace-nowrap ${
             activeTab === "telemetry"
               ? "border-emerald-400 text-emerald-400 bg-emerald-500/10"
               : "border-transparent text-white/50 hover:text-white"
@@ -399,8 +558,30 @@ export default function AdminDashboard() {
         </button>
 
         <button
+          onClick={() => setActiveTab("prompts")}
+          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all whitespace-nowrap ${
+            activeTab === "prompts"
+              ? "border-emerald-400 text-emerald-400 bg-emerald-500/10"
+              : "border-transparent text-white/50 hover:text-white"
+          }`}
+        >
+          <Zap className="w-4 h-4" /> AI Prompts ({prompts.length})
+        </button>
+
+        <button
+          onClick={() => setActiveTab("wallpapers")}
+          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all whitespace-nowrap ${
+            activeTab === "wallpapers"
+              ? "border-emerald-400 text-emerald-400 bg-emerald-500/10"
+              : "border-transparent text-white/50 hover:text-white"
+          }`}
+        >
+          <Monitor className="w-4 h-4" /> 8K Wallpapers ({wallpapers.length})
+        </button>
+
+        <button
           onClick={() => setActiveTab("users")}
-          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all ${
+          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all whitespace-nowrap ${
             activeTab === "users"
               ? "border-emerald-400 text-emerald-400 bg-emerald-500/10"
               : "border-transparent text-white/50 hover:text-white"
@@ -411,7 +592,7 @@ export default function AdminDashboard() {
 
         <button
           onClick={() => setActiveTab("apikeys")}
-          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all ${
+          className={`px-4 py-3 font-bold text-xs uppercase tracking-wider border-b-2 flex items-center gap-2 transition-all whitespace-nowrap ${
             activeTab === "apikeys"
               ? "border-emerald-400 text-emerald-400 bg-emerald-500/10"
               : "border-transparent text-white/50 hover:text-white"
@@ -732,6 +913,380 @@ export default function AdminDashboard() {
                           <Trash2 className="w-3 h-3" /> Revoke Key
                         </button>
                       )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: AI PROMPTS CATALOG MANAGER */}
+      {activeTab === "prompts" && (
+        <div className="space-y-6">
+          <div className="p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center gap-2 text-cyan-400 text-xs font-semibold">
+            <Zap className="w-4 h-4 text-cyan-400" />
+            <span>AI Website Design Prompts • Free SuperDesign Giveaways + SupportKori Premium Bundles</span>
+          </div>
+
+          {/* Prompt Upload Form */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+            <h3 className="font-bold text-sm uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+              <Plus className="w-4 h-4" /> Add New AI Prompt
+            </h3>
+            <form onSubmit={handleCreatePrompt} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Prompt Title</label>
+                <input
+                  type="text"
+                  value={newPromptTitle}
+                  onChange={(e) => setNewPromptTitle(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg"
+                  placeholder="e.g., Dark SaaS Bento Hero Layout for v0"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Target Tool</label>
+                <select
+                  value={newPromptTool}
+                  onChange={(e) => setNewPromptTool(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg"
+                >
+                  <option value="v0">v0</option>
+                  <option value="Bolt.new">Bolt.new</option>
+                  <option value="Lovable">Lovable</option>
+                  <option value="Cursor">Cursor</option>
+                  <option value="Claude">Claude</option>
+                  <option value="Universal">Universal</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Category</label>
+                <select
+                  value={newPromptCategory}
+                  onChange={(e) => setNewPromptCategory(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg"
+                >
+                  <option value="Landing Page">Landing Page</option>
+                  <option value="Dashboard">Dashboard</option>
+                  <option value="E-Commerce">E-Commerce</option>
+                  <option value="Portfolio">Portfolio</option>
+                  <option value="Micro-SaaS">Micro-SaaS</option>
+                  <option value="Mobile UI">Mobile UI</option>
+                </select>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2 text-xs font-semibold text-white cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={newPromptIsFree}
+                    onChange={(e) => setNewPromptIsFree(e.target.checked)}
+                    className="w-4 h-4 rounded border-white/20 bg-white/5 text-emerald-500 focus:ring-emerald-500/20"
+                  />
+                  <span>🎁 Free SuperDesign Giveaway</span>
+                </label>
+              </div>
+
+              {!newPromptIsFree && (
+                <>
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Price (BDT)</label>
+                    <input
+                      type="number"
+                      value={newPromptPriceBdt}
+                      onChange={(e) => setNewPromptPriceBdt(parseInt(e.target.value))}
+                      className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg"
+                      placeholder="49"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Price (USD)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={newPromptPriceUsd}
+                      onChange={(e) => setNewPromptPriceUsd(parseFloat(e.target.value))}
+                      className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg"
+                      placeholder="0.99"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Preview Image URL (Optional)</label>
+                <input
+                  type="url"
+                  value={newPromptPreview}
+                  onChange={(e) => setNewPromptPreview(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg"
+                  placeholder="https://images.unsplash.com/..."
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">System Instruction / Persona</label>
+                <textarea
+                  value={newPromptSystem}
+                  onChange={(e) => setNewPromptSystem(e.target.value)}
+                  rows={2}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg font-mono"
+                  placeholder="You are an elite principal UI/UX frontend designer."
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Full Prompt Content (Required)</label>
+                <textarea
+                  value={newPromptContent}
+                  onChange={(e) => setNewPromptContent(e.target.value)}
+                  rows={8}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/40 rounded-lg font-mono"
+                  placeholder="Create an ultra-modern, dark-mode SaaS landing page..."
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="md:col-span-2 px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+              >
+                <Plus className="w-4 h-4" /> Publish AI Prompt to Store
+              </button>
+            </form>
+          </div>
+
+          {/* Prompts Table */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-xl">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead className="bg-slate-900 border-b border-white/10 text-white/50 font-bold uppercase tracking-wider">
+                <tr>
+                  <th className="p-4">Title & Tool</th>
+                  <th className="p-4">Category</th>
+                  <th className="p-4">Type</th>
+                  <th className="p-4">Price</th>
+                  <th className="p-4">Copies</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {prompts.map((p) => (
+                  <tr key={p.id} className="hover:bg-white/5 transition-colors">
+                    <td className="p-4">
+                      <div className="font-bold text-white">{p.title}</div>
+                      <code className="text-[11px] text-cyan-400/80">{p.targetTool}</code>
+                    </td>
+                    <td className="p-4 text-white/70">{p.category}</td>
+                    <td className="p-4">
+                      {p.isFree ? (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">🎁 FREE</span>
+                      ) : (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400">💎 PAID</span>
+                      )}
+                    </td>
+                    <td className="p-4 font-mono text-white/80">
+                      {p.isFree ? "৳0 / $0" : `৳${p.priceBdt} / $${p.priceUsd}`}
+                    </td>
+                    <td className="p-4 text-emerald-400 font-bold">{p.copyCount}</td>
+                    <td className="p-4">
+                      {p.active ? (
+                        <span className="text-emerald-400 font-bold uppercase tracking-wider text-[10px]">✅ Active</span>
+                      ) : (
+                        <span className="text-red-400 font-bold uppercase tracking-wider text-[10px]">❌ Hidden</span>
+                      )}
+                    </td>
+                    <td className="p-4 text-right flex items-center justify-end gap-2">
+                      <button
+                        onClick={() => handleTogglePrompt(p.id)}
+                        className="px-2 py-1 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/20 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1"
+                      >
+                        {p.active ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                        {p.active ? "Hide" : "Show"}
+                      </button>
+                      <button
+                        onClick={() => handleDeletePrompt(p.id)}
+                        className="px-2 py-1 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1"
+                      >
+                        <Trash2 className="w-3 h-3" /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: 8K WALLPAPER PACKS MANAGER */}
+      {activeTab === "wallpapers" && (
+        <div className="space-y-6">
+          <div className="p-3 bg-purple-500/10 border border-purple-500/30 rounded-xl flex items-center gap-2 text-purple-400 text-xs font-semibold">
+            <Monitor className="w-4 h-4 text-purple-400" />
+            <span>Lossless 8K/OLED Wallpaper Bundles • Free Sponsor Unlocks via Adsterra</span>
+          </div>
+
+          {/* Wallpaper Upload Form */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+            <h3 className="font-bold text-sm uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <Plus className="w-4 h-4" /> Add New Wallpaper Pack
+            </h3>
+            <form onSubmit={handleCreateWallpaper} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Bundle Title</label>
+                <input
+                  type="text"
+                  value={newWpTitle}
+                  onChange={(e) => setNewWpTitle(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                  placeholder="e.g., Neo Tokyo Cyberpunk 8K Desktop Collection"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Category</label>
+                <select
+                  value={newWpCategory}
+                  onChange={(e) => setNewWpCategory(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                >
+                  <option value="Desktop 8K">Desktop 8K</option>
+                  <option value="Mobile OLED">Mobile OLED</option>
+                  <option value="Dual Monitor">Dual Monitor</option>
+                  <option value="3D Sci-Fi">3D Sci-Fi</option>
+                  <option value="Minimalist Dark">Minimalist Dark</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Resolution</label>
+                <input
+                  type="text"
+                  value={newWpResolution}
+                  onChange={(e) => setNewWpResolution(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                  placeholder="7680x4320"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Items Count</label>
+                <input
+                  type="number"
+                  value={newWpItems}
+                  onChange={(e) => setNewWpItems(parseInt(e.target.value))}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                  placeholder="12"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Retail Price</label>
+                <input
+                  type="text"
+                  value={newWpPrice}
+                  onChange={(e) => setNewWpPrice(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                  placeholder="$4.99"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Preview Image URL (Required)</label>
+                <input
+                  type="url"
+                  value={newWpPreview}
+                  onChange={(e) => setNewWpPreview(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                  placeholder="https://images.unsplash.com/..."
+                  required
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Gumroad Checkout URL</label>
+                <input
+                  type="url"
+                  value={newWpGumroad}
+                  onChange={(e) => setNewWpGumroad(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                  placeholder="https://mhr3d.gumroad.com"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/40 block mb-1">Features (Comma-Separated)</label>
+                <input
+                  type="text"
+                  value={newWpFeatures}
+                  onChange={(e) => setNewWpFeatures(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500/40 rounded-lg"
+                  placeholder="Lossless PNG (HDR10), Wide Color Gamut, Master Quality"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="md:col-span-2 px-4 py-2.5 bg-purple-500 hover:bg-purple-400 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+              >
+                <Plus className="w-4 h-4" /> Publish Wallpaper Pack to Store
+              </button>
+            </form>
+          </div>
+
+          {/* Wallpapers Table */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-xl">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead className="bg-slate-900 border-b border-white/10 text-white/50 font-bold uppercase tracking-wider">
+                <tr>
+                  <th className="p-4">Bundle Title</th>
+                  <th className="p-4">Category</th>
+                  <th className="p-4">Resolution</th>
+                  <th className="p-4">Items</th>
+                  <th className="p-4">Price</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {wallpapers.map((w) => (
+                  <tr key={w.id} className="hover:bg-white/5 transition-colors">
+                    <td className="p-4">
+                      <div className="font-bold text-white">{w.title}</div>
+                      <code className="text-[11px] text-purple-400/80">{w.id}</code>
+                    </td>
+                    <td className="p-4 text-white/70">{w.category}</td>
+                    <td className="p-4 font-mono text-white/80">{w.resolution}</td>
+                    <td className="p-4 text-purple-400 font-bold">{w.itemCount} images</td>
+                    <td className="p-4 text-emerald-400 font-semibold">{w.price}</td>
+                    <td className="p-4">
+                      {w.active ? (
+                        <span className="text-emerald-400 font-bold uppercase tracking-wider text-[10px]">✅ Active</span>
+                      ) : (
+                        <span className="text-red-400 font-bold uppercase tracking-wider text-[10px]">❌ Hidden</span>
+                      )}
+                    </td>
+                    <td className="p-4 text-right flex items-center justify-end gap-2">
+                      <button
+                        onClick={() => handleToggleWallpaper(w.id)}
+                        className="px-2 py-1 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/20 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1"
+                      >
+                        {w.active ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                        {w.active ? "Hide" : "Show"}
+                      </button>
+                      <button
+                        onClick={() => handleDeleteWallpaper(w.id)}
+                        className="px-2 py-1 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1"
+                      >
+                        <Trash2 className="w-3 h-3" /> Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
