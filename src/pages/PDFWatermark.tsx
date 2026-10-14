@@ -36,6 +36,12 @@ export default function PDFWatermark() {
   const [outputUrl, setOutputUrl] = useState<string | null>(null);
   const [outputSize, setOutputSize] = useState<number | null>(null);
 
+  useEffect(() => {
+    return () => {
+      if (outputUrl) URL.revokeObjectURL(outputUrl);
+    };
+  }, [outputUrl]);
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (!selected) return;

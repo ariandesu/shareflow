@@ -32,6 +32,12 @@ export default function PDFSigner() {
   const [outputUrl, setOutputUrl] = useState<string | null>(null);
   const [outputSize, setOutputSize] = useState<number | null>(null);
 
+  useEffect(() => {
+    return () => {
+      if (outputUrl) URL.revokeObjectURL(outputUrl);
+    };
+  }, [outputUrl]);
+
   // Handle PDF file upload
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];

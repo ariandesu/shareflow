@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion } from "motion/react";
 import { Upload, Download, RotateCw, RotateCcw, ArrowUp, ArrowDown, FileText, Check, RefreshCw } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
 import { PDFDocument, degrees } from "pdf-lib";
@@ -20,6 +20,12 @@ export default function PDFRotator() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [outputUrl, setOutputUrl] = useState<string | null>(null);
   const [outputSize, setOutputSize] = useState<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (outputUrl) URL.revokeObjectURL(outputUrl);
+    };
+  }, [outputUrl]);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];

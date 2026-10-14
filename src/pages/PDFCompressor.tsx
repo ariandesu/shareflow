@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Upload, Download, Sliders, Check, RefreshCw, FileText, ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { motion } from "motion/react";
+import { Download, RefreshCw, FileText, Zap } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
 import { PDFDocument } from "pdf-lib";
 import * as pdfjsLib from "pdfjs-dist";
@@ -18,6 +18,12 @@ export default function PDFCompressor() {
   const [progress, setProgress] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [outputUrl, setOutputUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (outputUrl) URL.revokeObjectURL(outputUrl);
+    };
+  }, [outputUrl]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];

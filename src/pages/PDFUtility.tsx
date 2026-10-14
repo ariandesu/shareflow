@@ -11,8 +11,7 @@ import {
   Image as ImageIcon,
   BookOpen,
   ScanText,
-  ShieldCheck,
-  CheckCircle2
+  ShieldCheck
 } from "lucide-react";
 
 // Sub-tools
