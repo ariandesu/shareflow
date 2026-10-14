@@ -65,7 +65,7 @@ export function Layout() {
   ];
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-[#fbfbfd] dark:bg-[#0b0c0e] text-[#1d1d1f] dark:text-[#f5f5f7] font-sans antialiased overflow-x-hidden selection:bg-[#0071e3] selection:text-white">
+    <div className="relative min-h-screen flex flex-col bg-[#fbfbfd] dark:bg-[#0b0c0e] text-[#1d1d1f] dark:text-[#f5f5f7] font-sans antialiased overflow-x-clip selection:bg-[#0071e3] selection:text-white">
       {/* Full-Screen LiquidEther WebGL Fluid Simulation Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30 dark:opacity-20 transition-opacity duration-700">
         <LiquidEther
@@ -84,7 +84,7 @@ export function Layout() {
       </div>
 
       {/* Cupertino Frosted Header */}
-      <header className="relative z-50 sticky top-0 backdrop-blur-xl bg-white/75 dark:bg-[#0b0c0e]/80 border-b border-[#e5e5ea]/80 dark:border-[#27272a]/80 transition-all">
+      <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/75 dark:bg-[#0b0c0e]/80 border-b border-[#e5e5ea]/80 dark:border-[#27272a]/80 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo - Clickable (Instagram Reel Item #17) */}
           <Link
