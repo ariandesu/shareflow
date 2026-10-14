@@ -28,8 +28,8 @@ export function SEOContent({ title, description, steps, faqs }: SEOContentProps)
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {steps.map((step, index) => (
             <div key={index} className="bg-white dark:bg-white/5 p-6 border border-[#e5e5ea] dark:border-white/10 space-y-4 hover:border-[#0071e3] dark:hover:border-white/20 transition-all rounded-2xl shadow-xs">
-              <div className="w-8 h-8 rounded-full bg-[#0071e3] text-white flex items-center justify-center font-black text-sm shrink-0 shadow-xs">
-                <span className="text-white font-bold leading-none">{index + 1}</span>
+              <div className="seo-step-badge w-8 h-8 rounded-full bg-[#0071e3] text-white flex items-center justify-center font-black text-sm shrink-0 shadow-xs select-none">
+                <span className="font-bold leading-none">{index + 1}</span>
               </div>
               <h3 className="text-xs font-bold uppercase tracking-widest text-[#1d1d1f] dark:text-white/80">{step.title}</h3>
               <p className="text-sm text-[#6e6e73] dark:text-white/50 leading-relaxed">{step.description}</p>

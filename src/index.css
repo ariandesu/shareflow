@@ -221,6 +221,13 @@ img, svg, video, canvas, audio, iframe, embed, object {
   animation: drawer-spring-up 0.4s var(--ease-spring-snappy) both;
 }
 
+/* Step number badge in tool guide cards (universal across light and dark modes) */
+.seo-step-badge,
+.seo-step-badge * {
+  background-color: #0071e3 !important;
+  color: #ffffff !important;
+}
+
 /* ==========================================================================
    GLOBAL COMPONENT VISIBILITY SYSTEM (LIGHT MODE RESTORATION)
    Ensures that every utility page, form, card, input, and label that uses
@@ -250,7 +257,7 @@ html:not(.dark) {
     color: #1d1d1f !important;
   }
 
-  /* Ensure text inside prominent buttons stays white */
+  /* Ensure text inside solid buttons and dark/blue badge containers stays white */
   button[class*="bg-[#0071e3]"],
   button[class*="bg-[#0071e3]"] *,
   button[class*="bg-black"],
@@ -261,10 +268,12 @@ html:not(.dark) {
   a[class*="bg-[#0071e3]"] *,
   a[class*="bg-black"],
   a[class*="bg-black"] *,
-  div[class*="bg-[#0071e3]"],
-  div[class*="bg-[#0071e3]"] *,
-  div[class*="bg-[#1d1d1f]"],
-  div[class*="bg-[#1d1d1f]"] * {
+  div[class~="bg-[#0071e3]"],
+  div[class~="bg-[#0071e3]"] *,
+  div[class~="bg-[#1d1d1f]"],
+  div[class~="bg-[#1d1d1f]"] *,
+  span[class~="bg-[#0071e3]"],
+  span[class~="bg-[#0071e3]"] * {
     color: #ffffff !important;
   }
 
