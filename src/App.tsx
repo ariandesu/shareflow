@@ -192,6 +192,8 @@ export default function App() {
 
             {/* Developer & Admin Portal */}
             <Route path="dev" element={<DeveloperGateway />} />
+            <Route path="dev/login" element={<DeveloperLogin />} />
+            <Route path="dev/signup" element={<DeveloperSignup />} />
             <Route path="dev/dashboard" element={<DeveloperDashboard />} />
             <Route path="dev/admin" element={<AdminDashboard />} />
             <Route path="admin" element={<AdminDashboard />} />
