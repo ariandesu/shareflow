@@ -23,7 +23,8 @@ import {
   Eye,
   SlidersHorizontal,
   CreditCard,
-  ShoppingBag
+  ShoppingBag,
+  Clock
 } from "lucide-react";
 import initialPrompts from "../../data/prompts.json";
 import initialWallpapers from "../../data/wallpapers.json";
@@ -194,14 +195,18 @@ export function Products() {
       {/* Hero Header */}
       <div className="text-center pt-4 sm:pt-6 flex flex-col items-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-[#27272a] mb-4 shadow-xs">
-          <Sparkles className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#38bdf8]" />
-          <span>SHAREFLOW DIGITAL GOODS STORE • 2026 EDITION</span>
+          <Clock className="w-3.5 h-3.5 text-amber-500" />
+          <span>SHAREFLOW DIGITAL GOODS STORE • COMING SOON</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] dark:text-white max-w-3xl leading-tight">
-          AI Website Design Prompts & Lossless 8K Wallpapers.
+          AI Website Design Prompts &amp; Lossless 8K Wallpapers.
         </h1>
+        <div className="mt-4 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-extrabold text-sm uppercase tracking-widest border border-amber-500/20 shadow-xs">
+          <Clock className="w-4 h-4 text-amber-500" />
+          <span>Coming Soon • Store Opening Soon</span>
+        </div>
         <p className="text-sm sm:text-base text-[#6e6e73] dark:text-[#a1a1aa] max-w-2xl mt-3 leading-relaxed">
-          Production-grade prompts inspired by <a href="https://superdesign.dev" target="_blank" rel="noreferrer" className="text-[#0071e3] dark:text-[#38bdf8] underline hover:opacity-80">SuperDesign.dev</a> for v0, Bolt, and Lovable, plus handcrafted HDR10 8K desktop wallpapers. 100% free sponsor unlocks & micro-pricing via SupportKori.
+          Our digital goods catalog is preparing for launch. Browse the upcoming collection below. All prompt blueprints and wallpaper bundles will be unlocked soon.
         </p>
 
         {/* Master Catalog Switcher Tabs */}
@@ -323,14 +328,14 @@ export function Products() {
             {filteredPrompts.map((prompt) => (
               <div
                 key={prompt.id}
-                className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] hover:border-[#0071e3] dark:hover:border-[#0071e3] rounded-3xl overflow-hidden flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-200 group"
+                className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl overflow-hidden flex flex-col justify-between shadow-xs select-none pointer-events-none cursor-not-allowed opacity-90 transition-all duration-200"
               >
                 {/* Visual Header / Mockup Image */}
                 <div className="relative aspect-video w-full overflow-hidden bg-[#090D16]">
                   <img
                     src={prompt.previewImage}
                     alt={prompt.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                    className="w-full h-full object-cover opacity-90"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -346,39 +351,26 @@ export function Products() {
                   </div>
 
                   <div className="absolute top-3 right-3">
-                    {prompt.isFree ? (
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#34c759] text-white shadow-xs">
-                        Free Giveaway
-                      </span>
-                    ) : (
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#0071e3] text-white shadow-xs">
-                        ৳{prompt.priceBdt} / ${prompt.priceUsd}
-                      </span>
-                    )}
+                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500 text-white shadow-xs flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      <span>Coming Soon</span>
+                    </span>
                   </div>
 
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white/90 text-xs">
                     <span className="text-[11px] font-mono text-cyan-300">
-                      {prompt.copyCount.toLocaleString()} builders used
+                      {prompt.copyCount.toLocaleString()} builders waitlist
                     </span>
-                    {prompt.livePreviewUrl && (
-                      <a
-                        href={prompt.livePreviewUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-[11px] underline flex items-center gap-1 hover:text-white"
-                      >
-                        <span>Demo</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
+                    <span className="text-[10px] font-semibold text-white/70">
+                      {prompt.isFree ? "Free Blueprint" : `৳${prompt.priceBdt} / $${prompt.priceUsd}`}
+                    </span>
                   </div>
                 </div>
 
                 {/* Content Body */}
                 <div className="p-6 flex flex-col gap-4 flex-1 justify-between">
                   <div>
-                    <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white group-hover:text-[#0071e3] transition-colors leading-snug">
+                    <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white leading-snug">
                       {prompt.title}
                     </h3>
                     <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-2 leading-relaxed line-clamp-2">
@@ -395,58 +387,12 @@ export function Products() {
                     </div>
                   </div>
 
-                  {/* Actions Area */}
+                  {/* Actions Area - Unclickable Coming Soon */}
                   <div className="pt-2">
-                    {prompt.isFree ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (unlockedPromptId === prompt.id) {
-                            setSelectedPrompt(prompt);
-                          } else {
-                            handleStartPromptUnlock(prompt);
-                          }
-                        }}
-                        className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all"
-                      >
-                        {unlockedPromptId === prompt.id ? (
-                          <>
-                            <Eye className="w-4 h-4 text-white" />
-                            <span>View Full Prompt</span>
-                          </>
-                        ) : (
-                          <>
-                            <Sparkles className="w-4 h-4 text-white" />
-                            <span>Unlock Free Prompt</span>
-                          </>
-                        )}
-                      </button>
-                    ) : (
-                      <div className="flex flex-col gap-2">
-                        {prompt.supportKoriUrl && (
-                          <a
-                            href={prompt.supportKoriUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full min-h-[40px] py-2 px-3 rounded-xl bg-[#34c759] hover:bg-[#2eb350] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors"
-                          >
-                            <CreditCard className="w-3.5 h-3.5" />
-                            <span>Buy via SupportKori (৳{prompt.priceBdt} / bKash)</span>
-                          </a>
-                        )}
-                        {prompt.gumroadUrl && (
-                          <a
-                            href={`${prompt.gumroadUrl}?wanted=true`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full min-h-[38px] py-1.5 px-3 rounded-xl bg-[#1d1d1f] dark:bg-[#27272a] hover:bg-black text-white text-xs font-medium flex items-center justify-center gap-2 transition-colors"
-                          >
-                            <ShoppingBag className="w-3.5 h-3.5" />
-                            <span>Buy via Gumroad (${prompt.priceUsd})</span>
-                          </a>
-                        )}
-                      </div>
-                    )}
+                    <div className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#f5f5f7] dark:bg-[#1a1d24] text-[#86868b] dark:text-[#71717a] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 border border-[#e5e5ea] dark:border-[#27272a] shadow-xs cursor-not-allowed">
+                      <Clock className="w-3.5 h-3.5 text-amber-500" />
+                      <span>Coming Soon</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -483,14 +429,14 @@ export function Products() {
             {filteredWallpapers.map((wp) => (
               <div
                 key={wp.id}
-                className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] hover:border-[#8b5cf6] dark:hover:border-[#8b5cf6] rounded-3xl overflow-hidden flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-200 group"
+                className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl overflow-hidden flex flex-col justify-between shadow-xs select-none pointer-events-none cursor-not-allowed opacity-90 transition-all duration-200"
               >
                 {/* Preview Image with Badges */}
                 <div className="relative aspect-video w-full overflow-hidden bg-black">
                   <img
                     src={wp.previewUrl}
                     alt={wp.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -504,9 +450,10 @@ export function Products() {
                     </span>
                   </div>
 
-                  <div className="absolute top-3 right-3">
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#8b5cf6] text-white shadow-xs">
-                      {wp.itemCount} Master Wallpapers
+                  <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500 text-white shadow-xs flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      <span>Coming Soon</span>
                     </span>
                   </div>
 
@@ -514,8 +461,8 @@ export function Products() {
                     <span className="text-[11px] font-medium text-slate-300">
                       Format: {wp.format}
                     </span>
-                    <span className="font-bold text-emerald-400">
-                      Retail: {wp.price}
+                    <span className="font-bold text-purple-300">
+                      {wp.itemCount} Master Wallpapers
                     </span>
                   </div>
                 </div>
@@ -527,12 +474,12 @@ export function Products() {
                       <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#f3e8ff] dark:bg-[#8b5cf6]/20 text-[#8b5cf6]">
                         {wp.category}
                       </span>
-                      <span className="text-xs font-bold text-[#34c759] bg-[#eafaf1] dark:bg-[#34c759]/15 px-2 py-0.5 rounded-full">
-                        100% OFF with Sponsor
+                      <span className="text-xs font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full">
+                        Catalog Preview
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white group-hover:text-[#8b5cf6] transition-colors leading-snug">
+                    <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white leading-snug">
                       {wp.title}
                     </h3>
                     <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-2 leading-relaxed">
@@ -549,25 +496,12 @@ export function Products() {
                     </div>
                   </div>
 
-                  {/* Actions */}
-                  <div className="pt-2 flex flex-col gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleStartWallpaperUnlock(wp)}
-                      className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#8b5cf6] hover:bg-[#7c3aed] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all"
-                    >
-                      <Sparkles className="w-4 h-4 text-white" />
-                      <span>Unlock 100% OFF Coupon</span>
-                    </button>
-                    <a
-                      href={`${wp.gumroadBaseUrl}/l/${wp.gumroadSlug}?wanted=true`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full min-h-[38px] py-1.5 px-3 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-xs font-medium flex items-center justify-center gap-2 transition-colors"
-                    >
-                      <span>Direct Checkout ({wp.price})</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                  {/* Actions - Unclickable Coming Soon */}
+                  <div className="pt-2">
+                    <div className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#f5f5f7] dark:bg-[#1a1d24] text-[#86868b] dark:text-[#71717a] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 border border-[#e5e5ea] dark:border-[#27272a] shadow-xs cursor-not-allowed">
+                      <Clock className="w-3.5 h-3.5 text-purple-500" />
+                      <span>Coming Soon</span>
+                    </div>
                   </div>
                 </div>
               </div>

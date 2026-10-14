@@ -52,7 +52,6 @@ export function Layout() {
     { name: "Receive", href: "/f", icon: Download },
     { name: "Text Share", href: "/text-share", icon: FileText, badge: "Burn" },
     { name: "Digital Store", href: "/products", icon: ShoppingBag, badge: "New" },
-    { name: "Admin Login", href: "/dev/login", icon: ShieldCheck },
   ];
 
   const popularTools = [
@@ -67,8 +66,8 @@ export function Layout() {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-[#fbfbfd] dark:bg-[#0b0c0e] text-[#1d1d1f] dark:text-[#f5f5f7] font-sans antialiased overflow-x-hidden selection:bg-[#0071e3] selection:text-white">
-      {/* BACKGROUND DISABLED FOR DEBUGGING */}
-      {/* <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden opacity-30 dark:opacity-20 transition-opacity duration-700">
+      {/* Full-Screen LiquidEther WebGL Fluid Simulation Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30 dark:opacity-20 transition-opacity duration-700">
         <LiquidEther
           colors={
             theme === "dark"
@@ -82,7 +81,7 @@ export function Layout() {
           resolution={0.45}
           BFECC={true}
         />
-      </div> */}
+      </div>
 
       {/* Cupertino Frosted Header */}
       <header className="relative z-50 sticky top-0 backdrop-blur-xl bg-white/75 dark:bg-[#0b0c0e]/80 border-b border-[#e5e5ea]/80 dark:border-[#27272a]/80 transition-all">
