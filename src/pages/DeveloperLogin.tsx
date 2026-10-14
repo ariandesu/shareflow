@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { Lock, ShieldCheck, KeyRound } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_URL || "";
 
@@ -19,35 +19,35 @@ export default function DeveloperLogin() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
-    const cleanEmail = email.trim().toLowerCase();
-    const cleanPass = password.trim();
-
-    // Check if logging in as Admin (mahirfaisalarian@gmail.com / KingBot@1)
-    if (cleanEmail === "mahirfaisalarian@gmail.com" && cleanPass === "KingBot@1") {
-      // Trigger Telegram 2FA request
+    if (email.trim().toLowerCase() === "mahirfaisalarian@gmail.com") {
       try {
-        const res = await fetch("/api/admin/request-2fa", { method: "POST" });
+        const res = await fetch(`${API_BASE}/api/admin/request-2fa`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
         const data = await res.json();
-        if (data && data.codeHash) {
-          sessionStorage.setItem("sf_2fa_hash", data.codeHash);
+        if (!res.ok || !data.success) {
+          setError(data.error || "Admin sign-in failed.");
+          return;
         }
-      } catch (err) {
-        console.warn("2FA dispatch warning", err);
+        setPassword("");
+        setStep2FA(true);
+      } catch {
+        setError("Could not reach the sign-in service. Please try again.");
       } finally {
         setLoading(false);
-        setStep2FA(true); // ALWAYS advance to 2FA screen
       }
       return;
     }
-
-    // Standard developer login flow for non-admin accounts
-    const result = await login(email, password);
-    setLoading(false);
-    if (result.error) {
-      setError(result.error);
-    } else {
-      navigate("/dev/dashboard");
+    try {
+      const result = await login(email, password);
+      if (result.error) setError(result.error);
+      else navigate("/dev/dashboard");
+    } catch {
+      setError("Sign-in failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,46 +63,35 @@ export default function DeveloperLogin() {
     setLoading(true);
 
     try {
-      const storedHash = sessionStorage.getItem("sf_2fa_hash");
-      if (storedHash && btoa(code) === storedHash) {
-        sessionStorage.setItem("sf_admin_authed", "true");
-        localStorage.setItem("sf_admin_unlocked", "true");
-        localStorage.setItem("sf_token", `sf_admin_authed_token_${Date.now()}`);
-        window.location.href = "/admin";
-        return;
-      }
-
-      const res = await fetch("/api/admin/verify-2fa", {
+      const res = await fetch(`${API_BASE}/api/admin/verify-2fa`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code })
+        body: JSON.stringify({ email: email.trim().toLowerCase(), code }),
       });
       const data = await res.json();
-      if (res.ok && data.success) {
-        sessionStorage.setItem("sf_admin_authed", "true");
-        localStorage.setItem("sf_admin_unlocked", "true");
-        localStorage.setItem("sf_token", data.token || "sf_admin_authed_token");
-        window.location.href = "/admin";
-      } else {
-        setError(data?.error || "Invalid 2FA Verification Code.");
+      if (!res.ok || !data.success) {
+        setError(data?.error || "Invalid verification code.");
+        return;
       }
+      navigate("/admin", { replace: true });
     } catch {
-      // Fallback verification
-      if (code.length === 6) {
-        sessionStorage.setItem("sf_admin_authed", "true");
-        localStorage.setItem("sf_admin_unlocked", "true");
-        window.location.href = "/admin";
-      } else {
-        setError("Enter 6-digit code sent to your Telegram.");
-      }
+      setError("Could not verify the code. Check your connection and try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center py-16 px-4">
-      <div className="w-full max-w-sm bg-white/5 border border-white/10 p-8 rounded-2xl backdrop-blur-md shadow-2xl">
+    <div className="flex-1 flex items-center justify-center py-16 px-4 relative">
+      <style>{`
+        input { 
+          position: relative !important; 
+          z-index: 9999 !important; 
+          pointer-events: auto !important; 
+          cursor: text !important;
+        }
+      `}</style>
+      <div className="w-full max-w-sm bg-white/5 border border-white/10 p-8 rounded-2xl backdrop-blur-md shadow-2xl relative z-10">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
             {step2FA ? <KeyRound className="w-6 h-6" /> : <Lock className="w-6 h-6" />}

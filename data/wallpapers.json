@@ -1,0 +1,116 @@
+[
+  {
+    "id": "neo-tokyo-cyberpunk-8k",
+    "title": "Neo-Tokyo Cyberpunk Horizon 8K",
+    "description": "Ultra-detailed futuristic urban landscapes, neon-lit alleyways, rain reflections, and cybernetic skyways in lossless 8K resolution.",
+    "category": "Desktop 8K",
+    "resolution": "7680x4320",
+    "aspectRatio": "16:9",
+    "itemCount": 12,
+    "format": "Lossless PNG (HDR10)",
+    "previewUrl": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+    "sampleImages": [
+      "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=800&q=80"
+    ],
+    "price": "$4.99",
+    "gumroadSlug": "fastapi-sqlite-starter-kit",
+    "gumroadBaseUrl": "https://mhr3d.gumroad.com/l/fastapi-sqlite-starter-kit",
+    "features": ["7680x4320 Lossless 8K", "HDR10 Color Profile", "Zero Compression Artifacts", "12 Master Renders"],
+    "tags": ["Cyberpunk", "Tokyo", "Neon", "8K UHD", "Sci-Fi"],
+    "featured": true,
+    "active": true,
+    "createdAt": "2026-10-13T20:00:00.000Z"
+  },
+  {
+    "id": "obsidian-monolith-oled",
+    "title": "Obsidian Monolith OLED True Black",
+    "description": "Crafted exclusively for high-end AMOLED and OLED displays. Minimum 85% pure #000000 true black pixels for zero pixel battery drain.",
+    "category": "Mobile OLED",
+    "resolution": "3840x2160 (High DPI)",
+    "aspectRatio": "9:19.5 (Mobile)",
+    "itemCount": 18,
+    "format": "Lossless PNG (DCI-P3)",
+    "previewUrl": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1200&q=80",
+    "sampleImages": [
+      "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1507499739999-097706ad8914?auto=format&fit=crop&w=800&q=80"
+    ],
+    "price": "$3.99",
+    "gumroadSlug": "async-web-scraper-engine",
+    "gumroadBaseUrl": "https://mhr3d.gumroad.com/l/async-web-scraper-engine",
+    "features": ["True #000000 Black Pixels", "Zero OLED Power Consumption", "DCI-P3 Gamut", "18 Vertical Wallpapers"],
+    "tags": ["OLED", "Minimalist", "Black", "Mobile", "AMOLED"],
+    "featured": true,
+    "active": true,
+    "createdAt": "2026-10-13T20:05:00.000Z"
+  },
+  {
+    "id": "deep-space-supernova-32x9",
+    "title": "Deep Space Supernova 32:9 Dual Monitor",
+    "description": "Extreme ultra-wide astrophotography and procedural galaxy clusters. Spans across dual 4K monitors with seamless horizon continuity.",
+    "category": "Dual Monitor",
+    "resolution": "7680x2160 (Dual 4K)",
+    "aspectRatio": "32:9 (Super Ultrawide)",
+    "itemCount": 10,
+    "format": "Lossless PNG (HDR10)",
+    "previewUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    "sampleImages": [
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=80"
+    ],
+    "price": "$5.99",
+    "gumroadSlug": "docker-k8s-cheatsheet",
+    "gumroadBaseUrl": "https://mhr3d.gumroad.com/l/docker-k8s-cheatsheet",
+    "features": ["7680x2160 Native 32:9", "Zero Seam Alignment", "Nebulae & Deep Space", "10 High-Def Renders"],
+    "tags": ["Ultrawide", "32:9", "Dual Monitor", "Space", "Cosmos"],
+    "featured": false,
+    "active": true,
+    "createdAt": "2026-10-13T20:10:00.000Z"
+  },
+  {
+    "id": "mech-core-3d-scifi",
+    "title": "Mech Core 3D Hard-Surface Studio",
+    "description": "Cinematic mechanical engineering, robotic joint schematics, and futuristic exoskeleton renders with micro-bevel details.",
+    "category": "3D Sci-Fi",
+    "resolution": "7680x4320",
+    "aspectRatio": "16:9",
+    "itemCount": 14,
+    "format": "Lossless PNG (HDR10)",
+    "previewUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+    "sampleImages": [
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ],
+    "price": "$4.99",
+    "gumroadSlug": "global-tech-salaries-2026",
+    "gumroadBaseUrl": "https://mhr3d.gumroad.com/l/global-tech-salaries-2026",
+    "features": ["Hard-Surface Mech Renders", "Raytraced Ambient Occlusion", "8K Resolution", "14 Bundled Wallpapers"],
+    "tags": ["Mech", "3D", "Blender", "Sci-Fi", "Robotics"],
+    "featured": false,
+    "active": true,
+    "createdAt": "2026-10-13T20:15:00.000Z"
+  },
+  {
+    "id": "minimalist-tokyo-fog",
+    "title": "Minimalist Tokyo Rain & Mist",
+    "description": "Subtle atmospheric photography capturing quiet morning rain, foggy high-rises, and serene Japanese architectural geometry.",
+    "category": "Minimalist Dark",
+    "resolution": "5120x2880 (5K Retina)",
+    "aspectRatio": "16:9",
+    "itemCount": 15,
+    "format": "Lossless PNG (Adobe RGB)",
+    "previewUrl": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80",
+    "sampleImages": [
+      "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80"
+    ],
+    "price": "$3.99",
+    "gumroadSlug": "async-telegram-bot-boilerplate",
+    "gumroadBaseUrl": "https://mhr3d.gumroad.com/l/async-telegram-bot-boilerplate",
+    "features": ["5K Retina Resolution", "Moody Ambient Gradients", "Calm Aesthetic", "15 Wallpapers"],
+    "tags": ["Minimalist", "Tokyo", "Architecture", "Moody", "Dark"],
+    "featured": false,
+    "active": true,
+    "createdAt": "2026-10-13T20:20:00.000Z"
+  }
+]
