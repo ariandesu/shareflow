@@ -52,6 +52,8 @@ import PDFPageRemover from "./pages/PDFPageRemover";
 import PDFRotator from "./pages/PDFRotator";
 import PDFWatermark from "./pages/PDFWatermark";
 import PDFSigner from "./pages/PDFSigner";
+import PDFCompressor from "./pages/PDFCompressor";
+import { PDFUtility } from "./pages/PDFUtility";
 import TextDiff from "./pages/TextDiff";
 import CSVJsonConverter from "./pages/CSVJsonConverter";
 import EpochConverter from "./pages/EpochConverter";
@@ -168,6 +170,9 @@ export default function App() {
             <Route path="pdf-rotator" element={<PDFRotator />} />
             <Route path="pdf-watermark" element={<PDFWatermark />} />
             <Route path="pdf-signer" element={<PDFSigner />} />
+            <Route path="pdf-compressor" element={<PDFCompressor />} />
+            <Route path="pdf-utility" element={<PDFUtility />} />
+            <Route path="pdf-tools" element={<PDFUtility />} />
             <Route path="pdf-to-images" element={<PDFToImages />} />
             <Route path="images-to-pdf" element={<ImagesToPDF />} />
             <Route path="metadata-viewer" element={<MetadataViewer />} />

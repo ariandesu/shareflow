@@ -52,6 +52,8 @@ const TOOLS_LIST: ToolItem[] = [
   { name: "UUID Generator", desc: "Generate RFC-compliant UUID v4 / v7 identifiers in bulk.", href: "/uuid", icon: "🆔", category: "security" },
 
   // PDF Toolkit
+  { name: "PDF Utility Studio", desc: "All-in-one unified workspace: merge, split, rotate, sign, compress & OCR.", href: "/pdf-utility", icon: "⚡", category: "pdf" },
+  { name: "PDF Compressor", desc: "Downsample DPI and compress PDF file size up to 85% in-browser.", href: "/pdf-compressor", icon: "🗜️", category: "pdf" },
   { name: "PDF Merger", desc: "Combine multiple PDF documents into one cleanly without upload.", href: "/pdf-merger", icon: "📄", category: "pdf" },
   { name: "PDF Splitter", desc: "Extract and separate page ranges from any PDF document.", href: "/pdf-splitter", icon: "✂️", category: "pdf" },
   { name: "PDF Rotator", desc: "Rotate pages 90°/180° and visually reorganize PDF page sequence.", href: "/pdf-rotator", icon: "🔄", category: "pdf" },

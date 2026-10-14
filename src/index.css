@@ -260,7 +260,11 @@ html:not(.dark) {
   a[class*="bg-[#0071e3]"],
   a[class*="bg-[#0071e3]"] *,
   a[class*="bg-black"],
-  a[class*="bg-black"] * {
+  a[class*="bg-black"] *,
+  div[class*="bg-[#0071e3]"],
+  div[class*="bg-[#0071e3]"] *,
+  div[class*="bg-[#1d1d1f]"],
+  div[class*="bg-[#1d1d1f]"] * {
     color: #ffffff !important;
   }
 
