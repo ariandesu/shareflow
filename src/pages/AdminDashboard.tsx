@@ -61,12 +61,8 @@ interface ApiKeyRecord {
 }
 
 export default function AdminDashboard() {
-  const [adminAuth, setAdminAuth] = useState(() => {
-    return (
-      localStorage.getItem("sf_admin_unlocked") === "true" ||
-      sessionStorage.getItem("sf_admin_authed") === "true"
-    );
-  });
+  const [adminAuth, setAdminAuth] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   const [activeTab, setActiveTab] = useState<"telemetry" | "users" | "apikeys" | "wallpapers" | "prompts">("telemetry");
   const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
@@ -117,6 +113,22 @@ export default function AdminDashboard() {
   const [sending2FA, setSending2FA] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+    fetch("/api/admin/session", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!cancelled) setAdminAuth(data.authenticated === true);
+      })
+      .catch(() => {
+        if (!cancelled) setAdminAuth(false);
+      })
+      .finally(() => {
+        if (!cancelled) setAuthChecked(true);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
     if (adminAuth) {
       loadAllAdminData();
       const interval = setInterval(() => {
@@ -163,65 +175,50 @@ export default function AdminDashboard() {
     }
   };
 
-  // 2FA Login Handlers
+  // Server verifies admin credentials and Telegram code; authentication is an HttpOnly cookie.
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const pass = loginPass.trim();
-    if (pass === "KingBot@1" || pass === "MayaCash$1" || pass === "admin" || pass.length >= 4) {
-      setSending2FA(true);
-      setLoginError("");
-      try {
-        const res = await fetch("/api/admin/request-2fa", { method: "POST" });
-        const data = await res.json();
-        if (data && data.codeHash) {
-          sessionStorage.setItem("sf_2fa_hash", data.codeHash);
-        }
-      } catch (err) {
-        console.warn("2FA error", err);
-      } finally {
-        setSending2FA(false);
-        setStep2FA(true);
+    setSending2FA(true);
+    setLoginError("");
+    try {
+      const res = await fetch("/api/admin/request-2fa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: "mahirfaisalarian@gmail.com", password: loginPass }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setLoginError(data.error || "Admin sign-in failed.");
+        return;
       }
-    } else {
-      setLoginError("Invalid Admin Password. Please try again.");
+      setLoginPass("");
+      setStep2FA(true);
+    } catch {
+      setLoginError("Could not reach the sign-in service. Please try again.");
+    } finally {
+      setSending2FA(false);
     }
   };
 
   const handleVerify2FA = async (e: React.FormEvent) => {
     e.preventDefault();
-    const code = twoFACode.trim();
     setSending2FA(true);
     setLoginError("");
     try {
-      const storedHash = sessionStorage.getItem("sf_2fa_hash");
-      if (storedHash && btoa(code) === storedHash) {
-        sessionStorage.setItem("sf_admin_authed", "true");
-        localStorage.setItem("sf_admin_unlocked", "true");
-        setAdminAuth(true);
-        return;
-      }
-
       const res = await fetch("/api/admin/verify-2fa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code })
+        body: JSON.stringify({ email: "mahirfaisalarian@gmail.com", code: twoFACode.trim() }),
       });
       const data = await res.json();
-      if (res.ok && data.success) {
-        sessionStorage.setItem("sf_admin_authed", "true");
-        localStorage.setItem("sf_admin_unlocked", "true");
-        setAdminAuth(true);
-      } else {
-        setLoginError(data?.error || "Invalid 2FA Verification Code.");
+      if (!res.ok || !data.success) {
+        setLoginError(data.error || "Invalid verification code.");
+        return;
       }
+      setAdminAuth(true);
+      setAuthChecked(true);
     } catch {
-      if (code.length === 6) {
-        sessionStorage.setItem("sf_admin_authed", "true");
-        localStorage.setItem("sf_admin_unlocked", "true");
-        setAdminAuth(true);
-      } else {
-        setLoginError("Enter 6-digit code sent to your Telegram.");
-      }
+      setLoginError("Could not verify the code. Check your connection and try again.");
     } finally {
       setSending2FA(false);
     }
@@ -333,7 +330,7 @@ export default function AdminDashboard() {
 
   const handleToggleWallpaper = async (id: string) => {
     try {
-      const res = await fetch(`/api/wallpapers/${id}/toggle`, { method: "PATCH" });
+      const res = await fetch(`/api/wallpapers?id=${encodeURIComponent(id)}`, { method: "PATCH" });
       if (res.ok) {
         setWallpapers(prev => prev.map(w => w.id === id ? { ...w, active: !w.active } : w));
       }
@@ -345,7 +342,7 @@ export default function AdminDashboard() {
   const handleDeleteWallpaper = async (id: string) => {
     if (!confirm("Are you sure you want to delete this wallpaper bundle?")) return;
     try {
-      const res = await fetch(`/api/wallpapers/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/wallpapers?id=${encodeURIComponent(id)}`, { method: "DELETE" });
       if (res.ok) {
         setWallpapers(prev => prev.filter(w => w.id !== id));
       }
@@ -395,7 +392,7 @@ export default function AdminDashboard() {
 
   const handleTogglePrompt = async (id: string) => {
     try {
-      const res = await fetch(`/api/prompts/${id}/toggle`, { method: "PATCH" });
+      const res = await fetch(`/api/prompts?id=${encodeURIComponent(id)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "toggle" }) });
       if (res.ok) {
         setPrompts(prev => prev.map(p => p.id === id ? { ...p, active: !p.active } : p));
       }
@@ -407,7 +404,7 @@ export default function AdminDashboard() {
   const handleDeletePrompt = async (id: string) => {
     if (!confirm("Are you sure you want to delete this prompt?")) return;
     try {
-      const res = await fetch(`/api/prompts/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/prompts?id=${encodeURIComponent(id)}`, { method: "DELETE" });
       if (res.ok) {
         setPrompts(prev => prev.filter(p => p.id !== id));
       }
@@ -501,6 +498,10 @@ export default function AdminDashboard() {
         </div>
       </div>
     );
+  }
+
+  if (!authChecked) {
+    return <div className="flex-1 flex items-center justify-center py-16 text-sm text-white/60">Checking admin session…</div>;
   }
 
   const filteredUsers = users.filter(
