@@ -54,6 +54,10 @@ const TOOLS_LIST: ToolItem[] = [
   // PDF Toolkit
   { name: "PDF Merger", desc: "Combine multiple PDF documents into one cleanly without upload.", href: "/pdf-merger", icon: "📄", category: "pdf" },
   { name: "PDF Splitter", desc: "Extract and separate page ranges from any PDF document.", href: "/pdf-splitter", icon: "✂️", category: "pdf" },
+  { name: "PDF Rotator", desc: "Rotate pages 90°/180° and visually reorganize PDF page sequence.", href: "/pdf-rotator", icon: "🔄", category: "pdf" },
+  { name: "PDF Watermark", desc: "Stamp custom text watermarks or automated pagination across PDF pages.", href: "/pdf-watermark", icon: "🏷️", category: "pdf" },
+  { name: "PDF Signer", desc: "Draw or type legal signatures and burn them directly onto PDF documents.", href: "/pdf-signer", icon: "✍️", category: "pdf" },
+  { name: "PDF Page Remover", desc: "Select and delete unwanted pages from PDF files with live previews.", href: "/pdf-page-remover", icon: "🗑️", category: "pdf" },
   { name: "PDF to Images", desc: "Render high-resolution PNG pages directly from PDF pages.", href: "/pdf-to-images", icon: "🖼️", category: "pdf" },
   { name: "Images to PDF", desc: "Convert photo galleries and scans into standard PDF books.", href: "/images-to-pdf", icon: "📚", category: "pdf" },
   { name: "PDF Text Extractor", desc: "Extract raw readable text strings from any PDF file.", href: "/pdf-text-extractor", icon: "📋", category: "pdf" },

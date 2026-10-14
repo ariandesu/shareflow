@@ -346,10 +346,11 @@ export function Layout() {
             <div className="flex flex-col gap-3">
               <h4 className="font-bold text-xs uppercase tracking-wider text-[#1d1d1f] dark:text-white">Media &amp; Architecture</h4>
               <ul className="flex flex-col gap-2">
+                <li><Link to="/pdf-merger" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">PDF Merger &amp; Splitter</Link></li>
+                <li><Link to="/pdf-rotator" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">PDF Rotator &amp; Reorder</Link></li>
+                <li><Link to="/pdf-watermark" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">PDF Watermark &amp; Numbers</Link></li>
+                <li><Link to="/pdf-signer" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">PDF Digital Signer</Link></li>
                 <li><Link to="/image-compressor" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">Image Compressor</Link></li>
-                <li><Link to="/pdf-merger" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">PDF Merger</Link></li>
-                <li><Link to="/base64" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">Base64 Converter</Link></li>
-                <li><Link to="/regex-tester" className="hover:text-[#0071e3] dark:hover:text-[#38bdf8] transition-colors">Regex Playground</Link></li>
               </ul>
             </div>
           </div>
