@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import CryptoJS from "crypto-js";
 import { Copy, Check } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
+import { ShareSecretButton } from "../components/P2PPipeAction";
+import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 export default function HashGenerator() {
   const [input, setInput] = useState("");
@@ -81,9 +83,17 @@ export default function HashGenerator() {
               </div>
             </div>
           ))}
+          {hashes.SHA256 && (
+            <div className="flex justify-end pt-2">
+              <ShareSecretButton text={hashes.SHA256} label="🔥 Share SHA-256 Hash as Secret" />
+            </div>
+          )}
         </div>
       </motion.div>
-    
+
+      {/* Contextual Zero-Knowledge Vault Card */}
+      <ContextualPartnerCard category="passwordVault" />
+
       <SEOContent 
         title="Hash Generator"
         description="Generate cryptographic hashes online. Create MD5, SHA-1, SHA-256, and SHA-512 hashes instantly."

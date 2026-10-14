@@ -4,15 +4,27 @@
  */
 
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Copy, Check, Send, Search, X, Link as LinkIcon, CheckCircle2, AlertCircle, Shield, Clock } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
+import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 export function TextShare() {
   const { id } = useParams<{ id?: string }>();
+  const location = useLocation();
 
   const [text, setText] = useState("");
   const [code, setCode] = useState("");
+
+  useEffect(() => {
+    const incoming = (location.state as any)?.prefilledText || (location.state as any)?.text || (window as any).__pendingShareText;
+    if (incoming && typeof incoming === "string") {
+      setText(incoming);
+      try {
+        delete (window as any).__pendingShareText;
+      } catch {}
+    }
+  }, [location]);
   const [isLoading, setIsLoading] = useState(false);
   const [sharedUrl, setSharedUrl] = useState("");
   const [copied, setCopied] = useState(false);
@@ -345,6 +357,11 @@ export function TextShare() {
             Secret snippets are held strictly in memory and delete permanently after retrieval or expiration.
           </div>
         </div>
+      </div>
+
+      {/* Contextual Secrets Sync Card */}
+      <div className="w-full max-w-5xl">
+        <ContextualPartnerCard category="secretSync" />
       </div>
 
       <SEOContent 

@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight, ArrowLeft, HelpCircle, BookOpen, ShieldCheck, Sparkles } from "lucide-react";
+import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight, ArrowLeft, HelpCircle, BookOpen, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AdBanner } from "../components/AdBanner";
 import { useCupertinoToast, CupertinoToastContainer } from "../components/CupertinoToast";
+import { TransferRoomSponsor } from "../components/TransferRoomSponsor";
+import { TransferSuccessCard } from "../components/TransferSuccessCard";
+import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
@@ -345,6 +348,14 @@ export function FileReceive() {
           <h2 className="text-3xl font-black uppercase tracking-tight text-[#1d1d1f] dark:text-white">Receive <span className="text-[#6e6e73] dark:text-white/40">File</span></h2>
         </div>
 
+        {/* WebRTC Live Pipe UX Micro-Copy */}
+        <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#0071e3]/10 dark:bg-[#0071e3]/15 border border-[#0071e3]/25 text-[#0071e3] dark:text-[#38bdf8] text-xs font-medium mb-6 relative z-10">
+          <Zap className="w-4 h-4 shrink-0" />
+          <span>
+            <strong>⚡ Direct P2P Stream:</strong> Both peers must keep this tab open until transfer completes. Zero bytes touch any cloud disk.
+          </span>
+        </div>
+
         <AnimatePresence mode="wait">
           {status === "idle" && (
             <motion.div 
@@ -452,29 +463,23 @@ export function FileReceive() {
               <p className="text-xs font-bold text-red-500 animate-pulse text-center">
                 Do not close this tab or lock your device.
               </p>
+
+              {/* Streaming Room Native Sponsor Slot */}
+              <TransferRoomSponsor />
             </motion.div>
           )}
 
           {status === "success" && (
-            <motion.div 
-              key="success"
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-              className="flex flex-col items-center justify-center py-12 relative z-10"
-            >
-              <div className="w-20 h-20 bg-emerald-500/10 text-emerald-600 flex items-center justify-center rounded-full mb-6">
-                <Check className="w-10 h-10" />
-              </div>
-              <h3 className="text-3xl font-black uppercase tracking-tight mb-4 text-[#1d1d1f] dark:text-white">Download Complete</h3>
-              <p className="text-[#6e6e73] dark:text-white/60 font-medium text-center mb-8">
-                Your file has been successfully received. Check your browser downloads.
-              </p>
-              <button 
-                onClick={() => { setStatus("idle"); setCode(""); navigate("/f"); }}
-                className="font-bold uppercase tracking-widest text-sm text-[#0071e3] dark:text-[#38bdf8] hover:underline"
-              >
-                Receive Another File
-              </button>
-            </motion.div>
+            <TransferSuccessCard
+              fileName={metadata?.name || "Direct File Stream"}
+              fileSizeFormatted={metadata?.size ? `${(metadata.size / (1024 * 1024)).toFixed(2)} MB` : "Direct Stream"}
+              isSender={false}
+              onReset={() => {
+                setStatus("idle");
+                setCode("");
+                navigate("/f");
+              }}
+            />
           )}
 
           {status === "error" && (
@@ -498,6 +503,11 @@ export function FileReceive() {
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Contextual VPN & Security Card */}
+      <div className="w-full max-w-xl">
+        <ContextualPartnerCard toolId="p2p" />
+      </div>
 
       <AdBanner />
 

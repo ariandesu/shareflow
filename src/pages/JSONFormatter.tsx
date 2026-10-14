@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Copy, Check, FileJson } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
+import { ShareSecretButton } from "../components/P2PPipeAction";
+import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 export function JSONFormatter() {
   const [input, setInput] = useState("");
@@ -73,13 +75,16 @@ export function JSONFormatter() {
             </div>
           </div>
           {output && (
-            <button
-              onClick={copyToClipboard}
-              className="flex items-center space-x-2 text-white hover:text-white/80 font-black uppercase tracking-widest text-[10px] transition-colors"
-            >
-              {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? "Copied" : "Copy Formatted"}</span>
-            </button>
+            <div className="flex items-center gap-3">
+              <ShareSecretButton text={output} className="py-1 px-3 text-[10px]" />
+              <button
+                onClick={copyToClipboard}
+                className="flex items-center space-x-2 text-white hover:text-white/80 font-black uppercase tracking-widest text-[10px] transition-colors"
+              >
+                {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                <span>{copied ? "Copied" : "Copy Formatted"}</span>
+              </button>
+            </div>
           )}
         </div>
 
@@ -112,8 +117,11 @@ export function JSONFormatter() {
           </div>
         </div>
       </motion.div>
-    
-      <SEOContent 
+
+      {/* Contextual Cloud Hosting Card */}
+      <ContextualPartnerCard category="cloudHosting" />
+
+      <SEOContent
         title="JSON Formatter"
         description="Format, validate, and beautify your JSON data online. A free developer tool to make JSON readable."
         steps={[{"title":"Paste JSON","description":"Paste your minified or unformatted JSON string into the input area."},{"title":"Set Indentation","description":"Choose between 2 or 4 spaces for your preferred indentation level."},{"title":"Copy Output","description":"Review the formatted and syntax-highlighted JSON, then click copy to save it."}]}

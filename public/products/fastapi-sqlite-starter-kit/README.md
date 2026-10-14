@@ -20,6 +20,7 @@ A high-performance, asynchronous FastAPI boilerplate configured for production d
 │   └── routers/
 │       ├── auth.py
 │       └── items.py
+├── .env.example
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
@@ -28,6 +29,12 @@ A high-performance, asynchronous FastAPI boilerplate configured for production d
 
 ## Quick Start
 ```bash
+cp .env.example .env
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
+
+## Production Cloud Deployment (1-Click & Recommended Hosting)
+- **DigitalOcean**: [Claim $200 in Free Cloud Compute Credits (60 Days)](https://m.do.co/c/shareflow)
+- **Railway**: [1-Click Cloud Deploy on Railway](https://railway.com?referralCode=shareflow)
+- **Hetzner Cloud**: [High-Performance NVMe Cloud Servers from €3.79/mo](https://hetzner.cloud/?ref=shareflow)

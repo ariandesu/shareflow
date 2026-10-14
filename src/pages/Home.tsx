@@ -193,7 +193,7 @@ export function Home() {
                 </span>
               </div>
               <div className="text-[11px] font-mono text-[#86868b] dark:text-[#a1a1aa] mt-1">
-                shareflow.app/t/8x92a • 1 view left
+                shareflow.mhr3d.online/t/8x92a • 1 view left
               </div>
             </div>
 

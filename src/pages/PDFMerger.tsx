@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Upload, Download, GripVertical, X, FileText } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
 import { PDFDocument } from "pdf-lib";
+import { PipeFileToP2PButton } from "../components/P2PPipeAction";
+import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 interface PDFFile {
   file: File;
@@ -13,8 +15,9 @@ interface PDFFile {
 
 export default function PDFMerger() {
   const [pdfFiles, setPdfFiles] = useState<PDFFile[]>([]);
-  const [mergedUrl, setMergedUrl] = useState<string>("");
-  const [mergedSize, setMergedSize] = useState(0);
+  const [mergedUrl, setMergedUrl] = useState<string | null>(null);
+  const [mergedBlob, setMergedBlob] = useState<Blob | null>(null);
+  const [mergedSize, setMergedSize] = useState<number | null>(null);
   const [isMerging, setIsMerging] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
 
@@ -83,6 +86,7 @@ export default function PDFMerger() {
       const blob = new Blob([mergedBytes], { type: "application/pdf" });
       if (mergedUrl) URL.revokeObjectURL(mergedUrl);
       setMergedUrl(URL.createObjectURL(blob));
+      setMergedBlob(blob);
       setMergedSize(blob.size);
     } catch (err) {
       console.error("Merge failed:", err);
@@ -189,14 +193,24 @@ export default function PDFMerger() {
               </button>
 
               {mergedUrl && (
-                <a href={mergedUrl} download="merged.pdf" className="block text-center bg-green-500 text-black font-black uppercase tracking-widest text-xs py-4 hover:bg-green-400 transition-colors">
-                  <Download className="w-4 h-4 inline mr-2" />Download Merged PDF
-                </a>
+                <div className="space-y-3">
+                  <a href={mergedUrl} download="merged.pdf" className="block text-center bg-green-500 text-black font-black uppercase tracking-widest text-xs py-4 hover:bg-green-400 transition-colors">
+                    <Download className="w-4 h-4 inline mr-2" />Download Merged PDF
+                  </a>
+                  <PipeFileToP2PButton
+                    file={mergedBlob}
+                    filename="merged.pdf"
+                    className="w-full justify-center py-3.5 text-xs font-black uppercase tracking-widest"
+                  />
+                </div>
               )}
             </div>
           </div>
         )}
       </motion.div>
+
+      {/* Contextual Enterprise PDF Card */}
+      <ContextualPartnerCard category="pdfEnterprise" />
 
       <SEOContent
         title="PDF Merger"
