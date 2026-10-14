@@ -70,10 +70,6 @@ import DeveloperLogin from "./pages/DeveloperLogin";
 import DeveloperSignup from "./pages/DeveloperSignup";
 import DeveloperDashboard from "./pages/DeveloperDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
-import { ToolSeoPage } from "./pages/ToolSeoPage";
-import { VsWeTransfer } from "./pages/vs/VsWeTransfer";
-import { VsILovePDF } from "./pages/vs/VsILovePDF";
-import { VsPrivnote } from "./pages/vs/VsPrivnote";
 
 function NotFound() {
   return (
@@ -200,16 +196,6 @@ export default function App() {
             <Route path="dev/admin" element={<AdminDashboard />} />
             <Route path="admin" element={<AdminDashboard />} />
             <Route path="admin/dashboard" element={<AdminDashboard />} />
-
-            {/* Dedicated Programmatic SEO Routes for 40+ Utilities */}
-            <Route path="tools/:toolSlug" element={<ToolSeoPage />} />
-            <Route path="p2p-file-transfer" element={<FileShare />} />
-            <Route path="secret-note" element={<TextShare />} />
-
-            {/* High-Converting /VS/ Competitor Comparison Pages */}
-            <Route path="vs/wetransfer" element={<VsWeTransfer />} />
-            <Route path="vs/ilovepdf" element={<VsILovePDF />} />
-            <Route path="vs/privnote" element={<VsPrivnote />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>

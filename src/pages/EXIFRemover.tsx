@@ -2,13 +2,10 @@ import React, { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Upload, ShieldCheck, ShieldAlert } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
-import { PipeFileToP2PButton } from "../components/P2PPipeAction";
-import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 export default function EXIFRemover() {
   const [file, setFile] = useState<File | null>(null);
   const [cleanedUrl, setCleanedUrl] = useState<string>("");
-  const [cleanedBlob, setCleanedBlob] = useState<Blob | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previewUrlRef = useRef<string | null>(null);
 
@@ -39,9 +36,6 @@ export default function EXIFRemover() {
       const format = hasAlpha ? "image/png" : "image/jpeg";
       const dataUrl = canvas.toDataURL(format, 1.0);
       setCleanedUrl(dataUrl);
-      canvas.toBlob((blob) => {
-        if (blob) setCleanedBlob(blob);
-      }, format, 1.0);
     };
     img.onerror = () => console.error("Failed to load image");
     img.src = url;
@@ -108,26 +102,18 @@ export default function EXIFRemover() {
 
             <div className="w-full space-y-4 pt-8 border-t border-white/10">
               {cleanedUrl && (
-                <div className="space-y-3">
-                  <a
-                    href={cleanedUrl}
-                    download={`cleaned-${file.name.replace(/\.[^/.]+$/, "")}.jpg`}
-                    className="block w-full text-center bg-white text-black font-black uppercase tracking-widest text-xs py-4 px-6 hover:bg-white/80 transition-colors"
-                  >
-                    Download Clean Image
-                  </a>
-                  <PipeFileToP2PButton
-                    file={cleanedBlob}
-                    filename={`cleaned-${file.name.replace(/\.[^/.]+$/, "")}.jpg`}
-                    className="w-full justify-center py-4 text-xs font-black uppercase tracking-widest"
-                  />
-                </div>
+                <a
+                  href={cleanedUrl}
+                  download={`cleaned-${file.name.replace(/\.[^/.]+$/, "")}.jpg`}
+                  className="block w-full bg-white text-black font-black uppercase tracking-widest text-xs py-4 px-6 hover:bg-white/80 transition-colors"
+                >
+                  Download Clean Image
+                </a>
               )}
               <button
                 onClick={() => {
                   setFile(null);
                   setCleanedUrl("");
-                  setCleanedBlob(null);
                 }}
                 className="block w-full text-white font-bold uppercase tracking-widest text-xs py-4 px-6 hover:text-white/70 transition-colors"
               >
@@ -138,10 +124,7 @@ export default function EXIFRemover() {
         )}
       </motion.div>
       <canvas ref={canvasRef} className="hidden" />
-
-      {/* Contextual VPN & WebRTC Privacy Card */}
-      <ContextualPartnerCard category="vpn" />
-
+    
       <SEOContent 
         title="EXIF Metadata Remover"
         description="Remove EXIF metadata and location data from your photos online to protect your privacy."

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Copy, Check, RefreshCw } from "lucide-react";
 import { SEOContent } from "../components/SEOContent";
-import { ShareSecretButton } from "../components/P2PPipeAction";
-import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 export function PasswordGenerator() {
   const [password, setPassword] = useState("");
@@ -84,13 +82,6 @@ export function PasswordGenerator() {
           </div>
         </div>
 
-        {/* Ephemeral Secret Workflow Action */}
-        {password && (
-          <div className="flex justify-end">
-            <ShareSecretButton text={password} />
-          </div>
-        )}
-
         <div className="space-y-8">
           <div>
             <div className="flex justify-between mb-4">
@@ -147,10 +138,7 @@ export function PasswordGenerator() {
           </div>
         </div>
       </motion.div>
-
-      {/* Contextual Zero-Knowledge Vault Card */}
-      <ContextualPartnerCard category="passwordVault" />
-
+    
       <SEOContent 
         title="Password Generator"
         description="Generate highly secure, random passwords directly in your browser. No server communication required."

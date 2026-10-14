@@ -11,7 +11,7 @@ This is a live editor. Type on the left, and see the results on the right.
 
 - **Bold** and *italic* text
 - Lists (like this one)
-- [Links](https://shareflow.mhr3d.online)
+- [Links](https://shareflow.app)
 - Code blocks:
 
 \`\`\`javascript

@@ -4,9 +4,6 @@ import { Upload, X, Copy, Check, File as FileIcon, ArrowRight, Zap, Cloud, Downl
 import { motion, AnimatePresence } from "motion/react";
 import { AdBanner } from "../components/AdBanner";
 import { useCupertinoToast, CupertinoToastContainer } from "../components/CupertinoToast";
-import { TransferRoomSponsor } from "../components/TransferRoomSponsor";
-import { TransferSuccessCard } from "../components/TransferSuccessCard";
-import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
@@ -465,14 +462,6 @@ export function FileShare() {
               </div>
             </div>
 
-            {/* WebRTC Live Pipe UX Micro-Copy */}
-            <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#0071e3]/10 dark:bg-[#0071e3]/15 border border-[#0071e3]/25 text-[#0071e3] dark:text-[#38bdf8] text-xs font-medium mb-6">
-              <Zap className="w-4 h-4 shrink-0" />
-              <span>
-                <strong>⚡ Direct P2P Stream:</strong> Both peers must keep this tab open until transfer completes. Zero bytes touch any cloud disk.
-              </span>
-            </div>
-
             <AnimatePresence mode="wait">
               {status === "idle" && (
                 <motion.div 
@@ -644,25 +633,13 @@ export function FileShare() {
                       {copied ? "Copied" : "Copy Link"}
                     </button>
                   </div>
-
-                  {/* Transfer Room Waiting Native Sponsor Slot */}
-                  <TransferRoomSponsor />
-
-                  <button onClick={reset} className="mt-4 text-[10px] font-bold text-[#6e6e73] dark:text-white/50 hover:text-[#1d1d1f] dark:hover:text-white uppercase tracking-widest">
+                  <button onClick={reset} className="mt-6 text-[10px] font-bold text-[#6e6e73] dark:text-white/50 hover:text-[#1d1d1f] dark:hover:text-white uppercase tracking-widest">
                     Cancel
                   </button>
                 </motion.div>
               )}
 
               {status === "success" && (
-                mode === "p2p" ? (
-                  <TransferSuccessCard
-                    fileName={files[0]?.name}
-                    fileSizeFormatted={`${(files.reduce((sum, f) => sum + f.size, 0) / (1024 * 1024)).toFixed(2)} MB`}
-                    isSender={true}
-                    onReset={reset}
-                  />
-                ) : (
                 <motion.div 
                   key="success"
                   initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
@@ -704,7 +681,6 @@ export function FileShare() {
                     Send Another File
                   </button>
                 </motion.div>
-                )
               )}
 
               {status === "error" && (
@@ -772,11 +748,6 @@ export function FileShare() {
           </div>
         </div>
 
-      </div>
-
-      {/* Contextual VPN & Security Card */}
-      <div className="w-full max-w-6xl">
-        <ContextualPartnerCard toolId="p2p" />
       </div>
 
       <AdBanner />

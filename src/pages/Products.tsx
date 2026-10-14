@@ -23,12 +23,8 @@ import {
   Eye,
   SlidersHorizontal,
   CreditCard,
-  ShoppingBag,
-  Server,
-  Shield,
-  Box
+  ShoppingBag
 } from "lucide-react";
-import { MONETIZATION_CONFIG } from "../config/monetization";
 import initialPrompts from "../../data/prompts.json";
 import initialWallpapers from "../../data/wallpapers.json";
 import { PromptItem, PromptCategory, TargetTool } from "../types/prompt";
@@ -37,8 +33,8 @@ import { WallpaperBundle, WallpaperCategory } from "../types/wallpaper";
 const ADSTERRA_SMART_LINK = "https://poochingdesolate.com/kbh3b1i8?key=2be98717904ae1521ea80373ae4d1933";
 
 export function Products() {
-  // Store Tab: "prompts", "wallpapers", or "boilerplates"
-  const [activeTab, setActiveTab] = useState<"prompts" | "wallpapers" | "boilerplates">("prompts");
+  // Store Tab: "prompts" or "wallpapers"
+  const [activeTab, setActiveTab] = useState<"prompts" | "wallpapers">("prompts");
 
   // Prompts State
   const [prompts, setPrompts] = useState<PromptItem[]>(initialPrompts as unknown as PromptItem[]);
@@ -239,22 +235,6 @@ export function Products() {
             <span>8K Wallpaper Packs</span>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#f3e8ff] dark:bg-[#8b5cf6]/20 text-[#8b5cf6]">
               {wallpapers.length} Packs
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab("boilerplates")}
-            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-              activeTab === "boilerplates"
-                ? "bg-white dark:bg-[#27272a] text-[#0071e3] dark:text-white shadow-sm"
-                : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
-            }`}
-          >
-            <Terminal className="w-4 h-4 text-[#0071e3]" />
-            <span>Developer Boilerplates</span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#e0f2fe] dark:bg-[#0071e3]/20 text-[#0071e3] dark:text-[#38bdf8]">
-              3 Free Kits
             </span>
           </button>
         </div>
@@ -592,245 +572,6 @@ export function Products() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* SECTION 3: DEVELOPER STARTER KITS & PRODUCTION BOILERPLATES               */}
-      {/* ========================================================================= */}
-      {activeTab === "boilerplates" && (
-        <div className="flex flex-col gap-8 max-w-7xl mx-auto w-full">
-          <div className="p-6 rounded-3xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <h3 className="font-extrabold text-lg text-[#1d1d1f] dark:text-white">
-                Free Production Blueprints & 1-Click Cloud Deployments
-              </h3>
-              <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] max-w-2xl">
-                Battle-tested architectures: pre-configured Docker, high-concurrency async runtimes, and anti-bot scraping pipelines. 100% free with no paywall.
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-xs border border-emerald-500/20">
-                100% Open Source
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Kit 1: FastAPI + SQLite */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] shadow-sm flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#0071e3]/10 text-[#0071e3] flex items-center justify-center">
-                  <Server className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                      Python 3.11+ / Docker
-                    </span>
-                  </div>
-                  <h4 className="text-xl font-extrabold text-[#1d1d1f] dark:text-white">
-                    FastAPI + SQLite WAL Starter Kit
-                  </h4>
-                  <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-2 leading-relaxed">
-                    High-concurrency async FastAPI setup with SQLite in WAL mode, JWT auth, SlowAPI rate limiter, and production Docker container spec.
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-3 pt-4 border-t border-[#e5e5ea] dark:border-[#27272a]">
-                <a
-                  href="/products/fastapi-sqlite-starter-kit.zip"
-                  download
-                  className="w-full py-3 px-4 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-xs"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Download Free Blueprint (.zip)</span>
-                </a>
-
-                <div className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider text-center">
-                  1-Click Cloud Deploy
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  <a
-                    href={MONETIZATION_CONFIG.railwayDeployUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-[#f5f5f7] dark:bg-[#1a1d24] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on Railway"
-                  >
-                    Railway
-                  </a>
-                  <a
-                    href={MONETIZATION_CONFIG.digitalOceanUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-[#0071e3] dark:text-[#38bdf8] text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on DigitalOcean ($200 Credit)"
-                  >
-                    DigitalOcean ($200)
-                  </a>
-                  <a
-                    href={MONETIZATION_CONFIG.hetznerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-[#f5f5f7] dark:bg-[#1a1d24] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on Hetzner"
-                  >
-                    Hetzner
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Kit 2: Async Scraper Engine */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] shadow-sm flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
-                  <Zap className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400">
-                      HTTPX / Playwright
-                    </span>
-                  </div>
-                  <h4 className="text-xl font-extrabold text-[#1d1d1f] dark:text-white">
-                    Async Web Scraper Engine
-                  </h4>
-                  <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-2 leading-relaxed">
-                    High-throughput scraper with pre-wired proxy rotation, user-agent randomization, and streaming JSON/CSV exporters.
-                  </p>
-                </div>
-
-                {/* Anti-Bot / Proxy Partner Badge */}
-                <a
-                  href={MONETIZATION_CONFIG.proxyPartnerUrl}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
-                  className="block p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-800 dark:text-amber-300 hover:bg-amber-500/15 transition-colors"
-                >
-                  <div className="font-bold flex items-center gap-1.5">
-                    <Shield className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                    <span>Recommended Residential Proxy:</span>
-                  </div>
-                  <p className="mt-0.5 text-[#6e6e73] dark:text-[#a1a1aa]">
-                    BrightData / ScraperAPI (Free Trial Credits Included) →
-                  </p>
-                </a>
-              </div>
-
-              <div className="space-y-3 pt-4 border-t border-[#e5e5ea] dark:border-[#27272a]">
-                <a
-                  href="/products/async-web-scraper-engine.zip"
-                  download
-                  className="w-full py-3 px-4 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-xs"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Download Free Blueprint (.zip)</span>
-                </a>
-
-                <div className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider text-center">
-                  1-Click Cloud Deploy
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  <a
-                    href={MONETIZATION_CONFIG.digitalOceanUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-[#0071e3] dark:text-[#38bdf8] text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on DigitalOcean ($200 Credit)"
-                  >
-                    DigitalOcean ($200)
-                  </a>
-                  <a
-                    href={MONETIZATION_CONFIG.railwayDeployUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-[#f5f5f7] dark:bg-[#1a1d24] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on Railway"
-                  >
-                    Railway
-                  </a>
-                  <a
-                    href={MONETIZATION_CONFIG.hetznerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-[#f5f5f7] dark:bg-[#1a1d24] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on Hetzner"
-                  >
-                    Hetzner
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Kit 3: Docker & K8s Spec */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] shadow-sm flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center">
-                  <Box className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400">
-                      DevOps / YAML
-                    </span>
-                  </div>
-                  <h4 className="text-xl font-extrabold text-[#1d1d1f] dark:text-white">
-                    Docker &amp; K8s Production Spec
-                  </h4>
-                  <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-2 leading-relaxed">
-                    50+ battle-tested Dockerfile snippets, multi-stage builders, Kubernetes ingress specs, and healthcheck configurations.
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-3 pt-4 border-t border-[#e5e5ea] dark:border-[#27272a]">
-                <a
-                  href="/products/docker-k8s-cheatsheet.zip"
-                  download
-                  className="w-full py-3 px-4 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-xs"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Download Free Blueprint (.zip)</span>
-                </a>
-
-                <div className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider text-center">
-                  1-Click Cloud Deploy
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  <a
-                    href={MONETIZATION_CONFIG.digitalOceanUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-[#0071e3] dark:text-[#38bdf8] text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on DigitalOcean ($200 Credit)"
-                  >
-                    DigitalOcean ($200)
-                  </a>
-                  <a
-                    href={MONETIZATION_CONFIG.hetznerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-[#f5f5f7] dark:bg-[#1a1d24] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on Hetzner"
-                  >
-                    Hetzner
-                  </a>
-                  <a
-                    href={MONETIZATION_CONFIG.railwayDeployUrl}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="py-2 px-2 text-center rounded-lg bg-[#f5f5f7] dark:bg-[#1a1d24] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-[11px] font-semibold transition-colors truncate"
-                    title="Deploy on Railway"
-                  >
-                    Railway
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       )}

@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { jwtDecode } from "jwt-decode";
 import { SEOContent } from "../components/SEOContent";
-import { ShareSecretButton } from "../components/P2PPipeAction";
-import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
 
 export default function JWTDecoder() {
   const [token, setToken] = useState("");
@@ -77,18 +75,10 @@ export default function JWTDecoder() {
               <pre className="text-blue-400 font-mono text-sm whitespace-pre-wrap">{payload}</pre>
             </div>
           </div>
-          {payload && (
-            <div className="flex justify-end">
-              <ShareSecretButton text={payload} label="🔥 Share Decoded Payload as Secret" />
-            </div>
-          )}
         </div>
       </motion.div>
-
-      {/* Contextual Zero-Knowledge Vault Card */}
-      <ContextualPartnerCard category="passwordVault" />
-
-      <SEOContent
+    
+      <SEOContent 
         title="JWT Decoder"
         description="Decode JSON Web Tokens (JWT) online. View the header and payload of your JWT without sending data to a server."
         steps={[{"title":"Paste JWT","description":"Paste your encoded JSON Web Token into the input field."},{"title":"View Header & Payload","description":"The tool automatically decodes the base64url-encoded parts and formats them as readable JSON."},{"title":"Check for errors","description":"If the token is malformed, an error message will guide you."}]}

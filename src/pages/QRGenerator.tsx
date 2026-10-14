@@ -3,16 +3,12 @@ import { QRCodeSVG } from "qrcode.react";
 import { Download } from "lucide-react";
 import { motion } from "motion/react";
 import { SEOContent } from "../components/SEOContent";
-import { ShareSecretButton, PipeFileToP2PButton } from "../components/P2PPipeAction";
-import { ContextualPartnerCard } from "../components/ContextualPartnerCard";
-import { SITE_URL } from "../config/site";
 
 export function QRGenerator() {
-  const [text, setText] = useState(SITE_URL);
+  const [text, setText] = useState("https://shareflow.app");
   const [size, setSize] = useState(256);
   const [fgColor, setFgColor] = useState("#000000");
   const [bgColor, setBgColor] = useState("#ffffff");
-  const [qrBlob, setQrBlob] = useState<Blob | null>(null);
   
   const qrRef = useRef<HTMLDivElement>(null);
 
@@ -34,9 +30,6 @@ export function QRGenerator() {
         ctx.fillRect(0, 0, size, size);
         ctx.drawImage(img, 0, 0);
         const pngFile = canvas.toDataURL("image/png");
-        canvas.toBlob((blob) => {
-          if (blob) setQrBlob(blob);
-        }, "image/png");
         const downloadLink = document.createElement("a");
         downloadLink.download = "qrcode.png";
         downloadLink.href = `${pngFile}`;
@@ -130,32 +123,16 @@ export function QRGenerator() {
             />
           </div>
           
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <button
-              onClick={downloadQR}
-              className="flex items-center justify-center space-x-2 bg-white text-black py-3 px-6 border-2 border-white font-black uppercase tracking-widest text-xs hover:bg-[#0A0A0A] hover:text-white transition-colors"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download PNG</span>
-            </button>
-            <PipeFileToP2PButton
-              file={qrBlob}
-              filename="qrcode.png"
-              className="py-3 px-4 text-xs font-black uppercase tracking-widest"
-              label="⚡ Pipe QR to Peer"
-            />
-            <ShareSecretButton
-              text={text}
-              className="py-3 px-4 text-xs font-black uppercase tracking-widest"
-              label="🔥 Share QR Text as Secret"
-            />
-          </div>
+          <button
+            onClick={downloadQR}
+            className="mt-8 flex items-center justify-center space-x-2 bg-white text-black py-4 px-8 border-2 border-white font-black uppercase tracking-widest text-sm hover:bg-[#0A0A0A] hover:text-white transition-colors"
+          >
+            <Download className="w-5 h-5" />
+            <span>Download PNG</span>
+          </button>
         </motion.div>
       </div>
-
-      {/* Contextual Card */}
-      <ContextualPartnerCard category="cloudHosting" />
-
+    
       <SEOContent 
         title="QR Code Generator"
         description="Create custom QR codes instantly. Fast, free, and vector-ready."
