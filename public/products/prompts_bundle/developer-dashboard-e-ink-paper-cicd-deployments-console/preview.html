@@ -1,0 +1,1191 @@
+<!DOCTYPE html><html lang="en" class="antialiased"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI/CD Deployments Console - DP-1100</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: {
+              ground: '#f4f1ea',
+              raised: '#faf8f3',
+            },
+            ink: {
+              DEFAULT: '#141310',
+              secondary: 'rgba(20,19,16,0.62)',
+              muted: 'rgba(20,19,16,0.42)',
+              hairline: 'rgba(20,19,16,0.14)',
+            },
+            signal: {
+              red: '#c8321e',
+            }
+          },
+          fontFamily: {
+            sans: ['"IBM Plex Sans"', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'monospace'],
+          },
+          backgroundImage: {
+            'dot-grain': 'radial-gradient(rgba(20,19,16,0.05) 0.5px, transparent 0.5px)',
+          },
+          backgroundSize: {
+            'dot-grain': '4px 4px',
+          },
+          boxShadow: {
+            'none': 'none',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #f4f1ea; margin: 0; }
+    * { border-color: rgba(20,19,16,0.14); }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+
+<meta name="preview-version" content="cdd303e1-7b6f-4fe0-b4e7-8109b0ed1fa4" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:43.864Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "cdd303e1-7b6f-4fe0-b4e7-8109b0ed1fa4");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "cdd303e1-7b6f-4fe0-b4e7-8109b0ed1fa4",
+      timestamp: "2026-10-16T14:07:43.864Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "cdd303e1-7b6f-4fe0-b4e7-8109b0ed1fa4";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen bg-paper-ground text-ink font-sans flex flex-col lg:flex-row" data-sd-id="1">
+    
+    <!-- Sidebar -->
+    <aside class="w-full lg:w-[240px] bg-paper-raised border-b lg:border-b-0 lg:border-r border-ink-hairline flex-shrink-0 flex flex-col" data-sd-id="2">
+      <!-- Workspace Switcher -->
+      <div class="h-[52px] border-b border-ink-hairline flex items-center px-4 hover:bg-paper-ground transition-colors cursor-pointer" data-sd-id="3">
+        <div class="w-6 h-6 border border-ink flex items-center justify-center mr-3" data-sd-id="4">
+          <span class="text-[11px] font-semibold leading-none" data-sd-id="5">SD</span>
+        </div>
+        <span class="font-medium text-sm flex-1 truncate" data-sd-id="6">Superdesign</span>
+        <iconify-icon icon="lucide:chevrons-up-down" class="text-ink-secondary w-4 h-4"></iconify-icon>
+      </div>
+      
+      <!-- Search -->
+      <div class="p-4 border-b border-ink-hairline" data-sd-id="7">
+        <div class="flex items-center justify-between border border-ink-hairline bg-paper-ground px-2 py-1.5 hover:border-ink-muted transition-colors cursor-text" data-sd-id="8">
+          <div class="flex items-center text-ink-muted" data-sd-id="9">
+            <iconify-icon icon="lucide:search" class="w-3.5 h-3.5 mr-2"></iconify-icon>
+            <span class="text-xs" data-sd-id="10">Search...</span>
+          </div>
+          <kbd class="font-mono text-[10px] text-ink-muted border border-ink-hairline px-1 rounded-sm">⌘K</kbd>
+        </div>
+      </div>
+
+      <!-- Main Nav -->
+      <nav class="flex-1 overflow-y-auto py-2" data-sd-id="11">
+        <ul class="space-y-0.5" data-sd-id="12">
+          <li data-sd-id="13">
+            <a href="#overview" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="14">
+              Overview
+            </a>
+          </li>
+          <li data-sd-id="15">
+            <a href="#deployments" class="flex items-center px-4 py-1.5 text-sm text-ink font-semibold bg-paper-ground relative" data-sd-id="16">
+              <div class="absolute left-0 top-0 bottom-0 w-[3px] bg-ink" data-sd-id="17"></div>
+              Deployments
+            </a>
+          </li>
+          <li data-sd-id="18">
+            <a href="#logs" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="19">
+              Logs
+            </a>
+          </li>
+          <li data-sd-id="20">
+            <a href="#analytics" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="21">
+              Analytics
+            </a>
+          </li>
+          <li data-sd-id="22">
+            <a href="#storage" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="23">
+              Storage
+            </a>
+          </li>
+          <li data-sd-id="24">
+            <a href="#settings" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="25">
+              Settings
+            </a>
+          </li>
+        </ul>
+
+        <!-- Environments -->
+        <div class="mt-6" data-sd-id="26">
+          <h3 class="px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted mb-2" data-sd-id="27">Environments</h3>
+          <ul class="space-y-0.5" data-sd-id="28">
+            <li data-sd-id="29">
+              <a href="#env-prod" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="30">
+                <svg class="w-3 h-3 mr-2" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="31">
+                  <circle cx="6" cy="6" r="4" fill="#141310"></circle>
+                </svg>
+                Production
+              </a>
+            </li>
+            <li data-sd-id="32">
+              <a href="#env-prev" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="33">
+                <svg class="w-3 h-3 mr-2" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="34">
+                  <path d="M6 2C8.20914 2 10 3.79086 10 6C10 8.20914 8.20914 10 6 10V2Z" fill="#141310"></path>
+                  <circle cx="6" cy="6" r="4" stroke="#141310" stroke-width="1.5"></circle>
+                </svg>
+                Preview
+              </a>
+            </li>
+            <li data-sd-id="35">
+              <a href="#env-dev" class="flex items-center px-4 py-1.5 text-sm text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="36">
+                <svg class="w-3 h-3 mr-2" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="37">
+                  <circle cx="6" cy="6" r="3.25" stroke="#141310" stroke-width="1.5"></circle>
+                </svg>
+                dev
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Pinned Bottom -->
+      <div class="border-t border-ink-hairline p-4 space-y-4" data-sd-id="38">
+        <!-- Usage Card -->
+        <div class="bg-paper-ground border border-ink-hairline p-3" data-sd-id="39">
+          <div class="flex justify-between items-end mb-2" data-sd-id="40">
+            <span class="text-xs text-ink-secondary font-medium" data-sd-id="41">Build minutes</span>
+            <span class="font-mono tabular-nums text-[11px] text-ink-muted" data-sd-id="42">412/600</span>
+          </div>
+          <div class="h-1 bg-ink-hairline w-full" data-sd-id="43">
+            <div class="h-full bg-ink" style="width: 68.6%" data-sd-id="44"></div>
+          </div>
+        </div>
+        <!-- User Row -->
+        <div class="flex items-center cursor-pointer hover:opacity-80 transition-opacity" data-sd-id="45">
+          <div class="w-8 h-8 border border-ink-hairline bg-paper-ground flex items-center justify-center mr-3" data-sd-id="46">
+            <span class="text-xs font-semibold" data-sd-id="47">TM</span>
+          </div>
+          <div class="flex flex-col" data-sd-id="48">
+            <span class="text-sm font-medium leading-tight" data-sd-id="49">Tim Marsh</span>
+            <span class="text-[11px] text-ink-muted font-mono" data-sd-id="50">@tim</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Column -->
+    <main class="flex-1 flex flex-col min-w-0" data-sd-id="51">
+      <!-- Header Bar -->
+      <header class="h-[52px] border-b border-ink-hairline bg-paper-ground flex items-center justify-between px-4 lg:px-6 shrink-0" data-sd-id="52">
+        <div class="flex items-center overflow-hidden" data-sd-id="53">
+          <div class="flex items-center text-sm whitespace-nowrap overflow-hidden text-ellipsis" data-sd-id="54">
+            <span class="text-ink-secondary font-mono text-xs" data-sd-id="55">canvas-app</span>
+            <span class="text-ink-muted mx-2" data-sd-id="56">/</span>
+            <span class="font-medium text-ink" data-sd-id="57">Deployments</span>
+          </div>
+        </div>
+
+        <!-- Segmented Control (Center, hidden on small screens) -->
+        <div class="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2" data-sd-id="58">
+          <div class="flex border border-ink-hairline rounded-none bg-paper-raised" data-sd-id="59">
+            <button class="px-3 py-1 text-xs font-medium bg-ink text-paper-ground border-r border-ink-hairline" data-sd-id="60">All</button>
+            <button class="px-3 py-1 text-xs font-medium text-ink-secondary hover:text-ink hover:bg-paper-ground border-r border-ink-hairline transition-colors" data-sd-id="61">Production</button>
+            <button class="px-3 py-1 text-xs font-medium text-ink-secondary hover:text-ink hover:bg-paper-ground transition-colors" data-sd-id="62">Preview</button>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3 shrink-0" data-sd-id="63">
+          <button class="text-sm text-ink-secondary hover:text-ink font-medium px-2 py-1 transition-colors" data-sd-id="64">
+            Filter
+          </button>
+          <button class="bg-ink text-paper-ground text-sm font-medium px-4 py-1.5 rounded-[4px] hover:opacity-90 transition-opacity" data-sd-id="65">
+            Deploy
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Content Area -->
+      <div class="flex-1 overflow-y-auto p-4 lg:p-6 lg:px-8 space-y-6 lg:space-y-8" data-sd-id="66">
+        
+        <!-- Current Production Hero Card -->
+        <section class="bg-paper-raised border border-ink-hairline bg-dot-grain p-5 lg:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6" data-sd-id="67">
+          <div class="flex flex-col space-y-3" data-sd-id="68">
+            <h2 class="text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted" data-sd-id="69">Current Production</h2>
+            <div class="flex items-center space-x-3" data-sd-id="70">
+               <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="71">
+                  <circle cx="6" cy="6" r="4" fill="#141310"></circle>
+                </svg>
+                <span class="font-medium text-sm" data-sd-id="72">Ready</span>
+                <span class="text-ink-hairline" data-sd-id="73">|</span>
+                <span class="font-mono text-sm" data-sd-id="74">dpl_9f2c41a</span>
+            </div>
+            <div class="flex items-center flex-wrap gap-x-4 gap-y-2 mt-1" data-sd-id="75">
+                <a href="#" class="font-mono text-sm underline decoration-ink-hairline underline-offset-4 hover:decoration-ink transition-colors flex items-center" data-sd-id="76">
+                  canvas.superdesign.dev
+                  <iconify-icon icon="lucide:arrow-up-right" class="w-3 h-3 ml-1"></iconify-icon>
+                </a>
+                <span class="font-mono text-xs text-ink-secondary bg-paper-ground border border-ink-hairline px-1.5 py-0.5 rounded-sm" data-sd-id="77">
+                  a41f9e2 · fix: canvas zoom-to-fit on nested frames
+                </span>
+            </div>
+            <div class="text-xs text-ink-muted font-mono mt-2" data-sd-id="78">
+              main · 2m 41s · 18 min ago by tim
+            </div>
+          </div>
+
+          <!-- Pipeline Strip -->
+          <div class="flex flex-col shrink-0 lg:w-72 lg:items-end" data-sd-id="79">
+            <div class="relative w-full max-w-xs flex justify-between items-center mb-3" data-sd-id="80">
+              <!-- Connecting Line -->
+              <div class="absolute left-[10%] right-[10%] top-[5.5px] h-px bg-ink-hairline" data-sd-id="81"></div>
+              
+              <!-- Nodes -->
+              <div class="flex flex-col items-center group" data-sd-id="82">
+                <div class="w-3 h-3 bg-ink rounded-full mb-2 outline outline-4 outline-paper-raised" data-sd-id="83"></div>
+                <span class="text-[10px] font-semibold uppercase text-ink tracking-wider" data-sd-id="84">Build</span>
+                <span class="text-[10px] font-mono text-ink-muted mt-0.5" data-sd-id="85">48s</span>
+              </div>
+              <div class="flex flex-col items-center" data-sd-id="86">
+                <div class="w-3 h-3 bg-ink rounded-full mb-2 outline outline-4 outline-paper-raised" data-sd-id="87"></div>
+                <span class="text-[10px] font-semibold uppercase text-ink tracking-wider" data-sd-id="88">Test</span>
+                <span class="text-[10px] font-mono text-ink-muted mt-0.5" data-sd-id="89">1m 12s</span>
+              </div>
+              <div class="flex flex-col items-center" data-sd-id="90">
+                <div class="w-3 h-3 bg-ink rounded-full mb-2 outline outline-4 outline-paper-raised" data-sd-id="91"></div>
+                <span class="text-[10px] font-semibold uppercase text-ink tracking-wider" data-sd-id="92">Bundle</span>
+                <span class="text-[10px] font-mono text-ink-muted mt-0.5" data-sd-id="93">22s</span>
+              </div>
+               <div class="flex flex-col items-center" data-sd-id="94">
+                <div class="w-3 h-3 bg-ink rounded-full mb-2 outline outline-4 outline-paper-raised" data-sd-id="95"></div>
+                <span class="text-[10px] font-semibold uppercase text-ink tracking-wider" data-sd-id="96">Deploy</span>
+                <span class="text-[10px] font-mono text-ink-muted mt-0.5" data-sd-id="97">19s</span>
+              </div>
+            </div>
+            <div class="font-mono text-[11px] text-ink-muted" data-sd-id="98">
+              4/4 stages · total 2m 41s
+            </div>
+          </div>
+        </section>
+
+        <!-- Deployments Table -->
+        <section class="bg-paper-raised border border-ink-hairline overflow-hidden" data-sd-id="99">
+          <div class="overflow-x-auto hide-scrollbar" data-sd-id="100">
+            <table class="w-full text-left border-collapse min-w-[800px]" data-sd-id="101">
+              <thead data-sd-id="102">
+                <tr class="border-b border-ink-hairline bg-paper-ground" data-sd-id="103">
+                  <th class="py-3 px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted w-12" data-sd-id="104">Status</th>
+                  <th class="py-3 px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted" data-sd-id="105">Deployment</th>
+                  <th class="py-3 px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted" data-sd-id="106">Branch / Commit</th>
+                  <th class="py-3 px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted" data-sd-id="107">Environment</th>
+                  <th class="py-3 px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted tabular-nums" data-sd-id="108">Duration</th>
+                  <th class="py-3 px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted tabular-nums" data-sd-id="109">Age</th>
+                  <th class="py-3 px-4 text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted w-16 text-center" data-sd-id="110">Author</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm" data-sd-id="111">
+                
+                <!-- Row 1: Building -->
+                <tr class="border-b border-ink-hairline hover:bg-paper-ground transition-colors" data-sd-id="112">
+                  <td class="py-2.5 px-4" data-sd-id="113">
+                    <svg class="w-3.5 h-3.5 mx-auto animate-pulse" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="114">
+                      <path d="M6 2C8.20914 2 10 3.79086 10 6C10 8.20914 8.20914 10 6 10V2Z" fill="#141310"></path>
+                      <circle cx="6" cy="6" r="4" stroke="#141310" stroke-width="1.5"></circle>
+                    </svg>
+                  </td>
+                  <td class="py-2.5 px-4 font-mono" data-sd-id="115">dpl_7e3a91b</td>
+                  <td class="py-2.5 px-4" data-sd-id="116">
+                    <div class="flex items-center space-x-2" data-sd-id="117">
+                      <span class="font-mono text-[11px] border border-ink-hairline px-1.5 py-0.5 rounded-full" data-sd-id="118">main</span>
+                      <span class="text-ink-secondary truncate max-w-[200px]" data-sd-id="119">7e3a91b · update: hero copy</span>
+                    </div>
+                  </td>
+                  <td class="py-2.5 px-4 text-ink-secondary" data-sd-id="120">Production</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums" data-sd-id="121">1m 08s...</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums text-ink-muted" data-sd-id="122">Just now</td>
+                  <td class="py-2.5 px-4" data-sd-id="123">
+                    <div class="w-6 h-6 border border-ink-hairline bg-paper-ground flex items-center justify-center mx-auto text-[10px] font-semibold" data-sd-id="124">
+                      TM
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 3: Ready -->
+                <tr class="border-b border-ink-hairline hover:bg-paper-ground transition-colors" data-sd-id="140">
+                  <td class="py-2.5 px-4" data-sd-id="141">
+                    <svg class="w-3.5 h-3.5 mx-auto" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="142">
+                      <circle cx="6" cy="6" r="4" fill="#141310"></circle>
+                    </svg>
+                  </td>
+                  <td class="py-2.5 px-4 font-mono" data-sd-id="143">dpl_9f2c41a</td>
+                  <td class="py-2.5 px-4" data-sd-id="144">
+                    <div class="flex items-center space-x-2" data-sd-id="145">
+                      <span class="font-mono text-[11px] border border-ink-hairline px-1.5 py-0.5 rounded-full" data-sd-id="146">main</span>
+                      <span class="text-ink-secondary truncate max-w-[200px]" data-sd-id="147">a41f9e2 · fix: canvas zoom-to-fit on nested frames</span>
+                    </div>
+                  </td>
+                  <td class="py-2.5 px-4 text-ink-secondary" data-sd-id="148">Production</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums" data-sd-id="149">2m 41s</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums text-ink-muted" data-sd-id="150">18m ago</td>
+                  <td class="py-2.5 px-4" data-sd-id="151">
+                    <div class="w-6 h-6 border border-ink-hairline bg-paper-ground flex items-center justify-center mx-auto text-[10px] font-semibold" data-sd-id="152">
+                      TM
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 2: Failed (SIGNAL RED) -->
+                <tr class="border-b border-ink-hairline bg-[#faf8f3] hover:bg-paper-ground transition-colors" data-sd-id="125">
+                  <td class="py-2.5 px-4" data-sd-id="126">
+                     <svg class="w-3.5 h-3.5 mx-auto" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="127">
+                        <circle cx="6" cy="6" r="5" fill="#c8321e"></circle>
+                        <path d="M4 4L8 8M8 4L4 8" stroke="white" stroke-width="1.2" stroke-linecap="round"></path>
+                      </svg>
+                  </td>
+                  <td class="py-2.5 px-4 font-mono text-signal-red" data-sd-id="128">dpl_4b7d90e</td>
+                  <td class="py-2.5 px-4" data-sd-id="129">
+                    <div class="flex items-center space-x-2" data-sd-id="130">
+                      <span class="font-mono text-[11px] border border-ink-hairline px-1.5 py-0.5 rounded-full" data-sd-id="131">feat/prompt-search</span>
+                      <span class="text-signal-red font-mono text-xs" data-sd-id="132">exit 1 · build</span>
+                    </div>
+                  </td>
+                  <td class="py-2.5 px-4 text-ink-secondary" data-sd-id="133">Preview</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums text-ink-muted" data-sd-id="134">31s</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums text-ink-muted" data-sd-id="135">1h ago</td>
+                  <td class="py-2.5 px-4" data-sd-id="136">
+                     <div class="flex items-center justify-between w-full" data-sd-id="137">
+                        <div class="w-6 h-6 border border-ink-hairline bg-paper-ground flex items-center justify-center text-[10px] font-semibold" data-sd-id="138">
+                          AK
+                        </div>
+                        <a href="#" class="text-signal-red text-xs font-semibold hover:underline decoration-signal-red ml-2" data-sd-id="139">Redeploy</a>
+                     </div>
+                  </td>
+                </tr>
+
+                 <!-- Row 4: Queued -->
+                 <tr class="border-b border-ink-hairline hover:bg-paper-ground transition-colors text-ink-secondary" data-sd-id="153">
+                  <td class="py-2.5 px-4" data-sd-id="154">
+                    <svg class="w-3.5 h-3.5 mx-auto" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="155">
+                      <circle cx="6" cy="6" r="3.25" stroke="rgba(20,19,16,0.62)" stroke-width="1.5"></circle>
+                    </svg>
+                  </td>
+                  <td class="py-2.5 px-4 font-mono" data-sd-id="156">dpl_2a1b3c4</td>
+                  <td class="py-2.5 px-4" data-sd-id="157">
+                    <div class="flex items-center space-x-2 opacity-70" data-sd-id="158">
+                      <span class="font-mono text-[11px] border border-ink-hairline px-1.5 py-0.5 rounded-full" data-sd-id="159">fix/svg-export</span>
+                      <span class="truncate max-w-[200px]" data-sd-id="160">2a1b3c4 · fix: explicit viewBox on inline svgs</span>
+                    </div>
+                  </td>
+                  <td class="py-2.5 px-4" data-sd-id="161">Preview</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums" data-sd-id="162">--</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums text-ink-muted" data-sd-id="163">2h ago</td>
+                  <td class="py-2.5 px-4" data-sd-id="164">
+                    <div class="w-6 h-6 border border-ink-hairline bg-paper-ground flex items-center justify-center mx-auto text-[10px] font-semibold opacity-70" data-sd-id="165">
+                      RJ
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 5: Canceled -->
+                 <tr class="border-b border-ink-hairline hover:bg-paper-ground transition-colors text-ink-muted" data-sd-id="166">
+                  <td class="py-2.5 px-4" data-sd-id="167">
+                    <svg class="w-3.5 h-3.5 mx-auto" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="168">
+                      <circle cx="6" cy="6" r="3.25" stroke="rgba(20,19,16,0.42)" stroke-width="1.5" stroke-dasharray="2 2"></circle>
+                    </svg>
+                  </td>
+                  <td class="py-2.5 px-4 font-mono" data-sd-id="169">dpl_8d9e0f1</td>
+                  <td class="py-2.5 px-4" data-sd-id="170">
+                    <div class="flex items-center space-x-2" data-sd-id="171">
+                      <span class="font-mono text-[11px] border border-ink-hairline px-1.5 py-0.5 rounded-full" data-sd-id="172">main</span>
+                      <span class="truncate max-w-[200px]" data-sd-id="173">8d9e0f1 · revert: hero copy</span>
+                    </div>
+                  </td>
+                  <td class="py-2.5 px-4" data-sd-id="174">Production</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums" data-sd-id="175">12s</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums" data-sd-id="176">3h ago</td>
+                  <td class="py-2.5 px-4" data-sd-id="177">
+                    <div class="w-6 h-6 border border-ink-hairline bg-paper-ground flex items-center justify-center mx-auto text-[10px] font-semibold" data-sd-id="178">
+                      TM
+                    </div>
+                  </td>
+                </tr>
+
+                 <!-- Row 6: Ready -->
+                 <tr class="border-b border-ink-hairline hover:bg-paper-ground transition-colors" data-sd-id="179">
+                  <td class="py-2.5 px-4" data-sd-id="180">
+                    <svg class="w-3.5 h-3.5 mx-auto" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-sd-id="181">
+                      <circle cx="6" cy="6" r="4" fill="#141310"></circle>
+                    </svg>
+                  </td>
+                  <td class="py-2.5 px-4 font-mono" data-sd-id="182">dpl_1a2b3c4</td>
+                  <td class="py-2.5 px-4" data-sd-id="183">
+                    <div class="flex items-center space-x-2" data-sd-id="184">
+                      <span class="font-mono text-[11px] border border-ink-hairline px-1.5 py-0.5 rounded-full" data-sd-id="185">main</span>
+                      <span class="text-ink-secondary truncate max-w-[200px]" data-sd-id="186">1a2b3c4 · chore: update deps</span>
+                    </div>
+                  </td>
+                  <td class="py-2.5 px-4 text-ink-secondary" data-sd-id="187">Production</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums" data-sd-id="188">2m 55s</td>
+                  <td class="py-2.5 px-4 font-mono tabular-nums text-ink-muted" data-sd-id="189">1d ago</td>
+                  <td class="py-2.5 px-4" data-sd-id="190">
+                    <div class="w-6 h-6 border border-ink-hairline bg-paper-ground flex items-center justify-center mx-auto text-[10px] font-semibold" data-sd-id="191">
+                       <i>bot</i>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Bottom Split Row -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6" data-sd-id="192">
+          
+          <!-- Build Log Excerpt -->
+          <div class="bg-paper-raised border border-ink-hairline p-5 flex flex-col" data-sd-id="193">
+            <div class="flex justify-between items-center mb-4" data-sd-id="194">
+              <div class="flex items-center space-x-2" data-sd-id="195">
+                <h3 class="text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted" data-sd-id="196">Last Failed Build</h3>
+                <span class="text-ink-hairline" data-sd-id="197">|</span>
+                <span class="font-mono text-xs text-ink-secondary" data-sd-id="198">dpl_4b7d90e</span>
+              </div>
+              <button class="text-xs font-medium text-ink hover:underline decoration-ink-hairline underline-offset-2" data-sd-id="199">
+                Re-run
+              </button>
+            </div>
+            <div class="bg-paper-ground border border-ink-hairline p-3 font-mono text-[12px] leading-relaxed flex-1 overflow-x-auto" data-sd-id="200">
+<pre class="text-ink-muted" data-sd-id="201">[10:42:01] info  - Loaded env from .env
+[10:42:02] info  - Creating an optimized production build...
+[10:42:15] info  - Compiled successfully
+[10:42:16] info  - Collecting page data...
+[10:42:18] info  - Generating static pages (0/12)
+[10:42:25] info  - Generating static pages (3/12)
+[10:42:30] info  - Generating static pages (12/12)
+<span class="text-signal-red" data-sd-id="202">[10:42:31] error - Cannot find module '@sd/canvas-kit'</span>
+<span class="text-signal-red" data-sd-id="203">[10:42:31] build failed · exit 1</span></pre>
+            </div>
+          </div>
+
+          <!-- Deploy Frequency -->
+          <div class="bg-paper-raised border border-ink-hairline p-5 flex flex-col" data-sd-id="204">
+            <h3 class="text-[10.5px] uppercase font-semibold tracking-[0.08em] text-ink-muted mb-6" data-sd-id="205">Deploys · Last 14 Days</h3>
+            
+            <div class="flex-1 flex flex-col justify-end min-h-[120px] relative" data-sd-id="206">
+              <!-- Bar Chart Area -->
+              <div class="flex items-end justify-between h-24 border-b border-ink-hairline pb-1 px-2" data-sd-id="207">
+                <!-- 14 bars -->
+                <div class="w-1.5 bg-ink h-[20%]" data-sd-id="208"></div>
+                <div class="w-1.5 bg-ink h-[45%]" data-sd-id="209"></div>
+                <div class="w-1.5 bg-ink h-[15%]" data-sd-id="210"></div>
+                <div class="w-1.5 bg-ink h-[60%]" data-sd-id="211"></div>
+                <div class="w-1.5 bg-ink h-[85%]" data-sd-id="212"></div>
+                <div class="w-1.5 bg-ink h-[10%]" data-sd-id="213"></div>
+                <div class="w-1.5 bg-ink h-[0%]" data-sd-id="214"></div>
+                <div class="w-1.5 bg-ink h-[30%]" data-sd-id="215"></div>
+                <div class="w-1.5 bg-ink h-[50%]" data-sd-id="216"></div>
+                <div class="w-1.5 bg-ink h-[75%]" data-sd-id="217"></div>
+                <div class="w-1.5 bg-ink h-[25%]" data-sd-id="218"></div>
+                <div class="w-1.5 bg-ink h-[40%]" data-sd-id="219"></div>
+                <div class="w-1.5 bg-ink h-[95%]" data-sd-id="220"></div>
+                <div class="w-1.5 bg-ink h-[65%]" data-sd-id="221"></div>
+              </div>
+              
+              <!-- Labels -->
+              <div class="flex justify-between px-2 pt-2 text-[10px] font-mono text-ink-muted" data-sd-id="222">
+                <span data-sd-id="223">14d ago</span>
+                <span data-sd-id="224">7d ago</span>
+                <span data-sd-id="225">Today</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-ink-hairline font-mono text-xs text-ink-secondary" data-sd-id="226">
+              <span class="text-ink" data-sd-id="227">38 deploys</span> · median 2m 12s · <span class="text-ink" data-sd-id="228">97% success</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+</body></html>

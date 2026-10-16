@@ -1,0 +1,63 @@
+{
+  "summary": "A dark scientific-software landing page whose hero is a generated particle field standing in for the product's own subject. Text arrives as masked lines wiping up from behind their own edge, cards fan in on a perspective tilt, and two background layers parallax against foreground type moving the other way.",
+  "style": {
+    "description": "Near-black ground with a cool ink, one cyan accent and one violet used sparingly for a second category of meaning. A geometric sans carries headings at tight negative tracking; a monospace carries every label, figure and unit.",
+    "prompt": "Apply a dark scientific-instrument style. Palette: ground #06070A, secondary ground #0B0D12, ink #E6EAF0, secondary ink #98A0AE, muted #666E7C, cyan #4FD8E8, violet #8B6FE8, hairlines rgba(230,234,240,.11). Typography: 'Manrope' 500-800 for headings at letter-spacing -.035em to -.04em; 'Chivo Mono' 400-600 at 9.5-11px with letter-spacing .07em-.12em, uppercase, for labels and values. Radius 8-16px. Use the second accent only where it carries a distinct meaning, never for variety. DO NOT use a gradient banner, a bento grid, a card row with drop shadows, or any glow that is not the product's own field."
+  },
+  "layout_and_structure": {
+    "description": "Six sections: a tall particle hero with a sticky stage, a technical section with fanned cards, a pinned parallax band, a hairline parameter list, a validation table and a close whose wordmark is cropped by the page edge.",
+    "prompts": [
+      {
+        "part": "Navigation",
+        "prompt": "Fixed 56px bar on a translucent ground with a 14px backdrop blur and a bottom hairline. A glowing accent dot beside the wordmark, monospaced uppercase links at 10.5px turning accent on hover, one solid accent button."
+      },
+      {
+        "part": "Particle hero",
+        "prompt": "A section around 210vh with a sticky full-height stage, overflow hidden and isolation isolate. Back to front: a canvas particle field inset slightly beyond the edges so it can parallax without revealing a seam; a soft radial glow; the centred copy; and a row of thin vertical bars pinned along the base reading as a live trace. Corner metadata top left and right. The headline is built from masked lines."
+      },
+      {
+        "part": "Technical section",
+        "prompt": "A monospaced index tag with a hairline rule, a heading at clamp(26px,3.8vw,54px), a 46ch lede, then three cards in a grid with perspective 900px, each holding a monospaced key, a large tabular value, a title and a line of prose."
+      },
+      {
+        "part": "Parallax band",
+        "prompt": "A section around 150vh with a sticky full-height stage. Behind it a background layer of two soft radial washes in the two accents; in front, a short two-line statement built from masked lines, and a supporting paragraph. On scroll move the background one way and the type the other so the two separate. CRITICAL: this section must use overflow:clip, never overflow:hidden — hidden makes it a scroll container and silently breaks position:sticky on the stage, which then scrolls away and leaves the section rendering empty with no error anywhere."
+      },
+      {
+        "part": "Parameter list and validation",
+        "prompt": "Hairline-ruled rows carrying a monospaced accent label, a description and a right-aligned status or value. A second such list holds validation results against known measured quantities, with the error stated plainly including where it is worse."
+      },
+      {
+        "part": "Close",
+        "prompt": "A short headline, a monospaced fine-print line, two buttons at the opposite edge, a hairline footer strip, then the wordmark full width at clamp(58px,15.5vw,232px) translated down .16em so the page edge crops it."
+      }
+    ]
+  },
+  "special_ui_components": [
+    {
+      "component": "Generated particle field",
+      "description": "The hero imagery, produced in code rather than shipped as an asset.",
+      "prompt": "Draw a canvas field of particles orbiting a centre on elliptical paths: give each a random angle, a radius in a band, its own slow angular speed with a random sign, a depth factor driving both size and alpha, and a tilt factor squashing its y so the ring reads as a disc seen at an angle. Size the canvas by devicePixelRatio capped at 2 and re-seed on resize. Tie the particle count to the area so it stays even at any viewport. Make the field mean something in the product's own terms rather than being ambient decoration. Pause it with an IntersectionObserver when off screen, and when prefers-reduced-motion is set draw ONE static frame instead of running the loop, so the hero is never empty."
+    },
+    {
+      "component": "Masked line reveal",
+      "description": "The reference's core text mechanic.",
+      "prompt": "Wrap each line of a heading in an element with overflow:hidden containing a single inner span. Start the inner at translateY(120%) and move it to 0 over about .9s on a power3-style ease, staggering successive lines by roughly .08s, so the text wipes up from behind its own edge rather than fading. Scope the start state to a class the script adds only when prefers-reduced-motion is not set, otherwise the copy is invisible for anyone who asked for stillness. Reveal any heading already on screen at load on requestAnimationFrame instead of waiting for an intersection."
+    },
+    {
+      "component": "Fanned cards and idling words",
+      "description": "Two secondary entrances taken from the reference.",
+      "prompt": "Cards enter from translateY(60px) with rotateX(12deg) under a 900px perspective on the grid, staggered by about .1s. Separately, a heading can be split into word spans that idle at opacity .12 and translateY(.4em) and resolve one after another on entry, which reads as a sentence assembling."
+    },
+    {
+      "component": "Layered parallax",
+      "description": "Depth from differing rates, and the reason the page stays alive in reverse.",
+      "prompt": "Bind two layers to scroll POSITION at different rates and in opposite directions: a background around +18 to +20 percent and the foreground type around -15 percent. Because both are position-bound rather than triggered, they play in reverse for free when the reader scrolls back up, which one-shot entry reveals never do. Verify by scrolling up and confirming something still moves, and verify the hero travels well over 100px across the first 700px of scroll."
+    },
+    {
+      "component": "Evidence rules",
+      "description": "What the page may claim.",
+      "prompt": "State validation against quantities that are independently known and publish the error even where it is unflattering. DO NOT invent customer logos, citation counts, benchmark wins or awards. Any figure repeated in two places must agree."
+    }
+  ]
+}

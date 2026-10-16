@@ -1,0 +1,684 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Yu Studio CRM - Leads</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><style>:root{--color-neutral-0:#FFFFFF;--color-neutral-50:#F5F7F9;--color-neutral-100:#EFF1F3;--color-neutral-200:#E2E4E6;--color-neutral-350:#D2D5D9;--color-neutral-400:#9BA0A6;--color-neutral-600:#4E525A;--color-neutral-700:#3B3F4B;--color-neutral-850:#1B1E28;--color-neutral-900:#0D0F14;--color-neutral-1000:#1A1D25;--color-ink-900:#17191F;--color-ink-800:#262A32;--red-50:#FDE8E5;--red-700:#B42318;--amber-50:#FBF0DA;--amber-700:#A66A08;--lime-50:#ECF5DA;--lime-700:#457F19;--green-50:#E2F4E6;--green-700:#147A3A;--green-400:#07B93B;}body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"cv11","ss01";color:var(--color-neutral-900);background-color:var(--color-neutral-0);margin:0;overflow-x:hidden}.text-kpi-value{font-weight:600;font-size:31.5px;line-height:38px;letter-spacing:-0.4px}.text-heading-page{font-weight:600;font-size:23.5px;line-height:30px;letter-spacing:-0.3px}.text-heading-brand{font-weight:600;font-size:16px;line-height:22px;letter-spacing:-0.25px}.text-body-large{font-weight:400;font-size:16px;line-height:22px}.text-body-medium{font-weight:500;font-size:14px;line-height:20px;letter-spacing:-0.25px}.text-body-regular{font-weight:400;font-size:14px;line-height:20px;letter-spacing:-0.1px}.text-body-small{font-weight:400;font-size:12.5px;line-height:18px}.text-label-tab{font-weight:500;font-size:14px;line-height:20px;letter-spacing:-0.15px}.text-label-score{font-weight:500;font-size:13px;line-height:18px}.text-label-caps{font-weight:500;font-size:12px;line-height:16px;letter-spacing:0.5px;text-transform:uppercase}.shadow-raised{box-shadow:0 2px 5px rgba(13,15,20,.08),0 1px 1px rgba(13,15,20,.05)}.btn-transition{transition:background-color 120ms ease-out,color 120ms ease-out}.no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}.whitespace-nowrap{white-space:nowrap}tr:hover{background-color:var(--color-neutral-50)}.custom-checkbox{width:18px;height:18px;border-radius:5px;appearance:none;cursor:pointer;background-color:var(--color-neutral-100);position:relative;flex-shrink:0}.custom-checkbox:checked{background-color:var(--color-ink-900)}.custom-checkbox:checked::after{content:"";position:absolute;top:3px;left:3px;width:12px;height:12px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");background-size:contain;background-repeat:no-repeat}.custom-checkbox.indeterminate{background-color:var(--color-ink-900)}.custom-checkbox.indeterminate::after{content:"";position:absolute;top:8px;left:4px;width:10px;height:2px;background:white}*:focus-visible{outline:2px solid #17191F;outline-offset:2px}.mobile-nav-open{overflow:hidden}#sidebar-overlay{display:none}#sidebar-overlay.active{display:block}@media(max-width:1279px){.table-scroll-container{overflow-x:auto}.table-min-width{min-width:1160px}}@media(min-width:768px) and (max-width:1023px){#sidebar.sidebar-collapsed{width:72px!important;min-width:72px!important;max-width:72px!important}.sidebar-collapsed .nav-label, .sidebar-collapsed .nav-chip, .sidebar-collapsed .brand-text, .sidebar-collapsed .user-text, .sidebar-collapsed .search-shortcut{display:none}.sidebar-collapsed .px-18{padding-left:0;padding-right:0}.sidebar-collapsed .brand-block{justify-content:center}.sidebar-collapsed .brand-chevron{display:none}.sidebar-collapsed .search-field{width:40px;height:38px;justify-content:center;padding-left:0;padding-right:0;margin-left:auto;margin-right:auto}.sidebar-collapsed .search-icon-only{margin-left:0}.sidebar-collapsed .nav-item{justify-content:center;padding-left:0;padding-right:0;width:40px;margin-left:auto;margin-right:auto}.sidebar-collapsed .user-block{justify-content:center;padding-left:0;padding-right:0}.sidebar-collapsed .avatar-container{margin-left:0}}@media(max-width:767px){#sidebar{position:fixed;left:-280px;top:0;bottom:0;z-index:50;transition:left 0.3s ease-out}#sidebar.active{left:0}.kpi-scroll{overflow-x:auto;scroll-snap-type:x mandatory}.kpi-card{scroll-snap-align:start}.sticky-col-1{position:sticky;left:0;z-index:20;background:white}.sticky-col-2{position:sticky;left:47px;z-index:20;background:white}tr:hover .sticky-col-1, tr:hover .sticky-col-2{background-color:var(--color-neutral-50)}}</style>
+<meta name="preview-version" content="018d3dfe-dfef-489d-8935-41e395390ed5" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:47.323Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "018d3dfe-dfef-489d-8935-41e395390ed5");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "018d3dfe-dfef-489d-8935-41e395390ed5",
+      timestamp: "2026-10-16T14:07:47.323Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "018d3dfe-dfef-489d-8935-41e395390ed5";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head><body><div class="flex min-h-screen"><div id="sidebar-overlay" class="fixed inset-0 bg-black/20 z-40 md:hidden"></div><aside id="sidebar" class="w-[280px] bg-[#F5F7F9] border-r border-[#E2E4E6] flex-shrink-0 flex flex-col sidebar-collapsed"><div class="px-[18px] pt-[19px] flex flex-col px-18"><div class="flex items-center h-[48px] relative mb-[37px] brand-block"><div class="w-[48px] h-[48px] rounded-[14px] bg-[#1A1D25] flex items-center justify-center flex-shrink-0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div><div class="ml-[13px] flex flex-col brand-text"><span class="text-heading-brand text-[#0D0F14]">Yu Studio</span><span class="text-body-regular text-[#9BA0A6] leading-none mt-[3px]">Plus plan</span></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#9BA0A6] absolute right-0 brand-chevron"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"></path></svg></div><div class="w-full h-[38px] bg-[#EFF1F3] rounded-[10px] flex items-center px-[12px] relative mb-[21px] search-field"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#9BA0A6] flex-shrink-0 search-icon-only"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><span class="text-body-regular text-[#9BA0A6] ml-[8px] nav-label">Search</span><div class="w-[26px] h-[20px] rounded-[6px] bg-white shadow-sm flex items-center justify-center absolute right-[8px] search-shortcut"><span class="text-body-small text-[#9BA0A6]">/</span></div></div><nav class="space-y-[4px] flex flex-col items-stretch"><a id="nav-dashboard" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] text-[#4E525A] hover:bg-white/50 btn-transition nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg><span class="text-body-regular ml-[8px] nav-label">Dashboard</span></a><a id="nav-leads" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] bg-white shadow-raised text-[#0D0F14] btn-transition nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="16" y1="11" x2="22" y2="11"></line></svg><span class="text-body-regular font-medium ml-[8px] nav-label">Leads</span></a><a id="nav-messages" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] text-[#4E525A] hover:bg-white/50 btn-transition relative nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 9h8"></path><path d="M8 13h6"></path></svg><span class="text-body-regular ml-[8px] nav-label">Messages</span><div class="w-[29px] h-[20px] rounded-[6px] bg-white flex items-center justify-center absolute right-0 nav-chip"><span class="text-label-score text-[#4E525A]">4</span></div></a><a id="nav-orders" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] text-[#4E525A] hover:bg-white/50 btn-transition nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg><span class="text-body-regular ml-[8px] nav-label">Orders</span></a><a id="nav-customers" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] text-[#4E525A] hover:bg-white/50 btn-transition nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><span class="text-body-regular ml-[8px] nav-label">Customers</span></a><a id="nav-feedback" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] text-[#4E525A] hover:bg-white/50 btn-transition relative nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><path d="M18 8a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V8Z"></path><path d="M10 12h.01"></path><path d="M13 12h.01"></path><path d="M7 12h.01"></path></svg><span class="text-body-regular ml-[8px] nav-label">Feedback</span><div class="w-[29px] h-[20px] rounded-[6px] bg-white flex items-center justify-center absolute right-0 nav-chip"><span class="text-label-score text-[#4E525A]">1</span></div></a><a id="nav-help" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] text-[#4E525A] hover:bg-white/50 btn-transition nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span class="text-body-regular ml-[8px] nav-label">Help Center</span></a><a id="nav-settings" href="#" class="flex items-center h-[38px] px-[12px] rounded-[10px] text-[#4E525A] hover:bg-white/50 btn-transition nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><path d="M12.22 2h-.44a2 2 0 0 0-2 2l-.2.1a2 2 0 0 1-2.06 0L7.38 4a2 2 0 0 0-2.82.08l-.31.32a2 2 0 0 0-.07 2.82l.14.14a2 2 0 0 1 0 2.06l-.1.2a2 2 0 0 0-2 2v.44a2 2 0 0 0 2 2l.1.2a2 2 0 0 1 0 2.06l-.14.14a2 2 0 0 0 .07 2.82l.31.32a2 2 0 0 0 2.82-.08l.14-.14a2 2 0 0 1 2.06 0l.2.1a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2l.2-.1a2 2 0 0 1 2.06 0l.14.14a2 2 0 0 0 2.82-.08l.31-.32a2 2 0 0 0 .07-2.82l-.14-.14a2 2 0 0 1 0-2.06l.1-.2a2 2 0 0 0 2-2v-.44a2 2 0 0 0-2-2l-.1-.2a2 2 0 0 1 0-2.06l.14-.14a2 2 0 0 0-.07-2.82l-.31-.32a2 2 0 0 0-2.82.08l-.14.14a2 2 0 0 1-2.06 0l-.2-.1a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg><span class="text-body-regular ml-[8px] nav-label">Settings</span></a></nav></div><div class="mt-auto px-[18px] pb-[19px] user-block"><div class="h-[56px] flex items-center"><div class="relative w-[40px] h-[40px] ml-[4px] avatar-container flex-shrink-0"><div class="w-full h-full rounded-full bg-[#E2E4E6] flex items-center justify-center text-body-medium text-[#4E525A]">SZ</div><div class="absolute bottom-[-1px] right-[-1px] w-[14px] h-[14px] bg-white rounded-full flex items-center justify-center"><div class="w-[10px] h-[10px] bg-[#07B93B] rounded-full"></div></div></div><div class="ml-[15.5px] flex flex-col user-text"><span class="text-heading-brand text-[#0D0F14]">Stephen Z.</span><span class="text-body-regular text-[#9BA0A6] leading-none mt-[2px]">Stephen@yustudio.design</span></div></div></div></aside><main class="flex-1 flex flex-col min-w-0 max-w-full bg-white"><header class="h-[67px] px-[18px] flex items-center border-b border-[#E2E4E6] flex-shrink-0"><button id="mobile-menu-btn" class="md:hidden mr-[16px] text-[#4E525A]" aria-expanded="false" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button><h1 class="text-heading-page text-[#0D0F14] ml-[0.6px]">Leads</h1><div class="flex-1"></div><div class="hidden md:flex items-center gap-[22px] mr-[18px]"><button aria-label="Info" class="text-[#4E525A] hover:text-[#0D0F14] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></button><button aria-label="Settings" class="text-[#4E525A] hover:text-[#0D0F14] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2l-.2.1a2 2 0 0 1-2.06 0L7.38 4a2 2 0 0 0-2.82.08l-.31.32a2 2 0 0 0-.07 2.82l.14.14a2 2 0 0 1 0 2.06l-.1.2a2 2 0 0 0-2 2v.44a2 2 0 0 0 2 2l.1.2a2 2 0 0 1 0 2.06l-.14.14a2 2 0 0 0 .07 2.82l.31.32a2 2 0 0 0 2.82-.08l.14-.14a2 2 0 0 1 2.06 0l.2.1a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2l.2-.1a2 2 0 0 1 2.06 0l.14.14a2 2 0 0 0 2.82-.08l.31-.32a2 2 0 0 0 .07-2.82l-.14-.14a2 2 0 0 1 0-2.06l.1-.2a2 2 0 0 0 2-2v-.44a2 2 0 0 0-2-2l-.1-.2a2 2 0 0 1 0-2.06l.14-.14a2 2 0 0 0-.07-2.82l-.31-.32a2 2 0 0 0-2.82.08l-.14.14a2 2 0 0 1-2.06 0l-.2-.1a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg></button><button aria-label="Notifications" class="text-[#4E525A] hover:text-[#0D0F14] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></button></div><button id="btn-share" class="h-[38px] px-[12px] bg-[#17191F] text-white rounded-[10px] text-body-regular hover:bg-[#262A32] btn-transition whitespace-nowrap flex-shrink-0">Share</button></header><section class="h-[112px] flex border-b border-[#E2E4E6] flex-shrink-0 overflow-x-auto scroll-snap-x-mandatory no-scrollbar"><div class="w-[290px] h-[111px] flex-shrink-0 relative kpi-card"><div class="absolute top-[19.8px] left-[20.8px] text-body-regular text-[#4E525A]">New Leads</div><div class="absolute top-[53px] left-[20.8px] flex items-center gap-[8px]"><span class="text-kpi-value text-[#0D0F14]">151</span><div class="h-[26px] px-[6px] rounded-[7px] bg-[#E2F4E6] flex items-center gap-[4px]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#147A3A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg><span class="text-label-score text-[#147A3A]">19%</span></div></div><div class="absolute right-[18.5px] top-[44px] w-[82px] h-[34px]"><svg width="82" height="34" viewBox="0 0 82 34" fill="none"><path d="M2 30L15 25L28 28L45 15L60 22L80 5" stroke="#17191F" stroke-width="1.8" stroke-linecap="round"></path><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#17191F" stop-opacity="0.1"></stop><stop offset="1" stop-color="#17191F" stop-opacity="0"></stop></linearGradient></defs><path d="M2 30L15 25L28 28L45 15L60 22L80 5V34H2V30Z" fill="url(#g1)"></path></svg></div></div><div class="w-[290px] h-[111px] flex-shrink-0 relative border-l border-[#E2E4E6] kpi-card"><div class="absolute top-[19.8px] left-[20.8px] text-body-regular text-[#4E525A]">Qualified Leads</div><div class="absolute top-[53px] left-[20.8px] flex items-center gap-[8px]"><span class="text-kpi-value text-[#0D0F14]">59</span><div class="h-[26px] px-[6px] rounded-[7px] bg-[#E2F4E6] flex items-center gap-[4px]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#147A3A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg><span class="text-label-score text-[#147A3A]">19%</span></div></div><div class="absolute right-[18.5px] top-[44px] w-[82px] h-[34px]"><svg width="82" height="34" viewBox="0 0 82 34" fill="none"><path d="M2 28L20 20L35 25L55 10L68 15L80 2" stroke="#17191F" stroke-width="1.8" stroke-linecap="round"></path><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#17191F" stop-opacity="0.1"></stop><stop offset="1" stop-color="#17191F" stop-opacity="0"></stop></linearGradient></defs><path d="M2 28L20 20L35 25L55 10L68 15L80 2V34H2V28Z" fill="url(#g2)"></path></svg></div></div><div class="w-[290px] h-[111px] flex-shrink-0 relative border-l border-[#E2E4E6] kpi-card"><div class="absolute top-[19.8px] left-[20.8px] text-body-regular text-[#4E525A]">Avg Response Time</div><div class="absolute top-[53px] left-[20.8px] flex items-center gap-[8px]"><span class="text-kpi-value text-[#0D0F14]">1h 3m</span><div class="h-[26px] px-[6px] rounded-[7px] bg-[#E2F4E6] flex items-center gap-[4px]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#147A3A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg><span class="text-label-score text-[#147A3A]">19%</span></div></div><div class="absolute right-[18.5px] top-[44px] w-[82px] h-[34px]"><svg width="82" height="34" viewBox="0 0 82 34" fill="none"><path d="M2 22L12 28L28 15L45 22L65 8L80 12" stroke="#17191F" stroke-width="1.8" stroke-linecap="round"></path><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#17191F" stop-opacity="0.1"></stop><stop offset="1" stop-color="#17191F" stop-opacity="0"></stop></linearGradient></defs><path d="M2 22L12 28L28 15L45 22L65 8L80 12V34H2V22Z" fill="url(#g3)"></path></svg></div></div><div class="w-[290px] h-[111px] flex-shrink-0 relative border-l border-[#E2E4E6] kpi-card"><div class="absolute top-[19.8px] left-[20.8px] text-body-regular text-[#4E525A]">Hot Leads</div><div class="absolute top-[53px] left-[20.8px] flex items-center gap-[8px]"><span class="text-kpi-value text-[#0D0F14]">23</span><div class="h-[26px] px-[6px] rounded-[7px] bg-[#FDE8E5] flex items-center gap-[4px]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg><span class="text-label-score text-[#B42318]">19%</span></div></div><div class="absolute right-[18.5px] top-[44px] w-[82px] h-[34px]"><svg width="82" height="34" viewBox="0 0 82 34" fill="none"><path d="M2 5L20 15L40 10L60 25L80 30" stroke="#17191F" stroke-width="1.8" stroke-linecap="round"></path><defs><linearGradient id="g4" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#17191F" stop-opacity="0.1"></stop><stop offset="1" stop-color="#17191F" stop-opacity="0"></stop></linearGradient></defs><path d="M2 5L20 15L40 10L60 25L80 30V34H2V5Z" fill="url(#g4)"></path></svg></div></div></section><section class="h-[55px] border-b border-[#E2E4E6] flex-shrink-0 flex items-center relative overflow-x-auto no-scrollbar whitespace-nowrap"><div class="flex flex-nowrap items-center ml-[20px] h-full"><div class="flex items-center h-full px-[16.6px] pr-[14px] text-[#0D0F14] text-label-tab cursor-pointer relative whitespace-nowrap"><span>All</span><div class="ml-[4.4px] w-[37px] h-[26px] rounded-[7px] bg-[#F5F7F9] flex items-center justify-center"><span class="text-label-score text-[#4E525A]">426</span></div><div class="absolute bottom-0 left-0 w-full h-[2px] bg-[#17191F]"></div></div><div class="flex items-center h-full px-[24.8px] pr-[22.45px] text-[#4E525A] text-label-tab cursor-pointer hover:text-[#0D0F14] btn-transition whitespace-nowrap">Favourite</div><div class="flex items-center h-full px-[22.45px] pr-[21.5px] text-[#4E525A] text-label-tab cursor-pointer hover:text-[#0D0F14] btn-transition whitespace-nowrap">New</div><div class="flex items-center h-full px-[21.5px] pr-[25.45px] text-[#4E525A] text-label-tab cursor-pointer hover:text-[#0D0F14] btn-transition whitespace-nowrap">Assigned to me</div><div class="flex items-center h-full px-[25.45px] pr-[22.5px] text-[#4E525A] text-label-tab cursor-pointer hover:text-[#0D0F14] btn-transition whitespace-nowrap">Overdue</div><div class="flex items-center h-full px-[22.5px] pr-[14px] text-[#4E525A] text-label-tab cursor-pointer hover:text-[#0D0F14] btn-transition whitespace-nowrap">Hot</div></div></section><section class="h-[93px] px-[18px] flex flex-nowrap items-center flex-shrink-0 overflow-x-auto no-scrollbar lg:overflow-visible whitespace-nowrap"><div class="w-[283px] min-w-[200px] h-[38px] bg-[#F5F7F9] rounded-[10px] flex items-center px-[9px] flex-shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><span class="text-body-regular text-[#9BA0A6] ml-[8px]">Search</span></div><div class="flex items-center gap-[20px] lg:gap-[42px] ml-[22px] flex-shrink-0"><button aria-label="Filter" class="text-[#4E525A] hover:text-[#0D0F14] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></button><button aria-label="Sort" class="text-[#4E525A] hover:text-[#0D0F14] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"></path><path d="M7 20V4"></path><path d="m21 8-4-4-4 4"></path><path d="M17 4v16"></path></svg></button><button aria-label="Columns" class="text-[#4E525A] hover:text-[#0D0F14] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><path d="M11 4v16"></path></svg></button></div><div class="flex-1"></div><div class="flex items-center gap-[20px] lg:gap-[36px] mr-[24px] flex-shrink-0"><button aria-label="List View" class="text-[#0D0F14]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button><button aria-label="Grid View" class="text-[#4E525A] hover:text-[#0D0F14] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></button></div><div class="flex items-center gap-[12px] flex-shrink-0"><button class="h-[36px] px-[12px] bg-[#F5F7F9] text-[#4E525A] rounded-[10px] text-body-regular flex items-center gap-[8px] hover:bg-[#EFF1F3] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg><span>Import</span></button><button class="h-[36px] px-[12px] bg-[#F5F7F9] text-[#4E525A] rounded-[10px] text-body-regular flex items-center gap-[8px] hover:bg-[#EFF1F3] btn-transition whitespace-nowrap flex-shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg><span class="whitespace-nowrap">Export</span></button><button class="h-[36px] px-[12px] bg-[#17191F] text-white rounded-[10px] text-body-regular flex items-center gap-[8px] hover:bg-[#262A32] btn-transition"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span class="whitespace-nowrap">Add lead</span></button></div></section><div class="flex-1 table-scroll-container min-w-0"><table class="w-full table-fixed border-collapse table-min-width text-left"><colgroup><col class="w-[66px]"><col class="w-[155px]"><col class="w-[149px]"><col><col class="w-[130px]"><col class="w-[120px]"><col class="w-[95px]"><col class="w-[74px]"><col class="w-[125px]"><col class="w-[34px]"></colgroup><thead><tr class="h-[33px] border-b border-[#E2E4E6]"><th scope="col" class="pl-[19px] pr-0 sticky-col-1"><div class="flex items-center"><label for="checkbox-all" class="sr-only">Select all leads</label><input type="checkbox" id="checkbox-all" class="custom-checkbox indeterminate" checked=""></div></th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal sticky-col-2">Customer</th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal">Company</th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal">Email</th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal">Status</th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal">Manager</th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal">Source</th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal">Score</th><th scope="col" class="px-0 text-body-regular text-[#4E525A] font-normal">Created</th><th scope="col" class="pr-[18px] pl-0"></th></tr></thead><tbody><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-emma" class="sr-only">Select Emma Johansson</label><input type="checkbox" id="check-emma" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Emma Johansson</td><td class="px-0 text-body-regular text-[#4E525A]">Nordic Soft AB</td><td class="px-0 text-body-regular text-[#4E525A]">emma@nordicsoft.io</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">HOT</div></td><td class="text-body-medium text-[#0D0F14]">Jacob Müller</td><td class="px-0 text-body-regular text-[#4E525A]">Website</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#E2F4E6] inline-flex items-center text-label-score text-[#147A3A]">9/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 08, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-ethan" class="sr-only">Select Ethan Wilson</label><input type="checkbox" id="check-ethan" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Ethan Wilson</td><td class="px-0 text-body-regular text-[#4E525A]">Travel Ventures</td><td class="px-0 text-body-regular text-[#4E525A]">ethan@travelventures.com</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">OPEN</div></td><td class="text-body-medium text-[#0D0F14]">Olivia Davis</td><td class="px-0 text-body-regular text-[#4E525A]">LinkedIn</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#ECF5DA] inline-flex items-center text-label-score text-[#457F19]">6/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 07, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-isabella" class="sr-only">Select Isabella Hernandez</label><input type="checkbox" id="check-isabella" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Isabella Hernandez</td><td class="px-0 text-body-regular text-[#4E525A]">Design Studios</td><td class="px-0 text-body-regular text-[#4E525A]">isabella@designstudios.net</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">NEW</div></td><td class="text-body-medium text-[#0D0F14]">Liam Johnson</td><td class="px-0 text-body-regular text-[#4E525A]">X</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#FBF0DA] inline-flex items-center text-label-score text-[#A66A08]">4/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 06, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-william" class="sr-only">Select William Lee</label><input type="checkbox" id="check-william" class="custom-checkbox" checked=""></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">William Lee</td><td class="px-0 text-body-regular text-[#4E525A]">AI Dynamics</td><td class="px-0 text-body-regular text-[#4E525A]">w.lee@aidynamics.com</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">HOT</div></td><td class="text-body-medium text-[#0D0F14]">James Smith</td><td class="px-0 text-body-regular text-[#4E525A]">Facebook</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#ECF5DA] inline-flex items-center text-label-score text-[#457F19]">7/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 05, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-sophia" class="sr-only">Select Sophia Martinez</label><input type="checkbox" id="check-sophia" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Sophia Martinez</td><td class="px-0 text-body-regular text-[#4E525A]">EcoTech Solutions</td><td class="px-0 text-body-regular text-[#4E525A]">sophia@ecotech.io</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">QUALIFIED</div></td><td class="text-body-medium text-[#0D0F14]">Olivia Davis</td><td class="px-0 text-body-regular text-[#4E525A]">Instagram</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#ECF5DA] inline-flex items-center text-label-score text-[#457F19]">6/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 04, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border="#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-ava" class="sr-only">Select Ava Clark</label><input type="checkbox" id="check-ava" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Ava Clark</td><td class="px-0 text-body-regular text-[#4E525A]">Smart Homes Inc.</td><td class="px-0 text-body-regular text-[#4E525A]">ava@smarthomes.com</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">IN PROGRESS</div></td><td class="text-body-medium text-[#0D0F14]">Noah Garcia</td><td class="px-0 text-body-regular text-[#4E525A]">Website</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#FDE8E5] inline-flex items-center text-label-score text-[#B42318]">1/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 03, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-lily" class="sr-only">Select Lily Walker</label><input type="checkbox" id="check-lily" class="custom-checkbox" checked=""></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Lily Walker</td><td class="px-0 text-body-regular text-[#4E525A]">Foodie Connect</td><td class="px-0 text-body-regular text-[#4E525A]">walker@foodieconnect.com</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">NEW</div></td><td class="text-body-medium text-[#0D0F14]">Zoe Lewis</td><td class="px-0 text-body-regular text-[#4E525A]">Instagram</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#ECF5DA] inline-flex items-center text-label-score text-[#457F19]">6/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 02, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-james" class="sr-only">Select James Young</label><input type="checkbox" id="check-james" class="custom-checkbox" checked=""></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">James Young</td><td class="px-0 text-body-regular text-[#4E525A]">Fashion Trendz</td><td class="px-0 text-body-regular text-[#4E525A]">j.young@fashiontrendz.com</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">PENDING</div></td><td class="text-body-medium text-[#0D0F14]">Oliver Hall</td><td class="px-0 text-body-regular text-[#4E525A]">LinkedIn</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#FBF0DA] inline-flex items-center text-label-score text-[#A66A08]">5/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 02, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-mason" class="sr-only">Select Mason Allen</label><input type="checkbox" id="check-mason" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Mason Allen</td><td class="px-0 text-body-regular text-[#4E525A]">Virtual Reality Co.</td><td class="text-body-regular text="#4E525A">mason@vrco.io</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">QUALIFIED</div></td><td class="text-body-medium text-[#0D0F14]">Emily King</td><td class="px-0 text-body-regular text-[#4E525A]">Facebook</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#E2F4E6] inline-flex items-center text-label-score text-[#147A3A]">9/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 01, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-jack" class="sr-only">Select Jack Robinson</label><input type="checkbox" id="check-jack" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">Jack Robinson</td><td class="px-0 text-body-regular text-[#4E525A]">Gaming Hub</td><td class="px-0 text-body-regular text-[#4E525A]">jack@gaminghub.gg</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">OPEN</div></td><td class="text-body-medium text-[#0D0F14]">Mia Brown</td><td class="px-0 text-body-regular text-[#4E525A]">X</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#ECF5DA] inline-flex items-center text-label-score text-[#457F19]">7/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 01, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr><tr class="h-[61.5px] border-b border-[#E2E4E6] btn-transition"><td class="pl-[19px] pr-0 sticky-col-1"><label for="check-david" class="sr-only">Select David Ramirez</label><input type="checkbox" id="check-david" class="custom-checkbox"></td><td class="px-0 text-body-medium text-[#0D0F14] sticky-col-2">David Ramirez</td><td class="px-0 text-body-regular text-[#4E525A]">IronGate Logistics</td><td class="px-0 text-body-regular text-[#4E525A]">david@irongate.com</td><td class="px-0"><div class="h-[23px] px-[8px] border border-[#D2D5D9] rounded-[7px] bg-white inline-flex items-center text-label-caps text-[#4E525A]">OPEN</div></td><td class="text-body-medium text-[#0D0F14]">Ella Turner</td><td class="px-0 text-body-regular text-[#4E525A]">Referral</td><td class="px-0 pt-[3px]"><div class="h-[26px] px-[6px] py-[4px] rounded-[7px] bg-[#FBF0DA] inline-flex items-center text-label-score text-[#A66A08]">4/10</div></td><td class="px-0 text-body-regular text-[#4E525A]">Dec 01, 2025</td><td class="pr-[18px] pl-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA0A6" stroke-width="1.5"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></td></tr></tbody></table></div></main></div><script>const menuBtn = document.getElementById('mobile-menu-btn'); const sidebar = document.getElementById('sidebar'); const overlay = document.getElementById('sidebar-overlay'); const body = document.body; function toggleSidebar(){const isOpen = sidebar.classList.toggle('active'); overlay.classList.toggle('active'); menuBtn.setAttribute('aria-expanded', isOpen); body.classList.toggle('mobile-nav-open');}menuBtn.addEventListener('click', toggleSidebar); overlay.addEventListener('click', toggleSidebar); document.addEventListener('keydown', (e)=>{if(e.key === 'Escape' && sidebar.classList.contains('active')) toggleSidebar();});</script></body></html>

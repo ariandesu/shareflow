@@ -1,0 +1,68 @@
+# Dark Keynote Product-Proof Deck
+
+- **Category:** Landing Page
+- **Slug:** `dark-keynote-product-proof-deck`
+- **Target AI Tools:** Cursor, Claude 3.7 / 3.5 Sonnet, Bolt.new, v0.dev, Windsurf, Lovable
+- **Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)
+- **Tags:** presentation, deck, slide-deck, keynote, pitch-deck, dark, dark-mode, true-black, saas, product, keynote-deck, cover-slide, archivo-black, heavy-sans, giant-type, emerald, edge-glow, radial-glow, emitted-light, single-accent, monospace, mono-metadata, inverted-pill, cta-pill, product-proof, browser-chrome, ui-mock, over-specified-metric, film-grain, deck-system, desktop
+
+---
+
+## Architectural Philosophy & Overview
+A DARK KEYNOTE / PRODUCT-PROOF DECK SYSTEM (16:9) built as repeatable layouts. TRUE-BLACK #050607 ground so a single EMERALD #35e0a0 RADIAL GLOW entering from one edge reads as emitted light; MONOSPACE metadata; an INVERTED WHITE PILL as the primary CTA; a heavy-sans hero (Archivo Black, Inter-Black fallback); a faint film-grain overlay on every slide. Layouts: COVER (mono eyebrow + heavy-sans headline bottom-left + white pill), PRODUCT-PROOF (a self-built UI mock in BROWSER CHROME with KPI tiles, accent numbers in emerald - the product demonstrates itself), and a METRIC slide (one over-specified number like 66.0879% with an emerald spike). Palette is strictly black + white + one emerald. Reusable for SaaS/product keynotes, launch and demo decks, investor pitches, and dark product-marketing covers.
+
+---
+
+## Production System Prompt Specification
+```
+{
+  "summary": "A DARK KEYNOTE / PRODUCT-PROOF DECK SYSTEM at 16:9 (1600x900 slides), designed as REPEATABLE layouts. GROUND: TRUE black #050607 (not near-black) on every slide, which is the enabling choice — it is dark enough that a single accent glow reads as emitted light. GLOW: exactly ONE emerald #35e0a0 RADIAL glow entering from an EDGE (e.g. radial-gradient at 100% 45% from rgba(45,225,150,.5) to transparent) so it reads as a light source, not a fill; it repeats, dimmed, on the other slides for continuity. GRAIN: a faint film-grain overlay (~6%, SVG feTurbulence) on every slide. COLOR: strictly true-black + white #eef2f0 + ONE emerald #35e0a0 — no second color. TYPE SYSTEM: the hero is ARCHIVO BLACK (a heavy grotesque; Inter Black / Manrope ExtraBold fallback) in white at large scale (~200-260px), tight leading (~.92); ALL metadata/labels are MONOSPACE (SF Mono / JetBrains Mono) in emerald or a muted green-grey; body lines are a clean muted sans. SIGNATURE DEVICES: (a) an INVERTED WHITE PILL as the primary CTA (white ground, black text, fully rounded); (b) a PRODUCT-PROOF mock — a self-built UI rendered in BROWSER CHROME (a window bar with three dots + a fake domain, then KPI tiles) where accent numbers are emerald, so the product demonstrates itself; (c) an OVER-SPECIFIED metric (e.g. '66.0879%') that implies live instrumentation. THREE LAYOUTS: (1) COVER = mono eyebrow + heavy-sans headline anchored bottom-left + white pill CTA; (2) PRODUCT-PROOF = the browser-chrome UI mock centered with KPI tiles + a caption ('the medium is the demo'); (3) METRIC = one huge over-specified number with the emerald spike on the number + one explanatory line. Invent generic copy (e.g. 'Signals, not noise', 'app.superdesign.dev') — never a template brand.",
+  "style": {
+    "description": "Dark product keynote where light is the color and the product proves itself. A TRUE-black #050607 ground is the enabling move: it is dark enough that ONE emerald #35e0a0 radial glow entering from an edge reads as emitted light rather than a fill. The palette is absolute — black + white + one emerald, nothing else — and a faint grain unifies the surface. Metadata is monospace (the 'instrumented' tell), the primary action is an inverted white pill, and the hero is a heavy grotesque (Archivo Black) in white. The signature is a self-built product-proof mock in browser chrome that demonstrates the product instead of describing it, plus an over-specified metric that implies live data. Confident, technical, modern SaaS/keynote — restrained to one light source and one accent.",
+    "prompt": "Design a DARK KEYNOTE / PRODUCT-PROOF DECK SYSTEM at 16:9 as repeatable layouts. Ground: TRUE black #050607 on every slide (not near-black). Add exactly ONE emerald #35e0a0 RADIAL glow entering from an edge (radial-gradient ~100% 45%, rgba(45,225,150,.5) to transparent) so it reads as emitted light; repeat it dimmed on other slides. Lay a faint film-grain overlay (~6%, SVG feTurbulence) over every slide. Palette: strictly true-black + white #eef2f0 + ONE emerald — no second color. Hero: Archivo Black (heavy grotesque; Inter Black/Manrope fallback), white, ~200-260px, line-height ~.92. Metadata/labels: MONOSPACE (SF Mono/JetBrains) in emerald or muted green-grey. Primary CTA: an INVERTED WHITE PILL (white ground, black text, fully rounded). Build three layouts: a COVER (mono eyebrow + heavy-sans headline bottom-left + white pill), a PRODUCT-PROOF slide (a self-built UI mock in BROWSER CHROME — window bar with three dots + a fake domain, then three KPI tiles with emerald accent numbers — plus a caption), and a METRIC slide (one over-specified number like '66.0879%' with the emerald spike on the number). Invent generic copy; never a real template brand."
+  },
+  "layout_and_structure": {
+    "description": "A 16:9 deck of three repeatable layouts on a true-black ground, unified by one emerald edge-glow (dimmed on non-cover slides), monospace metadata, and a faint grain. COVER: a mono eyebrow top-left, a heavy-sans headline anchored bottom-left, an inverted white pill CTA beneath it. PRODUCT-PROOF: a self-built UI mock centered in browser chrome (window bar with three dots + fake domain, then a row of three KPI tiles with emerald accent numbers) over a small muted caption. METRIC: one huge over-specified number centered-left with the emerald spike on the number, and a single explanatory line beneath in muted green-grey. The glow direction and the mono metadata stay constant so the system reads as one deck.",
+    "prompts": [
+      {
+        "part": "Ground, edge-glow, grain, and mono metadata",
+        "prompt": "Fill every slide with TRUE black #050607. Add exactly ONE emerald #35e0a0 radial glow entering from the right edge (radial-gradient at ~100% 45%, from rgba(45,225,150,.5) through rgba(45,225,150,.12) to transparent) so it reads as emitted light; on non-cover slides keep it but dim it (~60%). Lay a faint film-grain overlay (~6%, SVG feTurbulence) over each slide. Set all metadata/labels in MONOSPACE (SF Mono/JetBrains Mono) — emerald for the eyebrow, muted green-grey for captions — and a small mono slide-label bottom-right."
+      },
+      {
+        "part": "Cover — heavy headline + inverted pill",
+        "prompt": "On the cover, put a monospace eyebrow ('KEYNOTE 2026') top-left in emerald, then anchor a heavy-sans headline to the bottom-left in Archivo Black (Inter Black fallback), white, ~200-260px, line-height ~.92 ('Signals, / not noise'). Beneath it, an INVERTED WHITE PILL CTA (white ground, black text, fully rounded, ~32px/64px padding) reading 'See the demo ->'."
+      },
+      {
+        "part": "Product-proof — self-built UI mock in browser chrome",
+        "prompt": "Center a self-built UI mock in BROWSER CHROME: a dark window (#0f1512, 1px #1e2a24 border, ~32px radius) with a title bar carrying three grey dots + a fake domain in mono ('app.superdesign.dev'), then a body of three KPI tiles (each a darker card with a mono uppercase label and a heavy-sans value; the accent values — active users, latency — in emerald). Under it, a small muted caption: 'the product demonstrating itself — the medium is the demo.'"
+      },
+      {
+        "part": "Metric — one over-specified number",
+        "prompt": "Center-left, set ONE huge metric in Archivo Black at ~250px with the emerald spike on the number itself ('66.0879%' — deliberately over-specified so it implies live instrumentation), then a single explanatory line beneath in muted green-grey at ~45px, max-width ~72%. One number per slide."
+      }
+    ]
+  },
+  "special_ui_components": [
+    {
+      "component": "Emerald edge-radial glow as emitted light",
+      "description": "The single accent, delivered as one radial glow entering from an edge on a true-black ground so it reads as a light source, not a fill.",
+      "prompt": "On a TRUE-black #050607 ground, add exactly ONE emerald #35e0a0 radial glow entering from one edge (radial-gradient ~100% 45%, rgba(45,225,150,.5) -> rgba(45,225,150,.12) -> transparent). Keep it on ONE edge so it reads as emitted light; a centered or full-bleed glow stops reading as light. Dim it (~60%) on non-cover slides for continuity. Add no second color anywhere."
+    },
+    {
+      "component": "Product-proof UI mock in browser chrome",
+      "description": "A self-built product UI rendered inside a browser window (three dots + fake domain + KPI tiles) that demonstrates the product instead of describing it.",
+      "prompt": "Build a self-built UI mock in BROWSER CHROME: a dark window with a title bar (three grey dots + a fake domain in mono) and a body of three KPI tiles (mono uppercase label + heavy-sans value; accent values in emerald). It must look like the real product running, with a caption framing it as the demo ('the medium is the demo'). This is the signature move — prove, don't claim."
+    },
+    {
+      "component": "Inverted white pill CTA",
+      "description": "The one bright element: a fully-rounded white pill with black text as the primary action on a dark deck.",
+      "prompt": "Style the primary CTA as an INVERTED WHITE PILL: white #eef2f0 ground, black #050607 text, weight 700, fully rounded (border-radius ~100px), generous padding. On a true-black deck it is the single brightest object, so it unambiguously reads as 'the primary action.' Use it once per relevant slide, never twice."
+    },
+    {
+      "component": "Over-specified metric",
+      "description": "A deliberately precise number (e.g. 66.0879%) with the accent on the number, implying live instrumentation.",
+      "prompt": "Set one hero metric in the heavy grotesque with the emerald spike on the number, and make it OVER-specified (e.g. '66.0879%', '99.98%', '42ms') rather than rounded — the extra digits imply live instrumentation and read as more real than a tidy number. One metric per slide, with a single explanatory line beneath."
+    }
+  ]
+}
+```

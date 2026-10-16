@@ -1,0 +1,1030 @@
+<!DOCTYPE html><html lang="en" class="antialiased"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blueprint SaaS Hero</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: { fontFamily: {"mono":["'IBM Plex Mono'","monospace"]} } }
+}
+</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <style>
+    :root {
+      --ground: #eef1f5;
+      --surface: #ffffff;
+      --surface-2: #e4e9ef;
+      --ink: #101b28;
+      --muted: #5a6675;
+      --hairline: #d3dae2;
+      --accent: #e4572e;
+      --accent-ink: #ffffff;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'IBM Plex Sans', sans-serif;
+      background-color: var(--ground);
+      color: var(--ink);
+      background-image: repeating-linear-gradient(to right, transparent, transparent 23px, rgba(211, 218, 226, 0.35) 23px, rgba(211, 218, 226, 0.35) 24px), repeating-linear-gradient(to bottom, transparent, transparent 23px, rgba(211, 218, 226, 0.35) 23px, rgba(211, 218, 226, 0.35) 24px);
+      background-position: top center;
+      background-attachment: fixed;
+    }
+    h1, .stat-number {
+      font-family: 'Archivo', sans-serif;
+    }
+    .font-mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .tracking-widest {
+      letter-spacing: 0.14em;
+    }
+    .tracking-h1 {
+      letter-spacing: -1.2px;
+    }
+    @media (min-width: 768px) {
+      .tracking-h1 { letter-spacing: -3px; }
+    }
+    .corner-tick {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+    }
+    .tick-tl { top: -1px; left: -1px; border-top: 1px solid var(--hairline); border-left: 1px solid var(--hairline); }
+    .tick-tr { top: -1px; right: -1px; border-top: 1px solid var(--hairline); border-right: 1px solid var(--hairline); }
+    .tick-bl { bottom: -1px; left: -1px; border-bottom: 1px solid var(--hairline); border-left: 1px solid var(--hairline); }
+    .tick-br { bottom: -1px; right: -1px; border-bottom: 1px solid var(--hairline); border-right: 1px solid var(--hairline); }
+  </style>
+
+<meta name="preview-version" content="bbb19982-ad94-49e4-98e5-c577af3238b9" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:12.895Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "bbb19982-ad94-49e4-98e5-c577af3238b9");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "bbb19982-ad94-49e4-98e5-c577af3238b9",
+      timestamp: "2026-10-16T14:07:12.895Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "bbb19982-ad94-49e4-98e5-c577af3238b9";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen w-full flex flex-col" data-sd-id="1">
+    <!-- Top Nav -->
+    <nav class="w-full flex items-center justify-between px-4 lg:px-8 h-[60px] border-b border-[#d3dae2] bg-[#eef1f5]/80 backdrop-blur-sm sticky top-0 z-40" data-sd-id="2">
+      <div class="flex items-center gap-6" data-sd-id="3">
+        <div class="flex items-center gap-2" data-sd-id="4">
+          <div class="w-5 h-5 bg-[#101b28] flex items-center justify-center" data-sd-id="5">
+            <span class="text-white font-mono text-xs font-medium leading-none" data-sd-id="6">F</span>
+          </div>
+          <span class="font-medium text-[15px]" data-sd-id="7">forge</span>
+        </div>
+        <div class="hidden md:flex items-center gap-5 text-[14px] font-medium" data-sd-id="8">
+          <a id="nav-product" href="#" class="hover:text-[#e4572e] transition-colors" data-sd-id="9">Product</a>
+          <a id="nav-pipelines" href="#" class="hover:text-[#e4572e] transition-colors" data-sd-id="10">Pipelines</a>
+          <a id="nav-docs" href="#" class="hover:text-[#e4572e] transition-colors" data-sd-id="11">Docs</a>
+          <a id="nav-pricing" href="#" class="hover:text-[#e4572e] transition-colors" data-sd-id="12">Pricing</a>
+          <a id="nav-changelog" href="#" class="hover:text-[#e4572e] transition-colors" data-sd-id="13">Changelog</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-4" data-sd-id="14">
+        <div class="hidden sm:flex items-center gap-1 font-mono text-[11px] uppercase tracking-widest text-[#5a6675]" data-sd-id="15">
+          v<span class="text-[#e4572e]" data-sd-id="16">2.4.0</span>
+        </div>
+        <a id="nav-signin" href="#" class="hidden sm:block text-[13px] font-mono font-medium px-4 py-2 border border-[#101b28] hover:bg-[#101b28] hover:text-white transition-colors" data-sd-id="17">
+          Sign in
+        </a>
+        <a id="nav-start" href="#" class="text-[13px] font-mono font-medium px-4 py-2 bg-[#e4572e] text-white hover:bg-[#d04a25] transition-colors" data-sd-id="18">
+          Start building
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-[1440px] mx-auto px-4 lg:px-8 pt-12 lg:pt-16 pb-10" data-sd-id="19">
+      <!-- Hero Split -->
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-8 mb-20" data-sd-id="20">
+        <div class="w-full lg:w-[58%]" data-sd-id="21">
+          <div class="flex items-center gap-2 mb-6" data-sd-id="22">
+            <div class="w-[6px] h-[6px] bg-[#e4572e]" data-sd-id="23"></div>
+            <span class="font-mono text-[11px] font-medium uppercase tracking-widest text-[#5a6675]" data-sd-id="24">SPEC / 001 - CONTINUOUS DELIVERY</span>
+          </div>
+          <h1 class="text-[48px] md:text-[64px] lg:text-[76px] leading-[1.02] tracking-h1 text-[#101b28]" data-sd-id="25">
+            Ship every commit<br class="hidden md:block">
+            with a receipt.
+          </h1>
+        </div>
+        <div class="w-full lg:w-[42%] lg:pt-12" data-sd-id="26">
+          <div class="w-full h-[1px] bg-[#d3dae2] mb-6 hidden lg:block" data-sd-id="27"></div>
+          <p class="text-[#5a6675] text-[17px] leading-[1.55] max-w-[380px] mb-8" data-sd-id="28">
+            A deployment pipeline that reads like a spec sheet. Every build, every artifact, every rollback measured, versioned and signed. No mystery boxes.
+          </p>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center mb-3" data-sd-id="29">
+            <button class="px-5 py-3 bg-[#e4572e] text-white font-mono text-[13px] font-medium hover:bg-[#d04a25] transition-colors border border-[#e4572e]" data-sd-id="30">
+              Start building
+            </button>
+            <div class="flex items-center px-4 py-3 bg-[#e4e9ef] border border-[#d3dae2] sm:border-l-0 mt-[-1px] sm:mt-0" data-sd-id="31">
+              <code class="font-mono text-[13px] text-[#5a6675]">$ npx forge init</code>
+              <button class="ml-3 text-[#5a6675] hover:text-[#101b28] transition-colors" data-sd-id="32">
+                <iconify-icon icon="lucide:copy" width="14"></iconify-icon>
+              </button>
+            </div>
+          </div>
+          <p class="font-mono text-[11px] text-[#5a6675]" data-sd-id="33">No card. 500 build-minutes free.</p>
+        </div>
+      </div>
+
+      <!-- Product Mockup -->
+      <div class="relative w-full bg-white border border-[#d3dae2] shadow-[0_20px_40px_-15px_rgba(16,27,40,0.05)] mb-20" data-sd-id="34">
+        <div class="corner-tick tick-tl" data-sd-id="35"></div>
+        <div class="corner-tick tick-tr" data-sd-id="36"></div>
+        <div class="corner-tick tick-bl" data-sd-id="37"></div>
+        <div class="corner-tick tick-br" data-sd-id="38"></div>
+        
+        <!-- Measurement Rule -->
+        <div class="absolute -top-6 left-0 w-full flex items-center justify-between text-[#5a6675]" data-sd-id="39">
+          <div class="flex-1 h-[1px] bg-[#d3dae2] relative" data-sd-id="40">
+            <div class="absolute left-0 top-[-4px] w-[1px] h-[9px] bg-[#d3dae2]" data-sd-id="41"></div>
+            <div class="absolute right-0 top-[-4px] w-[1px] h-[9px] bg-[#d3dae2]" data-sd-id="42"></div>
+          </div>
+          <span class="font-mono text-[11px] px-2" data-sd-id="43">1440</span>
+          <div class="flex-1 h-[1px] bg-[#d3dae2]" data-sd-id="44"></div>
+        </div>
+
+        <!-- Title Bar -->
+        <div class="flex items-center justify-between px-4 h-10 border-b border-[#d3dae2] bg-[#f8fafc]" data-sd-id="45">
+          <div class="flex gap-[4px]" data-sd-id="46">
+            <div class="w-2 h-2 border border-[#d3dae2]" data-sd-id="47"></div>
+            <div class="w-2 h-2 border border-[#d3dae2]" data-sd-id="48"></div>
+            <div class="w-2 h-2 border border-[#d3dae2]" data-sd-id="49"></div>
+          </div>
+          <div class="font-mono text-[12px] text-[#101b28]" data-sd-id="50">forge - deploy/api-gateway</div>
+          <div class="font-mono text-[11px] text-[#5a6675]" data-sd-id="51">main@8f2c1ad</div>
+        </div>
+
+        <!-- Main Mockup Content -->
+        <div class="flex flex-col md:flex-row" data-sd-id="52">
+          <!-- Rail -->
+          <div class="w-full md:w-52 border-b md:border-b-0 md:border-r border-[#d3dae2] bg-[#f8fafc] py-3 flex flex-row md:flex-col gap-3 md:gap-0 overflow-x-auto px-4 md:px-0">
+            <div class="flex-shrink-0 md:flex-shrink relative flex items-center gap-2 md:gap-0 md:justify-between md:px-4 py-1.5 md:border-b md:border-[#d3dae2]/60">
+              
+              <div class="flex items-center gap-2 min-w-0"><span class="w-2 h-2 border border-[#d3dae2] bg-white flex-shrink-0"></span><span class="font-mono text-[12px] text-[#5a6675]">install</span></div>
+              <span class="hidden md:inline font-mono text-[10px] text-[#5a6675]">12s</span>
+            </div>
+            <div class="flex-shrink-0 md:flex-shrink relative flex items-center gap-2 md:gap-0 md:justify-between md:px-4 py-1.5 md:border-b md:border-[#d3dae2]/60">
+              
+              <div class="flex items-center gap-2 min-w-0"><span class="w-2 h-2 border border-[#d3dae2] bg-white flex-shrink-0"></span><span class="font-mono text-[12px] text-[#5a6675]">build</span></div>
+              <span class="hidden md:inline font-mono text-[10px] text-[#5a6675]">1m 04s</span>
+            </div>
+            <div class="flex-shrink-0 md:flex-shrink relative flex items-center gap-2 md:gap-0 md:justify-between md:px-4 py-1.5 md:border-b md:border-[#d3dae2]/60">
+              
+              <div class="flex items-center gap-2 min-w-0"><span class="w-2 h-2 border border-[#d3dae2] bg-white flex-shrink-0"></span><span class="font-mono text-[12px] text-[#5a6675]">test</span></div>
+              <span class="hidden md:inline font-mono text-[10px] text-[#5a6675]">48s</span>
+            </div>
+            <div class="flex-shrink-0 md:flex-shrink relative flex items-center gap-2 md:gap-0 md:justify-between md:px-4 py-1.5 md:border-b md:border-[#d3dae2]/60">
+              
+              <div class="flex items-center gap-2 min-w-0"><span class="w-2 h-2 border border-[#d3dae2] bg-white flex-shrink-0"></span><span class="font-mono text-[12px] text-[#5a6675]">sign</span></div>
+              <span class="hidden md:inline font-mono text-[10px] text-[#5a6675]">3s</span>
+            </div>
+            <div class="flex-shrink-0 md:flex-shrink relative flex items-center gap-2 md:gap-0 md:justify-between md:px-4 py-1.5 md:border-b md:border-[#d3dae2]/60">
+              <div class="hidden md:block absolute left-0 top-0 bottom-0 w-[3px] bg-[#e4572e]"></div>
+              <div class="flex items-center gap-2 min-w-0"><span class="w-2 h-2 bg-[#e4572e] flex-shrink-0"></span><span class="font-mono text-[12px] text-[#101b28]">canary</span></div>
+              <span class="hidden md:inline font-mono text-[10px] text-[#101b28]">running</span>
+            </div>
+            <div class="flex-shrink-0 md:flex-shrink relative flex items-center gap-2 md:gap-0 md:justify-between md:px-4 py-1.5 md:border-b md:border-[#d3dae2]/60">
+              
+              <div class="flex items-center gap-2 min-w-0"><span class="w-2 h-2 border border-dashed border-[#d3dae2] flex-shrink-0"></span><span class="font-mono text-[12px] text-[#5a6675]">promote</span></div>
+              <span class="hidden md:inline font-mono text-[10px] text-[#d3dae2]">-</span>
+            </div>
+            <div class="hidden md:block px-4 pt-4 mt-auto">
+              <div class="font-mono text-[10px] uppercase tracking-widest text-[#5a6675] mb-1">ARTIFACTS</div>
+              <div class="font-mono text-[11px] text-[#101b28]">4 signed / 0 unsigned</div>
+            </div>
+          </div>
+
+          <!-- Pane -->
+          <div class="flex-1 p-4 md:p-6 min-w-0" data-sd-id="61">
+            <!-- Stage Timeline -->
+            <div class="relative mb-10 px-1">
+              <div class="absolute left-[10px] right-[10px] top-[6px] h-[1px] bg-[#d3dae2]"></div>
+              <div class="relative flex justify-between items-start gap-2">
+        <div class="flex flex-col items-center gap-3 flex-1 min-w-0">
+          <div class="w-3 h-3 bg-white border border-[#d3dae2]"></div>
+          <div class="font-mono text-[10px] md:text-[11px] text-[#5a6675] whitespace-nowrap">12s</div>
+        </div>
+        <div class="flex flex-col items-center gap-3 flex-1 min-w-0">
+          <div class="w-3 h-3 bg-white border border-[#d3dae2]"></div>
+          <div class="font-mono text-[10px] md:text-[11px] text-[#5a6675] whitespace-nowrap">1m 04s</div>
+        </div>
+        <div class="flex flex-col items-center gap-3 flex-1 min-w-0">
+          <div class="w-3 h-3 bg-white border border-[#d3dae2]"></div>
+          <div class="font-mono text-[10px] md:text-[11px] text-[#5a6675] whitespace-nowrap">48s</div>
+        </div>
+        <div class="flex flex-col items-center gap-3 flex-1 min-w-0">
+          <div class="w-3 h-3 bg-white border border-[#d3dae2]"></div>
+          <div class="font-mono text-[10px] md:text-[11px] text-[#5a6675] whitespace-nowrap">3s</div>
+        </div>
+        <div class="flex flex-col items-center gap-3 flex-1 min-w-0">
+          <div class="w-4 h-4 -mt-[2px] bg-[#e4572e]"></div>
+          <div class="font-mono text-[10px] md:text-[11px] font-medium text-[#101b28] whitespace-nowrap">running</div>
+        </div>
+        <div class="flex flex-col items-center gap-3 flex-1 min-w-0">
+          <div class="w-3 h-3 bg-white border border-[#d3dae2] border-dashed"></div>
+          <div class="font-mono text-[10px] md:text-[11px] text-[#d3dae2] whitespace-nowrap">-</div>
+        </div>
+              </div>
+            </div>
+
+            <!-- Log Table -->
+            <div class="border border-[#d3dae2] w-full" data-sd-id="64">
+              <div class="grid grid-cols-[1.1fr_0.9fr_auto] md:grid-cols-[130px_90px_1fr_100px] border-b border-[#d3dae2] bg-[#f8fafc] px-3 py-2" data-sd-id="65">
+                <div class="hidden md:block font-mono text-[11px] text-[#5a6675]" data-sd-id="66">TIMESTAMP</div>
+                <div class="font-mono text-[11px] text-[#5a6675]" data-sd-id="67">STAGE</div>
+                <div class="font-mono text-[11px] text-[#5a6675]" data-sd-id="68">ARTIFACT</div>
+                <div class="font-mono text-[11px] text-[#5a6675]" data-sd-id="69">STATUS</div>
+              </div>
+              <div class="grid grid-cols-[1.1fr_0.9fr_auto] md:grid-cols-[130px_90px_1fr_100px] border-b border-[#d3dae2] px-3 py-2 items-center" data-sd-id="70">
+                <div class="hidden md:block font-mono text-[12px] text-[#5a6675]" data-sd-id="71">09:42:15.11</div>
+                <div class="font-mono text-[12px] text-[#101b28]" data-sd-id="72">install</div>
+                <div class="font-mono text-[12px] text-[#5a6675]" data-sd-id="73">pkg-lock.json</div>
+                <div class="font-mono text-[11px] bg-[#e4e9ef] px-2 py-0.5 inline-block w-max" data-sd-id="74">DONE</div>
+              </div>
+              <div class="grid grid-cols-[1.1fr_0.9fr_auto] md:grid-cols-[130px_90px_1fr_100px] border-b border-[#d3dae2] px-3 py-2 items-center" data-sd-id="75">
+                <div class="hidden md:block font-mono text-[12px] text-[#5a6675]" data-sd-id="76">09:42:27.40</div>
+                <div class="font-mono text-[12px] text-[#101b28]" data-sd-id="77">build</div>
+                <div class="font-mono text-[12px] text-[#5a6675]" data-sd-id="78">dist-8f2c1ad.tar.gz</div>
+                <div class="font-mono text-[11px] bg-[#e4e9ef] px-2 py-0.5 inline-block w-max" data-sd-id="79">DONE</div>
+              </div>
+              <div class="grid grid-cols-[1.1fr_0.9fr_auto] md:grid-cols-[130px_90px_1fr_100px] px-3 py-2 items-center bg-white" data-sd-id="80">
+                <div class="hidden md:block font-mono text-[12px] text-[#5a6675]" data-sd-id="81">09:43:31.05</div>
+                <div class="font-mono text-[12px] text-[#101b28]" data-sd-id="82">test</div>
+                <div class="font-mono text-[12px] text-[#5a6675]" data-sd-id="83">coverage-report.xml</div>
+                <div class="font-mono text-[11px] bg-[#e4572e] text-white px-2 py-0.5 inline-block w-max" data-sd-id="84">PASS</div>
+              </div>
+              <div class="grid grid-cols-[1.1fr_0.9fr_auto] md:grid-cols-[130px_90px_1fr_100px] px-3 py-2 items-center bg-white" data-sd-id="80">
+                <div class="hidden md:block font-mono text-[12px] text-[#5a6675]" data-sd-id="81">09:44:02.88</div>
+                <div class="font-mono text-[12px] text-[#101b28]" data-sd-id="82">sign</div>
+                <div class="font-mono text-[12px] text-[#5a6675]" data-sd-id="83">signature-8f2c1ad.sig</div>
+                <div class="font-mono text-[11px] bg-[#e4e9ef] px-2 py-0.5 inline-block w-max" data-sd-id="84">DONE</div>
+              </div>
+            </div>
+
+            <!-- Signed receipt block -->
+            <div class="mt-6 border border-[#d3dae2] border-t-0 relative bg-[#f8fafc]">
+              <!-- perforation -->
+              <div class="absolute -top-[1px] left-0 right-0 border-t border-dashed border-[#d3dae2]"></div>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-3">
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-2 min-w-0">
+                  <div class="min-w-0">
+                    <div class="font-mono text-[10px] uppercase tracking-widest text-[#5a6675]">RECEIPT NO.</div>
+                    <div class="font-mono text-[12px] text-[#101b28] truncate">RC-8f2c1ad-0417</div>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-mono text-[10px] uppercase tracking-widest text-[#5a6675]">CHECKSUM</div>
+                    <div class="font-mono text-[12px] text-[#101b28] truncate">sha256:9d41c0e2</div>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-mono text-[10px] uppercase tracking-widest text-[#5a6675]">SIGNED BY</div>
+                    <div class="font-mono text-[12px] text-[#101b28] truncate">forge-ci / cosign</div>
+                  </div>
+                </div>
+                <div class="flex-shrink-0 self-start sm:self-auto w-max border-2 border-[#e4572e] px-3 py-1 -rotate-3">
+                  <div class="font-mono text-[12px] font-medium uppercase tracking-widest text-[#e4572e]">SIGNED</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Row -->
+      <div class="grid grid-cols-1 md:grid-cols-3 border-t border-l border-[#d3dae2] mb-12" data-sd-id="85">
+        <div class="p-6 lg:p-10 border-b border-r border-[#d3dae2] bg-[#eef1f5]" data-sd-id="86">
+          <div class="text-[48px] lg:text-[56px] leading-none text-[#101b28] stat-number mb-4" data-sd-id="87">99.98%</div>
+          <div class="w-8 h-[2px] bg-[#e4572e] mb-3" data-sd-id="88"></div>
+          <div class="font-mono text-[11px] uppercase tracking-widest text-[#5a6675]" data-sd-id="89">PIPELINE UPTIME</div>
+        </div>
+        <div class="p-6 lg:p-10 border-b border-r border-[#d3dae2] bg-[#eef1f5]" data-sd-id="90">
+          <div class="text-[48px] lg:text-[56px] leading-none text-[#101b28] stat-number mb-4" data-sd-id="91">2m 14s</div>
+          <div class="w-8 h-[2px] bg-[#e4572e] mb-3" data-sd-id="92"></div>
+          <div class="font-mono text-[11px] uppercase tracking-widest text-[#5a6675]" data-sd-id="93">MEDIAN PIPELINE RUN</div>
+        </div>
+        <div class="p-6 lg:p-10 border-b border-r border-[#d3dae2] bg-[#eef1f5]" data-sd-id="94">
+          <div class="text-[48px] lg:text-[56px] leading-none text-[#101b28] stat-number mb-4" data-sd-id="95">12k</div>
+          <div class="w-8 h-[2px] bg-[#e4572e] mb-3" data-sd-id="96"></div>
+          <div class="font-mono text-[11px] uppercase tracking-widest text-[#5a6675]" data-sd-id="97">DEPLOYS / DAY</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Ticker Strip -->
+    <div class="w-full bg-[#101b28] overflow-hidden py-3" data-sd-id="98">
+      <div class="flex whitespace-nowrap animate-[marquee_20s_linear_infinite]" data-sd-id="99">
+        <style>
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+        </style>
+        <div class="flex items-center gap-8 font-mono text-[11px] uppercase tracking-widest text-[#eef1f5] px-4" data-sd-id="100">
+          <span data-sd-id="101">Kestrel IO</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="102"></div>
+          <span data-sd-id="103">Northwind Data</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="104"></div>
+          <span data-sd-id="105">Heliograph</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="106"></div>
+          <span data-sd-id="107">Parabola Labs</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="108"></div>
+          <span data-sd-id="109">Tidewater Cloud</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="110"></div>
+          <span data-sd-id="111">Meridian Stack</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="112"></div>
+          <!-- Duplicate for seamless loop -->
+          <span data-sd-id="113">Kestrel IO</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="114"></div>
+          <span data-sd-id="115">Northwind Data</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="116"></div>
+          <span data-sd-id="117">Heliograph</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="118"></div>
+          <span data-sd-id="119">Parabola Labs</span>
+          <div class="w-1.5 h-1.5 bg-[#e4572e]" data-sd-id="120"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body></html>

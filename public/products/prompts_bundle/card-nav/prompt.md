@@ -1,0 +1,403 @@
+# Card Nav
+
+- **Category:** UI Component
+- **Slug:** `card-nav`
+- **Target AI Tools:** Cursor, Claude 3.7 / 3.5 Sonnet, Bolt.new, v0.dev, Windsurf, Lovable
+- **Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)
+- **Tags:** ui component, nav
+
+---
+
+## Architectural Philosophy & Overview
+A premium, expandable navigation component with card-based submenu reveals and GSAP-powered height transitions. Designed for a high-end, minimalist aesthetic.
+
+---
+
+## Production System Prompt Specification
+```
+You are given a task to integrate an existing React component in the codebase
+
+~~~/README.md
+# CardNavShowcase
+
+A premium, expandable navigation component with card-based submenu reveals and GSAP-powered height transitions. Designed for a high-end, minimalist aesthetic.
+
+## Dependencies
+- `gsap`: ^3.12.5
+- `lucide-react`: ^0.454.0
+- `framer-motion`: ^11.11.11
+
+## Props
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `logo` | `string` | Placeholder | URL for the brand logo |
+| `logoAlt` | `string` | "Logo" | Alt text for the logo |
+| `items` | `CardNavItem[]` | **Required** | Array of navigation cards with sublinks |
+| `className` | `string` | `""` | Additional CSS classes for the container |
+| `ease` | `string` | `"power3.out"` | GSAP easing function |
+| `baseColor` | `string` | `hsl(var(--background))` | Background color of the nav bar |
+| `menuColor` | `string` | `hsl(var(--foreground))` | Color of the menu icon |
+| `buttonBgColor` | `string` | `hsl(var(--primary))` | Background color of the CTA button |
+| `buttonTextColor` | `string` | `hsl(var(--primary-foreground))` | Text color of the CTA button |
+| `buttonText` | `string` | `"Get Started"` | Text for the CTA button |
+
+### CardNavItem
+```typescript
+{
+  label: string;
+  bgColor: string;
+  textColor: string;
+  links: {
+    label: string;
+    href: string;
+    ariaLabel: string;
+  }[];
+}
+```
+
+## Usage Example
+```tsx
+import { CardNav } from '@/sd-components/c2abf9b1-3ee1-4943-af47-f000d9e9c4c1';
+
+function MyApp() {
+  const navItems = [
+    {
+      label: "Product",
+      bgColor: "#000",
+      textColor: "#fff",
+      links: [{ label: "Features", href: "/features", ariaLabel: "View Features" }]
+    }
+  ];
+
+  return (
+    <CardNav items={navItems} buttonText="Try Now" />
+  );
+}
+```
+~~~
+
+~~~/src/App.tsx
+import React from 'react';
+import CardNav, { CardNavItem } from './Component';
+
+/**
+ * App - Demo of the CardNav component
+ * Following the Minimalist Showcase style:
+ * - Deep slate background
+ * - Ample whitespace
+ * - Title display
+ */
+export default function App() {
+  const items: CardNavItem[] = [
+    {
+      label: "About",
+      bgColor: "#0D0716",
+      textColor: "#FFFFFF",
+      links: [
+        { label: "Our Story", href: "#", ariaLabel: "About Company" },
+        { label: "Team", href: "#", ariaLabel: "Our Team" },
+        { label: "Careers", href: "#", ariaLabel: "Join Us" }
+      ]
+    },
+    {
+      label: "Services", 
+      bgColor: "#170D27",
+      textColor: "#FFFFFF",
+      links: [
+        { label: "Design", href: "#", ariaLabel: "Design Services" },
+        { label: "Development", href: "#", ariaLabel: "Development Services" },
+        { label: "Consulting", href: "#", ariaLabel: "Business Consulting" }
+      ]
+    },
+    {
+      label: "Portfolio", 
+      bgColor: "#271E37", 
+      textColor: "#FFFFFF",
+      links: [
+        { label: "Projects", href: "#", ariaLabel: "Recent Work" },
+        { label: "Clients", href: "#", ariaLabel: "Our Clients" }
+      ]
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#1A1A1B] flex flex-col items-center justify-start pt-32 px-10">
+      <div className="w-full max-w-[800px] mb-20 text-center">
+        <h1 className="text-[#F9F9F9] text-4xl font-semibold tracking-tight mb-4">
+          CardNav Showcase
+        </h1>
+        <p className="text-[#F9F9F9]/60 text-lg">
+          A premium expandable navigation with staggered card reveals.
+        </p>
+      </div>
+
+      <div className="w-full relative py-20 flex justify-center">
+        {/* The Component */}
+        <CardNav
+          items={items}
+          baseColor="#F9F9F9"
+          menuColor="#1A1A1B"
+          buttonBgColor="#1A1A1B"
+          buttonTextColor="#F9F9F9"
+          buttonText="Contact Us"
+        />
+        
+        {/* Placeholder Content to demonstrate overlay behavior */}
+        <div className="absolute top-full left-0 right-0 py-20 text-center pointer-events-none">
+          <p className="text-[#F9F9F9]/20 text-sm italic">
+            Component floats above page content when expanded
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+~~~
+
+~~~/package.json
+{
+  "name": "card-nav-showcase",
+  "description": "Premium expandable navigation with card reveals",
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lucide-react": "^0.454.0",
+    "framer-motion": "^11.11.11"
+  }
+}
+~~~
+
+~~~/src/Component.tsx
+/**
+ * CardNav - A premium, expandable navigation component.
+ * Features:
+ * - GSAP-powered height transitions
+ * - Card-based submenu reveals with staggered animations
+ * - Mobile-responsive design
+ * - Highly customizable colors and animations
+ */
+
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+
+export type CardNavLink = {
+  label: string;
+  href: string;
+  ariaLabel: string;
+};
+
+export type CardNavItem = {
+  label: string;
+  bgColor: string;
+  textColor: string;
+  links: CardNavLink[];
+};
+
+export interface CardNavProps {
+  logo?: string;
+  logoAlt?: string;
+  items: CardNavItem[];
+  className?: string;
+  ease?: string;
+  baseColor?: string;
+  menuColor?: string;
+  buttonBgColor?: string;
+  buttonTextColor?: string;
+  buttonText?: string;
+}
+
+export const CardNav: React.FC<CardNavProps> = ({
+  logo = 'https://placehold.co/120x40?text=Logo',
+  logoAlt = 'Logo',
+  items,
+  className = '',
+  ease = 'power3.out',
+  baseColor = 'hsl(var(--background))',
+  menuColor = 'hsl(var(--foreground))',
+  buttonBgColor = 'hsl(var(--primary))',
+  buttonTextColor = 'hsl(var(--primary-foreground))',
+  buttonText = 'Get Started'
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  const calculateHeight = () => {
+    const navEl = navRef.current;
+    if (!navEl) return 260;
+    
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) {
+      const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement;
+      if (contentEl) {
+        const wasVisible = contentEl.style.visibility;
+        const wasPosition = contentEl.style.position;
+        const wasHeight = contentEl.style.height;
+        
+        contentEl.style.visibility = 'visible';
+        contentEl.style.position = 'static';
+        contentEl.style.height = 'auto';
+        
+        const topBar = 60;
+        const padding = 16;
+        const contentHeight = contentEl.scrollHeight;
+        
+        contentEl.style.visibility = wasVisible;
+        contentEl.style.position = wasPosition;
+        contentEl.style.height = wasHeight;
+        
+        return topBar + contentHeight + padding;
+      }
+    }
+    return 280;
+  };
+
+  const createTimeline = () => {
+    const navEl = navRef.current;
+    if (!navEl) return null;
+
+    gsap.set(navEl, { height: 60, overflow: 'hidden' });
+    gsap.set(cardsRef.current, { y: 30, opacity: 0 });
+
+    const tl = gsap.timeline({ paused: true });
+    
+    tl.to(navEl, {
+      height: calculateHeight,
+      duration: 0.5,
+      ease: ease
+    });
+
+    tl.to(cardsRef.current, { 
+      y: 0, 
+      opacity: 1, 
+      duration: 0.4, 
+      ease: ease, 
+      stagger: 0.08 
+    }, '-=0.2');
+
+    return tl;
+  };
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = createTimeline();
+      tlRef.current = tl;
+    }, navRef);
+
+    return () => ctx.revert();
+  }, [ease, items]);
+
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      if (!tlRef.current) return;
+      if (isExpanded) {
+        const newHeight = calculateHeight();
+        gsap.to(navRef.current, { height: newHeight, duration: 0.3 });
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isExpanded]);
+
+  const toggleMenu = () => {
+    const tl = tlRef.current;
+    if (!tl) return;
+    
+    if (!isExpanded) {
+      setIsExpanded(true);
+      tl.play();
+    } else {
+      tl.reverse().eventCallback('onReverseComplete', () => setIsExpanded(false));
+    }
+  };
+
+  const setCardRef = (i: number) => (el: HTMLDivElement | null) => {
+    if (el) cardsRef.current[i] = el;
+  };
+
+  return (
+    <div className={`card-nav-container relative w-full max-w-[800px] mx-auto z-[99] ${className}`}>
+      <nav
+        ref={navRef}
+        className={`card-nav ${isExpanded ? 'open' : ''} block h-[60px] p-0 rounded-2xl shadow-lg relative overflow-hidden will-change-[height] border border-border`}
+        style={{ backgroundColor: baseColor }}
+      >
+        {/* Top Bar */}
+        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-4 z-[2]">
+          <button
+            onClick={toggleMenu}
+            className="group h-10 w-10 flex items-center justify-center rounded-xl hover:bg-muted/50 transition-colors cursor-pointer"
+            aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+            style={{ color: menuColor }}
+          >
+            {isExpanded ? (
+              <X size={24} className="transition-transform duration-300 rotate-0 group-hover:rotate-90" />
+            ) : (
+              <Menu size={24} className="transition-transform duration-300" />
+            )}
+          </button>
+
+          <div className="logo-container absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <img src={logo} alt={logoAlt} className="h-7 w-auto object-contain" />
+          </div>
+
+          <button
+            type="button"
+            className="card-nav-cta-button hidden md:inline-flex rounded-xl px-5 items-center h-10 font-semibold text-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+          >
+            {buttonText}
+          </button>
+        </div>
+
+        {/* Content/Cards */}
+        <div
+          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-3 flex flex-col gap-3 justify-start z-[1] ${
+            isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+          } md:flex-row md:items-stretch md:gap-4`}
+          aria-hidden={!isExpanded}
+        >
+          {items.map((item, idx) => (
+            <div
+              key={`${item.label}-${idx}`}
+              ref={setCardRef(idx)}
+              className="nav-card relative flex flex-col gap-3 p-5 rounded-xl min-w-0 flex-[1_1_auto] md:flex-1 group/card"
+              style={{ backgroundColor: item.bgColor, color: item.textColor }}
+            >
+              <div className="nav-card-label font-bold tracking-tight text-xl md:text-2xl">
+                {item.label}
+              </div>
+              <div className="nav-card-links mt-auto flex flex-col gap-1.5">
+                {item.links.map((lnk, i) => (
+                  <a
+                    key={`${lnk.label}-${i}`}
+                    className="nav-card-link inline-flex items-center gap-2 no-underline cursor-pointer transition-all duration-300 hover:translate-x-1 text-sm md:text-base opacity-80 hover:opacity-100"
+                    href={lnk.href}
+                    aria-label={lnk.ariaLabel}
+                  >
+                    <ArrowUpRight size={16} className="shrink-0" />
+                    <span className="font-medium">{lnk.label}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+};
+
+export default CardNav;
+~~~
+
+Implementation Guidelines
+
+1. Analyze the component structure, styling, animation implementations
+2. Review the component's arguments and state
+3. Think through what is the best place to adopt this component/style into the design we are doing
+4. Then adopt the component/design to our current system
+
+Help me integrate this into my design
+```

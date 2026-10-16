@@ -1,0 +1,1 @@
+Add a hand-drawn underline animation to the keyword [Target Word] that triggers when the user scrolls it into view.

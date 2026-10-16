@@ -1,0 +1,1 @@
+Call-to-action button styled with Tailwind CSS featuring slide-in blur entrance, **dynamic mouse-move glow, underline expansion and arrow** icon shift on hover. Ideal for landing pages or forms requiring an engaging “Book a Call” prompt.

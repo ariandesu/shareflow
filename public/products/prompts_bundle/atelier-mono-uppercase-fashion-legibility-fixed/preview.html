@@ -1,0 +1,684 @@
+<!DOCTYPE html><htmllang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ATELIER · The Couture of Interface Design</title><script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Archivo+Expanded:wght@400;500;600&display=swap" rel="stylesheet"><script>tailwind.config = { theme: { extend: { colors: { ink: '#0a0a0a', paper: '#ffffff', }, fontFamily: { sans: ['Archivo', 'ui-sans-serif', 'system-ui', 'sans-serif'], wide: ['"Archivo Expanded"', 'Archivo', 'sans-serif'], }, } } }</script><style>html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; } .tracking-mono { letter-spacing: 0.34em; } .tracking-wide-2 { letter-spacing: 0.22em; } .tracking-wide-1 { letter-spacing: 0.14em; } .nav-link { position: relative; } .nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px; background: #0a0a0a; transform: scaleX(0); transform-origin: left; transition: transform .4s cubic-bezier(.16,1,.3,1); } .nav-link:hover::after { transform: scaleX(1); } .hairline { border-color: rgba(10,10,10,0.12); } .reveal { opacity: 0; transform: translateY(18px); transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); } .reveal.in { opacity: 1; transform: none; } .marquee-track { animation: marquee 28s linear infinite; } @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } } .wordmark { letter-spacing: 0.34em; }</style>
+<meta name="preview-version" content="d9d3efae-9630-4de2-8091-b29cc644edaa" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:15.149Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "d9d3efae-9630-4de2-8091-b29cc644edaa");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "d9d3efae-9630-4de2-8091-b29cc644edaa",
+      timestamp: "2026-10-16T14:07:15.149Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "d9d3efae-9630-4de2-8091-b29cc644edaa";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head><body><div class="min-h-screen bg-paper text-ink font-sans antialiased"><header id="nav" class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b hairline transition-colors duration-500"><nav class="max-w-[1400px] mx-auto px-6 md:px-10"><div class="relative flex items-center justify-between h-[68px] md:h-[88px]"><ul class="hidden lg:flex items-center gap-10 xl:gap-12 text-[11px] tracking-wide-2 font-medium uppercase"><li><a href="#new" id="nav-new" class="nav-link">New</a></li><li><a href="#library" id="nav-library" class="nav-link">Library</a></li><li><a href="#studio" id="nav-studio" class="nav-link">Studio</a></li><li><a href="#about" id="nav-about" class="nav-link">About</a></li></ul><button id="menuBtn" class="lg:hidden -ml-1 p-2 text-ink" aria-label="Open menu"><iconify-icon icon="ph:list" class="text-2xl"></iconify-icon></button><a href="#top" id="nav-logo" class="wordmark absolute left-1/2 -translate-x-1/2 font-wide text-[19px] md:text-[24px] font-500 uppercase select-none whitespace-nowrap">Atelier</a><div class="flex items-center gap-5 lg:gap-8 text-[11px] tracking-wide-2 font-medium uppercase"><a href="#library" id="nav-search" class="nav-link hidden lg:inline">Search</a><a href="#account" id="nav-account" class="nav-link hidden lg:inline">Account</a><button class="lg:hidden p-1 text-ink" aria-label="Search"><iconify-icon icon="ph:magnifying-glass" class="text-xl"></iconify-icon></button><a href="#bag" id="nav-bag" class="relative flex items-center text-ink" aria-label="Bag"><iconify-icon icon="ph:handbag" class="text-[19px] md:text-[21px]"></iconify-icon><span class="ml-2 hidden lg:inline text-[11px] tracking-wide-1 tabular-nums">(0)</span></a></div></div></nav><div id="drawer" class="lg:hidden overflow-hidden max-h-0 transition-[max-height] duration-500 ease-out border-t hairline"><ul class="px-6 md:px-10 py-5 space-y-4 text-[12px] tracking-wide-2 font-medium uppercase"><li><a href="#new" id="drawer-new" class="block">New</a></li><li><a href="#library" id="drawer-library" class="block">Library</a></li><li><a href="#studio" id="drawer-studio" class="block">Studio</a></li><li><a href="#about" id="drawer-about" class="block">About</a></li><li class="pt-3 mt-3 border-t hairline"><a href="#account" id="drawer-account" class="block text-ink/60">Account</a></li></ul></div></header><main id="top"><section class="relative w-full border-b hairline"><div class="max-w-[1400px] mx-auto px-6 md:px-10"><div class="py-20 md:py-32 lg:py-40"><p class="reveal text-[10px] md:text-[11px] tracking-mono uppercase text-ink/70 mb-8 md:mb-12">Collection 01 / The Interface Series</p><h1 class="reveal font-wide uppercase leading-[0.92] tracking-tight text-[12vw] md:text-[8.5vw] lg:text-[7.4vw] max-w-[14ch]" style="transition-delay:.08s">Design,<br>cut to<br>measure.</h1><div class="reveal mt-10 md:mt-14 max-w-xl" style="transition-delay:.16s"><p class="text-[15px] md:text-[17px] leading-relaxed text-ink/70">Atelier is the AI design house. Describe an interface and it composes mockups, components and full systems on an infinite canvas. Tailored, not templated.</p><div class="mt-9 flex flex-wrap items-center gap-x-9 gap-y-4 text-[11px] tracking-wide-2 uppercase font-medium"><a href="#studio" id="hero-studio-link" class="nav-link">Enter the studio</a><a href="#library" id="hero-library-link" class="text-ink/60 nav-link">Browse the library</a></div></div></div></div><div class="reveal w-full border-t hairline" style="transition-delay:.2s"><div class="grid grid-cols-2 md:grid-cols-4"><div class="aspect-[4/5] md:aspect-[3/4] border-r hairline flex flex-col justify-between p-5 md:p-7"><span class="text-[10px] tracking-wide-2 uppercase text-ink/60">001</span><div class="font-wide uppercase text-[22px] md:text-[30px] leading-none tracking-tight">Canvas</div></div><div class="aspect-[4/5] md:aspect-[3/4] border-r hairline bg-ink text-paper flex flex-col justify-between p-5 md:p-7"><span class="text-[10px] tracking-wide-2 uppercase text-paper/50">002</span><div class="font-wide uppercase text-[22px] md:text-[30px] leading-none tracking-tight">Compose</div></div><div class="aspect-[4/5] md:aspect-[3/4] border-r hairline flex flex-col justify-between p-5 md:p-7"><span class="text-[10px] tracking-wide-2 uppercase text-ink/60">003</span><div class="font-wide uppercase text-[22px] md:text-[30px] leading-none tracking-tight">Refine</div></div><div class="aspect-[4/5] md:aspect-[3/4] flex flex-col justify-between p-5 md:p-7"><span class="text-[10px] tracking-wide-2 uppercase text-ink/60">004</span><div class="font-wide uppercase text-[22px] md:text-[30px] leading-none tracking-tight">Ship</div></div></div></div></section><section class="w-full border-b hairline overflow-hidden py-5 md:py-6"><div class="marquee-track flex whitespace-nowrap"><div class="flex items-center text-[11px] md:text-[12px] tracking-mono uppercase text-ink/70"><span class="px-8">Mockups</span><span class="text-ink/60">/</span><span class="px-8">Components</span><span class="text-ink/60">/</span><span class="px-8">Design Systems</span><span class="text-ink/60">/</span><span class="px-8">Infinite Canvas</span><span class="text-ink/60">/</span><span class="px-8">Prompt Library</span><span class="text-ink/60">/</span></div><div class="flex items-center text-[11px] md:text-[12px] tracking-mono uppercase text-ink/70" aria-hidden="true"><span class="px-8">Mockups</span><span class="text-ink/60">/</span><span class="px-8">Components</span><span class="text-ink/60">/</span><span class="px-8">Design Systems</span><span class="text-ink/60">/</span><span class="px-8">Infinite Canvas</span><span class="text-ink/60">/</span><span class="px-8">Prompt Library</span><span class="text-ink/60">/</span></div></div></section><section id="library" class="w-full"><div class="max-w-[1400px] mx-auto px-6 md:px-10 py-20 md:py-28"><div class="flex items-end justify-between border-b hairline pb-7 md:pb-9 reveal"><div><p class="text-[10px] md:text-[11px] tracking-mono uppercase text-ink/70 mb-4">The Library</p><h2 class="font-wide uppercase text-[8vw] md:text-[44px] leading-none tracking-tight">Looks of the season</h2></div><a href="#" id="view-all-link" class="hidden md:inline text-[11px] tracking-wide-2 uppercase font-medium nav-link">View all 1,400</a></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 md:gap-y-16 mt-12 md:mt-16"><article class="reveal group"><a href="#" id="card-1-link" class="block"><div class="aspect-[4/5] bg-ink text-paper relative overflow-hidden flex items-center justify-center"><span class="font-wide uppercase tracking-wide-1 text-[15px] text-paper/80">Dashboard</span><span class="absolute top-4 left-4 text-[10px] tracking-wide-2 uppercase text-paper/45">No. 01</span></div><div class="flex items-baseline justify-between mt-4"><h3 class="text-[12px] tracking-wide-1 uppercase font-medium">Analytics Suite</h3><span class="text-[11px] tracking-wide-1 uppercase text-ink/60">Free</span></div><p class="text-[12px] text-ink/65 mt-1.5 leading-relaxed">A data-dense control room. Charts, tables, KPI rails.</p></a></article><article class="reveal group" style="transition-delay:.06s"><a href="#" id="card-2-link" class="block"><div class="aspect-[4/5] border hairline relative overflow-hidden flex items-center justify-center"><span class="font-wide uppercase tracking-wide-1 text-[15px] text-ink/80">Checkout</span><span class="absolute top-4 left-4 text-[10px] tracking-wide-2 uppercase text-ink/60">No. 02</span></div><div class="flex items-baseline justify-between mt-4"><h3 class="text-[12px] tracking-wide-1 uppercase font-medium">Commerce Flow</h3><span class="text-[11px] tracking-wide-1 uppercase text-ink/60">Pro</span></div><p class="text-[12px] text-ink/65 mt-1.5 leading-relaxed">Cart to confirmation, three steps, zero friction.</p></a></article><article class="reveal group" style="transition-delay:.12s"><a href="#" id="card-3-link" class="block"><div class="aspect-[4/5] bg-ink text-paper relative overflow-hidden flex items-center justify-center"><span class="font-wide uppercase tracking-wide-1 text-[15px] text-paper/80">Landing</span><span class="absolute top-4 left-4 text-[10px] tracking-wide-2 uppercase text-paper/45">No. 03</span></div><div class="flex items-baseline justify-between mt-4"><h3 class="text-[12px] tracking-wide-1 uppercase font-medium">Hero Landing</h3><span class="text-[11px] tracking-wide-1 uppercase text-ink/60">Free</span></div><p class="text-[12px] text-ink/65 mt-1.5 leading-relaxed">Statement type, one CTA, a marquee of proof.</p></a></article></div></div></section><section id="studio" class="w-full bg-ink text-paper border-y hairline"><div class="max-w-[1400px] mx-auto px-6 md:px-10 py-20 md:py-32"><div class="grid md:grid-cols-12 gap-y-12 md:gap-x-16 items-start"><div class="md:col-span-5 reveal"><p class="text-[10px] md:text-[11px] tracking-mono uppercase text-paper/40 mb-6">The Studio</p><h2 class="font-wide uppercase text-[10vw] md:text-[52px] leading-[0.95] tracking-tight">From a line of text to a finished fit.</h2></div><div class="md:col-span-6 md:col-start-7 reveal" style="transition-delay:.1s"><p class="text-[16px] md:text-[18px] leading-relaxed text-paper/75 max-w-lg">Two ways in. Prompt directly on the web canvas, or drive it from your coding agent with the Atelier skill. Either way the canvas stays infinite and the iterations stay yours.</p><dl class="mt-12 space-y-0"><div class="flex items-baseline justify-between py-5 border-t border-paper/15"><dt class="text-[12px] tracking-wide-2 uppercase">Web canvas</dt><dd class="text-[12px] text-paper/55">Prompt, branch, refine</dd></div><div class="flex items-baseline justify-between py-5 border-t border-paper/15"><dt class="text-[12px] tracking-wide-2 uppercase">Agent skill</dt><dd class="text-[12px] text-paper/55">Claude Code, Cursor</dd></div><div class="flex items-baseline justify-between py-5 border-t border-b border-paper/15"><dt class="text-[12px] tracking-wide-2 uppercase">Export</dt><dd class="text-[12px] text-paper/55">Components, code, specs</dd></div></dl><a href="#" id="studio-cta-link" class="inline-block mt-10 text-[11px] tracking-wide-2 uppercase font-medium border-b border-paper pb-1">Book a fitting</a></div></div></div></section><section id="about" class="w-full"><div class="max-w-[1100px] mx-auto px-6 md:px-10 py-24 md:py-36 text-center"><p class="reveal text-[10px] md:text-[11px] tracking-mono uppercase text-ink/70 mb-10">Manifesto</p><p class="reveal font-wide uppercase leading-[1.08] tracking-tight text-[6.5vw] md:text-[40px]" style="transition-delay:.06s">We hold that an interface is a garment for the eye. It should be cut clean, fall true, and carry no thread it does not need.</p><p class="reveal mt-12 text-[14px] md:text-[15px] text-ink/60 max-w-md mx-auto leading-relaxed" style="transition-delay:.12s">Tailored by Jason Zhou and a small house of designers and engineers. Made for builders who would rather ship than decorate.</p></div></section><section id="account" class="w-full bg-ink text-paper"><div class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-36 text-center"><h2 class="reveal font-wide uppercase text-[11vw] md:text-[7vw] leading-[0.92] tracking-tight">Begin your<br>first fitting.</h2><div class="reveal mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6" style="transition-delay:.08s"><a href="#new" id="cta-free-link" class="w-full sm:w-auto px-10 py-4 bg-paper text-ink text-[11px] tracking-wide-2 uppercase font-medium hover:bg-paper/85 transition-colors">Start free</a><a href="#studio" id="cta-library-link" class="w-full sm:w-auto px-10 py-4 border border-paper/40 text-[11px] tracking-wide-2 uppercase font-medium hover:border-paper transition-colors">Browse the library</a></div><p class="reveal mt-8 text-[11px] tracking-wide-1 uppercase text-paper/45" style="transition-delay:.14s">No card. One canvas. Endless iterations.</p></div></section><footer class="w-full bg-ink text-paper border-t border-paper/15"><div class="max-w-[1400px] mx-auto px-6 md:px-10 py-16 md:py-20"><div class="grid grid-cols-2 md:grid-cols-12 gap-y-12 md:gap-x-10"><div class="col-span-2 md:col-span-5"><div class="font-wide text-[20px] tracking-mono uppercase">Atelier</div><p class="mt-5 text-[12px] text-paper/50 max-w-xs leading-relaxed">The AI design house. Idea to shippable interface, cut to measure.</p></div><div class="md:col-span-2 md:col-start-7"><h4 class="text-[10px] tracking-wide-2 uppercase text-paper/40 mb-5">House</h4><ul class="space-y-3 text-[12px] tracking-wide-1 uppercase text-paper/75"><li><a href="#new" id="footer-new">New</a></li><li><a href="#library" id="footer-library">Library</a></li><li><a href="#studio" id="footer-studio">Studio</a></li></ul></div><div class="md:col-span-2"><h4 class="text-[10px] tracking-wide-2 uppercase text-paper/40 mb-5">Atelier</h4><ul class="space-y-3 text-[12px] tracking-wide-1 uppercase text-paper/75"><li><a href="#about" id="footer-about">About</a></li><li><a href="#" id="footer-pricing">Pricing</a></li><li><a href="#" id="footer-journal">Journal</a></li></ul></div><div class="md:col-span-2"><h4 class="text-[10px] tracking-wide-2 uppercase text-paper/40 mb-5">Connect</h4><ul class="space-y-3 text-[12px] tracking-wide-1 uppercase text-paper/75"><li><a href="#" id="footer-x">X</a></li><li><a href="#" id="footer-gh">GitHub</a></li><li><a href="#" id="footer-support">Support</a></li></ul></div></div><div class="mt-16 pt-7 border-t border-paper/15 flex flex-col md:flex-row items-center justify-between gap-4"><p class="text-[10px] tracking-wide-1 uppercase text-paper/40">© 2026 Atelier Design House</p><p class="text-[10px] tracking-wide-1 uppercase text-paper/40">Cut to measure, shipped clean.</p></div></div></footer></main></div><script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script><script>const btn = document.getElementById('menuBtn'); const drawer = document.getElementById('drawer'); let open = false; btn && btn.addEventListener('click', () => { open = !open; drawer.style.maxHeight = open ? drawer.scrollHeight + 'px' : '0px'; }); const reveals = document.querySelectorAll('.reveal'); const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }); reveals.forEach(el => io.observe(el)); window.addEventListener('load', () => { setTimeout(() => reveals.forEach(el => el.classList.add('in')), 600); }); const nav = document.getElementById('nav'); const onScroll = () => { if (window.scrollY > 8) nav.classList.add('shadow-[0_1px_0_rgba(10,10,10,0.06)]'); else nav.classList.remove('shadow-[0_1px_0_rgba(10,10,10,0.06)]'); }; window.addEventListener('scroll', onScroll); onScroll();</script></body></html>

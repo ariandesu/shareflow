@@ -1,0 +1,41 @@
+{
+  "summary": "A refined, multi-pane LMS dashboard that prioritizes whitespace and readability. It uses a three-column layout (Sidebar, Main Content, Profile/Calendar Sidebar) with high-radius corners (24px-32px) and avoids aggressive left-border accents for a more open feel.",
+  "style": {
+    "description": "The design uses a vibrant but soft color system: Primary Blue (#0d6efd), Secondary Orange (#f97316), and Success Green (#10b981) against a light-gray background (#f8f9fc). Typography is exclusively 'Plus Jakarta Sans' with a heavy emphasis on bold (700-800) headers and medium (500) muted labels. Micro-interactions include smooth height transitions for charts and subtle shadow-lift on card hover.",
+    "prompt": "Create a design system using 'Plus Jakarta Sans'. Main background color is #f8f9fc. Use #ffffff for card surfaces with a 24px border-radius and very light borders (#f3f4f6). Primary text is #1e293b, secondary text is #64748b. Color palette: Blue #0d6efd (Primary), Orange #f97316 (Secondary), Green #10b981 (Success), Pink #ec4899, and Purple #a855f7. Buttons should have 12px border-radius. Shadows should be subtle: 'shadow-sm' for cards and 'shadow-lg shadow-primary/20' for active CTA buttons. Navigation links should use #0d6efd for active states with a rounded vertical indicator pill. Animation: use 'transition-all duration-300' for hover states and 'ease-in-out' for chart bars."
+  },
+  "layout_and_structure": {
+    "description": "A 1440px wide, 3-column application shell with a fixed-height layout (900px) and scrolling internal panels.",
+    "prompts": [
+      {
+        "part": "Left Navigation Sidebar",
+        "prompt": "Width: 256px. Background: #ffffff. Border-right: 1px solid #f3f4f6. Includes a logo section with two circular glyphs, an organization selector button (orange background #fff7ed, 12px radius), and vertical navigation links with 12px padding. Bottom section contains a promo card with a gradient (blue-50 to indigo-50) and a floating icon badge."
+      },
+      {
+        "part": "Main Content Area",
+        "prompt": "Central fluid column. Background: #f8f9fc. Padding: 32px. Features a header with 3xl font-weight greeting and a pill-shaped search bar (bg-white, rounded-full, px-11). Structure: 1. Stats Row (Vertical stack of icon-left cards), 2. Large Chart Area (2/3 width), 3. Course Grid (3 columns), 4. Assignment Table (Full width)."
+      },
+      {
+        "part": "Right Sidebar (Profile & Activity)",
+        "prompt": "Width: 320px. Background: #ffffff. Border-left: 1px solid #f3f4f6. Sections: 1. User Profile (300px circular image, stats list), 2. Mini-Calendar (Horizontal day scroller with active day highlighted in #ec4899), 3. 'Upcoming Class' vertical list, 4. Todo list with custom checkboxes."
+      }
+    ]
+  },
+  "special_ui_components": [
+    {
+      "component": "Custom CSS Bar Chart",
+      "description": "Interactive data visualization with tooltips.",
+      "prompt": "Design a bar chart where each bar is a div with 12px radius. Colors vary by data type: #f97316 (orange), #0d6efd (blue), #10b981 (green). Highlighted bars include a floating tooltip at the top (bg-white, shadow-md, bold font, emoji icon). Bars must have a hover state that reveals a dark #111827 tooltip with duration text (e.g., '5h 20m')."
+    },
+    {
+      "component": "Course Joining Card",
+      "description": "Thematic entry point with decorative SVG.",
+      "prompt": "A 24px rounded card with bg-color #fff7ed. Features an abstract organic blob SVG in the background (color #f97316 at 20% opacity). Includes a white input field wrapper with an embedded CTA button inside the right-hand side of the input (bg-secondary, white text)."
+    },
+    {
+      "component": "Mini Calendar Widget",
+      "description": "Horizontal day selector for student schedules.",
+      "prompt": "A horizontal row of day-dates. Non-active days: #64748b text. Active day: High-contrast pink background (#ec4899), white text, 12px rounded-xl, vertical offset (-4px transform), and a soft pink shadow."
+    }
+  ]
+}

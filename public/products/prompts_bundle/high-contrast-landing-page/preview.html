@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Travel | Define Your Extraordinary Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-off-white: #f6f6f6;
+            --text-dark: #1e1e1e;
+            --accent-gray-light: #b6b5b5;
+            --accent-gray-medium: #838282;
+        }
+        body {
+            font-family: 'Satoshi', sans-serif;
+            background-color: var(--bg-off-white);
+            color: var(--text-dark);
+        }
+        h1, h2, h3, h4, h5, h6, .font-clash {
+            font-family: 'Clash Display', sans-serif;
+        }
+        .blend-multiply {
+            mix-blend-mode: multiply;
+        }
+        .text-stroke-gray {
+            -webkit-text-stroke: 1px #b6b5b5;
+            color: transparent;
+        }
+        /* Smooth reveal for images */
+        .reveal-img {
+            clip-path: inset(0 0 100% 0);
+            animation: reveal 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+        @keyframes reveal {
+            to { clip-path: inset(0 0 0 0); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f6f6f6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e1e1e;
+            border-radius: 4px;
+        }
+    </style>
+
+<meta name="preview-version" content="a3c23226-7c14-401b-ae7a-fe78e2dcd300" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:15.808Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "a3c23226-7c14-401b-ae7a-fe78e2dcd300");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "a3c23226-7c14-401b-ae7a-fe78e2dcd300",
+      timestamp: "2026-10-16T14:07:15.808Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "a3c23226-7c14-401b-ae7a-fe78e2dcd300";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+    <!-- Main Wrapper -->
+    <div class="min-h-screen relative overflow-x-hidden flex flex-col">
+        
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 bg-[#f2f2f2]/90 backdrop-blur-md border-b border-[#1e1e1e]/5">
+            <div class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" id="nav-logo" class="relative z-10 group">
+                    <span class="font-clash font-bold text-2xl tracking-tight uppercase group-hover:text-[#b6b5b5] transition-colors duration-300">Super Travel</span>
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#b6b5b5] group-hover:w-full transition-all duration-300"></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-12">
+                    <a href="#journeys" id="nav-journeys" class="text-sm font-medium tracking-wide uppercase hover:text-[#b6b5b5] transition-colors">Journeys</a>
+                    <a href="#services" id="nav-services" class="text-sm font-medium tracking-wide uppercase hover:text-[#b6b5b5] transition-colors">Services</a>
+                    <a href="#philosophy" id="nav-about" class="text-sm font-medium tracking-wide uppercase hover:text-[#b6b5b5] transition-colors">About</a>
+                    <a href="#contact" id="nav-contact" class="px-6 py-2 border border-[#1e1e1e] rounded-full text-sm font-medium uppercase hover:bg-[#1e1e1e] hover:text-[#f6f6f6] transition-all duration-300">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Icon -->
+                <button class="md:hidden text-2xl">
+                    <iconify-icon icon="lucide:menu"></iconify-icon>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="relative min-h-[70vh] flex items-center justify-center pt-28 pb-10 px-6 overflow-hidden bg-[#f2f2f2]">
+            <div class="relative z-10 w-full flex flex-col items-center justify-center select-none">
+                <div class="relative leading-none">
+                    <!-- Background Echo Layers (Swiss Style Stack) -->
+                    <span class="absolute top-0 left-0 -translate-x-[0.16em] -translate-y-[0.16em] text-[11vw] xl:text-[180px] font-bold font-clash text-[#d9d9d9] whitespace-nowrap -z-40 pointer-events-none">JOURNEYS</span>
+                    <span class="absolute top-0 left-0 -translate-x-[0.12em] -translate-y-[0.12em] text-[11vw] xl:text-[180px] font-bold font-clash text-[#d1d1d1] whitespace-nowrap -z-30 pointer-events-none">JOURNEYS</span>
+                    <span class="absolute top-0 left-0 -translate-x-[0.08em] -translate-y-[0.08em] text-[11vw] xl:text-[180px] font-bold font-clash text-[#c9c9c9] whitespace-nowrap -z-20 pointer-events-none">JOURNEYS</span>
+                    <span class="absolute top-0 left-0 -translate-x-[0.04em] -translate-y-[0.04em] text-[11vw] xl:text-[180px] font-bold font-clash text-[#bfbfbf] whitespace-nowrap -z-10 pointer-events-none">JOURNEYS</span>
+                    
+                    <!-- Main Foreground Text -->
+                    <h1 class="relative z-10 font-clash font-bold text-[11vw] xl:text-[180px] tracking-tighter text-[#111111] whitespace-nowrap">
+                        JOURNEYS
+                    </h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Editorial / Philosophy Section -->
+        <section id="philosophy" class="py-24 md:py-32 px-6 relative overflow-hidden">
+            <!-- Vertical Line Divider -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-[#1e1e1e]/10"></div>
+            
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <iconify-icon icon="lucide:quote" class="text-4xl text-[#b6b5b5] mb-8 opacity-60"></iconify-icon>
+                <h2 class="font-clash font-medium text-4xl md:text-6xl leading-tight mb-12 text-[#1e1e1e]">
+                    "True luxury is not just about the destination.<br>
+                    It's about the <span class="italic font-serif text-[#838282]">artistry</span> of the journey."
+                </h2>
+                
+                <div class="grid md:grid-cols-3 gap-8 text-left border-t border-[#1e1e1e]/10 pt-12">
+                    <div>
+                        <h3 class="font-clash text-xl font-semibold mb-3">The Philosophy</h3>
+                        <p class="text-[#838282] leading-relaxed">We believe travel should be transformative. Every itinerary is a canvas, and we are the artists painting your memories.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-clash text-xl font-semibold mb-3">The Craft</h3>
+                        <p class="text-[#838282] leading-relaxed">Meticulous attention to detail defines our approach. From private jets to hidden local gems, nothing is overlooked.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-clash text-xl font-semibold mb-3">The Promise</h3>
+                        <p class="text-[#838282] leading-relaxed">24/7 global support and access to the inaccessible. We open doors that remain closed to others.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Background Decorative Geometry -->
+            <div class="absolute top-1/2 left-0 w-64 h-64 border border-[#b6b5b5]/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-[#1e1e1e]/3 rounded-full translate-x-1/3 translate-y-1/3"></div>
+        </section>
+
+        <!-- Signature Journeys Section -->
+        <section id="journeys" class="py-20 md:py-32 bg-[#1e1e1e] text-[#f6f6f6]">
+            <div class="max-w-[1440px] mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24 gap-6">
+                    <div>
+                        <span class="block text-[#b6b5b5] tracking-widest text-sm font-bold mb-4 uppercase">Curated Collection</span>
+                        <h2 class="font-clash text-5xl md:text-6xl font-medium">Signature Journeys</h2>
+                    </div>
+                    <a href="#" id="view-all-journeys" class="pb-1 border-b border-[#b6b5b5] hover:text-[#b6b5b5] transition-colors">View All Destinations</a>
+                </div>
+
+                <!-- Asymmetrical Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                    
+                    <!-- Card 1: Large Span -->
+                    <div class="md:col-span-8 group cursor-pointer relative">
+                        <div class="relative h-[400px] md:h-[600px] overflow-hidden rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?q=80&w=2070&auto=format&fit=crop" alt="Swiss Alps" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%] group-hover:grayscale-0" onerror="this.onerror=null;this.src='https://placehold.co/2070x400/1a1a1a/888?text=Image';">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                            
+                            <div class="absolute bottom-8 left-8 p-6 bg-[#f6f6f6]/10 backdrop-blur-md border border-white/20 rounded-sm">
+                                <h3 class="font-clash text-3xl mb-1">Swiss Alpine Retreat</h3>
+                                <p class="text-sm text-gray-300 uppercase tracking-wider">Zermatt, Switzerland</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Vertical Span -->
+                    <div class="md:col-span-4 group cursor-pointer relative mt-0 md:mt-24">
+                        <div class="relative h-[500px] overflow-hidden rounded-full">
+                            <img src="https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=2070&auto=format&fit=crop" alt="Morocco" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%] group-hover:grayscale-0" onerror="this.onerror=null;this.src='https://placehold.co/2070x400/1a1a1a/888?text=Image';">
+                             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                             
+                             <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+                                <div class="w-full h-full border border-white/30 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-95">
+                                    <h3 class="font-clash text-3xl mb-1">Moroccan Caravan</h3>
+                                    <p class="text-sm text-gray-300 uppercase tracking-wider">Atlas Mountains</p>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Circle -->
+                    <div class="md:col-span-5 group cursor-pointer relative">
+                         <div class="relative aspect-square overflow-hidden rounded-full border border-[#b6b5b5]/30">
+                            <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=2186&auto=format&fit=crop" alt="Amalfi Coast" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%] group-hover:grayscale-0" onerror="this.onerror=null;this.src='https://placehold.co/2186x400/1a1a1a/888?text=Image';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-1/4 left-0 w-full text-center">
+                                <h3 class="font-clash text-3xl mb-1">Amalfi Coast</h3>
+                                <p class="text-sm text-gray-300 uppercase tracking-wider">Italy</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Rectangle -->
+                    <div class="md:col-span-7 group cursor-pointer relative md:-mt-12">
+                        <div class="relative h-[400px] overflow-hidden rounded-sm">
+                            <img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?q=80&w=1974&auto=format&fit=crop" alt="Maldives" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%] group-hover:grayscale-0" onerror="this.onerror=null;this.src='https://placehold.co/1974x400/1a1a1a/888?text=Image';">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                            <div class="absolute bottom-0 left-0 bg-[#b6b5b5] text-[#1e1e1e] p-6 pr-12 rounded-tr-3xl">
+                                <h3 class="font-clash text-2xl font-semibold">Maldives Sanctuary</h3>
+                                <div class="h-0.5 w-12 bg-[#1e1e1e] mt-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-24 px-6 bg-[#f6f6f6]">
+            <div class="max-w-[1440px] mx-auto">
+                <div class="text-center mb-20">
+                    <span class="inline-block py-1 px-3 border border-[#1e1e1e] rounded-full text-xs font-bold uppercase tracking-widest mb-4">Our Expertise</span>
+                    <h2 class="font-clash text-5xl md:text-6xl text-[#1e1e1e]">Bespoke Services</h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
+                    <div class="group p-8 border border-[#1e1e1e]/10 hover:border-[#b6b5b5] hover:bg-white transition-all duration-300 rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-[#1e1e1e]/5 rounded-bl-full group-hover:bg-[#b6b5b5]/10 transition-colors"></div>
+                        
+                        <div class="w-16 h-16 bg-[#1e1e1e] text-[#f6f6f6] rounded-sm flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform duration-300">
+                            <iconify-icon icon="lucide:compass" class="text-3xl"></iconify-icon>
+                        </div>
+                        <h3 class="font-clash text-2xl font-semibold mb-4 text-[#1e1e1e]">Curated Experiences</h3>
+                        <p class="text-[#838282] mb-8 leading-relaxed">Custom itineraries designed around your passions, from culinary tours to adventure expeditions.</p>
+                        <a href="#learn-curated" class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[#1e1e1e] group-hover:text-[#b6b5b5] transition-colors">
+                            Explore <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                        </a>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="group p-8 border border-[#1e1e1e]/10 hover:border-[#b6b5b5] hover:bg-white transition-all duration-300 rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-[#1e1e1e]/5 rounded-bl-full group-hover:bg-[#b6b5b5]/10 transition-colors"></div>
+                        
+                        <div class="w-16 h-16 bg-[#1e1e1e] text-[#f6f6f6] rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+                            <iconify-icon icon="lucide:concierge-bell" class="text-3xl"></iconify-icon>
+                        </div>
+                        <h3 class="font-clash text-2xl font-semibold mb-4 text-[#1e1e1e]">Luxury Concierge</h3>
+                        <p class="text-[#838282] mb-8 leading-relaxed">24/7 dedicated support for reservations, private transfers, and last-minute requests worldwide.</p>
+                        <a href="#learn-concierge" class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[#1e1e1e] group-hover:text-[#b6b5b5] transition-colors">
+                            Explore <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                        </a>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="group p-8 border border-[#1e1e1e]/10 hover:border-[#b6b5b5] hover:bg-white transition-all duration-300 rounded-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-[#1e1e1e]/5 rounded-bl-full group-hover:bg-[#b6b5b5]/10 transition-colors"></div>
+                        
+                        <div class="w-16 h-16 bg-[#1e1e1e] text-[#f6f6f6] rounded-tl-lg rounded-br-lg flex items-center justify-center mb-8 group-hover:-translate-y-2 transition-transform duration-300">
+                            <iconify-icon icon="lucide:key" class="text-3xl"></iconify-icon>
+                        </div>
+                        <h3 class="font-clash text-2xl font-semibold mb-4 text-[#1e1e1e]">Exclusive Access</h3>
+                        <p class="text-[#838282] mb-8 leading-relaxed">VIP entry to events, private museum tours, and closed-door experiences unavailable to the public.</p>
+                        <a href="#learn-access" class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[#1e1e1e] group-hover:text-[#b6b5b5] transition-colors">
+                            Explore <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-24 px-6 relative bg-[#1e1e1e] text-[#f6f6f6] overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 opacity-10">
+                 <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#b6b5b5] to-transparent scale-150"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <h2 class="font-clash text-5xl md:text-7xl font-semibold mb-8">Ready for the <span class="text-[#b6b5b5] italic">Exceptional</span>?</h2>
+                <p class="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+                    Let us craft a journey that transcends the ordinary. Your private travel designer is waiting.
+                </p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <a href="#contact" id="cta-book-btn" class="w-full md:w-auto px-10 py-5 bg-[#b6b5b5] text-[#1e1e1e] text-lg font-bold uppercase tracking-wider rounded-sm hover:bg-white transition-colors duration-300">
+                        Start Planning
+                    </a>
+                    <a href="#calendar" id="cta-call-btn" class="w-full md:w-auto px-10 py-5 border border-[#f6f6f6] text-[#f6f6f6] text-lg font-bold uppercase tracking-wider rounded-sm hover:bg-[#f6f6f6] hover:text-[#1e1e1e] transition-colors duration-300">
+                        Schedule Call
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" class="bg-[#1e1e1e] text-[#f6f6f6]/60 py-20 px-6 border-t border-white/5">
+            <div class="max-w-[1440px] mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+                    <div class="col-span-1 md:col-span-1">
+                        <a href="#" class="block font-clash text-2xl text-white font-bold uppercase tracking-tight mb-6">Super Travel</a>
+                        <p class="text-sm leading-relaxed mb-6">Curating bespoke travel experiences across the world's most exclusive destinations.</p>
+                        <div class="flex gap-4">
+                            <a href="#" id="social-ig" class="text-white hover:text-[#b6b5b5] transition-colors"><iconify-icon icon="lucide:instagram" class="text-xl"></iconify-icon></a>
+                            <a href="#" id="social-fb" class="text-white hover:text-[#b6b5b5] transition-colors"><iconify-icon icon="lucide:facebook" class="text-xl"></iconify-icon></a>
+                            <a href="#" id="social-tw" class="text-white hover:text-[#b6b5b5] transition-colors"><iconify-icon icon="lucide:twitter" class="text-xl"></iconify-icon></a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-white font-bold uppercase tracking-wider mb-6 text-sm">Explore</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">Destinations</a></li>
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">Experiences</a></li>
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">The Journal</a></li>
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">About Us</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-white font-bold uppercase tracking-wider mb-6 text-sm">Company</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">Careers</a></li>
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">Press</a></li>
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">Partners</a></li>
+                            <li><a href="#" class="hover:text-[#b6b5b5] transition-colors">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-white font-bold uppercase tracking-wider mb-6 text-sm">Contact</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:map-pin" class="mt-1"></iconify-icon>
+                                <span>123 Luxury Lane, Suite 100<br>New York, NY 10012</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <iconify-icon icon="lucide:phone"></iconify-icon>
+                                <span>+1 (212) 555-0123</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <iconify-icon icon="lucide:mail"></iconify-icon>
+                                <span>hello@supertravel.com</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs tracking-wide">
+                    <p>&copy; 2024 Super Travel Agency. All rights reserved.</p>
+                    <p>Designed with <span class="text-[#b6b5b5]">♥</span> for the extraordinary.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

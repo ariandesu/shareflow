@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cobalt Mono — Editorial Social Feed</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        serif: ['Newsreader', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        ink:    '#0E0F12',
+        graphite:'#3A3D44',
+        slate:  '#4E535B',
+        mist:   '#6D737C',
+        line:   '#E7E8EB',
+        panel:  '#F4F5F6',
+        paper:  '#FCFCFD',
+        cobalt: '#0E62E0',
+        cobaltdim:'#0C4EB2',
+      },
+    },
+  },
+}
+</script>
+<style>
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .card-shadow { box-shadow: 0 1px 2px rgba(14,15,18,0.05), 0 6px 18px -12px rgba(14,15,18,0.12); }
+  .media-mono {
+    background-color: #18181B;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 22px),
+      radial-gradient(120% 90% at 12% -10%, rgba(255,255,255,0.05), transparent 55%),
+      radial-gradient(120% 120% at 100% 110%, rgba(0,0,0,0.35), transparent 55%),
+      linear-gradient(150deg, #1F1F23 0%, #18181B 48%, #121214 100%);
+  }
+  .media-grid {
+    background-image:
+      linear-gradient(rgba(14,15,18,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14,15,18,0.06) 1px, transparent 1px),
+      linear-gradient(180deg, #FFFFFF, #F4F5F6);
+    background-size: 22px 22px, 22px 22px, 100% 100%;
+  }
+  .story-ring { box-shadow: 0 0 0 2px #FCFCFD, 0 0 0 3.5px #0E0F12; }
+  .story-ring-active { box-shadow: 0 0 0 2px #FCFCFD, 0 0 0 3.5px #0E62E0; }
+</style>
+
+<meta name="preview-version" content="5435a31d-699d-42f6-9276-dd243ac5587f" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:41.408Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "5435a31d-699d-42f6-9276-dd243ac5587f");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "5435a31d-699d-42f6-9276-dd243ac5587f",
+      timestamp: "2026-10-16T14:07:41.408Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "5435a31d-699d-42f6-9276-dd243ac5587f";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="relative mx-auto w-full max-w-[440px] min-h-dvh bg-paper flex flex-col overflow-x-hidden font-sans text-ink">
+    <header class="sticky top-0 z-40 bg-paper border-b border-line">
+      <div class="flex items-center justify-between px-5 pt-5 pb-3">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="w-9 h-9 rounded-xl bg-ink flex items-center justify-center shrink-0">
+            <iconify-icon icon="ph:circles-three-plus-fill" class="text-paper text-[20px]"></iconify-icon>
+          </span>
+          <div class="leading-none min-w-0">
+            <h1 class="font-serif font-semibold text-[22px] tracking-tight text-ink leading-none">Monogram</h1>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="#" id="nav-search" class="w-10 h-10 rounded-full bg-panel border border-line flex items-center justify-center active:scale-95 transition">
+            <iconify-icon icon="ph:magnifying-glass-bold" class="text-graphite text-[19px]"></iconify-icon>
+          </a>
+          <a href="#" id="nav-messages" class="relative w-10 h-10 rounded-full bg-panel border border-line flex items-center justify-center active:scale-95 transition">
+            <iconify-icon icon="ph:paper-plane-tilt-bold" class="text-graphite text-[19px]"></iconify-icon>
+            <span class="absolute -top-0.5 -right-0.5 min-w-[17px] h-[17px] px-1 rounded-full bg-cobalt text-white text-[10px] font-bold flex items-center justify-center border-2 border-paper leading-none">3</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="flex-1 relative">
+      <section class="border-b border-line bg-paper">
+        <div class="flex gap-[18px] overflow-x-auto no-scrollbar px-5 py-4">
+          <div class="flex flex-col items-center gap-1.5 shrink-0 w-[60px]">
+            <button class="relative w-[60px] h-[60px] rounded-full bg-panel border border-line flex items-center justify-center active:scale-95 transition">
+              <iconify-icon icon="ph:plus-bold" class="text-ink text-[22px]"></iconify-icon>
+              <span class="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-cobalt border-2 border-paper flex items-center justify-center">
+                <iconify-icon icon="ph:pencil-simple-bold" class="text-white text-[10px]"></iconify-icon>
+              </span>
+            </button>
+            <span class="text-[11px] font-semibold text-slate truncate w-full text-center">You</span>
+          </div>
+          <div class="flex flex-col items-center gap-1.5 shrink-0 w-[60px]">
+            <div class="story-ring-active w-[54px] h-[54px] rounded-full bg-ink flex items-center justify-center mt-[3px]">
+              <span class="text-paper font-bold text-[18px]">M</span>
+            </div>
+            <span class="text-[11px] font-semibold text-ink truncate w-full text-center">maya</span>
+          </div>
+          <div class="flex flex-col items-center gap-1.5 shrink-0 w-[60px]">
+            <div class="story-ring w-[54px] h-[54px] rounded-full bg-graphite flex items-center justify-center mt-[3px]">
+              <span class="text-paper font-bold text-[18px]">D</span>
+            </div>
+            <span class="text-[11px] font-semibold text-ink truncate w-full text-center">devon</span>
+          </div>
+          <div class="flex flex-col items-center gap-1.5 shrink-0 w-[60px]">
+            <div class="story-ring w-[54px] h-[54px] rounded-full bg-graphite flex items-center justify-center mt-[3px]">
+              <span class="text-paper font-bold text-[18px]">S</span>
+            </div>
+            <span class="text-[11px] font-semibold text-ink truncate w-full text-center">sora</span>
+          </div>
+          <div class="flex flex-col items-center gap-1.5 shrink-0 w-[60px]">
+            <div class="story-ring w-[54px] h-[54px] rounded-full bg-ink flex items-center justify-center mt-[3px]">
+              <span class="text-paper font-bold text-[18px]">K</span>
+            </div>
+            <span class="text-[11px] font-semibold text-ink truncate w-full text-center">kai</span>
+          </div>
+        </div>
+      </section>
+      <div class="px-4 pt-4 pb-6 space-y-4">
+        <article class="rounded-[24px] bg-white card-shadow border border-line overflow-hidden">
+          <div class="flex items-center justify-between px-4 pt-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-full bg-ink flex items-center justify-center text-paper font-bold shrink-0">M</div>
+              <div class="leading-tight min-w-0">
+                <div class="flex items-center gap-1">
+                  <span class="font-bold text-[14px] text-ink truncate">Maya Okafor</span>
+                  <iconify-icon icon="ph:seal-check-fill" class="text-cobalt text-[15px] shrink-0"></iconify-icon>
+                </div>
+                <span class="text-[12px] text-slate font-medium">@mayamakes · 2h</span>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center text-mist">
+              <iconify-icon icon="ph:dots-three-bold" class="text-[20px]"></iconify-icon>
+            </button>
+          </div>
+          <blockquote class="px-4 pt-3 pb-4">
+            <p class="font-serif font-medium text-[19px] leading-snug text-ink">
+              "The best designs feel inevitable. You only notice the work when it's missing."
+            </p>
+          </blockquote>
+          <div class="px-4 py-3 border-t border-line flex items-center justify-between">
+            <div class="flex items-center gap-6">
+              <button class="flex items-center gap-1.5">
+                <iconify-icon icon="ph:heart-fill" class="text-cobalt text-[20px]"></iconify-icon>
+                <span class="text-[13px] font-semibold text-graphite">128</span>
+              </button>
+              <button class="flex items-center gap-1.5">
+                <iconify-icon icon="ph:chat-circle" class="text-graphite text-[20px]"></iconify-icon>
+                <span class="text-[13px] font-semibold text-graphite">24</span>
+              </button>
+              <button class="flex items-center">
+                <iconify-icon icon="ph:paper-plane-tilt" class="text-graphite text-[20px]"></iconify-icon>
+              </button>
+            </div>
+            <iconify-icon icon="ph:bookmark-simple" class="text-graphite text-[20px]"></iconify-icon>
+          </div>
+        </article>
+        <article class="rounded-[24px] bg-white card-shadow border border-line overflow-hidden">
+          <div class="flex items-center justify-between px-4 pt-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-full bg-graphite flex items-center justify-center text-paper font-bold shrink-0">D</div>
+              <div class="leading-tight min-w-0">
+                <div class="flex items-center gap-1">
+                  <span class="font-bold text-[14px] text-ink truncate">Devon Reyes</span>
+                  <iconify-icon icon="ph:seal-check-fill" class="text-cobalt text-[15px] shrink-0"></iconify-icon>
+                </div>
+                <span class="text-[12px] text-slate font-medium">@devonbuilds · 5h</span>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center text-mist">
+              <iconify-icon icon="ph:dots-three-bold" class="text-[20px]"></iconify-icon>
+            </button>
+          </div>
+          <p class="px-4 pt-3 pb-3 text-[14px] leading-relaxed text-graphite">
+            Shipped the new monochrome palette today. Restraint reads louder than colour, every single time.
+          </p>
+          <div class="px-4">
+            <div class="rounded-2xl h-52 media-mono flex flex-col items-center justify-center relative overflow-hidden">
+              <span class="absolute top-3 left-3 text-[11px] font-semibold text-white/70 tracking-wide uppercase">case study</span>
+              <iconify-icon icon="ph:mountains-fill" class="text-white text-[52px] relative drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]"></iconify-icon>
+              <span class="mt-2 text-[12px] font-medium text-white/75">Sunset, reduced to value</span>
+            </div>
+          </div>
+          <div class="px-4 pt-3 pb-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+              <button class="flex items-center gap-1.5">
+                <iconify-icon icon="ph:heart-fill" class="text-cobalt text-[20px]"></iconify-icon>
+                <span class="text-[13px] font-semibold text-graphite">342</span>
+              </button>
+              <button class="flex items-center gap-1.5">
+                <iconify-icon icon="ph:chat-circle" class="text-graphite text-[20px]"></iconify-icon>
+                <span class="text-[13px] font-semibold text-graphite">57</span>
+              </button>
+              <button class="flex items-center">
+                <iconify-icon icon="ph:paper-plane-tilt" class="text-graphite text-[20px]"></iconify-icon>
+              </button>
+            </div>
+            <iconify-icon icon="ph:bookmark-simple" class="text-graphite text-[20px]"></iconify-icon>
+          </div>
+        </article>
+        <article class="rounded-[24px] bg-white card-shadow border border-line overflow-hidden">
+          <div class="flex items-center justify-between px-4 pt-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-full bg-graphite flex items-center justify-center text-paper font-bold shrink-0">S</div>
+              <div class="leading-tight min-w-0">
+                <div class="flex items-center gap-1">
+                  <span class="font-bold text-[14px] text-ink truncate">Sora Lindqvist</span>
+                  <iconify-icon icon="ph:seal-check-fill" class="text-cobalt text-[15px] shrink-0"></iconify-icon>
+                </div>
+                <span class="text-[12px] text-slate font-medium">@soradesign · 8h</span>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center text-mist">
+              <iconify-icon icon="ph:dots-three-bold" class="text-[20px]"></iconify-icon>
+            </button>
+          </div>
+          <p class="px-4 pt-3 pb-3 text-[14px] leading-relaxed text-graphite">
+            A grid is a promise you keep on every screen. New writeup on building a 4pt system that survives real content.
+          </p>
+          <div class="px-4">
+            <div class="rounded-2xl media-grid border border-line overflow-hidden">
+              <div class="h-32 flex items-center justify-center">
+                <iconify-icon icon="ph:grid-nine-bold" class="text-graphite text-[34px]"></iconify-icon>
+              </div>
+              <div class="bg-panel border-t border-line px-4 py-3 flex items-center gap-2">
+                <iconify-icon icon="ph:link-simple-bold" class="text-slate text-[15px] shrink-0"></iconify-icon>
+                <div class="min-w-0">
+                  <p class="text-[13px] font-bold text-ink truncate">The 4pt grid that scales</p>
+                  <p class="text-[11px] text-slate truncate">monogram.studio/notes</p>
+                </div>
+                <iconify-icon icon="ph:arrow-up-right-bold" class="text-cobalt text-[18px] shrink-0 ml-auto"></iconify-icon>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 pt-3 pb-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+              <button class="flex items-center gap-1.5">
+                <iconify-icon icon="ph:heart" class="text-graphite text-[20px]"></iconify-icon>
+                <span class="text-[13px] font-semibold text-graphite">96</span>
+              </button>
+              <button class="flex items-center gap-1.5">
+                <iconify-icon icon="ph:chat-circle" class="text-graphite text-[20px]"></iconify-icon>
+                <span class="text-[13px] font-semibold text-graphite">12</span>
+              </button>
+              <button class="flex items-center">
+                <iconify-icon icon="ph:paper-plane-tilt" class="text-graphite text-[20px]"></iconify-icon>
+              </button>
+            </div>
+            <iconify-icon icon="ph:bookmark-simple-fill" class="text-cobalt text-[20px]"></iconify-icon>
+          </div>
+        </article>
+      </div>
+    </main>
+    <nav class="sticky bottom-0 z-40 bg-paper border-t border-line">
+      <div class="grid grid-cols-5 items-end h-[68px] px-2 pb-[env(safe-area-inset-bottom)]">
+        <a href="#" id="nav-home" class="relative flex flex-col items-center gap-1 pt-3 active:scale-95 transition">
+          <iconify-icon icon="ph:house-fill" class="text-ink text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-bold text-ink leading-none">Home</span>
+          <span class="absolute top-1 w-1.5 h-1.5 rounded-full bg-cobalt"></span>
+        </a>
+        <a href="#" id="nav-explore" class="flex flex-col items-center gap-1 pt-3 active:scale-95 transition">
+          <iconify-icon icon="ph:compass" class="text-slate text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-medium text-slate leading-none">Explore</span>
+        </a>
+        <div class="flex justify-center">
+          <button class="w-[52px] h-[52px] -translate-y-2 rounded-2xl bg-cobalt flex items-center justify-center shadow-[0_8px_18px_-6px_rgba(14,98,224,0.55)] active:scale-95 transition">
+            <iconify-icon icon="ph:plus-bold" class="text-white text-[26px]"></iconify-icon>
+          </button>
+        </div>
+        <a href="#" id="nav-alerts" class="relative flex flex-col items-center gap-1 pt-3 active:scale-95 transition">
+          <iconify-icon icon="ph:bell" class="text-slate text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-medium text-slate leading-none">Alerts</span>
+          <span class="absolute top-2.5 right-4 w-2 h-2 rounded-full bg-cobalt border border-paper"></span>
+        </a>
+        <a href="#" id="nav-profile" class="flex flex-col items-center gap-1 pt-3 active:scale-95 transition">
+          <iconify-icon icon="ph:user" class="text-slate text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-medium text-slate leading-none">Profile</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</body>
+</html>

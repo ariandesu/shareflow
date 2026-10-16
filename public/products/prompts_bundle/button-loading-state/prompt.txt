@@ -1,0 +1,1 @@
+Interactive call-to-action button styled with Tailwind. Displays star icon and letter-by-letter text swap between “Generate” and “Generating,” ideal for content creation triggers or async actions.

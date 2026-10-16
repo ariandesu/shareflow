@@ -1,0 +1,1 @@
+**Horizontally scrolling** ticker showcases partner or client logos with **gradient edge fade, hover-pause, and seamless looping animation**.Built with Tailwind CSS, ideal for hero sections, trust bars, or sponsor strips on responsive sites.

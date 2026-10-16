@@ -1,0 +1,1 @@
+Add a vertical text clip slide-down animation letter by letter.

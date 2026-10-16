@@ -1,0 +1,23 @@
+{
+  "summary": "A bright, playful PASTEL mobile onboarding / welcome screen: a soft cream ground with peach and lilac pastel blocks, a rounded mint illustration card, a 'STEP x OF 3' eyebrow, a friendly bold headline + subhead, animated pill-style progress dots, a single confident coral 'Continue' CTA, and a quiet 'Log in' footer. Warm, approachable, light — the opposite of a dark or corporate intro.",
+  "style": {
+    "description": "Playful pastel, light: cream ground + peach/mint/lilac blocks, one confident coral accent, soft rounded shapes.",
+    "prompt": "Light playful pastel. Ground cream #fffaf4 with peach #ffe2d1, mint #d6f3e4, and lilac #e6deff pastel blocks. ONE confident accent: coral #d23f1c (CTA fill + logo tile; white-on-coral clears 4.5:1), with #ad3809 for small inline links. Ink text #3a2f4a, plum secondary #6d5d8c. Generous rounded corners, soft friendly shapes, a flat pastel illustration (no photo). Fonts: Quicksand (display) + Nunito (body). NOT dark, NOT warm-ember, NOT indigo/violet/blue."
+  },
+  "layout_and_structure": {
+    "description": "Single mobile onboarding screen, vertical: top bar, illustration card, step eyebrow, headline + subhead, progress dots, primary CTA, footer link.",
+    "prompts": [
+      {"part": "Top bar", "prompt": "A small brand logo tile + wordmark on the left, a 'Skip ›' chip on the right."},
+      {"part": "Illustration card", "prompt": "A large rounded card in a soft mint tint holding a flat, friendly pastel illustration (e.g. a figure in a calm scene)."},
+      {"part": "Step eyebrow", "prompt": "A small pill 'STEP 1 OF 3' (icon + tracked uppercase), centered, in a mint tint with dark-green text."},
+      {"part": "Headline + subhead", "prompt": "A bold, warm two-line headline + a 2-line muted subhead, centered."},
+      {"part": "Progress dots", "prompt": "Pill-style pagination dots; the active dot is an elongated coral pill, the rest faint."},
+      {"part": "Primary CTA", "prompt": "A full-width rounded coral 'Continue →' button (white label); morphs to 'Get started' on the last slide."},
+      {"part": "Footer", "prompt": "A small centered 'Already have an account? Log in' line, the link in the accent."}
+    ]
+  },
+  "special_ui_components": [
+    {"component": "Pill progress dots", "description": "Animated pagination.", "prompt": "Pagination indicator where the active step is a stretched accent pill and inactive steps are small faint dots."}
+  ],
+  "special_notes": "Keep it light + friendly; one coral accent only. Real mobile proportions (~390px). Reflow cleanly at 360 and 768."
+}

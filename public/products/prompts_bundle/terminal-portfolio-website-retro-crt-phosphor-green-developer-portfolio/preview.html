@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~/dev.portfolio — Ada Reyes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000000; --panel:#050805; --panel2:#070b07; --code:#040604;
+    --line:#143614; --line2:#1f4d1f;
+    --phos:#39ff7a; --phosdim:#2bbf5c; --phosfaint:#1c7a3c;
+    --ash:#5f8d68; --amber:#ffd24a; --cyan:#5cf6ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(60% 50% at 88% 0%, rgba(57,255,122,0.08), transparent 70%),
+      radial-gradient(50% 60% at 0% 20%, rgba(57,255,122,0.05), transparent 70%);
+    background-attachment:fixed;
+    color:var(--phosdim);
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    font-size:14px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:0.01em;
+    min-height:100vh;
+  }
+  ::selection{background:rgba(57,255,122,0.30);color:#eafff1}
+  a{color:inherit;text-decoration:none}
+  /* CRT scanlines */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:80; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0,0,0,0.16) 3px, transparent 4px);
+    mix-blend-mode:multiply; opacity:0.5;
+  }
+  /* faint flicker vignette */
+  body::after{
+    content:""; position:fixed; inset:0; z-index:79; pointer-events:none;
+    box-shadow:inset 0 0 220px rgba(0,0,0,0.9); opacity:0.55;
+  }
+  .glow{text-shadow:0 0 8px rgba(57,255,122,0.45),0 0 24px rgba(57,255,122,0.18)}
+  .glow-soft{text-shadow:0 0 6px rgba(57,255,122,0.30)}
+  .amberglow{color:var(--amber);text-shadow:0 0 8px rgba(255,210,74,0.45)}
+
+  .shell{max-width:1120px;margin:0 auto;padding:0 22px}
+
+  /* window frame */
+  .win{
+    margin:22px auto 0; max-width:1120px;
+    border:1px solid var(--line2); border-radius:8px;
+    background:linear-gradient(180deg,#060a06,#030503);
+    box-shadow:0 0 0 1px rgba(57,255,122,0.06), 0 30px 90px -40px rgba(0,0,0,0.9), 0 0 60px rgba(57,255,122,0.05);
+    overflow:hidden;
+  }
+  .titlebar{
+    display:flex;align-items:center;gap:14px;
+    padding:11px 16px;background:var(--panel2);
+    border-bottom:1px solid var(--line);
+  }
+  .dots{display:flex;gap:8px}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
+  .titlebar .path{color:var(--ash);font-size:12.5px;letter-spacing:0.04em}
+  .titlebar .path b{color:var(--phosdim)}
+  .titlebar .right{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:12px;color:var(--ash)}
+  .titlebar .right a{transition:color .15s}
+  .titlebar .right a:hover{color:var(--phos)}
+  .titlebar .right .status{display:flex;align-items:center;gap:7px;color:var(--phosdim)}
+  .blip{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px rgba(255,210,74,0.8);animation:blink 1.6s step-end infinite}
+
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  .cur{display:inline-block;width:9px;height:1.05em;background:var(--phos);vertical-align:-2px;margin-left:3px;box-shadow:0 0 8px rgba(57,255,122,.7);animation:blink 1.1s step-end infinite}
+
+  .body{padding:34px 30px 30px}
+
+  .prompt{color:var(--ash)}
+  .prompt .u{color:var(--phos)}
+  .prompt .p{color:var(--cyan)}
+  .cmd{color:#cfefd8}
+
+  /* hero identity */
+  .hero{padding:6px 0 8px}
+  .hero .line1{font-size:13px;margin-bottom:20px}
+  .namebanner{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800 !important;
+    font-size:60px !important; line-height:1.02 !important;
+    color:#eafff1; letter-spacing:-0.01em;
+    text-shadow:0 0 14px rgba(57,255,122,0.5),0 0 44px rgba(57,255,122,0.22);
+    margin-bottom:10px;
+  }
+  .namebanner .amp{color:var(--phos)}
+  .role{font-size:17px;color:var(--phos);font-weight:600;margin-bottom:16px}
+  .role .arrow{color:var(--ash)}
+  .intro{max-width:640px;color:var(--ash);font-size:14.5px;line-height:1.75}
+  .intro b{color:var(--phosdim)}
+  .metastrip{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:20px;font-size:12.5px;color:var(--ash)}
+  .metastrip span{display:inline-flex;align-items:center;gap:8px}
+  .tick::before{content:"[✓] ";color:var(--phos)}
+  .cta-row{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:inherit;font-size:13px;font-weight:600;
+    padding:11px 18px;border-radius:5px;cursor:pointer;transition:all .16s;
+  }
+  .btn.solid{background:var(--phos);color:#02160a;box-shadow:0 0 0 1px rgba(57,255,122,.5),0 0 26px rgba(57,255,122,.28)}
+  .btn.solid:hover{background:#5aff90;box-shadow:0 0 0 1px rgba(57,255,122,.7),0 0 34px rgba(57,255,122,.4)}
+  .btn.ghost{background:transparent;color:var(--phosdim);border:1px solid var(--line2)}
+  .btn.ghost:hover{border-color:var(--phos);color:var(--phos);background:rgba(57,255,122,.05)}
+
+  .rule{height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent);margin:34px 0}
+
+  .seclabel{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--phosfaint);margin-bottom:6px}
+  .sechead{font-size:15px;color:var(--phos);font-weight:700;margin-bottom:2px}
+  .sechead .g{color:var(--ash)}
+
+  /* neofetch card */
+  .neofetch{
+    display:grid;grid-template-columns:230px 1fr;gap:26px;
+    background:var(--panel);border:1px solid var(--line2);border-radius:8px;
+    padding:24px 26px;margin-top:16px;
+    box-shadow:0 0 0 1px rgba(57,255,122,.05) inset,0 0 40px rgba(57,255,122,.06);
+  }
+  .ascii{
+    color:var(--phos);font-size:11px;line-height:1.15;white-space:pre;
+    text-shadow:0 0 10px rgba(57,255,122,.4);align-self:center;
+  }
+  .infogrid dl{display:grid;grid-template-columns:118px 1fr;row-gap:7px;column-gap:14px;font-size:13px}
+  .infogrid dt{color:var(--phos);font-weight:600}
+  .infogrid dd{color:var(--ash)}
+  .infogrid dd b{color:var(--phosdim)}
+  .infogrid .titlerow{color:#eafff1;font-weight:700;margin-bottom:10px;font-size:13.5px}
+  .infogrid .titlerow u{text-decoration:none;color:var(--phos)}
+  .swatches{display:flex;gap:5px;margin-top:14px}
+  .sw{width:16px;height:16px;border-radius:3px;border:1px solid rgba(255,255,255,.08)}
+
+  /* projects */
+  .projgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+  .proj{
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:20px 20px 18px;position:relative;transition:all .18s;overflow:hidden;
+  }
+  .proj:hover{border-color:var(--line2);box-shadow:0 0 0 1px rgba(57,255,122,.25),0 0 34px rgba(57,255,122,.08);transform:translateY(-2px)}
+  .proj .top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px;gap:12px}
+  .proj .fname{color:var(--phos);font-weight:700;font-size:15px}
+  .proj .fname .ext{color:var(--phosfaint);font-weight:400}
+  .proj .topright{display:flex;align-items:baseline;gap:14px;flex-shrink:0}
+  .proj .perm{font-size:11px;color:var(--phosfaint);letter-spacing:.05em}
+  .proj .stars{font-size:11px;color:var(--amber)}
+  .proj .desc{color:var(--ash);font-size:13px;line-height:1.65;margin-bottom:14px;min-height:42px}
+  .proj .desc .hl{color:var(--phosdim)}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+  .tag{font-size:11px;color:var(--phosdim);border:1px solid var(--line2);border-radius:4px;padding:3px 8px;background:rgba(57,255,122,.04)}
+  .tag.amber{color:var(--amber);border-color:rgba(255,210,74,.35);background:rgba(255,210,74,.06)}
+  .proj .links{display:flex;gap:18px;font-size:12.5px}
+  .proj .links a{color:var(--ash);display:inline-flex;align-items:center;gap:6px;transition:color .15s}
+  .proj .links a:hover{color:var(--phos)}
+  .proj .links a .ar{color:var(--phos)}
+
+  /* skills */
+  .skills{display:grid;grid-template-columns:1fr 1fr;gap:12px 42px;margin-top:16px;
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:24px 28px}
+  .skill{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:14px;font-size:12.5px}
+  .skill .nm{color:var(--phosdim)}
+  .meter{height:9px;background:var(--code);border:1px solid var(--line);border-radius:2px;overflow:hidden;position:relative}
+  .meter i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#2bbf5c,var(--phos));box-shadow:0 0 10px rgba(57,255,122,.5)}
+  .skill .pct{color:var(--ash);text-align:right;font-size:11.5px}
+
+  /* contact */
+  .contact{
+    background:linear-gradient(180deg,#071007,#030603);
+    border:1px solid var(--line2);border-radius:8px;padding:30px 28px;margin-top:16px;
+    box-shadow:0 0 0 1px rgba(57,255,122,.06) inset,0 0 44px rgba(57,255,122,.08);
+    text-align:center;
+  }
+  .contact .big{font-size:26px;color:#eafff1;font-weight:800;margin-bottom:8px;text-shadow:0 0 12px rgba(57,255,122,.4)}
+  .contact .big .g{color:var(--phos)}
+  .contact .sub{color:var(--ash);font-size:13.5px;max-width:520px;margin:0 auto 22px}
+  .cmdbox{
+    display:inline-flex;align-items:center;gap:12px;
+    background:var(--code);border:1px solid var(--line2);border-radius:6px;
+    padding:12px 18px;font-size:14px;margin-bottom:22px;
+    box-shadow:0 0 0 1px rgba(57,255,122,.12),0 0 30px rgba(57,255,122,.1);
+  }
+  .cmdbox .u{color:var(--phos)}.cmdbox .c{color:#cfefd8}
+  .socials{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .soc{font-size:12.5px;color:var(--ash);border:1px solid var(--line);border-radius:5px;padding:9px 16px;transition:all .15s;display:inline-flex;align-items:center;gap:8px}
+  .soc:hover{border-color:var(--phos);color:var(--phos);background:rgba(57,255,122,.05)}
+
+  /* footer */
+  .footer{
+    border-top:1px solid var(--line);margin-top:6px;padding:22px 30px;
+    display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ash);flex-wrap:wrap;gap:10px;
+    background:var(--panel2);
+  }
+  .footer .echo b{color:var(--phosdim)}
+  .footer .meta{color:var(--phosfaint)}
+
+  svg{display:block}
+</style>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>window.tailwind=window.tailwind||{};window.tailwind.config={corePlugins:{preflight:false}};</script>
+
+<meta name="preview-version" content="cac5d939-6b7f-4691-a22d-5cdb19b802d8" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:19.160Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "cac5d939-6b7f-4691-a22d-5cdb19b802d8");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "cac5d939-6b7f-4691-a22d-5cdb19b802d8",
+      timestamp: "2026-10-16T14:07:19.160Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "cac5d939-6b7f-4691-a22d-5cdb19b802d8";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+
+<div class="win">
+  <!-- title bar / nav -->
+  <div class="titlebar">
+    <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+    <div class="path"><b>ada</b>@portfolio: <b>~/dev</b></div>
+    <div class="right">
+      <a href="#work">~/work</a>
+      <a href="#stack">~/stack</a>
+      <a href="#contact">~/contact</a>
+      <span class="status"><span class="blip"></span>available for work</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- HERO / whoami -->
+    <section class="hero">
+      <div class="line1"><span class="prompt"><span class="u">ada</span><span class="p">~/dev</span> $</span> <span class="cmd">whoami --full</span></div>
+      <h1 class="namebanner">Ada Reyes<span class="amp">_</span></h1>
+      <div class="role"><span class="arrow">></span> Full-stack engineer &amp; indie hacker · building developer tools</div>
+      <p class="intro">I design and ship <b>fast, terminal-native products</b> for developers. Ten years turning gnarly infra into things people actually enjoy using. Currently deep in agent tooling, local-first apps, and making the command line feel like home.</p>
+      <div class="metastrip">
+        <span class="tick">based in Lisbon (UTC+0)</span>
+        <span class="tick">10 yrs shipping</span>
+        <span class="tick">open to freelance &amp; advisory</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn solid" href="#work">$ ls ~/projects <span>&#8594;</span></a>
+        <a class="btn ghost" href="#contact">./contact --hire</a>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- NEOFETCH identity card -->
+    <section id="about">
+      <div class="line1" style="font-size:13px;margin-bottom:4px"><span class="prompt"><span class="u">ada</span><span class="p">~/dev</span> $</span> <span class="cmd">neofetch</span></div>
+      <div class="neofetch">
+        <pre class="ascii">   ▄▄▄▄▄▄▄
+  █░░░░░░░█
+  █░▐█▌░▐█▌
+  █░░░▀░░░█
+  █░░╲▄╱░░█
+   ▀▀███▀▀
+    ▟▛ ▜▙
+   ▟▛   ▜▙
+  ada@dev</pre>
+        <div class="infogrid">
+          <div class="titlerow"><u>ada</u>@<u>portfolio</u> ── ─────────────</div>
+          <dl>
+            <dt>OS</dt><dd>Human v10.4 <b>(engineer build)</b></dd>
+            <dt>Host</dt><dd>Remote · Lisbon, PT</dd>
+            <dt>Role</dt><dd><b>Full-stack + DevTools</b></dd>
+            <dt>Uptime</dt><dd>10 yrs, 4 startups</dd>
+            <dt>Shell</dt><dd>zsh · nvim · tmux</dd>
+            <dt>Stack</dt><dd>TypeScript · Rust · Go · Postgres</dd>
+            <dt>Focus</dt><dd>agent tooling &amp; local-first</dd>
+            <dt>Status</dt><dd><span class="amberglow">● available</span> for select work</dd>
+          </dl>
+          <div class="swatches">
+            <span class="sw" style="background:#000"></span>
+            <span class="sw" style="background:#1c7a3c"></span>
+            <span class="sw" style="background:#2bbf5c"></span>
+            <span class="sw" style="background:#39ff7a"></span>
+            <span class="sw" style="background:#5f8d68"></span>
+            <span class="sw" style="background:#ffd24a"></span>
+            <span class="sw" style="background:#5cf6ff"></span>
+            <span class="sw" style="background:#eafff1"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- PROJECTS -->
+    <section id="work">
+      <div class="line1" style="font-size:13px;margin-bottom:4px"><span class="prompt"><span class="u">ada</span><span class="p">~/dev</span> $</span> <span class="cmd">ls -la ~/projects</span> <span style="color:var(--phosfaint)"># 4 selected</span></div>
+      <div class="seclabel" style="margin-top:14px">> selected work</div>
+      <div class="sechead">Things I built and shipped <span class="g">// drwxr-xr-x</span></div>
+
+      <div class="projgrid">
+        <div class="proj">
+          <div class="top"><div class="fname">portmux<span class="ext">/</span></div><div class="topright"><span class="stars">★ 4.2k</span><span class="perm">-rwxr-xr-x</span></div></div>
+          <div class="desc">A <span class="hl">terminal multiplexer</span> for local dev servers. Route, log and hot-reload a dozen services from one pane. Written in Rust, ~2ms overhead.</div>
+          <div class="tags"><span class="tag">rust</span><span class="tag">cli</span><span class="tag">tui</span><span class="tag amber">open source</span></div>
+          <div class="links"><a href="#"><span class="ar">&#8594;</span> live demo</a><a href="#"><span class="ar">&#8594;</span> source</a></div>
+        </div>
+
+        <div class="proj">
+          <div class="top"><div class="fname">agentd<span class="ext">/</span></div><div class="topright"><span class="stars">★ 1.8k</span><span class="perm">-rwxr-xr-x</span></div></div>
+          <div class="desc">Self-hosted <span class="hl">agent runtime</span> that runs coding agents against your repo in a sandbox. Streaming logs, diff review, one-key rollback.</div>
+          <div class="tags"><span class="tag">typescript</span><span class="tag">docker</span><span class="tag">agents</span><span class="tag amber">SaaS</span></div>
+          <div class="links"><a href="#"><span class="ar">&#8594;</span> live demo</a><a href="#"><span class="ar">&#8594;</span> source</a></div>
+        </div>
+
+        <div class="proj">
+          <div class="top"><div class="fname">glow-notes<span class="ext">/</span></div><div class="topright"><span class="stars">★ 920</span><span class="perm">-rw-r--r--</span></div></div>
+          <div class="desc">A <span class="hl">local-first note app</span> with a CRDT sync engine and a keyboard-only command palette. Ships as a single 4MB binary.</div>
+          <div class="tags"><span class="tag">go</span><span class="tag">sqlite</span><span class="tag">local-first</span></div>
+          <div class="links"><a href="#"><span class="ar">&#8594;</span> live demo</a><a href="#"><span class="ar">&#8594;</span> source</a></div>
+        </div>
+
+        <div class="proj">
+          <div class="top"><div class="fname">phosphor-ui<span class="ext">/</span></div><div class="topright"><span class="stars">★ 2.6k</span><span class="perm">-rw-r--r--</span></div></div>
+          <div class="desc">The <span class="hl">CRT component library</span> powering this very page. Scanlines, glow tokens and mono primitives you can drop into any dark dashboard.</div>
+          <div class="tags"><span class="tag">css</span><span class="tag">design-system</span><span class="tag amber">open source</span></div>
+          <div class="links"><a href="#"><span class="ar">&#8594;</span> live demo</a><a href="#"><span class="ar">&#8594;</span> source</a></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- STACK / SKILLS -->
+    <section id="stack">
+      <div class="line1" style="font-size:13px;margin-bottom:4px"><span class="prompt"><span class="u">ada</span><span class="p">~/dev</span> $</span> <span class="cmd">cat stack.txt | sort -r</span></div>
+      <div class="seclabel" style="margin-top:14px">> proficiency</div>
+      <div class="sechead">The tools I reach for <span class="g">// self-assessed, honest</span></div>
+      <div class="skills">
+        <div class="skill"><span class="nm">TypeScript</span><span class="meter"><i style="width:95%"></i></span><span class="pct">95%</span></div>
+        <div class="skill"><span class="nm">Rust</span><span class="meter"><i style="width:82%"></i></span><span class="pct">82%</span></div>
+        <div class="skill"><span class="nm">Go</span><span class="meter"><i style="width:88%"></i></span><span class="pct">88%</span></div>
+        <div class="skill"><span class="nm">Postgres / SQL</span><span class="meter"><i style="width:90%"></i></span><span class="pct">90%</span></div>
+        <div class="skill"><span class="nm">React / Next</span><span class="meter"><i style="width:92%"></i></span><span class="pct">92%</span></div>
+        <div class="skill"><span class="nm">Docker / K8s</span><span class="meter"><i style="width:78%"></i></span><span class="pct">78%</span></div>
+        <div class="skill"><span class="nm">System design</span><span class="meter"><i style="width:86%"></i></span><span class="pct">86%</span></div>
+        <div class="skill"><span class="nm">Design / UI</span><span class="meter"><i style="width:74%"></i></span><span class="pct">74%</span></div>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="line1" style="font-size:13px;margin-bottom:4px"><span class="prompt"><span class="u">ada</span><span class="p">~/dev</span> $</span> <span class="cmd">./contact --hire</span></div>
+      <div class="contact">
+        <div class="big">Let's <span class="g">build something</span> together.</div>
+        <div class="sub">I take on a couple of focused projects a year, plus advisory. If you're shipping a developer tool or need infra that doesn't fall over, ping me and we'll sort it out.</div>
+        <div class="cmdbox"><span class="u">$</span> <span class="c">mail ada@reyes.dev</span><span class="cur"></span></div>
+        <div class="socials">
+          <a class="soc" href="#">&#8594; github/adareyes</a>
+          <a class="soc" href="#">&#8594; x/adabuilds</a>
+          <a class="soc" href="#">&#8594; read the blog</a>
+          <a class="soc" href="#">&#8594; download CV.pdf</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- footer -->
+  <div class="footer">
+    <div class="echo">$ echo <b>"© 2026 Ada Reyes · built in the terminal, shipped fast"</b><span class="cur" style="height:.9em"></span></div>
+    <div class="meta">last commit: 2h ago · main@a1f9e2c · uptime 99.98%</div>
+  </div>
+</div>
+
+<div style="height:26px"></div>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+Make the cards animate marquis in an infinite loop with alpha mask slowly.

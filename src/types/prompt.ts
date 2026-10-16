@@ -36,6 +36,7 @@ export interface PromptItem {
   thumbnail?: string;
   previewUrl?: string;
   localPreviewUrl?: string;
+  screenshotUrl?: string;
   livePreviewUrl?: string;
   previewDevice?: "desktop" | "tablet" | "mobile" | string;
   supportKoriUrl?: string;

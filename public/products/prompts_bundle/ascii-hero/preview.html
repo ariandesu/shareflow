@@ -1,0 +1,1444 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="view-transition" content="same-origin">
+  <title>Ship AI agents that don’t break in production.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+    @view-transition { navigation: auto; }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url('https://rsms.me/inter/font-files/Inter-Regular.woff2?v=4.1') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url('https://rsms.me/inter/font-files/Inter-Medium.woff2?v=4.1') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter Display';
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url('https://rsms.me/inter/font-files/InterDisplay-Medium.woff2?v=4.1') format('woff2');
+    }
+
+    :root {
+      --inter-display: 'Inter Display', 'Inter', -apple-system, sans-serif;
+      --inter: 'Inter', -apple-system, sans-serif;
+      --geist: 'Geist', sans-serif;
+      --geist-mono: 'Geist Mono', monospace;
+      --gutter: 56px;
+      --nav-top: 38px;
+      --hero-bottom: 110px;
+      --scrim-height: 40%;
+      --scrim-opacity: 0.3;
+      --ring: rgba(255, 255, 255, 0.145);
+    }
+
+    @media (max-width: 1023px) {
+      :root {
+        --gutter: 40px;
+        --nav-top: 32px;
+        --hero-bottom: 88px;
+        --scrim-height: 60%;
+        --scrim-opacity: 0.85;
+      }
+    }
+
+    @media (max-width: 767px) {
+      :root {
+        --gutter: 24px;
+        --nav-top: 24px;
+        --hero-bottom: 56px;
+        --scrim-height: 70%;
+        --scrim-opacity: 0.9;
+      }
+    }
+
+    .font-inter-display { font-family: var(--inter-display); }
+    .font-inter { font-family: var(--inter); }
+    .font-geist { font-family: var(--geist); }
+    .font-geist-mono { font-family: var(--geist-mono); }
+
+    .scrim { background: linear-gradient(to top, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0) 93.785%); }
+    .btn-square { border-radius: 0 !important; }
+
+    .canvas-frame {
+      width: 100%;
+      height: 100svh;
+      min-height: 560px;
+      position: relative;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .bg-image {
+      position: absolute;
+      left: -0.42%;
+      top: -0.29%;
+      width: 138.55%;
+      height: auto;
+      min-height: 100.6%;
+      object-fit: cover;
+      object-position: 62% 50%;
+      max-width: none;
+      pointer-events: none;
+    }
+
+    @media (max-width: 1023px) {
+      .bg-image { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; left: 0; top: 0; }
+    }
+
+    .headline-fluid {
+      font-size: clamp(32px, 4.1667vw, 60px);
+      letter-spacing: -0.0167em;
+      line-height: 1.0;
+    }
+
+    @media (min-width: 1440px) {
+      .headline-fluid { font-size: 60px; letter-spacing: -1px; }
+    }
+
+    .v-card {
+      background: #0a0a0a;
+      border-radius: 12px;
+      box-shadow: 0 0 0 1px var(--ring), 0 1px 1px rgba(0,0,0,0.02), 0 4px 8px rgba(0,0,0,0.04);
+    }
+
+    .v-heading-display {
+      font-family: var(--geist);
+      font-weight: 450;
+      font-size: 56px;
+      line-height: 56px;
+      letter-spacing: -3.36px;
+      color: #ededed;
+    }
+
+    @media (max-width: 1024px) { .v-heading-display { font-size: 40px; line-height: 40px; letter-spacing: -2.4px; } }
+    @media (max-width: 640px) { .v-heading-display { font-size: 32px; line-height: 32px; letter-spacing: -1.92px; } }
+
+    .v-subline {
+      font-family: var(--geist);
+      font-size: 18px;
+      font-weight: 400;
+      color: #999999;
+      max-width: 640px;
+    }
+
+    .v-chip {
+      display: inline-flex;
+      align-items: center;
+      width: auto;
+      flex-shrink: 0;
+      white-space: nowrap;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: #1f1f1f;
+      font-size: 12px;
+      line-height: 1;
+      color: #999999;
+    }
+
+    .v-table-row {
+      border-bottom: 1px solid var(--ring);
+      padding: 12px 0;
+    }
+
+    .v-accent-glow {
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(82,168,255,0.10), transparent 60%);
+    }
+
+    #mobile-menu:target { display: flex; }
+    #main-stage:has(#mobile-menu:target) #nav-cta-small, 
+    #main-stage:has(#mobile-menu:target) #mobile-nav-trigger { opacity: 0; pointer-events: none; }
+    
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+
+<meta name="preview-version" content="d0848987-0c46-4d26-9e88-a652fee697e1" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:15.681Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "d0848987-0c46-4d26-9e88-a652fee697e1");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "d0848987-0c46-4d26-9e88-a652fee697e1",
+      timestamp: "2026-10-16T14:07:15.681Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "d0848987-0c46-4d26-9e88-a652fee697e1";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body class="bg-black antialiased">
+  <div class="min-h-screen bg-black">
+    <div class="canvas-frame" id="main-stage">
+      <img class="bg-image" src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/55e8d182-659b-4ce9-86da-be4e5650967b/external-assets/17c7c6a9-f844-4e4b-9f93-b91ba4cb1854-bg.jpg" alt="Hero background" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+      <div class="absolute bottom-0 left-0 w-full scrim pointer-events-none" style="height: var(--scrim-height); opacity: var(--scrim-opacity);"></div>
+      <header class="absolute left-0 w-full h-[36px] flex items-center justify-between z-40" style="top: var(--nav-top); padding-left: var(--gutter); padding-right: var(--gutter);">
+        <div class="flex items-center gap-[6px]">
+          <div class="w-6 h-6 relative overflow-hidden">
+            <svg class="absolute left-[3.6px] top-[3.6px] w-[16.8px] h-[16.8px]" preserveAspectRatio="none" overflow="visible" viewBox="0 0 16.8002 16.8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g fill="white">
+                <path d="M5.6 0H11.2V5.6H5.6Z"></path>
+                <path d="M0 5.6H5.6V11.2H11.2V5.6H16.8V16.8H0Z"></path>
+              </g>
+            </svg>
+          </div>
+          <span class="font-inter font-medium text-[20px] leading-none text-white whitespace-nowrap">[Redacted]</span>
+        </div>
+        <nav class="hidden md:flex absolute left-1/2 -translate-x-1/2 top-[16px] items-center gap-[48px] font-inter font-medium text-[16px] leading-none text-white whitespace-nowrap">
+          <a href="#" id="nav-product">Product</a>
+          <a href="#" id="nav-pricing">Pricing</a>
+          <a href="#" id="nav-docs">Docs</a>
+          <a href="#" id="nav-about">About</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <a href="#mobile-menu" id="mobile-nav-trigger" class="md:hidden w-6 h-6 flex flex-col justify-between py-1 bg-transparent">
+            <span class="w-full h-[2px] bg-white rounded-full"></span>
+            <span class="w-full h-[2px] bg-white rounded-full"></span>
+            <span class="w-full h-[2px] bg-white rounded-full"></span>
+          </a>
+          <a href="#" id="nav-cta-small" class="btn-square flex items-center bg-white text-[#121212] font-inter-display font-medium text-[16px] leading-[19px] py-2 pl-3 pr-2 gap-2">
+            <span>Book a demo</span>
+            <div class="w-5 h-5 flex items-center justify-center">
+              <svg width="10.33" height="10.33" viewBox="0 0 10.3333 10.3333" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 9.33333L9.33333 1M9.33333 9.33333V1H1" stroke="#131313" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </header>
+      <div class="absolute z-10 flex flex-col items-start gap-10" style="left: var(--gutter); bottom: var(--hero-bottom); width: min(752px, calc(100% - (var(--gutter) * 2)));">
+        <div class="flex flex-col items-start gap-4">
+          <h1 class="headline-fluid font-inter-display font-medium text-white">
+            Ship AI agents that <br class="hidden md:block">don’t break in production.
+          </h1>
+          <p class="font-inter font-normal text-[16px] leading-[19px] text-[#e7e7e7]">
+            Test, monitor, and improve agents before real users find the bugs
+          </p>
+        </div>
+        <a href="#" id="hero-cta-large" class="btn-square flex items-center bg-white text-[#121212] font-inter-display font-medium text-[20px] leading-[24px] py-3 pl-4 pr-3 gap-2">
+          <span>Book a demo</span>
+          <div class="w-6 h-6 flex items-center justify-center">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 11L11 1M11 11V1H1" stroke="#131313" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+        </a>
+      </div>
+      <div id="mobile-menu" class="fixed inset-0 bg-[#000000f5] z-50 hidden flex-col items-center justify-center gap-[24px]">
+        <a href="#" class="absolute w-6 h-6 flex items-center justify-center" style="top: var(--nav-top); right: var(--gutter); margin-top: 6px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 18L18 6M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <nav class="flex flex-col items-center justify-center gap-[24px]">
+          <a href="#" class="text-white font-inter font-medium text-[24px]" id="mobile-nav-product">Product</a>
+          <a href="#" class="text-white font-inter font-medium text-[24px]" id="mobile-nav-pricing">Pricing</a>
+          <a href="#" id="mobile-nav-docs-link" class="text-white font-inter font-medium text-[24px]">Docs</a>
+          <a href="#" id="mobile-nav-about-link" class="text-white font-inter font-medium text-[24px]">About</a>
+        </nav>
+      </div>
+    </div>
+
+    <section class="py-[56px] md:py-[80px] lg:py-[120px] bg-black v-accent-glow relative overflow-hidden">
+      <div class="max-w-[1200px] mx-auto px-6 flex flex-col items-center">
+        <div class="v-chip mb-6">
+          <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+          <span class="font-geist font-medium text-[12px]">Live in production</span>
+        </div>
+        <h2 class="v-heading-display text-center mb-6">Every agent run, on one timeline.</h2>
+        <p class="v-subline text-center mb-16">Open any trace and see the exact prompt, the tool calls it made, the retries it hid, and where the latency actually went.</p>
+        
+        <div class="v-card w-full flex flex-col overflow-hidden">
+          <div class="h-[40px] border-b border-[rgba(255,255,255,0.145)] flex items-center px-4 justify-between">
+            <div class="flex gap-1.5">
+              <div class="w-2 h-2 rounded-full bg-[rgba(255,255,255,0.2)]"></div>
+              <div class="w-2 h-2 rounded-full bg-[rgba(255,255,255,0.2)]"></div>
+              <div class="w-2 h-2 rounded-full bg-[rgba(255,255,255,0.2)]"></div>
+            </div>
+            <span class="font-geist-mono text-[13px] text-[#999999]">trace · 8f2c1a9b</span>
+            <div class="flex gap-2">
+              <span class="v-chip text-[11px] px-2 py-0.5">1.24s</span>
+              <span class="v-chip text-[11px] px-2 py-0.5">12 spans</span>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row">
+            <div class="w-full md:w-[240px] border-r border-[rgba(255,255,255,0.145)] overflow-y-auto hide-scrollbar">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">8f2c1a9b</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">1.24s</span>
+              </div>
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">d9e2a14f</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">0.86s</span>
+              </div>
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)] bg-[#1f1f1f]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#52a8ff]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">c8a21b3d</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">2.41s</span>
+              </div>
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">f4e5d6c7</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">1.02s</span>
+              </div>
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">a1b2c3d4</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">0.74s</span>
+              </div>
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">e5f6a7b8</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">1.55s</span>
+              </div>
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">c9d0a1b2</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">0.93s</span>
+              </div>
+              <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.145)]">
+                <div class="flex items-center gap-3">
+                  <div class="w-1.5 h-1.5 rounded-full bg-[#62c073]"></div>
+                  <span class="font-geist-mono text-[13px] text-[#ededed]">b3c4d5e6</span>
+                </div>
+                <span class="font-geist-mono text-[11px] text-[#999999]">1.18s</span>
+              </div>
+            </div>
+            <div class="flex-1 overflow-x-auto p-6 hide-scrollbar">
+              <table class="w-full">
+                <thead>
+                  <tr class="text-left">
+                    <th class="font-geist text-[13px] text-[#999999] pb-4 font-normal">SPAN</th>
+                    <th class="font-geist text-[13px] text-[#999999] pb-4 font-normal text-right">START</th>
+                    <th class="font-geist text-[13px] text-[#999999] pb-4 font-normal text-right">DURATION</th>
+                  </tr>
+                </thead>
+                <tbody class="font-geist-mono text-[13px]">
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed]">agent_run</span></td>
+                    <td class="py-2 w-1/2 min-w-[200px] pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 0%; width: 100%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">1240ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[12px]">intent_parse</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 3.2%; width: 7.3%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">90ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[12px]">db_retrieval</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 11.3%; width: 16.9%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">210ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[12px]">guardrail_in</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 29.0%; width: 2.4%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">30ms</td>
+                  </tr>
+                  <tr class="bg-[rgba(82,168,255,0.06)] border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[12px]">llm_reasoning</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[#52a8ff]" style="left: 32.3%; width: 58.1%"></div></div></td>
+                    <td class="py-2 text-[#ededed] text-right">720ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[24px]">tool_call_01</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 33.9%; width: 4.8%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">60ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[36px]">retry_01</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 40.3%; width: 2.4%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">30ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[24px]">db_retrieval_2</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 45.2%; width: 9.7%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">120ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[24px]">tool_call_02</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 56.5%; width: 4.8%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">60ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[12px]">guardrail_out</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 91.1%; width: 2.4%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">30ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[12px]">token_count</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 94.0%; width: 2.0%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">25ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.145)]">
+                    <td class="py-2"><span class="text-[#ededed] ml-[12px]">output_format</span></td>
+                    <td class="py-2 pr-4"><div class="w-full h-1.5 relative bg-transparent"><div class="absolute h-full rounded-[2px] bg-[rgba(255,255,255,0.18)]" style="left: 96.4%; width: 3.6%"></div></div></td>
+                    <td class="py-2 text-[#999999] text-right">45ms</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-[56px] md:py-[80px] lg:py-[120px] bg-black">
+      <div class="max-w-[1200px] mx-auto px-6">
+        <h2 class="v-heading-display text-center mb-6">Three surfaces, one pipeline.</h2>
+        <p class="v-subline text-center mx-auto mb-12">Instrumentation, evaluation and remediation share one trace format, so a failure you see in production is the same object you test against.</p>
+        
+        <div class="flex justify-center mb-12">
+          <div class="bg-[#1f1f1f] p-1 rounded-lg flex">
+            <button class="px-6 py-1.5 font-geist font-medium text-[14px] rounded-md bg-[#0a0a0a] text-[#ededed] shadow-[0_0_0_1px_rgba(255,255,255,0.145)]">Observe</button>
+            <button class="px-6 py-1.5 font-geist font-medium text-[14px] text-[#a1a1a1]">Evaluate</button>
+            <button class="px-6 py-1.5 font-geist font-medium text-[14px] text-[#a1a1a1]">Improve</button>
+          </div>
+        </div>
+
+        <div class="v-card grid grid-cols-1 md:grid-cols-12 overflow-hidden">
+          <div class="md:col-span-5 p-12 flex flex-col justify-center border-b md:border-b-0 md:border-r border-[rgba(255,255,255,0.145)]">
+            <h3 class="font-geist font-medium text-[20px] text-[#ededed] mb-4">Observe</h3>
+            <p class="font-geist text-[14px] leading-[21px] text-[#999999] mb-8">Every production trace scored the moment it completes — tool errors, loops, refusals, latency cliffs and cost spikes, surfaced as they happen rather than at month end.</p>
+            <ul class="space-y-4">
+              <li class="flex items-center gap-3">
+                <div class="w-1 h-1 rounded-full bg-[#52a8ff]"></div>
+                <span class="font-geist text-[14px] text-[#999999]">Automatic span capture</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-1 h-1 rounded-full bg-[#52a8ff]"></div>
+                <span class="font-geist text-[14px] text-[#999999]">Streaming score computation</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div class="w-1 h-1 rounded-full bg-[#52a8ff]"></div>
+                <span class="font-geist text-[14px] text-[#999999]">Alert on distribution shift</span>
+              </li>
+            </ul>
+          </div>
+          <div class="md:col-span-7 overflow-x-auto hide-scrollbar">
+            <div class="p-6">
+              <table class="w-full font-geist-mono text-[13px]">
+                <thead>
+                  <tr class="text-left text-[#999999] border-b border-[rgba(255,255,255,0.145)]">
+                    <th class="pb-4 font-normal">TIME</th>
+                    <th class="pb-4 font-normal">EVENT</th>
+                    <th class="pb-4 font-normal">STATUS</th>
+                    <th class="pb-4 font-normal text-right">LATENCY</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:02:11</td>
+                    <td class="py-4 text-[#ededed]">tool.timeout</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#ededed] flex-shrink-0"></div>ERROR</div></td>
+                    <td class="py-4 text-right text-[#999999]">12.4s</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:02:08</td>
+                    <td class="py-4 text-[#ededed]">llm.refusal</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#ededed] flex-shrink-0"></div>FAIL</div></td>
+                    <td class="py-4 text-right text-[#999999]">840ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:01:55</td>
+                    <td class="py-4 text-[#ededed]">context.truncated</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#999999] flex-shrink-0"></div>WARN</div></td>
+                    <td class="py-4 text-right text-[#999999]">1.2s</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:01:42</td>
+                    <td class="py-4 text-[#ededed]">retry.exhausted</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#ededed] flex-shrink-0"></div>ERROR</div></td>
+                    <td class="py-4 text-right text-[#999999]">6.6s</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:01:30</td>
+                    <td class="py-4 text-[#ededed]">span.completed</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#62c073] flex-shrink-0"></div>PASS</div></td>
+                    <td class="py-4 text-right text-[#999999]">92ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:01:12</td>
+                    <td class="py-4 text-[#ededed]">db.reconnect</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#999999] flex-shrink-0"></div>WARN</div></td>
+                    <td class="py-4 text-right text-[#999999]">2.1s</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:00:58</td>
+                    <td class="py-4 text-[#ededed]">tool.success</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#62c073] flex-shrink-0"></div>PASS</div></td>
+                    <td class="py-4 text-right text-[#999999]">45ms</td>
+                  </tr>
+                  <tr class="border-b border-[rgba(255,255,255,0.1)]">
+                    <td class="py-4 text-[#999999]">14:00:44</td>
+                    <td class="py-4 text-[#ededed]">agent.start</td>
+                    <td class="py-4"><div class="v-chip"><div class="w-1.5 h-1.5 rounded-full bg-[#62c073] flex-shrink-0"></div>PASS</div></td>
+                    <td class="py-4 text-right text-[#999999]">12ms</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-[56px] md:py-[80px] lg:py-[120px] bg-black">
+      <div class="max-w-[1200px] mx-auto px-6">
+        <h2 class="v-heading-display text-center mb-16">Built for the failure modes agents actually have.</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="v-card p-6 flex flex-col">
+            <div class="bg-[#1f1f1f] rounded-lg mb-6 flex flex-col p-4 shadow-inner border border-[rgba(255,255,255,0.05)]">
+                <div class="flex items-center justify-between font-geist-mono text-[11px] py-1.5 border-b border-[rgba(255,255,255,0.05)]">
+                  <span class="text-[#999999]">run_8f2c</span>
+                  <div class="v-chip !text-[10px] !px-2 !py-0.5"><div class="w-1 h-1 rounded-full bg-[#62c073] flex-shrink-0"></div>PASS</div>
+                  <span class="text-[#ededed]">+12%</span>
+                </div>
+                <div class="flex items-center justify-between font-geist-mono text-[11px] py-1.5 border-b border-[rgba(255,255,255,0.05)]">
+                  <span class="text-[#999999]">run_d9e2</span>
+                  <div class="v-chip !text-[10px] !px-2 !py-0.5"><div class="w-1 h-1 rounded-full bg-[#62c073] flex-shrink-0"></div>PASS</div>
+                  <span class="text-[#ededed]">+4%</span>
+                </div>
+                <div class="flex items-center justify-between font-geist-mono text-[11px] py-1.5 border-b border-[rgba(255,255,255,0.05)]">
+                  <span class="text-[#999999]">run_c8a2</span>
+                  <div class="v-chip !text-[10px] !px-2 !py-0.5"><div class="w-1 h-1 rounded-full bg-[#ededed] flex-shrink-0"></div>FAIL</div>
+                  <span class="text-[#ededed]">-2%</span>
+                </div>
+                <div class="flex items-center justify-between font-geist-mono text-[11px] py-1.5 border-b border-[rgba(255,255,255,0.05)]">
+                  <span class="text-[#999999]">run_f4e5</span>
+                  <div class="v-chip !text-[10px] !px-2 !py-0.5"><div class="w-1 h-1 rounded-full bg-[#62c073] flex-shrink-0"></div>PASS</div>
+                  <span class="text-[#ededed]">+8%</span>
+                </div>
+                <div class="flex items-center justify-between font-geist-mono text-[11px] py-1.5 border-b border-[rgba(255,255,255,0.05)]">
+                  <span class="text-[#999999]">run_a1b2</span>
+                  <div class="v-chip !text-[10px] !px-2 !py-0.5"><div class="w-1 h-1 rounded-full bg-[#62c073] flex-shrink-0"></div>PASS</div>
+                  <span class="text-[#ededed]">+1%</span>
+                </div>
+            </div>
+            <h3 class="font-geist font-medium text-[16px] text-[#ededed] mb-2">Regression gates</h3>
+            <p class="font-geist text-[14px] leading-[21px] text-[#999999]">Every pull request replays yesterday's production traffic. A regression blocks the merge before it blocks a user.</p>
+          </div>
+          <div class="v-card p-6 flex flex-col">
+            <div class="bg-[#1f1f1f] rounded-lg mb-6 flex flex-col p-4 gap-3 border border-[rgba(255,255,255,0.05)]">
+                <div class="flex flex-col gap-1">
+                  <div class="flex justify-between font-geist-mono text-[10px] text-[#999999]"><span>tool_timeout</span><span>4,102</span></div>
+                  <div class="w-full bg-[rgba(255,255,255,0.18)] h-1 rounded-full overflow-hidden">
+                    <div class="h-full bg-[#52a8ff]" style="width: 90%"></div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <div class="flex justify-between font-geist-mono text-[10px] text-[#999999]"><span>context_overflow</span><span>2,887</span></div>
+                  <div class="w-full bg-[rgba(255,255,255,0.18)] h-1 rounded-full overflow-hidden">
+                    <div class="h-full bg-[rgba(255,255,255,0.18)] bg-white/20" style="width: 65%"></div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <div class="flex justify-between font-geist-mono text-[10px] text-[#999999]"><span>refusal_loop</span><span>1,344</span></div>
+                  <div class="w-full bg-[rgba(255,255,255,0.18)] h-1 rounded-full overflow-hidden">
+                    <div class="h-full bg-[rgba(255,255,255,0.18)] bg-white/20" style="width: 40%"></div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <div class="flex justify-between font-geist-mono text-[10px] text-[#999999]"><span>auth_error</span><span>901</span></div>
+                  <div class="w-full bg-[rgba(255,255,255,0.18)] h-1 rounded-full overflow-hidden">
+                    <div class="h-full bg-[rgba(255,255,255,0.18)] bg-white/20" style="width: 25%"></div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <div class="flex justify-between font-geist-mono text-[10px] text-[#999999]"><span>rate_limit</span><span>512</span></div>
+                  <div class="w-full bg-[rgba(255,255,255,0.18)] h-1 rounded-full overflow-hidden">
+                    <div class="h-full bg-[rgba(255,255,255,0.18)] bg-white/20" style="width: 15%"></div>
+                  </div>
+                </div>
+            </div>
+            <h3 class="font-geist font-medium text-[16px] text-[#ededed] mb-2">Failure clustering</h3>
+            <p class="font-geist text-[14px] leading-[21px] text-[#999999]">Ten thousand broken traces collapse into nine root causes, ranked by how many users each one touched.</p>
+          </div>
+          <div class="v-card p-6 flex flex-col">
+            <div class="bg-[#1f1f1f] rounded-lg mb-6 flex flex-col p-4 gap-2 border border-[rgba(255,255,255,0.05)]">
+               <div class="flex items-center gap-2 mb-2">
+                 <span class="v-chip text-[10px] px-2 py-0.5">v1.4.2</span>
+                 <span class="font-geist text-[12px] text-[#999999]">→</span>
+                 <span class="v-chip text-[10px] bg-[#0a0a0a] text-[#ededed] px-2 py-0.5">v1.5.0</span>
+               </div>
+               <div class="font-geist-mono text-[11px] text-[#999999] leading-tight">
+                 <div class="px-2 py-0.5">def query_engine():</div>
+                 <div class="border-l-2 border-[#999999] bg-[rgba(255,255,255,0.04)] px-2 py-0.5">- temp = 0.7</div>
+                 <div class="border-l-2 border-[#62c073] bg-[rgba(98,192,115,0.06)] px-2 py-0.5 text-[#62c073]">+ temp = 0.2</div>
+                 <div class="px-2 py-0.5">  return llm.call()</div>
+                 <div class="border-l-2 border-[#52a8ff] bg-[rgba(82,168,255,0.06)] px-2 py-0.5 text-[#52a8ff]">! retry_limit = 3</div>
+               </div>
+            </div>
+            <h3 class="font-geist font-medium text-[16px] text-[#ededed] mb-2">Version replay</h3>
+            <p class="font-geist text-[14px] leading-[21px] text-[#999999]">Re-run any slice of production traffic against any build. Diff the outcomes span by span.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-[56px] md:py-[80px] lg:py-[120px] bg-black">
+      <div class="max-w-[1200px] mx-auto px-6">
+        <h2 class="v-heading-display text-center mb-6">One import. Everything after that is automatic.</h2>
+        <p class="v-subline text-center mx-auto mb-16">Two lines to instrument. No sampling config, no manual spans, no agent-framework lock-in.</p>
+        
+        <div class="v-card w-full max-w-[800px] mx-auto mb-12 overflow-hidden">
+          <div class="h-[40px] bg-[#0a0a0a] border-b border-[rgba(255,255,255,0.145)] flex items-center px-4">
+             <div class="flex bg-[#1f1f1f] p-0.5 rounded-md">
+                <button class="px-4 py-1 text-[12px] font-medium bg-[#0a0a0a] text-[#ededed] rounded-sm">Python</button>
+                <button class="px-4 py-1 text-[12px] font-medium text-[#999999]">TypeScript</button>
+             </div>
+          </div>
+          <div class="p-8 font-geist-mono text-[13px] leading-[20px] overflow-x-auto">
+            <div class="text-[#999999] whitespace-pre">pip install shipagents
+
+<span class="text-[#ededed]">from</span> shipagents <span class="text-[#ededed]">import</span> trace
+
+<div class="bg-[rgba(82,168,255,0.06)] border-l-2 border-[#52a8ff] -mx-8 px-8">@trace</div><span class="text-[#ededed]">def</span> support_agent(query: str) -&gt; str:
+    plan = llm.plan(query)
+    docs = retriever.search(plan.terms)
+    <span class="text-[#ededed]">return</span> llm.answer(query, docs)</div>
+          </div>
+        </div>
+        
+        <div class="flex flex-wrap justify-center gap-2 max-w-[900px] mx-auto">
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">openai</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">anthropic</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">google-genai</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">langgraph</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">llamaindex</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">crewai</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">vercel-ai</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">mastra</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">pydantic-ai</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">dspy</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">autogen</div>
+          <div class="bg-[#1f1f1f] rounded-[100px] px-[10px] py-[4px] text-[12px] text-[#999999] font-geist">semantic-kernel</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-[56px] md:py-[80px] lg:py-[120px] bg-black">
+      <div class="max-w-[1200px] mx-auto px-6">
+        <div class="v-card grid grid-cols-2 md:grid-cols-4 overflow-hidden">
+          <div class="p-12 border-b md:border-b-0 border-r border-[rgba(255,255,255,0.145)] flex flex-col items-center md:items-start text-center md:text-left">
+            <div class="flex items-baseline mb-2">
+              <span class="font-geist text-[56px] leading-none tracking-[-3.36px] text-[#ededed]">2.1</span>
+              <span class="font-geist-mono text-[20px] text-[#999999] ml-1">M</span>
+            </div>
+            <span class="font-geist text-[14px] text-[#999999]">traces scored per day</span>
+          </div>
+          <div class="p-12 border-b md:border-b-0 border-[rgba(255,255,255,0.145)] md:border-r flex flex-col items-center md:items-start text-center md:text-left">
+            <div class="flex items-baseline mb-2">
+              <span class="font-geist text-[56px] leading-none tracking-[-3.36px] text-[#ededed]">38</span>
+              <span class="font-geist-mono text-[20px] text-[#999999] ml-1">ms</span>
+            </div>
+            <span class="font-geist text-[14px] text-[#999999]">p99 instrumentation overhead</span>
+          </div>
+          <div class="p-12 border-r border-[rgba(255,255,255,0.145)] flex flex-col items-center md:items-start text-center md:text-left">
+            <div class="flex items-baseline mb-2">
+              <span class="font-geist text-[56px] leading-none tracking-[-3.36px] text-[#ededed]">94</span>
+              <span class="font-geist-mono text-[20px] text-[#999999] ml-1">%</span>
+            </div>
+            <span class="font-geist text-[14px] text-[#999999]">of regressions caught pre-release</span>
+          </div>
+          <div class="p-12 flex flex-col items-center md:items-start text-center md:text-left">
+            <div class="flex items-baseline mb-2">
+              <span class="font-geist text-[56px] leading-none tracking-[-3.36px] text-[#ededed]">11</span>
+              <span class="font-geist-mono text-[20px] text-[#999999] ml-1">min</span>
+            </div>
+            <span class="font-geist text-[14px] text-[#999999]">median time to root cause</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative min-h-[640px] overflow-hidden">
+      <img class="absolute inset-0 w-full h-full object-cover" style="object-position: 20% 40%;" src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/55e8d182-659b-4ce9-86da-be4e5650967b/external-assets/17c7c6a9-f844-4e4b-9f93-b91ba4cb1854-bg.jpg" alt="CTA Background" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+      <div class="absolute bottom-0 left-0 w-full scrim pointer-events-none" style="height: 65%; opacity: 0.92;"></div>
+      
+      <div class="absolute z-10 flex flex-col items-start gap-10" style="left: var(--gutter); bottom: var(--hero-bottom); width: min(752px, calc(100% - (var(--gutter) * 2)));">
+        <div class="flex flex-col items-start gap-4">
+          <h2 class="font-inter-display font-medium text-white text-[36px] md:text-[52px] lg:text-[60px] leading-[1.0] tracking-[-1px]">
+            Find the bugs before your users do.
+          </h2>
+          <p class="font-inter font-normal text-[16px] leading-[19px] text-[#e7e7e7]">
+            Ten minutes to first trace. No credit card, no sales call.
+          </p>
+        </div>
+        <a href="#" id="closing-cta-large" class="btn-square flex items-center bg-white text-[#121212] font-inter-display font-medium text-[20px] leading-[24px] py-3 pl-4 pr-3 gap-2">
+          <span>Book a demo</span>
+          <div class="w-6 h-6 flex items-center justify-center">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 11L11 1M11 11V1H1" stroke="#131313" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <footer class="bg-black border-t border-[rgba(255,255,255,0.14)] py-[80px]">
+      <div class="mx-auto px-[var(--gutter)] max-w-[1440px]">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-16">
+          <div class="md:col-span-4 flex flex-col gap-4 self-start">
+            <div class="flex items-center gap-[6px]">
+              <div class="w-6 h-6 relative overflow-hidden">
+                <svg class="absolute left-[3.6px] top-[3.6px] w-[16.8px] h-[16.8px]" preserveAspectRatio="none" overflow="visible" viewBox="0 0 16.8002 16.8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g fill="white">
+                    <path d="M5.6 0H11.2V5.6H5.6Z"></path>
+                    <path d="M0 5.6H5.6V11.2H11.2V5.6H16.8V16.8H0Z"></path>
+                  </g>
+                </svg>
+              </div>
+              <span class="font-inter font-medium text-[20px] leading-none text-white whitespace-nowrap">[Redacted]</span>
+            </div>
+            <p class="font-inter text-[14px] text-[rgba(255,255,255,0.45)] leading-[1.5]">Ship AI agents that don’t break in production.</p>
+          </div>
+          <div class="md:col-span-8 grid grid-cols-2 lg:grid-cols-4 gap-10">
+            <div class="flex flex-col gap-4">
+              <span class="font-geist-mono font-medium text-[12px] tracking-[0.16em] text="#8f8f8f" uppercase">Product</span>
+              <div class="flex flex-col gap-3 font-inter text-[14px] text-[rgba(255,255,255,0.72)]">
+                <a href="#" id="footer-link-overview" class="hover:text-white transition-colors">Overview</a>
+                <a href="#" id="footer-link-tracing" class="hover:text-white transition-colors">Tracing</a>
+                <a href="#" id="footer-link-evals" class="hover:text-white transition-colors">Evals</a>
+                <a href="#" id="footer-link-replay" class="hover:text-white transition-colors">Replay</a>
+                <a href="#" id="footer-link-pricing" class="hover:text-white transition-colors">Pricing</a>
+              </div>
+            </div>
+            <div class="flex flex-col gap-4">
+              <span class="font-geist-mono font-medium text-[12px] tracking-[0.16em] text="#8f8f8f" uppercase">Developers</span>
+              <div class="flex flex-col gap-3 font-inter text-[14px] text-[rgba(255,255,255,0.72)]">
+                <a href="#" id="footer-link-docs" class="hover:text-white transition-colors">Docs</a>
+                <a href="#" id="footer-link-python" class="hover:text-white transition-colors">Python SDK</a>
+                <a href="#" id="footer-link-ts" class="hover:text-white transition-colors">TypeScript SDK</a>
+                <a href="#" id="footer-link-changelog" class="hover:text-white transition-colors">Changelog</a>
+                <a href="#" id="footer-link-status" class="hover:text-white transition-colors">Status</a>
+              </div>
+            </div>
+            <div class="flex flex-col gap-4">
+              <span class="font-geist-mono font-medium text-[12px] tracking-[0.16em] text="#8f8f8f" uppercase">Company</span>
+              <div class="flex flex-col gap-3 font-inter text-[14px] text-[rgba(255,255,255,0.72)]">
+                <a href="#" id="footer-link-about" class="hover:text-white transition-colors">About</a>
+                <a href="#" id="footer-link-careers" class="hover:text-white transition-colors">Careers</a>
+                <a href="#" id="footer-link-blog" class="hover:text-white transition-colors">Blog</a>
+                <a href="#" id="footer-link-security" class="hover:text-white transition-colors">Security</a>
+              </div>
+            </div>
+            <div class="flex flex-col gap-4">
+              <span class="font-geist-mono font-medium text-[12px] tracking-[0.16em] text="#8f8f8f" uppercase">Legal</span>
+              <div class="flex flex-col gap-3 font-inter text-[14px] text-[rgba(255,255,255,0.72)]">
+                <a href="#" id="footer-link-privacy" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" id="footer-link-terms" class="hover:text-white transition-colors">Terms</a>
+                <a href="#" id="footer-link-dpa" class="hover:text-white transition-colors">DPA</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pt-8 border-t border-[rgba(255,255,255,0.14)] flex flex-col md:flex-row justify-between items-center gap-4">
+          <span class="font-inter text-[14px] text-[#8f8f8f]">© 2026 [Redacted]</span>
+          <div class="flex items-center gap-2 font-mono text-[12px]">
+            <div class="w-[6px] h-[6px] bg-white"></div>
+            <span style="color: rgba(255,255,255,0.40);">all systems operational</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body></html>

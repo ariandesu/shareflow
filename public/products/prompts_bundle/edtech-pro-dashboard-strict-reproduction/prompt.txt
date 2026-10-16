@@ -1,0 +1,49 @@
+{
+  "summary": "A modern, professional EdTech dashboard design with a dark navy sidebar and a light-gray workspace. It utilizes a grid-based layout to showcase KPI metrics with mini-sparklines, detailed analytics charts, and recent activity timelines. The aesthetic is clean and corporate yet dynamic, using vibrant accent colors (Indigo, Emerald, Rose, Amber) to categorize data.",
+  "style": {
+    "description": "The design follows a 'Soft Professional' aesthetic. It pairs the high-contrast dark sidebar (#0f172a) with a light background (#f8fafc). Typography is handled by 'Plus Jakarta Sans', utilizing extreme weight contrasts (from 400 to 800) to create clear hierarchy. Components feature large corner radii (up to 40px/2.5rem for main cards) and subtle, soft shadows to denote depth without clutter.",
+    "prompt": "### Visual Theme\n- **Primary Background**: #f8fafc\n- **Sidebar Background**: #0f172a\n- **Accent Colors**: \n  - Primary: #4f46e5 (Indigo)\n  - Success: #10b981 (Emerald)\n  - Warning: #f59e0b (Amber)\n  - Danger: #f43f5e (Rose)\n  - Info: #3b82f6 (Blue)\n\n### Typography\n- **Primary Font**: 'Plus Jakarta Sans', sans-serif\n- **Secondary Font**: 'Inter', sans-serif for body text\n- **Headings**: Weight 800 (Extra Bold), tracking -0.02em\n- **KPI Numbers**: Weight 900 (Black), font-size 24px-32px\n- **Labels/Metadata**: Weight 700, font-size 10px-11px, uppercase, tracking 0.1em\n\n### Border & Elevation\n- **Border Radius**: \n  - Dashboard Cards: 40px (2.5rem)\n  - Buttons/Small Cards: 16px (1rem)\n  - KPI Icons: 12px\n- **Borders**: 1px solid #f1f5f9 (for light cards), 1px solid #1e293b (for sidebar items)\n- **Shadows**: \n  - Card Shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05)\n  - Sidebar Active Shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4)\n\n### Animations\n- **Hover Transitions**: 300ms cubic-bezier(0.4, 0, 0.2, 1)\n- **Micro-interactions**: Subtle scale (1.02x) on card hover, color shifts on sidebar items."
+  },
+  "layout_and_structure": {
+    "description": "A fixed-width sidebar (280px) provides primary navigation, supporting a fluid main content area. The main content is structured into a greeting header, a 5-column KPI row, and a multi-span 12-column grid for complex charts and lists.",
+    "prompts": [
+      {
+        "part": "Sidebar Navigation",
+        "prompt": "Width: 280px. Background: #0f172a. Top section contains a logo (40x40px rounded-xl box) and brand title. Navigation is grouped under uppercase labels (e.g., 'GESTION', 'FINANCES'). Items use 13px font-size, text-slate-400, with a right-aligned chevron icon. Active state: Background #4f46e5, white text, 12px-16px shadow-indigo-900. Bottom section features a specialized 'Help' card (#1e293b with border) containing a support icon and description."
+      },
+      {
+        "part": "Sticky Header",
+        "prompt": "Height: 80px. Background: #ffffff. Border-bottom: #f1f5f9. Left side: Menu toggle button and a search bar (400px width, #f8fafc bg, rounded-2xl, leading search icon). Right side: Icon group (notifications with red dot badge, messages, dark mode toggle), language selector with flag icon, and profile component (Avatar + Name + Role)."
+      },
+      {
+        "part": "KPI Grid",
+        "prompt": "Display in a 5-column grid. Each card is white, 24px padding, rounded-3xl. Elements: Icon in a colored background box (e.g., blue-50 for blue icons), label in 10px bold uppercase, value in 24px extra-bold, and a percentage change badge (emerald-50 bg for positive). Bottom of card features a simple SVG sparkline path colored to match the category."
+      },
+      {
+        "part": "Main Analytics Area",
+        "prompt": "12-column grid layout. Top row: (6-col) line chart for monthly trends with interactive nodes; (3-col) donut chart for distribution with custom legend; (3-col) list of top-performing items with avatars and star ratings. Bottom row: (4-col) vertical timeline for recent activity; (5-col) vertical bar chart for revenue with large currency total; (3-col) status summary with centered donut and percentage breakdown."
+      },
+      {
+        "part": "Bottom Utility Section",
+        "prompt": "A two-part grid. Left (8-col): A large promotional/tip banner with a gradient (#4f46e5 to #3730a3), 3rem radius, containing a glassmorphic floating element and a white primary CTA button. Right (4-col): An 'Actions Rapides' grid (2x2) of square cards with large centered icons and bold labels."
+      }
+    ]
+  },
+  "special_ui_components": [
+    {
+      "component": "Glassmorphism Promo Banner",
+      "description": "High-impact call-to-action banner with depth effects.",
+      "prompt": "Background: linear-gradient(135deg, #4f46e5, #3730a3). Border-radius: 48px. Internal padding: 48px. Right side features a floating 'glass' window using backdrop-filter: blur(12px) and white/10 opacity, tilted at 6 degrees. Typography inside: White, Extra Bold. CTA button: White background, #4f46e5 text, rounded-2xl, heavy shadow."
+    },
+    {
+      "component": "Interactive Donut Chart",
+      "description": "Custom SVG donut with centered metrics.",
+      "prompt": "Central hole size: 70%. Stroke-width: 4-6px. Colors: emerald-500, amber-500, etc. Center content: Large number (3xl) and small 'Total' label (10px uppercase). Legend below: Dot indicators, flex-between layout, font-size 11px, bold weights for values."
+    },
+    {
+      "component": "KPI Sparklines",
+      "description": "Minimalist trend lines for quick visual analysis.",
+      "prompt": "Implementation: SVG path with 'stroke-linecap: round' and 'stroke-linejoin: round'. Stroke-width: 2px. Fill: none. Height: 40px. The path should smoothly interpolate between 7-10 data points across the card width."
+    }
+  ]
+}

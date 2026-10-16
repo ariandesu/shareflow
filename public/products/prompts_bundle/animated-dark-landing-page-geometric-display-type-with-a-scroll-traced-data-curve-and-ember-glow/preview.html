@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cullet · Hot Glass Workshop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#070908; --ink-2:#0d1110; --ink-3:#101412;
+  --bone:#e9ede6; --bone-2:#dfe4dd; --mist:#a9b5b2;
+  --ember:#e44b3c;
+  --line:rgba(233,237,230,.16); --line-2:rgba(233,237,230,.08);
+  --disp:"Unbounded",system-ui,sans-serif; --body:"Manrope",system-ui,sans-serif;
+  --ease-out:cubic-bezier(.16,1,.3,1); --ease-in-out:cubic-bezier(.65,0,.35,1);
+  --pad:clamp(18px,4.2vw,68px);
+  --page:0; --hero-p:0; --wipe-p:0; --heat-p:0; --gather-p:0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--ink);color:var(--bone);font-family:var(--body);font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--body);font-weight:500;font-size:clamp(.8rem,1vw,1rem);
+  letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+.wrap{width:100%;max-width:1300px;margin:0 auto;padding:0 var(--pad)}
+.disp{font-family:var(--disp);font-weight:600;letter-spacing:-.05em;line-height:.92}
+
+#rail{position:fixed;top:0;left:0;height:2px;z-index:90;background:var(--ember);
+  width:calc(var(--page) * 100%)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;height:56px;display:flex;align-items:center;
+  background:rgba(7,9,8,.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-2)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav__brand{font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:-.03em}
+.nav__brand i{font-style:normal;color:var(--ember)}
+.nav__links{display:flex;gap:24px}
+.nav__links a{font-size:13px;color:var(--mist);transition:color .3s}
+.nav__links a:hover{color:var(--bone)}
+@media(max-width:880px){.nav__links{display:none}}
+
+.stage{position:relative}
+.pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;
+  justify-content:center}
+
+/* ── A · hero, a glow field under a geometric lockup ── */
+#top{height:300svh}
+#top .pin{background:var(--ink)}
+#glow{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;
+  mix-blend-mode:screen;opacity:calc(.55 + var(--hero-p) * .45)}
+.hero__in{position:relative;z-index:2;width:100%;max-width:1300px;margin:0 auto;padding:0 var(--pad);
+  transform:translateY(calc(var(--hero-p) * -52px));opacity:calc(1 - var(--hero-p) * 1.2)}
+.hero__in h1{font-family:var(--disp);font-weight:600;letter-spacing:-.075em;line-height:.86;
+  white-space:nowrap;
+  font-size:min(clamp(3rem,37vw,22rem), calc(90vw / (var(--c,6) * .68)))}
+.hero__in h1 i{font-style:normal;color:var(--ember)}
+.hero__sub{margin-top:clamp(16px,2.4vw,32px);display:flex;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;align-items:flex-end}
+.hero__sub p{max-width:34ch;line-height:1.6;color:var(--mist);font-size:15px}
+.hero__strap{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(18px,3.4vw,38px);
+  z-index:3;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  opacity:calc(1 - var(--page) * 3.6)}
+
+/* ── B · the wipe, a left-to-right reveal ── */
+#wipe{height:280svh}
+#wipe .pin{background:var(--ink-2);justify-content:center}
+.wipe__in{width:100%;max-width:1300px;margin:0 auto;padding:0 var(--pad);position:relative}
+.wipe__type{font-family:var(--disp);font-weight:600;font-size:clamp(1.9rem,6.4vw,5.4rem);
+  line-height:1.0;letter-spacing:-.05em;max-width:15ch;color:rgba(233,237,230,.16);position:relative}
+.wipe__type .fill{position:absolute;inset:0;color:var(--bone);
+  clip-path:inset(0 calc(100% - var(--wipe-p) * 100%) 0 0)}
+.wipe__rule{margin-top:clamp(26px,4vw,46px);height:1px;background:var(--line-2)}
+.wipe__rule i{display:block;height:1px;background:var(--ember);width:calc(var(--wipe-p) * 100%)}
+.wipe__foot{margin-top:18px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+/* ── C · the heat curve ── */
+#heat{height:380svh}
+#heat .pin{background:var(--ink)}
+.heat{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(20px,5vw,72px);align-items:center;
+  width:100%;max-width:1300px;margin:0 auto;padding:0 var(--pad)}
+.heat h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.8rem,4.2vw,3.4rem);
+  letter-spacing:-.05em;line-height:1.0}
+.heat h2 i{font-style:normal;color:var(--ember)}
+.heat__rows{margin-top:24px;border-top:1px solid var(--line-2)}
+.heat__row{padding:14px 0;border-bottom:1px solid var(--line-2);opacity:.28;
+  display:grid;grid-template-columns:86px 1fr;gap:16px;align-items:baseline;
+  transition:opacity .5s var(--ease-out)}
+.heat__row.on{opacity:1}
+.heat__row .t{color:var(--ember);font-weight:600;font-size:14px;font-family:var(--disp);
+  letter-spacing:-.02em}
+.heat__row b{display:block;font-weight:600;font-size:16px;margin-bottom:3px}
+.heat__row span{font-size:13px;color:var(--mist);line-height:1.5;display:block}
+.heat__plot{position:relative;aspect-ratio:5/4;max-height:66svh;width:100%;
+  border:1px solid var(--line-2);background:var(--ink-2)}
+.heat__plot canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.heat__read{position:absolute;right:14px;top:12px;z-index:2;color:var(--ember);
+  font-family:var(--disp);font-weight:600;font-size:clamp(20px,2.6vw,34px);letter-spacing:-.03em}
+@media(max-width:900px){.heat{grid-template-columns:1fr;gap:22px}.heat__plot{max-height:42svh}}
+
+/* ── D · gather, a scaling form ── */
+#gather{height:300svh}
+#gather .pin{background:var(--ink-3);justify-content:flex-end}
+.gather__art{position:absolute;inset:0;z-index:0}
+.gather__art canvas{position:absolute;inset:0;width:100%;height:100%;display:block;
+  mix-blend-mode:screen;transform:scale(calc(.72 + var(--gather-p) * .5))}
+.gather__in{position:relative;z-index:2;width:100%;max-width:1300px;margin:0 auto;
+  padding:0 var(--pad) clamp(44px,7vh,90px)}
+.gather__in h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.9rem,5.4vw,4.6rem);
+  letter-spacing:-.05em;line-height:1.0;max-width:14ch}
+.gather__in h2 i{font-style:normal;color:var(--ember)}
+
+/* ── normal bands ── */
+.sec{padding:clamp(60px,9vw,130px) 0;border-top:1px solid var(--line-2)}
+.sec h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.7rem,4vw,3.1rem);
+  letter-spacing:-.05em;line-height:1.02;max-width:18ch}
+.lede{margin-top:15px;max-width:46ch;font-size:15px;line-height:1.65;color:var(--mist)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,44px);
+  margin-top:clamp(28px,4vw,54px)}
+@media(max-width:860px){.three{grid-template-columns:1fr;gap:20px}}
+.three b{display:block;font-family:var(--disp);font-weight:600;font-size:18px;
+  letter-spacing:-.03em;margin-bottom:7px}
+.three p{font-size:14px;line-height:1.6;color:var(--mist)}
+.rows{margin-top:clamp(26px,4vw,50px);border-top:1px solid var(--line-2)}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:clamp(12px,3vw,40px);align-items:baseline;
+  padding:17px 0;border-bottom:1px solid var(--line-2)}
+.row b{font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:-.03em}
+.row .m{font-size:13px;color:var(--mist)}
+.row .p{font-size:14px;color:var(--ember);font-weight:600;font-family:var(--disp);letter-spacing:-.02em}
+@media(max-width:700px){.row{grid-template-columns:1fr auto}.row .m{display:none}}
+details{border-bottom:1px solid var(--line-2)}
+summary{list-style:none;cursor:pointer;padding:18px 0;display:flex;justify-content:space-between;
+  gap:16px;align-items:center;font-weight:500;font-size:16px;transition:color .3s}
+summary::-webkit-details-marker{display:none}
+summary:hover{color:var(--ember)}
+summary i{flex:none;width:12px;height:12px;position:relative;font-style:normal}
+summary i::before,summary i::after{content:"";position:absolute;background:currentColor;
+  transition:transform .35s var(--ease-out)}
+summary i::before{left:0;top:5.5px;width:12px;height:1px}
+summary i::after{left:5.5px;top:0;width:1px;height:12px}
+details[open] summary i::after{transform:scaleY(0)}
+details p{padding:0 0 20px;max-width:60ch;font-size:14px;line-height:1.7;color:var(--mist)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;background:var(--ember);
+  color:var(--ink);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--ember);transition:transform .3s var(--ease-out)}
+.btn:hover{transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:var(--bone);border-color:var(--line)}
+.foot{background:var(--ink-2);padding:32px 0;border-top:1px solid var(--line-2)}
+.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.w{display:inline-block;opacity:0;transform:translateY(.4em);
+  transition:opacity .74s var(--ease-out),transform .74s var(--ease-out)}
+.w.in{opacity:1;transform:none}
+[data-rev]{opacity:0;transform:translateY(22px);
+  transition:opacity .9s var(--ease-out),transform .9s var(--ease-out);transition-delay:var(--d,0ms)}
+[data-rev].in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .w,[data-rev]{opacity:1!important;transform:none!important}
+  .stage{height:auto!important}
+  .pin{position:static;height:auto;min-height:66svh;padding:clamp(52px,8vw,92px) 0}
+  .hero__in{transform:none!important;opacity:1!important}
+  .hero__strap{opacity:1!important}
+  #glow{opacity:.55!important}
+  .wipe__type .fill{clip-path:none!important}
+  .wipe__rule i{width:100%!important}
+  .heat__row{opacity:1!important}
+  .gather__art canvas{transform:none!important}
+  #rail{display:none}
+}
+</style>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>window.tailwind=window.tailwind||{};window.tailwind.config={corePlugins:{preflight:false}};</script>
+
+<meta name="preview-version" content="8a2fd822-bd58-4d93-8f5d-b0f9347a07e6" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:10.224Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "8a2fd822-bd58-4d93-8f5d-b0f9347a07e6");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "8a2fd822-bd58-4d93-8f5d-b0f9347a07e6",
+      timestamp: "2026-10-16T14:07:10.224Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "8a2fd822-bd58-4d93-8f5d-b0f9347a07e6";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+<div id="page">
+
+<div id="rail"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a id="nav-brand" class="nav__brand" href="#top">CULL<i>ET</i></a>
+    <nav class="nav__links" aria-label="Sections">
+      <a id="nav-work" href="#wipe">The work</a>
+      <a id="nav-heat" href="#heat">The heat</a>
+      <a id="nav-shop" href="#shop">Commissions</a>
+      <a id="nav-faq" href="#faq">Questions</a>
+    </nav>
+    <a id="nav-cta" href="#shop" class="mono" style="color:var(--bone)">Book the shop</a>
+  </div>
+</header>
+
+<main>
+
+<section class="stage" id="top">
+  <div class="pin">
+    <canvas id="glow"></canvas>
+    <div class="hero__in">
+      <h1 style="--c:6">Cull<i>et</i></h1>
+      <div class="hero__sub">
+        <p>A working hot shop. Two furnaces, one annealer, and glass that is at 1,140 degrees for about ninety seconds of its life, which is the only ninety seconds that matter.</p>
+        <a id="hero-cta" href="#shop" class="btn">Book the shop</a>
+      </div>
+    </div>
+    <div class="hero__strap mono">
+      <span>Hot glass workshop</span>
+      <span>Est. 2009 · Sheffield</span>
+      <span>Furnace on Tue to Sat</span>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="wipe">
+  <div class="pin">
+    <div class="wipe__in">
+      <div class="wipe__type">Glass does not set. It stops moving, which is a different thing entirely.<span class="fill" aria-hidden="true">Glass does not set. It stops moving, which is a different thing entirely.</span></div>
+      <div class="wipe__rule"><i></i></div>
+      <div class="wipe__foot">
+        <span class="mono">Working range 1,140 to 780 degrees</span>
+        <span class="mono">Below 780 it is a solid and it is too late</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="heat">
+  <div class="pin">
+    <div class="heat">
+      <div>
+        <h2>Ninety seconds, <i>then it decides.</i></h2>
+        <div class="heat__rows">
+          <div class="heat__row" data-r="0"><span class="t">1140&deg;</span><div><b>Gather</b><span>Molten from the furnace on the end of the pipe</span></div></div>
+          <div class="heat__row" data-r="1"><span class="t">1020&deg;</span><div><b>Marver</b><span>Rolled on steel to true the shape and cool the skin</span></div></div>
+          <div class="heat__row" data-r="2"><span class="t">940&deg;</span><div><b>Blow</b><span>The only window where the form will still move for you</span></div></div>
+          <div class="heat__row" data-r="3"><span class="t">780&deg;</span><div><b>Off</b><span>Cracked off the pipe. Whatever it is now, it is</span></div></div>
+          <div class="heat__row" data-r="4"><span class="t">520&deg;</span><div><b>Anneal</b><span>Fourteen hours down, or it breaks in the night</span></div></div>
+        </div>
+      </div>
+      <div class="heat__plot">
+        <canvas id="curve"></canvas>
+        <span class="heat__read" id="curveRead">1140&deg;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="gather">
+  <div class="pin">
+    <div class="gather__art"><canvas id="blob"></canvas></div>
+    <div class="gather__in">
+      <h2>Everything here was <i>one hot lump</i> ninety seconds earlier.</h2>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="shop">
+  <div class="wrap">
+    <h2>Commissions and shop time</h2>
+    <p class="lede">The furnace runs whether you book it or not, so shop time is cheaper than you expect and commissions are slower than you want.</p>
+    <div class="three">
+      <div><b>Shop time</b><p>Four hours with a gaffer on the bench beside you. You will make three things and keep one.</p></div>
+      <div><b>Commission</b><p>Batches of six to sixty. Twelve weeks, because the annealer sets the pace and it cannot be hurried.</p></div>
+      <div><b>Repair</b><p>We do not repair glass. We will tell you honestly whether it can be remade and what that costs.</p></div>
+    </div>
+    <div class="rows">
+      <div class="row"><b>Shop time</b><span class="m">Four hours, one gaffer, materials included</span><span class="p">&pound;240</span></div>
+      <div class="row"><b>Small batch</b><span class="m">Six to twelve pieces, twelve weeks</span><span class="p">From &pound;1,850</span></div>
+      <div class="row"><b>Production run</b><span class="m">Up to sixty, quoted per form</span><span class="p">On request</span></div>
+      <div class="row"><b>Annealing only</b><span class="m">Your work, our oven, per shelf</span><span class="p">&pound;40</span></div>
+      <div class="row"><b>Cullet</b><span class="m">Our offcuts, sold by the crate</span><span class="p">&pound;18</span></div>
+    </div>
+    <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+      <a id="cta-book" href="#" class="btn">Book the shop</a>
+      <a id="cta-brief" href="#" class="btn btn--ghost">Send a commission brief</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <h2>Questions from the door</h2>
+    <div style="margin-top:clamp(22px,4vw,44px);border-top:1px solid var(--line-2)">
+      <details open><summary>Can I watch without booking?<i></i></summary>
+        <p>Yes, Saturdays from ten, standing behind the line. It is loud and it is about forty degrees on the floor in summer, so wear less than you think.</p></details>
+      <details><summary>Why does a commission take twelve weeks?<i></i></summary>
+        <p>Because the annealer takes fourteen hours per load and it cannot be stacked past a point. Everything else about the process is fast. That oven is the whole schedule.</p></details>
+      <details><summary>Will my piece look exactly like the photograph?<i></i></summary>
+        <p>No, and anyone telling you otherwise is machine-pressing. Hand-blown work varies by a few millimetres and a shade or two. If you need identical, we will point you to a mould shop.</p></details>
+      <details><summary>Do you take beginners?<i></i></summary>
+        <p>Shop time is built for them. You will not be handed a pipe and left, and you will not make anything good on the first day, which is the honest part nobody says.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span class="mono">Cullet · hot glass workshop</span>
+    <span class="mono">Sheffield</span>
+    <span class="mono">Furnace on Tue to Sat</span>
+  </div>
+</footer>
+
+</div><!-- /#page -->
+
+<script>
+(function(){
+  "use strict";
+  var RM=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root=document.documentElement;
+  function cl(v){return v<0?0:v>1?1:v;}
+  function fit(c){var d=Math.min(window.devicePixelRatio||1,2),r=c.getBoundingClientRect();
+    c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);return d;}
+
+  /* hero: a molten glow field, screen-blended */
+  (function(){
+    var c=document.getElementById("glow"),x=c.getContext("2d"),d=fit(c);
+    window.addEventListener("resize",function(){d=fit(c);},{passive:true});
+    (function draw(t){
+      var w=c.width,h=c.height;x.clearRect(0,0,w,h);
+      for(var i=0;i<5;i++){
+        var cx=w*(.22+.16*i)+Math.sin(t*.16+i*1.6)*w*.07;
+        var cy=h*(.56+Math.sin(t*.13+i*2.1)*.12);
+        var r=Math.min(w,h)*(.24+((i*7)%5)*.045);
+        var g=x.createRadialGradient(cx,cy,0,cx,cy,r);
+        var a=(.16+Math.abs(Math.sin(t*.4+i))*.12).toFixed(3);
+        g.addColorStop(0,"rgba(228,75,60,"+a+")");
+        g.addColorStop(.45,"rgba(228,75,60,"+(a*0.35).toFixed(3)+")");
+        g.addColorStop(1,"rgba(228,75,60,0)");
+        x.fillStyle=g;x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fill();
+      }
+      if(!RM)requestAnimationFrame(function(n){draw(n*0.001);});
+    })(0);
+  })();
+
+  /* the annealing curve: drawn to the stage progress */
+  var heatP=0;
+  (function(){
+    var c=document.getElementById("curve"),x=c.getContext("2d"),d=fit(c),
+        read=document.getElementById("curveRead");
+    window.addEventListener("resize",function(){d=fit(c);},{passive:true});
+    var TEMPS=[1140,1020,940,780,520];
+    function tempAt(u){                       // piecewise cooling curve
+      var seg=u*(TEMPS.length-1), i=Math.min(TEMPS.length-2,Math.floor(seg)), f=seg-i;
+      return TEMPS[i]+(TEMPS[i+1]-TEMPS[i])*f;
+    }
+    (function draw(t){
+      var w=c.width,h=c.height,P=8*d;x.clearRect(0,0,w,h);
+      x.strokeStyle="rgba(233,237,230,.10)";x.lineWidth=1*d;
+      for(var g=1;g<5;g++){x.beginPath();x.moveTo(P,h*g/5);x.lineTo(w-P,h*g/5);x.stroke();}
+      function y(v){return h-P-((v-440)/(1200-440))*(h-P*2);}
+      function xx(u){return P+u*(w-P*2);}
+      x.strokeStyle="rgba(233,237,230,.22)";x.lineWidth=1.4*d;
+      x.beginPath();
+      for(var u=0;u<=1.001;u+=.01) (u?x.lineTo:x.moveTo).call(x,xx(u),y(tempAt(u)));
+      x.stroke();
+      x.strokeStyle="rgba(228,75,60,1)";x.lineWidth=2.4*d;
+      x.beginPath();
+      for(var v2=0;v2<=heatP+.0001;v2+=.01) (v2?x.lineTo:x.moveTo).call(x,xx(v2),y(tempAt(v2)));
+      x.stroke();
+      var cx=xx(heatP),cy=y(tempAt(heatP));
+      var pulse=1+Math.sin(t*2.2)*.16;
+      x.fillStyle="rgba(228,75,60,1)";x.beginPath();x.arc(cx,cy,4.2*d*pulse,0,Math.PI*2);x.fill();
+      x.fillStyle="rgba(228,75,60,.22)";x.beginPath();x.arc(cx,cy,12*d*pulse,0,Math.PI*2);x.fill();
+      if(read) read.innerHTML=Math.round(tempAt(heatP))+"&deg;";
+      if(!RM)requestAnimationFrame(function(n){draw(n*0.001);});
+    })(0);
+  })();
+
+  /* gather: a wobbling molten form */
+  (function(){
+    var c=document.getElementById("blob"),x=c.getContext("2d"),d=fit(c);
+    window.addEventListener("resize",function(){d=fit(c);},{passive:true});
+    (function draw(t){
+      var w=c.width,h=c.height,cx=w/2,cy=h*.5,R=Math.min(w,h)*.26;
+      x.clearRect(0,0,w,h);
+      for(var k=0;k<3;k++){
+        x.beginPath();
+        for(var a=0;a<=Math.PI*2+.01;a+=.05){
+          var wob=1+Math.sin(a*3+t*.7+k)*.06+Math.sin(a*5-t*.5+k*2)*.035;
+          var rr=R*(1+k*.24)*wob;
+          x.lineTo(cx+Math.sin(a)*rr, cy-Math.cos(a)*rr*1.12);
+        }
+        x.closePath();
+        var g=x.createRadialGradient(cx,cy,0,cx,cy,R*(1+k*.24));
+        var a0=(.16-k*.045).toFixed(3);
+        g.addColorStop(0,"rgba(228,75,60,"+a0+")");
+        g.addColorStop(1,"rgba(228,75,60,0)");
+        x.fillStyle=g;x.fill();
+        x.strokeStyle="rgba(228,75,60,"+(.34-k*.1).toFixed(3)+")";x.lineWidth=1.3*d;x.stroke();
+      }
+      if(!RM)requestAnimationFrame(function(n){draw(n*0.001);});
+    })(0);
+  })();
+
+  /* ── one scroll handler ── */
+  var topEl=document.getElementById("top"),wpEl=document.getElementById("wipe"),
+      htEl=document.getElementById("heat"),gaEl=document.getElementById("gather"),
+      rows=[].slice.call(document.querySelectorAll(".heat__row"));
+  var lastRow=-1;
+  function P(el){var r=el.getBoundingClientRect();
+    return cl(-r.top/Math.max(1,r.height-window.innerHeight));}
+  function sync(){
+    var S=root.style;
+    S.setProperty("--page",(window.scrollY/Math.max(1,root.scrollHeight-window.innerHeight)).toFixed(5));
+    S.setProperty("--hero-p",P(topEl).toFixed(4));
+    S.setProperty("--wipe-p",cl(P(wpEl)*1.2).toFixed(4));
+    heatP=P(htEl); S.setProperty("--heat-p",heatP.toFixed(4));
+    var ri=Math.min(4,Math.floor(heatP*5));
+    if(ri!==lastRow){lastRow=ri;rows.forEach(function(n,i){n.classList.toggle("on",i<=ri);});}
+    S.setProperty("--gather-p",P(gaEl).toFixed(4));
+  }
+  var ticking=false;
+  function onScroll(){if(ticking)return;ticking=true;
+    requestAnimationFrame(function(){sync();ticking=false;});}
+  if(!RM){window.addEventListener("scroll",onScroll,{passive:true});
+    window.addEventListener("resize",onScroll,{passive:true});sync();}
+  else{rows.forEach(function(n){n.classList.add("on");});heatP=1;}
+
+  /* atomise */
+  function splitWords(el){
+    if(!el||el.dataset.split)return;el.dataset.split="1";
+    var parts=[];
+    [].slice.call(el.childNodes).forEach(function(node){
+      if(node.nodeType===3){
+        node.textContent.split(/(\s+)/).forEach(function(tok){
+          if(!tok)return;
+          if(/^\s+$/.test(tok)){parts.push(document.createTextNode(tok));return;}
+          var s=document.createElement("span");s.className="w";s.textContent=tok;parts.push(s);});
+      } else parts.push(node);});
+    el.replaceChildren.apply(el,parts);
+    [].slice.call(el.querySelectorAll(":scope > .w")).forEach(function(s,i){
+      s.style.transitionDelay=(i*36)+"ms";});
+  }
+  [].slice.call(document.querySelectorAll(
+    ".wipe__type, .wipe__type .fill, .sec h2, .lede, .heat h2, .gather__in h2, .hero__sub p, .three p"
+  )).forEach(splitWords);
+
+  function stagger(sel,step){
+    [].slice.call(document.querySelectorAll(sel)).forEach(function(n,i){
+      if(n.hasAttribute("data-rev"))return;
+      n.setAttribute("data-rev","");n.style.setProperty("--d",(i*(step||70))+"ms");});
+  }
+  stagger(".three > div",90); stagger(".three b",50);
+  stagger(".row",65); stagger(".row b, .row .m, .row .p",40);
+  stagger("#faq details",70); stagger("#faq summary",50);
+  stagger(".heat__row b, .heat__row .t, .heat__row span",40);
+  stagger(".hero__strap span",90); stagger(".wipe__foot .mono",100);
+  stagger(".btn",90); stagger(".foot .mono",90); stagger(".nav__links a",60);
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});
+  },{threshold:.12,rootMargin:"0px 0px -5% 0px"});
+  [].slice.call(document.querySelectorAll(".w,[data-rev]")).forEach(function(n){
+    RM?n.classList.add("in"):io.observe(n);});
+})();
+</script>
+</body>
+</html>

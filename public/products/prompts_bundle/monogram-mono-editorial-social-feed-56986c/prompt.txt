@@ -1,0 +1,22 @@
+{
+  "summary": "A clean, editorial MONOCHROME mobile social feed: a top app bar with logo + search + compose, a horizontal stories/avatars row, a scroll of post cards (avatar + handle + verified tick, a typographic post, an optional dark 'case study' media card or link-preview, and like/comment/share/bookmark actions), and a bottom tab bar with a cobalt compose FAB. Restraint reads louder than colour — text-forward and confident.",
+  "style": {
+    "description": "Clean mono minimal: white/off-white + near-black ink + greys, ONE crisp cobalt accent.",
+    "prompt": "Monochrome editorial. White / off-white ground, near-black ink text, a calm grey hierarchy for secondary text/dividers, and ONE crisp cobalt accent (used sparingly: the compose FAB, verified ticks, the active bookmark, a link). Generous whitespace, hairline separators, strong typographic hierarchy (a clean grotesque). Media cards are dark/neutral, not colourful. No gradients, no slop-indigo-as-decoration — cobalt is a deliberate single accent."
+  },
+  "layout_and_structure": {
+    "description": "Single mobile feed, vertical: top app bar, stories row, post cards, bottom tab bar with center FAB.",
+    "prompts": [
+      {"part": "Top bar", "prompt": "A logo mark + wordmark on the left; a search icon and a compose/new icon on the right."},
+      {"part": "Stories row", "prompt": "A horizontal row of circular avatars (first = 'You' with a + ring), names beneath, scrollable."},
+      {"part": "Post card", "prompt": "A card: avatar + display name + verified tick + @handle + relative time + a '...' menu; a typographic post (a quote/statement reads well in mono); an optional dark media card (e.g. a 'CASE STUDY' tile) or a link-preview row; an actions row (like + count, comment + count, share, and a right-aligned bookmark)."},
+      {"part": "Feed", "prompt": "A vertical scroll of 2-3 distinct post cards (text-only, media, and link-preview variants) so the pattern's range is visible."},
+      {"part": "Tab bar", "prompt": "A bottom tab bar (Home active, Explore, Alerts, Profile) with a raised CENTER cobalt compose FAB (+)."}
+    ]
+  },
+  "special_ui_components": [
+    {"component": "Mono post card", "description": "The repeated unit.", "prompt": "A white card with ink text, a hairline divider, an actions row; colour is reserved (cobalt) for verified ticks / active states only."},
+    {"component": "Cobalt compose FAB", "description": "The single accent action.", "prompt": "A raised circular cobalt '+' button breaking the bottom tab bar's center."}
+  ],
+  "special_notes": "Mobile PHONE form factor (~390px) with a bottom tab bar — NOT a desktop/tablet sidebar. Cobalt is the only colour; everything else mono. Responsive at 360/768."
+}

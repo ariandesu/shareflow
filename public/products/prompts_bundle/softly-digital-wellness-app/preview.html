@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="view-transition" content="same-origin">
+    <title>Softly - Find Your Rhythm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Reenie+Beanie&display=swap" rel="stylesheet">
+    <style>
+        /* Custom aesthetic configurations */
+        :root {
+            --bg-warm: #FDFCF8;
+            --bg-sage: #E8EFE8;
+            --bg-lavender: #EFEDF4;
+            --bg-peach: #FFF0ED;
+            --accent-coral: #FFB7B2;
+            --text-dark: #292524;
+            --text-muted: #78716C;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Grain Overlay for Texture */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.35;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        /* Smooth Reveal Animations */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5E5E5;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4D4D4;
+        }
+
+        /* Gentle Float Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 7s ease-in-out infinite 1s;
+        }
+
+        /* Handwriting Font */
+        .font-hand {
+            font-family: 'Reenie Beanie', cursive;
+        }
+        
+        /* Selection Color */
+        ::selection {
+            background-color: #E6E6FA;
+            color: #292524;
+        }
+    </style>
+
+<meta name="preview-version" content="b745951a-6967-484c-b575-e94e92a6b94d" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:16.149Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "b745951a-6967-484c-b575-e94e92a6b94d");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "b745951a-6967-484c-b575-e94e92a6b94d",
+      timestamp: "2026-10-16T14:07:16.149Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "b745951a-6967-484c-b575-e94e92a6b94d";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+    <!-- Noise Texture Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Main Container -->
+    <div class="relative min-h-screen flex flex-col items-center justify-start">
+
+        <!-- Navigation -->
+        <nav class="fixed top-6 z-40 w-full max-w-sm md:max-w-2xl px-4 transition-all duration-300" id="main-nav">
+            <div class="bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm rounded-full px-6 py-3 flex items-center justify-between transition-all hover:bg-white/90">
+                <a href="#" id="nav-logo" class="text-xl font-medium tracking-tight text-stone-800 flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-[#FFB7B2] flex items-center justify-center">
+                        <div class="w-2 h-2 rounded-full bg-white"></div>
+                    </div>
+                    Softly.
+                </a>
+                <div class="hidden md:flex items-center gap-6 text-sm text-stone-600 font-medium">
+                    <a href="#features" id="nav-features" class="hover:text-stone-900 transition-colors">Features</a>
+                    <a href="#manifesto" id="nav-manifesto" class="hover:text-stone-900 transition-colors">Manifesto</a>
+                    <a href="#community" id="nav-community" class="hover:text-stone-900 transition-colors">Stories</a>
+                </div>
+                <a href="#download" id="nav-cta" class="bg-stone-900 text-stone-50 text-xs md:text-sm font-medium px-5 py-2 rounded-full hover:scale-105 hover:bg-stone-800 transition-all duration-300">
+                    Get early access
+                </a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="relative w-full pt-40 pb-20 md:pt-48 md:pb-32 px-6 flex flex-col items-center text-center overflow-hidden">
+            <!-- Background Blobs -->
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#FFE4E1] rounded-full blur-[100px] -z-10 opacity-60 animate-float"></div>
+            <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#E6E6FA] rounded-full blur-[120px] -z-10 opacity-50 animate-float-delayed"></div>
+
+            <div class="max-w-3xl mx-auto space-y-8 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/50 border border-white/60 rounded-full text-xs font-medium text-stone-500 backdrop-blur-sm">
+                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    Waitlist open for iOS & Android
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-stone-800 leading-[1.1]">
+                    Digital wellness for <br class="hidden md:block" /> 
+                    <span class="text-stone-400 italic font-hand text-6xl md:text-8xl lg:text-9xl align-middle mr-2">the</span>
+                    scrolling generation.
+                </h1>
+                
+                <p class="text-lg md:text-xl text-stone-500 max-w-lg mx-auto leading-relaxed">
+                    A gentle space to collect your thoughts, track your moods, and find calm in the daily chaos.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                    <a href="#download" id="hero-cta-primary" class="w-full sm:w-auto px-8 py-4 bg-[#FFB7B2] text-stone-900 font-medium rounded-full hover:bg-[#FFC4BF] hover:-translate-y-1 transition-all duration-300 shadow-sm shadow-[#FFB7B2]/30">
+                        Start your journey
+                    </a>
+                    <a href="#manifesto" id="hero-cta-secondary" class="w-full sm:w-auto px-8 py-4 bg-white text-stone-600 font-medium rounded-full border border-stone-200 hover:bg-stone-50 hover:border-stone-300 transition-all duration-300">
+                        How it works
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- What This App Helps With -->
+        <section id="manifesto" class="w-full py-24 px-6 md:px-12 max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 reveal-on-scroll">
+                    <h2 class="text-3xl md:text-5xl font-medium text-stone-800 leading-tight">
+                        It’s not about doing more. <br>
+                        <span class="text-stone-400">It’s about feeling more.</span>
+                    </h2>
+                    <div class="space-y-6 text-lg text-stone-600">
+                        <p class="opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-1000 fill-mode-forwards delay-100">
+                            We built Softly because our phones have become loud, demanding, and infinite.
+                        </p>
+                        <p class="opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-1000 fill-mode-forwards delay-300">
+                            This is an app designed to be opened, enjoyed, and closed. No doomscrolling, no metrics, just a moment for you.
+                        </p>
+                    </div>
+                </div>
+                <div class="relative h-[400px] md:h-[500px] rounded-[3rem] overflow-hidden reveal-on-scroll bg-[#F0F4F8]">
+                     <!-- Decorative Abstract shapes -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                         <div class="w-64 h-64 bg-[#B5C7E6] rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-float"></div>
+                         <div class="w-64 h-64 bg-[#FFB7B2] rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-float-delayed -ml-12"></div>
+                    </div>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                        <p class="font-hand text-4xl text-stone-800 rotate-[-4deg]">"Finally, a quiet place."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Everyday Use Scenarios -->
+        <section class="w-full py-16 overflow-hidden">
+            <div class="flex whitespace-nowrap gap-6 px-6 animate-scroll-gentle overflow-x-auto no-scrollbar scroll-snap-x">
+                <!-- Scenario Cards -->
+                <div class="flex-none snap-center w-72 h-40 bg-white rounded-3xl p-6 flex flex-col justify-between border border-stone-100 shadow-sm hover:shadow-md transition-shadow cursor-default group">
+                    <span class="text-stone-400 text-sm font-medium">07:30 AM</span>
+                    <p class="text-xl text-stone-800 group-hover:text-[#FFB7B2] transition-colors">Morning intention setting while coffee brews.</p>
+                </div>
+                <div class="flex-none snap-center w-72 h-40 bg-white rounded-3xl p-6 flex flex-col justify-between border border-stone-100 shadow-sm hover:shadow-md transition-shadow cursor-default group">
+                    <span class="text-stone-400 text-sm font-medium">01:15 PM</span>
+                    <p class="text-xl text-stone-800 group-hover:text-[#B5C7E6] transition-colors">A 2-minute breather between Zoom calls.</p>
+                </div>
+                <div class="flex-none snap-center w-72 h-40 bg-white rounded-3xl p-6 flex flex-col justify-between border border-stone-100 shadow-sm hover:shadow-md transition-shadow cursor-default group">
+                    <span class="text-stone-400 text-sm font-medium">06:45 PM</span>
+                    <p class="text-xl text-stone-800 group-hover:text-[#A7D7C5] transition-colors">Decompressing on the bus ride home.</p>
+                </div>
+                <div class="flex-none snap-center w-72 h-40 bg-white rounded-3xl p-6 flex flex-col justify-between border border-stone-100 shadow-sm hover:shadow-md transition-shadow cursor-default group">
+                    <span class="text-stone-400 text-sm font-medium">10:00 PM</span>
+                    <p class="text-xl text-stone-800 group-hover:text-[#D4C4FB] transition-colors">Dumping thoughts before sleep.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Experience Preview -->
+        <section class="w-full py-24 relative">
+             <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#F5F5F0] to-transparent -z-10"></div>
+             <div class="max-w-7xl mx-auto px-6 text-center mb-16 reveal-on-scroll">
+                 <h2 class="text-3xl md:text-5xl font-medium text-stone-800 mb-4">Quiet by design.</h2>
+                 <p class="text-stone-500 max-w-md mx-auto">No red dots. No push notifications. Just you.</p>
+             </div>
+
+             <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 px-6 overflow-hidden">
+                 <!-- Left Mockup -->
+                 <div class="relative w-[280px] h-[580px] bg-white rounded-[3rem] border-8 border-white shadow-2xl shadow-stone-200/50 transform translate-y-12 opacity-80 scale-95 reveal-on-scroll">
+                     <div class="w-full h-full bg-[#E8EFE8] rounded-[2.3rem] overflow-hidden relative">
+                         <!-- Screen Content -->
+                         <div class="p-6 space-y-6">
+                             <div class="w-8 h-1 bg-stone-300 rounded-full mx-auto mb-8"></div>
+                             <h3 class="text-2xl font-medium text-stone-700">Good morning.</h3>
+                             <div class="space-y-3">
+                                 <div class="h-24 bg-white/60 rounded-2xl w-full"></div>
+                                 <div class="h-24 bg-white/40 rounded-2xl w-full"></div>
+                             </div>
+                         </div>
+                         <!-- Bottom Nav Placeholder -->
+                         <div class="absolute bottom-0 w-full h-20 bg-white/30 backdrop-blur-md"></div>
+                     </div>
+                 </div>
+
+                 <!-- Center Main Mockup -->
+                 <div class="relative w-[300px] h-[620px] bg-white rounded-[3.5rem] border-8 border-white shadow-2xl shadow-stone-300/50 z-10 reveal-on-scroll">
+                    <div class="w-full h-full bg-[#FFF0ED] rounded-[2.8rem] overflow-hidden relative flex flex-col">
+                        <!-- Header -->
+                        <div class="p-8 pt-12">
+                            <div class="flex justify-between items-center mb-6">
+                                <iconify-icon icon="lucide:menu" class="text-stone-600 text-xl"></iconify-icon>
+                                <div class="w-8 h-8 rounded-full bg-stone-900 overflow-hidden"></div>
+                            </div>
+                            <h3 class="text-3xl font-medium text-stone-800 mb-2">Focus mode</h3>
+                            <p class="text-stone-500 text-sm">20 minutes remaining</p>
+                        </div>
+                        <!-- Center Ring -->
+                        <div class="flex-1 flex items-center justify-center relative">
+                            <div class="w-48 h-48 rounded-full border border-stone-300 flex items-center justify-center">
+                                <div class="w-36 h-36 rounded-full bg-[#FFB7B2] opacity-80 animate-pulse flex items-center justify-center text-white font-medium">
+                                    Breathe
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Player Controls -->
+                        <div class="p-8 pb-12">
+                            <div class="h-16 bg-white rounded-full flex items-center justify-between px-6 shadow-sm">
+                                <iconify-icon icon="lucide:play" class="text-stone-800"></iconify-icon>
+                                <div class="h-1 bg-stone-100 flex-1 mx-4 rounded-full overflow-hidden">
+                                    <div class="w-1/3 h-full bg-[#FFB7B2]"></div>
+                                </div>
+                                <span class="text-xs text-stone-400">04:12</span>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+
+                 <!-- Right Mockup -->
+                 <div class="relative w-[280px] h-[580px] bg-white rounded-[3rem] border-8 border-white shadow-2xl shadow-stone-200/50 transform translate-y-24 opacity-80 scale-95 reveal-on-scroll">
+                    <div class="w-full h-full bg-[#EFEDF4] rounded-[2.3rem] overflow-hidden relative">
+                         <!-- Screen Content -->
+                         <div class="p-6 space-y-6">
+                             <div class="w-8 h-1 bg-stone-300 rounded-full mx-auto mb-8"></div>
+                             <h3 class="text-2xl font-medium text-stone-700">Your Journal</h3>
+                             <div class="grid grid-cols-2 gap-3">
+                                 <div class="aspect-square bg-white/60 rounded-2xl"></div>
+                                 <div class="aspect-square bg-white/40 rounded-2xl"></div>
+                                 <div class="aspect-square bg-white/40 rounded-2xl"></div>
+                                 <div class="aspect-square bg-white/60 rounded-2xl"></div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- Core Features -->
+        <section id="features" class="w-full py-24 px-6 md:px-12 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Feature 1 -->
+                <div class="group p-8 bg-white rounded-[2.5rem] hover:bg-[#E8EFE8] transition-colors duration-500 reveal-on-scroll cursor-default">
+                    <div class="w-12 h-12 bg-stone-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-white/50 transition-colors">
+                        <iconify-icon icon="lucide:cloud" class="text-2xl text-stone-700"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-medium text-stone-800 mb-2">Mood Tracking</h3>
+                    <p class="text-stone-500 leading-relaxed">Log how you feel without typing a word. Just colors and shapes.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group p-8 bg-white rounded-[2.5rem] hover:bg-[#FFF0ED] transition-colors duration-500 reveal-on-scroll delay-100 cursor-default">
+                    <div class="w-12 h-12 bg-stone-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-white/50 transition-colors">
+                        <iconify-icon icon="lucide:pen-tool" class="text-2xl text-stone-700"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-medium text-stone-800 mb-2">Gentle Prompting</h3>
+                    <p class="text-stone-500 leading-relaxed">One question a day to help you untangle your thoughts.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group p-8 bg-white rounded-[2.5rem] hover:bg-[#EFEDF4] transition-colors duration-500 reveal-on-scroll delay-200 cursor-default">
+                    <div class="w-12 h-12 bg-stone-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-white/50 transition-colors">
+                        <iconify-icon icon="lucide:moon" class="text-2xl text-stone-700"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-medium text-stone-800 mb-2">Sleep Sounds</h3>
+                    <p class="text-stone-500 leading-relaxed">Brown noise, rain on pavement, and distant trains. Real textures.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why People Keep Using It (Diary Entries) -->
+        <section id="community" class="w-full py-24 px-6 md:px-12 bg-stone-100/50">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-center text-3xl font-medium text-stone-800 mb-16">Notes from the community</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm rotate-1 hover:rotate-0 transition-transform duration-500 reveal-on-scroll">
+                        <p class="text-lg md:text-xl text-stone-700 leading-relaxed mb-6 font-medium">
+                            "I used to check Instagram first thing in the morning. Now I open Softly, breathe for two minutes, and start my day on my own terms."
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <div class="h-px w-8 bg-stone-300"></div>
+                            <span class="font-hand text-2xl text-stone-500">Sarah, London</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm -rotate-1 hover:rotate-0 transition-transform duration-500 reveal-on-scroll delay-100 md:mt-12">
+                        <p class="text-lg md:text-xl text-stone-700 leading-relaxed mb-6 font-medium">
+                            "It feels like a digital living room where I can just sit and do nothing. The interface is so kind to my eyes."
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <div class="h-px w-8 bg-stone-300"></div>
+                            <span class="font-hand text-2xl text-stone-500">Marcus, Toronto</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Momentum -->
+                <div class="mt-20 flex flex-col md:flex-row items-center justify-center gap-12 text-center reveal-on-scroll">
+                    <div>
+                        <div class="text-4xl md:text-5xl font-medium text-[#FFB7B2] mb-1">12k+</div>
+                        <div class="text-stone-500 text-sm">Waitlist members</div>
+                    </div>
+                    <div class="hidden md:block w-px h-12 bg-stone-200"></div>
+                    <div>
+                        <div class="text-4xl md:text-5xl font-medium text-[#B5C7E6] mb-1">4.9</div>
+                        <div class="text-stone-500 text-sm">Average calm rating</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="w-full py-24 px-6 md:px-12 max-w-3xl mx-auto">
+             <h2 class="text-2xl md:text-3xl font-medium text-stone-800 mb-10 text-center">Common questions</h2>
+             
+             <div class="space-y-4">
+                 <!-- FAQ Item 1 -->
+                 <div class="bg-white rounded-2xl border border-stone-100 overflow-hidden reveal-on-scroll">
+                     <button class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group" onclick="toggleFaq(this)">
+                         <span class="font-medium text-stone-700 group-hover:text-stone-900">Is Softly free to use?</span>
+                         <iconify-icon icon="lucide:plus" class="text-stone-400 transition-transform duration-300 group-aria-expanded:rotate-45"></iconify-icon>
+                     </button>
+                     <div class="px-6 pb-0 h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                         <p class="pb-6 text-stone-500 leading-relaxed">
+                             Yes, the core features of Softly are free forever. We have a completely optional 'Supporter' tier for those who want extra themes and sounds.
+                         </p>
+                     </div>
+                 </div>
+
+                 <!-- FAQ Item 2 -->
+                 <div class="bg-white rounded-2xl border border-stone-100 overflow-hidden reveal-on-scroll delay-100">
+                     <button class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group" onclick="toggleFaq(this)">
+                         <span class="font-medium text-stone-700 group-hover:text-stone-900">Is my data private?</span>
+                         <iconify-icon icon="lucide:plus" class="text-stone-400 transition-transform duration-300 group-aria-expanded:rotate-45"></iconify-icon>
+                     </button>
+                     <div class="px-6 pb-0 h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                         <p class="pb-6 text-stone-500 leading-relaxed">
+                             Absolutely. Your journal entries and mood data are stored locally on your device. We don't see what you write, ever.
+                         </p>
+                     </div>
+                 </div>
+
+                 <!-- FAQ Item 3 -->
+                 <div class="bg-white rounded-2xl border border-stone-100 overflow-hidden reveal-on-scroll delay-200">
+                     <button class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group" onclick="toggleFaq(this)">
+                         <span class="font-medium text-stone-700 group-hover:text-stone-900">When is the Android version coming?</span>
+                         <iconify-icon icon="lucide:plus" class="text-stone-400 transition-transform duration-300 group-aria-expanded:rotate-45"></iconify-icon>
+                     </button>
+                     <div class="px-6 pb-0 h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                         <p class="pb-6 text-stone-500 leading-relaxed">
+                             We're building iOS and Android simultaneously. Both will launch in Q3 this year.
+                         </p>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- Waitlist / CTA Section -->
+        <section id="download" class="w-full py-24 px-6 md:px-12 bg-white relative overflow-hidden">
+            <!-- Background Gradients -->
+            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#FFE4E1] rounded-full mix-blend-multiply blur-[120px] opacity-40 animate-float pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#E8EFE8] rounded-full mix-blend-multiply blur-[120px] opacity-40 animate-float-delayed pointer-events-none"></div>
+
+            <div class="relative max-w-xl mx-auto text-center reveal-on-scroll">
+                <div class="w-16 h-16 bg-stone-900 rounded-[1.2rem] flex items-center justify-center mx-auto mb-8 shadow-xl shadow-stone-200">
+                    <div class="w-6 h-6 rounded-full bg-[#FFB7B2]"></div>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-medium text-stone-800 mb-6">Ready to slow down?</h2>
+                <p class="text-stone-500 mb-10 text-lg">
+                    Join the waitlist to get early access and a free "Calm Kit" of digital wallpapers.
+                </p>
+
+                <form class="flex flex-col sm:flex-row gap-4 relative z-10" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="name@example.com" class="flex-1 px-6 py-4 rounded-full bg-stone-50 border border-stone-200 text-stone-800 focus:outline-none focus:ring-2 focus:ring-[#FFB7B2]/50 focus:border-[#FFB7B2] transition-all placeholder:text-stone-400" required>
+                    <button type="submit" id="footer-submit-btn" class="px-8 py-4 bg-stone-900 text-white font-medium rounded-full hover:bg-stone-800 hover:scale-105 transition-all duration-300 shadow-lg shadow-stone-900/10 whitespace-nowrap">
+                        Join Waitlist
+                    </button>
+                </form>
+                <p class="mt-4 text-xs text-stone-400">No spam, just calm updates. Unsubscribe anytime.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="w-full py-12 px-6 border-t border-stone-100 bg-[#FDFCF8]">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-[#FFB7B2]"></div>
+                    <span class="text-stone-800 font-medium">Softly Inc.</span>
+                </div>
+                
+                <div class="flex gap-8 text-sm text-stone-500">
+                    <a href="#" id="footer-privacy" class="hover:text-stone-900 transition-colors">Privacy</a>
+                    <a href="#" id="footer-terms" class="hover:text-stone-900 transition-colors">Terms</a>
+                    <a href="#" id="footer-contact" class="hover:text-stone-900 transition-colors">Contact</a>
+                </div>
+
+                <div class="flex gap-4">
+                    <a href="#" id="social-insta" class="text-stone-400 hover:text-stone-900 transition-colors">
+                        <iconify-icon icon="lucide:instagram" class="text-xl"></iconify-icon>
+                    </a>
+                    <a href="#" id="social-twitter" class="text-stone-400 hover:text-stone-900 transition-colors">
+                        <iconify-icon icon="lucide:twitter" class="text-xl"></iconify-icon>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center mt-8 text-xs text-stone-300">
+                &copy; 2024 Softly App. All rights reserved. Designed with intention.
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Simple FAQ Toggle
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            const icon = button.querySelector('iconify-icon');
+            
+            button.setAttribute('aria-expanded', !isExpanded);
+            
+            if (!isExpanded) {
+                content.style.height = content.scrollHeight + 'px';
+                icon.style.transform = 'rotate(45deg)';
+            } else {
+                content.style.height = '0px';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>

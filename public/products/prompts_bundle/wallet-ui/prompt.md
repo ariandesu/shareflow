@@ -1,0 +1,388 @@
+# Wallet UI
+
+- **Category:** UI Component
+- **Slug:** `wallet-ui`
+- **Target AI Tools:** Cursor, Claude 3.7 / 3.5 Sonnet, Bolt.new, v0.dev, Windsurf, Lovable
+- **Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)
+- **Tags:** ui component
+
+---
+
+## Architectural Philosophy & Overview
+Curated high-performance design architecture.
+
+---
+
+## Production System Prompt Specification
+```
+High-fidelity UI motion graphics of a digital wallet app.
+
+A sleek, matte black card holder sits centered on a solid dark forest green background, displaying text "$250,000 TOTAL BALANCE".
+
+Inside, stacked credit cards (Silver and Gold American Express) peek out.
+
+A mouse cursor hovers over the wallet, causing the cards to slide up with a smooth, bouncy spring animation.
+
+The cursor clicks the Gold card, and it slides fully upward, revealing metallic textures and embossed details.
+
+The motion is fluid, responsive, with realistic soft shadows and depth of field. 4k resolution, 60fps, smooth easing.\
+\
+Example implementation:
+
+~~~/README.md
+# DigitalWallet Component
+
+A high-fidelity interactive digital wallet component featuring realistic card stacking, motion physics, and premium aesthetics.
+
+## Features
+
+- **Realistic Physics**: Spring-based animations for natural interaction
+- **Stacked Interface**: Cards peek out on hover and expand on click
+- **Premium Design**: Matte black textures, metallic gradients, and realistic lighting
+- **Responsive**: Adapts to container size (best viewed centered in full screen)
+
+## Usage
+
+```tsx
+import { DigitalWallet } from '@/sd-components/fa63ae5e-5dcf-4ed7-aa03-3c93f3d1d108';
+
+function MyPaymentPage() {
+  return (
+    <div className="h-screen w-full">
+      <DigitalWallet balance="$125,000.00" />
+    </div>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `balance` | `string` | `"$250,000"` | The total balance displayed at the top |
+| `className` | `string` | `-` | Optional class names for the container |
+
+## Dependencies
+
+- `framer-motion`
+- `lucide-react`
+- `clsx`
+- `tailwind-merge`
+~~~
+
+~~~/src/App.tsx
+import React from 'react';
+import { DigitalWallet } from './Component';
+
+export default function App() {
+  return (
+    <div className="w-full h-screen bg-[#051810]">
+      <DigitalWallet />
+    </div>
+  );
+}
+~~~
+
+~~~/package.json
+{
+  "name": "digital-wallet",
+  "description": "High-fidelity digital wallet with motion graphics",
+  "dependencies": {
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.300.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  }
+}
+~~~
+
+~~~/src/Component.tsx
+/**
+ * DigitalWallet Component
+ * 
+ * A high-fidelity interactive digital wallet.
+ * Features:
+ * - 3D stacked card interface
+ * - Smooth spring animations using Framer Motion
+ * - Realistic metallic textures (Gold & Silver)
+ * - Matte black wallet holder with depth
+ * - Interactive states (Hover to peek, Click to select)
+ */
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { CreditCard, Wifi, ShieldCheck, ChevronUp } from 'lucide-react';
+
+// Utility for merging classes
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// --- Types ---
+
+interface CardData {
+  id: string;
+  type: 'gold' | 'silver' | 'platinum';
+  number: string;
+  holder: string;
+  expiry: string;
+  balance: string;
+}
+
+interface DigitalWalletProps {
+  balance?: string;
+  className?: string;
+}
+
+// --- Constants ---
+
+const MOCK_CARDS: CardData[] = [
+  {
+    id: '1',
+    type: 'gold',
+    number: '•••• •••• •••• 4289',
+    holder: 'ALEXANDER HAMILTON',
+    expiry: '09/28',
+    balance: '$12,450.00'
+  },
+  {
+    id: '2',
+    type: 'silver',
+    number: '•••• •••• •••• 8832',
+    holder: 'ALEXANDER HAMILTON',
+    expiry: '12/26',
+    balance: '$4,200.50'
+  }
+];
+
+// --- Sub-Components ---
+
+const Card = ({ 
+  data, 
+  index, 
+  isActive, 
+  isHovered, 
+  onClick,
+  totalCards 
+}: { 
+  data: CardData; 
+  index: number; 
+  isActive: boolean; 
+  isHovered: boolean;
+  onClick: () => void;
+  totalCards: number;
+}) => {
+  const isGold = data.type === 'gold';
+  
+  // Calculate vertical offset based on index and interaction state
+  const yOffset = isActive 
+    ? 55 // Active card moves DOWN to cover the wallet (centered)
+    : isHovered 
+      ? -160 + (index * 60) // Hover: Fan downwards so headers are visible
+      : 0 + (index * 15); // Resting: Stack downwards
+      
+  // Dynamic Z-Index for "Pop Out" effect
+  // Wallet Front is z-30.
+  // Resting cards must be < 30.
+  // Active card must be > 30.
+  const zIndex = isActive ? 40 : 10 + index;
+  
+  const scale = isActive ? 1.05 : 1 - (totalCards - 1 - index) * 0.05;
+  const brightness = isActive ? 1 : isHovered ? 1 : 0.6 - (totalCards - 1 - index) * 0.1;
+  const rotateX = isActive ? 0 : isHovered ? -5 : 0; 
+  const yRotation = isActive ? 0 : 0;
+
+  return (
+    <motion.div
+      layout
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      initial={false}
+      animate={{
+        y: yOffset,
+        scale: scale,
+        zIndex: zIndex,
+        rotateX: rotateX,
+        filter: `brightness(${brightness})`,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
+      className={cn(
+        "absolute left-0 w-full h-[200px] rounded-xl cursor-pointer shadow-xl overflow-hidden transform-gpu border border-white/10",
+        isGold ? "bg-gradient-to-br from-[#E6C685] via-[#A88B4D] to-[#6C5528]" : "bg-gradient-to-br from-[#E2E2E2] via-[#9CA3AF] to-[#4B5563]"
+      )}
+      style={{
+        transformStyle: 'preserve-3d',
+        top: '-45px', // Positioned higher to peek out of the top
+        transformOrigin: 'bottom center'
+      }}
+    >
+      {/* Metallic Noise Texture Overlay */}
+      <div className="absolute inset-0 opacity-40 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay pointer-events-none" />
+      
+      {/* Shine Effect */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      <div className="relative p-5 h-full flex flex-col justify-between font-mono text-shadow-sm select-none">
+        <div className="flex justify-between items-start">
+          <div className="w-10 h-7 rounded bg-black/10 border border-black/10 flex items-center justify-center backdrop-blur-sm">
+             <div className="w-7 h-4 border border-black/20 rounded-sm" />
+          </div>
+          <Wifi className={cn("w-5 h-5 rotate-90 opacity-80", isGold ? "text-[#3E2C0F]" : "text-gray-800")} />
+        </div>
+
+        <div className="space-y-3">
+          <div className={cn("text-lg tracking-widest font-bold font-mono", isGold ? "text-[#3E2C0F]" : "text-gray-900")}>
+            {data.number}
+          </div>
+          
+          <div className="flex justify-between items-end">
+            <div className="space-y-0.5">
+              <div className={cn("text-[9px] uppercase opacity-70", isGold ? "text-[#3E2C0F]" : "text-gray-800")}>Card Holder</div>
+              <div className={cn("text-xs font-bold tracking-wide uppercase", isGold ? "text-[#3E2C0F]" : "text-gray-900")}>
+                {data.holder}
+              </div>
+            </div>
+            <div className="space-y-0.5 text-right">
+               <div className={cn("text-[9px] uppercase opacity-70", isGold ? "text-[#3E2C0F]" : "text-gray-800")}>Expires</div>
+               <div className={cn("text-xs font-bold", isGold ? "text-[#3E2C0F]" : "text-gray-900")}>{data.expiry}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Brand Logo Simulation */}
+        <div className={cn("absolute top-5 right-5 flex items-center gap-1", isGold ? "text-[#3E2C0F]" : "text-gray-900")}>
+          <div className="font-serif italic text-lg font-black tracking-tighter">Prestige</div>
+          <Wifi className="w-3 h-3 rotate-90 opacity-60" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// --- Main Component ---
+
+export function DigitalWallet({ balance = "$250,000", className }: DigitalWalletProps) {
+  const [activeCardId, setActiveCardId] = useState<string | null>(null);
+  const [isWalletHovered, setIsWalletHovered] = useState(false);
+
+  // Background handling for click outside
+  const handleBackgroundClick = () => {
+    setActiveCardId(null);
+  };
+
+  const currentBalance = activeCardId 
+    ? MOCK_CARDS.find(c => c.id === activeCardId)?.balance 
+    : balance;
+
+  return (
+    <div 
+      className={cn("relative w-full h-full flex flex-col items-center justify-center overflow-hidden bg-[#051810]", className)}
+      onClick={handleBackgroundClick}
+    >
+      {/* Decorative ambient light */}
+      <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[140%] bg-[radial-gradient(circle_at_50%_50%,rgba(21,50,40,0.8)_0%,rgba(5,24,16,1)_70%)] pointer-events-none" />
+      
+      {/* Content Container */}
+      <div className="relative z-10 flex flex-col items-center w-full max-w-md perspective-1000">
+        
+        {/* Wallet Container */}
+        <div 
+          className="relative w-80 h-56 md:w-96 md:h-64"
+          onMouseEnter={() => setIsWalletHovered(true)}
+          onMouseLeave={() => setIsWalletHovered(false)}
+        >
+          {/* Card Stack Area - REMOVED z-index so children can sort relative to Wallet Front */}
+          <div className="absolute inset-x-6 top-0 bottom-0 perspective-1000 transform-style-3d pointer-events-none">
+            {/* Pointer events auto on children to allow clicking */}
+            {MOCK_CARDS.map((card, index) => (
+              <div key={card.id} className="pointer-events-auto">
+                <Card 
+                  data={card}
+                  index={index}
+                  isActive={activeCardId === card.id}
+                  isHovered={isWalletHovered}
+                  onClick={() => setActiveCardId(activeCardId === card.id ? null : card.id)}
+                  totalCards={MOCK_CARDS.length}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* The Physical Wallet (Front Pocket) */}
+          <motion.div 
+            className="absolute inset-0 bg-[#141414] rounded-2xl shadow-[0_30px_60px_-10px_rgba(0,0,0,0.9)] border border-white/5 z-30 flex flex-col items-center justify-center text-center overflow-hidden"
+            initial={false}
+            animate={{
+              rotateX: isWalletHovered || activeCardId ? 5 : 0,
+              y: isWalletHovered ? 5 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          >
+            {/* Leather Texture */}
+            <div className="absolute inset-0 opacity-60 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-multiply" />
+            
+            {/* Subtle Gradient for volume */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+            
+            {/* Wallet Stitching */}
+            <div className="absolute inset-3 border border-dashed border-white/10 rounded-xl opacity-50 pointer-events-none" />
+
+            {/* BALANCE DISPLAY - MOVED INSIDE WALLET */}
+            <div className="relative z-10 flex flex-col items-center space-y-2">
+              <span className="text-[#5C7066] text-[10px] tracking-[0.25em] font-bold uppercase">Total Balance</span>
+              <motion.div 
+                key={currentBalance}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-4xl text-[#E0E0E0] font-serif tracking-tight font-medium"
+                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+              >
+                {currentBalance}
+              </motion.div>
+            </div>
+
+            {/* Wallet Slot Visual */}
+            <div className="absolute top-0 inset-x-8 h-1 bg-black/40 rounded-b-lg blur-[1px]" />
+          </motion.div>
+          
+          {/* Wallet Back Layer (Depth) */}
+           <motion.div 
+            className="absolute inset-0 bg-[#080808] rounded-2xl z-0 transform translate-y-3 translate-z-[-10px] scale-[0.98]"
+          />
+
+        </div>
+
+        {/* Instruction Hint */}
+        <motion.div 
+          className="text-[#88A096]/40 text-[10px] tracking-widest uppercase mt-12 flex items-center gap-2 font-medium"
+          animate={{ opacity: isWalletHovered ? 1 : 0.5 }}
+        >
+          <ChevronUp size={10} className={isWalletHovered ? "animate-bounce" : ""} />
+          {activeCardId ? "Click background to close" : "Select a card"}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+export default DigitalWallet;
+~~~
+
+Implementation Guidelines
+
+1. Analyze the component structure, styling, animation implementations
+2. Review the component's arguments and state
+3. Think through what is the best place to adopt this component/style into the design we are doing
+4. Then adopt the component/design to our current system
+
+\
+Help me integrate this into my design
+```

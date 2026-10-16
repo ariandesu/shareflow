@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lumina — Sign in to the canvas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+        },
+        colors: {
+          ink: '#0b0f14',
+          aqua: '#2dd4bf',
+          magenta: '#e879f9',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root { color-scheme: dark; }
+  html { scroll-behavior: smooth; }
+  .aurora { position: absolute; border-radius: 9999px; filter: blur(4px); will-change: transform; }
+  .blob-aqua {
+    background: radial-gradient(circle at 32% 28%, #ccfbf1 0%, #5eead4 30%, #2dd4bf 60%, #0f766e 100%);
+  }
+  .blob-magenta {
+    background: radial-gradient(circle at 35% 28%, #fbe9ff 0%, #f0abfc 30%, #e879f9 62%, #a21caf 100%);
+  }
+  .blob-deep {
+    background: radial-gradient(circle at 40% 35%, #38bdf8 0%, #6366f1 45%, #312e81 100%);
+  }
+  .grain {
+    position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+  .grid-veil {
+    position: absolute; inset: 0; pointer-events: none; opacity: .35;
+    background-image:
+      linear-gradient(to right, rgba(45,212,191,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(232,121,249,.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 35%, transparent 78%);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 35%, transparent 78%);
+  }
+  .glass {
+    background: linear-gradient(155deg, rgba(255,255,255,.085), rgba(255,255,255,.025));
+    -webkit-backdrop-filter: blur(34px) saturate(140%);
+            backdrop-filter: blur(34px) saturate(140%);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow:
+      0 1px 0 0 rgba(255,255,255,.18) inset,
+      0 30px 80px -20px rgba(0,0,0,.75),
+      0 0 0 1px rgba(45,212,191,.04);
+  }
+  .glass-nav {
+    background: rgba(11,15,20,.62);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+            backdrop-filter: blur(18px) saturate(140%);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .field {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+    transition: border-color .22s ease, box-shadow .22s ease, background .22s ease;
+  }
+  .field:focus-within {
+    border-color: rgba(45,212,191,.7);
+    background: rgba(45,212,191,.06);
+    box-shadow: 0 0 0 4px rgba(45,212,191,.14), 0 0 26px -4px rgba(45,212,191,.55);
+  }
+  .field input { outline: none; background: transparent; }
+  .field input::placeholder { color: rgba(226,232,240,.4); }
+  .cta {
+    background: linear-gradient(100deg, #2dd4bf 0%, #5eead4 38%, #e879f9 100%);
+    box-shadow: 0 12px 34px -10px rgba(45,212,191,.55), 0 8px 30px -12px rgba(232,121,249,.5);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+  .cta:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 18px 46px -10px rgba(45,212,191,.7), 0 12px 38px -12px rgba(232,121,249,.6); }
+  .social-btn {
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.1);
+    transition: border-color .18s ease, background .18s ease, transform .18s ease;
+  }
+  .social-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); transform: translateY(-1px); }
+  .pill {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .gradient-text {
+    background: linear-gradient(100deg, #5eead4 0%, #2dd4bf 40%, #e879f9 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .link-aqua { color: #5eead4; transition: color .15s ease; }
+  .link-aqua:hover { color: #2dd4bf; }
+  .check {
+    width: 18px; height: 18px; border-radius: 5px;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(45,212,191,.16);
+    display: grid; place-items: center;
+  }
+  .divider-line { height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,.16), transparent); }
+</style>
+
+<meta name="preview-version" content="c98899b2-32ee-4564-afb4-b914e4da709c" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:45.534Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "c98899b2-32ee-4564-afb4-b914e4da709c");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "c98899b2-32ee-4564-afb4-b914e4da709c",
+      timestamp: "2026-10-16T14:07:45.534Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "c98899b2-32ee-4564-afb4-b914e4da709c";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen bg-ink font-sans text-slate-200 antialiased selection:bg-aqua/30 selection:text-white flex flex-col">
+    <header class="glass-nav fixed top-0 inset-x-0 z-50">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="#" id="nav-brand-link" class="flex items-center gap-2.5">
+            <span class="relative grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-aqua to-magenta">
+              <iconify-icon icon="ph:diamonds-four-bold" class="text-ink" width="18"></iconify-icon>
+            </span>
+            <span class="font-display text-lg font-600 tracking-tight text-white">Lumina</span>
+          </a>
+          <nav class="hidden items-center gap-8 text-sm font-500 text-slate-300 md:flex">
+            <a href="#" id="nav-product-link" class="transition hover:text-white">Product</a>
+            <a href="#" id="nav-library-link" class="transition hover:text-white">Library</a>
+            <a href="#" id="nav-pricing-link" class="transition hover:text-white">Pricing</a>
+            <a href="#" id="nav-docs-link" class="transition hover:text-white">Docs</a>
+          </nav>
+          <div class="flex items-center gap-3">
+            <a href="#" id="nav-signin-link" class="hidden text-sm font-500 text-slate-300 transition hover:text-white sm:block">Sign in</a>
+            <a href="#" id="nav-cta-link" class="rounded-full bg-white px-4 py-2 text-sm font-600 text-ink transition hover:bg-slate-100">Start free</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="relative min-h-screen overflow-hidden flex-1">
+      <div class="pointer-events-none absolute inset-0 -z-10">
+        <div class="aurora blob-deep"    style="width:440px;height:440px;top:-110px;left:-70px;opacity:.6;"></div>
+        <div class="aurora blob-aqua"    style="width:340px;height:340px;top:5%;right:23%;opacity:.78;"></div>
+        <div class="aurora blob-magenta" style="width:460px;height:460px;bottom:-150px;right:-30px;opacity:.7;"></div>
+        <div class="aurora blob-aqua"    style="width:300px;height:300px;bottom:2%;left:2%;opacity:.42;"></div>
+        <div class="aurora blob-magenta" style="width:230px;height:230px;top:34%;left:22%;opacity:.32;"></div>
+        <div class="grid-veil"></div>
+        <div class="grain"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,transparent,rgba(11,15,20,.4)_70%,#0b0f14_100%)]"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-ink/20 via-ink/35 to-ink"></div>
+      </div>
+
+      <div class="mx-auto flex min-h-screen max-w-7xl flex-col px-6 pt-16 lg:px-8">
+        <div class="grid flex-1 items-center gap-14 py-14 lg:grid-cols-2 lg:gap-10 lg:py-0">
+          <section class="relative order-2 lg:order-1">
+            <span class="pill inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-500 text-slate-300">
+              <span class="h-1.5 w-1.5 rounded-full bg-aqua"></span>
+              v2.4 — multiplayer canvas is live
+            </span>
+            <h1 class="mt-6 font-display text-4xl font-700 leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]">
+              Design at the speed
+              <br class="hidden sm:block" />
+              of <span class="gradient-text">a prompt.</span>
+            </h1>
+            <p class="mt-5 max-w-md text-base leading-relaxed text-slate-400">
+              Lumina turns plain language into shippable UI on an infinite canvas. Sign in to pick up your boards, your component library, and every draft your team is iterating on.
+            </p>
+            <ul class="mt-8 space-y-3 text-sm text-slate-300">
+              <li class="flex items-center gap-3">
+                <span class="grid h-6 w-6 place-items-center rounded-md bg-aqua/15 text-aqua"><iconify-icon icon="ph:lightning-fill" width="14"></iconify-icon></span>
+                Prompt to mockup in seconds, no setup
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="grid h-6 w-6 place-items-center rounded-md bg-magenta/15 text-magenta"><iconify-icon icon="ph:stack-fill" width="14"></iconify-icon></span>
+                7,400+ community prompts in the library
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="grid h-6 w-6 place-items-center rounded-md bg-aqua/15 text-aqua"><iconify-icon icon="ph:users-three-fill" width="14"></iconify-icon></span>
+                Live cursors, comments, and version history
+              </li>
+            </ul>
+            <div class="mt-10 flex items-center gap-5">
+              <div class="flex -space-x-2.5">
+                <span class="h-8 w-8 rounded-full border-2 border-ink bg-gradient-to-br from-aqua to-teal-700"></span>
+                <span class="h-8 w-8 rounded-full border-2 border-ink bg-gradient-to-br from-magenta to-fuchsia-800"></span>
+                <span class="h-8 w-8 rounded-full border-2 border-ink bg-gradient-to-br from-sky-400 to-indigo-700"></span>
+                <span class="grid h-8 w-8 place-items-center rounded-full border-2 border-ink bg-white/10 text-[10px] font-600 text-slate-200">9k+</span>
+              </div>
+              <p class="text-xs leading-snug text-slate-400">Trusted by indie hackers<br/>and product teams shipping daily.</p>
+            </div>
+          </section>
+          <section class="order-1 lg:order-2 lg:justify-self-end w-full">
+            <div class="glass relative mx-auto w-full max-w-md rounded-[26px] p-8 sm:p-9">
+              <div class="pointer-events-none absolute -right-6 -top-6 -z-10 h-28 w-28 rounded-full bg-magenta/40 blur-2xl"></div>
+              <div class="pointer-events-none absolute -bottom-8 -left-6 -z-10 h-28 w-28 rounded-full bg-aqua/40 blur-2xl"></div>
+              <div class="mb-7">
+                <h2 class="font-display text-2xl font-600 tracking-tight text-white">Welcome back</h2>
+                <p class="mt-1.5 text-sm text-slate-400">Sign in to your Lumina canvas.</p>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <button class="social-btn flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-500 text-slate-200">
+                  <iconify-icon icon="logos:google-icon" width="16"></iconify-icon>
+                  Google
+                </button>
+                <button class="social-btn flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-500 text-slate-200">
+                  <iconify-icon icon="ph:github-logo-fill" width="17"></iconify-icon>
+                  GitHub
+                </button>
+              </div>
+              <div class="my-6 flex items-center gap-3">
+                <div class="divider-line flex-1"></div>
+                <span class="text-xs font-500 uppercase tracking-wider text-slate-500">or with email</span>
+                <div class="divider-line flex-1"></div>
+              </div>
+              <form class="space-y-5" onsubmit="return false">
+                <div>
+                  <label class="mb-2 block text-sm font-500 text-slate-300">Email</label>
+                  <div class="field flex items-center gap-3 rounded-xl px-3.5">
+                    <iconify-icon icon="ph:envelope-simple" class="text-slate-500" width="18"></iconify-icon>
+                    <input type="email" placeholder="you@studio.com" class="h-12 w-full text-sm text-white" />
+                  </div>
+                </div>
+                <div>
+                  <div class="mb-2 flex items-center justify-between">
+                    <label class="block text-sm font-500 text-slate-300">Password</label>
+                    <a href="#" id="forgot-password-link" class="link-aqua text-xs font-500">Forgot?</a>
+                  </div>
+                  <div class="field flex items-center gap-3 rounded-xl px-3.5" style="border-color:rgba(45,212,191,.7);background:rgba(45,212,191,.06);box-shadow:0 0 0 4px rgba(45,212,191,.14),0 0 26px -4px rgba(45,212,191,.55);">
+                    <iconify-icon icon="ph:lock-simple" class="text-aqua" width="18"></iconify-icon>
+                    <input type="password" value="............" class="h-12 w-full text-sm text-white tracking-widest" />
+                    <iconify-icon icon="ph:eye" class="text-slate-500" width="18"></iconify-icon>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between pt-1">
+                  <label class="flex cursor-pointer items-center gap-2.5 text-sm text-slate-300">
+                    <span class="check"><iconify-icon icon="ph:check-bold" class="text-aqua" width="12"></iconify-icon></span>
+                    Remember me
+                  </label>
+                </div>
+                <button type="submit" class="cta mt-1 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-700 text-ink">
+                  Sign in to canvas
+                  <iconify-icon icon="ph:arrow-right-bold" width="15"></iconify-icon>
+                </button>
+              </form>
+              <p class="mt-6 text-center text-sm text-slate-400">
+                New to Lumina? <a href="#" id="signup-link" class="link-aqua font-600">Create an account</a>
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <section class="relative border-y border-white/5 bg-white/[.015]">
+      <div class="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+        <p class="mb-6 text-center text-xs font-500 uppercase tracking-[.18em] text-slate-500">Powering design teams everywhere</p>
+        <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 text-slate-500">
+          <span class="flex items-center gap-2 font-display text-lg font-600"><iconify-icon icon="ph:orange-slice-fill" width="20"></iconify-icon>Northwind</span>
+          <span class="flex items-center gap-2 font-display text-lg font-600"><iconify-icon icon="ph:hexagon-fill" width="20"></iconify-icon>Forma</span>
+          <span class="flex items-center gap-2 font-display text-lg font-600"><iconify-icon icon="ph:triangle-fill" width="18"></iconify-icon>Vellum</span>
+          <span class="flex items-center gap-2 font-display text-lg font-600"><iconify-icon icon="ph:circles-three-fill" width="20"></iconify-icon>Orbital</span>
+          <span class="flex items-center gap-2 font-display text-lg font-600"><iconify-icon icon="ph:square-half-fill" width="20"></iconify-icon>Mono</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="relative bg-ink">
+      <div class="mx-auto max-w-7xl px-6 py-10 lg:px-8">
+        <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div class="flex items-center gap-2.5">
+            <span class="grid h-7 w-7 place-items-center rounded-md bg-gradient-to-br from-aqua to-magenta">
+              <iconify-icon icon="ph:diamonds-four-bold" class="text-ink" width="15"></iconify-icon>
+            </span>
+            <span class="font-display text-sm font-600 text-white">Lumina</span>
+            <span class="text-sm text-slate-600">&copy; 2026</span>
+          </div>
+          <div class="flex items-center gap-7 text-sm text-slate-400">
+            <a href="#" id="footer-privacy-link" class="transition hover:text-white">Privacy</a>
+            <a href="#" id="footer-terms-link" class="transition hover:text-white">Terms</a>
+            <a href="#" id="footer-status-link" class="transition hover:text-white">Status</a>
+            <div class="flex items-center gap-3 pl-1 text-slate-500">
+              <a href="#" id="social-x-link" class="transition hover:text-aqua"><iconify-icon icon="ph:x-logo-fill" width="18"></iconify-icon></a>
+              <a href="#" id="social-github-link" class="transition hover:text-aqua"><iconify-icon icon="ph:github-logo-fill" width="18"></iconify-icon></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Shrinking Sticky Header:
+
+> *"As soon as the user scrolls 100px down from the top, shrink the header height by 20% and transition the background from transparent to a blurred glass (glassmorphism) effect."*

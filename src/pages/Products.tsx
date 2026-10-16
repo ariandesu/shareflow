@@ -29,7 +29,9 @@ import {
   CreditCard,
   CheckCircle2,
   SlidersHorizontal,
-  Code2
+  Code2,
+  Camera,
+  Image as ImageIcon
 } from "lucide-react";
 import initialPrompts from "../../data/prompts.json";
 import initialWallpapers from "../../data/wallpapers.json";
@@ -63,7 +65,8 @@ export function Products() {
   // Selected Prompt for Right-Hand Detail Canvas
   const [selectedPrompt, setSelectedPrompt] = useState<PromptItem | null>(null);
   
-  // Interactive Viewport Mockup State
+  // Interactive Viewport Mockup & Display Mode State
+  const [displayMode, setDisplayMode] = useState<"interactive" | "screenshot">("interactive");
   const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [iframeKey, setIframeKey] = useState<number>(0);
   const [iframeLoading, setIframeLoading] = useState<boolean>(true);
@@ -700,61 +703,109 @@ export function Products() {
 
                     {/* Preview Viewport & Display Controls */}
                     <div className="flex items-center justify-between gap-2 flex-wrap pt-1">
-                      {/* Responsive Viewport Switcher */}
-                      <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/80 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700/60">
-                        <button
-                          type="button"
-                          onClick={() => setViewport("desktop")}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                            viewport === "desktop"
-                              ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
-                              : "text-muted-foreground hover:text-foreground"
-                          }`}
-                        >
-                          <Monitor className="w-3.5 h-3.5" />
-                          <span className="hidden sm:inline">Desktop</span>
-                        </button>
+                      {/* Left: Mode Switcher (Interactive vs Full Screenshot) */}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/80 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700/60">
+                          <button
+                            type="button"
+                            onClick={() => setDisplayMode("interactive")}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                              displayMode === "interactive"
+                                ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
+                                : "text-muted-foreground hover:text-foreground"
+                            }`}
+                          >
+                            <Monitor className="w-3.5 h-3.5" />
+                            <span>Live Interactive</span>
+                          </button>
 
-                        <button
-                          type="button"
-                          onClick={() => setViewport("tablet")}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                            viewport === "tablet"
-                              ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
-                              : "text-muted-foreground hover:text-foreground"
-                          }`}
-                        >
-                          <Tablet className="w-3.5 h-3.5" />
-                          <span className="hidden sm:inline">Tablet (768px)</span>
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() => setDisplayMode("screenshot")}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                              displayMode === "screenshot"
+                                ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
+                                : "text-muted-foreground hover:text-foreground"
+                            }`}
+                          >
+                            <Camera className="w-3.5 h-3.5" />
+                            <span>Full Screenshot</span>
+                          </button>
+                        </div>
 
-                        <button
-                          type="button"
-                          onClick={() => setViewport("mobile")}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                            viewport === "mobile"
-                              ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
-                              : "text-muted-foreground hover:text-foreground"
-                          }`}
-                        >
-                          <Smartphone className="w-3.5 h-3.5" />
-                          <span className="hidden sm:inline">Mobile (390px)</span>
-                        </button>
+                        {/* Responsive Viewport Switcher (When in Interactive Mode) */}
+                        {displayMode === "interactive" && (
+                          <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/80 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700/60">
+                            <button
+                              type="button"
+                              onClick={() => setViewport("desktop")}
+                              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                                viewport === "desktop"
+                                  ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
+                                  : "text-muted-foreground hover:text-foreground"
+                              }`}
+                              title="Desktop (100% width)"
+                            >
+                              <Monitor className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">Desktop</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setViewport("tablet")}
+                              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                                viewport === "tablet"
+                                  ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
+                                  : "text-muted-foreground hover:text-foreground"
+                              }`}
+                              title="Tablet (768px width)"
+                            >
+                              <Tablet className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">Tablet</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setViewport("mobile")}
+                              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                                viewport === "mobile"
+                                  ? "bg-white dark:bg-zinc-900 text-foreground shadow-xs font-bold"
+                                  : "text-muted-foreground hover:text-foreground"
+                              }`}
+                              title="Mobile (390px width)"
+                            >
+                              <Smartphone className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">Mobile</span>
+                            </button>
+                          </div>
+                        )}
                       </div>
 
-                      {/* Tool Actions: Reload, Share, Open Standalone Tab */}
+                      {/* Tool Actions: Reload, Share, Standalone / Download Screenshot */}
                       <div className="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIframeLoading(true);
-                            setIframeKey((prev) => prev + 1);
-                          }}
-                          className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-muted-foreground hover:text-foreground transition-colors"
-                          title="Reload preview"
-                        >
-                          <RotateCw className="w-3.5 h-3.5" />
-                        </button>
+                        {displayMode === "interactive" ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIframeLoading(true);
+                              setIframeKey((prev) => prev + 1);
+                            }}
+                            className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-muted-foreground hover:text-foreground transition-colors"
+                            title="Reload preview"
+                          >
+                            <RotateCw className="w-3.5 h-3.5" />
+                          </button>
+                        ) : (
+                          <a
+                            href={selectedPrompt.screenshotUrl || `/screenshots/${selectedPrompt.slug}.png`}
+                            download={`${selectedPrompt.slug}-fullpage-screenshot.png`}
+                            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-xs font-semibold text-foreground transition-colors"
+                            title="Download full page high-resolution PNG screenshot"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>Download PNG</span>
+                          </a>
+                        )}
 
                         <button
                           type="button"
@@ -776,13 +827,21 @@ export function Products() {
                         </button>
 
                         <a
-                          href={selectedPrompt.localPreviewUrl || selectedPrompt.previewUrl}
+                          href={
+                            displayMode === "interactive"
+                              ? selectedPrompt.localPreviewUrl || selectedPrompt.previewUrl
+                              : selectedPrompt.screenshotUrl || `/screenshots/${selectedPrompt.slug}.png`
+                          }
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#0071e3]/10 hover:bg-[#0071e3]/20 text-[#0071e3] text-xs font-semibold transition-colors"
-                          title="Open standalone interactive preview in new tab"
+                          title={
+                            displayMode === "interactive"
+                              ? "Open standalone interactive preview in new tab"
+                              : "Open full-resolution screenshot in new tab"
+                          }
                         >
-                          <span>Full Standalone</span>
+                          <span>{displayMode === "interactive" ? "Full Standalone" : "Open Full-Res"}</span>
                           <ExternalLink className="w-3.5 h-3.5" />
                         </a>
                       </div>
@@ -790,7 +849,7 @@ export function Products() {
                   </div>
 
                   {/* ───────────────────────────────────────────────────
-                      MACOS STYLE BROWSER FRAME MOCKUP (LIVE PREVIEW)
+                      MACOS STYLE BROWSER FRAME MOCKUP (LIVE PREVIEW & SCREENSHOT)
                      ─────────────────────────────────────────────────── */}
                   <div
                     ref={previewFrameRef}
@@ -799,7 +858,7 @@ export function Products() {
                     {/* Centered Device Mockup Frame */}
                     <div
                       className={`transition-all duration-300 ease-out bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl overflow-hidden shadow-2xl flex flex-col ${
-                        viewport === "desktop"
+                        displayMode === "screenshot" || viewport === "desktop"
                           ? "w-full"
                           : viewport === "tablet"
                           ? "w-full max-w-[768px]"
@@ -819,35 +878,48 @@ export function Products() {
                         <div className="flex-1 max-w-sm mx-auto h-6 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-md px-2 flex items-center justify-center text-[10px] text-muted-foreground font-mono truncate">
                           <span className="text-emerald-500 mr-1">🔒</span>
                           <span className="truncate">
-                            shareflow.mhr3d.online/previews/{selectedPrompt.slug || selectedPrompt.id}.html
+                            {displayMode === "interactive"
+                              ? `shareflow.mhr3d.online/previews/${selectedPrompt.slug || selectedPrompt.id}.html`
+                              : `shareflow.mhr3d.online/screenshots/${selectedPrompt.slug || selectedPrompt.id}.png`}
                           </span>
                         </div>
 
-                        <div className="w-10 text-right text-[10px] text-muted-foreground uppercase font-semibold">
-                          {viewport}
+                        <div className="w-16 text-right text-[10px] text-muted-foreground uppercase font-semibold">
+                          {displayMode === "interactive" ? viewport : "1440px PNG"}
                         </div>
                       </div>
 
-                      {/* Interactive Iframe Container */}
-                      <div className="relative w-full h-[520px] bg-zinc-950">
-                        {iframeLoading && (
-                          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-950/80 backdrop-blur-xs text-white gap-2">
-                            <RotateCw className="w-5 h-5 animate-spin text-[#0071e3]" />
-                            <span className="text-xs font-medium text-zinc-300">
-                              Loading live Superdesign preview...
-                            </span>
-                          </div>
-                        )}
+                      {/* Display Container: Live Interactive or Full-Page Screenshot */}
+                      {displayMode === "interactive" ? (
+                        <div className="relative w-full h-[520px] bg-zinc-950">
+                          {iframeLoading && (
+                            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-950/80 backdrop-blur-xs text-white gap-2">
+                              <RotateCw className="w-5 h-5 animate-spin text-[#0071e3]" />
+                              <span className="text-xs font-medium text-zinc-300">
+                                Loading live Superdesign preview...
+                              </span>
+                            </div>
+                          )}
 
-                        <iframe
-                          key={`${selectedPrompt.slug}-${iframeKey}`}
-                          src={selectedPrompt.localPreviewUrl || selectedPrompt.previewUrl}
-                          title={selectedPrompt.title}
-                          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
-                          className="w-full h-full border-none bg-zinc-950"
-                          onLoad={() => setIframeLoading(false)}
-                        />
-                      </div>
+                          <iframe
+                            key={`${selectedPrompt.slug}-${iframeKey}`}
+                            src={selectedPrompt.localPreviewUrl || selectedPrompt.previewUrl}
+                            title={selectedPrompt.title}
+                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
+                            className="w-full h-full border-none bg-zinc-950"
+                            onLoad={() => setIframeLoading(false)}
+                          />
+                        </div>
+                      ) : (
+                        <div className="relative w-full h-[540px] overflow-y-auto bg-zinc-950 scrollbar-thin scrollbar-thumb-zinc-700">
+                          <img
+                            src={selectedPrompt.screenshotUrl || `/screenshots/${selectedPrompt.slug}.png`}
+                            alt={`${selectedPrompt.title} full page preview`}
+                            className="w-full h-auto block select-none pointer-events-auto shadow-md"
+                            loading="eager"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
 
