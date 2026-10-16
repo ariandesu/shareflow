@@ -12,7 +12,6 @@ import {
   Tablet,
   Layers,
   Zap,
-  Download,
   Search,
   Maximize2,
   Minimize2,
@@ -39,12 +38,6 @@ import { PromptItem } from "../types/prompt";
 import { WallpaperBundle } from "../types/wallpaper";
 
 const SUPPORTKORI_URL = "https://www.supportkori.com/mhr3d";
-const BUNDLE_PARTS = [
-  { label: "Part 1 (Prompts 1-62)", url: "/products/shareflow-superdesign-bundle-part1.zip", size: "17.7 MB" },
-  { label: "Part 2 (Prompts 63-124)", url: "/products/shareflow-superdesign-bundle-part2.zip", size: "15.1 MB" },
-  { label: "Part 3 (Prompts 125-186)", url: "/products/shareflow-superdesign-bundle-part3.zip", size: "13.5 MB" },
-  { label: "Part 4 (Prompts 187-247)", url: "/products/shareflow-superdesign-bundle-part4.zip", size: "17.0 MB" },
-];
 const ADSTERRA_SMART_LINK = "https://poochingdesolate.com/kbh3b1i8?key=2be98717904ae1521ea80373ae4d1933";
 
 const CATEGORIES = [
@@ -335,29 +328,12 @@ export function Products() {
             Curated AI UI Design Library &amp; Live Interactive Canvas
           </h1>
           <p className="text-xs sm:text-sm text-[#6e6e73] dark:text-[#a1a1aa] max-w-2xl">
-            Test live interactive component previews directly in your browser. Every prompt is hand-crafted and ready for Cursor, Claude, Bolt, v0, and Windsurf. Unlock individual prompts for ৳49 BDT on SupportKori or download the full bundle.
+            Test live interactive component previews directly in your browser. Every prompt is hand-crafted and ready for Cursor, Claude, Bolt, v0, and Windsurf. Unlock individual prompts for ৳49 BDT on SupportKori.
           </p>
         </div>
 
         {/* Master Action Buttons */}
         <div className="flex items-center gap-2.5 flex-wrap justify-center">
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/50">
-            <span className="text-xs font-semibold px-2 text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
-              <Download className="w-3.5 h-3.5" /> Bundle ZIP:
-            </span>
-            {BUNDLE_PARTS.map((part, idx) => (
-              <a
-                key={part.url}
-                href={part.url}
-                download={part.url.split("/").pop()}
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200/80 dark:border-zinc-700 shadow-2xs hover:scale-105 active:scale-95 transition-all"
-                title={`${part.label} (${part.size}) - full prompt folders with markdown, HTML previews, and full-page screenshots`}
-              >
-                Part {idx + 1} <span className="opacity-60 text-[10px]">({part.size})</span>
-              </a>
-            ))}
-          </div>
-
           <a
             href={SUPPORTKORI_URL}
             target="_blank"
@@ -810,12 +786,13 @@ export function Products() {
                         ) : (
                           <a
                             href={selectedPrompt.screenshotUrl || `/screenshots/${selectedPrompt.slug}.png`}
-                            download={`${selectedPrompt.slug}-fullpage-screenshot.png`}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-xs font-semibold text-foreground transition-colors"
-                            title="Download full page high-resolution PNG screenshot"
+                            title="Open full page high-resolution screenshot in new tab"
                           >
-                            <Download className="w-3.5 h-3.5" />
-                            <span>Download PNG</span>
+                            <Maximize2 className="w-3.5 h-3.5" />
+                            <span>View Full Image</span>
                           </a>
                         )}
 
