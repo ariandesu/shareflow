@@ -1,0 +1,1136 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OVERPRINT '26</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+    :root {
+      --ink-ground: #70020F;
+      --ink-ghost: #8A0A18;
+      --paper: #FEDEE1;
+      --paper-dim: rgba(254, 222, 225, 0.62);
+      --rule: rgba(254, 222, 225, 0.28);
+      --black: #0A0708;
+    }
+
+    body {
+      background-color: var(--ink-ground);
+      color: var(--paper);
+      font-family: 'Archivo', sans-serif;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .display-type {
+      font-family: 'Archivo', sans-serif;
+      font-stretch: 125%;
+      font-variation-settings: 'wdth' 125;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    .mono-type {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .ghost-text {
+      color: var(--ink-ghost);
+    }
+
+    /* speaker-cell initials sit closer to the ground so the NAME leads the cell */
+    .ghost-mono {
+      color: var(--ink-ghost);
+      opacity: 0.55;
+    }
+
+    .rule-top {
+      border-top: 1px solid var(--rule);
+    }
+
+    .rule-bottom {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .rule-left {
+      border-left: 1px solid var(--rule);
+    }
+
+    .inverted {
+      background-color: var(--paper);
+      color: var(--ink-ground);
+    }
+
+    .inverted .rule-top, 
+    .inverted .rule-bottom, 
+    .inverted .rule-left {
+      border-color: rgba(112, 2, 15, 0.22);
+    }
+    
+    .btn {
+      background-color: var(--black);
+      color: var(--paper);
+      transition: background-color 0.2s, color 0.2s;
+      border: 1px solid transparent;
+    }
+    .btn:hover {
+      background-color: var(--paper);
+      color: var(--black);
+      border-color: var(--black);
+    }
+  </style>
+
+<meta name="preview-version" content="0c687aaa-850c-4f1a-b130-3d8bd7476c67" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:13.506Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "0c687aaa-850c-4f1a-b130-3d8bd7476c67");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "0c687aaa-850c-4f1a-b130-3d8bd7476c67",
+      timestamp: "2026-10-16T14:07:13.506Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "0c687aaa-850c-4f1a-b130-3d8bd7476c67";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen" data-sd-id="1">
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-40 bg-[var(--ink-ground)] rule-bottom px-4 md:px-8 py-4 flex justify-between items-center" data-sd-id="2">
+      <div class="display-type text-xl md:text-2xl leading-none" data-sd-id="3">
+        OVERPRINT '26
+      </div>
+      <div class="hidden md:block mono-type text-xs md:text-sm text-[var(--paper-dim)]" data-sd-id="4">
+        14–15 MAY <span class="mx-2" data-sd-id="5">/</span> ROTTERDAM
+      </div>
+      <a id="nav-tickets-btn" href="#tickets" class="btn mono-type text-xs px-4 py-2 uppercase inline-block" data-sd-id="6">
+        Get Tickets
+      </a>
+    </header>
+
+    <main data-sd-id="7">
+      <!-- Hero Section -->
+      <section class="relative px-4 md:px-8 pt-24 md:pt-40 pb-16 md:pb-24 overflow-hidden rule-bottom" data-sd-id="8">
+        <div class="absolute top-0 right-0 h-full flex items-center justify-end pointer-events-none opacity-50 md:opacity-100" style="transform: translateX(10%);" data-sd-id="9">
+           <div class="display-type ghost-text leading-none select-none" style="font-size: clamp(10rem, 30vw, 30rem);" data-sd-id="10">
+             PRINT
+           </div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto" data-sd-id="11">
+          <h1 class="display-type leading-[0.85] mb-12" style="font-size: clamp(4rem, 15vw, 12rem);" data-sd-id="12">
+            OVER<br>
+            PRINT
+          </h1>
+          <div class="mono-type text-xs md:text-sm text-[var(--paper-dim)] flex flex-wrap gap-4 md:gap-8 max-w-3xl" data-sd-id="13">
+            <div data-sd-id="14"><span class="block mb-1 opacity-60 text-[10px]" data-sd-id="15">DATES</span>14–15 MAY 2026</div>
+            <div data-sd-id="16"><span class="block mb-1 opacity-60 text-[10px]" data-sd-id="17">CITY</span>ROTTERDAM, NL</div>
+            <div data-sd-id="18"><span class="block mb-1 opacity-60 text-[10px]" data-sd-id="19">VENUE</span>PRISM HALL</div>
+            <div data-sd-id="20"><span class="block mb-1 opacity-60 text-[10px]" data-sd-id="21">EDITION</span>NO. 04</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Black Card Section -->
+      <section class="px-4 md:px-8 py-16 md:py-24" data-sd-id="22">
+        <div class="max-w-7xl mx-auto bg-[var(--black)] p-6 md:p-12 lg:p-16" data-sd-id="23">
+          <p class="text-lg md:text-2xl mb-12 max-w-3xl font-medium leading-relaxed" data-sd-id="24">
+            A TWO-DAY ASSEMBLY FOR DESIGN ENGINEERS NAVIGATING THE SPACE BETWEEN SYSTEMATIC ARCHITECTURE AND EXPRESSIVE INTERFACES.
+          </p>
+          <div class="rule-top" data-sd-id="25">
+            <div class="flex justify-between items-center py-6 rule-bottom" data-sd-id="26">
+              <div class="display-type text-xl md:text-3xl" data-sd-id="27">DAY 01 <span class="text-[var(--paper-dim)] ml-4" data-sd-id="28">WORKSHOPS</span></div>
+              <div class="flex items-center gap-4" data-sd-id="29">
+                <span class="text-2xl" data-sd-id="30">↗</span>
+                <span class="mono-type text-sm whitespace-nowrap" data-sd-id="31">14 MAY</span>
+              </div>
+            </div>
+            <div class="flex justify-between items-center py-6 rule-bottom" data-sd-id="32">
+              <div class="display-type text-xl md:text-3xl" data-sd-id="33">DAY 02 <span class="text-[var(--paper-dim)] ml-4" data-sd-id="34">TALKS</span></div>
+              <div class="flex items-center gap-4" data-sd-id="35">
+                <span class="text-2xl" data-sd-id="36">↗</span>
+                <span class="mono-type text-sm whitespace-nowrap" data-sd-id="37">15 MAY</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Speakers -->
+      <section class="px-4 md:px-8 py-16 md:py-24 rule-bottom" data-sd-id="38">
+        <div class="max-w-7xl mx-auto" data-sd-id="39">
+          <h2 class="mono-type text-sm mb-12 text-[var(--paper-dim)]" data-sd-id="40">SPEAKERS &amp; FACILITATORS</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-[var(--rule)] border-l" data-sd-id="41">
+            <!-- Speaker 1 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="42">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="43">AK</div>
+              <div class="relative z-10" data-sd-id="44">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="45">AURA KINGSLEY</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="46">CREATIVE DIRECTOR<br>STUDIO MONOLITH</p>
+              </div>
+            </div>
+            <!-- Speaker 2 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="47">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="48">JR</div>
+              <div class="relative z-10" data-sd-id="49">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="50">JAXON RIVERA</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="51">LEAD ENGINEER<br>FORM &amp; FUNCTION</p>
+              </div>
+            </div>
+             <!-- Speaker 3 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="52">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="53">EV</div>
+              <div class="relative z-10" data-sd-id="54">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="55">ELARA VANCE</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="56">DESIGN SYSTEMS<br>NEXUS ORG</p>
+              </div>
+            </div>
+            <!-- Speaker 4 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="57">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="58">MT</div>
+              <div class="relative z-10" data-sd-id="59">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="60">MARCUS TRENT</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="61">FOUNDER<br>THEORY CRAFT</p>
+              </div>
+            </div>
+             <!-- Speaker 5 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="62">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="63">SY</div>
+              <div class="relative z-10" data-sd-id="64">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="65">SARA YATES</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="66">INTERACTION LEAD<br>KINETIC</p>
+              </div>
+            </div>
+            <!-- Speaker 6 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="67">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="68">LD</div>
+              <div class="relative z-10" data-sd-id="69">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="70">LEON DUBOIS</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="71">TYPOGRAPHER<br>GLYPH CO</p>
+              </div>
+            </div>
+             <!-- Speaker 7 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="72">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="73">CH</div>
+              <div class="relative z-10" data-sd-id="74">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="75">CLARA HAYES</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="76">RESEARCHER<br>VERB LABS</p>
+              </div>
+            </div>
+            <!-- Speaker 8 -->
+            <div class="relative p-6 md:p-8 border-r border-b border-[var(--rule)] overflow-hidden h-[260px] flex flex-col justify-end" data-sd-id="77">
+              <div class="absolute top-4 right-4 display-type ghost-mono leading-none select-none" style="font-size: 8rem; margin-right: -1rem; margin-top: -1rem;" data-sd-id="78">ON</div>
+              <div class="relative z-10" data-sd-id="79">
+                <h3 class="display-type text-2xl mb-2" data-sd-id="80">OWEN NASH</h3>
+                <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="81">FULL STACK<br>PRIMITIVE</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agenda (Inverted) -->
+      <section class="inverted px-4 md:px-8 py-16 md:py-24" data-sd-id="82">
+        <div class="max-w-7xl mx-auto" data-sd-id="83">
+          <h2 class="mono-type text-sm mb-12 opacity-60" data-sd-id="84">AGENDA TIMETABLE</h2>
+          
+          <div class="mb-16" data-sd-id="85">
+             <h3 class="display-type text-3xl md:text-5xl mb-8" data-sd-id="86">DAY 01 <span class="opacity-50 ml-4" data-sd-id="87">WORKSHOPS</span></h3>
+             <div class="rule-top" data-sd-id="88">
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="89">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="90">09:00</div>
+                  <div class="flex-grow" data-sd-id="91">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="92">REGISTRATION &amp; COFFEE</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="93">FOYER</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="94">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="95">10:00</div>
+                  <div class="flex-grow" data-sd-id="96">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="97">BUILDING SCALABLE DESIGN SYSTEMS</div>
+                    <div class="mono-type text-xs" data-sd-id="98">ELARA VANCE</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="99">ROOM A</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="100">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="101">13:30</div>
+                  <div class="flex-grow" data-sd-id="102">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="103">ADVANCED CSS ARCHITECTURE</div>
+                    <div class="mono-type text-xs" data-sd-id="104">JAXON RIVERA</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="105">ROOM B</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="x">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="x">15:30</div>
+                  <div class="flex-grow" data-sd-id="x">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="x">TYPE SYSTEMS FOR SMALL TEAMS</div>
+                    <div class="mono-type text-xs" data-sd-id="x">CLARA HAYES</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="x">ROOM A</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="x">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="x">18:00</div>
+                  <div class="flex-grow" data-sd-id="x">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="x">PRINTERS & PLOTTERS: OPENING RECEPTION</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="x">FOYER</div>
+                </div>
+             </div>
+          </div>
+
+          <div data-sd-id="106">
+             <h3 class="display-type text-3xl md:text-5xl mb-8" data-sd-id="107">DAY 02 <span class="opacity-50 ml-4" data-sd-id="108">TALKS</span></h3>
+             <div class="rule-top" data-sd-id="109">
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="110">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="111">09:30</div>
+                  <div class="flex-grow" data-sd-id="112">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="113">OPENING KEYNOTE: THE STATE OF INTERFACES</div>
+                    <div class="mono-type text-xs" data-sd-id="114">AURA KINGSLEY</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="115">MAIN STAGE</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="116">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="117">11:00</div>
+                  <div class="flex-grow" data-sd-id="118">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="119">TYPOGRAPHY IN MOTION</div>
+                    <div class="mono-type text-xs" data-sd-id="120">LEON DUBOIS</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="121">MAIN STAGE</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="122">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="123">14:00</div>
+                  <div class="flex-grow" data-sd-id="124">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="125">THE KINETIC WEB</div>
+                    <div class="mono-type text-xs" data-sd-id="126">SARA YATES</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="127">MAIN STAGE</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="x">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="x">15:30</div>
+                  <div class="flex-grow" data-sd-id="x">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="x">SHIPPING A DESIGN LANGUAGE WITHOUT A DESIGN TEAM</div>
+                    <div class="mono-type text-xs" data-sd-id="x">MARCUS TRENT</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="x">MAIN STAGE</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 rule-bottom gap-4 md:gap-8" data-sd-id="x">
+                  <div class="mono-type w-32 flex-shrink-0 pt-2" data-sd-id="x">17:00</div>
+                  <div class="flex-grow" data-sd-id="x">
+                    <div class="display-type text-xl md:text-2xl mb-2" data-sd-id="x">CLOSING PANEL: WHAT WE OWE THE NEXT INTERFACE</div>
+                    <div class="mono-type text-xs" data-sd-id="x">ALL SPEAKERS</div>
+                  </div>
+                  <div class="mono-type text-xs opacity-60 w-32 md:text-right pt-2" data-sd-id="x">MAIN STAGE</div>
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tickets -->
+      <section id="tickets" class="px-4 md:px-8 py-16 md:py-24 rule-bottom" data-sd-id="128">
+        <div class="max-w-7xl mx-auto" data-sd-id="129">
+          <h2 class="mono-type text-sm mb-12 text-[var(--paper-dim)]" data-sd-id="130">ATTEND THE ASSEMBLY</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" data-sd-id="131">
+             <!-- Tier 1 -->
+             <div class="border border-[var(--rule)] p-8 flex flex-col opacity-50" data-sd-id="132">
+                <h3 class="display-type text-2xl line-through" data-sd-id="133">EARLY BIRD</h3>
+                <div class="display-type text-5xl my-6 line-through" data-sd-id="134">€250</div>
+                <div class="rule-top flex-grow" data-sd-id="135">
+                   <div class="py-3 rule-bottom mono-type text-xs text-[var(--paper)]" data-sd-id="136">FULL 2-DAY ACCESS</div>
+                   <div class="py-3 rule-bottom mono-type text-xs text-[var(--paper)]" data-sd-id="137">WORKSHOP SELECTION</div>
+                   <div class="py-3 rule-bottom mono-type text-xs text-[var(--paper)]" data-sd-id="138">CLOSING PARTY</div>
+                </div>
+                <div class="mt-8 mono-type text-sm uppercase text-center py-4 border border-[var(--rule)]" data-sd-id="139">
+                   Sold Out
+                </div>
+             </div>
+             <!-- Tier 2 -->
+             <div class="bg-[var(--black)] p-8 flex flex-col" data-sd-id="140">
+                <h3 class="display-type text-2xl" data-sd-id="141">STANDARD</h3>
+                <div class="display-type text-5xl my-6" data-sd-id="142">€350</div>
+                <div class="rule-top border-gray-800 flex-grow" data-sd-id="143">
+                   <div class="py-3 border-b border-gray-800 mono-type text-xs" data-sd-id="144">FULL 2-DAY ACCESS</div>
+                   <div class="py-3 border-b border-gray-800 mono-type text-xs" data-sd-id="145">WORKSHOP SELECTION</div>
+                   <div class="py-3 border-b border-gray-800 mono-type text-xs" data-sd-id="146">CLOSING PARTY</div>
+                </div>
+                <button class="mt-8 mono-type text-sm uppercase text-center py-4 bg-[var(--paper)] text-[var(--black)] hover:bg-[var(--ink-ground)] hover:text-[var(--paper)] transition-colors border border-transparent" data-sd-id="147">
+                   Select Standard
+                </button>
+             </div>
+             <!-- Tier 3 -->
+             <div class="border border-[var(--rule)] p-8 flex flex-col" data-sd-id="148">
+                <h3 class="display-type text-2xl" data-sd-id="149">STUDIO PASS</h3>
+                <div class="display-type text-5xl my-6" data-sd-id="150">€1200</div>
+                <div class="rule-top flex-grow" data-sd-id="151">
+                   <div class="py-3 rule-bottom mono-type text-xs text-[var(--paper)]" data-sd-id="152">4× 2-DAY ACCESS</div>
+                   <div class="py-3 rule-bottom mono-type text-xs text-[var(--paper)]" data-sd-id="153">GUARANTEED WORKSHOPS</div>
+                   <div class="py-3 rule-bottom mono-type text-xs text-[var(--paper)]" data-sd-id="154">RESERVED SEATING</div>
+                </div>
+                <button class="mt-8 mono-type text-sm uppercase text-center py-4 border border-[var(--rule)] hover:bg-[var(--paper)] hover:text-[var(--ink-ground)] transition-colors" data-sd-id="155">
+                   Select Studio
+                </button>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Venue -->
+      <section class="px-4 md:px-8 py-16 md:py-24 rule-bottom" data-sd-id="156">
+        <div class="max-w-7xl mx-auto" data-sd-id="157">
+           <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8" data-sd-id="158">
+              <div data-sd-id="159">
+                 <div class="mono-type text-xs text-[var(--paper-dim)] mb-4" data-sd-id="160">LOCATION</div>
+                 <div class="display-type text-2xl md:text-3xl" data-sd-id="161">PRISM HALL</div>
+                 <div class="mt-2 font-medium" data-sd-id="162">WESTERSTRAAT 14<br>3016 AH ROTTERDAM<br>THE NETHERLANDS</div>
+              </div>
+              <div data-sd-id="163">
+                 <div class="mono-type text-xs text-[var(--paper-dim)] mb-4" data-sd-id="164">TRANSIT</div>
+                 <div class="display-type text-2xl md:text-3xl" data-sd-id="165">STATION ZUID</div>
+                 <div class="mt-2 font-medium" data-sd-id="166">10 MINUTE WALK<br>TRAM LINES 4, 7, 21<br>PARKING AT Q-PARK</div>
+              </div>
+               <div data-sd-id="167">
+                 <div class="mono-type text-xs text-[var(--paper-dim)] mb-4" data-sd-id="168">ACCOMMODATION</div>
+                 <div class="display-type text-2xl md:text-3xl" data-sd-id="169">PARTNER HOTELS</div>
+                 <div class="mt-2 font-medium" data-sd-id="170">DISCOUNT CODES SENT<br>WITH TICKET CONFIRMATION.<br>BOOK EARLY.</div>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      <!-- Sponsors -->
+      <section class="px-4 md:px-8 py-16 md:py-24 rule-bottom" data-sd-id="171">
+         <div class="max-w-7xl mx-auto" data-sd-id="172">
+            <h2 class="mono-type text-sm mb-12 text-[var(--paper-dim)]" data-sd-id="173">SUPPORTED BY</h2>
+            <div class="rule-top" data-sd-id="174">
+               <div class="flex flex-col md:flex-row gap-4 md:gap-12 py-8 rule-bottom" data-sd-id="175">
+                  <div class="mono-type text-xs text-[var(--paper-dim)] w-40 flex-shrink-0 pt-3" data-sd-id="176">PRESENTING</div>
+                  <div class="flex flex-wrap gap-x-12 gap-y-4 items-baseline" data-sd-id="177">
+                     <div class="display-type text-3xl md:text-5xl" data-sd-id="178">OBLIQUE SYSTEMS</div>
+                     <div class="display-type text-3xl md:text-5xl" data-sd-id="179">OFFCUT STUDIO</div>
+                  </div>
+               </div>
+               <div class="flex flex-col md:flex-row gap-4 md:gap-12 py-8 rule-bottom" data-sd-id="180">
+                  <div class="mono-type text-xs text-[var(--paper-dim)] w-40 flex-shrink-0 pt-2" data-sd-id="181">SUPPORTING</div>
+                  <div class="flex flex-wrap gap-x-10 gap-y-3 items-baseline" data-sd-id="182">
+                     <div class="display-type text-2xl md:text-3xl" data-sd-id="183">CANVAS TYPE</div>
+                     <div class="display-type text-2xl md:text-3xl" data-sd-id="184">MODAL COLLECTIVE</div>
+                     <div class="display-type text-2xl md:text-3xl" data-sd-id="185">HALFTONE UNION</div>
+                  </div>
+               </div>
+               <div class="flex flex-col md:flex-row gap-4 md:gap-12 py-8 rule-bottom" data-sd-id="186">
+                  <div class="mono-type text-xs text-[var(--paper-dim)] w-40 flex-shrink-0 pt-1" data-sd-id="187">MEDIA &amp; PRINT</div>
+                  <div class="flex flex-wrap gap-x-8 gap-y-3 items-baseline text-[var(--paper-dim)]" data-sd-id="188">
+                     <div class="display-type text-lg md:text-xl" data-sd-id="189">PLATEN LABS</div>
+                     <div class="display-type text-lg md:text-xl" data-sd-id="190">GLYPH FOUNDRY</div>
+                     <div class="display-type text-lg md:text-xl" data-sd-id="191">NEXUS HOSTING</div>
+                     <div class="display-type text-lg md:text-xl" data-sd-id="192">ASPECT PRESS</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- CTA & Footer -->
+      <section class="relative px-4 md:px-8 pt-32 pb-16 overflow-hidden" data-sd-id="186">
+         <div class="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-10" data-sd-id="187">
+            <div data-sd-id="187b">
+               <h2 class="display-type text-4xl md:text-6xl mb-4" data-sd-id="188">JOIN THE<br>ASSEMBLY</h2>
+               <p class="mono-type text-xs text-[var(--paper-dim)]" data-sd-id="188b">300 SEATS &nbsp;/&nbsp; SALES CLOSE 30 APRIL 2026</p>
+            </div>
+            <a href="#tickets" id="footer-cta-btn" class="btn display-type text-xl px-12 py-6 self-start md:self-auto" data-sd-id="189">
+               SECURE YOUR PASS
+            </a>
+         </div>
+         
+         <div class="mt-32 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 mono-type text-xs text-[var(--paper-dim)] relative z-10" data-sd-id="190">
+            <div data-sd-id="191">© 2026 OVERPRINT</div>
+            <div class="flex gap-6" data-sd-id="192">
+               <a href="#" id="link-code" class="hover:text-[var(--paper)]" data-sd-id="193">CODE OF CONDUCT</a>
+               <a href="#" id="link-terms" class="hover:text-[var(--paper)]" data-sd-id="194">TERMS</a>
+            </div>
+         </div>
+
+         <div class="absolute bottom-0 left-0 w-full overflow-hidden flex justify-center pointer-events-none opacity-[0.17]" style="transform: translateY(8%);" data-sd-id="195">
+             <div class="display-type ghost-text leading-none select-none whitespace-nowrap" style="font-size: clamp(10rem, 25vw, 25rem);" data-sd-id="196">
+               OVERPRINT
+             </div>
+         </div>
+      </section>
+    </main>
+  </div>
+
+</body></html>

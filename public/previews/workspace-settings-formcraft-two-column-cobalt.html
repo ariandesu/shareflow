@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Workspace Settings · Formcraft Form Design</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'sans-serif'] },
+        colors: {
+          cobalt: {
+            50: '#eff4ff', 100: '#dbe6fe', 200: '#bfd3fe', 300: '#93b4fd', 
+            400: '#608dfa', 500: '#3b6cf6', 600: '#2563eb', 700: '#1d4ed8', 
+            800: '#1e40af', 900: '#1e3a8a'
+          },
+          ink: {
+            50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 
+            400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 
+            800: '#1e293b', 900: '#0f172a'
+          }
+        },
+        boxShadow: {
+          card: '0 1px 2px 0 rgba(15,23,42,.04), 0 1px 3px 0 rgba(15,23,42,.06)',
+          'card-lg': '0 1px 2px rgba(15,23,42,.04), 0 8px 24px -12px rgba(15,23,42,.12)',
+          bar: '0 -1px 2px rgba(15,23,42,.04), 0 -8px 24px -16px rgba(15,23,42,.12)'
+        }
+      }
+    }
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .row-divide > * + * { border-top: 1px solid #f1f5f9; }
+  .tgl { appearance: none; -webkit-appearance: none; position: relative; cursor: pointer; flex: none; }
+  .tgl::before {
+    content: ''; position: absolute; inset: 0; border-radius: 9999px;
+    background: #cbd5e1; transition: background .2s ease;
+  }
+  .tgl::after {
+    content: ''; position: absolute; top: 2px; left: 2px; height: calc(100% - 4px); aspect-ratio: 1/1;
+    border-radius: 9999px; background: #fff; box-shadow: 0 1px 2px rgba(15,23,42,.25);
+    transition: transform .2s ease;
+  }
+  .tgl:checked::before { background: #2563eb; }
+  .tgl:checked::after { transform: translateX(100%); }
+  .tgl:focus-visible { outline: 2px solid #93b4fd; outline-offset: 2px; }
+  .fld { transition: border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+  .fld:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,.12); background: #fff; }
+  .seg-active { background: #fff; box-shadow: 0 1px 2px rgba(15,23,42,.10); color: #1e293b; }
+  select.fld {
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right .75rem center; padding-right: 2.5rem;
+  }
+</style>
+
+<meta name="preview-version" content="e7ec15e8-44c6-499d-a711-25578a88b421" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:44.751Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "e7ec15e8-44c6-499d-a711-25578a88b421");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "e7ec15e8-44c6-499d-a711-25578a88b421",
+      timestamp: "2026-10-16T14:07:44.751Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "e7ec15e8-44c6-499d-a711-25578a88b421";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+<div class="min-h-screen bg-ink-50 font-sans text-ink-900">
+  <!-- STICKY NAV -->
+  <header class="sticky top-0 z-40 border-b border-ink-200/70 bg-white shadow-sm md:bg-white/85 md:backdrop-blur-md">
+    <div class="mx-auto flex h-16 max-w-6xl items-center gap-4 px-6">
+      <a id="nav-logo" href="#" class="flex items-center gap-2.5">
+        <span class="grid h-8 w-8 place-items-center rounded-lg bg-cobalt-600 text-white shadow-sm">
+          <iconify-icon icon="lucide:square-pen" class="text-[18px]"></iconify-icon>
+        </span>
+        <span class="text-[15px] font-extrabold tracking-tight">Formcraft</span>
+      </a>
+      <nav class="ml-6 hidden items-center gap-1 text-[13.5px] font-medium text-ink-500 md:flex">
+        <a id="nav-forms" href="#" class="rounded-md px-3 py-2 hover:bg-ink-50 hover:text-ink-900">Forms</a>
+        <a id="nav-responses" href="#" class="rounded-md px-3 py-2 hover:bg-ink-50 hover:text-ink-900">Responses</a>
+        <a id="nav-integrations" href="#" class="rounded-md px-3 py-2 hover:bg-ink-50 hover:text-ink-900">Integrations</a>
+        <a id="nav-settings" href="#" class="rounded-md bg-cobalt-50 px-3 py-2 font-semibold text-cobalt-700">Settings</a>
+      </nav>
+      <div class="ml-auto flex items-center gap-2.5">
+        <button class="hidden h-9 w-9 place-items-center rounded-lg text-ink-500 hover:bg-ink-50 hover:text-ink-700 sm:grid">
+          <iconify-icon icon="lucide:search" class="text-[18px]"></iconify-icon>
+        </button>
+        <button class="relative grid h-9 w-9 place-items-center rounded-lg text-ink-500 hover:bg-ink-50 hover:text-ink-700">
+          <iconify-icon icon="lucide:bell" class="text-[18px]"></iconify-icon>
+          <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-cobalt-600 ring-2 ring-white"></span>
+        </button>
+        <div class="ml-1 flex items-center gap-2.5 rounded-full border border-ink-200 bg-white py-1 pl-1 pr-2.5">
+          <img src="https://i.pravatar.cc/64?img=12" alt="User avatar" class="h-7 w-7 rounded-full object-cover" / onerror="this.onerror=null;this.src='https://placehold.co/28x28/1a1a1a/888?text=Image';">
+          <span class="hidden text-[13px] font-semibold text-ink-700 sm:block">Bonnie G.</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <section class="relative border-b border-ink-200/70 bg-gradient-to-b from-cobalt-50/50 to-white">
+    <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cobalt-200/70 to-transparent"></div>
+    <div class="mx-auto max-w-6xl px-6 pb-7 pt-9">
+      <nav class="mb-3 flex items-center gap-1.5 text-[12.5px] font-medium text-ink-500">
+        <a id="breadcrumb-home" href="#" class="hover:text-ink-600">Home</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[14px]"></iconify-icon>
+        <a id="breadcrumb-account" href="#" class="hover:text-ink-600">Account</a>
+        <iconify-icon icon="lucide:chevron-right" class="text-[14px]"></iconify-icon>
+        <span class="text-ink-700">Settings</span>
+      </nav>
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 class="text-[26px] font-extrabold tracking-tight text-ink-900">Workspace settings</h1>
+          <p class="mt-1.5 max-w-xl text-[14px] leading-relaxed text-ink-500">Manage your profile, how your forms behave, and where responses are delivered. Changes apply across every form in this workspace.</p>
+        </div>
+        <div class="inline-flex items-center gap-2 self-start rounded-full border border-emerald-200/70 bg-emerald-50 px-3 py-1.5 text-[12px] font-semibold text-emerald-700 sm:self-auto">
+          <iconify-icon icon="lucide:check-circle-2" class="text-[14px]"></iconify-icon>
+          All systems synced · 2 min ago
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="mx-auto max-w-6xl px-6 pb-10 pt-8">
+    <div class="grid grid-cols-1 gap-7 lg:grid-cols-[208px_minmax(0,1fr)]">
+      
+      <!-- ASIDE NAV -->
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <nav class="flex gap-1.5 overflow-x-auto pb-1 text-[13.5px] font-medium lg:flex-col lg:overflow-visible">
+          <a id="side-profile" href="#profile" class="relative flex flex-none items-center gap-2.5 rounded-lg bg-cobalt-50 px-3 py-2 font-semibold text-cobalt-700">
+            <span class="absolute left-0 top-1/2 hidden h-5 w-1 -translate-y-1/2 rounded-full bg-cobalt-600 lg:block"></span>
+            <iconify-icon icon="lucide:user-round" class="text-[16px]"></iconify-icon> Profile
+          </a>
+          <a id="side-behaviour" href="#form-behaviour" class="flex flex-none items-center gap-2.5 rounded-lg px-3 py-2 text-ink-500 hover:bg-white hover:text-ink-900">
+            <iconify-icon icon="lucide:sliders-horizontal" class="text-[16px]"></iconify-icon> Form behaviour
+          </a>
+          <a id="side-notifs" href="#notifications" class="flex flex-none items-center gap-2.5 rounded-lg px-3 py-2 text-ink-500 hover:bg-white hover:text-ink-900">
+            <iconify-icon icon="lucide:bell-ring" class="text-[16px]"></iconify-icon> Notifications
+          </a>
+          <a id="side-delivery" href="#delivery" class="flex flex-none items-center gap-2.5 rounded-lg px-3 py-2 text-ink-500 hover:bg-white hover:text-ink-900">
+            <iconify-icon icon="lucide:send" class="text-[16px]"></iconify-icon> Delivery
+          </a>
+          <a id="side-danger" href="#danger" class="flex flex-none items-center gap-2.5 rounded-lg px-3 py-2 text-ink-500 hover:bg-white hover:text-ink-900">
+            <iconify-icon icon="lucide:shield-alert" class="text-[16px]"></iconify-icon> Danger zone
+          </a>
+        </nav>
+      </aside>
+
+      <!-- SECTIONS -->
+      <div class="flex flex-col gap-7">
+        
+        <!-- PROFILE -->
+        <section id="profile" class="overflow-hidden rounded-2xl border border-ink-200/80 bg-white shadow-card">
+          <div class="flex items-start justify-between gap-4 border-b border-ink-100 px-6 py-5 sm:px-8">
+            <div>
+              <h2 class="text-[16px] font-bold tracking-tight text-ink-900">Profile</h2>
+              <p class="mt-1 text-[13px] text-ink-500">The identity attached to forms you publish and emails you send.</p>
+            </div>
+            <span class="hidden rounded-full bg-ink-50 px-2.5 py-1 text-[11px] font-semibold text-ink-500 sm:block">Public</span>
+          </div>
+          <div class="px-6 py-6 sm:px-8">
+            <div class="flex flex-col gap-5 pb-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+              <label class="text-[13.5px] font-semibold text-ink-700 sm:w-52 sm:flex-none">
+                Profile photo
+                <span class="mt-0.5 block text-[12px] font-normal text-ink-500">PNG or JPG, up to 2 MB.</span>
+              </label>
+              <div class="flex items-center gap-4 sm:w-full sm:max-w-md">
+                <img src="https://i.pravatar.cc/96?img=12" alt="Avatar" class="h-14 w-14 rounded-full object-cover ring-2 ring-ink-100" / onerror="this.onerror=null;this.src='https://placehold.co/56x56/1a1a1a/888?text=Image';">
+                <button class="inline-flex items-center gap-2 rounded-lg bg-cobalt-600 px-3.5 py-2 text-[13px] font-semibold text-white shadow-sm transition hover:bg-cobalt-700">
+                  <iconify-icon icon="lucide:upload" class="text-[15px]"></iconify-icon> Upload
+                </button>
+                <button class="rounded-lg px-2 py-2 text-[13px] font-semibold text-ink-500 transition hover:text-ink-800">Remove</button>
+              </div>
+            </div>
+            <div class="row-divide rounded-xl border border-ink-100">
+              <div class="flex flex-col gap-2.5 px-5 py-4 sm:flex-row sm:items-center sm:gap-6">
+                <label for="f-name" class="text-[13.5px] font-semibold text-ink-700 sm:w-52 sm:flex-none">Full name</label>
+                <div class="sm:w-full sm:max-w-md">
+                  <input id="f-name" type="text" value="Bonnie Green" class="fld w-full rounded-lg border border-ink-200 bg-ink-50/60 px-3.5 py-2.5 text-[14px] text-ink-900" />
+                </div>
+              </div>
+              <div class="flex flex-col gap-2.5 px-5 py-4 sm:flex-row sm:items-center sm:gap-6">
+                <label for="f-email" class="text-[13.5px] font-semibold text-ink-700 sm:w-52 sm:flex-none">Email address</label>
+                <div class="relative sm:w-full sm:max-w-md">
+                  <iconify-icon icon="lucide:mail" class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[17px] text-ink-400"></iconify-icon>
+                  <input id="f-email" type="email" value="bonnie@formcraft.io" class="fld w-full rounded-lg border border-ink-200 bg-ink-50/60 py-2.5 pl-10 pr-3.5 text-[14px] text-ink-900" />
+                </div>
+              </div>
+              <div class="flex flex-col gap-2.5 px-5 py-4 sm:flex-row sm:items-center sm:gap-6">
+                <label for="f-role" class="text-[13.5px] font-semibold text-ink-700 sm:w-52 sm:flex-none">Workspace role</label>
+                <div class="sm:w-full sm:max-w-md">
+                  <select id="f-role" class="fld w-full rounded-lg border border-ink-200 bg-ink-50/60 px-3.5 py-2.5 text-[14px] text-ink-900">
+                    <option>Owner</option>
+                    <option>Admin</option>
+                    <option>Editor</option>
+                    <option>Viewer</option>
+                  </select>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2.5 px-5 py-4 sm:flex-row sm:items-center sm:gap-6">
+                <label for="f-tz" class="text-[13.5px] font-semibold text-ink-700 sm:w-52 sm:flex-none">
+                  Timezone
+                  <span class="mt-0.5 block text-[12px] font-normal text-ink-500">Used for schedules & reports.</span>
+                </label>
+                <div class="sm:w-full sm:max-w-md">
+                  <select id="f-tz" class="fld w-full rounded-lg border border-ink-200 bg-ink-50/60 px-3.5 py-2.5 text-[14px] text-ink-900">
+                    <option>(GMT-08:00) Pacific Time (US & Canada)</option>
+                    <option>(GMT-05:00) Eastern Time (US & Canada)</option>
+                    <option>(GMT+00:00) London</option>
+                    <option>(GMT+08:00) Singapore</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FORM BEHAVIOUR -->
+        <section id="form-behaviour" class="overflow-hidden rounded-2xl border border-ink-200/80 bg-white shadow-card">
+          <div class="border-b border-ink-100 px-6 py-5 sm:px-8">
+            <h2 class="text-[16px] font-bold tracking-tight text-ink-900">Form behaviour</h2>
+            <p class="mt-1 text-[13px] text-ink-500">Defaults applied to every new form. Individual forms can override these.</p>
+          </div>
+          <div class="px-6 py-2 sm:px-8">
+            <div class="row-divide">
+              <div class="flex items-center justify-between gap-6 py-5">
+                <div class="pr-2">
+                  <p class="text-[13.5px] font-semibold text-ink-800">Smart spam filtering</p>
+                  <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">Quietly drop submissions that look automated before they hit your inbox.</p>
+                </div>
+                <input type="checkbox" class="tgl h-6 w-11 rounded-full" checked />
+              </div>
+              <div class="flex items-center justify-between gap-6 py-5">
+                <div class="pr-2">
+                  <p class="text-[13.5px] font-semibold text-ink-800">Save partial responses</p>
+                  <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">Capture answers even if the visitor leaves before pressing submit.</p>
+                </div>
+                <input type="checkbox" class="tgl h-6 w-11 rounded-full" checked />
+              </div>
+              <div class="flex items-center justify-between gap-6 py-5">
+                <div class="pr-2">
+                  <p class="text-[13.5px] font-semibold text-ink-800">Custom thank-you redirect</p>
+                  <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">Send respondents to your own page after they submit.</p>
+                </div>
+                <input type="checkbox" class="tgl h-6 w-11 rounded-full" />
+              </div>
+              <div class="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+                <div class="pr-2">
+                  <p class="text-[13.5px] font-semibold text-ink-800">Submission limit</p>
+                  <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">Close a form automatically after a cap is reached.</p>
+                </div>
+                <div class="inline-flex flex-none rounded-lg bg-ink-100 p-1 text-[12.5px] font-semibold text-ink-500">
+                  <button class="seg-active rounded-md px-3.5 py-1.5">None</button>
+                  <button class="rounded-md px-3.5 py-1.5 hover:text-ink-700">100</button>
+                  <button class="rounded-md px-3.5 py-1.5 hover:text-ink-700">500</button>
+                  <button class="rounded-md px-3.5 py-1.5 hover:text-ink-700">Custom</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- NOTIFICATIONS -->
+        <section id="notifications" class="overflow-hidden rounded-2xl border border-ink-200/80 bg-white shadow-card">
+          <div class="flex items-center justify-between gap-4 border-b border-ink-100 px-6 py-5 sm:px-8">
+            <div>
+              <h2 class="text-[16px] font-bold tracking-tight text-ink-900">Notifications</h2>
+              <p class="mt-1 text-[13px] text-ink-500">Pick exactly what reaches you, and how.</p>
+            </div>
+            <button class="text-[12.5px] font-semibold text-cobalt-600 hover:text-cobalt-700">Select all</button>
+          </div>
+          <div class="px-6 py-2 sm:px-8">
+            <div class="row-divide">
+              <div class="flex items-center justify-between gap-6 py-5">
+                <div class="flex items-start gap-3.5 pr-2">
+                  <span class="mt-0.5 grid h-9 w-9 flex-none place-items-center rounded-lg bg-cobalt-50 text-cobalt-600">
+                    <iconify-icon icon="lucide:inbox" class="text-[18px]"></iconify-icon>
+                  </span>
+                  <div>
+                    <p class="text-[13.5px] font-semibold text-ink-800">New submissions</p>
+                    <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">Email me the moment someone completes a form.</p>
+                  </div>
+                </div>
+                <input type="checkbox" class="tgl h-6 w-11 rounded-full" checked />
+              </div>
+              <div class="flex items-center justify-between gap-6 py-5">
+                <div class="flex items-start gap-3.5 pr-2">
+                  <span class="mt-0.5 grid h-9 w-9 flex-none place-items-center rounded-lg bg-cobalt-50 text-cobalt-600">
+                    <iconify-icon icon="lucide:bar-chart-3" class="text-[18px]"></iconify-icon>
+                  </span>
+                  <div>
+                    <p class="text-[13.5px] font-semibold text-ink-800">Weekly summary</p>
+                    <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">A Monday digest of response volume and drop-off.</p>
+                  </div>
+                </div>
+                <input type="checkbox" class="tgl h-6 w-11 rounded-full" checked />
+              </div>
+              <div class="flex items-center justify-between gap-6 py-5">
+                <div class="flex items-start gap-3.5 pr-2">
+                  <span class="mt-0.5 grid h-9 w-9 flex-none place-items-center rounded-lg bg-cobalt-50 text-cobalt-600">
+                    <iconify-icon icon="lucide:megaphone" class="text-[18px]"></iconify-icon>
+                  </span>
+                  <div>
+                    <p class="text-[13.5px] font-semibold text-ink-800">Product news</p>
+                    <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">Occasional notes on new fields, blocks, and integrations.</p>
+                  </div>
+                </div>
+                <input type="checkbox" class="tgl h-6 w-11 rounded-full" />
+              </div>
+              <div class="flex flex-col gap-2.5 py-5 sm:flex-row sm:items-center sm:gap-6">
+                <label for="n-channel" class="text-[13.5px] font-semibold text-ink-700 sm:w-52 sm:flex-none">Deliver alerts to</label>
+                <div class="sm:w-full sm:max-w-md">
+                  <select id="n-channel" class="fld w-full rounded-lg border border-ink-200 bg-ink-50/60 px-3.5 py-2.5 text-[14px] text-ink-900">
+                    <option>Email only</option>
+                    <option>Email + Slack</option>
+                    <option>Slack only</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DELIVERY -->
+        <section id="delivery" class="overflow-hidden rounded-2xl border border-ink-200/80 bg-white shadow-card">
+          <div class="border-b border-ink-100 px-6 py-5 sm:px-8">
+            <h2 class="text-[16px] font-bold tracking-tight text-ink-900">Response delivery</h2>
+            <p class="mt-1 text-[13px] text-ink-500">Where every submission lands. Connect a destination or keep them in Formcraft.</p>
+          </div>
+          <div class="px-6 py-6 sm:px-8">
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <label class="group relative flex cursor-pointer items-center gap-3.5 rounded-xl border-2 border-cobalt-600 bg-cobalt-50/50 px-4 py-3.5">
+                <span class="grid h-9 w-9 flex-none place-items-center rounded-lg bg-white text-cobalt-600 shadow-sm">
+                  <iconify-icon icon="lucide:table-2" class="text-[18px]"></iconify-icon>
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-[13.5px] font-semibold text-ink-800">Google Sheets</span>
+                  <span class="block truncate text-[12px] text-ink-500">Connected · 2 forms</span>
+                </span>
+                <iconify-icon icon="lucide:check-circle-2" class="ml-auto text-[18px] text-cobalt-600"></iconify-icon>
+              </label>
+              <label class="group relative flex cursor-pointer items-center gap-3.5 rounded-xl border-2 border-ink-200 px-4 py-3.5 hover:border-ink-300">
+                <span class="grid h-9 w-9 flex-none place-items-center rounded-lg bg-ink-50 text-ink-500">
+                  <iconify-icon icon="lucide:webhook" class="text-[18px]"></iconify-icon>
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-[13.5px] font-semibold text-ink-800">Webhook</span>
+                  <span class="block truncate text-[12px] text-ink-500">Not connected</span>
+                </span>
+                <span class="ml-auto text-[12px] font-semibold text-cobalt-600">Connect</span>
+              </label>
+            </div>
+            <div class="row-divide mt-5 rounded-xl border border-ink-100">
+              <div class="flex flex-col gap-2.5 px-5 py-4 sm:flex-row sm:items-center sm:gap-6">
+                <label for="d-reply" class="text-[13.5px] font-semibold text-ink-700 sm:w-52 sm:flex-none">Reply-to address</label>
+                <div class="sm:w-full sm:max-w-md">
+                  <input id="d-reply" type="email" value="hello@formcraft.io" class="fld w-full rounded-lg border border-ink-200 bg-ink-50/60 px-3.5 py-2.5 text-[14px] text-ink-900" />
+                </div>
+              </div>
+              <div class="flex items-center justify-between gap-6 px-5 py-4">
+                <div class="pr-2">
+                  <p class="text-[13.5px] font-semibold text-ink-800">Attach file uploads</p>
+                  <p class="mt-0.5 text-[12.5px] leading-relaxed text-ink-500">Include uploaded files in the delivery payload.</p>
+                </div>
+                <input type="checkbox" class="tgl h-6 w-11 rounded-full" checked />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DANGER ZONE -->
+        <section id="danger" class="overflow-hidden rounded-2xl border border-rose-200 bg-white shadow-card">
+          <div class="flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+            <div>
+              <h2 class="text-[15px] font-bold tracking-tight text-rose-700">Delete workspace</h2>
+              <p class="mt-1 max-w-md text-[13px] text-ink-500">Permanently remove this workspace, every form, and all collected responses. This cannot be undone.</p>
+            </div>
+            <button class="inline-flex flex-none items-center gap-2 rounded-lg border border-rose-200 bg-white px-3.5 py-2 text-[13px] font-semibold text-rose-600 transition hover:bg-rose-50">
+              <iconify-icon icon="lucide:trash-2" class="text-[15px]"></iconify-icon> Delete
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- SAVE BAR -->
+  <div id="saveBar" class="sticky bottom-0 z-40 border-t border-ink-200/80 bg-white shadow-bar">
+    <div class="mx-auto flex max-w-6xl items-center gap-3 px-6 py-3.5">
+      <span class="flex min-w-0 items-center gap-2 text-[12.5px] font-medium text-ink-500">
+        <span class="relative flex h-2 w-2 flex-none">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-60"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-400"></span>
+        </span>
+        <span class="truncate"><span class="hidden sm:inline">You have </span>3 unsaved changes</span>
+      </span>
+      <div class="ml-auto flex flex-none items-center gap-2.5">
+        <button class="rounded-lg px-3.5 py-2.5 text-[13.5px] font-semibold text-ink-600 transition hover:bg-ink-50 sm:px-4">Discard</button>
+        <button class="inline-flex items-center gap-2 rounded-lg bg-cobalt-600 px-4 py-2.5 text-[13.5px] font-semibold text-white shadow-sm transition hover:bg-cobalt-700 sm:px-5">
+          <iconify-icon icon="lucide:check" class="text-[16px]"></iconify-icon> Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

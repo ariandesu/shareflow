@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences Setup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=switzer@200,300,400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Switzer', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #flow-viewport {
+            overflow: hidden;
+        }
+        #flow-container {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 400%;
+        }
+        .step-section {
+            width: 25%;
+            flex-shrink: 0;
+        }
+        @view-transition {
+            navigation: auto;
+        }
+    </style>
+
+<meta name="preview-version" content="39946996-1520-455c-9be3-79ef19c79680" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:42.203Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "39946996-1520-455c-9be3-79ef19c79680");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "39946996-1520-455c-9be3-79ef19c79680",
+      timestamp: "2026-10-16T14:07:42.203Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "39946996-1520-455c-9be3-79ef19c79680";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+    <div class="w-full h-screen flex flex-col bg-white text-slate-900 overflow-hidden">
+        <!-- Header: Fixed -->
+        <header class="shrink-0 pt-14 px-6 pb-6 bg-white z-10">
+            <div class="flex items-center justify-between mb-6">
+                <button id="back-btn" class="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-slate-50 transition-all text-slate-400 hover:text-slate-900 opacity-0 pointer-events-none">
+                    <iconify-icon icon="lucide:arrow-left" width="24"></iconify-icon>
+                </button>
+                <span id="step-counter" class="text-xs font-semibold tracking-widest uppercase text-slate-400">Step 1 of 4</span>
+                <button class="w-10 h-10 -mr-2 flex items-center justify-center rounded-full text-slate-300 hover:text-slate-900" id="help-link">
+                    <iconify-icon icon="lucide:help-circle" width="20"></iconify-icon>
+                </button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div id="progress-fill" class="h-full w-1/4 bg-slate-900 rounded-full transition-all duration-500"></div>
+            </div>
+        </header>
+
+        <!-- Main Content Area: Sliding Container -->
+        <main id="flow-viewport" class="flex-1">
+            <div id="flow-container">
+                
+                <!-- Step 1: Welcome & Profile -->
+                <div class="step-section px-6 py-4">
+                    <div class="h-full flex flex-col">
+                        <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8">
+                            <iconify-icon icon="lucide:sparkles" class="text-slate-900 text-3xl"></iconify-icon>
+                        </div>
+                        <h1 class="text-[32px] leading-[1.1] font-semibold text-slate-900 mb-3 tracking-tight">
+                            Welcome to Aura
+                        </h1>
+                        <p class="text-slate-500 text-base leading-relaxed mb-8">
+                            Let's get you set up. First, how should we address you?
+                        </p>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Full Name</label>
+                                <input type="text" placeholder="Enter your name" class="w-full h-14 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Username</label>
+                                <input type="text" placeholder="@handle" class="w-full h-14 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 transition-colors">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Interests -->
+                <div class="step-section px-6 overflow-y-auto no-scrollbar pb-8">
+                    <h1 class="text-[32px] leading-[1.1] font-semibold text-slate-900 mb-3 tracking-tight">
+                        What interests you?
+                    </h1>
+                    <p class="text-slate-500 text-base leading-relaxed mb-8">
+                        Select a few topics to help us personalize your home feed.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Card Template -->
+                        <label class="relative group cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="flex flex-col justify-between p-4 h-[140px] bg-white border border-slate-200 rounded-2xl transition-all hover:border-slate-300 peer-checked:border-2 peer-checked:border-slate-900 peer-checked:bg-slate-50">
+                                <div class="flex justify-between items-start">
+                                    <div class="w-10 h-10 rounded-full bg-slate-50 group-hover:bg-white border border-transparent group-hover:border-slate-100 flex items-center justify-center text-slate-500 peer-checked:text-slate-900 transition-colors">
+                                        <iconify-icon icon="lucide:palette" width="20"></iconify-icon>
+                                    </div>
+                                    <div class="transition-all">
+                                        <iconify-icon icon="lucide:circle" width="22" class="text-slate-200 peer-checked:hidden"></iconify-icon>
+                                        <iconify-icon icon="lucide:check-circle-2" width="22" class="hidden peer-checked:block fill-slate-900 text-white"></iconify-icon>
+                                    </div>
+                                </div>
+                                <span class="font-medium text-slate-600 peer-checked:text-slate-900">Art & Design</span>
+                            </div>
+                        </label>
+                        <!-- Repeat for other cards -->
+                        <label class="relative group cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="flex flex-col justify-between p-4 h-[140px] bg-white border border-slate-200 rounded-2xl transition-all hover:border-slate-300 peer-checked:border-2 peer-checked:border-slate-900 peer-checked:bg-slate-50">
+                                <div class="flex justify-between items-start">
+                                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 transition-colors">
+                                        <iconify-icon icon="lucide:cpu" width="20"></iconify-icon>
+                                    </div>
+                                    <div class="transition-all">
+                                        <iconify-icon icon="lucide:circle" width="22" class="text-slate-200 peer-checked:hidden"></iconify-icon>
+                                        <iconify-icon icon="lucide:check-circle-2" width="22" class="hidden peer-checked:block fill-slate-900 text-white"></iconify-icon>
+                                    </div>
+                                </div>
+                                <span class="font-medium text-slate-600 peer-checked:text-slate-900">Tech</span>
+                            </div>
+                        </label>
+                        <label class="relative group cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="flex flex-col justify-between p-4 h-[140px] bg-white border border-slate-200 rounded-2xl transition-all hover:border-slate-300 peer-checked:border-2 peer-checked:border-slate-900 peer-checked:bg-slate-50">
+                                <div class="flex justify-between items-start">
+                                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 transition-colors">
+                                        <iconify-icon icon="lucide:camera" width="20"></iconify-icon>
+                                    </div>
+                                    <div class="transition-all">
+                                        <iconify-icon icon="lucide:circle" width="22" class="text-slate-200 peer-checked:hidden"></iconify-icon>
+                                        <iconify-icon icon="lucide:check-circle-2" width="22" class="hidden peer-checked:block fill-slate-900 text-white"></iconify-icon>
+                                    </div>
+                                </div>
+                                <span class="font-medium text-slate-600 peer-checked:text-slate-900">Photography</span>
+                            </div>
+                        </label>
+                        <label class="relative group cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="flex flex-col justify-between p-4 h-[140px] bg-white border border-slate-200 rounded-2xl transition-all hover:border-slate-300 peer-checked:border-2 peer-checked:border-slate-900 peer-checked:bg-slate-50">
+                                <div class="flex justify-between items-start">
+                                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 transition-colors">
+                                        <iconify-icon icon="lucide:plane" width="20"></iconify-icon>
+                                    </div>
+                                    <div class="transition-all">
+                                        <iconify-icon icon="lucide:circle" width="22" class="text-slate-200 peer-checked:hidden"></iconify-icon>
+                                        <iconify-icon icon="lucide:check-circle-2" width="22" class="hidden peer-checked:block fill-slate-900 text-white"></iconify-icon>
+                                    </div>
+                                </div>
+                                <span class="font-medium text-slate-600 peer-checked:text-slate-900">Travel</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 3: Notifications -->
+                <div class="step-section px-6">
+                    <h1 class="text-[32px] leading-[1.1] font-semibold text-slate-900 mb-3 tracking-tight">
+                        Stay updated
+                    </h1>
+                    <p class="text-slate-500 text-base leading-relaxed mb-8">
+                        We'll send you important updates and recommendations.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-6 bg-slate-50 rounded-2xl">
+                            <div class="flex gap-4 items-center">
+                                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-900">
+                                    <iconify-icon icon="lucide:bell" width="20"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Push Notifications</p>
+                                    <p class="text-xs text-slate-400">Activity and news</p>
+                                </div>
+                            </div>
+                            <button class="w-12 h-6 rounded-full bg-slate-900 flex items-center px-1">
+                                <div class="w-4 h-4 bg-white rounded-full translate-x-6"></div>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-6 border border-slate-200 rounded-2xl">
+                            <div class="flex gap-4 items-center">
+                                <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                    <iconify-icon icon="lucide:mail" width="20"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Email Digest</p>
+                                    <p class="text-xs text-slate-400">Weekly highlights</p>
+                                </div>
+                            </div>
+                            <button class="w-12 h-6 rounded-full bg-slate-200 flex items-center px-1">
+                                <div class="w-4 h-4 bg-white rounded-full"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Completion -->
+                <div class="step-section px-6 flex flex-col items-center justify-center text-center">
+                    <div class="w-24 h-24 bg-slate-900 rounded-[32px] flex items-center justify-center mb-8 shadow-2xl shadow-slate-300">
+                        <iconify-icon icon="lucide:check" class="text-white text-5xl"></iconify-icon>
+                    </div>
+                    <h1 class="text-[32px] font-semibold text-slate-900 mb-3 tracking-tight">
+                        All set!
+                    </h1>
+                    <p class="text-slate-500 text-base leading-relaxed px-4">
+                        Your profile is ready. You can always change your preferences in settings.
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer: Fixed CTA -->
+        <footer class="shrink-0 px-6 pt-4 pb-[34px] bg-white border-t border-slate-100">
+            <div class="flex flex-col gap-4">
+                <button id="continue-btn" class="w-full h-14 bg-slate-900 hover:bg-black text-white rounded-full font-medium text-[17px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-lg shadow-slate-200">
+                    <span id="btn-text">Continue</span>
+                    <iconify-icon id="btn-icon" icon="lucide:arrow-right" width="20"></iconify-icon>
+                </button>
+                <button id="skip-btn" class="w-full py-2 text-slate-400 text-sm font-medium hover:text-slate-600 transition-colors">
+                    Skip for now
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        const container = document.getElementById('flow-container');
+        const progressFill = document.getElementById('progress-fill');
+        const stepCounter = document.getElementById('step-counter');
+        const backBtn = document.getElementById('back-btn');
+        const continueBtn = document.getElementById('continue-btn');
+        const skipBtn = document.getElementById('skip-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+
+        function updateUI() {
+            // Update Step Counter
+            stepCounter.textContent = `Step ${currentStep} of ${totalSteps}`;
+            
+            // Update Progress Bar
+            progressFill.style.width = `${(currentStep / totalSteps) * 100}%`;
+            
+            // Slide Container
+            container.style.transform = `translateX(-${(currentStep - 1) * 25}%)`;
+            
+            // Back Button Visibility
+            if (currentStep > 1) {
+                backBtn.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                backBtn.classList.add('opacity-0', 'pointer-events-none');
+            }
+
+            // Button Text/Style Changes
+            if (currentStep === totalSteps) {
+                btnText.textContent = "Get Started";
+                btnIcon.setAttribute('icon', 'lucide:rocket');
+                skipBtn.classList.add('hidden');
+            } else {
+                btnText.textContent = "Continue";
+                btnIcon.setAttribute('icon', 'lucide:arrow-right');
+                skipBtn.classList.remove('hidden');
+            }
+        }
+
+        continueBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            } else {
+                // Final submission
+                continueBtn.innerHTML = '<iconify-icon icon="svg-spinners:180-ring-with-bg" width="24"></iconify-icon>';
+                setTimeout(() => alert('Account creation complete!'), 800);
+            }
+        });
+
+        backBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        skipBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        });
+
+        // Interactive Toggle buttons in Step 3
+        document.querySelectorAll('.step-section:nth-child(3) button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const dot = btn.querySelector('div');
+                const isOff = btn.classList.contains('bg-slate-200');
+                if (isOff) {
+                    btn.classList.replace('bg-slate-200', 'bg-slate-900');
+                    dot.classList.add('translate-x-6');
+                } else {
+                    btn.classList.replace('bg-slate-900', 'bg-slate-200');
+                    dot.classList.remove('translate-x-6');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

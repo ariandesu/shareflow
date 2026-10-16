@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRIDIRON PRESS — A Design Studio, Set in Ink</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Radley:ital@0;1&family=Lancelot&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#181410;
+    --ink-soft:#3d362e;
+    --paper:#f4f1ea;
+    --paper-deep:#ece7dc;
+    --hair:rgba(24,20,16,.85);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{background:#e8e3d8;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Lancelot', 'Playfair Display', Georgia, serif;
+    font-size:19px;
+    line-height:1.52;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* paper grain */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.52 0 0 0 0 0.46 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .sheet{
+    max-width:1280px;margin:26px auto 34px;padding:30px 44px 26px;
+    border:1px solid var(--hair);
+    background:var(--paper);
+    position:relative;
+  }
+  img{filter:grayscale(1) contrast(1.06);display:block;width:100%;}
+
+  /* ---------- type voices ---------- */
+  .caps{font-family:'Radley',serif;text-transform:uppercase;letter-spacing:.22em;}
+  .anton{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;letter-spacing:.015em;font-weight:400;}
+  .just{text-align:justify;hyphens:auto;-webkit-hyphens:auto;}
+
+  /* ---------- edition bar ---------- */
+  .edition{
+    display:flex;align-items:center;justify-content:space-between;
+    border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+    padding:7px 2px;font-size:12.5px;
+  }
+  .edition .fleuron{font-size:17px;letter-spacing:0;}
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    text-align:center;
+    border-bottom:4px double var(--ink);
+    padding:22px 0 16px;
+  }
+  .masthead h1{
+    font-family:'Radley',serif;font-weight:400;
+    font-size:96px !important;line-height:.98;
+    text-transform:uppercase;letter-spacing:.045em;
+  }
+  .navrow{
+    display:flex;justify-content:center;gap:52px;
+    border-bottom:1px solid var(--hair);
+    padding:9px 0;font-size:12.5px;
+  }
+  .navrow a{color:var(--ink);text-decoration:none;}
+  .navrow a:hover{text-decoration:underline;text-underline-offset:4px;}
+  .dateline{
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;
+    border-bottom:1px solid var(--hair);
+    padding:8px 2px;font-size:12.5px;
+  }
+  .dateline .tag{font-family:'Radley',serif;font-style:italic;font-size:16px;letter-spacing:.01em;text-transform:none;text-align:center;}
+  .dateline .r{text-align:right;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:40px 0 8px;text-align:center;}
+  .kicker{font-size:13px;color:var(--ink-soft);margin-bottom:18px;}
+  .hero h2.headline{
+    font-size:88px !important;line-height:.96;
+    max-width:1080px;margin:0 auto 26px;
+  }
+  .lede{
+    column-count:2;column-gap:42px;column-rule:1px solid var(--hair);
+    max-width:920px;margin:0 auto 34px;text-align:justify;hyphens:auto;
+    font-size:19px;
+  }
+  .lede .dropcap::first-letter{
+    font-family:'Radley',serif;font-size:64px;line-height:.82;
+    float:left;padding:6px 10px 0 0;
+  }
+  .figure{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:14px 0;}
+  .figure img{height:470px;object-fit:cover;}
+  .figcap{
+    display:flex;justify-content:space-between;
+    font-size:12px;padding-top:10px;color:var(--ink-soft);
+  }
+
+  /* ---------- desk columns ---------- */
+  .deskhead{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid var(--hair);padding:26px 0 10px;margin-bottom:26px;
+  }
+  .deskhead .anton{font-size:26px !important;}
+  .deskhead span{font-size:12px;color:var(--ink-soft);}
+  .columns{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;
+  }
+  .col{padding:0 30px;border-left:1px solid var(--hair);}
+  .col:first-child{border-left:none;padding-left:2px;}
+  .col:last-child{padding-right:2px;}
+  .col h3{font-size:23px !important;margin-bottom:12px;line-height:1.12;}
+  .col p{font-size:17.5px;margin-bottom:14px;}
+  .col img{height:170px;object-fit:cover;margin:4px 0 12px;}
+  .col .more{font-family:'Radley',serif;font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:2px;}
+
+  /* ---------- portfolio spread ---------- */
+  .spread{display:grid;grid-template-columns:1.7fr 1fr;gap:26px;margin-bottom:8px;}
+  .plate{border:1px solid var(--hair);padding:12px;background:var(--paper);}
+  .plate img{height:330px;object-fit:cover;}
+  .plate.small img{height:132px;}
+  .plate .pcap{display:flex;justify-content:space-between;align-items:baseline;padding-top:10px;}
+  .plate .pcap b{font-family:'Radley',serif;font-weight:400;text-transform:uppercase;letter-spacing:.18em;font-size:12px;}
+  .plate .pcap i{font-family:'Radley',serif;font-size:13px;color:var(--ink-soft);}
+  .spread .stack{display:grid;grid-template-rows:1fr 1fr;gap:26px;}
+
+  /* ---------- letters (pull quote) ---------- */
+  .letters{
+    border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+    margin-top:34px;padding:38px 60px;text-align:center;
+  }
+  .letters .q{
+    font-family:'Radley',serif;font-style:italic;
+    font-size:34px !important;line-height:1.28;max-width:900px;margin:14px auto 18px;
+  }
+  .letters .who{font-size:12px;color:var(--ink-soft);}
+
+  /* ---------- client register ---------- */
+  .register{padding:30px 0 6px;}
+  .register .names{
+    display:flex;flex-wrap:wrap;justify-content:center;column-gap:26px;row-gap:12px;
+    font-family:'Radley',serif;font-size:13px;text-transform:uppercase;letter-spacing:.2em;
+    max-width:1050px;margin:0 auto;color:var(--ink-soft);
+  }
+  .register .names .dot{letter-spacing:0;color:var(--ink);}
+
+  /* ---------- commission ---------- */
+  .commission{
+    margin:36px auto 10px;max-width:780px;text-align:center;
+    border-top:4px double var(--ink);border-bottom:4px double var(--ink);
+    padding:36px 40px 40px;
+  }
+  .commission h4{font-size:44px !important;line-height:1.02;margin:14px 0 12px;}
+  .commission p{font-family:'Radley',serif;font-style:italic;font-size:17px;color:var(--ink-soft);max-width:520px;margin:0 auto 24px;}
+  .inkbtn{
+    display:inline-block;background:var(--ink);color:var(--paper);
+    font-family:'Radley',serif;font-size:13px;text-transform:uppercase;letter-spacing:.24em;
+    padding:14px 34px;text-decoration:none;
+  }
+  .inkbtn:hover{background:var(--ink-soft);}
+
+  /* ---------- footer ---------- */
+  .colophon{
+    border-top:1px solid var(--hair);margin-top:30px;padding:12px 2px 2px;
+    display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);
+  }
+  @media (max-width:960px){
+    .sheet{padding:18px;margin:10px;}
+    .masthead h1{font-size:48px !important;}
+    .hero h2.headline{font-size:44px !important;}
+    .lede{column-count:1;}
+    .columns{grid-template-columns:1fr;}
+    .col{border-left:none;border-top:1px solid var(--hair);padding:18px 2px;}
+    .spread{grid-template-columns:1fr;}
+    .navrow{gap:18px;flex-wrap:wrap;}
+    .edition,.dateline{font-size:10px;}
+    .letters{padding:26px 10px;}
+  }
+</style>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>window.tailwind=window.tailwind||{};window.tailwind.config={corePlugins:{preflight:false}};</script>
+
+<meta name="preview-version" content="81cf026e-ee91-4a9b-909b-38199ec9265a" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:46.335Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "81cf026e-ee91-4a9b-909b-38199ec9265a");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "81cf026e-ee91-4a9b-909b-38199ec9265a",
+      timestamp: "2026-10-16T14:07:46.335Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "81cf026e-ee91-4a9b-909b-38199ec9265a";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- edition bar -->
+  <div class="edition caps">
+    <span>Independent Design Practice</span>
+    <span class="fleuron">❦</span>
+    <span>London&nbsp;&nbsp;·&nbsp;&nbsp;Sydney</span>
+  </div>
+
+  <!-- masthead -->
+  <header class="masthead">
+    <h1>Gridiron&nbsp;Press</h1>
+  </header>
+  <nav class="navrow caps">
+    <a href="#work">The Work</a>
+    <a href="#desks">Services</a>
+    <a href="#letters">Letters</a>
+    <a href="#studio">The Studio</a>
+    <a href="#commission">Commission</a>
+  </nav>
+  <div class="dateline caps">
+    <span>Est. MMXIX</span>
+    <span class="tag">A design studio that sets brands in ink &amp; pixels</span>
+    <span class="r">Issue No. 47 — July MMXXVI</span>
+  </div>
+
+  <!-- hero -->
+  <section class="hero">
+    <p class="kicker caps">Brand Identity · Digital Product · Art Direction</p>
+    <h2 class="headline anton">Design worth<br>the front page</h2>
+    <div class="lede">
+      <p class="dropcap">We are a nine-person studio that believes a brand should read like a great newspaper: one voice, a strict grid, and not a single wasted column inch. Founded on a print floor and raised on the web, Gridiron Press sets identities, products, and campaigns with the same discipline compositors once brought to the morning edition.</p>
+      <p>Every engagement starts in the archive and ends on the press. We research like reporters, edit like sub-editors, and ship like a deadline is an hour away, because it usually is. If your brand deserves more than a template, request this week's edition of our thinking below.</p>
+    </div>
+    <figure class="figure">
+      <img src="https://picsum.photos/id/20/1600/640?grayscale" alt="The studio floor on press day" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+      <figcaption class="figcap caps"><span>Fig. 01 — The studio floor, photographed on press day</span><span>Silver gelatin, MMXXVI</span></figcaption>
+    </figure>
+  </section>
+
+  <!-- three desks -->
+  <section id="desks">
+    <div class="deskhead">
+      <h3 class="anton">The Three Desks</h3>
+      <span class="caps">What the studio sets, column by column</span>
+    </div>
+    <div class="columns">
+      <article class="col">
+        <h3 class="anton">Brand Identity</h3>
+        <p class="just">Wordmarks, type systems, and the editorial rules that keep a company sounding like itself on every surface. We deliver the standards manual first and the logo second, because the manual is what survives.</p>
+        <img src="https://picsum.photos/id/403/640/380?grayscale" alt="Metal type in a case" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+        <a class="more" href="#work">Read the case files →</a>
+      </article>
+      <article class="col">
+        <h3 class="anton">Digital Product</h3>
+        <p class="just">Interfaces set on an unforgiving grid: design systems, marketing sites, and product surfaces that load fast and read faster. Our engineers sit at the same bench as our designers, one desk, one deadline.</p>
+        <img src="https://picsum.photos/id/60/640/380?grayscale" alt="A designer's desk" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+        <a class="more" href="#work">Read the case files →</a>
+      </article>
+      <article class="col">
+        <h3 class="anton">Art Direction</h3>
+        <p class="just">Campaigns, photography, and film with a single-minded point of view. We commission the picture, write the caption, and argue about the crop until the frame earns its place above the fold.</p>
+        <img src="https://picsum.photos/id/250/640/380?grayscale" alt="A camera in a dark room" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+        <a class="more" href="#work">Read the case files →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- portfolio spread -->
+  <section id="work">
+    <div class="deskhead">
+      <h3 class="anton">From the Portfolio Pages</h3>
+      <span class="caps">Selected editions, MMXIX — present</span>
+    </div>
+    <div class="spread">
+      <figure class="plate">
+        <img src="https://picsum.photos/id/119/1100/620?grayscale" alt="Foundry rebrand hero" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+        <figcaption class="pcap"><b>The Foundry Hotels — Identity</b><i>Edition of MMXXV</i></figcaption>
+      </figure>
+      <div class="stack">
+        <figure class="plate small">
+          <img src="https://picsum.photos/id/8/640/300?grayscale" alt="Ledger app interface" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+          <figcaption class="pcap"><b>Ledger — Product</b><i>MMXXIV</i></figcaption>
+        </figure>
+        <figure class="plate small">
+          <img src="https://picsum.photos/id/903/640/300?grayscale" alt="Archive film still" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+          <figcaption class="pcap"><b>Archive — Campaign</b><i>MMXXVI</i></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- letters to the editor -->
+  <section class="letters" id="letters">
+    <span class="caps" style="font-size:12px;">Letters to the Editor</span>
+    <p class="q">“They rebuilt our brand the way an editor rebuilds a rushed paragraph: nothing added, everything sharpened. Revenue followed the typography.”</p>
+    <p class="who caps">— Managing Director, The Foundry Hotels · Letter received 14 March MMXXVI</p>
+  </section>
+
+  <!-- client register -->
+  <section class="register" id="studio">
+    <div class="deskhead" style="border-bottom:none;padding-bottom:0;margin-bottom:16px;justify-content:center;">
+      <span class="caps" style="font-size:12px;">The Client Register</span>
+    </div>
+    <p class="names">
+      <span>Foundry Hotels</span><span class="dot">❦</span>
+      <span>Ledger &amp; Sons</span><span class="dot">❦</span>
+      <span>Archive Film Co.</span><span class="dot">❦</span>
+      <span>Meridian Rail</span><span class="dot">❦</span>
+      <span>Halftone Coffee</span><span class="dot">❦</span>
+      <span>The Composers' Guild</span><span class="dot">❦</span>
+      <span>Northlight Books</span><span class="dot">❦</span>
+      <span>Setline Athletics</span>
+    </p>
+  </section>
+
+  <!-- commission -->
+  <section class="commission" id="commission">
+    <span class="caps" style="font-size:12px;">Now accepting autumn commissions</span>
+    <h4 class="anton">Put your brand<br>above the fold</h4>
+    <p>Two engagements are set each season. Send the brief; the editor replies to every letter within two working days.</p>
+    <a class="inkbtn" href="#">Submit the brief</a>
+  </section>
+
+  <!-- colophon -->
+  <footer class="colophon caps">
+    <span>© MMXXVI Gridiron Press — Published from the studio floor</span>
+    <span>Page One of One</span>
+  </footer>
+
+</div>
+</body>
+</html>

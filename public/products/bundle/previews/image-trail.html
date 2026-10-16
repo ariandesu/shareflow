@@ -1,0 +1,4477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperDesign Project</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        #root {
+            width: 100%;
+            min-height: 100vh;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "modern-screenshot": "https://esm.sh/modern-screenshot@4.6.6",
+          "react": "https://esm.sh/react@18.3.1?dev",
+          "react-dom": "https://esm.sh/react-dom@18.3.1?dev",
+          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?dev",
+          "scheduler": "https://esm.sh/scheduler@0.23.2",
+          "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime?dev",
+          "react-is": "https://esm.sh/react-is@18.3.1?dev",
+          "react-router-dom": "https://esm.sh/react-router-dom@6.28.0?dev"
+        }
+      }
+    </script>
+
+<meta name="preview-version" content="bd9a29ca-417b-4e14-b217-aae83bd40638" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:38.364Z" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Merriweather:wght@300;400;500;600;700;800;900&family=Fira%20Code:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: 240 2% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 240 2% 10%;
+  --accent: 240 2% 10%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --background: 0 0% 98%;
+  --foreground: 240 2% 10%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 2% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 4%;
+  --border: 214 32% 91%;
+  --input: 240 6% 90%;
+  --ring: 240 6% 10%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 240 5% 26%;
+  --sidebar-primary: 240 6% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 5% 96%;
+  --sidebar-accent-foreground: 240 6% 10%;
+  --sidebar-border: 240 6% 90%;
+  --sidebar-ring: 240 5% 65%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --font-sans: "Inter";
+  --font-serif: "Merriweather";
+  --font-mono: "Fira Code";
+  --font-size: 16;
+  --line-height: 1.5;
+  --letter-spacing-body: 0;
+  --letter-spacing-heading: -0.02em;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --radius: 1.5rem;
+  --box-shadow: 0 40px 80px -20px rgba(0,0,0,0.1);
+}
+
+.dark {
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 2% 10%;
+  --secondary: 0 0% 20%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 0 0% 100%;
+  --accent-foreground: 240 2% 10%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+  --background: 240 2% 10%;
+  --foreground: 0 0% 98%;
+  --muted: 240 1% 17%;
+  --muted-foreground: 0 0% 63%;
+  --card: 240 2% 10%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 4%;
+  --popover-foreground: 0 0% 98%;
+  --border: 0 0% 20%;
+  --input: 240 4% 16%;
+  --ring: 240 5% 84%;
+  --sidebar: 240 6% 10%;
+  --sidebar-foreground: 240 5% 65%;
+  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4% 16%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-border: 240 4% 16%;
+  --sidebar-ring: 240 5% 26%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}</style>
+<style>@font-face {
+  font-family: 'Aktura';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/aktura/Aktura-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alpino';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/alpino/Alpino-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amulya';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/amulya/Amulya-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amulya';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/amulya/Amulya-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anton';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/anton/Anton-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/archivo/Archivo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/archivo/Archivo-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Array';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/array/Array-Bold.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Asap';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/asap/Asap-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Asap';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/asap/Asap-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Author';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/author/Author-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Author';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/author/Author-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AzeretMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/azeretmono/AzeretMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AzeretMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/azeretmono/AzeretMono-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BeVietnamPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevietnampro/BeVietnamPro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BeVietnamPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevietnampro/BeVietnamPro-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bebasneue/BebasNeue-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokesans/BespokeSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokesans/BespokeSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSerif';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeserif/BespokeSerif-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSerif';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeserif/BespokeSerif-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeslab/BespokeSlab-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeslab/BespokeSlab-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeStencil';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokestencil/BespokeStencil-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeStencil';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokestencil/BespokeStencil-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bevellier';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevellier/Bevellier-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bevellier';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevellier/Bevellier-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bonny';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bonny/Bonny-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boska/Boska-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boska/Boska-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boxing';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boxing/Boxing-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Britney';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/britney/Britney-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CabinetGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/cabinetgrotesk/CabinetGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chillax';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chillax/Chillax-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chubbo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chubbo/Chubbo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chubbo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chubbo/Chubbo-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/clashgrotesk/ClashGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Comico';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/comico/Comico-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CrimsonPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/crimsonpro/CrimsonPro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CrimsonPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/crimsonpro/CrimsonPro-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DancingScript';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/dancingscript/DancingScript-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Epilogue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/epilogue/Epilogue-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Epilogue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/epilogue/Epilogue-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Erode';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/erode/Erode-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Erode';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/erode/Erode-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Excon';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/excon/Excon-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Expose';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/expose/Expose-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FamiljenGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/familjengrotesk/FamiljenGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FamiljenGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/familjengrotesk/FamiljenGrotesk-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/firasans/FiraSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/firasans/FiraSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambarino';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambarino/Gambarino-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambetta/Gambetta-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambetta/Gambetta-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeneralSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/generalsans/GeneralSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeneralSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/generalsans/GeneralSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hind';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/hind/Hind-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hoover';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/hoover/Hoover-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/jetbrainsmono/JetBrainsMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/jetbrainsmono/JetBrainsMono-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kalam';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kalam/Kalam-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karma';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/karma/Karma-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Khand';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/khand/Khand-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kihim';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kihim/Kihim-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KohinoorZerone';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kohinoorzerone/KohinoorZerone-One.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kola';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kola/Kola-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Literata';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/literata/Literata-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Literata';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/literata/Literata-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/lora/Lora-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/lora/Lora-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/manrope/Manrope-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Melodrama';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/melodrama/Melodrama-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/merriweathersans/MerriweatherSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/merriweathersans/MerriweatherSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/montserrat/Montserrat-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/montserrat/Montserrat-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neco';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/neco/Neco-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neco';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/neco/Neco-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NewTitle';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/newtitle/NewTitle-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nippo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nippo/Nippo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nunito/Nunito-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nunito/Nunito-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/oswald/Oswald-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/outfit/Outfit-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pally';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pally/Pally-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Panchang';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/panchang/Panchang-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Paquito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/paquito/Paquito-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pencerio';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pencerio/Pencerio-Hairline.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PilcrowRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pilcrowrounded/PilcrowRounded-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plein';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plein/Plein-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plein';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plein/Plein-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plusjakartasans/PlusJakartaSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plusjakartasans/PlusJakartaSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/poppins/Poppins-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/poppins/Poppins-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PramukhRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pramukhrounded/PramukhRounded-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PramukhRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pramukhrounded/PramukhRounded-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PublicSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/publicsans/PublicSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PublicSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/publicsans/PublicSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/quicksand/Quicksand-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quilon';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/quilon/Quilon-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RX100';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rx100/RX100-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rajdhani';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rajdhani/Rajdhani-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ranade';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/ranade/Ranade-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ranade';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/ranade/Ranade-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recia';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/recia/Recia-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recia';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/recia/Recia-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/redhatdisplay/RedHatDisplay-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/redhatdisplay/RedHatDisplay-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rosaline';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rosaline/Rosaline-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roundo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/roundo/Roundo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rowan';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rowan/Rowan-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rowan';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rowan/Rowan-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/satoshi/Satoshi-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/satoshi/Satoshi-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Segment';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/segment/Segment-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sentient';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sentient/Sentient-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sentient';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sentient/Sentient-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sharpie';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sharpie/Sharpie-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sora/Sora-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sora/Sora-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/spacegrotesk/SpaceGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SplineSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/splinesans/SplineSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Stardom';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/stardom/Stardom-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Striper';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/striper/Striper-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Styro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/styro/Styro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/supreme/Supreme-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/supreme/Supreme-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/switzer/Switzer-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/switzer/Switzer-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Synonym';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/synonym/Synonym-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tabular';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tabular/Tabular-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tabular';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tabular/Tabular-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tanker';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tanker/Tanker-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Technor';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/technor/Technor-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teko';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/teko/Teko-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Telma';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/telma/Telma-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TrenchSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/trenchslab/TrenchSlab-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/worksans/WorkSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/worksans/WorkSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zina';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zina/Zina-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zodiak';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zodiak/Zodiak-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zodiak';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zodiak/Zodiak-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}</style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    if (window.tailwind) {
+      window.tailwind.config = {
+        ...(window.tailwind.config || {}),
+        theme: {
+          extend: {"colors":{"border":"hsl(var(--border))","input":"hsl(var(--input))","ring":"hsl(var(--ring))","background":"hsl(var(--background))","foreground":"hsl(var(--foreground))","primary":{"DEFAULT":"hsl(var(--primary))","foreground":"hsl(var(--primary-foreground))"},"secondary":{"DEFAULT":"hsl(var(--secondary))","foreground":"hsl(var(--secondary-foreground))"},"destructive":{"DEFAULT":"hsl(var(--destructive))","foreground":"hsl(var(--destructive-foreground))"},"muted":{"DEFAULT":"hsl(var(--muted))","foreground":"hsl(var(--muted-foreground))"},"accent":{"DEFAULT":"hsl(var(--accent))","foreground":"hsl(var(--accent-foreground))"},"popover":{"DEFAULT":"hsl(var(--popover))","foreground":"hsl(var(--popover-foreground))"},"card":{"DEFAULT":"hsl(var(--card))","foreground":"hsl(var(--card-foreground))"},"sidebar":{"DEFAULT":"hsl(var(--sidebar-background))","foreground":"hsl(var(--sidebar-foreground))","primary":"hsl(var(--sidebar-primary))","primary-foreground":"hsl(var(--sidebar-primary-foreground))","accent":"hsl(var(--sidebar-accent))","accent-foreground":"hsl(var(--sidebar-accent-foreground))","border":"hsl(var(--sidebar-border))"},"chart":{"1":"hsl(var(--chart-1))","2":"hsl(var(--chart-2))","3":"hsl(var(--chart-3))","4":"hsl(var(--chart-4))","5":"hsl(var(--chart-5))"}},"borderRadius":{"lg":"var(--radius)","md":"calc(var(--radius) - 2px)","sm":"calc(var(--radius) - 4px)"},"fontFamily":{"sans":["var(--font-sans)","system-ui","sans-serif"],"serif":["var(--font-serif)","Georgia","serif"],"mono":["var(--font-mono)","monospace"]}}
+        }
+      };
+    }
+  </script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "bd9a29ca-417b-4e14-b217-aae83bd40638");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "bd9a29ca-417b-4e14-b217-aae83bd40638",
+      timestamp: "2026-10-16T14:07:38.364Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          setTimeout(function() { window.__SUPERDESIGN_PREVIEW__.autoCapture(); }, 3000);
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="module">
+      (async function() {
+        const depModules = {};
+        function isMobileDevice() {
+          return /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent);
+        }
+        async function loadReact() {
+          if (!depModules["react"]) {
+            try {
+              const [React, ReactDOMClient, jsxRuntime, ReactDOMUtils, modernScreenshot] = await Promise.all([
+                import("https://esm.sh/react@18.3.1?dev"),
+                import("https://esm.sh/react-dom@18.3.1/client?dev"),
+                import("https://esm.sh/react@18.3.1/jsx-runtime?dev"),
+                import("https://esm.sh/react-dom@18.3.1?dev"),
+                import("https://esm.sh/modern-screenshot@4.6.6")
+              ]);
+              window.React = React;
+              window.modernScreenshot = modernScreenshot;
+              window.ReactDOM = {
+                ...ReactDOMClient,
+                ...ReactDOMUtils
+              };
+              depModules["react"] = {
+                default: React,
+                ...React,
+              };
+              depModules["react-dom"] = {
+                default: ReactDOM,
+                ...ReactDOM,
+              };
+              depModules["react/jsx-runtime"] = {
+                default: jsxRuntime,
+                ...jsxRuntime,
+              };
+            } catch (error) {
+              console.error('Failed to load React dependencies:', error);
+            }
+          }
+        }
+        async function loadDep(depName) {
+          if (!depModules[depName]) {
+            try {
+              const module = await import(depName);
+              depModules[depName] = module;
+              if (!module.default) {
+                depModules[depName] = {
+                  default: module,
+                  ...module,
+                };
+              }
+            } catch (error) {
+              console.error('Failed to load dependency:', depName, error);
+            }
+          }
+        }
+        // Load dependencies concurrently
+        await Promise.all([
+          loadReact()
+        ]);
+        
+        // Execute JS Bundle
+        var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn2, res) => function __init() {
+  return fn2 && (res = (0, fn2[__getOwnPropNames(fn2)[0]])(fn2 = 0)), res;
+};
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// <define:import.meta>
+var init_define_import_meta = __esm({
+  "<define:import.meta>"() {
+  }
+});
+
+// <define:process.env>
+var init_define_process_env = __esm({
+  "<define:process.env>"() {
+  }
+});
+
+// external-global-plugin:react
+var require_react = __commonJS({
+  "external-global-plugin:react"(exports, module) {
+    init_define_import_meta();
+    init_define_process_env();
+    module.exports = window.React;
+  }
+});
+
+// external-global-plugin:react-dom/client
+var require_client = __commonJS({
+  "external-global-plugin:react-dom/client"(exports, module) {
+    init_define_import_meta();
+    init_define_process_env();
+    module.exports = window.ReactDOM;
+  }
+});
+
+// ../../../../../../_superdesign_entry_.tsx
+init_define_import_meta();
+init_define_process_env();
+var import_react3 = __toESM(require_react());
+var import_client = __toESM(require_client());
+
+// ../../../../../../src/App.tsx
+init_define_import_meta();
+init_define_process_env();
+var import_react2 = __toESM(require_react());
+
+// ../../../../../../src/Component
+init_define_import_meta();
+init_define_process_env();
+var import_react = __toESM(require_react());
+
+// http-url:https://esm.sh/gsap@^3.12.5?bundle&external=react,react-dom
+init_define_import_meta();
+init_define_process_env();
+
+// http-url:https://esm.sh/gsap@3.14.2/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/gsap.bundle.mjs
+init_define_import_meta();
+init_define_process_env();
+function mt(u15) {
+  if (u15 === void 0)
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  return u15;
+}
+function Ei(u15, t) {
+  u15.prototype = Object.create(t.prototype), u15.prototype.constructor = u15, u15.__proto__ = t;
+}
+var et = { autoSleep: 120, force3D: "auto", nullTargetWarn: 1, units: { lineHeight: "" } };
+var Xt = { duration: 0.5, overwrite: false, delay: 0 };
+var Ze;
+var G;
+var E;
+var ut = 1e8;
+var M = 1 / ut;
+var Be = Math.PI * 2;
+var Rr = Be / 4;
+var Er = 0;
+var zi = Math.sqrt;
+var zr = Math.cos;
+var Fr = Math.sin;
+var U = function(t) {
+  return typeof t == "string";
+};
+var I = function(t) {
+  return typeof t == "function";
+};
+var yt = function(t) {
+  return typeof t == "number";
+};
+var Pe = function(t) {
+  return typeof t > "u";
+};
+var ct = function(t) {
+  return typeof t == "object";
+};
+var tt = function(t) {
+  return t !== false;
+};
+var je = function() {
+  return typeof window < "u";
+};
+var pe = function(t) {
+  return I(t) || U(t);
+};
+var Fi = typeof ArrayBuffer == "function" && ArrayBuffer.isView || function() {
+};
+var K = Array.isArray;
+var Lr = /random\([^)]+\)/g;
+var Ir = /,\s*/g;
+var Si = /(?:-?\.?\d|\.)+/gi;
+var $e = /[-+=.]*\d+[.e\-+]*\d*[e\-+]*\d*/g;
+var Ft = /[-+=.]*\d+[.e-]*\d*[a-z%]*/g;
+var Re = /[-+=.]*\d+\.?\d*(?:e-|e\+)?\d*/gi;
+var He = /[+-]=-?[.\d]+/;
+var Nr = /[^,'"\[\]\s]+/gi;
+var Br = /^[+\-=e\s\d]*\d+[.\d]*([a-z]*|%)\s*$/i;
+var F;
+var ht;
+var Ve;
+var Je;
+var nt = {};
+var xe = {};
+var Li;
+var Ii = function(t) {
+  return (xe = qt(t, nt)) && Z;
+};
+var Se = function(t, e) {
+  return console.warn("Invalid property", t, "set to", e, "Missing plugin? gsap.registerPlugin()");
+};
+var ae = function(t, e) {
+  return !e && console.warn(t);
+};
+var Ni = function(t, e) {
+  return t && (nt[t] = e) && xe && (xe[t] = e) || nt;
+};
+var oe = function() {
+  return 0;
+};
+var Vr = { suppressEvents: true, isStart: true, kill: false };
+var me = { suppressEvents: true, kill: false };
+var Ur = { suppressEvents: true };
+var ti = {};
+var wt = [];
+var Ue = {};
+var Bi;
+var H = {};
+var Ee = {};
+var Oi = 30;
+var ge = [];
+var ei = "";
+var ii = function(t) {
+  var e = t[0], i, r;
+  if (ct(e) || I(e) || (t = [t]), !(i = (e._gsap || {}).harness)) {
+    for (r = ge.length; r-- && !ge[r].targetTest(e); )
+      ;
+    i = ge[r];
+  }
+  for (r = t.length; r--; )
+    t[r] && (t[r]._gsap || (t[r]._gsap = new ai(t[r], i))) || t.splice(r, 1);
+  return t;
+};
+var bt = function(t) {
+  return t._gsap || ii(ft(t))[0]._gsap;
+};
+var ri = function(t, e, i) {
+  return (i = t[e]) && I(i) ? t[e]() : Pe(i) && t.getAttribute && t.getAttribute(e) || i;
+};
+var j = function(t, e) {
+  return (t = t.split(",")).forEach(e) || t;
+};
+var N = function(t) {
+  return Math.round(t * 1e5) / 1e5 || 0;
+};
+var z = function(t) {
+  return Math.round(t * 1e7) / 1e7 || 0;
+};
+var Lt = function(t, e) {
+  var i = e.charAt(0), r = parseFloat(e.substr(2));
+  return t = parseFloat(t), i === "+" ? t + r : i === "-" ? t - r : i === "*" ? t * r : t / r;
+};
+var Yr = function(t, e) {
+  for (var i = e.length, r = 0; t.indexOf(e[r]) < 0 && ++r < i; )
+    ;
+  return r < i;
+};
+var ve = function() {
+  var t = wt.length, e = wt.slice(0), i, r;
+  for (Ue = {}, wt.length = 0, i = 0; i < t; i++)
+    r = e[i], r && r._lazy && (r.render(r._lazy[0], r._lazy[1], true)._lazy = 0);
+};
+var ni = function(t) {
+  return !!(t._initted || t._startAt || t.add);
+};
+var Vi = function(t, e, i, r) {
+  wt.length && !G && ve(), t.render(e, i, r || !!(G && e < 0 && ni(t))), wt.length && !G && ve();
+};
+var Ui = function(t) {
+  var e = parseFloat(t);
+  return (e || e === 0) && (t + "").match(Nr).length < 2 ? e : U(t) ? t.trim() : t;
+};
+var Yi = function(t) {
+  return t;
+};
+var st = function(t, e) {
+  for (var i in e)
+    i in t || (t[i] = e[i]);
+  return t;
+};
+var Xr = function(t) {
+  return function(e, i) {
+    for (var r in i)
+      r in e || r === "duration" && t || r === "ease" || (e[r] = i[r]);
+  };
+};
+var qt = function(t, e) {
+  for (var i in e)
+    t[i] = e[i];
+  return t;
+};
+var ki = function u(t, e) {
+  for (var i in e)
+    i !== "__proto__" && i !== "constructor" && i !== "prototype" && (t[i] = ct(e[i]) ? u(t[i] || (t[i] = {}), e[i]) : e[i]);
+  return t;
+};
+var Te = function(t, e) {
+  var i = {}, r;
+  for (r in t)
+    r in e || (i[r] = t[r]);
+  return i;
+};
+var re = function(t) {
+  var e = t.parent || F, i = t.keyframes ? Xr(K(t.keyframes)) : st;
+  if (tt(t.inherit))
+    for (; e; )
+      i(t, e.vars.defaults), e = e.parent || e._dp;
+  return t;
+};
+var qr = function(t, e) {
+  for (var i = t.length, r = i === e.length; r && i-- && t[i] === e[i]; )
+    ;
+  return i < 0;
+};
+var Xi = function(t, e, i, r, n) {
+  i === void 0 && (i = "_first"), r === void 0 && (r = "_last");
+  var s = t[r], a;
+  if (n)
+    for (a = e[n]; s && s[n] > a; )
+      s = s._prev;
+  return s ? (e._next = s._next, s._next = e) : (e._next = t[i], t[i] = e), e._next ? e._next._prev = e : t[r] = e, e._prev = s, e.parent = e._dp = t, e;
+};
+var Oe = function(t, e, i, r) {
+  i === void 0 && (i = "_first"), r === void 0 && (r = "_last");
+  var n = e._prev, s = e._next;
+  n ? n._next = s : t[i] === e && (t[i] = s), s ? s._prev = n : t[r] === e && (t[r] = n), e._next = e._prev = e.parent = null;
+};
+var Pt = function(t, e) {
+  t.parent && (!e || t.parent.autoRemoveChildren) && t.parent.remove && t.parent.remove(t), t._act = 0;
+};
+var Rt = function(t, e) {
+  if (t && (!e || e._end > t._dur || e._start < 0))
+    for (var i = t; i; )
+      i._dirty = 1, i = i.parent;
+  return t;
+};
+var Wr = function(t) {
+  for (var e = t.parent; e && e.parent; )
+    e._dirty = 1, e.totalDuration(), e = e.parent;
+  return t;
+};
+var Ye = function(t, e, i, r) {
+  return t._startAt && (G ? t._startAt.revert(me) : t.vars.immediateRender && !t.vars.autoRevert || t._startAt.render(e, true, r));
+};
+var Gr = function u2(t) {
+  return !t || t._ts && u2(t.parent);
+};
+var Ci = function(t) {
+  return t._repeat ? Wt(t._tTime, t = t.duration() + t._rDelay) * t : 0;
+};
+var Wt = function(t, e) {
+  var i = Math.floor(t = z(t / e));
+  return t && i === t ? i - 1 : i;
+};
+var we = function(t, e) {
+  return (t - e._start) * e._ts + (e._ts >= 0 ? 0 : e._dirty ? e.totalDuration() : e._tDur);
+};
+var ke = function(t) {
+  return t._end = z(t._start + (t._tDur / Math.abs(t._ts || t._rts || M) || 0));
+};
+var Ce = function(t, e) {
+  var i = t._dp;
+  return i && i.smoothChildTiming && t._ts && (t._start = z(i._time - (t._ts > 0 ? e / t._ts : ((t._dirty ? t.totalDuration() : t._tDur) - e) / -t._ts)), ke(t), i._dirty || Rt(i, t)), t;
+};
+var qi = function(t, e) {
+  var i;
+  if ((e._time || !e._dur && e._initted || e._start < t._time && (e._dur || !e.add)) && (i = we(t.rawTime(), e), (!e._dur || _e(0, e.totalDuration(), i) - e._tTime > M) && e.render(i, true)), Rt(t, e)._dp && t._initted && t._time >= t._dur && t._ts) {
+    if (t._dur < t.duration())
+      for (i = t; i._dp; )
+        i.rawTime() >= 0 && i.totalTime(i._tTime), i = i._dp;
+    t._zTime = -M;
+  }
+};
+var lt = function(t, e, i, r) {
+  return e.parent && Pt(e), e._start = z((yt(i) ? i : i || t !== F ? ot(t, i, e) : t._time) + e._delay), e._end = z(e._start + (e.totalDuration() / Math.abs(e.timeScale()) || 0)), Xi(t, e, "_first", "_last", t._sort ? "_start" : 0), Xe(e) || (t._recent = e), r || qi(t, e), t._ts < 0 && Ce(t, t._tTime), t;
+};
+var Wi = function(t, e) {
+  return (nt.ScrollTrigger || Se("scrollTrigger", e)) && nt.ScrollTrigger.create(e, t);
+};
+var Gi = function(t, e, i, r, n) {
+  if (fi(t, e, n), !t._initted)
+    return 1;
+  if (!i && t._pt && !G && (t._dur && t.vars.lazy !== false || !t._dur && t.vars.lazy) && Bi !== J.frame)
+    return wt.push(t), t._lazy = [n, r], 1;
+};
+var Qr = function u3(t) {
+  var e = t.parent;
+  return e && e._ts && e._initted && !e._lock && (e.rawTime() < 0 || u3(e));
+};
+var Xe = function(t) {
+  var e = t.data;
+  return e === "isFromStart" || e === "isStart";
+};
+var Kr = function(t, e, i, r) {
+  var n = t.ratio, s = e < 0 || !e && (!t._start && Qr(t) && !(!t._initted && Xe(t)) || (t._ts < 0 || t._dp._ts < 0) && !Xe(t)) ? 0 : 1, a = t._rDelay, o = 0, f, _, l;
+  if (a && t._repeat && (o = _e(0, t._tDur, e), _ = Wt(o, a), t._yoyo && _ & 1 && (s = 1 - s), _ !== Wt(t._tTime, a) && (n = 1 - s, t.vars.repeatRefresh && t._initted && t.invalidate())), s !== n || G || r || t._zTime === M || !e && t._zTime) {
+    if (!t._initted && Gi(t, e, r, i, o))
+      return;
+    for (l = t._zTime, t._zTime = e || (i ? M : 0), i || (i = e && !l), t.ratio = s, t._from && (s = 1 - s), t._time = 0, t._tTime = o, f = t._pt; f; )
+      f.r(s, f.d), f = f._next;
+    e < 0 && Ye(t, e, i, true), t._onUpdate && !i && rt(t, "onUpdate"), o && t._repeat && !i && t.parent && rt(t, "onRepeat"), (e >= t._tDur || e < 0) && t.ratio === s && (s && Pt(t, 1), !i && !G && (rt(t, s ? "onComplete" : "onReverseComplete", true), t._prom && t._prom()));
+  } else
+    t._zTime || (t._zTime = e);
+};
+var Zr = function(t, e, i) {
+  var r;
+  if (i > e)
+    for (r = t._first; r && r._start <= i; ) {
+      if (r.data === "isPause" && r._start > e)
+        return r;
+      r = r._next;
+    }
+  else
+    for (r = t._last; r && r._start >= i; ) {
+      if (r.data === "isPause" && r._start < e)
+        return r;
+      r = r._prev;
+    }
+};
+var Gt = function(t, e, i, r) {
+  var n = t._repeat, s = z(e) || 0, a = t._tTime / t._tDur;
+  return a && !r && (t._time *= s / t._dur), t._dur = s, t._tDur = n ? n < 0 ? 1e10 : z(s * (n + 1) + t._rDelay * n) : s, a > 0 && !r && Ce(t, t._tTime = t._tDur * a), t.parent && ke(t), i || Rt(t.parent, t), t;
+};
+var Mi = function(t) {
+  return t instanceof W ? Rt(t) : Gt(t, t._dur);
+};
+var jr = { _start: 0, endTime: oe, totalDuration: oe };
+var ot = function u4(t, e, i) {
+  var r = t.labels, n = t._recent || jr, s = t.duration() >= ut ? n.endTime(false) : t._dur, a, o, f;
+  return U(e) && (isNaN(e) || e in r) ? (o = e.charAt(0), f = e.substr(-1) === "%", a = e.indexOf("="), o === "<" || o === ">" ? (a >= 0 && (e = e.replace(/=/, "")), (o === "<" ? n._start : n.endTime(n._repeat >= 0)) + (parseFloat(e.substr(1)) || 0) * (f ? (a < 0 ? n : i).totalDuration() / 100 : 1)) : a < 0 ? (e in r || (r[e] = s), r[e]) : (o = parseFloat(e.charAt(a - 1) + e.substr(a + 1)), f && i && (o = o / 100 * (K(i) ? i[0] : i).totalDuration()), a > 1 ? u4(t, e.substr(0, a - 1), i) + o : s + o)) : e == null ? s : +e;
+};
+var ne = function(t, e, i) {
+  var r = yt(e[1]), n = (r ? 2 : 1) + (t < 2 ? 0 : 1), s = e[n], a, o;
+  if (r && (s.duration = e[1]), s.parent = i, t) {
+    for (a = s, o = i; o && !("immediateRender" in a); )
+      a = o.vars.defaults || {}, o = tt(o.vars.inherit) && o.parent;
+    s.immediateRender = tt(a.immediateRender), t < 2 ? s.runBackwards = 1 : s.startAt = e[n - 1];
+  }
+  return new B(e[0], s, e[n + 1]);
+};
+var St = function(t, e) {
+  return t || t === 0 ? e(t) : e;
+};
+var _e = function(t, e, i) {
+  return i < t ? t : i > e ? e : i;
+};
+var Q = function(t, e) {
+  return !U(t) || !(e = Br.exec(t)) ? "" : e[1];
+};
+var $r = function(t, e, i) {
+  return St(i, function(r) {
+    return _e(t, e, r);
+  });
+};
+var qe = [].slice;
+var Qi = function(t, e) {
+  return t && ct(t) && "length" in t && (!e && !t.length || t.length - 1 in t && ct(t[0])) && !t.nodeType && t !== ht;
+};
+var Hr = function(t, e, i) {
+  return i === void 0 && (i = []), t.forEach(function(r) {
+    var n;
+    return U(r) && !e || Qi(r, 1) ? (n = i).push.apply(n, ft(r)) : i.push(r);
+  }) || i;
+};
+var ft = function(t, e, i) {
+  return E && !e && E.selector ? E.selector(t) : U(t) && !i && (Ve || !Qt()) ? qe.call((e || Je).querySelectorAll(t), 0) : K(t) ? Hr(t, i) : Qi(t) ? qe.call(t, 0) : t ? [t] : [];
+};
+var We = function(t) {
+  return t = ft(t)[0] || ae("Invalid scope") || {}, function(e) {
+    var i = t.current || t.nativeElement || t;
+    return ft(e, i.querySelectorAll ? i : i === t ? ae("Invalid scope") || Je.createElement("div") : t);
+  };
+};
+var Ki = function(t) {
+  return t.sort(function() {
+    return 0.5 - Math.random();
+  });
+};
+var Zi = function(t) {
+  if (I(t))
+    return t;
+  var e = ct(t) ? t : { each: t }, i = Et(e.ease), r = e.from || 0, n = parseFloat(e.base) || 0, s = {}, a = r > 0 && r < 1, o = isNaN(r) || a, f = e.axis, _ = r, l = r;
+  return U(r) ? _ = l = { center: 0.5, edges: 0.5, end: 1 }[r] || 0 : !a && o && (_ = r[0], l = r[1]), function(c, d, p) {
+    var h = (p || e).length, m = s[h], y, x, T, w, g, b, P, S, v;
+    if (!m) {
+      if (v = e.grid === "auto" ? 0 : (e.grid || [1, ut])[1], !v) {
+        for (P = -ut; P < (P = p[v++].getBoundingClientRect().left) && v < h; )
+          ;
+        v < h && v--;
+      }
+      for (m = s[h] = [], y = o ? Math.min(v, h) * _ - 0.5 : r % v, x = v === ut ? 0 : o ? h * l / v - 0.5 : r / v | 0, P = 0, S = ut, b = 0; b < h; b++)
+        T = b % v - y, w = x - (b / v | 0), m[b] = g = f ? Math.abs(f === "y" ? w : T) : zi(T * T + w * w), g > P && (P = g), g < S && (S = g);
+      r === "random" && Ki(m), m.max = P - S, m.min = S, m.v = h = (parseFloat(e.amount) || parseFloat(e.each) * (v > h ? h - 1 : f ? f === "y" ? h / v : v : Math.max(v, h / v)) || 0) * (r === "edges" ? -1 : 1), m.b = h < 0 ? n - h : n, m.u = Q(e.amount || e.each) || 0, i = i && h < 0 ? nr(i) : i;
+    }
+    return h = (m[c] - m.min) / m.max || 0, z(m.b + (i ? i(h) : h) * m.v) + m.u;
+  };
+};
+var Ge = function(t) {
+  var e = Math.pow(10, ((t + "").split(".")[1] || "").length);
+  return function(i) {
+    var r = z(Math.round(parseFloat(i) / t) * t * e);
+    return (r - r % 1) / e + (yt(i) ? 0 : Q(i));
+  };
+};
+var ji = function(t, e) {
+  var i = K(t), r, n;
+  return !i && ct(t) && (r = i = t.radius || ut, t.values ? (t = ft(t.values), (n = !yt(t[0])) && (r *= r)) : t = Ge(t.increment)), St(e, i ? I(t) ? function(s) {
+    return n = t(s), Math.abs(n - s) <= r ? n : s;
+  } : function(s) {
+    for (var a = parseFloat(n ? s.x : s), o = parseFloat(n ? s.y : 0), f = ut, _ = 0, l = t.length, c, d; l--; )
+      n ? (c = t[l].x - a, d = t[l].y - o, c = c * c + d * d) : c = Math.abs(t[l] - a), c < f && (f = c, _ = l);
+    return _ = !r || f <= r ? t[_] : s, n || _ === s || yt(s) ? _ : _ + Q(s);
+  } : Ge(t));
+};
+var $i = function(t, e, i, r) {
+  return St(K(t) ? !e : i === true ? !!(i = 0) : !r, function() {
+    return K(t) ? t[~~(Math.random() * t.length)] : (i = i || 1e-5) && (r = i < 1 ? Math.pow(10, (i + "").length - 2) : 1) && Math.floor(Math.round((t - i / 2 + Math.random() * (e - t + i * 0.99)) / i) * i * r) / r;
+  });
+};
+var Jr = function() {
+  for (var t = arguments.length, e = new Array(t), i = 0; i < t; i++)
+    e[i] = arguments[i];
+  return function(r) {
+    return e.reduce(function(n, s) {
+      return s(n);
+    }, r);
+  };
+};
+var tn = function(t, e) {
+  return function(i) {
+    return t(parseFloat(i)) + (e || Q(i));
+  };
+};
+var en = function(t, e, i) {
+  return Ji(t, e, 0, 1, i);
+};
+var Hi = function(t, e, i) {
+  return St(i, function(r) {
+    return t[~~e(r)];
+  });
+};
+var rn = function u5(t, e, i) {
+  var r = e - t;
+  return K(t) ? Hi(t, u5(0, t.length), e) : St(i, function(n) {
+    return (r + (n - t) % r) % r + t;
+  });
+};
+var nn = function u6(t, e, i) {
+  var r = e - t, n = r * 2;
+  return K(t) ? Hi(t, u6(0, t.length - 1), e) : St(i, function(s) {
+    return s = (n + (s - t) % n) % n || 0, t + (s > r ? n - s : s);
+  });
+};
+var Kt = function(t) {
+  return t.replace(Lr, function(e) {
+    var i = e.indexOf("[") + 1, r = e.substring(i || 7, i ? e.indexOf("]") : e.length - 1).split(Ir);
+    return $i(i ? r : +r[0], i ? 0 : +r[1], +r[2] || 1e-5);
+  });
+};
+var Ji = function(t, e, i, r, n) {
+  var s = e - t, a = r - i;
+  return St(n, function(o) {
+    return i + ((o - t) / s * a || 0);
+  });
+};
+var sn = function u7(t, e, i, r) {
+  var n = isNaN(t + e) ? 0 : function(d) {
+    return (1 - d) * t + d * e;
+  };
+  if (!n) {
+    var s = U(t), a = {}, o, f, _, l, c;
+    if (i === true && (r = 1) && (i = null), s)
+      t = { p: t }, e = { p: e };
+    else if (K(t) && !K(e)) {
+      for (_ = [], l = t.length, c = l - 2, f = 1; f < l; f++)
+        _.push(u7(t[f - 1], t[f]));
+      l--, n = function(p) {
+        p *= l;
+        var h = Math.min(c, ~~p);
+        return _[h](p - h);
+      }, i = e;
+    } else
+      r || (t = qt(K(t) ? [] : {}, t));
+    if (!_) {
+      for (o in e)
+        oi.call(a, t, o, "get", e[o]);
+      n = function(p) {
+        return li(p, a) || (s ? t.p : t);
+      };
+    }
+  }
+  return St(i, n);
+};
+var Di = function(t, e, i) {
+  var r = t.labels, n = ut, s, a, o;
+  for (s in r)
+    a = r[s] - e, a < 0 == !!i && a && n > (a = Math.abs(a)) && (o = s, n = a);
+  return o;
+};
+var rt = function(t, e, i) {
+  var r = t.vars, n = r[e], s = E, a = t._ctx, o, f, _;
+  if (n)
+    return o = r[e + "Params"], f = r.callbackScope || t, i && wt.length && ve(), a && (E = a), _ = o ? n.apply(f, o) : n.call(f), E = s, _;
+};
+var ee = function(t) {
+  return Pt(t), t.scrollTrigger && t.scrollTrigger.kill(!!G), t.progress() < 1 && rt(t, "onInterrupt"), t;
+};
+var Yt;
+var tr = [];
+var er = function(t) {
+  if (t)
+    if (t = !t.name && t.default || t, je() || t.headless) {
+      var e = t.name, i = I(t), r = e && !i && t.init ? function() {
+        this._props = [];
+      } : t, n = { init: oe, render: li, add: oi, kill: Tn, modifier: vn, rawVars: 0 }, s = { targetTest: 0, get: 0, getSetter: Me, aliases: {}, register: 0 };
+      if (Qt(), t !== r) {
+        if (H[e])
+          return;
+        st(r, st(Te(t, n), s)), qt(r.prototype, qt(n, Te(t, s))), H[r.prop = e] = r, t.targetTest && (ge.push(r), ti[e] = 1), e = (e === "css" ? "CSS" : e.charAt(0).toUpperCase() + e.substr(1)) + "Plugin";
+      }
+      Ni(e, r), t.register && t.register(Z, r, $);
+    } else
+      tr.push(t);
+};
+var C = 255;
+var ie = { aqua: [0, C, C], lime: [0, C, 0], silver: [192, 192, 192], black: [0, 0, 0], maroon: [128, 0, 0], teal: [0, 128, 128], blue: [0, 0, C], navy: [0, 0, 128], white: [C, C, C], olive: [128, 128, 0], yellow: [C, C, 0], orange: [C, 165, 0], gray: [128, 128, 128], purple: [128, 0, 128], green: [0, 128, 0], red: [C, 0, 0], pink: [C, 192, 203], cyan: [0, C, C], transparent: [C, C, C, 0] };
+var ze = function(t, e, i) {
+  return t += t < 0 ? 1 : t > 1 ? -1 : 0, (t * 6 < 1 ? e + (i - e) * t * 6 : t < 0.5 ? i : t * 3 < 2 ? e + (i - e) * (2 / 3 - t) * 6 : e) * C + 0.5 | 0;
+};
+var ir = function(t, e, i) {
+  var r = t ? yt(t) ? [t >> 16, t >> 8 & C, t & C] : 0 : ie.black, n, s, a, o, f, _, l, c, d, p;
+  if (!r) {
+    if (t.substr(-1) === "," && (t = t.substr(0, t.length - 1)), ie[t])
+      r = ie[t];
+    else if (t.charAt(0) === "#") {
+      if (t.length < 6 && (n = t.charAt(1), s = t.charAt(2), a = t.charAt(3), t = "#" + n + n + s + s + a + a + (t.length === 5 ? t.charAt(4) + t.charAt(4) : "")), t.length === 9)
+        return r = parseInt(t.substr(1, 6), 16), [r >> 16, r >> 8 & C, r & C, parseInt(t.substr(7), 16) / 255];
+      t = parseInt(t.substr(1), 16), r = [t >> 16, t >> 8 & C, t & C];
+    } else if (t.substr(0, 3) === "hsl") {
+      if (r = p = t.match(Si), !e)
+        o = +r[0] % 360 / 360, f = +r[1] / 100, _ = +r[2] / 100, s = _ <= 0.5 ? _ * (f + 1) : _ + f - _ * f, n = _ * 2 - s, r.length > 3 && (r[3] *= 1), r[0] = ze(o + 1 / 3, n, s), r[1] = ze(o, n, s), r[2] = ze(o - 1 / 3, n, s);
+      else if (~t.indexOf("="))
+        return r = t.match($e), i && r.length < 4 && (r[3] = 1), r;
+    } else
+      r = t.match(Si) || ie.transparent;
+    r = r.map(Number);
+  }
+  return e && !p && (n = r[0] / C, s = r[1] / C, a = r[2] / C, l = Math.max(n, s, a), c = Math.min(n, s, a), _ = (l + c) / 2, l === c ? o = f = 0 : (d = l - c, f = _ > 0.5 ? d / (2 - l - c) : d / (l + c), o = l === n ? (s - a) / d + (s < a ? 6 : 0) : l === s ? (a - n) / d + 2 : (n - s) / d + 4, o *= 60), r[0] = ~~(o + 0.5), r[1] = ~~(f * 100 + 0.5), r[2] = ~~(_ * 100 + 0.5)), i && r.length < 4 && (r[3] = 1), r;
+};
+var rr = function(t) {
+  var e = [], i = [], r = -1;
+  return t.split(gt).forEach(function(n) {
+    var s = n.match(Ft) || [];
+    e.push.apply(e, s), i.push(r += s.length + 1);
+  }), e.c = i, e;
+};
+var Ai = function(t, e, i) {
+  var r = "", n = (t + r).match(gt), s = e ? "hsla(" : "rgba(", a = 0, o, f, _, l;
+  if (!n)
+    return t;
+  if (n = n.map(function(c) {
+    return (c = ir(c, e, 1)) && s + (e ? c[0] + "," + c[1] + "%," + c[2] + "%," + c[3] : c.join(",")) + ")";
+  }), i && (_ = rr(t), o = i.c, o.join(r) !== _.c.join(r)))
+    for (f = t.replace(gt, "1").split(Ft), l = f.length - 1; a < l; a++)
+      r += f[a] + (~o.indexOf(a) ? n.shift() || s + "0,0,0,0)" : (_.length ? _ : n.length ? n : i).shift());
+  if (!f)
+    for (f = t.split(gt), l = f.length - 1; a < l; a++)
+      r += f[a] + n[a];
+  return r + f[l];
+};
+var gt = function() {
+  var u15 = "(?:\\b(?:(?:rgb|rgba|hsl|hsla)\\(.+?\\))|\\B#(?:[0-9a-f]{3,4}){1,2}\\b", t;
+  for (t in ie)
+    u15 += "|" + t + "\\b";
+  return new RegExp(u15 + ")", "gi");
+}();
+var an = /hsl[a]?\(/;
+var si = function(t) {
+  var e = t.join(" "), i;
+  if (gt.lastIndex = 0, gt.test(e))
+    return i = an.test(e), t[1] = Ai(t[1], i), t[0] = Ai(t[0], i, rr(t[1])), true;
+};
+var ue;
+var J = function() {
+  var u15 = Date.now, t = 500, e = 33, i = u15(), r = i, n = 1e3 / 240, s = n, a = [], o, f, _, l, c, d, p = function h(m) {
+    var y = u15() - r, x = m === true, T, w, g, b;
+    if ((y > t || y < 0) && (i += y - e), r += y, g = r - i, T = g - s, (T > 0 || x) && (b = ++l.frame, c = g - l.time * 1e3, l.time = g = g / 1e3, s += T + (T >= n ? 4 : n - T), w = 1), x || (o = f(h)), w)
+      for (d = 0; d < a.length; d++)
+        a[d](g, c, b, m);
+  };
+  return l = { time: 0, frame: 0, tick: function() {
+    p(true);
+  }, deltaRatio: function(m) {
+    return c / (1e3 / (m || 60));
+  }, wake: function() {
+    Li && (!Ve && je() && (ht = Ve = window, Je = ht.document || {}, nt.gsap = Z, (ht.gsapVersions || (ht.gsapVersions = [])).push(Z.version), Ii(xe || ht.GreenSockGlobals || !ht.gsap && ht || {}), tr.forEach(er)), _ = typeof requestAnimationFrame < "u" && requestAnimationFrame, o && l.sleep(), f = _ || function(m) {
+      return setTimeout(m, s - l.time * 1e3 + 1 | 0);
+    }, ue = 1, p(2));
+  }, sleep: function() {
+    (_ ? cancelAnimationFrame : clearTimeout)(o), ue = 0, f = oe;
+  }, lagSmoothing: function(m, y) {
+    t = m || 1 / 0, e = Math.min(y || 33, t);
+  }, fps: function(m) {
+    n = 1e3 / (m || 240), s = l.time * 1e3 + n;
+  }, add: function(m, y, x) {
+    var T = y ? function(w, g, b, P) {
+      m(w, g, b, P), l.remove(T);
+    } : m;
+    return l.remove(m), a[x ? "unshift" : "push"](T), Qt(), T;
+  }, remove: function(m, y) {
+    ~(y = a.indexOf(m)) && a.splice(y, 1) && d >= y && d--;
+  }, _listeners: a }, l;
+}();
+var Qt = function() {
+  return !ue && J.wake();
+};
+var O = {};
+var on = /^[\d.\-M][\d.\-,\s]/;
+var un = /["']/g;
+var fn = function(t) {
+  for (var e = {}, i = t.substr(1, t.length - 3).split(":"), r = i[0], n = 1, s = i.length, a, o, f; n < s; n++)
+    o = i[n], a = n !== s - 1 ? o.lastIndexOf(",") : o.length, f = o.substr(0, a), e[r] = isNaN(f) ? f.replace(un, "").trim() : +f, r = o.substr(a + 1).trim();
+  return e;
+};
+var _n = function(t) {
+  var e = t.indexOf("(") + 1, i = t.indexOf(")"), r = t.indexOf("(", e);
+  return t.substring(e, ~r && r < i ? t.indexOf(")", i + 1) : i);
+};
+var hn = function(t) {
+  var e = (t + "").split("("), i = O[e[0]];
+  return i && e.length > 1 && i.config ? i.config.apply(null, ~t.indexOf("{") ? [fn(e[1])] : _n(t).split(",").map(Ui)) : O._CE && on.test(t) ? O._CE("", t) : i;
+};
+var nr = function(t) {
+  return function(e) {
+    return 1 - t(1 - e);
+  };
+};
+var sr = function u8(t, e) {
+  for (var i = t._first, r; i; )
+    i instanceof W ? u8(i, e) : i.vars.yoyoEase && (!i._yoyo || !i._repeat) && i._yoyo !== e && (i.timeline ? u8(i.timeline, e) : (r = i._ease, i._ease = i._yEase, i._yEase = r, i._yoyo = e)), i = i._next;
+};
+var Et = function(t, e) {
+  return t && (I(t) ? t : O[t] || hn(t)) || e;
+};
+var It = function(t, e, i, r) {
+  i === void 0 && (i = function(o) {
+    return 1 - e(1 - o);
+  }), r === void 0 && (r = function(o) {
+    return o < 0.5 ? e(o * 2) / 2 : 1 - e((1 - o) * 2) / 2;
+  });
+  var n = { easeIn: e, easeOut: i, easeInOut: r }, s;
+  return j(t, function(a) {
+    O[a] = nt[a] = n, O[s = a.toLowerCase()] = i;
+    for (var o in n)
+      O[s + (o === "easeIn" ? ".in" : o === "easeOut" ? ".out" : ".inOut")] = O[a + "." + o] = n[o];
+  }), n;
+};
+var ar = function(t) {
+  return function(e) {
+    return e < 0.5 ? (1 - t(1 - e * 2)) / 2 : 0.5 + t((e - 0.5) * 2) / 2;
+  };
+};
+var Fe = function u9(t, e, i) {
+  var r = e >= 1 ? e : 1, n = (i || (t ? 0.3 : 0.45)) / (e < 1 ? e : 1), s = n / Be * (Math.asin(1 / r) || 0), a = function(_) {
+    return _ === 1 ? 1 : r * Math.pow(2, -10 * _) * Fr((_ - s) * n) + 1;
+  }, o = t === "out" ? a : t === "in" ? function(f) {
+    return 1 - a(1 - f);
+  } : ar(a);
+  return n = Be / n, o.config = function(f, _) {
+    return u9(t, f, _);
+  }, o;
+};
+var Le = function u10(t, e) {
+  e === void 0 && (e = 1.70158);
+  var i = function(s) {
+    return s ? --s * s * ((e + 1) * s + e) + 1 : 0;
+  }, r = t === "out" ? i : t === "in" ? function(n) {
+    return 1 - i(1 - n);
+  } : ar(i);
+  return r.config = function(n) {
+    return u10(t, n);
+  }, r;
+};
+j("Linear,Quad,Cubic,Quart,Quint,Strong", function(u15, t) {
+  var e = t < 5 ? t + 1 : t;
+  It(u15 + ",Power" + (e - 1), t ? function(i) {
+    return Math.pow(i, e);
+  } : function(i) {
+    return i;
+  }, function(i) {
+    return 1 - Math.pow(1 - i, e);
+  }, function(i) {
+    return i < 0.5 ? Math.pow(i * 2, e) / 2 : 1 - Math.pow((1 - i) * 2, e) / 2;
+  });
+});
+O.Linear.easeNone = O.none = O.Linear.easeIn;
+It("Elastic", Fe("in"), Fe("out"), Fe());
+(function(u15, t) {
+  var e = 1 / t, i = 2 * e, r = 2.5 * e, n = function(a) {
+    return a < e ? u15 * a * a : a < i ? u15 * Math.pow(a - 1.5 / t, 2) + 0.75 : a < r ? u15 * (a -= 2.25 / t) * a + 0.9375 : u15 * Math.pow(a - 2.625 / t, 2) + 0.984375;
+  };
+  It("Bounce", function(s) {
+    return 1 - n(1 - s);
+  }, n);
+})(7.5625, 2.75);
+It("Expo", function(u15) {
+  return Math.pow(2, 10 * (u15 - 1)) * u15 + u15 * u15 * u15 * u15 * u15 * u15 * (1 - u15);
+});
+It("Circ", function(u15) {
+  return -(zi(1 - u15 * u15) - 1);
+});
+It("Sine", function(u15) {
+  return u15 === 1 ? 1 : -zr(u15 * Rr) + 1;
+});
+It("Back", Le("in"), Le("out"), Le());
+O.SteppedEase = O.steps = nt.SteppedEase = { config: function(t, e) {
+  t === void 0 && (t = 1);
+  var i = 1 / t, r = t + (e ? 0 : 1), n = e ? 1 : 0, s = 1 - M;
+  return function(a) {
+    return ((r * _e(0, s, a) | 0) + n) * i;
+  };
+} };
+Xt.ease = O["quad.out"];
+j("onComplete,onUpdate,onStart,onRepeat,onReverseComplete,onInterrupt", function(u15) {
+  return ei += u15 + "," + u15 + "Params,";
+});
+var ai = function(t, e) {
+  this.id = Er++, t._gsap = this, this.target = t, this.harness = e, this.get = e ? e.get : ri, this.set = e ? e.getSetter : Me;
+};
+var fe = function() {
+  function u15(e) {
+    this.vars = e, this._delay = +e.delay || 0, (this._repeat = e.repeat === 1 / 0 ? -2 : e.repeat || 0) && (this._rDelay = e.repeatDelay || 0, this._yoyo = !!e.yoyo || !!e.yoyoEase), this._ts = 1, Gt(this, +e.duration, 1, 1), this.data = e.data, E && (this._ctx = E, E.data.push(this)), ue || J.wake();
+  }
+  var t = u15.prototype;
+  return t.delay = function(i) {
+    return i || i === 0 ? (this.parent && this.parent.smoothChildTiming && this.startTime(this._start + i - this._delay), this._delay = i, this) : this._delay;
+  }, t.duration = function(i) {
+    return arguments.length ? this.totalDuration(this._repeat > 0 ? i + (i + this._rDelay) * this._repeat : i) : this.totalDuration() && this._dur;
+  }, t.totalDuration = function(i) {
+    return arguments.length ? (this._dirty = 0, Gt(this, this._repeat < 0 ? i : (i - this._repeat * this._rDelay) / (this._repeat + 1))) : this._tDur;
+  }, t.totalTime = function(i, r) {
+    if (Qt(), !arguments.length)
+      return this._tTime;
+    var n = this._dp;
+    if (n && n.smoothChildTiming && this._ts) {
+      for (Ce(this, i), !n._dp || n.parent || qi(n, this); n && n.parent; )
+        n.parent._time !== n._start + (n._ts >= 0 ? n._tTime / n._ts : (n.totalDuration() - n._tTime) / -n._ts) && n.totalTime(n._tTime, true), n = n.parent;
+      !this.parent && this._dp.autoRemoveChildren && (this._ts > 0 && i < this._tDur || this._ts < 0 && i > 0 || !this._tDur && !i) && lt(this._dp, this, this._start - this._delay);
+    }
+    return (this._tTime !== i || !this._dur && !r || this._initted && Math.abs(this._zTime) === M || !this._initted && this._dur && i || !i && !this._initted && (this.add || this._ptLookup)) && (this._ts || (this._pTime = i), Vi(this, i, r)), this;
+  }, t.time = function(i, r) {
+    return arguments.length ? this.totalTime(Math.min(this.totalDuration(), i + Ci(this)) % (this._dur + this._rDelay) || (i ? this._dur : 0), r) : this._time;
+  }, t.totalProgress = function(i, r) {
+    return arguments.length ? this.totalTime(this.totalDuration() * i, r) : this.totalDuration() ? Math.min(1, this._tTime / this._tDur) : this.rawTime() >= 0 && this._initted ? 1 : 0;
+  }, t.progress = function(i, r) {
+    return arguments.length ? this.totalTime(this.duration() * (this._yoyo && !(this.iteration() & 1) ? 1 - i : i) + Ci(this), r) : this.duration() ? Math.min(1, this._time / this._dur) : this.rawTime() > 0 ? 1 : 0;
+  }, t.iteration = function(i, r) {
+    var n = this.duration() + this._rDelay;
+    return arguments.length ? this.totalTime(this._time + (i - 1) * n, r) : this._repeat ? Wt(this._tTime, n) + 1 : 1;
+  }, t.timeScale = function(i, r) {
+    if (!arguments.length)
+      return this._rts === -M ? 0 : this._rts;
+    if (this._rts === i)
+      return this;
+    var n = this.parent && this._ts ? we(this.parent._time, this) : this._tTime;
+    return this._rts = +i || 0, this._ts = this._ps || i === -M ? 0 : this._rts, this.totalTime(_e(-Math.abs(this._delay), this.totalDuration(), n), r !== false), ke(this), Wr(this);
+  }, t.paused = function(i) {
+    return arguments.length ? (this._ps !== i && (this._ps = i, i ? (this._pTime = this._tTime || Math.max(-this._delay, this.rawTime()), this._ts = this._act = 0) : (Qt(), this._ts = this._rts, this.totalTime(this.parent && !this.parent.smoothChildTiming ? this.rawTime() : this._tTime || this._pTime, this.progress() === 1 && Math.abs(this._zTime) !== M && (this._tTime -= M)))), this) : this._ps;
+  }, t.startTime = function(i) {
+    if (arguments.length) {
+      this._start = z(i);
+      var r = this.parent || this._dp;
+      return r && (r._sort || !this.parent) && lt(r, this, this._start - this._delay), this;
+    }
+    return this._start;
+  }, t.endTime = function(i) {
+    return this._start + (tt(i) ? this.totalDuration() : this.duration()) / Math.abs(this._ts || 1);
+  }, t.rawTime = function(i) {
+    var r = this.parent || this._dp;
+    return r ? i && (!this._ts || this._repeat && this._time && this.totalProgress() < 1) ? this._tTime % (this._dur + this._rDelay) : this._ts ? we(r.rawTime(i), this) : this._tTime : this._tTime;
+  }, t.revert = function(i) {
+    i === void 0 && (i = Ur);
+    var r = G;
+    return G = i, ni(this) && (this.timeline && this.timeline.revert(i), this.totalTime(-0.01, i.suppressEvents)), this.data !== "nested" && i.kill !== false && this.kill(), G = r, this;
+  }, t.globalTime = function(i) {
+    for (var r = this, n = arguments.length ? i : r.rawTime(); r; )
+      n = r._start + n / (Math.abs(r._ts) || 1), r = r._dp;
+    return !this.parent && this._sat ? this._sat.globalTime(i) : n;
+  }, t.repeat = function(i) {
+    return arguments.length ? (this._repeat = i === 1 / 0 ? -2 : i, Mi(this)) : this._repeat === -2 ? 1 / 0 : this._repeat;
+  }, t.repeatDelay = function(i) {
+    if (arguments.length) {
+      var r = this._time;
+      return this._rDelay = i, Mi(this), r ? this.time(r) : this;
+    }
+    return this._rDelay;
+  }, t.yoyo = function(i) {
+    return arguments.length ? (this._yoyo = i, this) : this._yoyo;
+  }, t.seek = function(i, r) {
+    return this.totalTime(ot(this, i), tt(r));
+  }, t.restart = function(i, r) {
+    return this.play().totalTime(i ? -this._delay : 0, tt(r)), this._dur || (this._zTime = -M), this;
+  }, t.play = function(i, r) {
+    return i != null && this.seek(i, r), this.reversed(false).paused(false);
+  }, t.reverse = function(i, r) {
+    return i != null && this.seek(i || this.totalDuration(), r), this.reversed(true).paused(false);
+  }, t.pause = function(i, r) {
+    return i != null && this.seek(i, r), this.paused(true);
+  }, t.resume = function() {
+    return this.paused(false);
+  }, t.reversed = function(i) {
+    return arguments.length ? (!!i !== this.reversed() && this.timeScale(-this._rts || (i ? -M : 0)), this) : this._rts < 0;
+  }, t.invalidate = function() {
+    return this._initted = this._act = 0, this._zTime = -M, this;
+  }, t.isActive = function() {
+    var i = this.parent || this._dp, r = this._start, n;
+    return !!(!i || this._ts && this._initted && i.isActive() && (n = i.rawTime(true)) >= r && n < this.endTime(true) - M);
+  }, t.eventCallback = function(i, r, n) {
+    var s = this.vars;
+    return arguments.length > 1 ? (r ? (s[i] = r, n && (s[i + "Params"] = n), i === "onUpdate" && (this._onUpdate = r)) : delete s[i], this) : s[i];
+  }, t.then = function(i) {
+    var r = this, n = r._prom;
+    return new Promise(function(s) {
+      var a = I(i) ? i : Yi, o = function() {
+        var _ = r.then;
+        r.then = null, n && n(), I(a) && (a = a(r)) && (a.then || a === r) && (r.then = _), s(a), r.then = _;
+      };
+      r._initted && r.totalProgress() === 1 && r._ts >= 0 || !r._tTime && r._ts < 0 ? o() : r._prom = o;
+    });
+  }, t.kill = function() {
+    ee(this);
+  }, u15;
+}();
+st(fe.prototype, { _time: 0, _start: 0, _end: 0, _tTime: 0, _tDur: 0, _dirty: 0, _repeat: 0, _yoyo: false, parent: null, _initted: false, _rDelay: 0, _ts: 1, _dp: 0, ratio: 0, _zTime: -M, _prom: 0, _ps: false, _rts: 1 });
+var W = function(u15) {
+  Ei(t, u15);
+  function t(i, r) {
+    var n;
+    return i === void 0 && (i = {}), n = u15.call(this, i) || this, n.labels = {}, n.smoothChildTiming = !!i.smoothChildTiming, n.autoRemoveChildren = !!i.autoRemoveChildren, n._sort = tt(i.sortChildren), F && lt(i.parent || F, mt(n), r), i.reversed && n.reverse(), i.paused && n.paused(true), i.scrollTrigger && Wi(mt(n), i.scrollTrigger), n;
+  }
+  var e = t.prototype;
+  return e.to = function(r, n, s) {
+    return ne(0, arguments, this), this;
+  }, e.from = function(r, n, s) {
+    return ne(1, arguments, this), this;
+  }, e.fromTo = function(r, n, s, a) {
+    return ne(2, arguments, this), this;
+  }, e.set = function(r, n, s) {
+    return n.duration = 0, n.parent = this, re(n).repeatDelay || (n.repeat = 0), n.immediateRender = !!n.immediateRender, new B(r, n, ot(this, s), 1), this;
+  }, e.call = function(r, n, s) {
+    return lt(this, B.delayedCall(0, r, n), s);
+  }, e.staggerTo = function(r, n, s, a, o, f, _) {
+    return s.duration = n, s.stagger = s.stagger || a, s.onComplete = f, s.onCompleteParams = _, s.parent = this, new B(r, s, ot(this, o)), this;
+  }, e.staggerFrom = function(r, n, s, a, o, f, _) {
+    return s.runBackwards = 1, re(s).immediateRender = tt(s.immediateRender), this.staggerTo(r, n, s, a, o, f, _);
+  }, e.staggerFromTo = function(r, n, s, a, o, f, _, l) {
+    return a.startAt = s, re(a).immediateRender = tt(a.immediateRender), this.staggerTo(r, n, a, o, f, _, l);
+  }, e.render = function(r, n, s) {
+    var a = this._time, o = this._dirty ? this.totalDuration() : this._tDur, f = this._dur, _ = r <= 0 ? 0 : z(r), l = this._zTime < 0 != r < 0 && (this._initted || !f), c, d, p, h, m, y, x, T, w, g, b, P;
+    if (this !== F && _ > o && r >= 0 && (_ = o), _ !== this._tTime || s || l) {
+      if (a !== this._time && f && (_ += this._time - a, r += this._time - a), c = _, w = this._start, T = this._ts, y = !T, l && (f || (a = this._zTime), (r || !n) && (this._zTime = r)), this._repeat) {
+        if (b = this._yoyo, m = f + this._rDelay, this._repeat < -1 && r < 0)
+          return this.totalTime(m * 100 + r, n, s);
+        if (c = z(_ % m), _ === o ? (h = this._repeat, c = f) : (g = z(_ / m), h = ~~g, h && h === g && (c = f, h--), c > f && (c = f)), g = Wt(this._tTime, m), !a && this._tTime && g !== h && this._tTime - g * m - this._dur <= 0 && (g = h), b && h & 1 && (c = f - c, P = 1), h !== g && !this._lock) {
+          var S = b && g & 1, v = S === (b && h & 1);
+          if (h < g && (S = !S), a = S ? 0 : _ % f ? f : _, this._lock = 1, this.render(a || (P ? 0 : z(h * m)), n, !f)._lock = 0, this._tTime = _, !n && this.parent && rt(this, "onRepeat"), this.vars.repeatRefresh && !P && (this.invalidate()._lock = 1, g = h), a && a !== this._time || y !== !this._ts || this.vars.onRepeat && !this.parent && !this._act)
+            return this;
+          if (f = this._dur, o = this._tDur, v && (this._lock = 2, a = S ? f : -1e-4, this.render(a, true), this.vars.repeatRefresh && !P && this.invalidate()), this._lock = 0, !this._ts && !y)
+            return this;
+          sr(this, P);
+        }
+      }
+      if (this._hasPause && !this._forcing && this._lock < 2 && (x = Zr(this, z(a), z(c)), x && (_ -= c - (c = x._start))), this._tTime = _, this._time = c, this._act = !T, this._initted || (this._onUpdate = this.vars.onUpdate, this._initted = 1, this._zTime = r, a = 0), !a && _ && f && !n && !g && (rt(this, "onStart"), this._tTime !== _))
+        return this;
+      if (c >= a && r >= 0)
+        for (d = this._first; d; ) {
+          if (p = d._next, (d._act || c >= d._start) && d._ts && x !== d) {
+            if (d.parent !== this)
+              return this.render(r, n, s);
+            if (d.render(d._ts > 0 ? (c - d._start) * d._ts : (d._dirty ? d.totalDuration() : d._tDur) + (c - d._start) * d._ts, n, s), c !== this._time || !this._ts && !y) {
+              x = 0, p && (_ += this._zTime = -M);
+              break;
+            }
+          }
+          d = p;
+        }
+      else {
+        d = this._last;
+        for (var k = r < 0 ? r : c; d; ) {
+          if (p = d._prev, (d._act || k <= d._end) && d._ts && x !== d) {
+            if (d.parent !== this)
+              return this.render(r, n, s);
+            if (d.render(d._ts > 0 ? (k - d._start) * d._ts : (d._dirty ? d.totalDuration() : d._tDur) + (k - d._start) * d._ts, n, s || G && ni(d)), c !== this._time || !this._ts && !y) {
+              x = 0, p && (_ += this._zTime = k ? -M : M);
+              break;
+            }
+          }
+          d = p;
+        }
+      }
+      if (x && !n && (this.pause(), x.render(c >= a ? 0 : -M)._zTime = c >= a ? 1 : -1, this._ts))
+        return this._start = w, ke(this), this.render(r, n, s);
+      this._onUpdate && !n && rt(this, "onUpdate", true), (_ === o && this._tTime >= this.totalDuration() || !_ && a) && (w === this._start || Math.abs(T) !== Math.abs(this._ts)) && (this._lock || ((r || !f) && (_ === o && this._ts > 0 || !_ && this._ts < 0) && Pt(this, 1), !n && !(r < 0 && !a) && (_ || a || !o) && (rt(this, _ === o && r >= 0 ? "onComplete" : "onReverseComplete", true), this._prom && !(_ < o && this.timeScale() > 0) && this._prom())));
+    }
+    return this;
+  }, e.add = function(r, n) {
+    var s = this;
+    if (yt(n) || (n = ot(this, n, r)), !(r instanceof fe)) {
+      if (K(r))
+        return r.forEach(function(a) {
+          return s.add(a, n);
+        }), this;
+      if (U(r))
+        return this.addLabel(r, n);
+      if (I(r))
+        r = B.delayedCall(0, r);
+      else
+        return this;
+    }
+    return this !== r ? lt(this, r, n) : this;
+  }, e.getChildren = function(r, n, s, a) {
+    r === void 0 && (r = true), n === void 0 && (n = true), s === void 0 && (s = true), a === void 0 && (a = -ut);
+    for (var o = [], f = this._first; f; )
+      f._start >= a && (f instanceof B ? n && o.push(f) : (s && o.push(f), r && o.push.apply(o, f.getChildren(true, n, s)))), f = f._next;
+    return o;
+  }, e.getById = function(r) {
+    for (var n = this.getChildren(1, 1, 1), s = n.length; s--; )
+      if (n[s].vars.id === r)
+        return n[s];
+  }, e.remove = function(r) {
+    return U(r) ? this.removeLabel(r) : I(r) ? this.killTweensOf(r) : (r.parent === this && Oe(this, r), r === this._recent && (this._recent = this._last), Rt(this));
+  }, e.totalTime = function(r, n) {
+    return arguments.length ? (this._forcing = 1, !this._dp && this._ts && (this._start = z(J.time - (this._ts > 0 ? r / this._ts : (this.totalDuration() - r) / -this._ts))), u15.prototype.totalTime.call(this, r, n), this._forcing = 0, this) : this._tTime;
+  }, e.addLabel = function(r, n) {
+    return this.labels[r] = ot(this, n), this;
+  }, e.removeLabel = function(r) {
+    return delete this.labels[r], this;
+  }, e.addPause = function(r, n, s) {
+    var a = B.delayedCall(0, n || oe, s);
+    return a.data = "isPause", this._hasPause = 1, lt(this, a, ot(this, r));
+  }, e.removePause = function(r) {
+    var n = this._first;
+    for (r = ot(this, r); n; )
+      n._start === r && n.data === "isPause" && Pt(n), n = n._next;
+  }, e.killTweensOf = function(r, n, s) {
+    for (var a = this.getTweensOf(r, s), o = a.length; o--; )
+      Tt !== a[o] && a[o].kill(r, n);
+    return this;
+  }, e.getTweensOf = function(r, n) {
+    for (var s = [], a = ft(r), o = this._first, f = yt(n), _; o; )
+      o instanceof B ? Yr(o._targets, a) && (f ? (!Tt || o._initted && o._ts) && o.globalTime(0) <= n && o.globalTime(o.totalDuration()) > n : !n || o.isActive()) && s.push(o) : (_ = o.getTweensOf(a, n)).length && s.push.apply(s, _), o = o._next;
+    return s;
+  }, e.tweenTo = function(r, n) {
+    n = n || {};
+    var s = this, a = ot(s, r), o = n, f = o.startAt, _ = o.onStart, l = o.onStartParams, c = o.immediateRender, d, p = B.to(s, st({ ease: n.ease || "none", lazy: false, immediateRender: false, time: a, overwrite: "auto", duration: n.duration || Math.abs((a - (f && "time" in f ? f.time : s._time)) / s.timeScale()) || M, onStart: function() {
+      if (s.pause(), !d) {
+        var m = n.duration || Math.abs((a - (f && "time" in f ? f.time : s._time)) / s.timeScale());
+        p._dur !== m && Gt(p, m, 0, 1).render(p._time, true, true), d = 1;
+      }
+      _ && _.apply(p, l || []);
+    } }, n));
+    return c ? p.render(0) : p;
+  }, e.tweenFromTo = function(r, n, s) {
+    return this.tweenTo(n, st({ startAt: { time: ot(this, r) } }, s));
+  }, e.recent = function() {
+    return this._recent;
+  }, e.nextLabel = function(r) {
+    return r === void 0 && (r = this._time), Di(this, ot(this, r));
+  }, e.previousLabel = function(r) {
+    return r === void 0 && (r = this._time), Di(this, ot(this, r), 1);
+  }, e.currentLabel = function(r) {
+    return arguments.length ? this.seek(r, true) : this.previousLabel(this._time + M);
+  }, e.shiftChildren = function(r, n, s) {
+    s === void 0 && (s = 0);
+    var a = this._first, o = this.labels, f;
+    for (r = z(r); a; )
+      a._start >= s && (a._start += r, a._end += r), a = a._next;
+    if (n)
+      for (f in o)
+        o[f] >= s && (o[f] += r);
+    return Rt(this);
+  }, e.invalidate = function(r) {
+    var n = this._first;
+    for (this._lock = 0; n; )
+      n.invalidate(r), n = n._next;
+    return u15.prototype.invalidate.call(this, r);
+  }, e.clear = function(r) {
+    r === void 0 && (r = true);
+    for (var n = this._first, s; n; )
+      s = n._next, this.remove(n), n = s;
+    return this._dp && (this._time = this._tTime = this._pTime = 0), r && (this.labels = {}), Rt(this);
+  }, e.totalDuration = function(r) {
+    var n = 0, s = this, a = s._last, o = ut, f, _, l;
+    if (arguments.length)
+      return s.timeScale((s._repeat < 0 ? s.duration() : s.totalDuration()) / (s.reversed() ? -r : r));
+    if (s._dirty) {
+      for (l = s.parent; a; )
+        f = a._prev, a._dirty && a.totalDuration(), _ = a._start, _ > o && s._sort && a._ts && !s._lock ? (s._lock = 1, lt(s, a, _ - a._delay, 1)._lock = 0) : o = _, _ < 0 && a._ts && (n -= _, (!l && !s._dp || l && l.smoothChildTiming) && (s._start += z(_ / s._ts), s._time -= _, s._tTime -= _), s.shiftChildren(-_, false, -1 / 0), o = 0), a._end > n && a._ts && (n = a._end), a = f;
+      Gt(s, s === F && s._time > n ? s._time : n, 1, 1), s._dirty = 0;
+    }
+    return s._tDur;
+  }, t.updateRoot = function(r) {
+    if (F._ts && (Vi(F, we(r, F)), Bi = J.frame), J.frame >= Oi) {
+      Oi += et.autoSleep || 120;
+      var n = F._first;
+      if ((!n || !n._ts) && et.autoSleep && J._listeners.length < 2) {
+        for (; n && !n._ts; )
+          n = n._next;
+        n || J.sleep();
+      }
+    }
+  }, t;
+}(fe);
+st(W.prototype, { _lock: 0, _hasPause: 0, _forcing: 0 });
+var ln = function(t, e, i, r, n, s, a) {
+  var o = new $(this._pt, t, e, 0, 1, hi, null, n), f = 0, _ = 0, l, c, d, p, h, m, y, x;
+  for (o.b = i, o.e = r, i += "", r += "", (y = ~r.indexOf("random(")) && (r = Kt(r)), s && (x = [i, r], s(x, t, e), i = x[0], r = x[1]), c = i.match(Re) || []; l = Re.exec(r); )
+    p = l[0], h = r.substring(f, l.index), d ? d = (d + 1) % 5 : h.substr(-5) === "rgba(" && (d = 1), p !== c[_++] && (m = parseFloat(c[_ - 1]) || 0, o._pt = { _next: o._pt, p: h || _ === 1 ? h : ",", s: m, c: p.charAt(1) === "=" ? Lt(m, p) - m : parseFloat(p) - m, m: d && d < 4 ? Math.round : 0 }, f = Re.lastIndex);
+  return o.c = f < r.length ? r.substring(f, r.length) : "", o.fp = a, (He.test(r) || y) && (o.e = 0), this._pt = o, o;
+};
+var oi = function(t, e, i, r, n, s, a, o, f, _) {
+  I(r) && (r = r(n || 0, t, s));
+  var l = t[e], c = i !== "get" ? i : I(l) ? f ? t[e.indexOf("set") || !I(t["get" + e.substr(3)]) ? e : "get" + e.substr(3)](f) : t[e]() : l, d = I(l) ? f ? gn : fr : _i, p;
+  if (U(r) && (~r.indexOf("random(") && (r = Kt(r)), r.charAt(1) === "=" && (p = Lt(c, r) + (Q(c) || 0), (p || p === 0) && (r = p))), !_ || c !== r || Qe)
+    return !isNaN(c * r) && r !== "" ? (p = new $(this._pt, t, e, +c || 0, r - (c || 0), typeof l == "boolean" ? xn : _r, 0, d), f && (p.fp = f), a && p.modifier(a, this, t), this._pt = p) : (!l && !(e in t) && Se(e, r), ln.call(this, t, e, c, r, d, o || et.stringFilter, f));
+};
+var cn = function(t, e, i, r, n) {
+  if (I(t) && (t = se(t, n, e, i, r)), !ct(t) || t.style && t.nodeType || K(t) || Fi(t))
+    return U(t) ? se(t, n, e, i, r) : t;
+  var s = {}, a;
+  for (a in t)
+    s[a] = se(t[a], n, e, i, r);
+  return s;
+};
+var ui = function(t, e, i, r, n, s) {
+  var a, o, f, _;
+  if (H[t] && (a = new H[t]()).init(n, a.rawVars ? e[t] : cn(e[t], r, n, s, i), i, r, s) !== false && (i._pt = o = new $(i._pt, n, t, 0, 1, a.render, a, 0, a.priority), i !== Yt))
+    for (f = i._ptLookup[i._targets.indexOf(n)], _ = a._props.length; _--; )
+      f[a._props[_]] = o;
+  return a;
+};
+var Tt;
+var Qe;
+var fi = function u11(t, e, i) {
+  var r = t.vars, n = r.ease, s = r.startAt, a = r.immediateRender, o = r.lazy, f = r.onUpdate, _ = r.runBackwards, l = r.yoyoEase, c = r.keyframes, d = r.autoRevert, p = t._dur, h = t._startAt, m = t._targets, y = t.parent, x = y && y.data === "nested" ? y.vars.targets : m, T = t._overwrite === "auto" && !Ze, w = t.timeline, g, b, P, S, v, k, R, D, A, q, Y, V, X;
+  if (w && (!c || !n) && (n = "none"), t._ease = Et(n, Xt.ease), t._yEase = l ? nr(Et(l === true ? n : l, Xt.ease)) : 0, l && t._yoyo && !t._repeat && (l = t._yEase, t._yEase = t._ease, t._ease = l), t._from = !w && !!r.runBackwards, !w || c && !r.stagger) {
+    if (D = m[0] ? bt(m[0]).harness : 0, V = D && r[D.prop], g = Te(r, ti), h && (h._zTime < 0 && h.progress(1), e < 0 && _ && a && !d ? h.render(-1, true) : h.revert(_ && p ? me : Vr), h._lazy = 0), s) {
+      if (Pt(t._startAt = B.set(m, st({ data: "isStart", overwrite: false, parent: y, immediateRender: true, lazy: !h && tt(o), startAt: null, delay: 0, onUpdate: f && function() {
+        return rt(t, "onUpdate");
+      }, stagger: 0 }, s))), t._startAt._dp = 0, t._startAt._sat = t, e < 0 && (G || !a && !d) && t._startAt.revert(me), a && p && e <= 0 && i <= 0) {
+        e && (t._zTime = e);
+        return;
+      }
+    } else if (_ && p && !h) {
+      if (e && (a = false), P = st({ overwrite: false, data: "isFromStart", lazy: a && !h && tt(o), immediateRender: a, stagger: 0, parent: y }, g), V && (P[D.prop] = V), Pt(t._startAt = B.set(m, P)), t._startAt._dp = 0, t._startAt._sat = t, e < 0 && (G ? t._startAt.revert(me) : t._startAt.render(-1, true)), t._zTime = e, !a)
+        u11(t._startAt, M, M);
+      else if (!e)
+        return;
+    }
+    for (t._pt = t._ptCache = 0, o = p && tt(o) || o && !p, b = 0; b < m.length; b++) {
+      if (v = m[b], R = v._gsap || ii(m)[b]._gsap, t._ptLookup[b] = q = {}, Ue[R.id] && wt.length && ve(), Y = x === m ? b : x.indexOf(v), D && (A = new D()).init(v, V || g, t, Y, x) !== false && (t._pt = S = new $(t._pt, v, A.name, 0, 1, A.render, A, 0, A.priority), A._props.forEach(function(_t) {
+        q[_t] = S;
+      }), A.priority && (k = 1)), !D || V)
+        for (P in g)
+          H[P] && (A = ui(P, g, t, Y, v, x)) ? A.priority && (k = 1) : q[P] = S = oi.call(t, v, P, "get", g[P], Y, x, 0, r.stringFilter);
+      t._op && t._op[b] && t.kill(v, t._op[b]), T && t._pt && (Tt = t, F.killTweensOf(v, q, t.globalTime(e)), X = !t.parent, Tt = 0), t._pt && o && (Ue[R.id] = 1);
+    }
+    k && ci(t), t._onInit && t._onInit(t);
+  }
+  t._onUpdate = f, t._initted = (!t._op || t._pt) && !X, c && e <= 0 && w.render(ut, true, true);
+};
+var dn = function(t, e, i, r, n, s, a, o) {
+  var f = (t._pt && t._ptCache || (t._ptCache = {}))[e], _, l, c, d;
+  if (!f)
+    for (f = t._ptCache[e] = [], c = t._ptLookup, d = t._targets.length; d--; ) {
+      if (_ = c[d][e], _ && _.d && _.d._pt)
+        for (_ = _.d._pt; _ && _.p !== e && _.fp !== e; )
+          _ = _._next;
+      if (!_)
+        return Qe = 1, t.vars[e] = "+=0", fi(t, a), Qe = 0, o ? ae(e + " not eligible for reset") : 1;
+      f.push(_);
+    }
+  for (d = f.length; d--; )
+    l = f[d], _ = l._pt || l, _.s = (r || r === 0) && !n ? r : _.s + (r || 0) + s * _.c, _.c = i - _.s, l.e && (l.e = N(i) + Q(l.e)), l.b && (l.b = _.s + Q(l.b));
+};
+var pn = function(t, e) {
+  var i = t[0] ? bt(t[0]).harness : 0, r = i && i.aliases, n, s, a, o;
+  if (!r)
+    return e;
+  n = qt({}, e);
+  for (s in r)
+    if (s in n)
+      for (o = r[s].split(","), a = o.length; a--; )
+        n[o[a]] = n[s];
+  return n;
+};
+var mn = function(t, e, i, r) {
+  var n = e.ease || r || "power1.inOut", s, a;
+  if (K(e))
+    a = i[t] || (i[t] = []), e.forEach(function(o, f) {
+      return a.push({ t: f / (e.length - 1) * 100, v: o, e: n });
+    });
+  else
+    for (s in e)
+      a = i[s] || (i[s] = []), s === "ease" || a.push({ t: parseFloat(t), v: e[s], e: n });
+};
+var se = function(t, e, i, r, n) {
+  return I(t) ? t.call(e, i, r, n) : U(t) && ~t.indexOf("random(") ? Kt(t) : t;
+};
+var or = ei + "repeat,repeatDelay,yoyo,repeatRefresh,yoyoEase,autoRevert";
+var ur = {};
+j(or + ",id,stagger,delay,duration,paused,scrollTrigger", function(u15) {
+  return ur[u15] = 1;
+});
+var B = function(u15) {
+  Ei(t, u15);
+  function t(i, r, n, s) {
+    var a;
+    typeof r == "number" && (n.duration = r, r = n, n = null), a = u15.call(this, s ? r : re(r)) || this;
+    var o = a.vars, f = o.duration, _ = o.delay, l = o.immediateRender, c = o.stagger, d = o.overwrite, p = o.keyframes, h = o.defaults, m = o.scrollTrigger, y = o.yoyoEase, x = r.parent || F, T = (K(i) || Fi(i) ? yt(i[0]) : "length" in r) ? [i] : ft(i), w, g, b, P, S, v, k, R;
+    if (a._targets = T.length ? ii(T) : ae("GSAP target " + i + " not found. https://gsap.com", !et.nullTargetWarn) || [], a._ptLookup = [], a._overwrite = d, p || c || pe(f) || pe(_)) {
+      if (r = a.vars, w = a.timeline = new W({ data: "nested", defaults: h || {}, targets: x && x.data === "nested" ? x.vars.targets : T }), w.kill(), w.parent = w._dp = mt(a), w._start = 0, c || pe(f) || pe(_)) {
+        if (P = T.length, k = c && Zi(c), ct(c))
+          for (S in c)
+            ~or.indexOf(S) && (R || (R = {}), R[S] = c[S]);
+        for (g = 0; g < P; g++)
+          b = Te(r, ur), b.stagger = 0, y && (b.yoyoEase = y), R && qt(b, R), v = T[g], b.duration = +se(f, mt(a), g, v, T), b.delay = (+se(_, mt(a), g, v, T) || 0) - a._delay, !c && P === 1 && b.delay && (a._delay = _ = b.delay, a._start += _, b.delay = 0), w.to(v, b, k ? k(g, v, T) : 0), w._ease = O.none;
+        w.duration() ? f = _ = 0 : a.timeline = 0;
+      } else if (p) {
+        re(st(w.vars.defaults, { ease: "none" })), w._ease = Et(p.ease || r.ease || "none");
+        var D = 0, A, q, Y;
+        if (K(p))
+          p.forEach(function(V) {
+            return w.to(T, V, ">");
+          }), w.duration();
+        else {
+          b = {};
+          for (S in p)
+            S === "ease" || S === "easeEach" || mn(S, p[S], b, p.easeEach);
+          for (S in b)
+            for (A = b[S].sort(function(V, X) {
+              return V.t - X.t;
+            }), D = 0, g = 0; g < A.length; g++)
+              q = A[g], Y = { ease: q.e, duration: (q.t - (g ? A[g - 1].t : 0)) / 100 * f }, Y[S] = q.v, w.to(T, Y, D), D += Y.duration;
+          w.duration() < f && w.to({}, { duration: f - w.duration() });
+        }
+      }
+      f || a.duration(f = w.duration());
+    } else
+      a.timeline = 0;
+    return d === true && !Ze && (Tt = mt(a), F.killTweensOf(T), Tt = 0), lt(x, mt(a), n), r.reversed && a.reverse(), r.paused && a.paused(true), (l || !f && !p && a._start === z(x._time) && tt(l) && Gr(mt(a)) && x.data !== "nested") && (a._tTime = -M, a.render(Math.max(0, -_) || 0)), m && Wi(mt(a), m), a;
+  }
+  var e = t.prototype;
+  return e.render = function(r, n, s) {
+    var a = this._time, o = this._tDur, f = this._dur, _ = r < 0, l = r > o - M && !_ ? o : r < M ? 0 : r, c, d, p, h, m, y, x, T, w;
+    if (!f)
+      Kr(this, r, n, s);
+    else if (l !== this._tTime || !r || s || !this._initted && this._tTime || this._startAt && this._zTime < 0 !== _ || this._lazy) {
+      if (c = l, T = this.timeline, this._repeat) {
+        if (h = f + this._rDelay, this._repeat < -1 && _)
+          return this.totalTime(h * 100 + r, n, s);
+        if (c = z(l % h), l === o ? (p = this._repeat, c = f) : (m = z(l / h), p = ~~m, p && p === m ? (c = f, p--) : c > f && (c = f)), y = this._yoyo && p & 1, y && (w = this._yEase, c = f - c), m = Wt(this._tTime, h), c === a && !s && this._initted && p === m)
+          return this._tTime = l, this;
+        p !== m && (T && this._yEase && sr(T, y), this.vars.repeatRefresh && !y && !this._lock && c !== h && this._initted && (this._lock = s = 1, this.render(z(h * p), true).invalidate()._lock = 0));
+      }
+      if (!this._initted) {
+        if (Gi(this, _ ? r : c, s, n, l))
+          return this._tTime = 0, this;
+        if (a !== this._time && !(s && this.vars.repeatRefresh && p !== m))
+          return this;
+        if (f !== this._dur)
+          return this.render(r, n, s);
+      }
+      if (this._tTime = l, this._time = c, !this._act && this._ts && (this._act = 1, this._lazy = 0), this.ratio = x = (w || this._ease)(c / f), this._from && (this.ratio = x = 1 - x), !a && l && !n && !m && (rt(this, "onStart"), this._tTime !== l))
+        return this;
+      for (d = this._pt; d; )
+        d.r(x, d.d), d = d._next;
+      T && T.render(r < 0 ? r : T._dur * T._ease(c / this._dur), n, s) || this._startAt && (this._zTime = r), this._onUpdate && !n && (_ && Ye(this, r, n, s), rt(this, "onUpdate")), this._repeat && p !== m && this.vars.onRepeat && !n && this.parent && rt(this, "onRepeat"), (l === this._tDur || !l) && this._tTime === l && (_ && !this._onUpdate && Ye(this, r, true, true), (r || !f) && (l === this._tDur && this._ts > 0 || !l && this._ts < 0) && Pt(this, 1), !n && !(_ && !a) && (l || a || y) && (rt(this, l === o ? "onComplete" : "onReverseComplete", true), this._prom && !(l < o && this.timeScale() > 0) && this._prom()));
+    }
+    return this;
+  }, e.targets = function() {
+    return this._targets;
+  }, e.invalidate = function(r) {
+    return (!r || !this.vars.runBackwards) && (this._startAt = 0), this._pt = this._op = this._onUpdate = this._lazy = this.ratio = 0, this._ptLookup = [], this.timeline && this.timeline.invalidate(r), u15.prototype.invalidate.call(this, r);
+  }, e.resetTo = function(r, n, s, a, o) {
+    ue || J.wake(), this._ts || this.play();
+    var f = Math.min(this._dur, (this._dp._time - this._start) * this._ts), _;
+    return this._initted || fi(this, f), _ = this._ease(f / this._dur), dn(this, r, n, s, a, _, f, o) ? this.resetTo(r, n, s, a, 1) : (Ce(this, 0), this.parent || Xi(this._dp, this, "_first", "_last", this._dp._sort ? "_start" : 0), this.render(0));
+  }, e.kill = function(r, n) {
+    if (n === void 0 && (n = "all"), !r && (!n || n === "all"))
+      return this._lazy = this._pt = 0, this.parent ? ee(this) : this.scrollTrigger && this.scrollTrigger.kill(!!G), this;
+    if (this.timeline) {
+      var s = this.timeline.totalDuration();
+      return this.timeline.killTweensOf(r, n, Tt && Tt.vars.overwrite !== true)._first || ee(this), this.parent && s !== this.timeline.totalDuration() && Gt(this, this._dur * this.timeline._tDur / s, 0, 1), this;
+    }
+    var a = this._targets, o = r ? ft(r) : a, f = this._ptLookup, _ = this._pt, l, c, d, p, h, m, y;
+    if ((!n || n === "all") && qr(a, o))
+      return n === "all" && (this._pt = 0), ee(this);
+    for (l = this._op = this._op || [], n !== "all" && (U(n) && (h = {}, j(n, function(x) {
+      return h[x] = 1;
+    }), n = h), n = pn(a, n)), y = a.length; y--; )
+      if (~o.indexOf(a[y])) {
+        c = f[y], n === "all" ? (l[y] = n, p = c, d = {}) : (d = l[y] = l[y] || {}, p = n);
+        for (h in p)
+          m = c && c[h], m && ((!("kill" in m.d) || m.d.kill(h) === true) && Oe(this, m, "_pt"), delete c[h]), d !== "all" && (d[h] = 1);
+      }
+    return this._initted && !this._pt && _ && ee(this), this;
+  }, t.to = function(r, n) {
+    return new t(r, n, arguments[2]);
+  }, t.from = function(r, n) {
+    return ne(1, arguments);
+  }, t.delayedCall = function(r, n, s, a) {
+    return new t(n, 0, { immediateRender: false, lazy: false, overwrite: false, delay: r, onComplete: n, onReverseComplete: n, onCompleteParams: s, onReverseCompleteParams: s, callbackScope: a });
+  }, t.fromTo = function(r, n, s) {
+    return ne(2, arguments);
+  }, t.set = function(r, n) {
+    return n.duration = 0, n.repeatDelay || (n.repeat = 0), new t(r, n);
+  }, t.killTweensOf = function(r, n, s) {
+    return F.killTweensOf(r, n, s);
+  }, t;
+}(fe);
+st(B.prototype, { _targets: [], _lazy: 0, _startAt: 0, _op: 0, _onInit: 0 });
+j("staggerTo,staggerFrom,staggerFromTo", function(u15) {
+  B[u15] = function() {
+    var t = new W(), e = qe.call(arguments, 0);
+    return e.splice(u15 === "staggerFromTo" ? 5 : 4, 0, 0), t[u15].apply(t, e);
+  };
+});
+var _i = function(t, e, i) {
+  return t[e] = i;
+};
+var fr = function(t, e, i) {
+  return t[e](i);
+};
+var gn = function(t, e, i, r) {
+  return t[e](r.fp, i);
+};
+var yn = function(t, e, i) {
+  return t.setAttribute(e, i);
+};
+var Me = function(t, e) {
+  return I(t[e]) ? fr : Pe(t[e]) && t.setAttribute ? yn : _i;
+};
+var _r = function(t, e) {
+  return e.set(e.t, e.p, Math.round((e.s + e.c * t) * 1e6) / 1e6, e);
+};
+var xn = function(t, e) {
+  return e.set(e.t, e.p, !!(e.s + e.c * t), e);
+};
+var hi = function(t, e) {
+  var i = e._pt, r = "";
+  if (!t && e.b)
+    r = e.b;
+  else if (t === 1 && e.e)
+    r = e.e;
+  else {
+    for (; i; )
+      r = i.p + (i.m ? i.m(i.s + i.c * t) : Math.round((i.s + i.c * t) * 1e4) / 1e4) + r, i = i._next;
+    r += e.c;
+  }
+  e.set(e.t, e.p, r, e);
+};
+var li = function(t, e) {
+  for (var i = e._pt; i; )
+    i.r(t, i.d), i = i._next;
+};
+var vn = function(t, e, i, r) {
+  for (var n = this._pt, s; n; )
+    s = n._next, n.p === r && n.modifier(t, e, i), n = s;
+};
+var Tn = function(t) {
+  for (var e = this._pt, i, r; e; )
+    r = e._next, e.p === t && !e.op || e.op === t ? Oe(this, e, "_pt") : e.dep || (i = 1), e = r;
+  return !i;
+};
+var wn = function(t, e, i, r) {
+  r.mSet(t, e, r.m.call(r.tween, i, r.mt), r);
+};
+var ci = function(t) {
+  for (var e = t._pt, i, r, n, s; e; ) {
+    for (i = e._next, r = n; r && r.pr > e.pr; )
+      r = r._next;
+    (e._prev = r ? r._prev : s) ? e._prev._next = e : n = e, (e._next = r) ? r._prev = e : s = e, e = i;
+  }
+  t._pt = n;
+};
+var $ = function() {
+  function u15(e, i, r, n, s, a, o, f, _) {
+    this.t = i, this.s = n, this.c = s, this.p = r, this.r = a || _r, this.d = o || this, this.set = f || _i, this.pr = _ || 0, this._next = e, e && (e._prev = this);
+  }
+  var t = u15.prototype;
+  return t.modifier = function(i, r, n) {
+    this.mSet = this.mSet || this.set, this.set = wn, this.m = i, this.mt = n, this.tween = r;
+  }, u15;
+}();
+j(ei + "parent,duration,ease,delay,overwrite,runBackwards,startAt,yoyo,immediateRender,repeat,repeatDelay,data,paused,reversed,lazy,callbackScope,stringFilter,id,yoyoEase,stagger,inherit,repeatRefresh,keyframes,autoRevert,scrollTrigger", function(u15) {
+  return ti[u15] = 1;
+});
+nt.TweenMax = nt.TweenLite = B;
+nt.TimelineLite = nt.TimelineMax = W;
+F = new W({ sortChildren: false, defaults: Xt, autoRemoveChildren: true, id: "root", smoothChildTiming: true });
+et.stringFilter = si;
+var zt = [];
+var ye = {};
+var bn = [];
+var Ri = 0;
+var Pn = 0;
+var Ie = function(t) {
+  return (ye[t] || bn).map(function(e) {
+    return e();
+  });
+};
+var Ke = function() {
+  var t = Date.now(), e = [];
+  t - Ri > 2 && (Ie("matchMediaInit"), zt.forEach(function(i) {
+    var r = i.queries, n = i.conditions, s, a, o, f;
+    for (a in r)
+      s = ht.matchMedia(r[a]).matches, s && (o = 1), s !== n[a] && (n[a] = s, f = 1);
+    f && (i.revert(), o && e.push(i));
+  }), Ie("matchMediaRevert"), e.forEach(function(i) {
+    return i.onMatch(i, function(r) {
+      return i.add(null, r);
+    });
+  }), Ri = t, Ie("matchMedia"));
+};
+var hr = function() {
+  function u15(e, i) {
+    this.selector = i && We(i), this.data = [], this._r = [], this.isReverted = false, this.id = Pn++, e && this.add(e);
+  }
+  var t = u15.prototype;
+  return t.add = function(i, r, n) {
+    I(i) && (n = r, r = i, i = I);
+    var s = this, a = function() {
+      var f = E, _ = s.selector, l;
+      return f && f !== s && f.data.push(s), n && (s.selector = We(n)), E = s, l = r.apply(s, arguments), I(l) && s._r.push(l), E = f, s.selector = _, s.isReverted = false, l;
+    };
+    return s.last = a, i === I ? a(s, function(o) {
+      return s.add(null, o);
+    }) : i ? s[i] = a : a;
+  }, t.ignore = function(i) {
+    var r = E;
+    E = null, i(this), E = r;
+  }, t.getTweens = function() {
+    var i = [];
+    return this.data.forEach(function(r) {
+      return r instanceof u15 ? i.push.apply(i, r.getTweens()) : r instanceof B && !(r.parent && r.parent.data === "nested") && i.push(r);
+    }), i;
+  }, t.clear = function() {
+    this._r.length = this.data.length = 0;
+  }, t.kill = function(i, r) {
+    var n = this;
+    if (i ? function() {
+      for (var a = n.getTweens(), o = n.data.length, f; o--; )
+        f = n.data[o], f.data === "isFlip" && (f.revert(), f.getChildren(true, true, false).forEach(function(_) {
+          return a.splice(a.indexOf(_), 1);
+        }));
+      for (a.map(function(_) {
+        return { g: _._dur || _._delay || _._sat && !_._sat.vars.immediateRender ? _.globalTime(0) : -1 / 0, t: _ };
+      }).sort(function(_, l) {
+        return l.g - _.g || -1 / 0;
+      }).forEach(function(_) {
+        return _.t.revert(i);
+      }), o = n.data.length; o--; )
+        f = n.data[o], f instanceof W ? f.data !== "nested" && (f.scrollTrigger && f.scrollTrigger.revert(), f.kill()) : !(f instanceof B) && f.revert && f.revert(i);
+      n._r.forEach(function(_) {
+        return _(i, n);
+      }), n.isReverted = true;
+    }() : this.data.forEach(function(a) {
+      return a.kill && a.kill();
+    }), this.clear(), r)
+      for (var s = zt.length; s--; )
+        zt[s].id === this.id && zt.splice(s, 1);
+  }, t.revert = function(i) {
+    this.kill(i || {});
+  }, u15;
+}();
+var Sn = function() {
+  function u15(e) {
+    this.contexts = [], this.scope = e, E && E.data.push(this);
+  }
+  var t = u15.prototype;
+  return t.add = function(i, r, n) {
+    ct(i) || (i = { matches: i });
+    var s = new hr(0, n || this.scope), a = s.conditions = {}, o, f, _;
+    E && !s.selector && (s.selector = E.selector), this.contexts.push(s), r = s.add("onMatch", r), s.queries = i;
+    for (f in i)
+      f === "all" ? _ = 1 : (o = ht.matchMedia(i[f]), o && (zt.indexOf(s) < 0 && zt.push(s), (a[f] = o.matches) && (_ = 1), o.addListener ? o.addListener(Ke) : o.addEventListener("change", Ke)));
+    return _ && r(s, function(l) {
+      return s.add(null, l);
+    }), this;
+  }, t.revert = function(i) {
+    this.kill(i || {});
+  }, t.kill = function(i) {
+    this.contexts.forEach(function(r) {
+      return r.kill(i, true);
+    });
+  }, u15;
+}();
+var be = { registerPlugin: function() {
+  for (var t = arguments.length, e = new Array(t), i = 0; i < t; i++)
+    e[i] = arguments[i];
+  e.forEach(function(r) {
+    return er(r);
+  });
+}, timeline: function(t) {
+  return new W(t);
+}, getTweensOf: function(t, e) {
+  return F.getTweensOf(t, e);
+}, getProperty: function(t, e, i, r) {
+  U(t) && (t = ft(t)[0]);
+  var n = bt(t || {}).get, s = i ? Yi : Ui;
+  return i === "native" && (i = ""), t && (e ? s((H[e] && H[e].get || n)(t, e, i, r)) : function(a, o, f) {
+    return s((H[a] && H[a].get || n)(t, a, o, f));
+  });
+}, quickSetter: function(t, e, i) {
+  if (t = ft(t), t.length > 1) {
+    var r = t.map(function(_) {
+      return Z.quickSetter(_, e, i);
+    }), n = r.length;
+    return function(_) {
+      for (var l = n; l--; )
+        r[l](_);
+    };
+  }
+  t = t[0] || {};
+  var s = H[e], a = bt(t), o = a.harness && (a.harness.aliases || {})[e] || e, f = s ? function(_) {
+    var l = new s();
+    Yt._pt = 0, l.init(t, i ? _ + i : _, Yt, 0, [t]), l.render(1, l), Yt._pt && li(1, Yt);
+  } : a.set(t, o);
+  return s ? f : function(_) {
+    return f(t, o, i ? _ + i : _, a, 1);
+  };
+}, quickTo: function(t, e, i) {
+  var r, n = Z.to(t, st((r = {}, r[e] = "+=0.1", r.paused = true, r.stagger = 0, r), i || {})), s = function(o, f, _) {
+    return n.resetTo(e, o, f, _);
+  };
+  return s.tween = n, s;
+}, isTweening: function(t) {
+  return F.getTweensOf(t, true).length > 0;
+}, defaults: function(t) {
+  return t && t.ease && (t.ease = Et(t.ease, Xt.ease)), ki(Xt, t || {});
+}, config: function(t) {
+  return ki(et, t || {});
+}, registerEffect: function(t) {
+  var e = t.name, i = t.effect, r = t.plugins, n = t.defaults, s = t.extendTimeline;
+  (r || "").split(",").forEach(function(a) {
+    return a && !H[a] && !nt[a] && ae(e + " effect requires " + a + " plugin.");
+  }), Ee[e] = function(a, o, f) {
+    return i(ft(a), st(o || {}, n), f);
+  }, s && (W.prototype[e] = function(a, o, f) {
+    return this.add(Ee[e](a, ct(o) ? o : (f = o) && {}, this), f);
+  });
+}, registerEase: function(t, e) {
+  O[t] = Et(e);
+}, parseEase: function(t, e) {
+  return arguments.length ? Et(t, e) : O;
+}, getById: function(t) {
+  return F.getById(t);
+}, exportRoot: function(t, e) {
+  t === void 0 && (t = {});
+  var i = new W(t), r, n;
+  for (i.smoothChildTiming = tt(t.smoothChildTiming), F.remove(i), i._dp = 0, i._time = i._tTime = F._time, r = F._first; r; )
+    n = r._next, (e || !(!r._dur && r instanceof B && r.vars.onComplete === r._targets[0])) && lt(i, r, r._start - r._delay), r = n;
+  return lt(F, i, 0), i;
+}, context: function(t, e) {
+  return t ? new hr(t, e) : E;
+}, matchMedia: function(t) {
+  return new Sn(t);
+}, matchMediaRefresh: function() {
+  return zt.forEach(function(t) {
+    var e = t.conditions, i, r;
+    for (r in e)
+      e[r] && (e[r] = false, i = 1);
+    i && t.revert();
+  }) || Ke();
+}, addEventListener: function(t, e) {
+  var i = ye[t] || (ye[t] = []);
+  ~i.indexOf(e) || i.push(e);
+}, removeEventListener: function(t, e) {
+  var i = ye[t], r = i && i.indexOf(e);
+  r >= 0 && i.splice(r, 1);
+}, utils: { wrap: rn, wrapYoyo: nn, distribute: Zi, random: $i, snap: ji, normalize: en, getUnit: Q, clamp: $r, splitColor: ir, toArray: ft, selector: We, mapRange: Ji, pipe: Jr, unitize: tn, interpolate: sn, shuffle: Ki }, install: Ii, effects: Ee, ticker: J, updateRoot: W.updateRoot, plugins: H, globalTimeline: F, core: { PropTween: $, globals: Ni, Tween: B, Timeline: W, Animation: fe, getCache: bt, _removeLinkedListItem: Oe, reverting: function() {
+  return G;
+}, context: function(t) {
+  return t && E && (E.data.push(t), t._ctx = E), E;
+}, suppressOverwrites: function(t) {
+  return Ze = t;
+} } };
+j("to,from,fromTo,delayedCall,set,killTweensOf", function(u15) {
+  return be[u15] = B[u15];
+});
+J.add(W.updateRoot);
+Yt = be.to({}, { duration: 0 });
+var On = function(t, e) {
+  for (var i = t._pt; i && i.p !== e && i.op !== e && i.fp !== e; )
+    i = i._next;
+  return i;
+};
+var kn = function(t, e) {
+  var i = t._targets, r, n, s;
+  for (r in e)
+    for (n = i.length; n--; )
+      s = t._ptLookup[n][r], s && (s = s.d) && (s._pt && (s = On(s, r)), s && s.modifier && s.modifier(e[r], t, i[n], r));
+};
+var Ne = function(t, e) {
+  return { name: t, headless: 1, rawVars: 1, init: function(r, n, s) {
+    s._onInit = function(a) {
+      var o, f;
+      if (U(n) && (o = {}, j(n, function(_) {
+        return o[_] = 1;
+      }), n = o), e) {
+        o = {};
+        for (f in n)
+          o[f] = e(n[f]);
+        n = o;
+      }
+      kn(a, n);
+    };
+  } };
+};
+var Z = be.registerPlugin({ name: "attr", init: function(t, e, i, r, n) {
+  var s, a, o;
+  this.tween = i;
+  for (s in e)
+    o = t.getAttribute(s) || "", a = this.add(t, "setAttribute", (o || 0) + "", e[s], r, n, 0, 0, s), a.op = s, a.b = o, this._props.push(s);
+}, render: function(t, e) {
+  for (var i = e._pt; i; )
+    G ? i.set(i.t, i.p, i.b, i) : i.r(t, i.d), i = i._next;
+} }, { name: "endArray", headless: 1, init: function(t, e) {
+  for (var i = e.length; i--; )
+    this.add(t, i, t[i] || 0, e[i], 0, 0, 0, 0, 0, 1);
+} }, Ne("roundProps", Ge), Ne("modifiers"), Ne("snap", ji)) || be;
+B.version = W.version = Z.version = "3.14.2";
+Li = 1;
+je() && Qt();
+var Cn = O.Power0;
+var Mn = O.Power1;
+var Dn = O.Power2;
+var An = O.Power3;
+var Rn = O.Power4;
+var En = O.Linear;
+var zn = O.Quad;
+var Fn = O.Cubic;
+var Ln = O.Quart;
+var In = O.Quint;
+var Nn = O.Strong;
+var Bn = O.Elastic;
+var Vn = O.Back;
+var Un = O.SteppedEase;
+var Yn = O.Bounce;
+var Xn = O.Sine;
+var qn = O.Expo;
+var Wn = O.Circ;
+var lr;
+var Ot;
+var jt;
+var xi;
+var Ut;
+var Gn;
+var cr;
+var vi;
+var Qn = function() {
+  return typeof window < "u";
+};
+var vt = {};
+var Vt = 180 / Math.PI;
+var $t = Math.PI / 180;
+var Zt = Math.atan2;
+var dr = 1e8;
+var Ti = /([A-Z])/g;
+var Kn = /(left|right|width|margin|padding|x)/i;
+var Zn = /[\s,\(]\S/;
+var dt = { autoAlpha: "opacity,visibility", scale: "scaleX,scaleY", alpha: "opacity" };
+var pi = function(t, e) {
+  return e.set(e.t, e.p, Math.round((e.s + e.c * t) * 1e4) / 1e4 + e.u, e);
+};
+var jn = function(t, e) {
+  return e.set(e.t, e.p, t === 1 ? e.e : Math.round((e.s + e.c * t) * 1e4) / 1e4 + e.u, e);
+};
+var $n = function(t, e) {
+  return e.set(e.t, e.p, t ? Math.round((e.s + e.c * t) * 1e4) / 1e4 + e.u : e.b, e);
+};
+var Hn = function(t, e) {
+  return e.set(e.t, e.p, t === 1 ? e.e : t ? Math.round((e.s + e.c * t) * 1e4) / 1e4 + e.u : e.b, e);
+};
+var Jn = function(t, e) {
+  var i = e.s + e.c * t;
+  e.set(e.t, e.p, ~~(i + (i < 0 ? -0.5 : 0.5)) + e.u, e);
+};
+var wr = function(t, e) {
+  return e.set(e.t, e.p, t ? e.e : e.b, e);
+};
+var br = function(t, e) {
+  return e.set(e.t, e.p, t !== 1 ? e.b : e.e, e);
+};
+var ts = function(t, e, i) {
+  return t.style[e] = i;
+};
+var es = function(t, e, i) {
+  return t.style.setProperty(e, i);
+};
+var is = function(t, e, i) {
+  return t._gsap[e] = i;
+};
+var rs = function(t, e, i) {
+  return t._gsap.scaleX = t._gsap.scaleY = i;
+};
+var ns = function(t, e, i, r, n) {
+  var s = t._gsap;
+  s.scaleX = s.scaleY = i, s.renderTransform(n, s);
+};
+var ss = function(t, e, i, r, n) {
+  var s = t._gsap;
+  s[e] = i, s.renderTransform(n, s);
+};
+var L = "transform";
+var it = L + "Origin";
+var as = function u12(t, e) {
+  var i = this, r = this.target, n = r.style, s = r._gsap;
+  if (t in vt && n) {
+    if (this.tfm = this.tfm || {}, t !== "transform")
+      t = dt[t] || t, ~t.indexOf(",") ? t.split(",").forEach(function(a) {
+        return i.tfm[a] = xt(r, a);
+      }) : this.tfm[t] = s.x ? s[t] : xt(r, t), t === it && (this.tfm.zOrigin = s.zOrigin);
+    else
+      return dt.transform.split(",").forEach(function(a) {
+        return u12.call(i, a, e);
+      });
+    if (this.props.indexOf(L) >= 0)
+      return;
+    s.svg && (this.svgo = r.getAttribute("data-svg-origin"), this.props.push(it, e, "")), t = L;
+  }
+  (n || e) && this.props.push(t, e, n[t]);
+};
+var Pr = function(t) {
+  t.translate && (t.removeProperty("translate"), t.removeProperty("scale"), t.removeProperty("rotate"));
+};
+var os = function() {
+  var t = this.props, e = this.target, i = e.style, r = e._gsap, n, s;
+  for (n = 0; n < t.length; n += 3)
+    t[n + 1] ? t[n + 1] === 2 ? e[t[n]](t[n + 2]) : e[t[n]] = t[n + 2] : t[n + 2] ? i[t[n]] = t[n + 2] : i.removeProperty(t[n].substr(0, 2) === "--" ? t[n] : t[n].replace(Ti, "-$1").toLowerCase());
+  if (this.tfm) {
+    for (s in this.tfm)
+      r[s] = this.tfm[s];
+    r.svg && (r.renderTransform(), e.setAttribute("data-svg-origin", this.svgo || "")), n = vi(), (!n || !n.isStart) && !i[L] && (Pr(i), r.zOrigin && i[it] && (i[it] += " " + r.zOrigin + "px", r.zOrigin = 0, r.renderTransform()), r.uncache = 1);
+  }
+};
+var Sr = function(t, e) {
+  var i = { target: t, props: [], revert: os, save: as };
+  return t._gsap || Z.core.getCache(t), e && t.style && t.nodeType && e.split(",").forEach(function(r) {
+    return i.save(r);
+  }), i;
+};
+var Or;
+var mi = function(t, e) {
+  var i = Ot.createElementNS ? Ot.createElementNS((e || "http://www.w3.org/1999/xhtml").replace(/^https/, "http"), t) : Ot.createElement(t);
+  return i && i.style ? i : Ot.createElement(t);
+};
+var at = function u13(t, e, i) {
+  var r = getComputedStyle(t);
+  return r[e] || r.getPropertyValue(e.replace(Ti, "-$1").toLowerCase()) || r.getPropertyValue(e) || !i && u13(t, Ht(e) || e, 1) || "";
+};
+var pr = "O,Moz,ms,Ms,Webkit".split(",");
+var Ht = function(t, e, i) {
+  var r = e || Ut, n = r.style, s = 5;
+  if (t in n && !i)
+    return t;
+  for (t = t.charAt(0).toUpperCase() + t.substr(1); s-- && !(pr[s] + t in n); )
+    ;
+  return s < 0 ? null : (s === 3 ? "ms" : s >= 0 ? pr[s] : "") + t;
+};
+var gi = function() {
+  Qn() && window.document && (lr = window, Ot = lr.document, jt = Ot.documentElement, Ut = mi("div") || { style: {} }, Gn = mi("div"), L = Ht(L), it = L + "Origin", Ut.style.cssText = "border-width:0;line-height:0;position:absolute;padding:0", Or = !!Ht("perspective"), vi = Z.core.reverting, xi = 1);
+};
+var mr = function(t) {
+  var e = t.ownerSVGElement, i = mi("svg", e && e.getAttribute("xmlns") || "http://www.w3.org/2000/svg"), r = t.cloneNode(true), n;
+  r.style.display = "block", i.appendChild(r), jt.appendChild(i);
+  try {
+    n = r.getBBox();
+  } catch {
+  }
+  return i.removeChild(r), jt.removeChild(i), n;
+};
+var gr = function(t, e) {
+  for (var i = e.length; i--; )
+    if (t.hasAttribute(e[i]))
+      return t.getAttribute(e[i]);
+};
+var kr = function(t) {
+  var e, i;
+  try {
+    e = t.getBBox();
+  } catch {
+    e = mr(t), i = 1;
+  }
+  return e && (e.width || e.height) || i || (e = mr(t)), e && !e.width && !e.x && !e.y ? { x: +gr(t, ["x", "cx", "x1"]) || 0, y: +gr(t, ["y", "cy", "y1"]) || 0, width: 0, height: 0 } : e;
+};
+var Cr = function(t) {
+  return !!(t.getCTM && (!t.parentNode || t.ownerSVGElement) && kr(t));
+};
+var Ct = function(t, e) {
+  if (e) {
+    var i = t.style, r;
+    e in vt && e !== it && (e = L), i.removeProperty ? (r = e.substr(0, 2), (r === "ms" || e.substr(0, 6) === "webkit") && (e = "-" + e), i.removeProperty(r === "--" ? e : e.replace(Ti, "-$1").toLowerCase())) : i.removeAttribute(e);
+  }
+};
+var kt = function(t, e, i, r, n, s) {
+  var a = new $(t._pt, e, i, 0, 1, s ? br : wr);
+  return t._pt = a, a.b = r, a.e = n, t._props.push(i), a;
+};
+var yr = { deg: 1, rad: 1, turn: 1 };
+var us = { grid: 1, flex: 1 };
+var Mt = function u14(t, e, i, r) {
+  var n = parseFloat(i) || 0, s = (i + "").trim().substr((n + "").length) || "px", a = Ut.style, o = Kn.test(e), f = t.tagName.toLowerCase() === "svg", _ = (f ? "client" : "offset") + (o ? "Width" : "Height"), l = 100, c = r === "px", d = r === "%", p, h, m, y;
+  if (r === s || !n || yr[r] || yr[s])
+    return n;
+  if (s !== "px" && !c && (n = u14(t, e, i, "px")), y = t.getCTM && Cr(t), (d || s === "%") && (vt[e] || ~e.indexOf("adius")))
+    return p = y ? t.getBBox()[o ? "width" : "height"] : t[_], N(d ? n / p * l : n / 100 * p);
+  if (a[o ? "width" : "height"] = l + (c ? s : r), h = r !== "rem" && ~e.indexOf("adius") || r === "em" && t.appendChild && !f ? t : t.parentNode, y && (h = (t.ownerSVGElement || {}).parentNode), (!h || h === Ot || !h.appendChild) && (h = Ot.body), m = h._gsap, m && d && m.width && o && m.time === J.time && !m.uncache)
+    return N(n / m.width * l);
+  if (d && (e === "height" || e === "width")) {
+    var x = t.style[e];
+    t.style[e] = l + r, p = t[_], x ? t.style[e] = x : Ct(t, e);
+  } else
+    (d || s === "%") && !us[at(h, "display")] && (a.position = at(t, "position")), h === t && (a.position = "static"), h.appendChild(Ut), p = Ut[_], h.removeChild(Ut), a.position = "absolute";
+  return o && d && (m = bt(h), m.time = J.time, m.width = h[_]), N(c ? p * n / l : p && n ? l / p * n : 0);
+};
+var xt = function(t, e, i, r) {
+  var n;
+  return xi || gi(), e in dt && e !== "transform" && (e = dt[e], ~e.indexOf(",") && (e = e.split(",")[0])), vt[e] && e !== "transform" ? (n = ce(t, r), n = e !== "transformOrigin" ? n[e] : n.svg ? n.origin : Ae(at(t, it)) + " " + n.zOrigin + "px") : (n = t.style[e], (!n || n === "auto" || r || ~(n + "").indexOf("calc(")) && (n = De[e] && De[e](t, e, i) || at(t, e) || ri(t, e) || (e === "opacity" ? 1 : 0))), i && !~(n + "").trim().indexOf(" ") ? Mt(t, e, n, i) + i : n;
+};
+var fs = function(t, e, i, r) {
+  if (!i || i === "none") {
+    var n = Ht(e, t, 1), s = n && at(t, n, 1);
+    s && s !== i ? (e = n, i = s) : e === "borderColor" && (i = at(t, "borderTopColor"));
+  }
+  var a = new $(this._pt, t.style, e, 0, 1, hi), o = 0, f = 0, _, l, c, d, p, h, m, y, x, T, w, g;
+  if (a.b = i, a.e = r, i += "", r += "", r.substring(0, 6) === "var(--" && (r = at(t, r.substring(4, r.indexOf(")")))), r === "auto" && (h = t.style[e], t.style[e] = r, r = at(t, e) || r, h ? t.style[e] = h : Ct(t, e)), _ = [i, r], si(_), i = _[0], r = _[1], c = i.match(Ft) || [], g = r.match(Ft) || [], g.length) {
+    for (; l = Ft.exec(r); )
+      m = l[0], x = r.substring(o, l.index), p ? p = (p + 1) % 5 : (x.substr(-5) === "rgba(" || x.substr(-5) === "hsla(") && (p = 1), m !== (h = c[f++] || "") && (d = parseFloat(h) || 0, w = h.substr((d + "").length), m.charAt(1) === "=" && (m = Lt(d, m) + w), y = parseFloat(m), T = m.substr((y + "").length), o = Ft.lastIndex - T.length, T || (T = T || et.units[e] || w, o === r.length && (r += T, a.e += T)), w !== T && (d = Mt(t, e, h, T) || 0), a._pt = { _next: a._pt, p: x || f === 1 ? x : ",", s: d, c: y - d, m: p && p < 4 || e === "zIndex" ? Math.round : 0 });
+    a.c = o < r.length ? r.substring(o, r.length) : "";
+  } else
+    a.r = e === "display" && r === "none" ? br : wr;
+  return He.test(r) && (a.e = 0), this._pt = a, a;
+};
+var xr = { top: "0%", bottom: "100%", left: "0%", right: "100%", center: "50%" };
+var _s = function(t) {
+  var e = t.split(" "), i = e[0], r = e[1] || "50%";
+  return (i === "top" || i === "bottom" || r === "left" || r === "right") && (t = i, i = r, r = t), e[0] = xr[i] || i, e[1] = xr[r] || r, e.join(" ");
+};
+var hs = function(t, e) {
+  if (e.tween && e.tween._time === e.tween._dur) {
+    var i = e.t, r = i.style, n = e.u, s = i._gsap, a, o, f;
+    if (n === "all" || n === true)
+      r.cssText = "", o = 1;
+    else
+      for (n = n.split(","), f = n.length; --f > -1; )
+        a = n[f], vt[a] && (o = 1, a = a === "transformOrigin" ? it : L), Ct(i, a);
+    o && (Ct(i, L), s && (s.svg && i.removeAttribute("transform"), r.scale = r.rotate = r.translate = "none", ce(i, 1), s.uncache = 1, Pr(r)));
+  }
+};
+var De = { clearProps: function(t, e, i, r, n) {
+  if (n.data !== "isFromStart") {
+    var s = t._pt = new $(t._pt, e, i, 0, 0, hs);
+    return s.u = r, s.pr = -10, s.tween = n, t._props.push(i), 1;
+  }
+} };
+var le = [1, 0, 0, 1, 0, 0];
+var Mr = {};
+var Dr = function(t) {
+  return t === "matrix(1, 0, 0, 1, 0, 0)" || t === "none" || !t;
+};
+var vr = function(t) {
+  var e = at(t, L);
+  return Dr(e) ? le : e.substr(7).match($e).map(N);
+};
+var wi = function(t, e) {
+  var i = t._gsap || bt(t), r = t.style, n = vr(t), s, a, o, f;
+  return i.svg && t.getAttribute("transform") ? (o = t.transform.baseVal.consolidate().matrix, n = [o.a, o.b, o.c, o.d, o.e, o.f], n.join(",") === "1,0,0,1,0,0" ? le : n) : (n === le && !t.offsetParent && t !== jt && !i.svg && (o = r.display, r.display = "block", s = t.parentNode, (!s || !t.offsetParent && !t.getBoundingClientRect().width) && (f = 1, a = t.nextElementSibling, jt.appendChild(t)), n = vr(t), o ? r.display = o : Ct(t, "display"), f && (a ? s.insertBefore(t, a) : s ? s.appendChild(t) : jt.removeChild(t))), e && n.length > 6 ? [n[0], n[1], n[4], n[5], n[12], n[13]] : n);
+};
+var yi = function(t, e, i, r, n, s) {
+  var a = t._gsap, o = n || wi(t, true), f = a.xOrigin || 0, _ = a.yOrigin || 0, l = a.xOffset || 0, c = a.yOffset || 0, d = o[0], p = o[1], h = o[2], m = o[3], y = o[4], x = o[5], T = e.split(" "), w = parseFloat(T[0]) || 0, g = parseFloat(T[1]) || 0, b, P, S, v;
+  i ? o !== le && (P = d * m - p * h) && (S = w * (m / P) + g * (-h / P) + (h * x - m * y) / P, v = w * (-p / P) + g * (d / P) - (d * x - p * y) / P, w = S, g = v) : (b = kr(t), w = b.x + (~T[0].indexOf("%") ? w / 100 * b.width : w), g = b.y + (~(T[1] || T[0]).indexOf("%") ? g / 100 * b.height : g)), r || r !== false && a.smooth ? (y = w - f, x = g - _, a.xOffset = l + (y * d + x * h) - y, a.yOffset = c + (y * p + x * m) - x) : a.xOffset = a.yOffset = 0, a.xOrigin = w, a.yOrigin = g, a.smooth = !!r, a.origin = e, a.originIsAbsolute = !!i, t.style[it] = "0px 0px", s && (kt(s, a, "xOrigin", f, w), kt(s, a, "yOrigin", _, g), kt(s, a, "xOffset", l, a.xOffset), kt(s, a, "yOffset", c, a.yOffset)), t.setAttribute("data-svg-origin", w + " " + g);
+};
+var ce = function(t, e) {
+  var i = t._gsap || new ai(t);
+  if ("x" in i && !e && !i.uncache)
+    return i;
+  var r = t.style, n = i.scaleX < 0, s = "px", a = "deg", o = getComputedStyle(t), f = at(t, it) || "0", _, l, c, d, p, h, m, y, x, T, w, g, b, P, S, v, k, R, D, A, q, Y, V, X, _t, de, Jt, te, Dt, Pi, pt, At;
+  return _ = l = c = h = m = y = x = T = w = 0, d = p = 1, i.svg = !!(t.getCTM && Cr(t)), o.translate && ((o.translate !== "none" || o.scale !== "none" || o.rotate !== "none") && (r[L] = (o.translate !== "none" ? "translate3d(" + (o.translate + " 0 0").split(" ").slice(0, 3).join(", ") + ") " : "") + (o.rotate !== "none" ? "rotate(" + o.rotate + ") " : "") + (o.scale !== "none" ? "scale(" + o.scale.split(" ").join(",") + ") " : "") + (o[L] !== "none" ? o[L] : "")), r.scale = r.rotate = r.translate = "none"), P = wi(t, i.svg), i.svg && (i.uncache ? (_t = t.getBBox(), f = i.xOrigin - _t.x + "px " + (i.yOrigin - _t.y) + "px", X = "") : X = !e && t.getAttribute("data-svg-origin"), yi(t, X || f, !!X || i.originIsAbsolute, i.smooth !== false, P)), g = i.xOrigin || 0, b = i.yOrigin || 0, P !== le && (R = P[0], D = P[1], A = P[2], q = P[3], _ = Y = P[4], l = V = P[5], P.length === 6 ? (d = Math.sqrt(R * R + D * D), p = Math.sqrt(q * q + A * A), h = R || D ? Zt(D, R) * Vt : 0, x = A || q ? Zt(A, q) * Vt + h : 0, x && (p *= Math.abs(Math.cos(x * $t))), i.svg && (_ -= g - (g * R + b * A), l -= b - (g * D + b * q))) : (At = P[6], Pi = P[7], Jt = P[8], te = P[9], Dt = P[10], pt = P[11], _ = P[12], l = P[13], c = P[14], S = Zt(At, Dt), m = S * Vt, S && (v = Math.cos(-S), k = Math.sin(-S), X = Y * v + Jt * k, _t = V * v + te * k, de = At * v + Dt * k, Jt = Y * -k + Jt * v, te = V * -k + te * v, Dt = At * -k + Dt * v, pt = Pi * -k + pt * v, Y = X, V = _t, At = de), S = Zt(-A, Dt), y = S * Vt, S && (v = Math.cos(-S), k = Math.sin(-S), X = R * v - Jt * k, _t = D * v - te * k, de = A * v - Dt * k, pt = q * k + pt * v, R = X, D = _t, A = de), S = Zt(D, R), h = S * Vt, S && (v = Math.cos(S), k = Math.sin(S), X = R * v + D * k, _t = Y * v + V * k, D = D * v - R * k, V = V * v - Y * k, R = X, Y = _t), m && Math.abs(m) + Math.abs(h) > 359.9 && (m = h = 0, y = 180 - y), d = N(Math.sqrt(R * R + D * D + A * A)), p = N(Math.sqrt(V * V + At * At)), S = Zt(Y, V), x = Math.abs(S) > 2e-4 ? S * Vt : 0, w = pt ? 1 / (pt < 0 ? -pt : pt) : 0), i.svg && (X = t.getAttribute("transform"), i.forceCSS = t.setAttribute("transform", "") || !Dr(at(t, L)), X && t.setAttribute("transform", X))), Math.abs(x) > 90 && Math.abs(x) < 270 && (n ? (d *= -1, x += h <= 0 ? 180 : -180, h += h <= 0 ? 180 : -180) : (p *= -1, x += x <= 0 ? 180 : -180)), e = e || i.uncache, i.x = _ - ((i.xPercent = _ && (!e && i.xPercent || (Math.round(t.offsetWidth / 2) === Math.round(-_) ? -50 : 0))) ? t.offsetWidth * i.xPercent / 100 : 0) + s, i.y = l - ((i.yPercent = l && (!e && i.yPercent || (Math.round(t.offsetHeight / 2) === Math.round(-l) ? -50 : 0))) ? t.offsetHeight * i.yPercent / 100 : 0) + s, i.z = c + s, i.scaleX = N(d), i.scaleY = N(p), i.rotation = N(h) + a, i.rotationX = N(m) + a, i.rotationY = N(y) + a, i.skewX = x + a, i.skewY = T + a, i.transformPerspective = w + s, (i.zOrigin = parseFloat(f.split(" ")[2]) || !e && i.zOrigin || 0) && (r[it] = Ae(f)), i.xOffset = i.yOffset = 0, i.force3D = et.force3D, i.renderTransform = i.svg ? cs : Or ? Ar : ls, i.uncache = 0, i;
+};
+var Ae = function(t) {
+  return (t = t.split(" "))[0] + " " + t[1];
+};
+var di = function(t, e, i) {
+  var r = Q(e);
+  return N(parseFloat(e) + parseFloat(Mt(t, "x", i + "px", r))) + r;
+};
+var ls = function(t, e) {
+  e.z = "0px", e.rotationY = e.rotationX = "0deg", e.force3D = 0, Ar(t, e);
+};
+var Nt = "0deg";
+var he = "0px";
+var Bt = ") ";
+var Ar = function(t, e) {
+  var i = e || this, r = i.xPercent, n = i.yPercent, s = i.x, a = i.y, o = i.z, f = i.rotation, _ = i.rotationY, l = i.rotationX, c = i.skewX, d = i.skewY, p = i.scaleX, h = i.scaleY, m = i.transformPerspective, y = i.force3D, x = i.target, T = i.zOrigin, w = "", g = y === "auto" && t && t !== 1 || y === true;
+  if (T && (l !== Nt || _ !== Nt)) {
+    var b = parseFloat(_) * $t, P = Math.sin(b), S = Math.cos(b), v;
+    b = parseFloat(l) * $t, v = Math.cos(b), s = di(x, s, P * v * -T), a = di(x, a, -Math.sin(b) * -T), o = di(x, o, S * v * -T + T);
+  }
+  m !== he && (w += "perspective(" + m + Bt), (r || n) && (w += "translate(" + r + "%, " + n + "%) "), (g || s !== he || a !== he || o !== he) && (w += o !== he || g ? "translate3d(" + s + ", " + a + ", " + o + ") " : "translate(" + s + ", " + a + Bt), f !== Nt && (w += "rotate(" + f + Bt), _ !== Nt && (w += "rotateY(" + _ + Bt), l !== Nt && (w += "rotateX(" + l + Bt), (c !== Nt || d !== Nt) && (w += "skew(" + c + ", " + d + Bt), (p !== 1 || h !== 1) && (w += "scale(" + p + ", " + h + Bt), x.style[L] = w || "translate(0, 0)";
+};
+var cs = function(t, e) {
+  var i = e || this, r = i.xPercent, n = i.yPercent, s = i.x, a = i.y, o = i.rotation, f = i.skewX, _ = i.skewY, l = i.scaleX, c = i.scaleY, d = i.target, p = i.xOrigin, h = i.yOrigin, m = i.xOffset, y = i.yOffset, x = i.forceCSS, T = parseFloat(s), w = parseFloat(a), g, b, P, S, v;
+  o = parseFloat(o), f = parseFloat(f), _ = parseFloat(_), _ && (_ = parseFloat(_), f += _, o += _), o || f ? (o *= $t, f *= $t, g = Math.cos(o) * l, b = Math.sin(o) * l, P = Math.sin(o - f) * -c, S = Math.cos(o - f) * c, f && (_ *= $t, v = Math.tan(f - _), v = Math.sqrt(1 + v * v), P *= v, S *= v, _ && (v = Math.tan(_), v = Math.sqrt(1 + v * v), g *= v, b *= v)), g = N(g), b = N(b), P = N(P), S = N(S)) : (g = l, S = c, b = P = 0), (T && !~(s + "").indexOf("px") || w && !~(a + "").indexOf("px")) && (T = Mt(d, "x", s, "px"), w = Mt(d, "y", a, "px")), (p || h || m || y) && (T = N(T + p - (p * g + h * P) + m), w = N(w + h - (p * b + h * S) + y)), (r || n) && (v = d.getBBox(), T = N(T + r / 100 * v.width), w = N(w + n / 100 * v.height)), v = "matrix(" + g + "," + b + "," + P + "," + S + "," + T + "," + w + ")", d.setAttribute("transform", v), x && (d.style[L] = v);
+};
+var ds = function(t, e, i, r, n) {
+  var s = 360, a = U(n), o = parseFloat(n) * (a && ~n.indexOf("rad") ? Vt : 1), f = o - r, _ = r + f + "deg", l, c;
+  return a && (l = n.split("_")[1], l === "short" && (f %= s, f !== f % (s / 2) && (f += f < 0 ? s : -s)), l === "cw" && f < 0 ? f = (f + s * dr) % s - ~~(f / s) * s : l === "ccw" && f > 0 && (f = (f - s * dr) % s - ~~(f / s) * s)), t._pt = c = new $(t._pt, e, i, r, f, jn), c.e = _, c.u = "deg", t._props.push(i), c;
+};
+var Tr = function(t, e) {
+  for (var i in e)
+    t[i] = e[i];
+  return t;
+};
+var ps = function(t, e, i) {
+  var r = Tr({}, i._gsap), n = "perspective,force3D,transformOrigin,svgOrigin", s = i.style, a, o, f, _, l, c, d, p;
+  r.svg ? (f = i.getAttribute("transform"), i.setAttribute("transform", ""), s[L] = e, a = ce(i, 1), Ct(i, L), i.setAttribute("transform", f)) : (f = getComputedStyle(i)[L], s[L] = e, a = ce(i, 1), s[L] = f);
+  for (o in vt)
+    f = r[o], _ = a[o], f !== _ && n.indexOf(o) < 0 && (d = Q(f), p = Q(_), l = d !== p ? Mt(i, o, f, p) : parseFloat(f), c = parseFloat(_), t._pt = new $(t._pt, a, o, l, c - l, pi), t._pt.u = p || 0, t._props.push(o));
+  Tr(a, r);
+};
+j("padding,margin,Width,Radius", function(u15, t) {
+  var e = "Top", i = "Right", r = "Bottom", n = "Left", s = (t < 3 ? [e, i, r, n] : [e + n, e + i, r + i, r + n]).map(function(a) {
+    return t < 2 ? u15 + a : "border" + a + u15;
+  });
+  De[t > 1 ? "border" + u15 : u15] = function(a, o, f, _, l) {
+    var c, d;
+    if (arguments.length < 4)
+      return c = s.map(function(p) {
+        return xt(a, p, f);
+      }), d = c.join(" "), d.split(c[0]).length === 5 ? c[0] : d;
+    c = (_ + "").split(" "), d = {}, s.forEach(function(p, h) {
+      return d[p] = c[h] = c[h] || c[(h - 1) / 2 | 0];
+    }), a.init(o, d, l);
+  };
+});
+var bi = { name: "css", register: gi, targetTest: function(t) {
+  return t.style && t.nodeType;
+}, init: function(t, e, i, r, n) {
+  var s = this._props, a = t.style, o = i.vars.startAt, f, _, l, c, d, p, h, m, y, x, T, w, g, b, P, S, v;
+  xi || gi(), this.styles = this.styles || Sr(t), S = this.styles.props, this.tween = i;
+  for (h in e)
+    if (h !== "autoRound" && (_ = e[h], !(H[h] && ui(h, e, i, r, t, n)))) {
+      if (d = typeof _, p = De[h], d === "function" && (_ = _.call(i, r, t, n), d = typeof _), d === "string" && ~_.indexOf("random(") && (_ = Kt(_)), p)
+        p(this, t, h, _, i) && (P = 1);
+      else if (h.substr(0, 2) === "--")
+        f = (getComputedStyle(t).getPropertyValue(h) + "").trim(), _ += "", gt.lastIndex = 0, gt.test(f) || (m = Q(f), y = Q(_), y ? m !== y && (f = Mt(t, h, f, y) + y) : m && (_ += m)), this.add(a, "setProperty", f, _, r, n, 0, 0, h), s.push(h), S.push(h, 0, a[h]);
+      else if (d !== "undefined") {
+        if (o && h in o ? (f = typeof o[h] == "function" ? o[h].call(i, r, t, n) : o[h], U(f) && ~f.indexOf("random(") && (f = Kt(f)), Q(f + "") || f === "auto" || (f += et.units[h] || Q(xt(t, h)) || ""), (f + "").charAt(1) === "=" && (f = xt(t, h))) : f = xt(t, h), c = parseFloat(f), x = d === "string" && _.charAt(1) === "=" && _.substr(0, 2), x && (_ = _.substr(2)), l = parseFloat(_), h in dt && (h === "autoAlpha" && (c === 1 && xt(t, "visibility") === "hidden" && l && (c = 0), S.push("visibility", 0, a.visibility), kt(this, a, "visibility", c ? "inherit" : "hidden", l ? "inherit" : "hidden", !l)), h !== "scale" && h !== "transform" && (h = dt[h], ~h.indexOf(",") && (h = h.split(",")[0]))), T = h in vt, T) {
+          if (this.styles.save(h), v = _, d === "string" && _.substring(0, 6) === "var(--") {
+            if (_ = at(t, _.substring(4, _.indexOf(")"))), _.substring(0, 5) === "calc(") {
+              var k = t.style.perspective;
+              t.style.perspective = _, _ = at(t, "perspective"), k ? t.style.perspective = k : Ct(t, "perspective");
+            }
+            l = parseFloat(_);
+          }
+          if (w || (g = t._gsap, g.renderTransform && !e.parseTransform || ce(t, e.parseTransform), b = e.smoothOrigin !== false && g.smooth, w = this._pt = new $(this._pt, a, L, 0, 1, g.renderTransform, g, 0, -1), w.dep = 1), h === "scale")
+            this._pt = new $(this._pt, g, "scaleY", g.scaleY, (x ? Lt(g.scaleY, x + l) : l) - g.scaleY || 0, pi), this._pt.u = 0, s.push("scaleY", h), h += "X";
+          else if (h === "transformOrigin") {
+            S.push(it, 0, a[it]), _ = _s(_), g.svg ? yi(t, _, 0, b, 0, this) : (y = parseFloat(_.split(" ")[2]) || 0, y !== g.zOrigin && kt(this, g, "zOrigin", g.zOrigin, y), kt(this, a, h, Ae(f), Ae(_)));
+            continue;
+          } else if (h === "svgOrigin") {
+            yi(t, _, 1, b, 0, this);
+            continue;
+          } else if (h in Mr) {
+            ds(this, g, h, c, x ? Lt(c, x + _) : _);
+            continue;
+          } else if (h === "smoothOrigin") {
+            kt(this, g, "smooth", g.smooth, _);
+            continue;
+          } else if (h === "force3D") {
+            g[h] = _;
+            continue;
+          } else if (h === "transform") {
+            ps(this, _, t);
+            continue;
+          }
+        } else
+          h in a || (h = Ht(h) || h);
+        if (T || (l || l === 0) && (c || c === 0) && !Zn.test(_) && h in a)
+          m = (f + "").substr((c + "").length), l || (l = 0), y = Q(_) || (h in et.units ? et.units[h] : m), m !== y && (c = Mt(t, h, f, y)), this._pt = new $(this._pt, T ? g : a, h, c, (x ? Lt(c, x + l) : l) - c, !T && (y === "px" || h === "zIndex") && e.autoRound !== false ? Jn : pi), this._pt.u = y || 0, T && v !== _ ? (this._pt.b = f, this._pt.e = v, this._pt.r = Hn) : m !== y && y !== "%" && (this._pt.b = f, this._pt.r = $n);
+        else if (h in a)
+          fs.call(this, t, h, f, x ? x + _ : _);
+        else if (h in t)
+          this.add(t, h, f || t[h], x ? x + _ : _, r, n);
+        else if (h !== "parseTransform") {
+          Se(h, _);
+          continue;
+        }
+        T || (h in a ? S.push(h, 0, a[h]) : typeof t[h] == "function" ? S.push(h, 2, t[h]()) : S.push(h, 1, f || t[h])), s.push(h);
+      }
+    }
+  P && ci(this);
+}, render: function(t, e) {
+  if (e.tween._time || !vi())
+    for (var i = e._pt; i; )
+      i.r(t, i.d), i = i._next;
+  else
+    e.styles.revert();
+}, get: xt, aliases: dt, getSetter: function(t, e, i) {
+  var r = dt[e];
+  return r && r.indexOf(",") < 0 && (e = r), e in vt && e !== it && (t._gsap.x || xt(t, "x")) ? i && cr === i ? e === "scale" ? rs : is : (cr = i || {}) && (e === "scale" ? ns : ss) : t.style && !Pe(t.style[e]) ? ts : ~e.indexOf("-") ? es : Me(t, e);
+}, core: { _removeProperty: Ct, _getMatrix: wi } };
+Z.utils.checkPrefix = Ht;
+Z.core.getStyleSaver = Sr;
+(function(u15, t, e, i) {
+  var r = j(u15 + "," + t + "," + e, function(n) {
+    vt[n] = 1;
+  });
+  j(t, function(n) {
+    et.units[n] = "deg", Mr[n] = 1;
+  }), dt[r[13]] = u15 + "," + t, j(i, function(n) {
+    var s = n.split(":");
+    dt[s[1]] = r[s[0]];
+  });
+})("x,y,z,scale,scaleX,scaleY,xPercent,yPercent", "rotation,rotationX,rotationY,skewX,skewY", "transform,transformOrigin,svgOrigin,force3D,smoothOrigin,transformPerspective", "0:translateX,1:translateY,2:translateZ,8:rotate,8:rotationZ,8:rotateZ,9:rotateX,10:rotateY");
+j("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,perspective", function(u15) {
+  et.units[u15] = "px";
+});
+Z.registerPlugin(bi);
+var ms = Z.registerPlugin(bi) || Z;
+var Ps = ms.core.Tween;
+
+// ../../../../../../src/Component
+var _jsxFileName = "/src/Component.tsx";
+function lerp(a, b, n) {
+  return (1 - n) * a + n * b;
+}
+function getLocalPointerPos(e, rect) {
+  let clientX = 0, clientY = 0;
+  if ("touches" in e && e.touches.length > 0) {
+    clientX = e.touches[0].clientX;
+    clientY = e.touches[0].clientY;
+  } else if ("clientX" in e) {
+    const mouseEv = e;
+    clientX = mouseEv.clientX;
+    clientY = mouseEv.clientY;
+  }
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top
+  };
+}
+function getMouseDistance(p1, p2) {
+  const dx = p1.x - p2.x;
+  const dy = p1.y - p2.y;
+  return Math.hypot(dx, dy);
+}
+var ImageItem = class {
+  DOM = {
+    el: null,
+    inner: null
+  };
+  defaultStyle = {
+    scale: 1,
+    x: 0,
+    y: 0,
+    opacity: 0
+  };
+  rect = null;
+  constructor(DOM_el) {
+    this.DOM.el = DOM_el;
+    this.DOM.inner = this.DOM.el.querySelector(".content__img-inner");
+    this.getRect();
+    this.initEvents();
+  }
+  initEvents() {
+    this.resize = () => {
+      ms.set(this.DOM.el, this.defaultStyle);
+      this.getRect();
+    };
+    window.addEventListener("resize", this.resize);
+  }
+  getRect() {
+    this.rect = this.DOM.el.getBoundingClientRect();
+  }
+  destroy() {
+    window.removeEventListener("resize", this.resize);
+  }
+};
+var ImageTrailBase = class {
+  imgPosition = 0;
+  zIndexVal = 1;
+  activeImagesCount = 0;
+  isIdle = true;
+  threshold = 80;
+  mousePos = {
+    x: 0,
+    y: 0
+  };
+  lastMousePos = {
+    x: 0,
+    y: 0
+  };
+  cacheMousePos = {
+    x: 0,
+    y: 0
+  };
+  rafId = null;
+  constructor(container) {
+    this.container = container;
+    this.images = [...container.querySelectorAll(".content__img")].map((img) => new ImageItem(img));
+    this.imagesTotal = this.images.length;
+    const handlePointerMove = (ev) => {
+      const rect = this.container.getBoundingClientRect();
+      this.mousePos = getLocalPointerPos(ev, rect);
+    };
+    container.addEventListener("mousemove", handlePointerMove);
+    container.addEventListener("touchmove", handlePointerMove);
+    const initRender = (ev) => {
+      const rect = this.container.getBoundingClientRect();
+      this.mousePos = getLocalPointerPos(ev, rect);
+      this.cacheMousePos = {
+        ...this.mousePos
+      };
+      this.rafId = requestAnimationFrame(() => this.render());
+      container.removeEventListener("mousemove", initRender);
+      container.removeEventListener("touchmove", initRender);
+    };
+    container.addEventListener("mousemove", initRender);
+    container.addEventListener("touchmove", initRender);
+  }
+  onImageActivated() {
+    this.activeImagesCount++;
+    this.isIdle = false;
+  }
+  onImageDeactivated() {
+    this.activeImagesCount--;
+    if (this.activeImagesCount === 0) {
+      this.isIdle = true;
+    }
+  }
+  destroy() {
+    if (this.rafId)
+      cancelAnimationFrame(this.rafId);
+    this.images.forEach((img) => img.destroy());
+  }
+};
+var ImageTrailVariant1 = class extends ImageTrailBase {
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.1);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.1);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    ms.killTweensOf(img.DOM.el);
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).fromTo(img.DOM.el, {
+      opacity: 1,
+      scale: 1,
+      zIndex: this.zIndexVal,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2
+    }, {
+      duration: 0.4,
+      ease: "power1",
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2
+    }, 0).to(img.DOM.el, {
+      duration: 0.4,
+      ease: "power3",
+      opacity: 0,
+      scale: 0.2
+    }, 0.4);
+  }
+};
+var ImageTrailVariant2 = class extends ImageTrailBase {
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.1);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.1);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    ms.killTweensOf(img.DOM.el);
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).fromTo(img.DOM.el, {
+      opacity: 1,
+      scale: 0,
+      zIndex: this.zIndexVal,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2
+    }, {
+      duration: 0.4,
+      ease: "power1",
+      scale: 1,
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2
+    }, 0).fromTo(img.DOM.inner, {
+      scale: 2.8,
+      filter: "brightness(250%)"
+    }, {
+      duration: 0.4,
+      ease: "power1",
+      scale: 1,
+      filter: "brightness(100%)"
+    }, 0).to(img.DOM.el, {
+      duration: 0.4,
+      ease: "power2",
+      opacity: 0,
+      scale: 0.2
+    }, 0.45);
+  }
+};
+var ImageTrailVariant3 = class extends ImageTrailBase {
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.1);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.1);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    ms.killTweensOf(img.DOM.el);
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).fromTo(img.DOM.el, {
+      opacity: 1,
+      scale: 0,
+      zIndex: this.zIndexVal,
+      xPercent: 0,
+      yPercent: 0,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2
+    }, {
+      duration: 0.4,
+      ease: "power1",
+      scale: 1,
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2
+    }, 0).to(img.DOM.el, {
+      duration: 0.6,
+      ease: "power2",
+      opacity: 0,
+      scale: 0.2,
+      xPercent: () => ms.utils.random(-30, 30),
+      yPercent: -200
+    }, 0.6);
+  }
+};
+var ImageTrailVariant4 = class extends ImageTrailBase {
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.1);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.1);
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    ms.killTweensOf(img.DOM.el);
+    let dx = this.mousePos.x - this.cacheMousePos.x;
+    let dy = this.mousePos.y - this.cacheMousePos.y;
+    let dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist !== 0) {
+      dx /= dist;
+      dy /= dist;
+    }
+    dx *= dist / 100;
+    dy *= dist / 100;
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).fromTo(img.DOM.el, {
+      opacity: 1,
+      scale: 0,
+      zIndex: this.zIndexVal,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2
+    }, {
+      duration: 0.4,
+      ease: "power1",
+      scale: 1,
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2
+    }, 0).fromTo(img.DOM.inner, {
+      scale: 2,
+      filter: `brightness(${Math.max(400 * dist / 100, 100)}%) contrast(${Math.max(400 * dist / 100, 100)}%)`
+    }, {
+      duration: 0.4,
+      ease: "power1",
+      scale: 1,
+      filter: "brightness(100%) contrast(100%)"
+    }, 0).to(img.DOM.el, {
+      duration: 0.4,
+      ease: "power3",
+      opacity: 0
+    }, 0.4).to(img.DOM.el, {
+      duration: 1.5,
+      ease: "power4",
+      x: `+=${dx * 110}`,
+      y: `+=${dy * 110}`
+    }, 0.05);
+  }
+};
+var ImageTrailVariant5 = class extends ImageTrailBase {
+  lastAngle = 0;
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.1);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.1);
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    let dx = this.mousePos.x - this.cacheMousePos.x;
+    let dy = this.mousePos.y - this.cacheMousePos.y;
+    let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+    if (angle < 0)
+      angle += 360;
+    if (angle > 90 && angle <= 270)
+      angle += 180;
+    const isMovingClockwise = angle >= this.lastAngle;
+    this.lastAngle = angle;
+    let startAngle = isMovingClockwise ? angle - 10 : angle + 10;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist !== 0) {
+      dx /= dist;
+      dy /= dist;
+    }
+    dx *= dist / 150;
+    dy *= dist / 150;
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    ms.killTweensOf(img.DOM.el);
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).fromTo(img.DOM.el, {
+      opacity: 1,
+      filter: "brightness(80%)",
+      scale: 0.1,
+      zIndex: this.zIndexVal,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2,
+      rotation: startAngle
+    }, {
+      duration: 1,
+      ease: "power2",
+      scale: 1,
+      filter: "brightness(100%)",
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2 + dx * 70,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2 + dy * 70,
+      rotation: this.lastAngle
+    }, 0).to(img.DOM.el, {
+      duration: 0.4,
+      ease: "expo",
+      opacity: 0
+    }, 0.5).to(img.DOM.el, {
+      duration: 1.5,
+      ease: "power4",
+      x: `+=${dx * 120}`,
+      y: `+=${dy * 120}`
+    }, 0.05);
+  }
+};
+var ImageTrailVariant6 = class extends ImageTrailBase {
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.3);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.3);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    const dx = this.mousePos.x - this.cacheMousePos.x;
+    const dy = this.mousePos.y - this.cacheMousePos.y;
+    const speed = Math.sqrt(dx * dx + dy * dy);
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    const scaleFactor = 0.3 + 1.7 * Math.min(speed / 200, 1);
+    const brightnessValue = 1 + 0.3 * Math.min(speed / 70, 1);
+    const blurValue = 20 * (1 - Math.min(speed / 90, 1));
+    const grayscaleValue = 1 * (1 - Math.min(speed / 90, 1));
+    ms.killTweensOf(img.DOM.el);
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).fromTo(img.DOM.el, {
+      opacity: 1,
+      scale: 0,
+      zIndex: this.zIndexVal,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2
+    }, {
+      duration: 0.8,
+      ease: "power3",
+      scale: scaleFactor,
+      filter: `grayscale(${grayscaleValue * 100}%) brightness(${brightnessValue * 100}%) blur(${blurValue}px)`,
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2
+    }, 0).to(img.DOM.el, {
+      duration: 0.4,
+      ease: "power3.in",
+      opacity: 0,
+      scale: 0.2
+    }, 0.45);
+  }
+};
+var ImageTrailVariant7 = class extends ImageTrailBase {
+  visibleImagesCount = 0;
+  visibleImagesTotal = 9;
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.3);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.3);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    ++this.visibleImagesCount;
+    ms.killTweensOf(img.DOM.el);
+    const scaleValue = ms.utils.random(0.5, 1.6);
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).fromTo(img.DOM.el, {
+      scale: scaleValue - 0.4,
+      rotationZ: 0,
+      opacity: 1,
+      zIndex: this.zIndexVal,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2
+    }, {
+      duration: 0.4,
+      ease: "power3",
+      scale: scaleValue,
+      rotationZ: ms.utils.random(-3, 3),
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2
+    }, 0);
+    if (this.visibleImagesCount >= this.visibleImagesTotal) {
+      const lastInQueue = (this.imgPosition - this.visibleImagesTotal + this.imagesTotal) % this.imagesTotal;
+      const oldImg = this.images[lastInQueue];
+      ms.to(oldImg.DOM.el, {
+        duration: 0.4,
+        ease: "power4",
+        opacity: 0,
+        scale: 1.3
+      });
+    }
+  }
+};
+var ImageTrailVariant8 = class extends ImageTrailBase {
+  render() {
+    const distance = getMouseDistance(this.mousePos, this.lastMousePos);
+    this.cacheMousePos.x = lerp(this.cacheMousePos.x, this.mousePos.x, 0.1);
+    this.cacheMousePos.y = lerp(this.cacheMousePos.y, this.mousePos.y, 0.1);
+    if (distance > this.threshold) {
+      this.showNextImage();
+      this.lastMousePos = {
+        ...this.mousePos
+      };
+    }
+    if (this.isIdle && this.zIndexVal !== 1)
+      this.zIndexVal = 1;
+    requestAnimationFrame(() => this.render());
+  }
+  showNextImage() {
+    const rect = this.container.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const relX = this.mousePos.x - centerX;
+    const relY = this.mousePos.y - centerY;
+    const rotX = -(relY / centerY) * 30;
+    const rotY = relX / centerX * 30;
+    const distFromCenter = Math.sqrt(relX * relX + relY * relY);
+    const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
+    const zValue = distFromCenter / maxDist * 1200 - 600;
+    const brightness = 0.2 + (zValue + 600) / 1200 * 2.3;
+    ++this.zIndexVal;
+    this.imgPosition = this.imgPosition < this.imagesTotal - 1 ? this.imgPosition + 1 : 0;
+    const img = this.images[this.imgPosition];
+    ms.killTweensOf(img.DOM.el);
+    ms.timeline({
+      onStart: () => this.onImageActivated(),
+      onComplete: () => this.onImageDeactivated()
+    }).set(this.container, {
+      perspective: 1e3
+    }).fromTo(img.DOM.el, {
+      opacity: 1,
+      z: 0,
+      scale: 1 + zValue / 1e3,
+      zIndex: this.zIndexVal,
+      x: this.cacheMousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.cacheMousePos.y - (img.rect?.height ?? 0) / 2,
+      rotationX: rotX,
+      rotationY: rotY,
+      filter: `brightness(${brightness})`
+    }, {
+      duration: 1,
+      ease: "expo",
+      scale: 1 + zValue / 1e3,
+      x: this.mousePos.x - (img.rect?.width ?? 0) / 2,
+      y: this.mousePos.y - (img.rect?.height ?? 0) / 2,
+      rotationX: rotX,
+      rotationY: rotY
+    }, 0).to(img.DOM.el, {
+      duration: 0.4,
+      ease: "power2",
+      opacity: 0,
+      z: -800
+    }, 0.3);
+  }
+};
+var variantMap = {
+  1: ImageTrailVariant1,
+  2: ImageTrailVariant2,
+  3: ImageTrailVariant3,
+  4: ImageTrailVariant4,
+  5: ImageTrailVariant5,
+  6: ImageTrailVariant6,
+  7: ImageTrailVariant7,
+  8: ImageTrailVariant8
+};
+function ImageTrail({
+  items = [],
+  variant = 1,
+  threshold = 80
+}) {
+  const containerRef = (0, import_react.useRef)(null);
+  const instanceRef = (0, import_react.useRef)(null);
+  (0, import_react.useEffect)(() => {
+    if (!containerRef.current || items.length === 0)
+      return;
+    const Cls = variantMap[variant] || variantMap[1];
+    instanceRef.current = new Cls(containerRef.current);
+    if (instanceRef.current && threshold !== 80) {
+      instanceRef.current.threshold = threshold;
+    }
+    return () => {
+      if (instanceRef.current) {
+        instanceRef.current.destroy();
+      }
+    };
+  }, [variant, items, threshold]);
+  return /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "w-full h-full relative z-[100] rounded-lg bg-transparent overflow-visible touch-none",
+    ref: containerRef,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 551,
+      columnNumber: 5
+    }
+  }, items.map((url, i) => /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "content__img w-[190px] aspect-[1.1] rounded-[15px] absolute top-0 left-0 opacity-0 overflow-hidden [will-change:transform,filter] shadow-2xl",
+    key: i,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 556,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "content__img-inner bg-center bg-cover w-[calc(100%+20px)] h-[calc(100%+20px)] absolute top-[-10px] left-[-10px]",
+    style: {
+      backgroundImage: `url(${url})`
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 560,
+      columnNumber: 11
+    }
+  }))));
+}
+
+// ../../../../../../src/App.tsx
+var _jsxFileName2 = "/src/App.tsx";
+function App() {
+  const [variant, setVariant] = (0, import_react2.useState)(1);
+  const [key, setKey] = (0, import_react2.useState)(0);
+  const images = ["https://picsum.photos/id/287/600/600", "https://picsum.photos/id/1001/600/600", "https://picsum.photos/id/1025/600/600", "https://picsum.photos/id/1026/600/600", "https://picsum.photos/id/1027/600/600", "https://picsum.photos/id/1028/600/600", "https://picsum.photos/id/1029/600/600", "https://picsum.photos/id/1030/600/600", "https://picsum.photos/id/1031/600/600", "https://picsum.photos/id/1032/600/600", "https://picsum.photos/id/1033/600/600", "https://picsum.photos/id/1035/600/600"];
+  const variants = [{
+    id: 1,
+    name: "Classic Lerp"
+  }, {
+    id: 2,
+    name: "Luminous Bloom"
+  }, {
+    id: 3,
+    name: "Ethereal Ascent"
+  }, {
+    id: 4,
+    name: "Motion Drift"
+  }, {
+    id: 5,
+    name: "Angular Flow"
+  }, {
+    id: 6,
+    name: "Kinetic Blur"
+  }, {
+    id: 7,
+    name: "Depth Stack"
+  }, {
+    id: 8,
+    name: "3D Perspective"
+  }];
+  return /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "min-h-screen bg-[#F9F9F9] flex flex-col items-center justify-center p-20 font-sans text-[#1A1A1B]",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 41,
+      columnNumber: 5
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "mb-12 text-center max-w-2xl",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 43,
+      columnNumber: 7
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("h1", {
+    className: "text-4xl font-medium tracking-tight mb-4",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 44,
+      columnNumber: 9
+    }
+  }, variants.find((v) => v.id === variant)?.name), /* @__PURE__ */ import_react2.default.createElement("p", {
+    className: "text-muted-foreground font-light text-lg",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 47,
+      columnNumber: 9
+    }
+  }, "Move your cursor across the frame to reveal the trail.")), /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "relative w-full max-w-4xl aspect-video bg-white rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.05)] border-none overflow-hidden cursor-crosshair group",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 53,
+      columnNumber: 7
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement(ImageTrail, {
+    key,
+    items: images,
+    variant,
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 54,
+      columnNumber: 9
+    }
+  }), /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "absolute bottom-10 left-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground pointer-events-none",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 57,
+      columnNumber: 9
+    }
+  }, "Interactive Motion Showcase \u2014 v1.0")), /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "mt-16 flex flex-wrap justify-center gap-3",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 63,
+      columnNumber: 7
+    }
+  }, variants.map((v) => /* @__PURE__ */ import_react2.default.createElement("button", {
+    key: v.id,
+    onClick: () => {
+      setVariant(v.id);
+      setKey((prev) => prev + 1);
+    },
+    className: `px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${variant === v.id ? "bg-[#1A1A1B] text-white shadow-lg" : "bg-white text-[#1A1A1B] border border-transparent hover:border-[#1A1A1B] shadow-sm"}`,
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 65,
+      columnNumber: 11
+    }
+  }, v.id)), /* @__PURE__ */ import_react2.default.createElement("button", {
+    onClick: () => setKey((prev) => prev + 1),
+    className: "ml-4 px-6 py-2.5 rounded-full text-sm font-medium bg-[#3b82f6] text-white hover:bg-[#2563eb] transition-colors shadow-lg flex items-center gap-2",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 81,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("svg", {
+    className: "w-4 h-4",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "currentColor",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 85,
+      columnNumber: 11
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 86,
+      columnNumber: 13
+    }
+  })), "Replay")), /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "fixed bottom-10 right-10 text-[10px] uppercase tracking-[0.3em] font-semibold text-[#1A1A1B]/20 pointer-events-none vertical-text",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 93,
+      columnNumber: 7
+    }
+  }, "Minimalist Showcase"));
+}
+
+// ../../../../../../_superdesign_entry_.tsx
+var _jsxFileName3 = "/_superdesign_entry_.tsx";
+var root = (0, import_client.createRoot)(document.getElementById("root"));
+root.render(/* @__PURE__ */ import_react3.default.createElement(App, {
+  __source: {
+    fileName: _jsxFileName3,
+    lineNumber: 8,
+    columnNumber: 3
+  }
+}));
+/*! Bundled license information:
+
+gsap/gsap-core.js:
+  (*!
+   * GSAP 3.14.2
+   * https://gsap.com
+   *
+   * @license Copyright 2008-2025, GreenSock. All rights reserved.
+   * Subject to the terms at https://gsap.com/standard-license
+   * @author: Jack Doyle, jack@greensock.com
+  *)
+
+gsap/CSSPlugin.js:
+  (*!
+   * CSSPlugin 3.14.2
+   * https://gsap.com
+   *
+   * Copyright 2008-2025, GreenSock. All rights reserved.
+   * Subject to the terms at https://gsap.com/standard-license
+   * @author: Jack Doyle, jack@greensock.com
+  *)
+*/
+
+      })()
+    </script>
+</body>
+</html>

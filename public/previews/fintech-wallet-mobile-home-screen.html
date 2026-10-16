@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wallet — Mobile Screen</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+        colors: {
+          mint: { 400: '#1fd1ac', 500: '#11c19c', 600: '#0aa886' },
+          ink: { 500: '#5b6b64', 600: '#3c4b44', 900: '#1d2722' },
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html,body{margin:0;padding:0;}
+  body{ font-family:'Plus Jakarta Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+</style>
+
+<meta name="preview-version" content="63451e2f-914d-4d98-a710-24cc6b614303" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:41.000Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "63451e2f-914d-4d98-a710-24cc6b614303");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "63451e2f-914d-4d98-a710-24cc6b614303",
+      timestamp: "2026-10-16T14:07:41.000Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "63451e2f-914d-4d98-a710-24cc6b614303";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen w-full flex items-center justify-center" style="background: radial-gradient(120% 120% at 30% 0%, #25dcb6 0%, #11c19c 55%, #0a9d80 100%);">
+    <div class="relative w-[390px] h-[844px] rounded-[46px] bg-[#eef0ef] overflow-hidden shadow-[0_40px_90px_-20px_rgba(7,80,66,0.55)] ring-1 ring-black/5 flex flex-col">
+      <div class="relative shrink-0 flex flex-col pb-7" style="background: linear-gradient(155deg, #14b896 0%, #0a8f74 60%, #07795f 100%);">
+        <div class="absolute inset-0 opacity-[0.16]" style="background-image: radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0, transparent 38%), radial-gradient(circle at 12% 70%, rgba(255,255,255,.3) 0, transparent 42%);"></div>
+        <div class="relative px-7 pt-4 flex items-center justify-between text-white text-[13px] font-bold">
+          <span>9:41</span>
+          <div class="flex items-center gap-1.5 text-[15px]">
+            <iconify-icon icon="material-symbols:signal-cellular-alt"></iconify-icon>
+            <iconify-icon icon="material-symbols:wifi"></iconify-icon>
+            <iconify-icon icon="material-symbols:battery-full"></iconify-icon>
+          </div>
+        </div>
+        <div class="relative px-7 mt-5 flex items-center justify-between">
+          <div>
+            <p class="text-white/70 text-[13px] font-medium">Good morning,</p>
+            <p class="text-white text-[19px] font-bold tracking-tight">Alex Rivera</p>
+          </div>
+          <button id="notif-btn" class="relative h-11 w-11 rounded-full bg-white/15 backdrop-blur flex items-center justify-center ring-1 ring-white/25">
+            <iconify-icon icon="solar:bell-bold" class="text-white text-[20px]"></iconify-icon>
+            <span class="absolute top-2.5 right-3 h-2 w-2 rounded-full bg-[#ffd166] ring-2 ring-[#0a8f74]"></span>
+          </button>
+        </div>
+        <div class="relative mx-5 mt-5 rounded-3xl px-5 py-4 overflow-hidden" style="background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.08)); box-shadow: inset 0 1px 0 rgba(255,255,255,.35);">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="text-white/75 text-[12px] font-semibold tracking-wide">Total balance</p>
+              <p class="text-white text-[32px] font-extrabold tracking-tight leading-tight">$8,420.50</p>
+            </div>
+            <div class="flex items-center gap-1 text-white text-[12px] font-bold bg-white/20 px-2.5 py-1 rounded-full">
+              <iconify-icon icon="solar:arrow-right-up-linear"></iconify-icon><span>2.4%</span>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center gap-2 text-white/80 text-[12px] font-medium">
+            <iconify-icon icon="solar:card-bold" class="text-[15px]"></iconify-icon>
+            <span class="tracking-[0.18em]">•••• 4823</span>
+            <span class="ml-auto tracking-wide">Visa Platinum</span>
+          </div>
+        </div>
+        <div class="relative px-5 mt-5 grid grid-cols-4 gap-3">
+          <button id="send-btn" class="group flex flex-col items-center gap-1.5">
+            <span class="h-[52px] w-full rounded-2xl bg-white/95 group-hover:bg-white flex items-center justify-center shadow-sm transition">
+              <iconify-icon icon="solar:arrow-up-bold" class="text-[#0a8f74] text-[23px]"></iconify-icon></span>
+            <span class="text-white/85 text-[11px] font-semibold">Send</span>
+          </button>
+          <button id="request-btn" class="group flex flex-col items-center gap-1.5">
+            <span class="h-[52px] w-full rounded-2xl bg-white/95 group-hover:bg-white flex items-center justify-center shadow-sm transition">
+              <iconify-icon icon="solar:arrow-down-bold" class="text-[#0a8f74] text-[23px]"></iconify-icon></span>
+            <span class="text-white/85 text-[11px] font-semibold">Request</span>
+          </button>
+          <button id="transfer-btn" class="group flex flex-col items-center gap-1.5">
+            <span class="h-[52px] w-full rounded-2xl bg-white/95 group-hover:bg-white flex items-center justify-center shadow-sm transition">
+              <iconify-icon icon="solar:card-transfer-bold" class="text-[#0a8f74] text-[23px]"></iconify-icon></span>
+            <span class="text-white/85 text-[11px] font-semibold">Transfer</span>
+          </button>
+          <button id="more-btn" class="group flex flex-col items-center gap-1.5">
+            <span class="h-[52px] w-full rounded-2xl bg-white/95 group-hover:bg-white flex items-center justify-center shadow-sm transition">
+              <iconify-icon icon="solar:widget-add-bold" class="text-[#0a8f74] text-[23px]"></iconify-icon></span>
+            <span class="text-white/85 text-[11px] font-semibold">More</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex-1 -mt-5 rounded-t-[28px] bg-[#eef0ef] overflow-hidden flex flex-col relative z-10">
+        <div class="shrink-0 px-7 pt-5 pb-4 border-b border-[#dce1df] flex items-end justify-between">
+          <div>
+            <p class="text-ink-500 text-[11px] font-bold uppercase tracking-[0.14em]">Available funds</p>
+            <p class="text-mint-600 text-[28px] font-extrabold leading-tight tracking-tight">$4,182.70</p>
+          </div>
+          <div class="text-right">
+            <p class="text-ink-500 text-[11px] font-semibold">Spent this month</p>
+            <p class="text-ink-900 text-[15px] font-bold">$1,236.40</p>
+          </div>
+        </div>
+        <div class="flex-1 overflow-y-auto no-scrollbar">
+          <div class="px-7 pt-4 pb-2 flex items-center justify-between">
+            <p class="text-ink-600 text-[14px] font-bold">Recent activity</p>
+            <p class="text-mint-600 text-[13px] font-semibold">See all</p>
+          </div>
+          <div class="divide-y divide-[#d9dddb]">
+            <div class="flex items-center gap-3 px-7 py-3.5">
+              <div class="h-10 w-10 rounded-xl bg-[#dff3ee] flex items-center justify-center"><iconify-icon icon="solar:gas-station-bold" class="text-[#0a8f74] text-[20px]"></iconify-icon></div>
+              <div class="flex-1"><p class="text-ink-900 text-[15px] font-semibold">Gas Station</p><p class="text-ink-500 text-[12px]">Today, 8:12 AM</p></div>
+              <p class="text-ink-900 text-[15px] font-bold">-$44.30</p>
+            </div>
+            <div class="flex items-center gap-3 px-7 py-3.5">
+              <div class="h-10 w-10 rounded-xl bg-[#dff3ee] flex items-center justify-center"><iconify-icon icon="solar:cart-large-bold" class="text-[#0a8f74] text-[20px]"></iconify-icon></div>
+              <div class="flex-1"><p class="text-ink-900 text-[15px] font-semibold">Groceries</p><p class="text-ink-500 text-[12px]">Yesterday</p></div>
+              <p class="text-ink-900 text-[15px] font-bold">-$62.40</p>
+            </div>
+            <div class="flex items-center gap-3 px-7 py-3.5">
+              <div class="h-10 w-10 rounded-xl bg-[#dff3ee] flex items-center justify-center"><iconify-icon icon="solar:graduation-cap-bold" class="text-[#0a8f74] text-[20px]"></iconify-icon></div>
+              <div class="flex-1"><p class="text-ink-900 text-[15px] font-semibold">Online Course</p><p class="text-ink-500 text-[12px]">Mar 12</p></div>
+              <p class="text-ink-900 text-[15px] font-bold">-$122.80</p>
+            </div>
+            <div class="flex items-center gap-3 px-7 py-3.5">
+              <div class="h-10 w-10 rounded-xl bg-[#e7f6e9] flex items-center justify-center"><iconify-icon icon="solar:dollar-bold" class="text-[#16a34a] text-[20px]"></iconify-icon></div>
+              <div class="flex-1"><p class="text-ink-900 text-[15px] font-semibold">Salary</p><p class="text-ink-500 text-[12px]">Mar 10</p></div>
+              <p class="text-[#16a34a] text-[15px] font-bold">+$2,400.00</p>
+            </div>
+            <div class="flex items-center gap-3 px-7 py-3.5">
+              <div class="h-10 w-10 rounded-xl bg-[#dff3ee] flex items-center justify-center"><iconify-icon icon="solar:donut-bitten-bold" class="text-[#0a8f74] text-[20px]"></iconify-icon></div>
+              <div class="flex-1"><p class="text-ink-900 text-[15px] font-semibold">Cafe & Lunch</p><p class="text-ink-500 text-[12px]">Mar 9</p></div>
+              <p class="text-ink-900 text-[15px] font-bold">-$15.60</p>
+            </div>
+            <div class="flex items-center gap-3 px-7 py-3.5">
+              <div class="h-10 w-10 rounded-xl bg-[#dff3ee] flex items-center justify-center"><iconify-icon icon="solar:lightbulb-bold" class="text-[#0a8f74] text-[20px]"></iconify-icon></div>
+              <div class="flex-1"><p class="text-ink-900 text-[15px] font-semibold">Desk Lamp</p><p class="text-ink-500 text-[12px]">Mar 8</p></div>
+              <p class="text-ink-900 text-[15px] font-bold">-$25.90</p>
+            </div>
+            <div class="flex items-center gap-3 px-7 py-3.5">
+              <div class="h-10 w-10 rounded-xl bg-[#dff3ee] flex items-center justify-center"><iconify-icon icon="solar:bag-smile-bold" class="text-[#0a8f74] text-[20px]"></iconify-icon></div>
+              <div class="flex-1"><p class="text-ink-900 text-[15px] font-semibold">Bookstore</p><p class="text-ink-500 text-[12px]">Mar 7</p></div>
+              <p class="text-ink-900 text-[15px] font-bold">-$31.20</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="shrink-0 h-[78px] bg-white border-t border-[#e9ecea] px-9 pb-2 flex items-center justify-between relative z-20">
+        <button id="nav-home" class="flex flex-col items-center gap-0.5">
+          <iconify-icon icon="solar:home-2-bold" class="text-mint-600 text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-bold text-mint-600">Home</span>
+        </button>
+        <button id="nav-stats" class="flex flex-col items-center gap-0.5">
+          <iconify-icon icon="solar:chart-2-linear" class="text-ink-500 text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-semibold text-ink-500">Stats</span>
+        </button>
+        <button id="nav-add" class="-mt-7 h-[52px] w-[52px] rounded-2xl bg-mint-500 flex items-center justify-center shadow-lg shadow-mint-500/40 ring-4 ring-white">
+          <iconify-icon icon="solar:add-circle-bold" class="text-white text-[28px]"></iconify-icon>
+        </button>
+        <button id="nav-cards" class="flex flex-col items-center gap-0.5">
+          <iconify-icon icon="solar:card-2-linear" class="text-ink-500 text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-semibold text-ink-500">Cards</span>
+        </button>
+        <button id="nav-more" class="flex flex-col items-center gap-0.5">
+          <iconify-icon icon="solar:settings-linear" class="text-ink-500 text-[24px]"></iconify-icon>
+          <span class="text-[10px] font-semibold text-ink-500">More</span>
+        </button>
+      </div>
+      <div class="shrink-0 bg-white flex justify-center pb-2 pt-0.5">
+        <span class="h-1.5 w-32 rounded-full bg-ink-900/25"></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

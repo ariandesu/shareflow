@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pulse — Design Analytics</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+        colors: {
+          navy: { DEFAULT: '#0b1f3a', 900: '#081730', 800: '#0b1f3a', 700: '#13294d', 600: '#1c3766' },
+          cream: { DEFAULT: '#f6f1e7', soft: '#e7dfce', dim: '#b9b09c' },
+          amber: { DEFAULT: '#f0b429', soft: '#f7cf6b' },
+          pos: '#34d399',
+          neg: '#f87171',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  .tnum { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+  .grain {
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+  .card-sheen {
+    background:
+      radial-gradient(120% 120% at 0% 0%, rgba(240,180,41,0.10) 0%, rgba(240,180,41,0) 42%),
+      linear-gradient(180deg, #13294d 0%, #0b1f3a 60%, #0a1c34 100%);
+  }
+  .ring-amber-glow { box-shadow: 0 0 0 1px rgba(240,180,41,0.45), 0 20px 50px -24px rgba(240,180,41,0.45); }
+  .spark-clip { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  ::selection { background: #f0b429; color: #0b1f3a; }
+</style>
+
+<meta name="preview-version" content="dfabd805-e684-4a4d-a203-b7223df73d93" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:44.748Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "dfabd805-e684-4a4d-a203-b7223df73d93");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "dfabd805-e684-4a4d-a203-b7223df73d93",
+      timestamp: "2026-10-16T14:07:44.748Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "dfabd805-e684-4a4d-a203-b7223df73d93";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen bg-[#06101f] font-sans text-cream antialiased relative">
+    <!-- BG wash -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      <div class="absolute -top-40 left-1/2 h-[640px] w-[1100px] -translate-x-1/2 rounded-full bg-[#13294d] blur-[140px] opacity-60"></div>
+      <div class="absolute top-1/3 -right-32 h-[420px] w-[420px] rounded-full bg-amber/10 blur-[130px]"></div>
+      <div class="absolute inset-0 grain opacity-60"></div>
+    </div>
+
+    <!-- STICKY NAV -->
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-[#06101f]/80 backdrop-blur-xl">
+      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+        <div class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-amber text-navy">
+            <iconify-icon icon="lucide:activity" width="18" height="18"></iconify-icon>
+          </span>
+          <span class="text-[15px] font-extrabold tracking-tight">Pulse</span>
+          <span class="ml-1 hidden rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-cream-dim sm:inline">Design Analytics</span>
+        </div>
+        <nav class="hidden items-center gap-8 text-[13px] font-medium text-cream/70 md:flex">
+          <a id="nav-overview" href="#" class="transition hover:text-cream">Overview</a>
+          <a id="nav-experiments" href="#" class="transition hover:text-cream">Experiments</a>
+          <a id="nav-library" href="#" class="transition hover:text-cream">Library</a>
+          <a id="nav-reports" href="#" class="transition hover:text-cream">Reports</a>
+        </nav>
+        <div class="flex items-center gap-3">
+          <button class="hidden items-center gap-1.5 rounded-lg border border-white/15 px-3.5 py-2 text-[13px] font-semibold text-cream/80 transition hover:border-white/30 hover:text-cream lg:flex">
+            <iconify-icon icon="lucide:calendar" width="14" height="14"></iconify-icon>Last 30 days
+          </button>
+          <button class="rounded-lg bg-amber px-4 py-2 text-[13px] font-bold text-navy transition hover:bg-amber-soft">New report</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO / SECTION HEAD -->
+    <section class="relative">
+      <div class="mx-auto max-w-6xl px-6 pt-14 pb-8">
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div class="max-w-2xl">
+            <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-amber/30 bg-amber/10 px-3 py-1 text-[11px] font-semibold tracking-wide text-amber">
+              <span class="h-1.5 w-1.5 rounded-full bg-amber"></span>
+              Live workspace metrics
+            </div>
+            <h1 class="text-[34px] font-extrabold leading-[1.05] tracking-tight sm:text-[42px]">
+              Design output, <span class="text-amber">measured</span>.
+            </h1>
+            <p class="mt-3 max-w-xl text-[15px] leading-relaxed text-cream/65">
+              Every prompt, generation, and ship across your team, rolled into the numbers that move the funnel.
+            </p>
+          </div>
+          <div class="flex shrink-0 items-center gap-2 text-[12px] text-cream-dim">
+            <iconify-icon icon="lucide:circle-check-big" class="text-pos" width="15" height="15"></iconify-icon>
+            Synced 2 min ago
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIMARY STAT CARDS GRID -->
+    <section class="relative">
+      <div class="mx-auto max-w-6xl px-6 pb-6">
+        <div id="primary-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"></div>
+      </div>
+    </section>
+
+    <!-- SECONDARY: featured wide card + two stacked -->
+    <section class="relative">
+      <div class="mx-auto max-w-6xl px-6 pb-20">
+        <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+          <!-- Featured wide card -->
+          <div class="card-sheen relative overflow-hidden rounded-2xl border border-white/10 p-6 lg:col-span-2">
+            <div class="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-amber/50 to-transparent"></div>
+            <div class="pointer-events-none absolute inset-0 grain opacity-40"></div>
+            <div class="relative flex items-start justify-between">
+              <div>
+                <div class="flex items-center gap-2 text-[13px] font-medium text-cream/55">
+                  <iconify-icon icon="lucide:sparkles" class="text-amber" width="15" height="15"></iconify-icon>
+                  Generations this week
+                </div>
+                <div class="mt-3 flex items-end gap-3">
+                  <span class="tnum text-[44px] font-extrabold leading-none tracking-tight">18,402</span>
+                  <span class="mb-1.5 inline-flex items-center gap-1 rounded-md bg-pos/15 px-2 py-1 text-[12px] font-bold text-pos">
+                    <iconify-icon icon="lucide:trending-up" width="13" height="13"></iconify-icon>
+                    +24.6%
+                  </span>
+                </div>
+                <div class="mt-1.5 text-[12px] text-cream-dim tnum">+3,640 vs. previous week</div>
+              </div>
+              <div class="hidden text-right sm:block">
+                <div class="text-[11px] uppercase tracking-wider text-cream-dim">Daily avg</div>
+                <div class="tnum mt-1 text-[20px] font-bold text-cream">2,629</div>
+              </div>
+            </div>
+            <div class="relative mt-7 flex h-24 items-end gap-1.5">
+              <div class="flex-1 rounded-t-sm bg-cream/15"  style="height:38%"></div>
+              <div class="flex-1 rounded-t-sm bg-cream/15"  style="height:52%"></div>
+              <div class="flex-1 rounded-t-sm bg-cream/15"  style="height:44%"></div>
+              <div class="flex-1 rounded-t-sm bg-cream/20"  style="height:61%"></div>
+              <div class="flex-1 rounded-t-sm bg-cream/20"  style="height:55%"></div>
+              <div class="flex-1 rounded-t-sm bg-cream/25"  style="height:72%"></div>
+              <div class="flex-1 rounded-t-sm bg-cream/25"  style="height:66%"></div>
+              <div class="flex-1 rounded-t-sm bg-amber/40"  style="height:81%"></div>
+              <div class="flex-1 rounded-t-sm bg-amber/55"  style="height:76%"></div>
+              <div class="flex-1 rounded-t-sm bg-amber/70"  style="height:92%"></div>
+              <div class="flex-1 rounded-t-sm bg-amber"     style="height:100%"></div>
+            </div>
+            <div class="mt-3 flex justify-between text-[11px] text-cream-dim tnum">
+              <span>Mon</span><span>Wed</span><span>Fri</span><span>Sun</span>
+            </div>
+          </div>
+
+          <!-- Two stacked cards -->
+          <div class="flex flex-col gap-5">
+            <div id="stack-a"></div>
+            <div id="stack-b"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-white/10">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-7 text-[12px] text-cream-dim sm:flex-row">
+        <span>© 2026 Pulse Analytics</span>
+        <div class="flex items-center gap-5">
+          <a id="footer-docs" href="#" class="transition hover:text-cream">Docs</a>
+          <a id="footer-changelog" href="#" class="transition hover:text-cream">Changelog</a>
+          <a id="footer-status" href="#" class="transition hover:text-cream">Status</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+<script>
+  function spark(values, w, h, pad) {
+    const min = Math.min(...values), max = Math.max(...values);
+    const span = (max - min) || 1;
+    const innerW = w - pad * 2, innerH = h - pad * 2;
+    const pts = values.map((v, i) => {
+      const x = pad + (i / (values.length - 1)) * innerW;
+      const y = pad + innerH - ((v - min) / span) * innerH;
+      return [x, y];
+    });
+    const line = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    const area = line + ' L' + (w - pad).toFixed(1) + ',' + (h - pad).toFixed(1) + ' L' + pad.toFixed(1) + ',' + (h - pad).toFixed(1) + ' Z';
+    const last = pts[pts.length - 1];
+    return { line, area, lastX: last[0], lastY: last[1] };
+  }
+
+  function statCard(d) {
+    const w = 300, h = 60, pad = 4;
+    const s = spark(d.series, w, h, pad);
+    const up = d.dir === 'up';
+    const col = up ? '#34d399' : '#f87171';
+    const id = 'g' + Math.random().toString(36).slice(2, 8);
+    const arrow = up ? 'lucide:arrow-up-right' : 'lucide:arrow-down-right';
+    const deltaBg = up ? 'bg-pos/12' : 'bg-neg/12';
+    const deltaText = up ? 'text-pos' : 'text-neg';
+    return `
+    <div class="card-sheen group relative overflow-hidden rounded-2xl border border-white/10 p-5 transition duration-300 hover:border-amber/40 hover:-translate-y-0.5">
+      <div class="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-amber/40 to-transparent opacity-60"></div>
+      <div class="pointer-events-none absolute inset-0 grain opacity-40"></div>
+      <div class="relative flex items-center justify-between">
+        <div class="flex items-center gap-2 text-[12.5px] font-medium text-cream/55">
+          <iconify-icon icon="${d.icon}" class="text-amber/90" width="15" height="15"></iconify-icon>
+          ${d.label}
+        </div>
+        <span class="inline-flex items-center gap-0.5 rounded-md ${deltaBg} px-1.5 py-0.5 text-[11.5px] font-bold ${deltaText} tnum">
+          <iconify-icon icon="${arrow}" width="12" height="12"></iconify-icon>${d.pct}
+        </span>
+      </div>
+      <div class="relative mt-3 flex items-baseline gap-2">
+        <span class="tnum text-[30px] font-extrabold leading-none tracking-tight">${d.value}</span>
+        <span class="tnum text-[12.5px] font-semibold ${deltaText}">${d.delta}</span>
+      </div>
+      <div class="relative mt-4 -mx-1">
+        <svg viewBox="0 0 ${w} ${h}" class="spark-clip h-12 w-full" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${col}" stop-opacity="0.28" />
+              <stop offset="100%" stop-color="${col}" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path d="${s.area}" fill="url(#${id})" />
+          <path d="${s.line}" fill="none" stroke="${col}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+          <circle cx="${s.lastX}" cy="${s.lastY}" r="3" fill="${col}" />
+          <circle cx="${s.lastX}" cy="${s.lastY}" r="6" fill="${col}" opacity="0.25" />
+        </svg>
+      </div>
+    </div>`;
+  }
+
+  const primary = [
+    { label: 'Prompts run',     value: '42,910', delta: '+5,120', pct: '13.5%', dir: 'up',
+      icon: 'lucide:terminal', series: [22,24,21,26,28,27,31,30,34,33,38,42] },
+    { label: 'Active designers', value: '1,284', delta: '+96', pct: '8.1%', dir: 'up',
+      icon: 'lucide:users', series: [11,12,12,13,13,14,14,15,16,16,17,18] },
+    { label: 'Avg. time to ship', value: '6m 12s', delta: '-1m 04s', pct: '14.7%', dir: 'up',
+      icon: 'lucide:timer', series: [18,17,17,16,15,15,14,13,13,12,11,10] },
+    { label: 'Credit burn rate', value: '$2,940', delta: '+$610', pct: '4.2%', dir: 'down',
+      icon: 'lucide:flame', series: [20,21,20,22,24,23,25,27,26,28,30,31] },
+  ];
+
+  const stackA = { label: 'Prompt → paid', value: '3.18%', delta: '+0.41pt', pct: '14.8%', dir: 'up',
+    icon: 'lucide:target', series: [9,10,10,11,12,12,13,14,15,16,17,18] };
+  const stackB = { label: 'Failed generations', value: '4.6%', delta: '+0.9pt', pct: '24.3%', dir: 'down',
+    icon: 'lucide:triangle-alert', series: [6,6,7,7,8,8,9,10,11,12,12,13] };
+
+  document.getElementById('primary-grid').innerHTML = primary.map(statCard).join('');
+  document.getElementById('stack-a').innerHTML = statCard(stackA);
+  document.getElementById('stack-b').innerHTML = statCard(stackB);
+</script>
+</body>
+</html>

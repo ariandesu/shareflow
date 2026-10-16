@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="view-transition" content="same-origin">
+    <title>SEASON 04 | RAW CAMPAIGN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@700,600,500,400&f[]=clash-grotesk@700,600,500,400&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Font Settings */
+        body {
+            font-family: 'Clash Grotesk', 'General Sans', sans-serif;
+            background-color: #E3E2DE;
+            color: #1B0E0D;
+            overflow-x: hidden;
+        }
+
+        /* Raw Texture Overlay */
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 50;
+            mix-blend-mode: multiply;
+        }
+
+        /* Typography Tweaks */
+        .tight-heading {
+            letter-spacing: -0.04em;
+            line-height: 0.85;
+        }
+        
+        /* Custom Selection */
+        ::selection {
+            background-color: #C72A09;
+            color: #E3E2DE;
+        }
+
+        /* Hide Scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Hover Animations */
+        .hover-underline-animation {
+            position: relative;
+        }
+        .hover-underline-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #31EF07;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .hover-underline-animation:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Image Hover Zoom */
+        .img-container {
+            overflow: hidden;
+        }
+        .img-container img {
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .group:hover .img-container img {
+            transform: scale(1.05);
+        }
+    </style>
+
+<meta name="preview-version" content="10ecb2c3-19d7-405b-926e-3fa74e142661" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:19.150Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "10ecb2c3-19d7-405b-926e-3fa74e142661");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "10ecb2c3-19d7-405b-926e-3fa74e142661",
+      timestamp: "2026-10-16T14:07:19.150Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "10ecb2c3-19d7-405b-926e-3fa74e142661";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+    <div class="min-h-screen relative flex flex-col">
+        <!-- Texture Grain -->
+        <div class="texture-overlay"></div>
+
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-40 px-4 md:px-8 py-6 flex justify-between items-start mix-blend-difference text-[#E3E2DE]">
+            <a href="#" id="nav-home" class="uppercase font-bold tracking-tighter text-xl md:text-2xl hover:text-[#31EF07] transition-colors duration-300">Archive_04</a>
+            
+            <div class="hidden md:flex gap-12 font-medium tracking-wide text-sm">
+                <a href="#" id="nav-shop" class="hover-underline-animation">Shop All</a>
+                <a href="#" id="nav-new" class="hover-underline-animation">New Arrivals</a>
+                <a href="#" id="nav-editorial" class="hover-underline-animation">Editorial</a>
+            </div>
+
+            <div class="flex gap-6 items-center">
+                <a href="#" id="nav-search" class="hover:text-[#31EF07] transition-colors">
+                    <span class="sr-only">Search</span>
+                    <iconify-icon icon="lucide:search" width="24"></iconify-icon>
+                </a>
+                <a href="#" id="nav-cart" class="hover:text-[#31EF07] transition-colors relative group">
+                    <span class="sr-only">Cart</span>
+                    <iconify-icon icon="lucide:shopping-bag" width="24"></iconify-icon>
+                    <div class="absolute -top-1 -right-1 w-2 h-2 bg-[#31EF07] rounded-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Trigger (Visible only on mobile) -->
+        <button class="fixed top-6 right-4 z-50 md:hidden text-[#E3E2DE] mix-blend-difference">
+            <iconify-icon icon="lucide:menu" width="28"></iconify-icon>
+        </button>
+
+        <!-- HERO SECTION -->
+        <header class="relative w-full h-screen min-h-[800px] flex flex-col justify-end pb-8 md:pb-16 overflow-hidden bg-[#1B0E0D]">
+            <!-- Background Image -->
+            <div class="absolute inset-0 w-full h-full z-0 opacity-60">
+                <img 
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2864&auto=format&fit=crop" 
+                    alt="Raw texture fashion background" 
+                    class="w-full h-full object-cover object-top grayscale contrast-125"
+                 onerror="this.onerror=null;this.src='https://placehold.co/2864x400/1a1a1a/888?text=Image';">
+            </div>
+            
+            <!-- Hero Content -->
+            <div class="relative z-10 w-full px-4 md:px-8">
+                <div class="border-t border-[#E3E2DE]/30 w-full mb-4"></div>
+                
+                <div class="flex flex-col md:flex-row justify-between items-end md:items-start gap-6 mb-2">
+                    <div class="order-2 md:order-1 flex flex-col gap-1 text-[#E3E2DE] text-xs md:text-sm font-mono uppercase tracking-widest">
+                        <span>Collection 04 — FW24</span>
+                        <span>Tokyo / New York</span>
+                        <span>Available Now</span>
+                    </div>
+                    
+                    <div class="order-1 md:order-2">
+                        <a href="#" id="hero-cta" class="inline-block bg-[#C72A09] text-[#E3E2DE] px-8 py-4 uppercase font-bold tracking-wider hover:bg-[#31EF07] hover:text-[#1B0E0D] transition-colors duration-300">
+                            Explore Lookbook
+                        </a>
+                    </div>
+                </div>
+
+                <h1 class="text-[#C72A09] text-[16vw] md:text-[13.5vw] font-bold uppercase leading-[0.75] tracking-tighter mix-blend-screen text-left">
+                    Season<br>
+                    <span class="text-[#E3E2DE] md:ml-[20vw]">Release</span>
+                </h1>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT CONTAINER -->
+        <main class="relative z-10 bg-[#E3E2DE] pt-24 pb-24">
+            
+            <!-- INTRO STATEMENT -->
+            <section class="px-4 md:px-8 mb-32 grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="md:col-span-4 border-t border-[#1B0E0D] pt-4">
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-[#61220F]">Manifesto</h2>
+                </div>
+                <div class="md:col-span-8 border-t border-[#1B0E0D] pt-4">
+                    <p class="text-3xl md:text-5xl font-medium leading-[1.1] uppercase indent-12">
+                        Constructed for the harsh reality. <span class="text-[#61220F]">Raw edges, heavy weights, and uncompromising utility.</span> This is not fashion. This is armor for the modern brutalist.
+                    </p>
+                </div>
+            </section>
+
+            <!-- CATEGORY DIVIDER -->
+            <div class="w-full overflow-hidden border-y border-[#D9D9D9] mb-12">
+                <h2 class="text-[12vw] leading-none font-bold text-[#61220F] opacity-90 whitespace-nowrap px-4 md:px-8 tracking-tighter">
+                    OUTERWEAR
+                </h2>
+            </div>
+
+            <!-- PRODUCT GRID -->
+            <section class="px-4 md:px-8 mb-32">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-y-24 md:gap-x-12">
+                    
+                    <!-- Product 1 (Large, Left) -->
+                    <div class="md:col-span-7 group">
+                        <a href="#" id="prod-1" class="block">
+                            <div class="img-container aspect-[3/4] md:aspect-[4/5] bg-[#D9D9D9] mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1551028919-ac7d214c2e28?q=80&w=2000&auto=format&fit=crop" alt="Coat" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/2000x400/1a1a1a/888?text=Image';">
+                                <div class="absolute top-4 right-4 bg-[#31EF07] text-[#1B0E0D] text-xs font-bold px-2 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    Quick View
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-baseline border-b border-[#D9D9D9] pb-2 group-hover:border-[#C72A09] transition-colors">
+                                <h3 class="text-2xl font-bold uppercase tracking-tight">Ballistic Nylon Parka</h3>
+                                <span class="text-[#61220F] font-mono">$850.00</span>
+                            </div>
+                            <p class="text-xs mt-2 text-[#61220F] uppercase tracking-wider">Heavyweight / Water Resistant</p>
+                        </a>
+                    </div>
+
+                    <!-- Product 2 (Offset Right) -->
+                    <div class="md:col-span-5 md:mt-32 group">
+                        <a href="#" id="prod-2" class="block">
+                            <div class="img-container aspect-[3/4] bg-[#D9D9D9] mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?q=80&w=2000&auto=format&fit=crop" alt="Leather Jacket" class="w-full h-full object-cover grayscale contrast-110" onerror="this.onerror=null;this.src='https://placehold.co/2000x400/1a1a1a/888?text=Image';">
+                                <div class="absolute top-4 right-4 bg-[#31EF07] text-[#1B0E0D] text-xs font-bold px-2 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    Quick View
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-baseline border-b border-[#D9D9D9] pb-2 group-hover:border-[#C72A09] transition-colors">
+                                <h3 class="text-xl font-bold uppercase tracking-tight">Distressed Moto Jkt</h3>
+                                <span class="text-[#61220F] font-mono">$1,200.00</span>
+                            </div>
+                            <p class="text-xs mt-2 text-[#61220F] uppercase tracking-wider">Italian Horsehide / Hand-Finished</p>
+                        </a>
+                    </div>
+
+                    <!-- Product 3 (Left, smaller) -->
+                    <div class="md:col-span-5 group">
+                        <a href="#" id="prod-3" class="block">
+                            <div class="img-container aspect-[4/5] bg-[#D9D9D9] mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1936&auto=format&fit=crop" alt="Jacket" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/1936x400/1a1a1a/888?text=Image';">
+                                <div class="absolute top-4 right-4 bg-[#31EF07] text-[#1B0E0D] text-xs font-bold px-2 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    Quick View
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-baseline border-b border-[#D9D9D9] pb-2 group-hover:border-[#C72A09] transition-colors">
+                                <h3 class="text-xl font-bold uppercase tracking-tight">Field Overshirt</h3>
+                                <span class="text-[#61220F] font-mono">$420.00</span>
+                            </div>
+                            <p class="text-xs mt-2 text-[#61220F] uppercase tracking-wider">Wool Blend / Utility Pockets</p>
+                        </a>
+                    </div>
+
+                    <!-- Product 4 (Right, Large) -->
+                    <div class="md:col-span-7 md:-mt-24 group">
+                        <a href="#" id="prod-4" class="block">
+                            <div class="img-container aspect-[16/9] md:aspect-[3/2] bg-[#D9D9D9] mb-6 relative">
+                                <img src="https://images.unsplash.com/photo-1559582798-678dfc71ccd8?q=80&w=2664&auto=format&fit=crop" alt="Trench" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://placehold.co/2664x400/1a1a1a/888?text=Image';">
+                                <div class="absolute top-4 right-4 bg-[#31EF07] text-[#1B0E0D] text-xs font-bold px-2 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    Quick View
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-baseline border-b border-[#D9D9D9] pb-2 group-hover:border-[#C72A09] transition-colors">
+                                <h3 class="text-2xl font-bold uppercase tracking-tight">Structure Trench</h3>
+                                <span class="text-[#61220F] font-mono">$980.00</span>
+                            </div>
+                            <p class="text-xs mt-2 text-[#61220F] uppercase tracking-wider">Bonded Cotton / Oversized Fit</p>
+                        </a>
+                    </div>
+
+                </div>
+                
+                <div class="mt-24 flex justify-center">
+                    <a href="#" id="view-all-products" class="border border-[#1B0E0D] text-[#1B0E0D] px-12 py-4 uppercase font-bold tracking-widest hover:bg-[#1B0E0D] hover:text-[#E3E2DE] transition-colors duration-300">
+                        View All Outerwear
+                    </a>
+                </div>
+            </section>
+
+            <!-- CAMPAIGN BLOCK -->
+            <section class="bg-[#1B0E0D] text-[#E3E2DE] py-32 px-4 md:px-8 relative overflow-hidden">
+                 <!-- Subtle texture in dark section -->
+                 <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'1\'/%3E%3C/svg%3E'); opacity: 0.1;"></div>
+
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+                    <div class="border-l-2 border-[#C72A09] pl-6 md:pl-12">
+                        <h2 class="text-5xl md:text-7xl font-bold uppercase leading-[0.9] tracking-tighter mb-8">
+                            Form<br>Follows<br><span class="text-[#C72A09]">Force.</span>
+                        </h2>
+                        <p class="text-lg text-[#D9D9D9] max-w-md font-light">
+                            Engineered for the streets that demand resilience. Our latest drop focuses on material integrity and structural silhouette.
+                        </p>
+                    </div>
+                    <div class="flex justify-start md:justify-end">
+                        <div class="w-full max-w-md bg-[#2a1614] p-8 md:p-12 border border-[#61220F]">
+                            <div class="flex justify-between items-start mb-12">
+                                <span class="text-[#C72A09] font-mono text-sm">// 04</span>
+                                <iconify-icon icon="lucide:arrow-up-right" class="text-2xl text-[#E3E2DE]"></iconify-icon>
+                            </div>
+                            <h3 class="text-2xl font-bold uppercase mb-4">The Material Study</h3>
+                            <p class="text-[#966C57] text-sm mb-8 leading-relaxed">
+                                An exploration of texture, grain, and durability. Japanese denim meets Italian leather finishing techniques.
+                            </p>
+                            <a href="#" id="campaign-read" class="text-[#E3E2DE] border-b border-[#31EF07] pb-1 hover:text-[#31EF07] transition-colors uppercase text-sm tracking-widest">
+                                Read The Journal
+                            </a>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="pt-24 pb-12 px-4 md:px-8 bg-[#E3E2DE] border-t border-[#1B0E0D]">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-24">
+                    <div class="col-span-1 md:col-span-1">
+                        <h4 class="font-bold uppercase tracking-tight text-xl mb-6">Studio</h4>
+                        <address class="not-italic text-[#61220F] text-sm leading-relaxed">
+                            1029 Fashion Ave<br>
+                            New York, NY 10018<br>
+                            United States
+                        </address>
+                        <a href="mailto:contact@season04.com" id="footer-mail" class="block mt-4 text-sm font-bold hover:text-[#C72A09]">contact@season04.com</a>
+                    </div>
+
+                    <div class="col-span-1">
+                        <h4 class="font-bold uppercase tracking-tight text-xl mb-6">Shop</h4>
+                        <ul class="flex flex-col gap-3 text-sm text-[#61220F]">
+                            <li><a href="#" id="footer-new" class="hover:text-[#C72A09] transition-colors">New Arrivals</a></li>
+                            <li><a href="#" id="footer-outerwear" class="hover:text-[#C72A09] transition-colors">Outerwear</a></li>
+                            <li><a href="#" id="footer-denim" class="hover:text-[#C72A09] transition-colors">Denim</a></li>
+                            <li><a href="#" id="footer-accessories" class="hover:text-[#C72A09] transition-colors">Accessories</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-span-1">
+                        <h4 class="font-bold uppercase tracking-tight text-xl mb-6">Info</h4>
+                        <ul class="flex flex-col gap-3 text-sm text-[#61220F]">
+                            <li><a href="#" id="footer-shipping" class="hover:text-[#C72A09] transition-colors">Shipping & Returns</a></li>
+                            <li><a href="#" id="footer-care" class="hover:text-[#C72A09] transition-colors">Garment Care</a></li>
+                            <li><a href="#" id="footer-terms" class="hover:text-[#C72A09] transition-colors">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-1 flex flex-col justify-between">
+                        <div class="w-full bg-[#1B0E0D] p-6">
+                            <label for="newsletter" class="block text-[#E3E2DE] uppercase text-xs font-bold tracking-widest mb-4">Join The List</label>
+                            <div class="flex border-b border-[#E3E2DE]">
+                                <input type="email" id="newsletter" placeholder="EMAIL ADDRESS" class="bg-transparent w-full py-2 text-[#E3E2DE] placeholder-[#61220F] focus:outline-none text-sm uppercase">
+                                <button class="text-[#31EF07] uppercase font-bold text-xs hover:text-[#E3E2DE] transition-colors">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-between items-end border-t border-[#D9D9D9] pt-6">
+                    <h1 class="text-[#D9D9D9] text-[12vw] md:text-[8vw] leading-none font-bold uppercase tracking-tighter select-none pointer-events-none">
+                        Season 04
+                    </h1>
+                    <div class="flex gap-6 pb-2 md:pb-4">
+                        <a href="#" id="social-ig" class="text-[#1B0E0D] hover:text-[#C72A09] transition-colors"><iconify-icon icon="lucide:instagram" width="20"></iconify-icon></a>
+                        <a href="#" id="social-tw" class="text-[#1B0E0D] hover:text-[#C72A09] transition-colors"><iconify-icon icon="lucide:twitter" width="20"></iconify-icon></a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

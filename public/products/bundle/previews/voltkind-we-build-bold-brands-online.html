@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VOLTKIND — Agency Website Design</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          noir: "#0c0c0c",
+          coal: "#141414",
+          slate2: "#1c1c1c",
+          off: "#f5f5f0",
+          lime: "#c4ff00",
+        },
+        fontFamily: {
+          anton: ["Anton", "sans-serif"],
+          archivo: ["Archivo", "sans-serif"],
+          inter: ["Inter", "sans-serif"],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  html { scroll-behavior: smooth; }
+  body { background: #0c0c0c; color: #f5f5f0; font-family: "Inter", sans-serif; -webkit-font-smoothing: antialiased; margin: 0; }
+  .display { font-family: "Anton", sans-serif; letter-spacing: -0.01em; line-height: 0.86; text-transform: uppercase; }
+  .archivo-tight { font-family: "Archivo", sans-serif; letter-spacing: -0.02em; }
+  .script-accent { font-family: "Archivo", sans-serif; font-style: italic; font-weight: 800; }
+  ::selection { background: #c4ff00; color: #0c0c0c; }
+  .grain::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.04; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .card-img { transition: transform 0.7s cubic-bezier(.2,.8,.2,1), filter 0.6s ease; }
+  .work-card:hover .card-img { transform: scale(1.05); filter: saturate(1.1) brightness(0.92); }
+  .work-card:hover .card-meta { opacity: 1; transform: translateY(0); }
+  .card-meta { transition: opacity 0.45s ease, transform 0.45s cubic-bezier(.2,.8,.2,1); }
+  .marquee { animation: marquee 28s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .svc-row { transition: background 0.35s ease, padding 0.35s ease; }
+  .svc-row:hover { background: #c4ff00; color: #0c0c0c; }
+  .svc-row:hover .svc-num, .svc-row:hover .svc-arrow { color: #0c0c0c; }
+  .svc-row:hover .svc-tags span { border-color: #0c0c0c; color: #0c0c0c; }
+  .link-underline { background-image: linear-gradient(#c4ff00,#c4ff00); background-size: 0% 2px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size 0.4s ease; }
+  .link-underline:hover { background-size: 100% 2px; }
+  .pill-btn { transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease; }
+  .pill-btn:hover { transform: translateY(-2px); }
+</style>
+
+<meta name="preview-version" content="a8bbe931-8a01-4187-8818-730b17b73c20" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:11.154Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "a8bbe931-8a01-4187-8818-730b17b73c20");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "a8bbe931-8a01-4187-8818-730b17b73c20",
+      timestamp: "2026-10-16T14:07:11.154Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "a8bbe931-8a01-4187-8818-730b17b73c20";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body class="overflow-x-hidden">
+  <div class="min-h-screen bg-noir">
+    <!-- ===== STICKY NAV ===== -->
+    <header class="fixed top-0 left-0 right-0 z-50">
+      <div class="mx-auto max-w-[1320px] px-5 md:px-8">
+        <nav class="mt-4 flex items-center justify-between rounded-full border border-white/10 bg-noir/70 px-4 py-2.5 backdrop-blur-xl md:px-6 md:py-3">
+          <a id="nav-logo-link" href="#top" class="flex items-center gap-2">
+            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-lime">
+              <span class="block h-2.5 w-2.5 rotate-45 bg-noir"></span>
+            </span>
+            <span class="archivo-tight text-[17px] font-800 tracking-tight">VOLTKIND<span class="text-lime">.</span></span>
+          </a>
+          <ul class="hidden items-center gap-8 text-[13px] font-medium tracking-wide text-off/70 lg:flex">
+            <li><a id="nav-work-link" href="#work" class="link-underline transition hover:text-off">Work</a></li>
+            <li><a id="nav-studio-link" href="#studio" class="link-underline transition hover:text-off">Studio</a></li>
+            <li><a id="nav-services-link" href="#services" class="link-underline transition hover:text-off">Services</a></li>
+            <li><a id="nav-clients-link" href="#clients" class="link-underline transition hover:text-off">Clients</a></li>
+          </ul>
+          <a id="nav-cta-link" href="#contact" class="pill-btn rounded-full bg-lime px-5 py-2.5 text-[13px] font-700 uppercase tracking-wide text-noir hover:bg-off">
+            Start a project
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top" class="relative">
+      <!-- ===== HERO ===== -->
+      <section class="relative grain overflow-hidden pt-32 md:pt-40">
+        <!-- soft lime glow -->
+        <div class="pointer-events-none absolute -right-40 top-10 h-[480px] w-[480px] rounded-full bg-lime/10 blur-[120px]"></div>
+        <div class="relative mx-auto max-w-[1320px] px-5 md:px-8">
+          <div class="flex flex-wrap items-center gap-3 text-[12px] font-medium uppercase tracking-[0.25em] text-off/55">
+            <span class="h-px w-8 bg-lime"></span>
+            Independent design studio · Est. 2021
+          </div>
+
+          <h1 class="display mt-6 text-[clamp(3.4rem,15.5vw,15rem)] text-off">
+            WE BUILD
+            <span class="block">
+              BOLD<span class="script-accent text-lime" style="font-size:0.6em; text-transform:none; letter-spacing:-0.01em; margin-left:0.12em;">brands</span>
+            </span>
+            <span class="block">ONLINE<span class="text-lime">.</span></span>
+          </h1>
+
+          <div class="mt-10 grid grid-cols-1 gap-8 border-t border-white/10 pt-8 md:grid-cols-12 md:items-end">
+            <p class="archivo-tight text-[19px] font-medium leading-snug text-off/80 md:col-span-7 md:text-[22px]">
+              VOLTKIND is a digital design studio crafting websites, brand systems, and interfaces that make people stop scrolling and start trusting. Strategy first, pixels that punch.
+            </p>
+            <div class="md:col-span-5 md:flex md:justify-end">
+              <div class="flex flex-wrap items-center gap-3">
+                <a id="hero-work-btn" href="#work" class="pill-btn inline-flex items-center gap-2 rounded-full bg-off px-6 py-3.5 text-[14px] font-700 uppercase tracking-wide text-noir hover:bg-lime">
+                  View selected work
+                  <iconify-icon icon="lucide:arrow-up-right" class="text-[18px]"></iconify-icon>
+                </a>
+                <a id="hero-contact-btn" href="#contact" class="pill-btn inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-[14px] font-600 uppercase tracking-wide text-off hover:border-lime hover:text-lime">
+                  Book a call
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ticker strip -->
+        <div class="mt-16 overflow-hidden border-y border-white/10 bg-coal py-4">
+          <div class="marquee flex w-max items-center gap-10 whitespace-nowrap">
+            <div class="flex items-center gap-10 text-[15px] font-700 uppercase tracking-wide text-off/70">
+              <span>Web Design</span><span class="text-lime">✦</span>
+              <span>Brand Identity</span><span class="text-lime">✦</span>
+              <span>Webflow & Framer</span><span class="text-lime">✦</span>
+              <span>UI / UX</span><span class="text-lime">✦</span>
+              <span>Art Direction</span><span class="text-lime">✦</span>
+              <span>Motion</span><span class="text-lime">✦</span>
+            </div>
+            <div class="flex items-center gap-10 text-[15px] font-700 uppercase tracking-wide text-off/70" aria-hidden="true">
+              <span>Web Design</span><span class="text-lime">✦</span>
+              <span>Brand Identity</span><span class="text-lime">✦</span>
+              <span>Webflow & Framer</span><span class="text-lime">✦</span>
+              <span>UI / UX</span><span class="text-lime">✦</span>
+              <span>Art Direction</span><span class="text-lime">✦</span>
+              <span>Motion</span><span class="text-lime">✦</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STUDIO STATEMENT ===== -->
+      <section id="studio" class="relative py-24 md:py-36">
+        <div class="mx-auto max-w-[1320px] px-5 md:px-8">
+          <div class="grid grid-cols-1 gap-12 md:grid-cols-12">
+            <div class="md:col-span-3">
+              <span class="text-[12px] font-medium uppercase tracking-[0.25em] text-lime">(Studio / 01)</span>
+              <p class="mt-4 text-[14px] leading-relaxed text-off/55">A small senior team. No account-manager telephone game, you work with the people drawing the pixels.</p>
+            </div>
+            <div class="md:col-span-9">
+              <h2 class="archivo-tight text-[clamp(1.7rem,4.6vw,3.6rem)] font-800 leading-[1.05] text-off">
+                We design digital experiences with
+                <span class="text-off/35">unwavering</span> precision and
+                <span class="text-lime">relentless</span> creativity, to elevate brands and inspire the audiences worth winning.
+              </h2>
+
+              <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/10 pt-10 md:grid-cols-4">
+                <div>
+                  <div class="display text-[clamp(2.6rem,5vw,4rem)] text-lime">120<span class="text-off">+</span></div>
+                  <div class="mt-2 text-[13px] uppercase tracking-wide text-off/50">Projects shipped</div>
+                </div>
+                <div>
+                  <div class="display text-[clamp(2.6rem,5vw,4rem)] text-off">14</div>
+                  <div class="mt-2 text-[13px] uppercase tracking-wide text-off/50">Design awards</div>
+                </div>
+                <div>
+                  <div class="display text-[clamp(2.6rem,5vw,4rem)] text-off">98<span class="text-lime">%</span></div>
+                  <div class="mt-2 text-[13px] uppercase tracking-wide text-off/50">Client retention</div>
+                </div>
+                <div>
+                  <div class="display text-[clamp(2.6rem,5vw,4rem)] text-off">5</div>
+                  <div class="mt-2 text-[13px] uppercase tracking-wide text-off/50">Years independent</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SELECTED WORK ===== -->
+      <section id="work" class="relative pb-24 md:pb-36">
+        <div class="mx-auto max-w-[1320px] px-5 md:px-8">
+          <div class="mb-10 flex flex-col gap-4 md:mb-14 md:flex-row md:items-end md:justify-between">
+            <div>
+              <span class="text-[12px] font-medium uppercase tracking-[0.25em] text-lime">(Selected work / 02)</span>
+              <h2 class="display mt-3 text-[clamp(2.6rem,8vw,6rem)] text-off">Recent <span class="text-off/30">drops</span></h2>
+            </div>
+            <p class="max-w-sm text-[15px] leading-relaxed text-off/55">A slice of the studio shelf. Each build pairs a sharp visual language with the engineering to ship it fast.</p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <a id="work-card-1" href="#" class="work-card group relative block overflow-hidden rounded-2xl bg-slate2">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img class="card-img h-full w-full object-cover" src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=1400&auto=format&fit=crop" alt="Zenith Motors" / onerror="this.onerror=null;this.src='https://placehold.co/1400x400/1a1a1a/888?text=Image';">
+              </div>
+              <div class="card-meta absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-noir/90 via-noir/20 to-transparent p-6 opacity-0 md:opacity-0 md:translate-y-3">
+                <div class="flex items-end justify-between gap-4">
+                  <div>
+                    <h3 class="archivo-tight text-[26px] font-800 leading-none text-off">Zenith Motors</h3>
+                    <p class="mt-2 text-[13px] uppercase tracking-wide text-off/60">Brand · Web · Configurator</p>
+                  </div>
+                  <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-lime text-noir">
+                    <iconify-icon icon="lucide:arrow-up-right" class="text-[20px]"></iconify-icon>
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between px-6 py-5">
+                <div>
+                  <h3 class="archivo-tight text-[20px] font-800 leading-none text-off">Zenith Motors</h3>
+                  <p class="mt-1.5 text-[12px] uppercase tracking-wide text-off/45">Brand identity · 2026</p>
+                </div>
+                <span class="rounded-full border border-white/15 px-3 py-1 text-[11px] uppercase tracking-wide text-off/55">Automotive</span>
+              </div>
+            </a>
+
+            <a id="work-card-2" href="#" class="work-card group relative block overflow-hidden rounded-2xl bg-slate2">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img class="card-img h-full w-full object-cover" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1400&auto=format&fit=crop" alt="Growth Analytics" / onerror="this.onerror=null;this.src='https://placehold.co/1400x400/1a1a1a/888?text=Image';">
+              </div>
+              <div class="card-meta absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-noir/90 via-noir/20 to-transparent p-6 opacity-0 md:opacity-0 md:translate-y-3">
+                <div class="flex items-end justify-between gap-4">
+                  <div>
+                    <h3 class="archivo-tight text-[26px] font-800 leading-none text-off">Growth Analytics</h3>
+                    <p class="mt-2 text-[13px] uppercase tracking-wide text-off/60">SaaS · Dashboard · UI</p>
+                  </div>
+                  <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-lime text-noir">
+                    <iconify-icon icon="lucide:arrow-up-right" class="text-[20px]"></iconify-icon>
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between px-6 py-5">
+                <div>
+                  <h3 class="archivo-tight text-[20px] font-800 leading-none text-off">Growth Analytics</h3>
+                  <p class="mt-1.5 text-[12px] uppercase tracking-wide text-off/45">Product UI · 2026</p>
+                </div>
+                <span class="rounded-full border border-white/15 px-3 py-1 text-[11px] uppercase tracking-wide text-off/55">SaaS</span>
+              </div>
+            </a>
+
+            <a id="work-card-3" href="#" class="work-card group relative col-span-1 block overflow-hidden rounded-2xl bg-slate2 md:col-span-2">
+              <div class="aspect-[16/9] overflow-hidden md:aspect-[21/8]">
+                <img class="card-img h-full w-full object-cover" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1800&auto=format&fit=crop" alt="Halcyon Architecture" / onerror="this.onerror=null;this.src='https://placehold.co/1800x400/1a1a1a/888?text=Image';">
+              </div>
+              <div class="card-meta absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-noir/90 via-noir/20 to-transparent p-6 opacity-0 md:opacity-0 md:translate-y-3 md:p-10">
+                <div class="flex items-end justify-between gap-4">
+                  <div>
+                    <h3 class="archivo-tight text-[clamp(26px,4vw,46px)] font-800 leading-none text-off">Halcyon Architecture</h3>
+                    <p class="mt-3 text-[13px] uppercase tracking-wide text-off/60">Editorial site · Photography · Webflow build</p>
+                  </div>
+                  <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-lime text-noir md:h-14 md:w-14">
+                    <iconify-icon icon="lucide:arrow-up-right" class="text-[24px]"></iconify-icon>
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between px-6 py-5 md:px-10">
+                <div>
+                  <h3 class="archivo-tight text-[22px] font-800 leading-none text-off md:text-[28px]">Halcyon Architecture</h3>
+                  <p class="mt-1.5 text-[12px] uppercase tracking-wide text-off/45">Editorial site · 2025</p>
+                </div>
+                <span class="rounded-full border border-white/15 px-3 py-1 text-[11px] uppercase tracking-wide text-off/55">Featured</span>
+              </div>
+            </a>
+
+            <a id="work-card-4" href="#" class="work-card group relative block overflow-hidden rounded-2xl bg-slate2">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img class="card-img h-full w-full object-cover" src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=1400&auto=format&fit=crop" alt="Peachnest Studio" / onerror="this.onerror=null;this.src='https://placehold.co/1400x400/1a1a1a/888?text=Image';">
+              </div>
+              <div class="card-meta absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-noir/90 via-noir/20 to-transparent p-6 opacity-0 md:opacity-0 md:translate-y-3">
+                <div class="flex items-end justify-between gap-4">
+                  <div>
+                    <h3 class="archivo-tight text-[26px] font-800 leading-none text-off">Peachnest</h3>
+                    <p class="mt-2 text-[13px] uppercase tracking-wide text-off/60">E-commerce · Brand · Shopify</p>
+                  </div>
+                  <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-lime text-noir">
+                    <iconify-icon icon="lucide:arrow-up-right" class="text-[20px]"></iconify-icon>
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between px-6 py-5">
+                <div>
+                  <h3 class="archivo-tight text-[20px] font-800 leading-none text-off">Peachnest</h3>
+                  <p class="mt-1.5 text-[12px] uppercase tracking-wide text-off/45">E-commerce · 2025</p>
+                </div>
+                <span class="rounded-full border border-white/15 px-3 py-1 text-[11px] uppercase tracking-wide text-off/55">Retail</span>
+              </div>
+            </a>
+
+            <a id="work-archive-link" href="#" class="work-card group relative flex min-h-[260px] flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-coal p-8 transition hover:border-lime md:p-10">
+              <div class="flex items-start justify-between">
+                <span class="text-[12px] font-medium uppercase tracking-[0.25em] text-off/45">Archive</span>
+                <iconify-icon icon="lucide:arrow-up-right" class="text-[22px] text-lime transition group-hover:rotate-45"></iconify-icon>
+              </div>
+              <div>
+                <h3 class="display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.9] text-off">View all <span class="text-lime">projects</span></h3>
+                <p class="mt-4 max-w-md text-[15px] leading-relaxed text-off/55">120+ shipped builds across SaaS, e-commerce, culture, and motion. The full shelf lives in the archive.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SERVICES ===== -->
+      <section id="services" class="relative border-t border-white/10 py-24 md:py-32">
+        <div class="mx-auto max-w-[1320px] px-5 md:px-8">
+          <div class="mb-12 grid grid-cols-1 gap-6 md:grid-cols-12 md:items-end">
+            <div class="md:col-span-8">
+              <span class="text-[12px] font-medium uppercase tracking-[0.25em] text-lime">(Services / 03)</span>
+              <h2 class="display mt-3 text-[clamp(2.6rem,8vw,6rem)] text-off">What we <span class="text-off/30">do</span></h2>
+            </div>
+            <p class="md:col-span-4 text-[15px] leading-relaxed text-off/55">End to end, from the first whiteboard scribble to the live, fast, accessible build. Pick a lane or take the whole journey.</p>
+          </div>
+
+          <div class="border-t border-white/10">
+            <div class="svc-row group grid grid-cols-12 items-center gap-4 border-b border-white/10 px-2 py-7 md:px-6 md:py-9">
+              <div class="svc-num col-span-2 text-[14px] font-700 text-off/35 md:col-span-1">01</div>
+              <h3 class="archivo-tight col-span-10 text-[clamp(1.6rem,3.4vw,2.6rem)] font-800 leading-none md:col-span-5">Web & Product Design</h3>
+              <div class="svc-tags col-span-12 mt-3 flex flex-wrap gap-2 md:col-span-5 md:mt-0">
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Figma</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Design Systems</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Prototyping</span>
+              </div>
+              <div class="hidden justify-end md:col-span-1 md:flex">
+                <iconify-icon icon="lucide:arrow-right" class="svc-arrow text-[24px] text-off/40"></iconify-icon>
+              </div>
+            </div>
+            <div class="svc-row group grid grid-cols-12 items-center gap-4 border-b border-white/10 px-2 py-7 md:px-6 md:py-9">
+              <div class="svc-num col-span-2 text-[14px] font-700 text-off/35 md:col-span-1">02</div>
+              <h3 class="archivo-tight col-span-10 text-[clamp(1.6rem,3.4vw,2.6rem)] font-800 leading-none md:col-span-5">Brand Identity</h3>
+              <div class="svc-tags col-span-12 mt-3 flex flex-wrap gap-2 md:col-span-5 md:mt-0">
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Logo & Marks</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Type</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Guidelines</span>
+              </div>
+              <div class="hidden justify-end md:col-span-1 md:flex">
+                <iconify-icon icon="lucide:arrow-right" class="svc-arrow text-[24px] text-off/40"></iconify-icon>
+              </div>
+            </div>
+            <div class="svc-row group grid grid-cols-12 items-center gap-4 border-b border-white/10 px-2 py-7 md:px-6 md:py-9">
+              <div class="svc-num col-span-2 text-[14px] font-700 text-off/35 md:col-span-1">03</div>
+              <h3 class="archivo-tight col-span-10 text-[clamp(1.6rem,3.4vw,2.6rem)] font-800 leading-none md:col-span-5">Webflow & Framer Build</h3>
+              <div class="svc-tags col-span-12 mt-3 flex flex-wrap gap-2 md:col-span-5 md:mt-0">
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">No-code</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">CMS</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">SEO</span>
+              </div>
+              <div class="hidden justify-end md:col-span-1 md:flex">
+                <iconify-icon icon="lucide:arrow-right" class="svc-arrow text-[24px] text-off/40"></iconify-icon>
+              </div>
+            </div>
+            <div class="svc-row group grid grid-cols-12 items-center gap-4 border-b border-white/10 px-2 py-7 md:px-6 md:py-9">
+              <div class="svc-num col-span-2 text-[14px] font-700 text-off/35 md:col-span-1">04</div>
+              <h3 class="archivo-tight col-span-10 text-[clamp(1.6rem,3.4vw,2.6rem)] font-800 leading-none md:col-span-5">Motion & Art Direction</h3>
+              <div class="svc-tags col-span-12 mt-3 flex flex-wrap gap-2 md:col-span-5 md:mt-0">
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Animation</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">3D</span>
+                <span class="rounded-full border border-white/20 px-3 py-1 text-[12px] uppercase tracking-wide text-off/60">Campaign</span>
+              </div>
+              <div class="hidden justify-end md:col-span-1 md:flex">
+                <iconify-icon icon="lucide:arrow-right" class="svc-arrow text-[24px] text-off/40"></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CLIENTS / AWARDS ===== -->
+      <section id="clients" class="relative border-t border-white/10 py-20 md:py-28">
+        <div class="mx-auto max-w-[1320px] px-5 md:px-8">
+          <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <span class="text-[12px] font-medium uppercase tracking-[0.25em] text-lime">(Trusted by / 04)</span>
+              <h2 class="archivo-tight mt-3 text-[clamp(1.6rem,3.6vw,2.8rem)] font-800 leading-tight text-off">Brands and juries that<br class="hidden md:block" /> kept us busy.</h2>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <span class="flex items-center gap-2 rounded-full border border-lime/40 px-4 py-2 text-[12px] uppercase tracking-wide text-lime">
+                <iconify-icon icon="lucide:award" class="text-[15px]"></iconify-icon> Awwwards · SOTD ×6
+              </span>
+              <span class="flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-[12px] uppercase tracking-wide text-off/60">
+                <iconify-icon icon="lucide:trophy" class="text-[15px]"></iconify-icon> CSS Design · ×4
+              </span>
+              <span class="flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-[12px] uppercase tracking-wide text-off/60">
+                <iconify-icon icon="lucide:star" class="text-[15px]"></iconify-icon> FWA · ×4
+              </span>
+            </div>
+          </div>
+
+          <div class="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4 lg:grid-cols-6">
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Northwind</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Lumio</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Cobalt</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Verdant</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Atlas</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Keystone</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Halo Labs</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Driftwood</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Monocle</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Pivot</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-off/55">Solace</span></div>
+            <div class="flex items-center justify-center bg-noir py-10"><span class="archivo-tight text-[22px] font-800 tracking-tight text-lime">+ you</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CONTACT CTA ===== -->
+      <section id="contact" class="relative grain overflow-hidden border-t border-white/10 py-28 md:py-40">
+        <div class="mx-auto max-w-[1320px] px-5 md:px-8">
+          <div class="text-center">
+            <span class="text-[12px] font-medium uppercase tracking-[0.25em] text-lime">(Let's build / 05)</span>
+            <h2 class="display mx-auto mt-6 max-w-[14ch] text-[clamp(3rem,12vw,11rem)] text-off">
+              Got a brand
+              <span class="block">to <span class="text-lime">launch?</span></span>
+            </h2>
+            <p class="mx-auto mt-8 max-w-xl text-[17px] leading-relaxed text-off/65">
+              Tell us where you want to be and we'll map the design to get you there. First reply within a day, no sales-y nonsense.
+            </p>
+            <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a id="cta-email-link" href="mailto:hello@voltkind.studio" class="pill-btn inline-flex items-center gap-2 rounded-full bg-lime px-8 py-4 text-[15px] font-700 uppercase tracking-wide text-noir hover:bg-off">
+                hello@voltkind.studio
+                <iconify-icon icon="lucide:arrow-up-right" class="text-[19px]"></iconify-icon>
+              </a>
+              <a id="cta-booking-link" href="#" class="pill-btn inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-[15px] font-600 uppercase tracking-wide text-off hover:border-lime hover:text-lime">
+                <iconify-icon icon="lucide:calendar" class="text-[18px]"></iconify-icon>
+                Book a 20-min intro
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="border-t border-white/10 bg-coal">
+      <div class="mx-auto max-w-[1320px] px-5 py-16 md:px-8">
+        <div class="grid grid-cols-1 gap-12 md:grid-cols-12">
+          <div class="md:col-span-5">
+            <a id="footer-logo-link" href="#top" class="flex items-center gap-2">
+              <span class="flex h-7 w-7 items-center justify-center rounded-full bg-lime">
+                <span class="block h-2.5 w-2.5 rotate-45 bg-noir"></span>
+              </span>
+              <span class="archivo-tight text-[18px] font-800 tracking-tight">VOLTKIND<span class="text-lime">.</span></span>
+            </a>
+            <p class="mt-5 max-w-sm text-[15px] leading-relaxed text-off/55">
+              An independent digital design studio. We turn ambitious brands into websites that earn the click and keep the visit.
+            </p>
+            <div class="mt-6 flex items-center gap-2 text-[13px] text-off/45">
+              <span class="h-2 w-2 animate-pulse rounded-full bg-lime"></span>
+              Booking projects for Q3 2026
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <h4 class="text-[12px] uppercase tracking-[0.2em] text-off/40">Studio</h4>
+            <ul class="mt-4 space-y-2.5 text-[15px] text-off/70">
+              <li><a id="footer-work-link" href="#work" class="link-underline hover:text-off">Work</a></li>
+              <li><a id="footer-about-link" href="#studio" class="link-underline hover:text-off">About</a></li>
+              <li><a id="footer-services-link" href="#services" class="link-underline hover:text-off">Services</a></li>
+              <li><a id="footer-contact-link" href="#contact" class="link-underline hover:text-off">Contact</a></li>
+            </ul>
+          </div>
+          <div class="md:col-span-2">
+            <h4 class="text-[12px] uppercase tracking-[0.2em] text-off/40">Social</h4>
+            <ul class="mt-4 space-y-2.5 text-[15px] text-off/70">
+              <li><a id="footer-insta-link" href="#" class="link-underline hover:text-off">Instagram</a></li>
+              <li><a id="footer-dribbble-link" href="#" class="link-underline hover:text-off">Dribbble</a></li>
+              <li><a id="footer-twitter-link" href="#" class="link-underline hover:text-off">X / Twitter</a></li>
+              <li><a id="footer-linkedin-link" href="#" class="link-underline hover:text-off">LinkedIn</a></li>
+            </ul>
+          </div>
+          <div class="md:col-span-3">
+            <h4 class="text-[12px] uppercase tracking-[0.2em] text-off/40">Get the brief</h4>
+            <p class="mt-4 text-[14px] text-off/55">Monthly studio notes, no spam.</p>
+            <form class="mt-4 flex overflow-hidden rounded-full border border-white/15" onsubmit="return false;">
+              <input type="email" placeholder="you@email.com" class="w-full bg-transparent px-4 py-2.5 text-[14px] text-off placeholder:text-off/35 focus:outline-none" />
+              <button type="submit" class="bg-lime px-4 text-noir transition hover:bg-off">
+                <iconify-icon icon="lucide:arrow-right" class="text-[18px]"></iconify-icon>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-[13px] text-off/40 md:flex-row">
+          <span>© 2026 Voltkind Studio. All rights reserved.</span>
+          <span class="flex items-center gap-1.5">Designed in the dark, built for the light.<span class="text-lime">✦</span></span>
+          <span>Privacy · Terms</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

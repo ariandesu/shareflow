@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wall of Love — Loved by builders</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          ink: '#0f172a',
+          body: '#475569',
+          muted: '#94a3b8',
+          line: '#e2e8f0',
+          wash: '#f8fafc',
+          wash2: '#f1f5f9',
+          amber: '#f59e0b',
+          amberdeep: '#d97706',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { -webkit-text-size-adjust: 100%; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #475569; background: #ffffff; }
+  .font-display { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+  .tab-nums { font-variant-numeric: tabular-nums; }
+  .qmark { font-family: 'Bricolage Grotesque', Georgia, serif; }
+  ::selection { background: #fde68a; color: #0f172a; }
+</style>
+
+<meta name="preview-version" content="1687ccfb-4c89-422f-b132-a1237dff5053" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:45.907Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "1687ccfb-4c89-422f-b132-a1237dff5053");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "1687ccfb-4c89-422f-b132-a1237dff5053",
+      timestamp: "2026-10-16T14:07:45.907Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "1687ccfb-4c89-422f-b132-a1237dff5053";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body class="antialiased">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-line">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2 shrink-0">
+      <span class="grid place-items-center w-8 h-8 rounded-lg bg-ink text-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 6.1L21 11l-6.6 1.9L12 19l-2.4-6.1L3 11l6.6-1.9L12 3z" fill="#f59e0b"/></svg>
+      </span>
+      <span class="font-display text-[19px] font-semibold text-ink tracking-tight">Proofly</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-[14px] font-medium text-body">
+      <a href="#" class="hover:text-ink transition">Product</a>
+      <a href="#wall" class="text-ink">Customers</a>
+      <a href="#" class="hover:text-ink transition">Pricing</a>
+      <a href="#" class="hover:text-ink transition">Docs</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="#" class="hidden sm:inline text-[14px] font-medium text-body hover:text-ink transition">Sign in</a>
+      <a href="#cta" class="inline-flex items-center gap-1.5 rounded-lg bg-amberdeep px-3.5 py-2 text-[13.5px] font-semibold text-white shadow-sm hover:bg-[#b45309] transition">
+        Start free
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HEADER BLOCK -->
+  <section class="px-5 sm:px-8 pt-16 sm:pt-20 pb-10 text-center">
+    <div class="max-w-3xl mx-auto">
+      <p class="inline-flex items-center gap-2 text-[11.5px] font-semibold tracking-[0.18em] uppercase text-amberdeep">
+        <span class="w-6 h-px bg-amber/60"></span>Loved by builders<span class="w-6 h-px bg-amber/60"></span>
+      </p>
+      <h1 class="font-display font-semibold text-ink mt-5 text-[38px] sm:text-[48px] lg:text-[54px] leading-[1.06] tracking-[-0.02em]">
+        Don't take our word for it.<br class="hidden sm:block" /> Take theirs.
+      </h1>
+      <p class="mt-5 text-[16px] sm:text-[17px] leading-[1.6] text-body max-w-xl mx-auto">
+        Thousands of founders, PMs, and engineering leads ship faster with Proofly. Here's what they say when no one's asking.
+      </p>
+
+      <!-- rating cluster -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+        <div class="flex -space-x-2.5">
+          <img src="https://i.pravatar.cc/96?img=12" class="w-9 h-9 rounded-full ring-2 ring-white object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+          <img src="https://i.pravatar.cc/96?img=32" class="w-9 h-9 rounded-full ring-2 ring-white object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+          <img src="https://i.pravatar.cc/96?img=45" class="w-9 h-9 rounded-full ring-2 ring-white object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+          <img src="https://i.pravatar.cc/96?img=68" class="w-9 h-9 rounded-full ring-2 ring-white object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+          <span class="grid place-items-center w-9 h-9 rounded-full ring-2 ring-white bg-wash2 text-[11px] font-semibold text-body">2k+</span>
+        </div>
+        <div class="hidden sm:block w-px h-8 bg-line"></div>
+        <div class="flex items-center gap-2">
+          <div class="flex gap-0.5" aria-label="4.9 out of 5">
+            <svg class="w-4.5 h-4.5" style="width:18px;height:18px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+            <svg style="width:18px;height:18px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+            <svg style="width:18px;height:18px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+            <svg style="width:18px;height:18px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+            <svg style="width:18px;height:18px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+          </div>
+          <span class="text-[14px] font-medium text-ink">4.9 / 5</span>
+          <span class="text-[14px] text-muted">from 2,000+ reviews</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO TRUST STRIP -->
+  <section class="px-5 sm:px-8 pb-14">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-center text-[12px] font-medium tracking-wide uppercase text-muted mb-6">Trusted by teams at</p>
+      <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-5 text-slate-400">
+        <span class="font-display text-[20px] font-semibold tracking-tight">Northwind</span>
+        <span class="font-sans text-[19px] font-bold tracking-tight">Acorn</span>
+        <span class="font-display text-[20px] font-medium italic">Vellum</span>
+        <span class="font-sans text-[18px] font-semibold tracking-[0.1em] uppercase">Kilo</span>
+        <span class="font-display text-[20px] font-bold tracking-tight">Fathom</span>
+        <span class="font-sans text-[19px] font-semibold tracking-tight">Loop&#8202;wire</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE WALL -->
+  <section id="wall" class="px-5 sm:px-8 pb-4">
+    <div class="max-w-6xl mx-auto columns-1 md:columns-2 lg:columns-3 gap-5">
+
+      <!-- card: plain white star -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">We replaced three tools and a spreadsheet with Proofly in an afternoon. The wall widget alone lifted our landing page conversion by <span class="font-semibold">31%</span> in the first month.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=15" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Marcus Feld</div>
+            <div class="text-[12.5px] text-muted truncate">Founder, Northwind</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: tweet-style X -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-2.5">
+            <img src="https://i.pravatar.cc/96?img=52" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+            <div class="leading-tight">
+              <div class="text-[14px] font-semibold text-ink">Priya Nair</div>
+              <div class="text-[12.5px] text-muted">@priyabuilds</div>
+            </div>
+          </div>
+          <svg style="width:19px;height:19px" viewBox="0 0 24 24" fill="#0f172a"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.6] text-ink">honestly didn't expect a testimonials tool to be the thing that saved my launch week. dropped the embed, collected 40 reviews in 2 days, done. no code. <span class="text-amberdeep font-medium">@proofly</span> ships.</p>
+        <div class="mt-3 flex items-center gap-1.5 text-[12px] text-muted">
+          <svg style="width:13px;height:13px" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/></svg>
+          Reposted by 3 others · 2:14 PM
+        </div>
+      </figure>
+
+      <!-- card: tinted -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-wash ring-1 ring-line p-5">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">The onboarding was the fastest of any tool we've adopted this year.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=8" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">David Osei</div>
+            <div class="text-[12.5px] text-muted truncate">Eng Lead, Acorn</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: G2 badge -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="inline-flex items-center gap-1.5 rounded-full bg-wash2 px-2.5 py-1 mb-3">
+          <span class="grid place-items-center w-4 h-4 rounded-full bg-amberdeep text-white text-[9px] font-bold">G2</span>
+          <span class="text-[11.5px] font-semibold text-body">Verified review on G2</span>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">We run proof collection for 14 client brands out of one Proofly workspace. The tagging and auto-import from email means I stopped chasing screenshots forever. It quietly became the tool the whole team relies on.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=25" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Elena Duarte</div>
+            <div class="text-[12.5px] text-muted truncate">Head of Growth, Vellum Studio</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: plain white star short -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">Our CFO asked why NPS jumped. It was this.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=60" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Sofia Almquist</div>
+            <div class="text-[12.5px] text-muted truncate">VP Product, Kilo</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: Product Hunt badge -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-wash ring-1 ring-line p-5">
+        <div class="inline-flex items-center gap-1.5 rounded-full bg-white ring-1 ring-line px-2.5 py-1 mb-3">
+          <svg style="width:15px;height:15px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#f59e0b"/><path d="M13.2 6.5H8.5v11h2.3v-3.3h2.4a3.85 3.85 0 100-7.7zm-.2 5.6h-2.2V8.6H13a1.75 1.75 0 010 3.5z" fill="#fff"/></svg>
+          <span class="text-[11.5px] font-semibold text-body">#1 Product of the Day</span>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">I've launched four products on Product Hunt. Proofly is the first tool where the social proof felt effortless instead of a scramble the night before. The import from Twitter is genuinely magic.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=33" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Theo Lindqvist</div>
+            <div class="text-[12.5px] text-muted truncate">Indie maker · 4× launcher</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: white star medium -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">Support tickets about "is this legit?" basically vanished after we added the wall to checkout. Buyers see 40 real faces and just trust us. That's the whole game for a young brand.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=41" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Hannah Berg</div>
+            <div class="text-[12.5px] text-muted truncate">Co-founder, Fathom Labs</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: tweet-style 2 -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="flex items-center gap-2.5 mb-3">
+          <img src="https://i.pravatar.cc/96?img=59" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="leading-tight flex-1">
+            <div class="text-[14px] font-semibold text-ink">Ken Watanabe</div>
+            <div class="text-[12.5px] text-muted">@kenships</div>
+          </div>
+          <svg style="width:18px;height:18px" viewBox="0 0 24 24" fill="#0f172a"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.6] text-ink">shipped a customer wall to prod in 11 minutes. my designer thinks i spent a week on it. i will not be correcting her.</p>
+      </figure>
+
+      <!-- card: tinted long -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-wash ring-1 ring-line p-5">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">We're a two-person team and can't afford a full marketing stack. Proofly gave us the one thing that actually moves trust for a new brand, and it took an afternoon, not a sprint.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=5" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Amara Okafor</div>
+            <div class="text-[12.5px] text-muted truncate">PM, Loopwire</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: white star -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">I've evaluated every proof tool on the market for our portfolio companies. Proofly is the one I now install by default on day one. It just gets out of the way.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=13" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Julian Roth</div>
+            <div class="text-[12.5px] text-muted truncate">Partner, Cadence Ventures</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: white star short 2 -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-white ring-1 ring-line p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-16px_rgba(15,23,42,0.12)]">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">Clean, fast, and it never once got in my way. Rare.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=48" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Rosa Iglesias</div>
+            <div class="text-[12.5px] text-muted truncate">Design Lead, Northwind</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- card: tinted medium -->
+      <figure class="break-inside-avoid mb-5 rounded-2xl bg-wash ring-1 ring-line p-5">
+        <div class="flex gap-0.5 mb-3">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+        </div>
+        <p class="text-[15.5px] leading-[1.62] text-ink">Migrated from a competitor in an hour and never looked back. The embed is one line, it matches our brand out of the box, and my inbox stopped filling up with "can you add this quote" requests.</p>
+        <figcaption class="mt-4 flex items-center gap-3">
+          <img src="https://i.pravatar.cc/96?img=51" class="w-10 h-10 rounded-full object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+          <div class="min-w-0">
+            <div class="text-[14px] font-semibold text-ink">Nadia Rahman</div>
+            <div class="text-[12.5px] text-muted truncate">Growth Eng, Kilo</div>
+          </div>
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- SPOTLIGHT -->
+  <section class="px-5 sm:px-8 py-14 sm:py-20">
+    <div class="max-w-5xl mx-auto rounded-3xl bg-wash2 ring-1 ring-line px-6 sm:px-12 py-12 sm:py-16 relative overflow-hidden">
+      <span class="qmark absolute -top-4 left-6 sm:left-10 text-[120px] sm:text-[160px] leading-none text-amber/25 select-none pointer-events-none">&ldquo;</span>
+      <div class="relative">
+        <blockquote class="font-display font-medium text-ink text-[24px] sm:text-[30px] leading-[1.28] tracking-[-0.01em] max-w-3xl">
+          We shipped our entire customer-proof strategy on Proofly in a single sprint. It's the rare tool that made a measurable dent in revenue and that the whole team actually enjoys using.
+        </blockquote>
+        <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6">
+          <img src="https://i.pravatar.cc/96?img=64" class="w-14 h-14 rounded-full object-cover ring-2 ring-white shadow" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/56x56/1a1a1a/888?text=Image';">
+          <div class="flex-1">
+            <div class="text-[16px] font-semibold text-ink">Clara Whitmore</div>
+            <div class="text-[13.5px] text-body">VP of Marketing · Fathom Labs</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex gap-0.5">
+              <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg><svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 6 20.7l1.4-6.8L2.3 9.3l6.9-.7L12 2z"/></svg>
+            </div>
+            <span class="font-display text-[15px] font-semibold text-ink">Fathom</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT BAND -->
+  <section class="px-5 sm:px-8 pb-16">
+    <div class="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6 text-center">
+      <div>
+        <div class="font-sans tab-nums text-[40px] sm:text-[44px] font-bold text-ink leading-none">4.9<span class="text-amberdeep text-[26px] font-semibold">/5</span></div>
+        <div class="mt-2 text-[13px] text-body">Average rating</div>
+      </div>
+      <div>
+        <div class="font-sans tab-nums text-[40px] sm:text-[44px] font-bold text-ink leading-none">2,000<span class="text-amberdeep text-[26px] font-semibold">+</span></div>
+        <div class="mt-2 text-[13px] text-body">Teams onboarded</div>
+      </div>
+      <div>
+        <div class="font-sans tab-nums text-[40px] sm:text-[44px] font-bold text-ink leading-none">12k<span class="text-amberdeep text-[26px] font-semibold">+</span></div>
+        <div class="mt-2 text-[13px] text-body">Projects shipped</div>
+      </div>
+      <div>
+        <div class="font-sans tab-nums text-[40px] sm:text-[44px] font-bold text-ink leading-none">98<span class="text-amberdeep text-[26px] font-semibold">%</span></div>
+        <div class="mt-2 text-[13px] text-body">Would recommend</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section id="cta" class="px-5 sm:px-8 pb-20">
+    <div class="max-w-4xl mx-auto rounded-3xl bg-ink px-6 sm:px-12 py-14 text-center relative overflow-hidden">
+      <div class="flex justify-center -space-x-2.5 mb-6">
+        <img src="https://i.pravatar.cc/96?img=12" class="w-9 h-9 rounded-full ring-2 ring-ink object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+        <img src="https://i.pravatar.cc/96?img=45" class="w-9 h-9 rounded-full ring-2 ring-ink object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+        <img src="https://i.pravatar.cc/96?img=32" class="w-9 h-9 rounded-full ring-2 ring-ink object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+        <img src="https://i.pravatar.cc/96?img=68" class="w-9 h-9 rounded-full ring-2 ring-ink object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+        <img src="https://i.pravatar.cc/96?img=25" class="w-9 h-9 rounded-full ring-2 ring-ink object-cover" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+      </div>
+      <h2 class="font-display font-semibold text-white text-[28px] sm:text-[36px] leading-[1.12] tracking-[-0.015em]">Join thousands of teams<br class="hidden sm:block" /> building trust with proof.</h2>
+      <p class="mt-4 text-[15px] text-slate-300 max-w-md mx-auto">Collect, curate, and show off your best testimonials. Free to start, no card required.</p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#" class="inline-flex items-center gap-2 rounded-xl bg-amberdeep px-6 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-amber/20 hover:bg-[#b45309] transition">
+          Start free
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#wall" class="text-[15px] font-medium text-slate-300 hover:text-white transition">Read more stories</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-line">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="grid place-items-center w-6 h-6 rounded-md bg-ink text-white">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 6.1L21 11l-6.6 1.9L12 19l-2.4-6.1L3 11l6.6-1.9L12 3z" fill="#f59e0b"/></svg>
+      </span>
+      <span class="font-display text-[15px] font-semibold text-ink">Proofly</span>
+    </div>
+    <p class="text-[13px] text-muted">© 2026 Proofly, Inc. Social proof for people who build.</p>
+    <div class="flex items-center gap-5 text-[13px] text-body">
+      <a href="#" class="hover:text-ink transition">Privacy</a>
+      <a href="#" class="hover:text-ink transition">Terms</a>
+      <a href="#" class="hover:text-ink transition">Status</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

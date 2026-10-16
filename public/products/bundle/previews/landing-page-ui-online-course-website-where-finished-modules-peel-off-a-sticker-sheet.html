@@ -1,0 +1,1057 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Design Fundamentals</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blush: '#f3c9d5',
+        navy: '#1A2540',
+        'navy-secondary': '#26314F',
+        crimson: '#cc2b3f',
+        cream: '#f2e9db',
+        blossom: '#EF9CC0',
+      },
+      fontFamily: {
+        display: ['League Spartan', 'sans-serif'],
+        body: ['Poppins', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  /* CSS for lifted corner effect and specific material treatments */
+  .sticker-lift {
+    position: relative;
+  }
+  .sticker-lift::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(-45deg, transparent 50%, #f2e9db 50%);
+    border-radius: 0 0 8px 0;
+    box-shadow: -2px -2px 0px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+  .sticker-shadow {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    width: 44px;
+    height: 44px;
+    background: repeating-linear-gradient(45deg, #EF9CC0, #EF9CC0 2px, transparent 2px, transparent 4px);
+    border-radius: 0 0 12px 0;
+    z-index: 5;
+  }
+  .dashed-contour {
+    border: 1px dashed #26314F;
+    border-radius: 1.25rem;
+  }
+  .dashed-contour-empty {
+    border: 1px dashed #EF9CC0;
+    border-radius: 1.25rem;
+    background-color: rgba(239, 156, 192, 0.1);
+  }
+  .peeled-sticker {
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 1023px) {
+    [data-sd-id="12"] { height: auto !important; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+    [data-sd-id="13"], [data-sd-id="48"] { position: static !important; }
+    [data-sd-id="13"] { transform: rotate(-2deg); }
+    [data-sd-id="58"] { position: static !important; margin-top: 1rem; }
+  }
+</style>
+
+<meta name="preview-version" content="5d0dcbba-2822-4345-9c25-c49cb6bc7267" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:14.609Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "5d0dcbba-2822-4345-9c25-c49cb6bc7267");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "5d0dcbba-2822-4345-9c25-c49cb6bc7267",
+      timestamp: "2026-10-16T14:07:14.609Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "5d0dcbba-2822-4345-9c25-c49cb6bc7267";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body class="bg-blush font-body text-navy antialiased">
+
+<div class="min-h-screen flex flex-col items-center justify-start w-full relative" data-sd-id="1">
+  
+  <!-- Nav -->
+  <nav class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center z-40 relative" data-sd-id="2">
+    <div class="font-display text-2xl tracking-tight" data-sd-id="3">Inkwild</div>
+    <a id="nav-enroll" href="#enroll" class="bg-crimson text-cream font-bold py-2 px-6 rounded-full hover:bg-navy transition-colors text-sm uppercase tracking-wide" data-sd-id="4">Enroll · $89</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="w-full max-w-7xl mx-auto px-6 pt-12 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10" data-sd-id="5">
+    
+    <!-- Left Col: Copy -->
+    <div class="space-y-8" data-sd-id="6">
+      <div class="text-sm font-bold uppercase tracking-wider text-crimson" data-sd-id="7">Character Design Fundamentals</div>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl leading-[0.95] text-navy" data-sd-id="8">Draw characters people remember.</h1>
+      <p class="text-lg md:text-xl font-body text-navy-secondary max-w-lg" data-sd-id="9">
+        An 8-module course that mails you its curriculum as a die-cut sticker sheet. Finish a module, peel it.
+      </p>
+      <div class="font-semibold text-navy flex items-center gap-2" data-sd-id="10">
+        <span class="bg-cream px-3 py-1 rounded-full border border-navy-secondary text-sm" data-sd-id="11">8 modules · 9 h 20 m · peel as you go</span>
+      </div>
+    </div>
+
+    <!-- Right Col: Exhibit -->
+    <div class="relative w-full h-[440px] flex items-center justify-center" data-sd-id="12">
+      
+      <!-- Sheet (Background) -->
+      <div class="absolute left-0 top-10 w-64 h-80 bg-cream rounded-2xl border-2 border-cream shadow-sm p-4 transform -rotate-3 z-0" data-sd-id="13">
+        <div class="text-[10px] text-navy/40 font-bold tracking-widest text-center mb-2" data-sd-id="14">Amara Osei</div>
+        <div class="grid grid-cols-2 gap-2 h-full" data-sd-id="15">
+          <!-- 8 Empty Wells -->
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="16">
+             <span class="text-blossom text-xs font-bold" data-sd-id="17">01</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="18">Shape language</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="19">Peeled 28 Apr 2026</span>
+          </div>
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="20">
+             <span class="text-blossom text-xs font-bold" data-sd-id="21">02</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="22">Faces &amp; expression</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="23">Peeled 2 May 2026</span>
+          </div>
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="24">
+             <span class="text-blossom text-xs font-bold" data-sd-id="25">03</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="26">Color &amp; costume</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="27">Peeled 8 May 2026</span>
+          </div>
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="28">
+             <span class="text-blossom text-xs font-bold" data-sd-id="29">04</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="30">Gesture &amp; silhouette</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="31">Peeled 15 May 2026</span>
+          </div>
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="32">
+             <span class="text-blossom text-xs font-bold" data-sd-id="33">05</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="34">Props &amp; story objects</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="35">Peeled 21 May 2026</span>
+          </div>
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="36">
+             <span class="text-blossom text-xs font-bold" data-sd-id="37">06</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="38">Turnarounds</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="39">Peeled 27 May 2026</span>
+          </div>
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="40">
+             <span class="text-blossom text-xs font-bold" data-sd-id="41">07</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="42">Scene &amp; staging</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="43">Peeled 3 Jun 2026</span>
+          </div>
+          <div class="dashed-contour-empty flex flex-col items-center justify-center p-2 text-center" data-sd-id="44">
+             <span class="text-blossom text-xs font-bold" data-sd-id="45">08</span>
+             <span class="text-[8px] text-navy mt-1" data-sd-id="46">Portfolio piece</span>
+             <span class="text-[7px] text-navy/60 mt-1" data-sd-id="47">Peeled 9 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laptop Lid -->
+      <div class="absolute right-0 top-16 w-80 h-64 bg-navy rounded-t-3xl border-b-[6px] border-navy-secondary shadow-2xl p-6 z-20 flex flex-wrap gap-2 items-center justify-center content-center" data-sd-id="48">
+         <div class="absolute bottom-2 right-4 text-[10px] text-cream/30 font-display" data-sd-id="49">Amara's laptop</div>
+         <!-- Stickers on Lid -->
+         <div class="peeled-sticker bg-crimson text-cream w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform rotate-6 relative mt-3" data-sd-id="50"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:shapes-bold" class="text-sm mb-0.5"></iconify-icon>01</span></div>
+         <div class="peeled-sticker bg-cream text-crimson border-2 border-crimson w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform -rotate-3 relative -ml-1 -mt-1" data-sd-id="51"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:smiley-bold" class="text-sm mb-0.5"></iconify-icon>02</span></div>
+         <div class="peeled-sticker bg-crimson text-cream w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform rotate-12 relative" data-sd-id="52"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:paint-brush-broad-bold" class="text-sm mb-0.5"></iconify-icon>03</span></div>
+         <div class="peeled-sticker bg-cream text-crimson border-2 border-crimson w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform -rotate-6 relative -mt-3" data-sd-id="53"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:person-simple-walk-bold" class="text-sm mb-0.5"></iconify-icon>04</span></div>
+         <div class="peeled-sticker bg-cream text-crimson border-2 border-crimson w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform rotate-2 relative ml-1" data-sd-id="54"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:sword-bold" class="text-sm mb-0.5"></iconify-icon>05</span></div>
+         <div class="peeled-sticker bg-crimson text-cream w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform -rotate-12 relative -ml-1 -mt-2" data-sd-id="55"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:arrows-clockwise-bold" class="text-sm mb-0.5"></iconify-icon>06</span></div>
+         <div class="peeled-sticker bg-cream text-crimson border-2 border-crimson w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform rotate-3 relative" data-sd-id="56"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:map-trifold-bold" class="text-sm mb-0.5"></iconify-icon>07</span></div>
+         <div class="peeled-sticker bg-crimson text-cream w-16 h-16 rounded-xl flex items-center justify-center font-bold text-lg transform -rotate-2 relative -ml-1 mt-1" data-sd-id="57"><span class="flex flex-col items-center leading-none"><iconify-icon icon="ph:star-bold" class="text-sm mb-0.5"></iconify-icon>08</span></div>
+      </div>
+
+      <div class="absolute bottom-2 left-0 right-0 text-center" data-sd-id="58">
+        <p class="text-xs text-navy/70 italic" data-sd-id="59">Amara finished in six weeks. All eight stickers missing from her sheet are on her lid.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Curriculum: The Fresh Sheet -->
+  <section class="w-full bg-blush py-24 px-6 relative" data-sd-id="60">
+    <div class="max-w-5xl mx-auto" data-sd-id="61">
+      <h2 class="font-display text-4xl text-navy mb-12 text-center" data-sd-id="62">Your sheet: eight modules</h2>
+      
+      <!-- The Sheet Container -->
+      <div class="bg-cream rounded-3xl border border-navy/10 p-8 md:p-12 shadow-[0_0_0_1px_rgba(26,37,64,0.08),_0_24px_48px_-20px_rgba(26,37,64,0.25)] relative" data-sd-id="63">
+        
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8" data-sd-id="64">
+          
+          <!-- Module 01 (Lifted) -->
+          <div class="dashed-contour p-1 relative" data-sd-id="65">
+            <div class="sticker-lift bg-crimson text-cream rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="66">
+              <div class="text-3xl font-display mb-2" data-sd-id="67">01</div>
+              <iconify-icon icon="ph:shapes-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="68">Shape language</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="69">55 min</span>
+            </div>
+            <div class="sticker-shadow" data-sd-id="70"></div>
+          </div>
+
+          <!-- Module 02 -->
+          <div class="dashed-contour p-1" data-sd-id="71">
+            <div class="bg-cream text-crimson border-2 border-crimson rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="72">
+              <div class="text-3xl font-display mb-2" data-sd-id="73">02</div>
+              <iconify-icon icon="ph:smiley-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="74">Faces &amp; expression</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="75">1 h 05</span>
+            </div>
+          </div>
+
+          <!-- Module 03 -->
+          <div class="dashed-contour p-1" data-sd-id="76">
+            <div class="bg-crimson text-cream rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="77">
+              <div class="text-3xl font-display mb-2" data-sd-id="78">03</div>
+              <iconify-icon icon="ph:paint-brush-broad-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="79">Color &amp; costume</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="80">1 h 10</span>
+            </div>
+          </div>
+
+          <!-- Module 04 -->
+          <div class="dashed-contour p-1" data-sd-id="81">
+            <div class="bg-cream text-crimson border-2 border-crimson rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="82">
+              <div class="text-3xl font-display mb-2" data-sd-id="83">04</div>
+              <iconify-icon icon="ph:person-simple-walk-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="84">Gesture &amp; silhouette</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="85">1 h 20</span>
+            </div>
+          </div>
+
+          <!-- Module 05 -->
+          <div class="dashed-contour p-1" data-sd-id="86">
+            <div class="bg-cream text-crimson border-2 border-crimson rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="87">
+              <div class="text-3xl font-display mb-2" data-sd-id="88">05</div>
+              <iconify-icon icon="ph:sword-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="89">Props &amp; story objects</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="90">50 min</span>
+            </div>
+          </div>
+
+          <!-- Module 06 -->
+          <div class="dashed-contour p-1" data-sd-id="91">
+            <div class="bg-crimson text-cream rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="92">
+              <div class="text-3xl font-display mb-2" data-sd-id="93">06</div>
+              <iconify-icon icon="ph:arrows-clockwise-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="94">Turnarounds</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="95">1 h 15</span>
+            </div>
+          </div>
+
+          <!-- Module 07 -->
+          <div class="dashed-contour p-1" data-sd-id="96">
+            <div class="bg-cream text-crimson border-2 border-crimson rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="97">
+              <div class="text-3xl font-display mb-2" data-sd-id="98">07</div>
+              <iconify-icon icon="ph:map-trifold-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="99">Scene &amp; staging</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="100">1 h 00</span>
+            </div>
+          </div>
+
+          <!-- Module 08 -->
+          <div class="dashed-contour p-1" data-sd-id="101">
+            <div class="bg-crimson text-cream rounded-xl p-6 flex flex-col items-center text-center h-full" data-sd-id="102">
+              <div class="text-3xl font-display mb-2" data-sd-id="103">08</div>
+              <iconify-icon icon="ph:star-bold" class="text-2xl mb-4"></iconify-icon>
+              <h3 class="font-bold text-sm leading-tight mb-2" data-sd-id="104">Portfolio piece</h3>
+              <span class="text-xs opacity-80 mt-auto" data-sd-id="105">1 h 45</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How Peeling Works -->
+  <section class="w-full max-w-5xl mx-auto px-6 py-24 border-b border-navy/10" data-sd-id="106">
+    <h2 class="font-display text-3xl text-navy mb-12 text-center" data-sd-id="107">How your sheet works</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center" data-sd-id="108">
+      
+      <!-- State 1 -->
+      <div class="flex flex-col items-center" data-sd-id="109">
+        <div class="bg-cream w-40 h-40 rounded-2xl p-2 mb-6 shadow-sm border border-navy/5 flex items-center justify-center" data-sd-id="110">
+          <div class="dashed-contour p-1 w-full h-full" data-sd-id="111">
+            <div class="bg-crimson text-cream rounded-xl w-full h-full flex items-center justify-center font-display text-4xl" data-sd-id="112">01</div>
+          </div>
+        </div>
+        <p class="font-body text-navy-secondary text-sm" data-sd-id="113">Intact sticker: module ahead.</p>
+      </div>
+
+      <!-- State 2 -->
+      <div class="flex flex-col items-center" data-sd-id="114">
+        <div class="bg-cream w-40 h-40 rounded-2xl p-2 mb-6 shadow-sm border border-navy/5 flex items-center justify-center" data-sd-id="115">
+           <div class="dashed-contour p-1 w-full h-full relative" data-sd-id="116">
+            <div class="sticker-lift bg-crimson text-cream rounded-xl w-full h-full flex items-center justify-center font-display text-4xl" data-sd-id="117">
+              01
+            </div>
+            <div class="sticker-shadow" data-sd-id="118"></div>
+          </div>
+        </div>
+        <p class="font-body text-navy-secondary text-sm" data-sd-id="119">Lifted corner: the module you peel next.</p>
+      </div>
+
+      <!-- State 3 -->
+      <div class="flex flex-col items-center" data-sd-id="120">
+        <div class="bg-cream w-40 h-40 rounded-2xl p-2 mb-6 shadow-sm border border-navy/5 flex items-center justify-center" data-sd-id="121">
+          <div class="dashed-contour-empty w-full h-full flex flex-col items-center justify-center" data-sd-id="122">
+             <span class="text-blossom text-xl font-bold" data-sd-id="123">01</span>
+             <span class="text-[10px] text-navy mt-2" data-sd-id="124">Shape language</span>
+             <span class="text-[9px] text-navy/60 mt-1" data-sd-id="125">Peeled 28 Apr 2026</span>
+          </div>
+        </div>
+        <p class="font-body text-navy-secondary text-sm" data-sd-id="126">Empty well: module finished. Date recorded.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Instructor -->
+  <section class="w-full max-w-4xl mx-auto px-6 py-24 flex flex-col md:flex-row items-center justify-center gap-12" data-sd-id="127">
+    <div class="relative w-48 h-48 flex-shrink-0" data-sd-id="128">
+      <!-- SVG Seal -->
+      <svg viewBox="0 0 200 200" class="w-full h-full fill-crimson drop-shadow-md" data-sd-id="129">
+        <circle cx="100" cy="100" r="96" class="fill-crimson"></circle>
+        <circle cx="100" cy="100" r="70" class="fill-none stroke-cream stroke-2 dashed" stroke-dasharray="4,4"></circle>
+        <path id="top-arc" d="M 28 100 A 72 72 0 0 1 172 100" fill="none"></path>
+        <path id="bottom-arc" d="M 24 100 A 76 76 0 0 0 176 100" fill="none"></path>
+        <text fill="#f2e9db" font-family="'League Spartan', sans-serif" font-size="13" font-weight="800" letter-spacing="2">
+          <textPath href="#top-arc" startOffset="50%" text-anchor="middle">MARA VOSS · INKWILD</textPath>
+        </text>
+        <text fill="#f2e9db" font-family="'League Spartan', sans-serif" font-size="12" font-weight="800" letter-spacing="1.5">
+          <textPath href="#bottom-arc" startOffset="50%" text-anchor="middle">CHARACTER DESIGN</textPath>
+        </text>
+        <!-- Center Icon -->
+        <g transform="translate(84, 84) scale(1.5)">
+            <path d="M2 18L18 2L22 6L6 22L2 18Z" stroke="#f2e9db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+            <path d="M14 6L18 10" stroke="#f2e9db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+      </svg>
+    </div>
+    <div class="max-w-md" data-sd-id="130">
+      <h3 class="font-display text-2xl text-navy mb-4" data-sd-id="131">Taught by Mara Voss</h3>
+      <p class="font-body text-navy-secondary text-sm leading-relaxed mb-4" data-sd-id="132">
+        Mara has spent a decade designing characters for feature animation and indie games. She built this curriculum to focus purely on the structural decisions that make a character instantly readable.
+      </p>
+      <p class="font-body text-navy-secondary text-sm leading-relaxed" data-sd-id="133">
+        She created the sticker sheet mechanic because digital checklists are easily forgotten, but a physical sticker on your everyday machine is a trophy you have to earn.
+      </p>
+    </div>
+  </section>
+
+  <!-- Enroll Band -->
+  <section id="enroll" class="w-full bg-navy py-16 px-6 border-t-8 border-crimson" data-sd-id="134">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8" data-sd-id="135">
+      <div class="text-cream" data-sd-id="136">
+        <h2 class="font-display text-3xl mb-2" data-sd-id="137">Start the curriculum</h2>
+        <p class="font-body text-cream/70 text-sm" data-sd-id="138">
+          Lifetime access to 8 video modules (9 h 20 m). <br class="hidden md:block"> 
+          Includes the physical A5 die-cut sticker sheet mailed worldwide.
+        </p>
+      </div>
+      <a href="#" id="enroll-btn-bottom" class="bg-crimson text-cream font-bold py-4 px-10 rounded-full hover:bg-blush hover:text-navy transition-colors text-lg uppercase tracking-wide flex-shrink-0" data-sd-id="139">
+        Enroll · $89
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full bg-cream py-8 px-6 text-center" data-sd-id="140">
+    <div class="font-display text-xl text-navy mb-2" data-sd-id="141">Inkwild</div>
+    <div class="font-body text-xs text-navy-secondary flex justify-center gap-4" data-sd-id="142">
+      <a href="#" id="ft-contact" class="hover:text-crimson transition-colors" data-sd-id="143">Contact</a>
+      <span data-sd-id="144">·</span>
+      <a href="#" id="ft-terms" class="hover:text-crimson transition-colors" data-sd-id="145">Terms</a>
+    </div>
+  </footer>
+
+</div>
+
+
+</body></html>

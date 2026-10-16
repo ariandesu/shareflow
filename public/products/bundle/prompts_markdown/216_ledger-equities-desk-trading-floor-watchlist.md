@@ -1,0 +1,73 @@
+# Ledger Equities Desk — Trading-Floor Watchlist
+
+**Category:** Dashboard  
+**Tags:** table, data-table, financial, dashboard, dark-mode, fintech, watchlist, sparkline, trading, navy, amber  
+**Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)  
+**Live Preview:** [https://p.superdesign.dev/draft/228f4283-50f2-45ba-9940-99f2c2e6cece](https://p.superdesign.dev/draft/228f4283-50f2-45ba-9940-99f2c2e6cece)  
+**Local Standalone Preview:** `previews/ledger-equities-desk-trading-floor-watchlist.html`
+
+---
+
+## Architectural & Aesthetic Breakdown
+Dark navy trading-floor watchlist table with a sticky glass nav, a scrolling price ticker, index/P&L stat cards, and a dense financial data table: right-aligned tabular figures, green/red deltas, % pill badges, and inline SVG sparklines.
+
+---
+
+## Production System Prompt Specification
+Copy and paste this into Cursor Composer, Claude 3.5 Sonnet, v0, Bolt.new, or Windsurf:
+
+```markdown
+{
+  "summary": "A dark navy trading-floor watchlist: a sticky glass nav, a full-bleed auto-scrolling price ticker, a split hero (headline + index/P&L stat cards), and a dense financial data table with right-aligned tabular figures, colored deltas, pill % badges, and inline SVG sparklines. Built for scanning numbers fast: the eye lands on the move, not the chrome.",
+  "style": {
+    "description": "Deep-navy 'Bloomberg-terminal' aesthetic warmed with amber accents and a cream-on-dark text scale. Inter throughout, with tabular-nums on every figure so digits align in columns. Subtle radial 'grain' glow, hairline borders, and glassmorphism on the nav. Up/down semantics in green/red; amber is the single brand/CTA accent.",
+    "prompt": "Dark financial dashboard theme. Background near-black navy #071629; layered navy surfaces #0b1f3a (900), #0e2746 (850), #122e52 (800), #1a3c66 (700), #244a78 (600). Text scale on dark: primary cream #f4ecd8, soft #cdd6e3, dim #8a98ad, faint #5d6b80. Single accent amber #f0b429 (deep #d99a12, soft #f7d27a) used for the logo tile, primary buttons, active pagination, the sparkline endpoint dot, and the table top-edge gradient. Semantic up = green #3fcf8e, down = red #f06d6d. Font: Inter (weights 400-900), font-family sans. Every numeric cell uses font-variant-numeric: tabular-nums + letter-spacing -0.01em (.num). Hairline borders are rgba(205,214,227,0.10). Glass nav = rgba(11,31,58,0.72) + backdrop-blur(14px). Cards use a 160deg sheen gradient from rgba(18,46,82,0.9) to rgba(7,22,41,0.9). Grain background = three soft radial gradients (amber 10%, green 6%, navy 50%). Generous rounding: lg buttons, xl/2xl cards. Amber CTAs carry a soft amber drop-glow box-shadow."
+  },
+  "layout_and_structure": {
+    "description": "Top-to-bottom single-column flow inside a max-w-[1240px] container (px-6 / lg:px-8), with two full-bleed bands (ticker + footer) breaking the gutter. Sticky header, hero is a 12-col grid that collapses on mobile, and the data table is the centerpiece in a rounded card with horizontal scroll on small screens.",
+    "prompts": [
+      {
+        "part": "Sticky glass nav",
+        "prompt": "Sticky top-0 z-50 header with glass background and a bottom hairline. Inside a max-w-[1240px] row, h-16: left = a 9x9 rounded-lg amber tile with a black bold 'L' + stacked brand ('Ledger' extrabold 17px over a 10px uppercase tracking-[0.22em] dim 'Equities Desk'). Center (hidden on mobile, md:flex) = nav links Watchlist / Movers / Screener / Research in cream-soft with amber hover. Right = a pill 'Markets open' status with a pinging green dot (hidden on small) + an amber 'Open Desk' button that scales on hover."
+      },
+      {
+        "part": "Full-bleed price ticker",
+        "prompt": "Full-width band on the darkest navy #071629 with top+bottom hairline, overflow hidden. An infinitely scrolling marquee (CSS keyframes translateX 0 to -50%, ~42s linear infinite) of duplicated ticker items, each showing SYMBOL (bold cream-soft), price (dim), and a green/red \u25b2/\u25bc percent. Edges fade out via a horizontal linear-gradient mask."
+      },
+      {
+        "part": "Split hero",
+        "prompt": "Full-bleed section with the grain radial-glow background and a bottom hairline. Inside the container, a lg:grid-cols-12 gap-10 items-end layout. Left (col-span-7): a small uppercase amber pill badge ('Live equities \u00b7 NYSE / NASDAQ' with a chart icon), a huge black headline ~40-62px leading-[0.95] with the second line in amber, a 15px cream-soft subhead, and two buttons (amber 'Track a symbol' + outlined 'View full screener'). Right (col-span-5): a 3-up grid of mini index stat cards (S&P 500 / Nasdaq / VIX) each with a uppercase dim label, big tabular value, and a green/red percent; below, a wide P&L card showing 'Desk P&L \u00b7 today' as a big amber +$ value with a right-aligned win-rate."
+      },
+      {
+        "part": "Table head controls",
+        "prompt": "Above the table, a flex row (column on mobile): left = 'Watchlist' h2 (26px extrabold) + a dim caption ('12 positions \u00b7 prices delayed 0s \u00b7 refreshed just now'); right = a search input with a leading magnifier icon (navy-900/60 fill, amber focus ring) + a 'Columns' button with a sliders icon (hidden on mobile)."
+      },
+      {
+        "part": "Data table card",
+        "prompt": "Rounded-2xl card-sheen card with a hairline border and a big soft drop shadow. A 3px amber gradient hairline runs across the very top edge. Inside an overflow-x-auto wrapper a min-w-[860px] table. THEAD: navy-950/60 row, 11px uppercase tracking, cream-dim, with sort caret icons (the active 'Last price' caret is amber). Columns: Company, Symbol, Last price, Change, % Chg, Volume (hidden < md), Mkt cap (hidden < lg), 5-day trend (right). TBODY rows: zebra (odd rows navy-950/25), amber row-hover tint, bottom hairline; Company cell = an 8x8 rounded ticker-initials tile with a green/red ring + the company name; Symbol = a small bordered navy pill; Last price + Change right-aligned tabular semibold; % Chg = a rounded-full pill (green/red 10% bg) with a trend icon; Volume in M, Mkt cap in $B; 5-day trend = a right-aligned inline SVG sparkline. TFOOT: an amber-tinted 'Portfolio total' summary row with a sigma icon and net +2.9%."
+      },
+      {
+        "part": "Table footer + legend",
+        "prompt": "Inside the card, a bordered footer bar (navy-950/40): left 'Showing 12 of 12 positions', right a pagination cluster (disabled prev caret, amber active '1', outlined 2/3, next caret). Below the card, a wrap-flex legend in 12px faint tabular text: green dot Gainer, red dot Decliner, amber dot Sparkline endpoint, and a right-pushed 'Figures are illustrative \u00b7 not investment advice'."
+      },
+      {
+        "part": "Full-bleed footer",
+        "prompt": "Full-width footer on navy-950 with a top hairline. Inside the container, a flex row (column on mobile): left = a small amber 'L' tile + 'Ledger Equities Desk \u00b7 \u00a9 2026' in dim text; right = inline links Terms / Data sources / API / Status with amber hover."
+      }
+    ]
+  },
+  "special_ui_components": [
+    "Inline SVG sparklines (116x34) generated from a 7-point price series: filled area + 1.6px green/red line + an amber endpoint dot ringed in navy.",
+    "Infinite CSS marquee price ticker with an edge-fade gradient mask (duplicated track for a seamless loop).",
+    "Tabular-numeric figures everywhere (font-variant-numeric: tabular-nums, .num) so digits align across rows and columns.",
+    "Glassmorphism sticky nav (backdrop-blur) with a pinging 'Markets open' live dot.",
+    "Color-semantic deltas: green up / red down on Change, % Chg pill badges, and stat cards.",
+    "Amber 'sheen' stat/table cards with hairline borders and a 3px amber top-edge gradient on the table.",
+    "Amber-tinted TFOOT portfolio-total summary row."
+  ],
+  "special_notes": "All figures are illustrative sample data (rows rendered from a JS array; sparklines + ticker + footer totals computed client-side). Keep tabular-nums on every number, keep amber as the only brand accent (green/red are reserved strictly for up/down), and preserve the responsive column reflow (Volume hides under md, Mkt cap under lg, the table scrolls horizontally below 860px). Icons via Iconify (Phosphor 'ph:' set). Inspired by the DataTables stocks example, rebuilt as a navy trading-floor desk."
+}
+```
+
+---
+*Generated by ShareFlow Design Prompt Library · © 2026 Mahir Faisal (MHR3D)*

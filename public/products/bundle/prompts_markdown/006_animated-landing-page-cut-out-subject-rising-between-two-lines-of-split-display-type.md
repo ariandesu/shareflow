@@ -1,0 +1,90 @@
+# Animated Landing Page: Cut-Out Subject Rising Between Two Lines of Split Display Type
+
+**Category:** Animation  
+**Tags:** landing-page, portfolio, studio, architecture, agency, animated, scroll-animation, type-occlusion, split-type, display-serif, editorial, bone, oxide, cut-out, instrument-serif, azeret-mono, monospace, to-scale-diagram, desktop, responsive, style  
+**Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)  
+**Live Preview:** [https://p.superdesign.dev/draft/96d78872-49e1-4647-bbbe-09ac43c1f8f3](https://p.superdesign.dev/draft/96d78872-49e1-4647-bbbe-09ac43c1f8f3)  
+**Local Standalone Preview:** `previews/animated-landing-page-cut-out-subject-rising-between-two-lines-of-split-display-type.html`
+
+---
+
+## Architectural & Aesthetic Breakdown
+A studio portfolio landing page where the wordmark splits into two lines and a cut-out subject rises through the gap between them as you scroll. Warm bone ground, one oxide pigment, a high contrast display serif against monospaced technical labels, and a pinned study whose numbers are computed rather than decorative. Good for architecture, design and fabrication studios.
+
+---
+
+## Production System Prompt Specification
+Copy and paste this into Cursor Composer, Claude 3.5 Sonnet, v0, Bolt.new, or Windsurf:
+
+```markdown
+{
+  "summary": "A studio landing page whose wordmark is split into two stacked lines that part on scroll while a cut-out subject rises through the gap. Warm bone ground with a single oxide pigment, a high-contrast display serif carrying all the voice, and monospaced labels carrying all the data.",
+  "style": {
+    "description": "A warm bone field with near-black ink and one earth pigment used for emphasis and never as a fill. A high-contrast display serif does the talking at every size; everything factual is monospaced, small and widely tracked. Square corners throughout.",
+    "prompt": "Apply a warm editorial studio style. Palette: ground #E7E3DA, secondary ground #DCD7CB, ink #1A1917, secondary ink #4A4741, muted #6E6A61, one pigment #9B3418, hairlines rgba(26,25,23,.16). Typography: 'Instrument Serif' roman and italic for all display and headings, letter-spacing -.015em, with the italic reserved for the emphasised phrase in the pigment; 'Azeret Mono' 400-600 at 10.5-12.5px with letter-spacing .15em-.17em, uppercase, for labels, and at 12.5px sentence case for body copy. Border-radius 0 everywhere, including buttons. MUST keep the pigment to type, a rule or a marker, never a filled area. DO NOT use a gradient, a glow, a bento grid, a card row or a drop shadow on anything other than the cut-out subject."
+  },
+  "layout_and_structure": {
+    "description": "Seven sections. The hero brackets a cut-out subject between two lines of a split wordmark; body sections alternate a two-column prose-and-drawing layout with hairline-ruled data, one pinned study, and a table of work, closing on a full-width wordmark cropped by the page edge.",
+    "prompts": [
+      {
+        "part": "Navigation",
+        "prompt": "Fixed 60px bar on a translucent ground with a 14px backdrop blur and a bottom hairline. Serif wordmark at 19px with a trailing period in the pigment; monospaced uppercase links at 10.5px taking a pigment underline on hover; one square button."
+      },
+      {
+        "part": "Hero",
+        "prompt": "Full viewport minus the nav, on the secondary ground, overflow clipped with isolation isolate. A copy stack sits left at no more than 44vw: monospaced eyebrow, a headline at clamp(30px,4vw,56px) with one italic phrase in the pigment, a monospaced lede, two buttons, and a corner-pinned monospaced caption. The wordmark is split into TWO stacked lines, right aligned at clamp(74px,17.5vw,258px) with line-height .82 \u2014 the upper line above the subject in the stacking order, the lower line beneath it \u2014 and the cut-out subject stands in the gap."
+      },
+      {
+        "part": "Section drawing",
+        "prompt": "Two columns: a headline, a monospaced lede and a hairline-ruled definition list whose rows carry a monospaced pigment label, a description and a right-aligned value; beside it an SVG line drawing on the page ground, drawn strictly TO SCALE in real units with hairline construction geometry, pigment markers, thin leaders out to monospaced labels, and a heavier stroke on the drawing's own line so it does not read as one more leader."
+      },
+      {
+        "part": "Pinned study",
+        "prompt": "A tall section with a sticky full-height stage carrying a heading, the subject, a marker travelling a real arc, and a row of monospaced readouts. Every number must be computed from a stated model rather than chosen for looks, so the drawing and the readout cannot disagree."
+      },
+      {
+        "part": "Material and practice",
+        "prompt": "Hairline-ruled rows with a monospaced pigment label, a description and a right-aligned classification, plus a two-column prose-and-data pairing."
+      },
+      {
+        "part": "Work table",
+        "prompt": "A full-width table with monospaced uppercase headers over a hairline, a serif project name at clamp(15px,1.5vw,21px) and monospaced metadata columns, each row separated by a hairline. On narrow screens the table collapses to a two-column grid per row."
+      },
+      {
+        "part": "Close",
+        "prompt": "A short headline with one italic pigment phrase, a monospaced fine-print line, two buttons pushed to the opposite edge, a hairline footer strip, then the wordmark full width at clamp(80px,20vw,300px) translated down .17em so the page edge crops it, bookending the hero."
+      }
+    ]
+  },
+  "special_ui_components": [
+    {
+      "component": "Split-wordmark bracket",
+      "description": "The signature: the wordmark is two stacked lines and the subject stands in the gap.",
+      "prompt": "Split the wordmark across two absolutely positioned lines, right aligned, the upper one ABOVE the subject in the stacking order and the lower one BENEATH it, so the object is bracketed rather than overlaid. On scroll, pull the two lines apart \u2014 the upper up and outward, the lower down and outward, around 20vh each \u2014 while the subject rises roughly 24vh and scales up slightly, so the gap opens as the object arrives. Position the subject horizontally so it genuinely overlaps both lines; if it sits clear of them the occlusion does not read at all."
+    },
+    {
+      "component": "Cut-out subject sizing",
+      "description": "How to place a keyed subject so it survives every viewport.",
+      "prompt": "Size the subject by HEIGHT with width auto and a max-width, never by width plus an aspect-ratio: a width-driven box grows taller than the hero on a short viewport, overflows it, crops the subject and buries the copy. Verify the subject's bounding box sits inside the hero at several viewport sizes including short-and-wide. Set both width and height attributes to the final file's real pixels and add height:auto in CSS, or a stale attribute silently stretches the art."
+    },
+    {
+      "component": "Computed study",
+      "description": "A pinned section whose motion is a real model, not a loop.",
+      "prompt": "Drive the study from scroll progress through the section and derive every displayed value from one stated model \u2014 an angle, a length, a rate \u2014 so the drawn result and the printed number are the same calculation. Bind the marker's path to percentages of its container rather than viewport units, or it leaves the stage at other viewport sizes."
+    },
+    {
+      "component": "Reveal grammar",
+      "description": "How copy arrives.",
+      "prompt": "Reveal blocks from {opacity:0, translateY(18-22px)} with .07s steps between siblings, scoped to a class added only when prefers-reduced-motion is not set. Anything already on screen at load \u2014 the wordmark lines and the subject \u2014 must reveal on requestAnimationFrame and must NOT be observed, because on a short viewport they can sit inside a negative root margin, never intersect, and stay invisible permanently. Keep a scroll-position-bound layer as well so the page still moves when the reader scrolls back up."
+    },
+    {
+      "component": "Evidence rules",
+      "description": "What the page may claim.",
+      "prompt": "Only the studio's own work and measurable facts. DO NOT invent awards, press quotes, client logos or testimonials. Anything drawn to scale must actually be to scale."
+    }
+  ]
+}
+```
+
+---
+*Generated by ShareFlow Design Prompt Library · © 2026 Mahir Faisal (MHR3D)*

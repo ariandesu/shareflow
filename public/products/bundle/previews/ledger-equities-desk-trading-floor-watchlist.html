@@ -1,0 +1,684 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ledger — Equities Desk</title><script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script><script>tailwind.config = { theme: { extend: { colors: { navy: { 950: '#071629', 900: '#0b1f3a', 850: '#0e2746', 800: '#122e52', 700: '#1a3c66', 600: '#244a78' }, cream: { DEFAULT: '#f4ecd8', soft: '#cdd6e3', dim: '#8a98ad', faint: '#5d6b80' }, amber: { DEFAULT: '#f0b429', deep: '#d99a12', soft: '#f7d27a' }, up: '#3fcf8e', down: '#f06d6d', }, fontFamily: { sans: ['Inter', 'sans-serif'] }, } } }</script><style>html { scroll-behavior: smooth; } body { background: #071629; -webkit-font-smoothing: antialiased; } .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; letter-spacing: -0.01em; } .grain { background-image: radial-gradient(circle at 12% 18%, rgba(240,180,41,0.10), transparent 42%), radial-gradient(circle at 88% 8%, rgba(63,207,142,0.06), transparent 40%), radial-gradient(circle at 50% 120%, rgba(36,74,120,0.5), transparent 60%); } .hairline { border-color: rgba(205,214,227,0.10); } .row-hover:hover { background: rgba(240,180,41,0.045); } .glass { background: rgba(11,31,58,0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); } .ticker-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); } @keyframes scroll-x { from { transform: translateX(0); } to { transform: translateX(-50%); } } .ticker-track { animation: scroll-x 42s linear infinite; } .glow-amber { box-shadow: 0 0 0 1px rgba(240,180,41,0.25), 0 18px 50px -18px rgba(240,180,41,0.22); } .card-sheen { background: linear-gradient(160deg, rgba(18,46,82,0.9), rgba(7,22,41,0.9)); }</style>
+<meta name="preview-version" content="228f4283-50f2-45ba-9940-99f2c2e6cece" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:44.330Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "228f4283-50f2-45ba-9940-99f2c2e6cece");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "228f4283-50f2-45ba-9940-99f2c2e6cece",
+      timestamp: "2026-10-16T14:07:44.330Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "228f4283-50f2-45ba-9940-99f2c2e6cece";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head><body><div class="min-h-screen text-cream font-sans antialiased selection:bg-amber/30 selection:text-cream"><header class="sticky top-0 z-50 glass border-b hairline"><div class="mx-auto max-w-[1240px] px-6 lg:px-8"><div class="flex h-16 items-center justify-between"><div class="flex items-center gap-3"><div class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber text-navy-950 font-black text-lg shadow-[0_6px_18px_-6px_rgba(240,180,41,0.7)]">L</div><div class="leading-none"><div class="font-extrabold tracking-tight text-[17px]">Ledger</div><div class="text-[10px] uppercase tracking-[0.22em] text-cream-dim mt-0.5">Equities Desk</div></div></div><nav class="hidden md:flex items-center gap-8 text-sm text-cream-soft"><a href="#" id="nav-watchlist" class="hover:text-amber transition-colors">Watchlist</a><a href="#" id="nav-movers" class="hover:text-amber transition-colors">Movers</a><a href="#" id="nav-screener" class="hover:text-amber transition-colors">Screener</a><a href="#" id="nav-research" class="hover:text-amber transition-colors">Research</a></nav><div class="flex items-center gap-3"><div class="hidden sm:flex items-center gap-2 rounded-full border hairline px-3 py-1.5 text-xs text-cream-dim"><span class="relative flex h-1.5 w-1.5"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-up opacity-60"></span><span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-up"></span></span> Markets open </div><button class="rounded-lg bg-amber px-4 py-2 text-sm font-semibold text-navy-950 transition-transform hover:scale-[1.03] active:scale-95 shadow-[0_8px_22px_-10px_rgba(240,180,41,0.8)]">Open Desk</button></div></div></div></header><div class="w-full bg-navy-950 border-b hairline overflow-hidden"><div class="ticker-mask"><div class="ticker-track flex w-max items-center gap-8 py-2.5 text-[12px] num whitespace-nowrap"><span class="flex gap-8" id="tick-a"></span><span class="flex gap-8" id="tick-b"></span></div></div></div><section class="relative w-full grain border-b hairline overflow-hidden"><div class="mx-auto max-w-[1240px] px-6 lg:px-8 py-14 lg:py-20"><div class="grid lg:grid-cols-12 gap-10 items-end"><div class="lg:col-span-7"><div class="inline-flex items-center gap-2 rounded-full border hairline bg-navy-900/60 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-amber mb-6"><iconify-icon icon="ph:chart-line-up-bold"></iconify-icon> Live equities · NYSE / NASDAQ </div><h1 class="text-[40px] sm:text-[52px] lg:text-[62px] leading-[0.95] font-black tracking-tight"> The numbers that<br><span class="text-amber">move before you do.</span></h1><p class="mt-6 max-w-xl text-[15px] leading-relaxed text-cream-soft"> A trading-floor view of your watchlist. Right-aligned tabular figures, live deltas, and inline sparklines, all rendered so the eye lands on the move, not the noise. </p><div class="mt-8 flex flex-wrap items-center gap-3"><button class="rounded-lg bg-amber px-5 py-3 text-sm font-semibold text-navy-950 transition-transform hover:scale-[1.03] active:scale-95 shadow-[0_10px_26px_-12px_rgba(240,180,41,0.85)]">Track a symbol</button><button class="rounded-lg border hairline bg-navy-900/50 px-5 py-3 text-sm font-medium text-cream-soft hover:border-amber/40 hover:text-amber transition-colors">View full screener</button></div></div><div class="lg:col-span-5"><div class="grid grid-cols-3 gap-3"><div class="card-sheen rounded-xl border hairline p-4"><div class="text-[11px] uppercase tracking-wider text-cream-dim">S&P 500</div><div class="mt-2 num text-[22px] font-bold">5,431</div><div class="num text-[12px] font-semibold text-up mt-1">+0.84%</div></div><div class="card-sheen rounded-xl border hairline p-4"><div class="text-[11px] uppercase tracking-wider text-cream-dim">Nasdaq</div><div class="mt-2 num text-[22px] font-bold">17,862</div><div class="num text-[12px] font-semibold text-up mt-1">+1.12%</div></div><div class="card-sheen rounded-xl border hairline p-4"><div class="text-[11px] uppercase tracking-wider text-cream-dim">VIX</div><div class="mt-2 num text-[22px] font-bold">13.9</div><div class="num text-[12px] font-semibold text-down mt-1">-2.40%</div></div></div><div class="mt-3 card-sheen rounded-xl border hairline p-4 flex items-center justify-between"><div><div class="text-[11px] uppercase tracking-wider text-cream-dim">Desk P&L · today</div><div class="num text-[26px] font-extrabold text-amber mt-1">+$48,210</div></div><div class="text-right"><div class="text-[11px] text-cream-dim">Win rate</div><div class="num text-[18px] font-bold text-up">68%</div></div></div></div></div></div></section><main class="mx-auto max-w-[1240px] px-6 lg:px-8 py-12 lg:py-16"><div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6"><div><h2 class="text-[26px] font-extrabold tracking-tight">Watchlist</h2><p class="text-sm text-cream-dim mt-1">12 positions · prices delayed 0s · refreshed just now</p></div><div class="flex items-center gap-3"><div class="relative"><iconify-icon icon="ph:magnifying-glass-bold" class="absolute left-3 top-1/2 -translate-y-1/2 text-cream-dim"></iconify-icon><input type="text" placeholder="Filter symbol…" class="num w-full sm:w-56 rounded-lg border hairline bg-navy-900/60 pl-9 pr-3 py-2.5 text-sm placeholder:text-cream-faint focus:outline-none focus:border-amber/50 focus:ring-2 focus:ring-amber/20 transition" /></div><button class="hidden sm:flex items-center gap-2 rounded-lg border hairline bg-navy-900/60 px-3.5 py-2.5 text-sm text-cream-soft hover:border-amber/40 hover:text-amber transition"><iconify-icon icon="ph:sliders-horizontal-bold"></iconify-icon> Columns </button></div></div><div class="rounded-2xl border hairline overflow-hidden card-sheen shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)]"><div class="h-[3px] w-full bg-gradient-to-r from-amber/0 via-amber to-amber/0"></div><div class="overflow-x-auto"><table class="w-full min-w-[860px] border-collapse"><thead><tr class="bg-navy-950/60 text-[11px] uppercase tracking-[0.14em] text-cream-dim border-b hairline"><th class="text-left font-semibold py-4 pl-6 pr-3"><span class="inline-flex items-center gap-1.5">Company <iconify-icon class="text-cream-faint" icon="ph:caret-up-down-bold"></iconify-icon></span></th><th class="text-left font-semibold py-4 px-3">Symbol</th><th class="text-right font-semibold py-4 px-3"><span class="inline-flex items-center gap-1.5">Last price <iconify-icon class="text-amber" icon="ph:caret-down-bold"></iconify-icon></span></th><th class="text-right font-semibold py-4 px-3">Change</th><th class="text-right font-semibold py-4 px-3">% Chg</th><th class="text-right font-semibold py-4 px-3 hidden md:table-cell">Volume</th><th class="text-right font-semibold py-4 px-3 hidden lg:table-cell">Mkt cap</th><th class="text-right font-semibold py-4 pr-6 pl-3">5-day trend</th></tr></thead><tbody class="text-[14px]" id="tbody"></tbody><tfoot><tr class="bg-amber/10 border-t-2 border-amber/40 text-[14px] font-bold"><td class="py-4 pl-6 pr-3"><span class="inline-flex items-center gap-2"><iconify-icon class="text-amber" icon="ph:sigma-bold"></iconify-icon> Portfolio total</span></td><td class="py-4 px-3 text-cream-dim font-medium text-[12px]">12 holdings</td><td class="num py-4 px-3 text-right" id="ft-price">—</td><td class="num py-4 px-3 text-right" id="ft-chg">—</td><td class="num py-4 px-3 text-right" id="ft-pct">—</td><td class="num py-4 px-3 text-right hidden md:table-cell" id="ft-vol">—</td><td class="num py-4 px-3 text-right hidden lg:table-cell" id="ft-cap">—</td><td class="py-4 pr-6 pl-3 text-right text-amber"><span class="num text-[12px]">net +2.9%</span></td></tr></tfoot></table></div><div class="flex flex-col sm:flex-row items-center justify-between gap-3 border-t hairline bg-navy-950/40 px-6 py-3.5 text-[12px] text-cream-dim"><span>Showing <span class="text-cream font-semibold num">12</span> of <span class="num">12</span> positions</span><div class="flex items-center gap-1.5"><button class="rounded-md border hairline px-2.5 py-1.5 hover:border-amber/40 hover:text-amber transition disabled:opacity-40" disabled><iconify-icon icon="ph:caret-left-bold"></iconify-icon></button><button class="rounded-md bg-amber px-3 py-1.5 num font-semibold text-navy-950">1</button><button class="rounded-md border hairline px-3 py-1.5 num hover:border-amber/40 hover:text-amber transition">2</button><button class="rounded-md border hairline px-3 py-1.5 num hover:border-amber/40 hover:text-amber transition">3</button><button class="rounded-md border hairline px-2.5 py-1.5 hover:border-amber/40 hover:text-amber transition"><iconify-icon icon="ph:caret-right-bold"></iconify-icon></button></div></div></div><div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-cream-faint num"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-up"></span> Gainer</span><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-down"></span> Decliner</span><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-amber"></span> Sparkline endpoint</span><span class="ml-auto">Figures are illustrative · not investment advice</span></div></main><footer class="w-full border-t hairline bg-navy-950"><div class="mx-auto max-w-[1240px] px-6 lg:px-8 py-10"><div class="flex flex-col md:flex-row items-center justify-between gap-6"><div class="flex items-center gap-3"><div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber text-navy-950 font-black">L</div><span class="text-sm text-cream-dim">Ledger Equities Desk · © 2026</span></div><div class="flex items-center gap-6 text-sm text-cream-dim"><a href="#" id="foot-terms" class="hover:text-amber transition-colors">Terms</a><a href="#" id="foot-sources" class="hover:text-amber transition-colors">Data sources</a><a href="#" id="foot-api" class="hover:text-amber transition-colors">API</a><a href="#" id="foot-status" class="hover:text-amber transition-colors">Status</a></div></div></div></footer></div><script>const rows = [ { name: 'Aurora Robotics', sym: 'ARBX', price: 248.12, chg: 4.31, pct: 1.77, vol: 12.4, cap: 412, spark: [230,235,232,240,238,245,248] }, { name: 'Helix Semiconductors',sym: 'HLXS', price: 102.55, chg: -2.18, pct: -2.08, vol: 28.1, cap: 188, spark: [110,108,109,105,104,103,102] }, { name: 'Meridian Energy', sym: 'MRDN', price: 64.90, chg: 0.84, pct: 1.31, vol: 9.7, cap: 96, spark: [62,63,62,64,63,64,65] }, { name: 'Cobalt Logistics', sym: 'CBLT', price: 31.07, chg: -0.42, pct: -1.33, vol: 15.3, cap: 41, spark: [33,32,33,31,32,31,31] }, { name: 'Northwind Pharma', sym: 'NWPH', price: 415.60, chg: 11.90, pct: 2.95, vol: 4.2, cap: 522, spark: [392,398,401,407,405,412,416] }, { name: 'Sable Financial', sym: 'SBFN', price: 88.24, chg: 1.05, pct: 1.20, vol: 6.8, cap: 134, spark: [85,86,87,86,87,88,88] }, { name: 'Verdant Foods', sym: 'VRDF', price: 19.43, chg: -0.31, pct: -1.57, vol: 22.6, cap: 28, spark: [20,20,19,20,19,19,19] }, { name: 'Lumen Display', sym: 'LMND', price: 137.78, chg: 6.02, pct: 4.57, vol: 11.9, cap: 201, spark: [124,128,130,129,133,135,138] }, { name: 'Atlas Mining', sym: 'ATMG', price: 53.16, chg: -1.74, pct: -3.17, vol: 18.5, cap: 72, spark: [57,56,55,56,54,54,53] }, { name: 'Quanta Cloud', sym: 'QTAC', price: 309.45, chg: 8.67, pct: 2.88, vol: 7.3, cap: 388, spark: [290,295,298,302,300,306,309] }, { name: 'Drift Mobility', sym: 'DRFT', price: 12.08, chg: 0.19, pct: 1.60, vol: 41.0, cap: 18, spark: [11,11,12,11,12,12,12] }, { name: 'Orion Telecom', sym: 'ORTL', price: 76.51, chg: -0.58, pct: -0.75, vol: 9.1, cap: 110, spark: [78,77,78,77,76,77,76] }, ]; function sparkline(data, up) { const w = 116, h = 34, pad = 3; const min = Math.min(...data), max = Math.max(...data); const range = (max - min) || 1; const stepX = (w - pad * 2) / (data.length - 1); const pts = data.map((v, i) => { const x = pad + i * stepX; const y = pad + (h - pad * 2) * (1 - (v - min) / range); return [x, y]; }); const line = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' '); const area = line + ` L${pts[pts.length-1][0].toFixed(1)} ${h-pad} L${pts[0][0].toFixed(1)} ${h-pad} Z`; const stroke = up ? '#3fcf8e' : '#f06d6d'; const fill = up ? 'rgba(63,207,142,0.16)' : 'rgba(240,109,109,0.16)'; const last = pts[pts.length - 1]; return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" class="inline-block align-middle overflow-visible"><path d="${area}" fill="${fill}"/><path d="${line}" fill="none" stroke="${stroke}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.6" fill="#f0b429" stroke="#0b1f3a" stroke-width="1"/></svg>`; } const tbody = document.getElementById('tbody'); let tPrice = 0, tChg = 0, tVol = 0, tCap = 0; rows.forEach((r, i) => { const up = r.chg >= 0; const cls = up ? 'text-up' : 'text-down'; const arrow = up ? 'ph:trend-up-bold' : 'ph:trend-down-bold'; const sign = up ? '+' : ''; tPrice += r.price; tChg += r.chg; tVol += r.vol; tCap += r.cap; const tr = document.createElement('tr'); tr.className = 'row-hover border-b hairline transition-colors' + (i % 2 ? ' bg-navy-950/25' : ''); tr.innerHTML = `<td class="py-3.5 pl-6 pr-3"><div class="flex items-center gap-3"><div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-navy-700 text-[11px] font-bold text-cream-soft num ring-1 ${up ? 'ring-up/30' : 'ring-down/30'}">${r.sym.slice(0,2)}</div><span class="font-medium text-cream">${r.name}</span></div></td><td class="py-3.5 px-3"><span class="num rounded-md bg-navy-950/60 border hairline px-2 py-0.5 text-[12px] font-semibold tracking-wide text-cream-soft">${r.sym}</span></td><td class="num py-3.5 px-3 text-right font-semibold text-[15px]">${r.price.toFixed(2)}</td><td class="num py-3.5 px-3 text-right font-semibold ${cls}">${sign}${r.chg.toFixed(2)}</td><td class="num py-3.5 px-3 text-right"><span class="inline-flex items-center justify-end gap-1 rounded-full ${up ? 'bg-up/10' : 'bg-down/10'} px-2 py-0.5 font-semibold ${cls}"><iconify-icon class="text-[12px]" icon="${arrow}"></iconify-icon>${sign}${r.pct.toFixed(2)}%</span></td><td class="num py-3.5 px-3 text-right text-cream-soft hidden md:table-cell">${r.vol.toFixed(1)}M</td><td class="num py-3.5 px-3 text-right text-cream-soft hidden lg:table-cell">$${r.cap}B</td><td class="py-3.5 pr-6 pl-3"><div class="flex justify-end">${sparkline(r.spark, up)}</div></td>`; tbody.appendChild(tr); }); const netUp = tChg >= 0; document.getElementById('ft-price').innerHTML = `<span class="text-cream">$${tPrice.toFixed(2)}</span>`; document.getElementById('ft-chg').innerHTML = `<span class="${netUp?'text-up':'text-down'}">${netUp?'+':''}${tChg.toFixed(2)}</span>`; document.getElementById('ft-pct').innerHTML = `<span class="${netUp?'text-up':'text-down'}">+2.9%</span>`; document.getElementById('ft-vol').innerHTML = `<span class="text-cream-soft">${tVol.toFixed(1)}M</span>`; document.getElementById('ft-cap').innerHTML = `<span class="text-amber">$${tCap.toLocaleString()}B</span>`; const tickItems = rows.map(r => { const up = r.chg >= 0; return `<span class="inline-flex items-center gap-1.5"><span class="font-bold text-cream-soft">${r.sym}</span><span class="text-cream-dim">${r.price.toFixed(2)}</span><span class="${up?'text-up':'text-down'} font-semibold">${up?'▲':'▼'} ${Math.abs(r.pct).toFixed(2)}%</span></span>`; }).join(''); document.getElementById('tick-a').innerHTML = tickItems; document.getElementById('tick-b').innerHTML = tickItems;</script></body></html>

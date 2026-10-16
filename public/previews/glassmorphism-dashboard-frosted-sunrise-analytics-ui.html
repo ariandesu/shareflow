@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frosted Sunrise — Analytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Space Grotesk"','system-ui','sans-serif'],
+            sans: ['Inter','system-ui','sans-serif'],
+            mono: ['"JetBrains Mono"','monospace'],
+          },
+          colors: {
+            ink: '#1c1512', sub: '#5c5049', muted: '#8a7768',
+            coral: '#f2521b', coraldeep: '#d8410f', amber: '#ef8f2a',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html,body{background:#fbeee6;}
+    .aurora{
+      position:fixed; inset:0; z-index:0; overflow:hidden;
+      background:
+        radial-gradient(60rem 40rem at 12% -8%, #ffd9a8 0%, rgba(255,217,168,0) 60%),
+        radial-gradient(55rem 42rem at 88% 4%, #ff9d7a 0%, rgba(255,157,122,0) 58%),
+        radial-gradient(52rem 40rem at 78% 92%, #ffb27a 0%, rgba(255,178,122,0) 60%),
+        radial-gradient(48rem 40rem at 8% 96%, #ff8fa0 0%, rgba(255,143,160,0) 62%),
+        linear-gradient(160deg, #fff2e6 0%, #ffe4d1 42%, #ffd9c4 100%);
+    }
+    .aurora::after{
+      content:""; position:absolute; inset:-10%;
+      background:
+        radial-gradient(30rem 22rem at 62% 30%, rgba(242,82,27,0.13) 0%, rgba(242,82,27,0) 60%),
+        radial-gradient(26rem 20rem at 30% 62%, rgba(255,193,110,0.20) 0%, rgba(255,193,110,0) 62%);
+      filter:blur(8px);
+    }
+    .glass{
+      background:linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,255,255,0.56));
+      backdrop-filter:blur(22px) saturate(150%); -webkit-backdrop-filter:blur(22px) saturate(150%);
+      border:1px solid rgba(255,255,255,0.78);
+      box-shadow:0 10px 30px -12px rgba(120,60,20,0.28), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .glass-soft{
+      background:linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.42));
+      backdrop-filter:blur(16px) saturate(140%); -webkit-backdrop-filter:blur(16px) saturate(140%);
+      border:1px solid rgba(255,255,255,0.72);
+      box-shadow:0 6px 18px -10px rgba(120,60,20,0.22), inset 0 1px 0 rgba(255,255,255,0.55);
+    }
+    .rail{
+      background:linear-gradient(180deg, rgba(255,255,255,0.68), rgba(255,255,255,0.48));
+      backdrop-filter:blur(22px) saturate(150%); -webkit-backdrop-filter:blur(22px) saturate(150%);
+      border:1px solid rgba(255,255,255,0.72);
+      box-shadow:0 14px 40px -16px rgba(120,60,20,0.3), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .num{font-family:'JetBrains Mono',monospace; font-feature-settings:'tnum' 1;}
+    .ico{stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; fill:none;}
+    ::-webkit-scrollbar{width:10px;height:10px}
+    ::-webkit-scrollbar-thumb{background:rgba(160,110,70,.28);border-radius:9px;border:3px solid transparent;background-clip:content-box}
+  </style>
+
+<meta name="preview-version" content="54ebcb03-7c2b-4c79-90f0-5e3a384ac9e6" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:43.562Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "54ebcb03-7c2b-4c79-90f0-5e3a384ac9e6");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "54ebcb03-7c2b-4c79-90f0-5e3a384ac9e6",
+      timestamp: "2026-10-16T14:07:43.562Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "54ebcb03-7c2b-4c79-90f0-5e3a384ac9e6";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="aurora"></div>
+  
+  <div class="relative z-10 min-h-dvh flex p-3 sm:p-4 gap-4">
+    <!-- LEFT ICON RAIL -->
+    <aside class="rail rounded-3xl shrink-0 w-[76px] sticky top-4 self-start h-[calc(100dvh-2rem)] hidden sm:flex flex-col items-center py-5">
+      <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-coral to-amber grid place-items-center shadow-lg shadow-coral/30 text-white">
+        <svg viewBox="0 0 24 24" class="ico w-6 h-6"><circle cx="12" cy="13" r="4"/><path d="M12 4v2M4.9 7.9l1.4 1.4M17.7 9.3l1.4-1.4M2.5 13h2M19.5 13h2M3 18h18"/></svg>
+      </div>
+      <nav class="mt-8 flex flex-col items-center gap-2 flex-1">
+        <a id="nav-dash" href="#" class="w-12 h-12 rounded-2xl grid place-items-center bg-gradient-to-br from-coral to-coraldeep text-white shadow-md shadow-coral/35">
+          <svg viewBox="0 0 24 24" class="ico w-6 h-6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+        </a>
+        <a id="nav-stats" href="#" class="w-12 h-12 rounded-2xl grid place-items-center text-sub hover:bg-white/60 hover:text-ink transition">
+          <svg viewBox="0 0 24 24" class="ico w-6 h-6"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </a>
+        <a id="nav-wallet" href="#" class="w-12 h-12 rounded-2xl grid place-items-center text-sub hover:bg-white/60 hover:text-ink transition">
+          <svg viewBox="0 0 24 24" class="ico w-6 h-6"><path d="M19 7V5a2 2 0 0 0-2-2H6a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h13a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2H6a3 3 0 0 1-3-3"/><circle cx="16.5" cy="13.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a id="nav-users" href="#" class="w-12 h-12 rounded-2xl grid place-items-center text-sub hover:bg-white/60 hover:text-ink transition">
+          <svg viewBox="0 0 24 24" class="ico w-6 h-6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </a>
+        <a id="nav-billing" href="#" class="w-12 h-12 rounded-2xl grid place-items-center text-sub hover:bg-white/60 hover:text-ink transition">
+          <svg viewBox="0 0 24 24" class="ico w-6 h-6"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+        </a>
+        <a id="nav-settings" href="#" class="w-12 h-12 rounded-2xl grid place-items-center text-sub hover:bg-white/60 hover:text-ink transition">
+          <svg viewBox="0 0 24 24" class="ico w-6 h-6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+        </a>
+      </nav>
+      <div class="flex flex-col items-center gap-3">
+        <a id="nav-help" href="#" class="w-12 h-12 rounded-2xl grid place-items-center text-sub hover:bg-white/60 hover:text-ink transition">
+          <svg viewBox="0 0 24 24" class="ico w-6 h-6"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        </a>
+        <img src="https://i.pravatar.cc/80?img=13" class="w-10 h-10 rounded-full ring-2 ring-white/80 object-cover" alt="You" onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 min-w-0 flex flex-col gap-4">
+      <!-- TOP BAR -->
+      <header class="glass rounded-3xl px-4 sm:px-6 py-3.5 flex items-center gap-3 sticky top-4 z-20">
+        <div class="min-w-0">
+          <h1 class="font-display text-xl sm:text-2xl font-semibold tracking-tight leading-none">Overview</h1>
+          <p class="text-[13px] text-muted mt-1 hidden sm:block">Welcome back, Maya · here's your store today</p>
+        </div>
+        <div class="ml-auto flex items-center gap-2 sm:gap-3">
+          <label class="hidden md:flex items-center gap-2 glass-soft rounded-2xl px-3.5 h-11 w-52 lg:w-72 text-muted">
+            <svg viewBox="0 0 24 24" class="ico w-[18px] h-[18px] shrink-0"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input placeholder="Search reports, metrics…" class="bg-transparent outline-none text-sm placeholder:text-muted text-ink w-full">
+            <kbd class="num text-[11px] text-muted bg-white/70 border border-white/80 rounded-md px-1.5 py-0.5">⌘K</kbd>
+          </label>
+          <button class="glass-soft rounded-2xl h-11 px-3.5 flex items-center gap-2 text-sm font-medium text-sub hover:text-ink transition">
+            <svg viewBox="0 0 24 24" class="ico w-[18px] h-[18px] text-coral"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span class="hidden sm:inline">Last 30 days</span>
+            <svg viewBox="0 0 24 24" class="ico w-3.5 h-3.5"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <button class="glass-soft rounded-2xl w-11 h-11 grid place-items-center relative text-sub hover:text-ink transition">
+            <svg viewBox="0 0 24 24" class="ico w-[19px] h-[19px]"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-coral ring-2 ring-white/80"></span>
+          </button>
+          <div class="glass-soft rounded-2xl h-11 pl-1.5 pr-3 flex items-center gap-2">
+            <img src="https://i.pravatar.cc/80?img=32" class="w-8 h-8 rounded-xl object-cover" alt="" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1a1a1a/888?text=Image';">
+            <div class="hidden lg:block leading-tight">
+              <p class="text-[13px] font-semibold">Maya Okonkwo</p>
+              <p class="text-[11px] text-muted">Admin</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- KPI ROW -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div class="glass rounded-3xl p-5">
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-2xl bg-coral/12 grid place-items-center text-coral">
+              <svg viewBox="0 0 24 24" class="ico w-5 h-5"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <span class="num text-xs font-semibold text-emerald-700 bg-emerald-500/12 rounded-full pl-1.5 pr-2 py-1 flex items-center gap-0.5">
+              <svg viewBox="0 0 24 24" class="ico w-3 h-3"><path d="M5 12 12 5l7 7"/><path d="M12 19V6"/></svg>12.4%
+            </span>
+          </div>
+          <p class="text-[13px] text-sub mt-4">Total revenue</p>
+          <p class="num text-[28px] font-bold tracking-tight leading-none mt-1">$84,231</p>
+          <svg viewBox="0 0 120 28" class="w-full h-6 mt-3" preserveAspectRatio="none"><polyline points="0,22 15,20 30,23 45,16 60,18 75,11 90,13 105,6 120,4" fill="none" stroke="#f2521b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="glass rounded-3xl p-5">
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-2xl bg-amber/15 grid place-items-center text-amber">
+              <svg viewBox="0 0 24 24" class="ico w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="num text-xs font-semibold text-emerald-700 bg-emerald-500/12 rounded-full pl-1.5 pr-2 py-1 flex items-center gap-0.5">
+              <svg viewBox="0 0 24 24" class="ico w-3 h-3"><path d="M5 12 12 5l7 7"/><path d="M12 19V6"/></svg>8.2%
+            </span>
+          </div>
+          <p class="text-[13px] text-sub mt-4">Active users</p>
+          <p class="num text-[28px] font-bold tracking-tight leading-none mt-1">12,847</p>
+          <svg viewBox="0 0 120 28" class="w-full h-6 mt-3" preserveAspectRatio="none"><polyline points="0,20 15,17 30,19 45,14 60,15 75,12 90,14 105,9 120,7" fill="none" stroke="#ef8f2a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="glass rounded-3xl p-5">
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-2xl bg-rose-400/15 grid place-items-center text-rose-500">
+              <svg viewBox="0 0 24 24" class="ico w-5 h-5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <span class="num text-xs font-semibold text-rose-600 bg-rose-500/12 rounded-full pl-1.5 pr-2 py-1 flex items-center gap-0.5">
+              <svg viewBox="0 0 24 24" class="ico w-3 h-3"><path d="M19 12 12 19l-7-7"/><path d="M12 5v13"/></svg>0.6%
+            </span>
+          </div>
+          <p class="text-[13px] text-sub mt-4">Conversion rate</p>
+          <p class="num text-[28px] font-bold tracking-tight leading-none mt-1">3.94%</p>
+          <svg viewBox="0 0 120 28" class="w-full h-6 mt-3" preserveAspectRatio="none"><polyline points="0,10 15,8 30,12 45,11 60,14 75,13 90,16 105,15 120,18" fill="none" stroke="#fb7185" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="glass rounded-3xl p-5">
+          <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-2xl bg-coral/12 grid place-items-center text-coraldeep">
+              <svg viewBox="0 0 24 24" class="ico w-5 h-5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <span class="num text-xs font-semibold text-emerald-700 bg-emerald-500/12 rounded-full pl-1.5 pr-2 py-1 flex items-center gap-0.5">
+              <svg viewBox="0 0 24 24" class="ico w-3 h-3"><path d="M5 12 12 5l7 7"/><path d="M12 19V6"/></svg>4.1%
+            </span>
+          </div>
+          <p class="text-[13px] text-sub mt-4">Avg. order value</p>
+          <p class="num text-[28px] font-bold tracking-tight leading-none mt-1">$128.40</p>
+          <svg viewBox="0 0 120 28" class="w-full h-6 mt-3" preserveAspectRatio="none"><polyline points="0,18 15,19 30,15 45,16 60,12 75,13 90,10 105,11 120,8" fill="none" stroke="#d8410f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </section>
+
+      <!-- CHART + DONUT ROW -->
+      <section class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+        <div class="glass rounded-3xl p-5 sm:p-6 xl:col-span-2">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 class="font-display text-lg font-semibold tracking-tight">Revenue over time</h2>
+              <p class="text-[13px] text-muted mt-0.5">Gross sales, last 12 months</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="flex items-center gap-2 text-[13px] text-sub"><span class="w-2.5 h-2.5 rounded-full bg-coral"></span>This year</div>
+              <div class="flex items-center gap-2 text-[13px] text-muted"><span class="w-2.5 h-2.5 rounded-full bg-amber/60"></span>Last year</div>
+            </div>
+          </div>
+          <div class="mt-5">
+            <svg viewBox="0 0 720 240" class="w-full h-[220px]" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f2521b" stop-opacity="0.34"/>
+                  <stop offset="100%" stop-color="#f2521b" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="#7a5a44" stroke-opacity="0.12" stroke-width="1">
+                <line x1="40" y1="20" x2="700" y2="20"/><line x1="40" y1="77" x2="700" y2="77"/>
+                <line x1="40" y1="134" x2="700" y2="134"/><line x1="40" y1="191" x2="700" y2="191"/>
+              </g>
+              <path d="M40,190 Q98,178 127,180 Q156,182 185,172 Q214,162 243,158 Q272,153 301,155 Q330,157 360,148 Q389,140 418,140 Q447,140 476,134 Q505,128 534,124 Q563,120 592,114 Q621,108 650,105 L680,100"
+                    fill="none" stroke="#ef8f2a" stroke-opacity="0.55" stroke-width="2.5" stroke-dasharray="5 6" stroke-linecap="round"/>
+              <path d="M40,183.3 Q98.2,163.3 127.3,168.3 Q156.4,173.3 185.45,160 Q214.5,146.7 243.6,135 Q272.7,123.3 301.8,126.65 Q330.9,130 360,115 Q389.1,100 418.2,91.65 Q447.3,83.3 476.4,88.3 Q505.5,93.3 534.55,78.3 Q563.6,63.3 592.7,53.3 Q621.8,43.3 650.9,31.65 L680,20 L680,210 L40,210 Z"
+                    fill="url(#areaFill)"/>
+              <path d="M40,183.3 Q98.2,163.3 127.3,168.3 Q156.4,173.3 185.45,160 Q214.5,146.7 243.6,135 Q272.7,123.3 301.8,126.65 Q330.9,130 360,115 Q389.1,100 418.2,91.65 Q447.3,83.3 476.4,88.3 Q505.5,93.3 534.55,78.3 Q563.6,63.3 592.7,53.3 Q621.8,43.3 650.9,31.65 L680,20"
+                    fill="none" stroke="#f2521b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="621.8" cy="43.3" r="4" fill="#fff" stroke="#f2521b" stroke-width="2.5"/>
+              <circle cx="680" cy="20" r="5.5" fill="#f2521b" stroke="#fff" stroke-width="2.5"/>
+            </svg>
+            <div class="num flex justify-between text-[11px] text-muted mt-2 px-1">
+              <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass rounded-3xl p-5 sm:p-6 flex flex-col">
+          <h2 class="font-display text-lg font-semibold tracking-tight">Traffic sources</h2>
+          <p class="text-[13px] text-muted mt-0.5">Where visitors came from</p>
+          <div class="relative mx-auto my-4 w-[180px] h-[180px]">
+            <svg viewBox="0 0 200 200" class="w-full h-full -rotate-90">
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="26"/>
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#f2521b" stroke-width="26" stroke-linecap="round" stroke-dasharray="211.1 228.7" stroke-dashoffset="0"/>
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#ef8f2a" stroke-width="26" stroke-linecap="round" stroke-dasharray="118.75 321.07" stroke-dashoffset="-213"/>
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#fb7185" stroke-width="26" stroke-linecap="round" stroke-dasharray="65.97 373.85" stroke-dashoffset="-333"/>
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#e2b98f" stroke-width="26" stroke-linecap="round" stroke-dasharray="43.98 395.84" stroke-dashoffset="-401"/>
+            </svg>
+            <div class="absolute inset-0 grid place-content-center text-center">
+              <p class="num text-[26px] font-bold leading-none">48.2k</p>
+              <p class="text-[11px] text-muted mt-1">visitors</p>
+            </div>
+          </div>
+          <ul class="space-y-2.5 mt-1">
+            <li class="flex items-center gap-2.5 text-sm"><span class="w-2.5 h-2.5 rounded-full bg-coral"></span>Organic<span class="ml-auto num font-semibold">48%</span></li>
+            <li class="flex items-center gap-2.5 text-sm"><span class="w-2.5 h-2.5 rounded-full bg-amber"></span>Referral<span class="ml-auto num font-semibold">27%</span></li>
+            <li class="flex items-center gap-2.5 text-sm"><span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>Social<span class="ml-auto num font-semibold">15%</span></li>
+            <li class="flex items-center gap-2.5 text-sm"><span class="w-2.5 h-2.5 rounded-full" style="background:#e2b98f"></span>Direct<span class="ml-auto num font-semibold">10%</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- TABLE + GOALS ROW -->
+      <section class="grid grid-cols-1 xl:grid-cols-3 gap-4 pb-2">
+        <div class="glass rounded-3xl p-5 sm:p-6 xl:col-span-2 overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="font-display text-lg font-semibold tracking-tight">Recent transactions</h2>
+              <p class="text-[13px] text-muted mt-0.5">Latest 6 orders</p>
+            </div>
+            <button class="text-[13px] font-semibold text-coral hover:text-coraldeep flex items-center gap-1">View all
+              <svg viewBox="0 0 24 24" class="ico w-3.5 h-3.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+          <div class="overflow-x-auto -mx-1 px-1">
+            <table class="w-full text-left border-collapse min-w-[560px]">
+              <thead>
+                <tr class="text-[11px] uppercase tracking-wider text-muted">
+                  <th class="font-semibold pb-3 pr-3">Customer</th>
+                  <th class="font-semibold pb-3 pr-3">Plan</th>
+                  <th class="font-semibold pb-3 pr-3">Date</th>
+                  <th class="font-semibold pb-3 pr-3">Status</th>
+                  <th class="font-semibold pb-3 text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr class="border-t border-white/60">
+                  <td class="py-3 pr-3"><div class="flex items-center gap-3"><img src="https://i.pravatar.cc/64?img=5" class="w-8 h-8 rounded-full object-cover" alt="" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1a1a1a/888?text=Image';"><div class="leading-tight"><p class="font-semibold">Anna Sørensen</p><p class="text-[12px] text-muted">anna@lumen.io</p></div></div></td>
+                  <td class="py-3 pr-3 text-sub">Enterprise</td>
+                  <td class="py-3 pr-3 num text-sub">Jun 14</td>
+                  <td class="py-3 pr-3"><span class="text-[12px] font-semibold text-amber bg-amber/12 rounded-full px-2.5 py-1">Processing</span></td>
+                  <td class="py-3 num font-semibold text-right">$1,499.00</td>
+                </tr>
+                <tr class="border-t border-white/60">
+                  <td class="py-3 pr-3"><div class="flex items-center gap-3"><img src="https://i.pravatar.cc/64?img=12" class="w-8 h-8 rounded-full object-cover" alt="" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1a1a1a/888?text=Image';"><div class="leading-tight"><p class="font-semibold">Mike Johnson</p><p class="text-[12px] text-muted">mike@teambundle.co</p></div></div></td>
+                  <td class="py-3 pr-3 text-sub">Team Bundle</td>
+                  <td class="py-3 pr-3 num text-sub">Jun 13</td>
+                  <td class="py-3 pr-3"><span class="text-[12px] font-semibold text-emerald-700 bg-emerald-500/12 rounded-full px-2.5 py-1">Completed</span></td>
+                  <td class="py-3 num font-semibold text-right">$599.00</td>
+                </tr>
+                <tr class="border-t border-white/60">
+                  <td class="py-3 pr-3"><div class="flex items-center gap-3"><img src="https://i.pravatar.cc/64?img=47" class="w-8 h-8 rounded-full object-cover" alt="" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1a1a1a/888?text=Image';"><div class="leading-tight"><p class="font-semibold">Emily White</p><p class="text-[12px] text-muted">emily@starter.app</p></div></div></td>
+                  <td class="py-3 pr-3 text-sub">Starter</td>
+                  <td class="py-3 pr-3 num text-sub">Jun 12</td>
+                  <td class="py-3 pr-3"><span class="text-[12px] font-semibold text-rose-600 bg-rose-500/12 rounded-full px-2.5 py-1">Pending</span></td>
+                  <td class="py-3 num font-semibold text-right">$49.00</td>
+                </tr>
+                <tr class="border-t border-white/60">
+                  <td class="py-3 pr-3"><div class="flex items-center gap-3"><img src="https://i.pravatar.cc/64?img=15" class="w-8 h-8 rounded-full object-cover" alt="" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1a1a1a/888?text=Image';"><div class="leading-tight"><p class="font-semibold">Robert Brown</p><p class="text-[12px] text-muted">rob@proannual.com</p></div></div></td>
+                  <td class="py-3 pr-3 text-sub">Pro Annual</td>
+                  <td class="py-3 pr-3 num text-sub">Jun 11</td>
+                  <td class="py-3 pr-3"><span class="text-[12px] font-semibold text-emerald-700 bg-emerald-500/12 rounded-full px-2.5 py-1">Completed</span></td>
+                  <td class="py-3 num font-semibold text-right">$199.00</td>
+                </tr>
+                <tr class="border-t border-white/60">
+                  <td class="py-3 pr-3"><div class="flex items-center gap-3"><img src="https://i.pravatar.cc/64?img=26" class="w-8 h-8 rounded-full object-cover" alt="" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1a1a1a/888?text=Image';"><div class="leading-tight"><p class="font-semibold">Priya Nair</p><p class="text-[12px] text-muted">priya@growth.dev</p></div></div></td>
+                  <td class="py-3 pr-3 text-sub">Growth</td>
+                  <td class="py-3 pr-3 num text-sub">Jun 10</td>
+                  <td class="py-3 pr-3"><span class="text-[12px] font-semibold text-emerald-700 bg-emerald-500/12 rounded-full px-2.5 py-1">Completed</span></td>
+                  <td class="py-3 num font-semibold text-right">$349.00</td>
+                </tr>
+                <tr class="border-t border-white/60">
+                  <td class="py-3 pr-3"><div class="flex items-center gap-3"><img src="https://i.pravatar.cc/64?img=52" class="w-8 h-8 rounded-full object-cover" alt="" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1a1a1a/888?text=Image';"><div class="leading-tight"><p class="font-semibold">Diego Ramos</p><p class="text-[12px] text-muted">diego@studio.mx</p></div></div></td>
+                  <td class="py-3 pr-3 text-sub">Team Bundle</td>
+                  <td class="py-3 pr-3 num text-sub">Jun 09</td>
+                  <td class="py-3 pr-3"><span class="text-[12px] font-semibold text-amber bg-amber/12 rounded-full px-2.5 py-1">Processing</span></td>
+                  <td class="py-3 num font-semibold text-right">$599.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass rounded-3xl p-5 sm:p-6 flex flex-col">
+          <div class="flex items-center justify-between">
+            <h2 class="font-display text-lg font-semibold tracking-tight">Monthly goal</h2>
+            <span class="num text-[12px] font-semibold text-coral bg-coral/12 rounded-full px-2.5 py-1">78%</span>
+          </div>
+          <p class="text-[13px] text-muted mt-0.5">$84.2k of $108k target</p>
+          <div class="mx-auto my-5 relative w-[150px] h-[150px]">
+            <svg viewBox="0 0 200 200" class="w-full h-full -rotate-90">
+              <circle cx="100" cy="100" r="76" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="20"/>
+              <circle cx="100" cy="100" r="76" fill="none" stroke="#f2521b" stroke-width="20" stroke-linecap="round" stroke-dasharray="372.4 477.5" stroke-dashoffset="0"/>
+            </svg>
+            <div class="absolute inset-0 grid place-content-center text-center">
+              <p class="num text-[30px] font-bold leading-none">78%</p>
+              <p class="text-[11px] text-muted mt-1">on track</p>
+            </div>
+          </div>
+          <div class="space-y-4 mt-1">
+            <div>
+              <div class="flex justify-between text-[13px] mb-1.5"><span class="text-sub font-medium">New subscriptions</span><span class="num font-semibold">85%</span></div>
+              <div class="h-2 rounded-full bg-white/60 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-coral to-amber" style="width:85%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-[13px] mb-1.5"><span class="text-sub font-medium">Expansion revenue</span><span class="num font-semibold">62%</span></div>
+              <div class="h-2 rounded-full bg-white/60 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-coral to-amber" style="width:62%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-[13px] mb-1.5"><span class="text-sub font-medium">Retention</span><span class="num font-semibold">94%</span></div>
+              <div class="h-2 rounded-full bg-white/60 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-coral to-amber" style="width:94%"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

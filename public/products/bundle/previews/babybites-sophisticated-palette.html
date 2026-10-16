@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyBites - Solid Food Guide</title>
+    <meta name="view-transition" content="same-origin">
+    <!-- Prefetch flow pages for instant navigation -->
+    <link rel="prefetch" href="https://p.superdesign.dev/draft/ec3e93c6-b583-44de-86ed-3ab0f286a7dc" as="document">
+    <link rel="prefetch" href="https://p.superdesign.dev/draft/d48cb14f-eefc-405d-8c9c-cda1c9fe5e52" as="document">
+    <link rel="prefetch" href="https://p.superdesign.dev/draft/a624041e-e084-4977-a4d1-bf85ef18e4d8" as="document">
+    <link rel="prefetch" href="https://p.superdesign.dev/draft/e7732ebf-acb1-4f57-ba89-092c1d2c38b2" as="document">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#171e19',
+                        graygreen: '#b7c6c2',
+                        red: '#ca0013',
+                        offwhite: '#eeebe3',
+                        white: '#ffffff'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=nunito@200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #eeebe3;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* View Transitions */
+        html { background-color: #eeebe3; }
+        @view-transition { navigation: auto; }
+        ::view-transition { background-color: #eeebe3; }
+
+        ::view-transition-old(header),
+        ::view-transition-new(header),
+        ::view-transition-old(main-nav),
+        ::view-transition-new(main-nav) {
+            animation: none;
+            mix-blend-mode: normal;
+        }
+
+        ::view-transition-old(main-content) {
+            animation: 0.25s ease-out both fade-out;
+        }
+        ::view-transition-new(main-content) {
+            animation: 0.25s ease-in 0.1s both fade-in;
+        }
+
+        @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation: none;
+            mix-blend-mode: normal;
+        }
+    </style>
+
+<meta name="preview-version" content="24a95c14-3a85-492f-b2d5-9c64023f4836" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:18.191Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "24a95c14-3a85-492f-b2d5-9c64023f4836");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "24a95c14-3a85-492f-b2d5-9c64023f4836",
+      timestamp: "2026-10-16T14:07:18.191Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "24a95c14-3a85-492f-b2d5-9c64023f4836";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+    <!-- Root Container -->
+    <div class="w-full min-h-screen flex flex-col bg-offwhite text-charcoal relative overflow-hidden">
+        
+        <!-- Decorative Background Elements -->
+        <div class="absolute top-[-10%] right-[-20%] w-[300px] h-[300px] bg-red rounded-full blur-3xl opacity-10 pointer-events-none"></div>
+        <div class="absolute top-[20%] left-[-10%] w-[200px] h-[200px] bg-graygreen rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+
+        <!-- Header -->
+        <header class="pt-14 px-6 pb-2 shrink-0 flex justify-between items-center z-10" style="view-transition-name: header;">
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-2xl">☀️</span>
+                    <h1 class="text-lg font-bold text-graygreen uppercase tracking-wide">Good Morning</h1>
+                </div>
+                <h2 class="text-3xl font-extrabold text-charcoal leading-tight">Hi, Sarah!</h2>
+                <div class="flex items-center gap-2 mt-2">
+                    <div class="bg-graygreen/20 text-charcoal px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <iconify-icon icon="lucide:baby"></iconify-icon>
+                        Leo is 6 months
+                    </div>
+                </div>
+            </div>
+            <button class="relative group">
+                <div class="w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-red/10">
+                    <img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df4?q=80&w=100&auto=format&fit=crop" alt="Profile" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/100x400/1a1a1a/888?text=Image';">
+                </div>
+                <div class="absolute bottom-0 right-0 w-4 h-4 bg-red border-2 border-white rounded-full"></div>
+            </button>
+        </header>
+
+        <!-- Age Selector (Stickyish) -->
+        <section class="pt-6 pb-4">
+            <div class="flex gap-4 overflow-x-auto hide-scrollbar px-6 snap-x">
+                <!-- Month 4 -->
+                <button class="flex-shrink-0 snap-center w-14 h-14 rounded-2xl bg-white border border-graygreen/30 shadow-sm flex flex-col items-center justify-center gap-0.5 text-graygreen opacity-80 hover:opacity-100 transition-all">
+                    <span class="text-xs font-bold">MO</span>
+                    <span class="text-lg font-black">4</span>
+                </button>
+                <!-- Month 5 -->
+                <button class="flex-shrink-0 snap-center w-14 h-14 rounded-2xl bg-white border border-graygreen/30 shadow-sm flex flex-col items-center justify-center gap-0.5 text-graygreen opacity-80 hover:opacity-100 transition-all">
+                    <span class="text-xs font-bold">MO</span>
+                    <span class="text-lg font-black">5</span>
+                </button>
+                <!-- Month 6 (Active) -->
+                <button class="flex-shrink-0 snap-center pl-2 pr-5 h-14 rounded-full bg-charcoal shadow-lg shadow-graygreen/40 flex items-center gap-3 transition-all scale-105 transform origin-center">
+                    <div class="w-10 h-10 rounded-full bg-red flex items-center justify-center text-white font-black text-lg shadow-inner">
+                        6
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-xs text-graygreen font-bold uppercase tracking-wider">Month</span>
+                        <span class="block text-sm text-white font-bold">Current</span>
+                    </div>
+                </button>
+                <!-- Month 7 -->
+                <button class="flex-shrink-0 snap-center w-14 h-14 rounded-2xl bg-white border border-graygreen/30 shadow-sm flex flex-col items-center justify-center gap-0.5 text-graygreen opacity-80 hover:opacity-100 transition-all">
+                    <span class="text-xs font-bold">MO</span>
+                    <span class="text-lg font-black">7</span>
+                </button>
+                 <!-- Month 8 -->
+                 <button class="flex-shrink-0 snap-center w-14 h-14 rounded-2xl bg-white border border-graygreen/30 shadow-sm flex flex-col items-center justify-center gap-0.5 text-graygreen opacity-80 hover:opacity-100 transition-all">
+                    <span class="text-xs font-bold">MO</span>
+                    <span class="text-lg font-black">8</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Content Feed -->
+        <main class="flex-1 overflow-y-auto hide-scrollbar pb-32 px-6" style="view-transition-name: main-content;">
+            
+            <!-- Section Header -->
+            <div class="flex justify-between items-end mb-5 mt-2">
+                <div>
+                    <h3 class="text-xl font-black text-charcoal">Let's try this!</h3>
+                    <p class="text-sm text-charcoal/70 font-medium">Highly recommended for Month 6</p>
+                </div>
+                <a href="#" id="view-all-link" class="text-red text-sm font-bold bg-red/10 px-3 py-1 rounded-lg hover:bg-red/20 transition-colors">View All</a>
+            </div>
+
+            <!-- Hero Card: Avocado -->
+            <div class="bg-white rounded-[2.5rem] p-1 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] border border-graygreen/20 relative mb-8">
+                <a href="https://p.superdesign.dev/draft/ec3e93c6-b583-44de-86ed-3ab0f286a7dc" id="hero-food-link" class="block bg-offwhite/50 rounded-[2rem] p-6 pb-8 relative overflow-hidden">
+                    <!-- Decorative Blob -->
+                    <div class="absolute top-[-50px] right-[-50px] w-40 h-40 bg-graygreen/20 rounded-full opacity-50"></div>
+
+                    <!-- Card Header -->
+                    <div class="flex justify-between items-start relative z-10">
+                        <div class="flex gap-4">
+                            <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-4xl shadow-sm">
+                                🥑
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-black text-charcoal">Avocado</h4>
+                                <div class="flex gap-2 mt-2">
+                                    <span class="bg-graygreen text-charcoal text-[10px] px-2 py-1 rounded-full font-bold shadow-sm shadow-graygreen/30 uppercase tracking-wide">Safe</span>
+                                    <span class="bg-white text-charcoal text-[10px] px-2 py-1 rounded-full font-bold shadow-sm uppercase tracking-wide">Superfood</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-graygreen hover:text-red hover:bg-red/10 transition-all shadow-sm border-2 border-transparent hover:border-red/30">
+                            <iconify-icon icon="lucide:check-circle-2" class="text-2xl"></iconify-icon>
+                        </button>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="mt-6 grid grid-cols-2 gap-3 relative z-10">
+                        <!-- Portion -->
+                        <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-white/50 shadow-sm">
+                            <div class="text-graygreen text-[10px] font-bold uppercase tracking-wider mb-1">Portion</div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-red/10 flex items-center justify-center text-red">
+                                    <iconify-icon icon="lucide:utensils" class="text-sm"></iconify-icon>
+                                </div>
+                                <span class="text-sm font-bold text-charcoal">1-2 tbsp</span>
+                            </div>
+                        </div>
+                        <!-- Texture -->
+                         <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl border border-white/50 shadow-sm">
+                            <div class="text-graygreen text-[10px] font-bold uppercase tracking-wider mb-1">Texture</div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-graygreen/20 flex items-center justify-center text-charcoal">
+                                    <iconify-icon icon="lucide:waves" class="text-sm"></iconify-icon>
+                                </div>
+                                <span class="text-sm font-bold text-charcoal">Smooth</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prep Tips -->
+                    <div class="mt-4 bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/50">
+                         <div class="text-graygreen text-[10px] font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                            <iconify-icon icon="lucide:chef-hat"></iconify-icon>
+                            Preparation
+                         </div>
+                         <p class="text-sm text-charcoal leading-relaxed font-semibold">
+                             Mash ripe avocado with a little breast milk or formula until smooth. No cooking required!
+                         </p>
+                    </div>
+
+                    <!-- Allergy Info -->
+                    <div class="mt-3 flex items-center gap-2 text-xs font-bold text-charcoal bg-graygreen/20 p-3 rounded-xl border border-graygreen/20">
+                        <iconify-icon icon="lucide:shield-check" class="text-lg"></iconify-icon>
+                        <span>Low allergy risk. Safe for most babies.</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Secondary List -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-charcoal ml-1">Next Up</h3>
+                
+                <!-- Sweet Potato -->
+                <a href="https://p.superdesign.dev/draft/ec3e93c6-b583-44de-86ed-3ab0f286a7dc" id="sweet-potato-link" class="group bg-white p-4 rounded-3xl shadow-sm border border-graygreen/30 flex items-center justify-between hover:shadow-md hover:border-red/30 transition-all cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-red/10 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                            🍠
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-charcoal text-lg">Sweet Potato</h4>
+                            <div class="flex items-center gap-2 text-xs font-semibold text-graygreen mt-0.5">
+                                <span class="flex items-center gap-1 text-red">
+                                    <iconify-icon icon="lucide:flame"></iconify-icon> Steam
+                                </span>
+                                <span>•</span>
+                                <span>Rich in Vit A</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-10 h-10 rounded-full border-2 border-graygreen/20 flex items-center justify-center text-graygreen hover:border-red hover:text-red transition-all">
+                        <iconify-icon icon="lucide:check" class="text-xl"></iconify-icon>
+                    </button>
+                </a>
+
+                <!-- Oatmeal -->
+                <a href="https://p.superdesign.dev/draft/ec3e93c6-b583-44de-86ed-3ab0f286a7dc" id="oatmeal-link" class="group bg-white p-4 rounded-3xl shadow-sm border border-graygreen/30 flex items-center justify-between hover:shadow-md hover:border-charcoal/40 transition-all cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-graygreen/20 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                            🥣
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-charcoal text-lg">Oatmeal</h4>
+                            <div class="flex items-center gap-2 text-xs font-semibold text-graygreen mt-0.5">
+                                <span class="flex items-center gap-1 text-charcoal">
+                                    <iconify-icon icon="lucide:wheat"></iconify-icon> Grains
+                                </span>
+                                <span>•</span>
+                                <span class="text-red bg-red/10 px-1.5 py-0.5 rounded">⚠️ Gluten</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-10 h-10 rounded-full border-2 border-graygreen/20 flex items-center justify-center text-graygreen hover:border-charcoal hover:text-charcoal transition-all">
+                        <iconify-icon icon="lucide:check" class="text-xl"></iconify-icon>
+                    </button>
+                </a>
+            </div>
+
+        </main>
+
+        <!-- Floating Bottom Nav -->
+        <div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-sm bg-charcoal backdrop-blur-md text-graygreen p-2 rounded-full shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] flex justify-between items-center z-50 border border-white/10" style="view-transition-name: main-nav;">
+            <a href="#" id="nav-home-link" class="w-12 h-12 rounded-full flex items-center justify-center bg-white/10 text-white transition-colors">
+                <iconify-icon icon="lucide:home" class="text-xl"></iconify-icon>
+            </a>
+            <button id="nav-search-btn" class="w-12 h-12 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
+                <iconify-icon icon="lucide:search" class="text-xl"></iconify-icon>
+            </button>
+            <a href="https://p.superdesign.dev/draft/e7732ebf-acb1-4f57-ba89-092c1d2c38b2" id="nav-reaction-log-link" class="w-14 h-14 -mt-8 rounded-full bg-red text-white flex items-center justify-center shadow-lg shadow-red/30 border-4 border-offwhite">
+                <iconify-icon icon="lucide:plus" class="text-2xl font-bold"></iconify-icon>
+            </a>
+            <a href="https://p.superdesign.dev/draft/a624041e-e084-4977-a4d1-bf85ef18e4d8" id="nav-tracker-list-link" class="w-12 h-12 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
+                <iconify-icon icon="lucide:book-open" class="text-xl"></iconify-icon>
+            </a>
+            <a href="https://p.superdesign.dev/draft/d48cb14f-eefc-405d-8c9c-cda1c9fe5e52" id="nav-tracker-calendar-link" class="w-12 h-12 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
+                <iconify-icon icon="lucide:user" class="text-xl"></iconify-icon>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

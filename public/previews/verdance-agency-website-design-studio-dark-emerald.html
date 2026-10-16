@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verdance — Agency Website Design Studio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        forest: '#0d1f17',
+        forestDeep: '#0a1711',
+        emerald: '#1f6f4f',
+        emeraldSoft: '#2c8a63',
+        cream: '#f1ede3',
+        creamDim: '#b8b3a6',
+        brass: '#c9a227',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Fraunces', 'Georgia', 'serif'],
+      },
+    },
+  },
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  .display { font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.045em; line-height: 0.92; }
+  .script { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+  .hairline { border-color: rgba(201,162,39,0.32); }
+  .brass-line { background: linear-gradient(90deg, rgba(201,162,39,0) 0%, rgba(201,162,39,0.55) 18%, rgba(201,162,39,0.55) 82%, rgba(201,162,39,0) 100%); }
+  .grain::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.05; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .work-img { transition: transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease; filter: saturate(0.55) brightness(0.82) contrast(1.02) sepia(0.12); }
+  .work-card:hover .work-img { transform: scale(1.05); filter: saturate(0.78) brightness(0.95) contrast(1.02) sepia(0.06); }
+  .tint::after { content:""; position:absolute; inset:0; background: linear-gradient(150deg, rgba(13,31,23,0.32), rgba(31,111,79,0.30)); mix-blend-mode: multiply; pointer-events:none; z-index:1; }
+  .tint-soft .work-img { filter: saturate(0.66) brightness(0.9) contrast(1.02) sepia(0.08); }
+  .work-card:hover .tint-soft .work-img { filter: saturate(0.82) brightness(0.98) contrast(1.02) sepia(0.05); }
+  .svc-row { transition: background-color .4s ease; }
+  .svc-row:hover { background-color: rgba(31,111,79,0.10); }
+  .svc-row:hover .svc-arrow { transform: translateX(6px); opacity: 1; }
+  .svc-arrow { transition: transform .4s ease, opacity .4s ease; opacity: .4; }
+  .nav-link { position: relative; }
+  .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; height:1px; width:0; background:#c9a227; transition: width .35s ease; }
+  .nav-link:hover::after { width:100%; }
+  .marquee { animation: marquee 32s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .script.text-emeraldSoft { text-shadow: 0 1px 10px rgba(10,23,17,0.55); }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+
+<meta name="preview-version" content="9309eda3-dc54-44be-8564-3a7d08379073" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:14.352Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "9309eda3-dc54-44be-8564-3a7d08379073");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "9309eda3-dc54-44be-8564-3a7d08379073",
+      timestamp: "2026-10-16T14:07:14.352Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "9309eda3-dc54-44be-8564-3a7d08379073";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+<div class="font-sans antialiased selection:bg-emerald selection:text-cream bg-forest min-h-screen text-cream">
+
+<header class="fixed top-0 inset-x-0 z-50">
+  <div class="backdrop-blur-md bg-forestDeep/70 border-b hairline">
+    <nav class="mx-auto max-w-[1240px] px-6 lg:px-10 h-[68px] flex items-center justify-between">
+      <a id="nav-logo-link" href="#top" class="flex items-center gap-2.5 group">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-brass/60 text-brass">
+          <iconify-icon icon="ph:leaf-fill" class="text-[18px]"></iconify-icon>
+        </span>
+        <span class="text-[17px] font-semibold tracking-tight text-cream">Verdance<span class="text-brass align-super text-[9px] ml-0.5">®</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-9 text-[13px] tracking-wide text-creamDim">
+        <a id="nav-work-link" href="#work" class="nav-link hover:text-cream transition-colors">WORK</a>
+        <a id="nav-services-link" href="#services" class="nav-link hover:text-cream transition-colors">SERVICES</a>
+        <a id="nav-recognition-link" href="#recognition" class="nav-link hover:text-cream transition-colors">RECOGNITION</a>
+        <a id="nav-studio-link" href="#studio" class="nav-link hover:text-cream transition-colors">STUDIO</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a id="nav-cta-link" href="#contact" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-brass/60 px-5 py-2 text-[13px] font-medium text-cream hover:bg-brass hover:text-forestDeep transition-colors">
+          Start a project
+          <iconify-icon icon="ph:arrow-up-right" class="text-[14px]"></iconify-icon>
+        </a>
+        <button id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"
+                class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-brass/60 text-cream hover:bg-brass hover:text-forestDeep transition-colors">
+          <iconify-icon id="navToggleIcon" icon="ph:list" class="text-[20px]"></iconify-icon>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <div id="mobileMenu" class="md:hidden hidden border-b hairline backdrop-blur-md bg-forestDeep/95">
+    <div class="mx-auto max-w-[1240px] px-6 py-6 flex flex-col">
+      <a id="mobile-nav-work" href="#work" class="mobile-link flex items-center justify-between py-3 text-[15px] tracking-wide text-cream border-b border-brass/15">WORK <iconify-icon icon="ph:arrow-up-right" class="text-brass text-[16px]"></iconify-icon></a>
+      <a id="mobile-nav-services" href="#services" class="mobile-link flex items-center justify-between py-3 text-[15px] tracking-wide text-cream border-b border-brass/15">SERVICES <iconify-icon icon="ph:arrow-up-right" class="text-brass text-[16px]"></iconify-icon></a>
+      <a id="mobile-nav-recognition" href="#recognition" class="mobile-link flex items-center justify-between py-3 text-[15px] tracking-wide text-cream border-b border-brass/15">RECOGNITION <iconify-icon icon="ph:arrow-up-right" class="text-brass text-[16px]"></iconify-icon></a>
+      <a id="mobile-nav-studio" href="#studio" class="mobile-link flex items-center justify-between py-3 text-[15px] tracking-wide text-cream border-b border-brass/15">STUDIO <iconify-icon icon="ph:arrow-up-right" class="text-brass text-[16px]"></iconify-icon></a>
+      <a id="mobile-nav-cta" href="#contact" class="mobile-link mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-brass px-5 py-3 text-[14px] font-semibold text-forestDeep">
+        Start a project
+        <iconify-icon icon="ph:arrow-up-right" class="text-[15px]"></iconify-icon>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section id="top" class="relative grain overflow-hidden bg-forest pt-[68px]">
+  <div class="pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-emerald/20 blur-[140px]"></div>
+  <div class="pointer-events-none absolute top-1/3 left-[-12%] h-[420px] w-[420px] rounded-full bg-emerald/10 blur-[150px]"></div>
+
+  <div class="relative z-10 mx-auto max-w-[1240px] px-6 lg:px-10">
+    <div class="flex items-center justify-between pt-8 text-[12px] tracking-[0.2em] text-creamDim uppercase">
+      <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-emeraldSoft"></span>Studio est. 2019</span>
+      <span class="hidden sm:inline">Design &middot; Strategy &middot; Build</span>
+    </div>
+
+    <div class="pt-10 lg:pt-16">
+      <h1 class="display text-cream text-[clamp(3.2rem,13.5vw,12rem)]">AGENCY</h1>
+      <h1 class="display text-cream text-[clamp(3.2rem,13.5vw,12rem)] flex flex-wrap items-end gap-x-[0.12em]">
+        WEBSITES
+        <span class="script text-emeraldSoft text-[clamp(2.6rem,12vw,11rem)] leading-[0.8] ml-1 -mb-2">that win</span>
+      </h1>
+    </div>
+
+    <div class="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pb-16 lg:pb-24">
+      <p class="lg:col-span-6 text-[16px] lg:text-[18px] leading-relaxed text-creamDim max-w-xl">
+        We are a design studio crafting <span class="text-cream">grounded, high-craft websites</span> for agencies and ambitious brands. Strategy, art direction, and engineering under one calm roof.
+      </p>
+      <div class="lg:col-span-6 flex lg:justify-end">
+        <a id="hero-work-anchor" href="#work" class="group inline-flex items-center gap-4 text-cream">
+          <span class="inline-flex h-14 w-14 items-center justify-center rounded-full border border-brass/60 group-hover:bg-emerald group-hover:border-emerald transition-colors">
+            <iconify-icon icon="ph:arrow-down" class="text-[20px] group-hover:translate-y-1 transition-transform"></iconify-icon>
+          </span>
+          <span class="text-[13px] tracking-[0.18em] uppercase">View selected work</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative z-10 w-full">
+    <div class="brass-line h-px w-full"></div>
+    <div class="relative h-[340px] sm:h-[440px] lg:h-[560px] overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2400&auto=format&fit=crop"
+           alt="Studio workspace" class="absolute inset-0 h-full w-full object-cover work-img" style="filter:saturate(0.7) brightness(0.62)" onerror="this.onerror=null;this.src='https://placehold.co/2400x400/1a1a1a/888?text=Image';">
+      <div class="absolute inset-0 bg-gradient-to-t from-forest via-forest/20 to-forest/40"></div>
+      <div class="absolute inset-0 bg-emerald/10 mix-blend-multiply"></div>
+      <div class="absolute bottom-8 left-6 lg:left-10 right-6 lg:right-10 flex items-end justify-between">
+        <p class="script text-cream/90 text-[22px] lg:text-[34px]">Designed in the open.</p>
+        <span class="text-[12px] tracking-[0.2em] uppercase text-creamDim">No.&nbsp;001 — The Workspace</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-y hairline bg-forestDeep overflow-hidden">
+  <div class="flex whitespace-nowrap py-5">
+    <div class="marquee flex items-center gap-12 pr-12 text-[13px] tracking-[0.22em] uppercase text-creamDim">
+      <span class="flex items-center gap-12">
+        <span>Awwwards Honors</span><span class="text-brass">◆</span>
+        <span>CSS Design Awards</span><span class="text-brass">◆</span>
+        <span>FWA of the Day</span><span class="text-brass">◆</span>
+        <span>Webby Nominee</span><span class="text-brass">◆</span>
+        <span>Site Inspire Featured</span><span class="text-brass">◆</span>
+      </span>
+      <span class="flex items-center gap-12" aria-hidden="true">
+        <span>Awwwards Honors</span><span class="text-brass">◆</span>
+        <span>CSS Design Awards</span><span class="text-brass">◆</span>
+        <span>FWA of the Day</span><span class="text-brass">◆</span>
+        <span>Webby Nominee</span><span class="text-brass">◆</span>
+        <span>Site Inspire Featured</span><span class="text-brass">◆</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<section id="studio" class="relative bg-forest py-24 lg:py-36">
+  <div class="mx-auto max-w-[1240px] px-6 lg:px-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+      <div class="lg:col-span-3">
+        <span class="text-[12px] tracking-[0.22em] uppercase text-brass">[ The Studio ]</span>
+      </div>
+      <div class="lg:col-span-9">
+        <p class="font-serif text-[clamp(1.6rem,3.4vw,2.7rem)] leading-[1.28] text-cream">
+          A good website isn't loud. It is <span class="script text-emeraldSoft">considered</span> — every margin earns its place, every word does work. We build sites that feel inevitable: calm surfaces, deliberate type, and motion that respects the reader.
+        </p>
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px bg-brass/20 border hairline">
+          <div class="bg-forest p-6">
+            <p class="font-serif text-[34px] text-cream">120<span class="text-brass">+</span></p>
+            <p class="mt-1 text-[12px] tracking-[0.14em] uppercase text-creamDim">Sites shipped</p>
+          </div>
+          <div class="bg-forest p-6">
+            <p class="font-serif text-[34px] text-cream">7</p>
+            <p class="mt-1 text-[12px] tracking-[0.14em] uppercase text-creamDim">Awards won</p>
+          </div>
+          <div class="bg-forest p-6">
+            <p class="font-serif text-[34px] text-cream">14</p>
+            <p class="mt-1 text-[12px] tracking-[0.14em] uppercase text-creamDim">Countries served</p>
+          </div>
+          <div class="bg-forest p-6">
+            <p class="font-serif text-[34px] text-cream">98<span class="text-brass">%</span></p>
+            <p class="mt-1 text-[12px] tracking-[0.14em] uppercase text-creamDim">Client return rate</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="relative bg-forestDeep py-20 lg:py-28">
+  <div class="mx-auto max-w-[1240px] px-6 lg:px-10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16">
+      <div>
+        <span class="text-[12px] tracking-[0.22em] uppercase text-brass">[ Selected Work ]</span>
+        <h2 class="display text-cream text-[clamp(2.4rem,6vw,4.6rem)] mt-3">Recent <span class="script text-emeraldSoft font-normal tracking-normal">projects</span></h2>
+      </div>
+      <p class="md:max-w-xs text-[15px] leading-relaxed text-creamDim">A short list of websites we are proud of. Strategy to ship, designed and built in-house.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+      <a id="work-card-1" href="#" class="work-card group relative md:row-span-2 overflow-hidden rounded-2xl border hairline bg-forest">
+        <div class="tint relative aspect-[4/5] md:h-full overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1493934558415-9d19f0b2b4d2?q=80&w=1600&auto=format&fit=crop" alt="Project Marrow" class="work-img h-full w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/1600x400/1a1a1a/888?text=Image';">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-6 lg:p-8 bg-gradient-to-t from-forestDeep via-forestDeep/60 to-transparent">
+          <div class="flex items-end justify-between">
+            <div>
+              <p class="text-[12px] tracking-[0.18em] uppercase text-brass mb-2">Brand &middot; Web</p>
+              <h3 class="font-serif text-[28px] lg:text-[34px] text-cream leading-tight">Marrow Studio</h3>
+            </div>
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/30 text-cream group-hover:bg-brass group-hover:text-forestDeep group-hover:border-brass transition-colors">
+              <iconify-icon icon="ph:arrow-up-right" class="text-[18px]"></iconify-icon>
+            </span>
+          </div>
+        </div>
+      </a>
+      <a id="work-card-2" href="#" class="work-card group relative overflow-hidden rounded-2xl border hairline bg-forest">
+        <div class="tint relative aspect-[16/10] overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?q=80&w=1600&auto=format&fit=crop" alt="Project Atlas" class="work-img h-full w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/1600x400/1a1a1a/888?text=Image';">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-6 lg:p-7 bg-gradient-to-t from-forestDeep via-forestDeep/55 to-transparent">
+          <div class="flex items-end justify-between">
+            <div>
+              <p class="text-[12px] tracking-[0.18em] uppercase text-brass mb-2">E-commerce</p>
+              <h3 class="font-serif text-[24px] lg:text-[28px] text-cream leading-tight">Atlas Goods Co.</h3>
+            </div>
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cream/30 text-cream group-hover:bg-brass group-hover:text-forestDeep group-hover:border-brass transition-colors">
+              <iconify-icon icon="ph:arrow-up-right" class="text-[16px]"></iconify-icon>
+            </span>
+          </div>
+        </div>
+      </a>
+      <a id="work-card-3" href="#" class="work-card group relative overflow-hidden rounded-2xl border hairline bg-forest">
+        <div class="tint relative aspect-[16/10] overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1487014679447-9f8336841d58?q=80&w=1600&auto=format&fit=crop" alt="Project Fernway" class="work-img h-full w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/1600x400/1a1a1a/888?text=Image';">
+        </div>
+        <div class="absolute inset-x-0 bottom-0 p-6 lg:p-7 bg-gradient-to-t from-forestDeep via-forestDeep/55 to-transparent">
+          <div class="flex items-end justify-between">
+            <div>
+              <p class="text-[12px] tracking-[0.18em] uppercase text-brass mb-2">SaaS &middot; Marketing</p>
+              <h3 class="font-serif text-[24px] lg:text-[28px] text-cream leading-tight">Fernway Labs</h3>
+            </div>
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cream/30 text-cream group-hover:bg-brass group-hover:text-forestDeep group-hover:border-brass transition-colors">
+              <iconify-icon icon="ph:arrow-up-right" class="text-[16px]"></iconify-icon>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <a id="work-card-4" href="#" class="work-card group relative mt-5 lg:mt-6 block overflow-hidden rounded-2xl border hairline bg-forest">
+      <div class="tint tint-soft relative h-[260px] lg:h-[360px] overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1481277542470-605612bd2d61?q=80&w=2400&auto=format&fit=crop" alt="Project Heron" class="work-img h-full w-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/2400x400/1a1a1a/888?text=Image';">
+      </div>
+      <div class="absolute inset-0 bg-forestDeep/45"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-forestDeep via-forestDeep/70 to-forestDeep/15"></div>
+      <div class="relative z-[2] h-full flex items-center justify-between p-8 lg:p-12">
+        <div class="max-w-md rounded-xl bg-forestDeep/55 backdrop-blur-[2px] ring-1 ring-brass/15 p-6 lg:p-7 -m-1">
+          <p class="text-[12px] tracking-[0.18em] uppercase text-brass mb-3">Editorial &middot; Web</p>
+          <h3 class="font-serif text-[32px] lg:text-[48px] text-cream leading-tight">Heron &amp; Field <span class="script text-emeraldSoft">journal</span></h3>
+          <p class="mt-3 text-[14px] text-cream/90 max-w-sm">A long-form publication with a typographic system built to last.</p>
+        </div>
+        <span class="hidden sm:inline-flex h-14 w-14 items-center justify-center rounded-full border border-cream/30 text-cream group-hover:bg-brass group-hover:text-forestDeep group-hover:border-brass transition-colors">
+          <iconify-icon icon="ph:arrow-up-right" class="text-[22px]"></iconify-icon>
+        </span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section id="services" class="relative bg-forest py-20 lg:py-28">
+  <div class="mx-auto max-w-[1240px] px-6 lg:px-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-10 lg:mb-14">
+      <div class="lg:col-span-5">
+        <span class="text-[12px] tracking-[0.22em] uppercase text-brass">[ What we do ]</span>
+        <h2 class="display text-cream text-[clamp(2.2rem,5.5vw,4.2rem)] mt-3">Services, <span class="script text-emeraldSoft font-normal tracking-normal">end to end</span></h2>
+      </div>
+      <p class="lg:col-span-7 lg:pt-12 text-[15px] leading-relaxed text-creamDim lg:max-w-md lg:ml-auto">
+        Four disciplines, one team. We can lead a full website from first conversation to launch, or slot into the part you need most.
+      </p>
+    </div>
+    <div class="border-t hairline">
+      <div class="svc-row group grid grid-cols-12 items-center gap-4 px-2 lg:px-6 py-7 lg:py-9 border-b hairline cursor-pointer">
+        <div class="col-span-2 lg:col-span-1 text-creamDim font-serif text-[18px]">01</div>
+        <div class="col-span-8 lg:col-span-3 flex items-center gap-4">
+          <iconify-icon icon="ph:compass-tool" class="text-emeraldSoft text-[26px] lg:text-[30px]"></iconify-icon>
+          <h3 class="text-[20px] lg:text-[26px] font-semibold tracking-tight text-cream">Strategy &amp; Brand</h3>
+        </div>
+        <p class="hidden lg:block col-span-6 text-[14px] text-creamDim">Positioning, narrative, and a brand system that earns trust before a pixel ships.</p>
+        <div class="col-span-2 lg:col-span-2 flex justify-end">
+          <iconify-icon icon="ph:arrow-right" class="svc-arrow text-brass text-[24px]"></iconify-icon>
+        </div>
+      </div>
+      <div class="svc-row group grid grid-cols-12 items-center gap-4 px-2 lg:px-6 py-7 lg:py-9 border-b hairline cursor-pointer">
+        <div class="col-span-2 lg:col-span-1 text-creamDim font-serif text-[18px]">02</div>
+        <div class="col-span-8 lg:col-span-3 flex items-center gap-4">
+          <iconify-icon icon="ph:pen-nib" class="text-emeraldSoft text-[26px] lg:text-[30px]"></iconify-icon>
+          <h3 class="text-[20px] lg:text-[26px] font-semibold tracking-tight text-cream">Web Design</h3>
+        </div>
+        <p class="hidden lg:block col-span-6 text-[14px] text-creamDim">Art direction, layout systems, and typography tuned for clarity and calm.</p>
+        <div class="col-span-2 lg:col-span-2 flex justify-end">
+          <iconify-icon icon="ph:arrow-right" class="svc-arrow text-brass text-[24px]"></iconify-icon>
+        </div>
+      </div>
+      <div class="svc-row group grid grid-cols-12 items-center gap-4 px-2 lg:px-6 py-7 lg:py-9 border-b hairline cursor-pointer">
+        <div class="col-span-2 lg:col-span-1 text-creamDim font-serif text-[18px]">03</div>
+        <div class="col-span-8 lg:col-span-3 flex items-center gap-4">
+          <iconify-icon icon="ph:code" class="text-emeraldSoft text-[26px] lg:text-[30px]"></iconify-icon>
+          <h3 class="text-[20px] lg:text-[26px] font-semibold tracking-tight text-cream">Development</h3>
+        </div>
+        <p class="hidden lg:block col-span-6 text-[14px] text-creamDim">Fast, accessible builds on modern stacks, with a CMS your team will actually use.</p>
+        <div class="col-span-2 lg:col-span-2 flex justify-end">
+          <iconify-icon icon="ph:arrow-right" class="svc-arrow text-brass text-[24px]"></iconify-icon>
+        </div>
+      </div>
+      <div class="svc-row group grid grid-cols-12 items-center gap-4 px-2 lg:px-6 py-7 lg:py-9 border-b hairline cursor-pointer">
+        <div class="col-span-2 lg:col-span-1 text-creamDim font-serif text-[18px]">04</div>
+        <div class="col-span-8 lg:col-span-3 flex items-center gap-4">
+          <iconify-icon icon="ph:cursor-click" class="text-emeraldSoft text-[26px] lg:text-[30px]"></iconify-icon>
+          <h3 class="text-[20px] lg:text-[26px] font-semibold tracking-tight text-cream">Motion &amp; Care</h3>
+        </div>
+        <p class="hidden lg:block col-span-6 text-[14px] text-creamDim">Interaction design, micro-motion, and ongoing care so the site keeps performing.</p>
+        <div class="col-span-2 lg:col-span-2 flex justify-end">
+          <iconify-icon icon="ph:arrow-right" class="svc-arrow text-brass text-[24px]"></iconify-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="recognition" class="relative bg-forestDeep py-20 lg:py-28 border-y hairline">
+  <div class="mx-auto max-w-[1240px] px-6 lg:px-10">
+    <div class="flex items-center gap-4 mb-12">
+      <span class="text-[12px] tracking-[0.22em] uppercase text-brass">[ Recognition ]</span>
+      <div class="h-px flex-1 brass-line"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-brass/20 border hairline">
+      <div class="bg-forest p-8 lg:p-10">
+        <iconify-icon icon="ph:trophy" class="text-brass text-[28px]"></iconify-icon>
+        <p class="font-serif text-[26px] lg:text-[30px] text-cream mt-5 leading-snug">Site of the Day</p>
+        <p class="text-[13px] tracking-[0.14em] uppercase text-creamDim mt-2">Awwwards &middot; 2025</p>
+        <p class="text-[14px] text-creamDim mt-4 leading-relaxed">Marrow Studio, recognized for typographic craft and restraint.</p>
+      </div>
+      <div class="bg-forest p-8 lg:p-10">
+        <iconify-icon icon="ph:medal" class="text-brass text-[28px]"></iconify-icon>
+        <p class="font-serif text-[26px] lg:text-[30px] text-cream mt-5 leading-snug">Best UI, Gold</p>
+        <p class="text-[13px] tracking-[0.14em] uppercase text-creamDim mt-2">CSS Design Awards &middot; 2025</p>
+        <p class="text-[14px] text-creamDim mt-4 leading-relaxed">Fernway Labs, awarded for interface clarity and motion.</p>
+      </div>
+      <div class="bg-forest p-8 lg:p-10">
+        <iconify-icon icon="ph:star" class="text-brass text-[28px]"></iconify-icon>
+        <p class="font-serif text-[26px] lg:text-[30px] text-cream mt-5 leading-snug">FWA of the Day</p>
+        <p class="text-[13px] tracking-[0.14em] uppercase text-creamDim mt-2">The FWA &middot; 2024</p>
+        <p class="text-[14px] text-creamDim mt-4 leading-relaxed">Heron &amp; Field, honored for editorial experience design.</p>
+      </div>
+    </div>
+    <div class="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 text-creamDim/70">
+      <span class="font-serif text-[20px] italic">Communication Arts</span>
+      <span class="text-brass/50">/</span>
+      <span class="font-semibold tracking-[0.2em] text-[15px]">SITEINSPIRE</span>
+      <span class="text-brass/50">/</span>
+      <span class="font-serif text-[20px]">The Webby Awards</span>
+      <span class="text-brass/50">/</span>
+      <span class="font-semibold tracking-[0.18em] text-[15px]">LANDBOOK</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="relative grain overflow-hidden bg-forest py-24 lg:py-36">
+  <div class="pointer-events-none absolute bottom-[-20%] left-1/2 -translate-x-1/2 h-[480px] w-[680px] rounded-full bg-emerald/15 blur-[150px]"></div>
+  <div class="relative z-10 mx-auto max-w-[1240px] px-6 lg:px-10 text-center">
+    <span class="text-[12px] tracking-[0.22em] uppercase text-brass">[ Let's begin ]</span>
+    <h2 class="display text-cream text-[clamp(2.6rem,8vw,6.5rem)] mt-5">
+      Have a project<br><span class="script text-emeraldSoft font-normal tracking-normal">in mind?</span>
+    </h2>
+    <p class="mx-auto mt-7 max-w-lg text-[16px] lg:text-[18px] leading-relaxed text-creamDim">
+      Tell us where you are headed. We reply to every note within two business days, and the first conversation is always on us.
+    </p>
+    <div class="mt-11 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a id="contact-email-link" href="mailto:studio@verdance.design" class="inline-flex items-center gap-3 rounded-full bg-brass px-8 py-4 text-[15px] font-semibold text-forestDeep hover:bg-emeraldSoft hover:text-cream transition-colors">
+        <iconify-icon icon="ph:paper-plane-tilt" class="text-[18px]"></iconify-icon>
+        studio@verdance.design
+      </a>
+      <a id="contact-call-link" href="#" class="inline-flex items-center gap-3 rounded-full border border-brass/60 px-8 py-4 text-[15px] font-medium text-cream hover:bg-emerald hover:border-emerald transition-colors">
+        Book a call
+        <iconify-icon icon="ph:calendar-blank" class="text-[18px]"></iconify-icon>
+      </a>
+    </div>
+    <div class="mt-10 flex items-center justify-center gap-6 text-creamDim">
+      <a id="social-x-link" href="#" aria-label="Twitter" class="hover:text-brass transition-colors"><iconify-icon icon="ph:x-logo" class="text-[20px]"></iconify-icon></a>
+      <a id="social-instagram-link" href="#" aria-label="Instagram" class="hover:text-brass transition-colors"><iconify-icon icon="ph:instagram-logo" class="text-[20px]"></iconify-icon></a>
+      <a id="social-linkedin-link" href="#" aria-label="LinkedIn" class="hover:text-brass transition-colors"><iconify-icon icon="ph:linkedin-logo" class="text-[20px]"></iconify-icon></a>
+      <a id="social-dribbble-link" href="#" aria-label="Dribbble" class="hover:text-brass transition-colors"><iconify-icon icon="ph:dribbble-logo" class="text-[20px]"></iconify-icon></a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-forestDeep border-t hairline">
+  <div class="mx-auto max-w-[1240px] px-6 lg:px-10 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
+      <div class="md:col-span-5">
+        <a id="footer-logo-link" href="#top" class="flex items-center gap-2.5">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-brass/60 text-brass">
+            <iconify-icon icon="ph:leaf-fill" class="text-[18px]"></iconify-icon>
+          </span>
+          <span class="text-[17px] font-semibold tracking-tight text-cream">Verdance<span class="text-brass align-super text-[9px] ml-0.5">®</span></span>
+        </a>
+        <p class="mt-5 text-[15px] leading-relaxed text-creamDim max-w-sm">An independent design studio building grounded, high-craft websites for agencies and ambitious brands.</p>
+        <p class="mt-6 text-[13px] text-creamDim">Lisbon &middot; Remote worldwide</p>
+      </div>
+      <div class="md:col-span-3 md:col-start-7">
+        <p class="text-[12px] tracking-[0.2em] uppercase text-brass mb-4">Navigate</p>
+        <ul class="space-y-2.5 text-[15px] text-creamDim">
+          <li><a id="footer-work-link" href="#work" class="hover:text-cream transition-colors">Work</a></li>
+          <li><a id="footer-services-link" href="#services" class="hover:text-cream transition-colors">Services</a></li>
+          <li><a id="footer-recognition-link" href="#recognition" class="hover:text-cream transition-colors">Recognition</a></li>
+          <li><a id="footer-studio-link" href="#studio" class="hover:text-cream transition-colors">Studio</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-3">
+        <p class="text-[12px] tracking-[0.2em] uppercase text-brass mb-4">Elsewhere</p>
+        <ul class="space-y-2.5 text-[15px] text-creamDim">
+          <li><a id="elsewhere-x" href="#" class="hover:text-cream transition-colors">Twitter / X</a></li>
+          <li><a id="elsewhere-instagram" href="#" class="hover:text-cream transition-colors">Instagram</a></li>
+          <li><a id="elsewhere-linkedin" href="#" class="hover:text-cream transition-colors">LinkedIn</a></li>
+          <li><a id="elsewhere-dribbble" href="#" class="hover:text-cream transition-colors">Dribbble</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-12 pt-7 border-t hairline flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-creamDim">
+      <p>© 2026 Verdance Studio. All rights reserved.</p>
+      <p class="flex items-center gap-2">Crafted with care <iconify-icon icon="ph:leaf" class="text-emeraldSoft"></iconify-icon></p>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('mobileMenu');
+    var icon = document.getElementById('navToggleIcon');
+    if (!toggle || !menu) return;
+    function closeMenu() { menu.classList.add('hidden'); toggle.setAttribute('aria-expanded', 'false'); if (icon) icon.setAttribute('icon', 'ph:list'); }
+    function openMenu() { menu.classList.remove('hidden'); toggle.setAttribute('aria-expanded', 'true'); if (icon) icon.setAttribute('icon', 'ph:x'); }
+    toggle.addEventListener('click', function () { if (menu.classList.contains('hidden')) openMenu(); else closeMenu(); });
+    menu.querySelectorAll('.mobile-link').forEach(function (link) { link.addEventListener('click', closeMenu); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+    window.matchMedia('(min-width: 768px)').addEventListener('change', function (e) { if (e.matches) closeMenu(); });
+  })();
+</script>
+</body>
+</html>

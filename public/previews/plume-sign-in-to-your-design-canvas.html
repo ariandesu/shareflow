@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plume · Sign in to your design canvas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Nunito', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+        colors: {
+          sky: {
+            50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
+            400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 900: '#0c4a6e',
+          },
+          coral: {
+            300: '#fda4af', 400: '#fb7185', 500: '#f43f5e', 600: '#e11d48',
+          },
+          ink: { 900: '#0f2030', 700: '#33485c', 500: '#5b7184' },
+          cloud: '#f7fbff',
+        },
+        borderRadius: { '4xl': '2rem', '5xl': '2.75rem' },
+        boxShadow: {
+          'soft': '0 24px 60px -22px rgba(56,189,248,0.45)',
+          'card': '0 40px 90px -30px rgba(15,32,48,0.30), 0 12px 30px -16px rgba(56,189,248,0.30)',
+          'lift': '0 18px 40px -18px rgba(15,32,48,0.22)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; }
+  .dotgrid {
+    background-image: radial-gradient(rgba(56,189,248,0.22) 1.4px, transparent 1.4px);
+    background-size: 22px 22px;
+  }
+  .float-a { animation: floatA 6s ease-in-out infinite; }
+  .float-b { animation: floatB 7.5s ease-in-out infinite; }
+  .float-c { animation: floatC 9s ease-in-out infinite; }
+  @keyframes floatA { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-14px) rotate(-2deg)} }
+  @keyframes floatB { 0%,100%{transform:translateY(0) rotate(6deg)} 50%{transform:translateY(12px) rotate(4deg)} }
+  @keyframes floatC { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .field:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 4px rgba(56,189,248,0.18); }
+  .ghost-blob { filter: blur(2px); }
+</style>
+
+<meta name="preview-version" content="6a1d8e7a-ba5c-470c-8cd7-3222ecfb03fc" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:13.659Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "6a1d8e7a-ba5c-470c-8cd7-3222ecfb03fc");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "6a1d8e7a-ba5c-470c-8cd7-3222ecfb03fc",
+      timestamp: "2026-10-16T14:07:13.659Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "6a1d8e7a-ba5c-470c-8cd7-3222ecfb03fc";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="bg-cloud text-ink-900 antialiased selection:bg-coral-300 selection:text-white min-h-screen">
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/75 border-b border-sky-100">
+      <nav class="mx-auto max-w-6xl px-5 sm:px-8 h-16 flex items-center justify-between">
+        <a href="#top" id="nav-logo-link" class="flex items-center gap-2.5 group">
+          <span class="grid place-items-center h-9 w-9 rounded-2xl bg-gradient-to-br from-sky-400 to-coral-400 text-white shadow-soft transition-transform group-hover:-rotate-6">
+            <iconify-icon icon="ph:feather-fill" width="20"></iconify-icon>
+          </span>
+          <span class="text-xl font-900 tracking-tight">Plume</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-[15px] font-700 text-ink-700">
+          <a href="#features" id="nav-features-link" class="hover:text-sky-500 transition-colors">Features</a>
+          <a href="#library" id="nav-library-link" class="hover:text-sky-500 transition-colors">Prompt library</a>
+          <a href="#showcase" id="nav-showcase-link" class="hover:text-sky-500 transition-colors">Showcase</a>
+          <a href="#pricing" id="nav-pricing-link" class="hover:text-sky-500 transition-colors">Pricing</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="#signin" id="nav-login-link" class="hidden sm:inline-flex text-[15px] font-800 text-ink-700 hover:text-sky-500 transition-colors">Log in</a>
+          <a href="#signin" id="nav-start-free-btn" class="inline-flex items-center gap-1.5 rounded-full bg-ink-900 text-white text-[15px] font-800 px-5 py-2.5 shadow-lift hover:bg-sky-500 transition-colors">
+            Start free
+            <iconify-icon icon="ph:arrow-right-bold" width="15"></iconify-icon>
+          </a>
+        </div>
+      </nav>
+    </header>
+    <main id="top">
+      <section id="signin" class="relative overflow-hidden bg-gradient-to-b from-sky-50 via-cloud to-cloud">
+        <div class="absolute inset-0 dotgrid opacity-60"></div>
+        <div class="ghost-blob float-a absolute -top-10 -left-10 h-56 w-56 rounded-full bg-sky-200/55"></div>
+        <div class="ghost-blob float-b absolute top-24 right-[-40px] h-48 w-48 rounded-full bg-coral-300/40"></div>
+        <div class="ghost-blob float-c absolute bottom-[-60px] left-1/3 h-64 w-64 rounded-full bg-sky-300/30"></div>
+        <div class="relative mx-auto max-w-6xl px-5 sm:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28 grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-16 items-center">
+          <div class="text-center lg:text-left">
+            <span class="inline-flex items-center gap-2 rounded-full bg-white text-sky-700 text-[13px] font-800 px-4 py-1.5 shadow-lift ring-1 ring-sky-100">
+              <iconify-icon icon="ph:sparkle-fill" class="text-coral-500" width="15"></iconify-icon>
+              Now with one-prompt page generation
+            </span>
+            <h1 class="mt-6 text-[2.6rem] leading-[1.04] sm:text-6xl font-900 tracking-tight">
+              Design what you're<br class="hidden sm:block" />
+              <span class="text-sky-500">imagining</span>, in plain
+              <span class="relative inline-block">
+                words
+                <svg class="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 14" fill="none" preserveAspectRatio="none">
+                  <path d="M3 9C50 3 150 3 197 8" stroke="#fb7185" stroke-width="4.5" stroke-linecap="round"/>
+                </svg>
+              </span>.
+            </h1>
+            <p class="mt-7 text-lg text-ink-500 font-600 max-w-md mx-auto lg:mx-0">
+              Plume is your friendly AI product-design agent. Describe a screen and watch full mockups, components and flows bloom across an infinite canvas.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-[15px] font-700 text-ink-700">
+              <span class="inline-flex items-center gap-2"><iconify-icon icon="ph:check-circle-fill" class="text-sky-400" width="20"></iconify-icon> Free to start</span>
+              <span class="inline-flex items-center gap-2"><iconify-icon icon="ph:check-circle-fill" class="text-sky-400" width="20"></iconify-icon> No card needed</span>
+              <span class="inline-flex items-center gap-2"><iconify-icon icon="ph:check-circle-fill" class="text-sky-400" width="20"></iconify-icon> Export to code</span>
+            </div>
+            <div class="mt-9 flex items-center justify-center lg:justify-start gap-3">
+              <div class="flex -space-x-3">
+                <span class="h-10 w-10 rounded-full ring-2 ring-white bg-gradient-to-br from-sky-300 to-sky-500"></span>
+                <span class="h-10 w-10 rounded-full ring-2 ring-white bg-gradient-to-br from-coral-300 to-coral-500"></span>
+                <span class="h-10 w-10 rounded-full ring-2 ring-white bg-gradient-to-br from-sky-400 to-coral-400"></span>
+                <span class="h-10 w-10 rounded-full ring-2 ring-white bg-ink-900 grid place-items-center text-white text-xs font-900">+9k</span>
+              </div>
+              <p class="text-sm font-700 text-ink-500 max-w-[12rem] text-left">Builders shipping UI with Plume every week.</p>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="absolute -inset-3 rounded-5xl bg-gradient-to-br from-sky-200/60 to-coral-200/50 blur-xl"></div>
+            <div class="relative grid sm:grid-cols-[200px_1fr] rounded-5xl bg-white shadow-card overflow-hidden ring-1 ring-sky-100">
+              <aside class="relative overflow-hidden bg-gradient-to-br from-sky-700 via-sky-700 to-coral-600 p-6 flex flex-col justify-between min-h-[200px]">
+                <div class="pointer-events-none absolute inset-0">
+                  <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/15"></div>
+                  <div class="absolute right-6 top-20 h-3 w-3 rounded-full bg-white/70 float-c"></div>
+                  <div class="absolute right-14 top-10 h-2 w-2 rounded-full bg-white/60"></div>
+                  <iconify-icon icon="ph:sun-horizon-fill" class="absolute -bottom-6 -left-4 text-white/20 float-a" width="120"></iconify-icon>
+                  <iconify-icon icon="ph:cloud-fill" class="absolute top-24 left-3 text-white/30 float-b" width="46"></iconify-icon>
+                </div>
+                <div class="relative flex items-center justify-between">
+                  <span class="grid place-items-center h-11 w-11 rounded-2xl bg-white/95 text-sky-500 shadow-lift">
+                    <iconify-icon icon="ph:feather-fill" width="24"></iconify-icon>
+                  </span>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-white/20 text-white text-[11px] font-800 px-2.5 py-1 backdrop-blur">
+                    <iconify-icon icon="ph:lightning-fill" width="11"></iconify-icon> beta
+                  </span>
+                </div>
+                <div class="relative">
+                  <p class="text-white font-900 text-[1.35rem] leading-tight">Build the front-end you've been imagining.</p>
+                  <p class="mt-2 text-sky-50 text-sm font-600">Idea to shippable UI, fast.</p>
+                </div>
+              </aside>
+              <div class="p-7 sm:p-9">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-2xl font-900 tracking-tight">Sign in</h2>
+                  <span class="hidden sm:inline-flex items-center gap-1 text-[13px] font-700 text-ink-500">
+                    <iconify-icon icon="ph:smiley-fill" class="text-coral-400" width="16"></iconify-icon> welcome back
+                  </span>
+                </div>
+                <p class="mt-1 text-[15px] text-ink-500 font-600">New here? <a href="#" id="form-create-account-link" class="text-sky-700 font-800 hover:text-coral-600 transition-colors">Create an account</a></p>
+                <form class="mt-6 space-y-4" onsubmit="return false">
+                  <label class="block">
+                    <span class="text-[13px] font-800 text-ink-700">Work email</span>
+                    <div class="relative mt-1.5">
+                      <iconify-icon icon="ph:envelope-simple-bold" class="absolute left-4 top-1/2 -translate-y-1/2 text-ink-500" width="18"></iconify-icon>
+                      <input type="email" placeholder="you@studio.com" class="field w-full rounded-2xl border-2 border-sky-100 bg-sky-50/60 pl-11 pr-4 py-3.5 text-[15px] font-700 text-ink-900 placeholder:text-ink-500 transition" />
+                    </div>
+                  </label>
+                  <label class="block">
+                    <div class="flex items-center justify-between">
+                      <span class="text-[13px] font-800 text-ink-700">Password</span>
+                      <a href="#" id="form-forgot-pass-link" class="text-[13px] font-800 text-sky-700 hover:text-coral-600 transition-colors">Forgot?</a>
+                    </div>
+                    <div class="relative mt-1.5">
+                      <iconify-icon icon="ph:lock-simple-bold" class="absolute left-4 top-1/2 -translate-y-1/2 text-ink-500" width="18"></iconify-icon>
+                      <input type="password" placeholder="••••••••" class="field w-full rounded-2xl border-2 border-sky-100 bg-sky-50/60 pl-11 pr-11 py-3.5 text-[15px] font-700 text-ink-900 placeholder:text-ink-500 transition" />
+                      <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-ink-500 hover:text-sky-500 transition-colors"><iconify-icon icon="ph:eye-bold" width="18"></iconify-icon></button>
+                    </div>
+                  </label>
+                  <button type="submit" id="form-submit-btn" class="group w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-700 to-coral-600 text-white text-[16px] font-900 py-4 shadow-soft hover:shadow-lg hover:brightness-110 active:scale-[0.99] transition-all">
+                    Continue
+                    <iconify-icon icon="ph:arrow-right-bold" class="transition-transform group-hover:translate-x-1" width="17"></iconify-icon>
+                  </button>
+                  <div class="flex items-center gap-3 py-1">
+                    <span class="h-px flex-1 bg-sky-100"></span>
+                    <span class="text-[12px] font-800 text-ink-500 uppercase tracking-wider">or</span>
+                    <span class="h-px flex-1 bg-sky-100"></span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="google-login-btn" class="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-sky-100 bg-white py-3 text-[14px] font-800 text-ink-700 hover:border-sky-300 hover:bg-sky-50/60 transition">
+                      <iconify-icon icon="logos:google-icon" width="17"></iconify-icon> Google
+                    </button>
+                    <button type="button" id="github-login-btn" class="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-sky-100 bg-white py-3 text-[14px] font-800 text-ink-700 hover:border-sky-300 hover:bg-sky-50/60 transition">
+                      <iconify-icon icon="ph:github-logo-fill" width="18"></iconify-icon> GitHub
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="absolute -bottom-7 left-2 hidden sm:flex items-center gap-2 rounded-2xl bg-white px-4 py-2.5 shadow-lift ring-1 ring-sky-100 float-c">
+              <iconify-icon icon="ph:shield-check-fill" class="text-sky-400" width="22"></iconify-icon>
+              <div class="leading-tight">
+                <p class="text-[12px] font-900 text-ink-900">SOC 2 secure</p>
+                <p class="text-[11px] font-700 text-ink-500">Your work stays yours</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="border-y border-sky-100 bg-white">
+        <div class="mx-auto max-w-6xl px-5 sm:px-8 py-8">
+          <p class="text-center text-[13px] font-800 uppercase tracking-[0.2em] text-ink-500">Loved by teams at</p>
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-5 text-ink-500">
+            <span class="inline-flex items-center gap-2 text-lg font-900 opacity-70"><iconify-icon icon="ph:planet-fill" width="22"></iconify-icon> Orbit</span>
+            <span class="inline-flex items-center gap-2 text-lg font-900 opacity-70"><iconify-icon icon="ph:cube-fill" width="22"></iconify-icon> Stackly</span>
+            <span class="inline-flex items-center gap-2 text-lg font-900 opacity-70"><iconify-icon icon="ph:lightning-fill" width="22"></iconify-icon> Boltline</span>
+            <span class="inline-flex items-center gap-2 text-lg font-900 opacity-70"><iconify-icon icon="ph:leaf-fill" width="22"></iconify-icon> Fernly</span>
+            <span class="inline-flex items-center gap-2 text-lg font-900 opacity-70"><iconify-icon icon="ph:diamond-fill" width="22"></iconify-icon> Prism</span>
+          </div>
+        </div>
+      </section>
+      <section id="features" class="bg-cloud">
+        <div class="mx-auto max-w-6xl px-5 sm:px-8 py-20 lg:py-28">
+          <div class="max-w-2xl">
+            <span class="inline-flex items-center gap-2 rounded-full bg-sky-100 text-sky-700 text-[13px] font-800 px-4 py-1.5">
+              <iconify-icon icon="ph:stack-fill" width="15"></iconify-icon> Why builders pick Plume
+            </span>
+            <h2 class="mt-5 text-4xl sm:text-5xl font-900 tracking-tight leading-tight">A design partner that<br/>actually keeps up.</h2>
+            <p class="mt-5 text-lg text-ink-500 font-600">Less wrestling with tools, more shipping ideas. Plume turns the messy middle into a friendly conversation.</p>
+          </div>
+          <div class="mt-14 grid md:grid-cols-3 gap-6">
+            <article class="group rounded-4xl bg-white p-8 shadow-lift ring-1 ring-sky-100 hover:-translate-y-1.5 transition-transform">
+              <span class="grid place-items-center h-14 w-14 rounded-3xl bg-sky-100 text-sky-500 group-hover:bg-sky-400 group-hover:text-white transition-colors">
+                <iconify-icon icon="ph:magic-wand-fill" width="28"></iconify-icon>
+              </span>
+              <h3 class="mt-6 text-xl font-900">Prompt to mockup</h3>
+              <p class="mt-2.5 text-[15px] text-ink-500 font-600 leading-relaxed">Type a sentence, get a real screen. Iterate by chatting, branch ideas without losing the thread.</p>
+            </article>
+            <article class="group rounded-4xl bg-white p-8 shadow-lift ring-1 ring-sky-100 hover:-translate-y-1.5 transition-transform">
+              <span class="grid place-items-center h-14 w-14 rounded-3xl bg-coral-300/30 text-coral-500 group-hover:bg-coral-400 group-hover:text-white transition-colors">
+                <iconify-icon icon="ph:infinity-bold" width="28"></iconify-icon>
+              </span>
+              <h3 class="mt-6 text-xl font-900">Infinite canvas</h3>
+              <p class="mt-2.5 text-[15px] text-ink-500 font-600 leading-relaxed">Lay out flows, components and variants side by side. Pan, zoom and compare without ever feeling boxed in.</p>
+            </article>
+            <article class="group rounded-4xl bg-white p-8 shadow-lift ring-1 ring-sky-100 hover:-translate-y-1.5 transition-transform">
+              <span class="grid place-items-center h-14 w-14 rounded-3xl bg-sky-100 text-sky-500 group-hover:bg-sky-400 group-hover:text-white transition-colors">
+                <iconify-icon icon="ph:code-fill" width="28"></iconify-icon>
+              </span>
+              <h3 class="mt-6 text-xl font-900">Export to code</h3>
+              <p class="mt-2.5 text-[15px] text-ink-500 font-600 leading-relaxed">Hand off clean components, or drive the canvas straight from your coding agent. No copy-paste limbo.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section id="library" class="relative overflow-hidden bg-gradient-to-br from-sky-700 via-sky-700 to-coral-600 text-white">
+        <div class="absolute inset-0 dotgrid opacity-20"></div>
+        <div class="ghost-blob float-b absolute -top-16 right-10 h-60 w-60 rounded-full bg-white/10"></div>
+        <div class="relative mx-auto max-w-6xl px-5 sm:px-8 py-20 lg:py-28 grid lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/15 backdrop-blur text-white text-[13px] font-800 px-4 py-1.5">
+              <iconify-icon icon="ph:books-fill" width="15"></iconify-icon> Prompt library
+            </span>
+            <h2 class="mt-5 text-4xl sm:text-5xl font-900 tracking-tight leading-tight">Start from something<br/>worth sharing.</h2>
+            <p class="mt-5 text-lg text-white font-600 max-w-md">Browse hundreds of community prompts for dashboards, onboarding, pricing and more. Remix one and it's yours in seconds.</p>
+            <a href="#showcase" id="cta-explore-library" class="mt-8 inline-flex items-center gap-2 rounded-full bg-white text-sky-700 font-900 px-6 py-3.5 shadow-soft hover:bg-sky-50 transition-colors">
+              Explore the library
+              <iconify-icon icon="ph:arrow-up-right-bold" width="16"></iconify-icon>
+            </a>
+          </div>
+          <div id="showcase" class="grid grid-cols-2 gap-4">
+            <div class="rounded-3xl bg-white/95 p-5 shadow-lift text-ink-900 float-c">
+              <span class="grid place-items-center h-10 w-10 rounded-2xl bg-sky-100 text-sky-500"><iconify-icon icon="ph:gauge-fill" width="20"></iconify-icon></span>
+              <p class="mt-3 font-900">Analytics dashboard</p>
+              <p class="text-[13px] font-700 text-ink-500">312 remixes</p>
+            </div>
+            <div class="rounded-3xl bg-white/95 p-5 shadow-lift text-ink-900 mt-6 float-a">
+              <span class="grid place-items-center h-10 w-10 rounded-2xl bg-coral-300/30 text-coral-500"><iconify-icon icon="ph:sign-in-bold" width="20"></iconify-icon></span>
+              <p class="mt-3 font-900">Friendly login</p>
+              <p class="text-[13px] font-700 text-ink-500">488 remixes</p>
+            </div>
+            <div class="rounded-3xl bg-white/95 p-5 shadow-lift text-ink-900 float-b">
+              <span class="grid place-items-center h-10 w-10 rounded-2xl bg-sky-100 text-sky-500"><iconify-icon icon="ph:shopping-bag-fill" width="20"></iconify-icon></span>
+              <p class="mt-3 font-900">Checkout flow</p>
+              <p class="text-[13px] font-700 text-ink-500">207 remixes</p>
+            </div>
+            <div class="rounded-3xl bg-white/95 p-5 shadow-lift text-ink-900 mt-6 float-c">
+              <span class="grid place-items-center h-10 w-10 rounded-2xl bg-coral-300/30 text-coral-500"><iconify-icon icon="ph:chat-circle-dots-fill" width="20"></iconify-icon></span>
+              <p class="mt-3 font-900">Onboarding chat</p>
+              <p class="text-[13px] font-700 text-ink-500">156 remixes</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="pricing" class="bg-cloud">
+        <div class="mx-auto max-w-5xl px-5 sm:px-8 py-20 lg:py-28">
+          <div class="relative overflow-hidden rounded-5xl bg-white ring-1 ring-sky-100 shadow-card px-8 sm:px-14 py-14 text-center">
+            <div class="ghost-blob float-a absolute -top-10 -left-6 h-40 w-40 rounded-full bg-sky-200/50"></div>
+            <div class="ghost-blob float-b absolute -bottom-12 -right-6 h-44 w-44 rounded-full bg-coral-300/35"></div>
+            <div class="relative">
+              <span class="grid place-items-center mx-auto h-14 w-14 rounded-3xl bg-gradient-to-br from-sky-400 to-coral-400 text-white shadow-soft">
+                <iconify-icon icon="ph:feather-fill" width="28"></iconify-icon>
+              </span>
+              <h2 class="mt-6 text-3xl sm:text-5xl font-900 tracking-tight leading-tight">Your next screen is<br/>one sentence away.</h2>
+              <p class="mt-5 text-lg text-ink-500 font-600 max-w-lg mx-auto">Start free, no card. Upgrade when your canvas gets busy.</p>
+              <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#signin" id="cta-create-canvas" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-700 to-coral-600 text-white text-lg font-900 px-8 py-4 shadow-soft hover:brightness-110 transition">
+                  Create your canvas
+                  <iconify-icon icon="ph:arrow-right-bold" width="18"></iconify-icon>
+                </a>
+                <a href="#features" id="cta-see-how-works" class="inline-flex items-center gap-2 rounded-full bg-white text-ink-700 ring-2 ring-sky-100 text-lg font-900 px-8 py-4 hover:ring-sky-300 transition">
+                  See how it works
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="bg-ink-900 text-sky-50">
+      <div class="mx-auto max-w-6xl px-5 sm:px-8 py-14">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div class="lg:col-span-1">
+            <a href="#top" id="footer-logo-link" class="flex items-center gap-2.5">
+              <span class="grid place-items-center h-9 w-9 rounded-2xl bg-gradient-to-br from-sky-400 to-coral-400 text-white">
+                <iconify-icon icon="ph:feather-fill" width="20"></iconify-icon>
+              </span>
+              <span class="text-xl font-900 text-white">Plume</span>
+            </a>
+            <p class="mt-4 text-[15px] font-600 text-sky-50/70 max-w-xs">The friendly AI design agent for builders who'd rather ship than fiddle.</p>
+            <div class="mt-5 flex items-center gap-3">
+              <a href="#" id="social-x-link" class="grid place-items-center h-9 w-9 rounded-xl bg-white/10 hover:bg-sky-400 transition-colors"><iconify-icon icon="ph:x-logo-bold" width="16"></iconify-icon></a>
+              <a href="#" id="social-github-link" class="grid place-items-center h-9 w-9 rounded-xl bg-white/10 hover:bg-sky-400 transition-colors"><iconify-icon icon="ph:github-logo-fill" width="16"></iconify-icon></a>
+              <a href="#" id="social-discord-link" class="grid place-items-center h-9 w-9 rounded-xl bg-white/10 hover:bg-sky-400 transition-colors"><iconify-icon icon="ph:discord-logo-fill" width="16"></iconify-icon></a>
+            </div>
+          </div>
+          <div>
+            <p class="text-[13px] font-900 uppercase tracking-wider text-sky-50/60">Product</p>
+            <ul class="mt-4 space-y-2.5 text-[15px] font-700 text-sky-50/80">
+              <li><a href="#features" id="footer-features-link" class="hover:text-sky-300 transition-colors">Features</a></li>
+              <li><a href="#library" id="footer-library-link" class="hover:text-sky-300 transition-colors">Prompt library</a></li>
+              <li><a href="#pricing" id="footer-pricing-link" class="hover:text-sky-300 transition-colors">Pricing</a></li>
+              <li><a href="#" id="footer-changelog-link" class="hover:text-sky-300 transition-colors">Changelog</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-[13px] font-900 uppercase tracking-wider text-sky-50/60">Company</p>
+            <ul class="mt-4 space-y-2.5 text-[15px] font-700 text-sky-50/80">
+              <li><a href="#" id="footer-about-link" class="hover:text-sky-300 transition-colors">About</a></li>
+              <li><a href="#" id="footer-blog-link" class="hover:text-sky-300 transition-colors">Blog</a></li>
+              <li><a href="#" id="footer-careers-link" class="hover:text-sky-300 transition-colors">Careers</a></li>
+              <li><a href="#" id="footer-contact-link" class="hover:text-sky-300 transition-colors">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-[13px] font-900 uppercase tracking-wider text-sky-50/60">Stay in the loop</p>
+            <p class="mt-4 text-[15px] font-600 text-sky-50/70">Product notes, no spam.</p>
+            <form class="mt-3 flex gap-2" onsubmit="return false">
+              <input type="email" placeholder="you@studio.com" class="field flex-1 min-w-0 rounded-xl border-2 border-white/15 bg-white/5 px-4 py-2.5 text-[14px] font-700 text-white placeholder:text-sky-50/40" />
+              <button class="rounded-xl bg-sky-400 text-white px-4 py-2.5 font-900 hover:bg-coral-400 transition-colors"><iconify-icon icon="ph:paper-plane-tilt-fill" width="16"></iconify-icon></button>
+            </form>
+          </div>
+        </div>
+        <div class="mt-12 pt-7 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] font-700 text-sky-50/55">
+          <p>© 2026 Plume Labs. Made with care, not em-dashes.</p>
+          <div class="flex items-center gap-6">
+            <a href="#" id="footer-privacy-link" class="hover:text-sky-300 transition-colors">Privacy</a>
+            <a href="#" id="footer-terms-link" class="hover:text-sky-300 transition-colors">Terms</a>
+            <a href="#" id="footer-status-link" class="hover:text-sky-300 transition-colors">Status</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

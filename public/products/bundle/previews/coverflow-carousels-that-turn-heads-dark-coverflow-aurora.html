@@ -1,0 +1,684 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Coverflow · Carousels that turn heads</title><script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script><script>tailwind.config = { theme: { extend: { colors: { ink: '#0b0f14', ink2: '#0e141b', aqua: '#2dd4bf', magenta: '#e879f9', }, fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Space Grotesk', 'Inter', 'sans-serif'], }, }, }, };</script><style>html { scroll-behavior: smooth; } body { background-color: #0b0f14; } .glass { background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015)); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); } .aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; } .aurora::before, .aurora::after { content: ""; position: absolute; border-radius: 9999px; filter: blur(90px); opacity: 0.5; } .aurora::before { width: 620px; height: 620px; left: -8%; top: -28%; background: radial-gradient(circle at center, rgba(45,212,191,0.55), transparent 68%); } .aurora::after { width: 680px; height: 680px; right: -10%; bottom: -34%; background: radial-gradient(circle at center, rgba(232,121,249,0.45), transparent 68%); } .aurora-mid { position: absolute; width: 520px; height: 320px; left: 50%; top: 36%; transform: translateX(-50%); border-radius: 9999px; filter: blur(110px); background: radial-gradient(ellipse at center, rgba(45,212,191,0.22), rgba(232,121,249,0.18) 55%, transparent 75%); pointer-events: none; } .grid-tex { background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(ellipse 90% 62% at 50% 38%, #000 18%, transparent 72%); mask-image: radial-gradient(ellipse 90% 62% at 50% 38%, #000 18%, transparent 72%); } .coverflow { position: relative; height: 440px; perspective: 1600px; transform-style: preserve-3d; } .cf-card { position: absolute; top: 50%; left: 50%; width: 280px; height: 372px; margin-left: -140px; margin-top: -186px; border-radius: 22px; overflow: hidden; transition: transform .55s cubic-bezier(.22,.61,.36,1), opacity .55s ease, filter .55s ease; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 30px 70px -28px rgba(0,0,0,0.85); background: #0e141b; will-change: transform; cursor: pointer; } .cf-card .label { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 18px 16px; background: linear-gradient(to top, rgba(7,10,14,0.92), rgba(7,10,14,0.45) 55%, transparent); } .cf-pos-0 { transform: translate3d(0,0,140px) rotateY(0deg) scale(1); opacity: 1; z-index: 50; box-shadow: 0 40px 90px -30px rgba(45,212,191,0.35), 0 0 0 1px rgba(45,212,191,0.25); } .cf-pos-1 { transform: translate3d(168px,0,-40px) rotateY(-42deg) scale(.86); opacity: .92; z-index: 40; } .cf-pos-2 { transform: translate3d(310px,0,-200px) rotateY(-46deg) scale(.7); opacity: .55; z-index: 30; } .cf-pos-3 { transform: translate3d(420px,0,-360px) rotateY(-48deg) scale(.56); opacity: .22; z-index: 20; } .cf-pos-n1 { transform: translate3d(-168px,0,-40px) rotateY(42deg) scale(.86); opacity: .92; z-index: 40; } .cf-pos-n2 { transform: translate3d(-310px,0,-200px) rotateY(46deg) scale(.7); opacity: .55; z-index: 30; } .cf-pos-n3 { transform: translate3d(-420px,0,-360px) rotateY(48deg) scale(.56); opacity: .22; z-index: 20; } .cf-hidden { transform: translate3d(0,0,-520px) scale(.4); opacity: 0; z-index: 0; } .dot { width: 8px; height: 8px; border-radius: 9999px; background: rgba(255,255,255,0.22); transition: all .35s ease; cursor: pointer; } .dot.active { width: 26px; background: linear-gradient(90deg, #2dd4bf, #e879f9); box-shadow: 0 0 14px rgba(45,212,191,0.6); } .gradient-text { background: linear-gradient(100deg, #2dd4bf 0%, #7defe0 35%, #e879f9 100%); -webkit-background-clip: text; background-clip: text; color: transparent; } .nav-btn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 9999px; cursor: pointer; transition: all .3s ease; } .nav-btn:hover { transform: scale(1.08); border-color: rgba(45,212,191,0.5); } @media (max-width: 860px) { .coverflow { height: 400px; } .cf-card { width: 230px; height: 312px; margin-left: -115px; margin-top: -156px; } .cf-pos-1 { transform: translate3d(140px,0,-40px) rotateY(-42deg) scale(.84); } .cf-pos-n1 { transform: translate3d(-140px,0,-40px) rotateY(42deg) scale(.84); } .cf-pos-2 { transform: translate3d(250px,0,-200px) rotateY(-46deg) scale(.66); } .cf-pos-n2 { transform: translate3d(-250px,0,-200px) rotateY(46deg) scale(.66); } .cf-pos-3, .cf-pos-n3 { opacity: 0; } } @media (max-width: 480px) { .coverflow { height: 360px; } .cf-card { width: 200px; height: 272px; margin-left: -100px; margin-top: -136px; } .cf-pos-1 { transform: translate3d(106px,0,-60px) rotateY(-40deg) scale(.78); opacity: .7; } .cf-pos-n1 { transform: translate3d(-106px,0,-60px) rotateY(40deg) scale(.78); opacity: .7; } .cf-pos-2, .cf-pos-n2, .cf-pos-3, .cf-pos-n3 { opacity: 0; } }</style>
+<meta name="preview-version" content="3271ea71-3d1e-4d62-8acf-c047ead3acb7" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:12.267Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "3271ea71-3d1e-4d62-8acf-c047ead3acb7");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "3271ea71-3d1e-4d62-8acf-c047ead3acb7",
+      timestamp: "2026-10-16T14:07:12.267Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "3271ea71-3d1e-4d62-8acf-c047ead3acb7";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head><body><div class="min-h-screen font-sans text-slate-200 antialiased selection:bg-aqua/30"><nav class="sticky top-0 z-50 w-full border-b border-white/5 bg-ink/70 backdrop-blur-xl"><div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"><a href="#" id="nav-brand-link" class="flex items-center gap-2.5"><span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-aqua to-magenta shadow-lg shadow-aqua/20"><iconify-icon icon="ph:cards-three-fill" class="text-ink" style="font-size:18px"></iconify-icon></span><span class="font-display text-lg font-bold tracking-tight text-white">Coverflow</span></a><div class="hidden items-center gap-8 text-sm font-medium text-slate-300 md:flex"><a href="#showcase" id="nav-showcase-link" class="transition hover:text-white">Showcase</a><a href="#features" id="nav-features-link" class="transition hover:text-white">Features</a><a href="#templates" id="nav-templates-link" class="transition hover:text-white">Templates</a><a href="#" id="nav-pricing-link" class="transition hover:text-white">Pricing</a></div><div class="flex items-center gap-3"><a href="#" id="nav-signin-link" class="hidden text-sm font-medium text-slate-300 transition hover:text-white sm:block">Sign in</a><a href="#" id="cta-nav-start-link" class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:bg-aqua">Start free</a><button id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu" class="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10 md:hidden"><iconify-icon id="menuIcon" icon="ph:list-bold" style="font-size:18px"></iconify-icon></button></div></div><div id="mobileMenu" class="hidden border-t border-white/5 bg-ink/95 backdrop-blur-xl md:hidden"><div class="mx-auto flex max-w-6xl flex-col px-6 py-3 text-sm font-medium text-slate-200"><a href="#showcase" id="mobile-showcase-link" class="rounded-lg px-2 py-3 transition hover:bg-white/5 hover:text-white">Showcase</a><a href="#features" id="mobile-features-link" class="rounded-lg px-2 py-3 transition hover:bg-white/5 hover:text-white">Features</a><a href="#templates" id="mobile-templates-link" class="rounded-lg px-2 py-3 transition hover:bg-white/5 hover:text-white">Templates</a><a href="#" id="mobile-pricing-link" class="rounded-lg px-2 py-3 transition hover:bg-white/5 hover:text-white">Pricing</a></div></div></nav><header class="relative w-full overflow-hidden"><div class="aurora"></div><div class="aurora-mid"></div><div class="absolute inset-0 grid-tex"></div><div class="relative mx-auto max-w-6xl px-6 pt-16 pb-10 text-center sm:pt-20"><div class="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 backdrop-blur"><span class="h-1.5 w-1.5 rounded-full bg-aqua shadow-[0_0_8px] shadow-aqua"></span> New: depth-aware coverflow engine</div><h1 class="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl"> Carousels that<br><span class="gradient-text">turn heads</span>, not stomachs. </h1><p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg"> Generate cinematic 3D coverflow galleries from a single prompt. Real depth, buttery motion, and an aurora-lit dark canvas, ready to ship. </p></div><div class="relative mx-auto max-w-5xl px-4 pb-6 sm:px-6"><div class="pointer-events-none absolute inset-x-0 bottom-16 mx-auto h-24 max-w-2xl rounded-[100%] bg-aqua/10 blur-3xl"></div><div class="coverflow" id="coverflow"></div><div class="mt-7 flex items-center justify-center gap-6"><button class="nav-btn glass text-slate-200" id="prev" aria-label="Previous"><iconify-icon icon="ph:caret-left-bold" style="font-size:18px"></iconify-icon></button><div class="flex items-center gap-2.5" id="dots"></div><button class="nav-btn glass text-slate-200" id="next" aria-label="Next"><iconify-icon icon="ph:caret-right-bold" style="font-size:18px"></iconify-icon></button></div></div><div class="relative mx-auto mt-4 max-w-6xl px-6 pb-16 text-center"><div class="flex flex-col items-center justify-center gap-3 sm:flex-row"><a href="#" id="cta-build-link" class="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-aqua to-magenta px-7 py-3.5 text-sm font-semibold text-ink shadow-xl shadow-aqua/20 transition hover:shadow-aqua/40"> Build your carousel <iconify-icon icon="ph:arrow-right-bold" class="transition group-hover:translate-x-0.5" style="font-size:16px"></iconify-icon></a><a href="#showcase" id="cta-watch-link" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"><iconify-icon icon="ph:play-circle" style="font-size:18px"></iconify-icon> Watch it move </a></div><p class="mt-5 text-xs text-slate-400">Trusted by 12,000+ product teams · No credit card</p></div></header><section class="relative w-full border-y border-white/5 bg-ink2/60"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-12 gap-y-5 px-6 py-7"><span class="font-display text-lg font-semibold tracking-tight text-slate-300/90">Lumen</span><span class="font-display text-lg font-semibold tracking-tight text-slate-300/90">Northwind</span><span class="font-display text-lg font-semibold tracking-tight text-slate-300/90">Parallax</span><span class="font-display text-lg font-semibold tracking-tight text-slate-300/90">Halcyon</span><span class="font-display text-lg font-semibold tracking-tight text-slate-300/90">Vela</span><span class="font-display text-lg font-semibold tracking-tight text-slate-300/90">Driftwood</span></div></section><section id="features" class="relative w-full py-24"><div class="aurora-mid" style="top: 10%; opacity:.4;"></div><div class="relative mx-auto max-w-6xl px-6"><div class="mx-auto max-w-2xl text-center"><span class="text-sm font-semibold uppercase tracking-[0.2em] text-aqua">The engine</span><h2 class="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Depth you can feel, motion you can trust</h2><p class="mt-4 text-slate-400">Every carousel ships with real perspective, momentum scrolling, and accessibility baked in. No jank, no motion sickness.</p></div><div class="mt-14 grid gap-5 md:grid-cols-3"><div class="glass rounded-2xl p-7"><span class="grid h-11 w-11 place-items-center rounded-xl bg-aqua/15 text-aqua"><iconify-icon icon="ph:cube" style="font-size:22px"></iconify-icon></span><h3 class="mt-5 font-display text-lg font-semibold text-white">True 3D perspective</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">Side cards rotate and recede in real space, so your active slide always feels front and center.</p></div><div class="glass rounded-2xl p-7"><span class="grid h-11 w-11 place-items-center rounded-xl bg-magenta/15 text-magenta"><iconify-icon icon="ph:lightning" style="font-size:22px"></iconify-icon></span><h3 class="mt-5 font-display text-lg font-semibold text-white">60fps momentum</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">GPU-accelerated transforms and inertial drag keep every swipe glassy on phones and trackpads alike.</p></div><div class="glass rounded-2xl p-7"><span class="grid h-11 w-11 place-items-center rounded-xl bg-aqua/15 text-aqua"><iconify-icon icon="ph:wheelchair" style="font-size:22px"></iconify-icon></span><h3 class="mt-5 font-display text-lg font-semibold text-white">A11y by default</h3><p class="mt-2 text-sm leading-relaxed text-slate-400">Keyboard nav, focus rings, reduced-motion fallbacks and ARIA roles ship with every export.</p></div></div></div></section><section id="showcase" class="relative w-full border-t border-white/5 bg-ink2/50 py-24"><div class="relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-2"><div><span class="text-sm font-semibold uppercase tracking-[0.2em] text-magenta">From prompt to motion</span><h2 class="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Describe it. Watch it come alive.</h2><p class="mt-4 text-slate-400">Type a single line and Coverflow lays out the geometry, tunes the easing, and tints the aurora to match your palette.</p><ul class="mt-8 space-y-4"><li class="flex items-start gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-aqua/15 text-aqua"><iconify-icon icon="ph:check-bold" style="font-size:13px"></iconify-icon></span><span class="text-sm text-slate-300"><span class="font-semibold text-white">Live theming.</span> Swap accents and the whole stage re-lights instantly.</span></li><li class="flex items-start gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-magenta/15 text-magenta"><iconify-icon icon="ph:check-bold" style="font-size:13px"></iconify-icon></span><span class="text-sm text-slate-300"><span class="font-semibold text-white">Export anywhere.</span> React, Vue, or vanilla, with clean copy-paste code.</span></li><li class="flex items-start gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-aqua/15 text-aqua"><iconify-icon icon="ph:check-bold" style="font-size:13px"></iconify-icon></span><span class="text-sm text-slate-300"><span class="font-semibold text-white">Responsive by design.</span> Card counts and angles adapt down to 360px.</span></li></ul><a href="#" id="cta-playground-link" class="mt-9 inline-flex items-center gap-2 rounded-full border border-aqua/30 bg-aqua/10 px-6 py-3 text-sm font-semibold text-aqua transition hover:bg-aqua/20"> Explore the playground <iconify-icon icon="ph:arrow-up-right" style="font-size:15px"></iconify-icon></a></div><div class="glass relative rounded-2xl p-1.5"><div class="rounded-xl bg-ink p-5 font-mono text-[13px] leading-relaxed"><div class="mb-4 flex items-center gap-2 text-slate-600"><iconify-icon icon="ph:terminal-window" style="font-size:15px"></iconify-icon><span class="text-xs">prompt</span></div><p class="text-slate-400"><span class="text-magenta">$</span> <span class="text-slate-200">coverflow</span> generate</p><p class="mt-1 text-slate-500">"a dark, aurora-lit photo carousel with</p><p class="text-slate-500"> angled side cards and a glowing active slide"</p><div class="mt-4 space-y-1.5"><p class="text-aqua">✓ geometry · 7 cards, 42° tilt</p><p class="text-aqua">✓ easing · cubic-bezier(.22,.61,.36,1)</p><p class="text-aqua">✓ aurora · aqua → magenta</p><p class="text-magenta">→ rendered in 0.8s</p></div></div></div></div></section><section id="templates" class="relative w-full py-24"><div class="relative mx-auto max-w-6xl px-6"><div class="flex flex-col items-end justify-between gap-6 sm:flex-row"><div class="max-w-xl"><span class="text-sm font-semibold uppercase tracking-[0.2em] text-aqua">Starting points</span><h2 class="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Templates that already move</h2></div><a href="#" id="browse-templates-link" class="text-sm font-semibold text-slate-300 transition hover:text-aqua">Browse all 60+ →</a></div><div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"><article class="group glass overflow-hidden rounded-2xl transition hover:-translate-y-1 hover:border-aqua/30"><div class="h-40 bg-gradient-to-br from-aqua/30 via-ink2 to-magenta/20"></div><div class="p-5"><h3 class="font-display text-base font-semibold text-white">Aurora Gallery</h3><p class="mt-1 text-sm text-slate-400">Photo-first coverflow with glow.</p></div></article><article class="group glass overflow-hidden rounded-2xl transition hover:-translate-y-1 hover:border-magenta/30"><div class="h-40 bg-gradient-to-tr from-magenta/30 via-ink2 to-aqua/15"></div><div class="p-5"><h3 class="font-display text-base font-semibold text-white">Product Reel</h3><p class="mt-1 text-sm text-slate-400">E-commerce hero showcase.</p></div></article><article class="group glass overflow-hidden rounded-2xl transition hover:-translate-y-1 hover:border-aqua/30"><div class="h-40 bg-gradient-to-bl from-aqua/25 via-ink2 to-magenta/25"></div><div class="p-5"><h3 class="font-display text-base font-semibold text-white">Team Faces</h3><p class="mt-1 text-sm text-slate-400">About-page people slider.</p></div></article></div></div></section><section class="relative w-full overflow-hidden border-t border-white/5 py-24"><div class="aurora-mid" style="top: 0; opacity:.55;"></div><div class="relative mx-auto max-w-3xl px-6 text-center"><h2 class="font-display text-3xl font-bold tracking-tight text-white sm:text-5xl">Ship a carousel<br>worth swiping.</h2><p class="mx-auto mt-5 max-w-lg text-slate-400">Start free, prompt your first coverflow in under a minute, and export production code when you love it.</p><div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"><a href="#" id="cta-final-start-link" class="rounded-full bg-gradient-to-r from-aqua to-magenta px-8 py-3.5 text-sm font-semibold text-ink shadow-xl shadow-magenta/20 transition hover:shadow-magenta/40">Start free</a><a href="#" id="cta-demo-link" class="rounded-full border border-white/10 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10">Book a demo</a></div></div></section><footer class="relative w-full border-t border-white/5 bg-ink2/60"><div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row"><div class="flex items-center gap-2.5"><span class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-aqua to-magenta"><iconify-icon icon="ph:cards-three-fill" class="text-ink" style="font-size:15px"></iconify-icon></span><span class="font-display font-bold text-white">Coverflow</span></div><p class="text-xs text-slate-400">© 2026 Coverflow Labs. Crafted in the dark.</p><div class="flex items-center gap-4 text-slate-400"><a href="#" id="footer-x-link" class="transition hover:text-aqua"><iconify-icon icon="ph:x-logo" style="font-size:18px"></iconify-icon></a><a href="#" id="footer-github-link" class="transition hover:text-aqua"><iconify-icon icon="ph:github-logo" style="font-size:18px"></iconify-icon></a><a href="#" id="footer-dribbble-link" class="transition hover:text-aqua"><iconify-icon icon="ph:dribbble-logo" style="font-size:18px"></iconify-icon></a></div></div></footer></div><script> const slides = [ { title: 'Dawn Coast', sub: 'Landscape', g: 'linear-gradient(150deg,#5eead4,#0f3d3a 72%)' }, { title: 'Deep Forest', sub: 'Nature', g: 'linear-gradient(150deg,#14b8a6,#08312e 72%)' }, { title: 'Oak Field', sub: 'Outdoor', g: 'linear-gradient(150deg,#6ee7d6,#123c3d 72%)' }, { title: 'Moonrise', sub: 'Featured', g: 'linear-gradient(150deg,#2dd4bf 0%,#22a89a 45%,#0c3b45 78%)' }, { title: 'Wild Petal', sub: 'Macro', g: 'linear-gradient(150deg,#e879f9,#4a1e57 72%)' }, { title: 'Aurora Sea', sub: 'Abstract', g: 'linear-gradient(150deg,#2dd4bf,#9333ea 78%)' }, { title: 'Night City', sub: 'Urban', g: 'linear-gradient(150deg,#c084fc,#3b1d5e 72%)' }, ]; const cf = document.getElementById('coverflow'); const dotsWrap = document.getElementById('dots'); let active = 3; slides.forEach((s, i) => { const card = document.createElement('div'); card.className = 'cf-card'; card.dataset.idx = i; card.style.background = s.g; card.innerHTML = ` <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 30% 20%, rgba(255,255,255,0.18), transparent 60%);"></div> <div class="label"> <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);">${s.sub}</p> <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:#fff;margin-top:2px;">${s.title}</p> </div>`; card.addEventListener('click', () => { active = i; render(); }); cf.appendChild(card); const dot = document.createElement('span'); dot.className = 'dot'; dot.addEventListener('click', () => { active = i; render(); }); dotsWrap.appendChild(dot); }); function render() { const cards = cf.querySelectorAll('.cf-card'); cards.forEach((c, i) => { let d = i - active; let cls = 'cf-card '; if (d === 0) cls += 'cf-pos-0'; else if (d === 1) cls += 'cf-pos-1'; else if (d === 2) cls += 'cf-pos-2'; else if (d >= 3) cls += 'cf-pos-3'; else if (d === -1) cls += 'cf-pos-n1'; else if (d === -2) cls += 'cf-pos-n2'; else if (d <= -3) cls += 'cf-pos-n3'; c.className = cls; }); dotsWrap.querySelectorAll('.dot').forEach((dt, i) => { dt.classList.toggle('active', i === active); }); } document.getElementById('next').addEventListener('click', () => { active = Math.min(active + 1, slides.length - 1); render(); }); document.getElementById('prev').addEventListener('click', () => { active = Math.max(active - 1, 0); render(); }); document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { active = Math.min(active + 1, slides.length - 1); render(); } if (e.key === 'ArrowLeft') { active = Math.max(active - 1, 0); render(); } }); const menuBtn = document.getElementById('menuBtn'); const menuIcon = document.getElementById('menuIcon'); const mobileMenu = document.getElementById('mobileMenu'); function closeMenu() { mobileMenu.classList.add('hidden'); menuBtn.setAttribute('aria-expanded', 'false'); menuIcon.setAttribute('icon', 'ph:list-bold'); } menuBtn.addEventListener('click', () => { const open = mobileMenu.classList.toggle('hidden') === false; menuBtn.setAttribute('aria-expanded', String(open)); menuIcon.setAttribute('icon', open ? 'ph:x-bold' : 'ph:list-bold'); }); mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu)); render(); </script></body></html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tablecloth — data tables you actually want to look at</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Poppins', 'ui-sans-serif', 'system-ui'] },
+        colors: {
+          cream: '#fdf9f3',
+          ink: '#2c2a3a',
+          sky: { DEFAULT: '#38bdf8', soft: '#e0f5ff', deep: '#0ea5e9' },
+          coral: { DEFAULT: '#fb7185', soft: '#ffe7eb', deep: '#f43f5e' },
+        },
+        boxShadow: {
+          card: '0 18px 50px -22px rgba(56,189,248,0.45)',
+          soft: '0 10px 30px -16px rgba(44,42,58,0.30)',
+          lift: '0 26px 70px -30px rgba(251,113,133,0.45)',
+        },
+        borderRadius: { '4xl': '2rem' },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  .grain { background-image: radial-gradient(rgba(44,42,58,0.04) 1px, transparent 1px); background-size: 22px 22px; }
+  .badge { display:inline-flex; align-items:center; gap:.4rem; font-weight:600; font-size:.72rem; letter-spacing:.01em; padding:.28rem .7rem; border-radius:9999px; line-height:1; }
+  .progress-track { background:#eef0f4; border-radius:9999px; overflow:hidden; }
+  .progress-bar { height:100%; border-radius:9999px; }
+  .marquee { animation: float 7s ease-in-out infinite; }
+  @keyframes float { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-9px) } }
+  .row-hover { transition: background-color .18s ease, transform .18s ease; }
+  .row-hover:hover { background-color:#fbfdff; }
+  .fld-label { display:none; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:rgba(44,42,58,.4); margin-bottom:.25rem; }
+  @media (max-width: 1023px){ .fld-label { display:block; } }
+</style>
+
+<meta name="preview-version" content="77957112-d6ea-4116-841b-5e1ae65c6145" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:43.999Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "77957112-d6ea-4116-841b-5e1ae65c6145");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "77957112-d6ea-4116-841b-5e1ae65c6145",
+      timestamp: "2026-10-16T14:07:43.999Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "77957112-d6ea-4116-841b-5e1ae65c6145";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="font-sans text-ink antialiased selection:bg-coral/30 bg-cream min-h-screen">
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-cream/80 border-b border-ink/5">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <nav class="flex items-center justify-between h-[72px]">
+          <a href="#" id="nav-logo-link" class="flex items-center gap-2.5 group">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-sky to-sky-deep text-white shadow-card group-hover:rotate-6 transition-transform">
+              <iconify-icon icon="ph:table-bold" class="text-xl"></iconify-icon>
+            </span>
+            <span class="text-lg font-extrabold tracking-tight">Tablecloth</span>
+          </a>
+          <div class="hidden md:flex items-center gap-9 text-sm font-medium text-ink/70">
+            <a href="#showcase" id="nav-showcase-link" class="hover:text-ink transition-colors">Showcase</a>
+            <a href="#kit" id="nav-kit-link" class="hover:text-ink transition-colors">Components</a>
+            <a href="#flow" id="nav-flow-link" class="hover:text-ink transition-colors">How it works</a>
+            <a href="#pricing" id="nav-pricing-link" class="hover:text-ink transition-colors">Pricing</a>
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="#" id="nav-signin-link" class="hidden sm:inline text-sm font-semibold text-ink/70 hover:text-ink transition-colors">Sign in</a>
+            <a href="#" id="nav-open-canvas-btn" class="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white shadow-soft hover:bg-ink/90 transition-colors">
+              Open canvas
+              <iconify-icon icon="ph:arrow-up-right-bold" class="text-base"></iconify-icon>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <section class="relative overflow-hidden grain">
+      <div class="absolute -top-32 -right-24 h-80 w-80 rounded-full bg-sky/25 blur-3xl"></div>
+      <div class="absolute top-40 -left-24 h-72 w-72 rounded-full bg-coral/20 blur-3xl"></div>
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
+        <div class="grid lg:grid-cols-[1.05fr,1.25fr] gap-14 lg:gap-12 items-center">
+          <div>
+            <span class="badge bg-sky-soft text-sky-deep">
+              <iconify-icon icon="ph:sparkle-fill"></iconify-icon>
+              Prompt → production table
+            </span>
+            <h1 class="mt-6 text-5xl sm:text-6xl lg:text-[4.1rem] font-extrabold leading-[1.04] tracking-tight">
+              Data tables you<br/>
+              <span class="relative inline-block">
+                <span class="relative z-10">actually want</span>
+                <span class="absolute inset-x-0 bottom-1.5 h-4 bg-coral/35 -rotate-1 rounded-sm -z-0"></span>
+              </span>
+              to look at.
+            </h1>
+            <p class="mt-6 text-lg text-ink/65 leading-relaxed max-w-md">
+              Describe the rows, columns and states in plain English. Tablecloth designs the
+              avatars, status badges, progress bars and date chips, then hands you clean,
+              responsive markup.
+            </p>
+            <div class="mt-9 flex flex-wrap items-center gap-3">
+              <a href="#" id="hero-gen-link" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-sky to-sky-deep px-7 py-3.5 text-base font-semibold text-white shadow-card hover:-translate-y-0.5 transition-transform">
+                <iconify-icon icon="ph:magic-wand-fill" class="text-lg"></iconify-icon>
+                Generate a table
+              </a>
+              <a href="#showcase" id="hero-showcase-link" class="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-7 py-3.5 text-base font-semibold text-ink hover:border-ink/30 transition-colors">
+                See it live
+              </a>
+            </div>
+            <div class="mt-9 flex items-center gap-5 text-sm text-ink/55">
+              <div class="flex -space-x-2.5">
+                <img class="h-9 w-9 rounded-full ring-2 ring-cream object-cover" src="https://i.pravatar.cc/80?img=12" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+                <img class="h-9 w-9 rounded-full ring-2 ring-cream object-cover" src="https://i.pravatar.cc/80?img=32" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+                <img class="h-9 w-9 rounded-full ring-2 ring-cream object-cover" src="https://i.pravatar.cc/80?img=5" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';">
+                <span class="grid h-9 w-9 place-items-center rounded-full ring-2 ring-cream bg-coral text-white text-xs font-bold">9k</span>
+              </div>
+              <span>Loved by <b class="text-ink">9,000+</b> builders shipping faster.</span>
+            </div>
+          </div>
+          <div class="relative marquee">
+            <div class="absolute -inset-3 rounded-[2.4rem] bg-gradient-to-br from-sky/15 to-coral/15 blur-xl"></div>
+            <div class="relative rounded-4xl bg-white shadow-card ring-1 ring-ink/5 overflow-hidden">
+              <div class="flex items-center justify-between px-6 py-5 border-b border-ink/5">
+                <div>
+                  <h3 class="text-base font-bold">Active accounts</h3>
+                  <p class="text-xs text-ink/45 mt-0.5">Q2 customer success board</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="grid h-9 w-9 place-items-center rounded-xl bg-cream text-ink/50 hover:text-ink transition-colors"><iconify-icon icon="ph:funnel-bold"></iconify-icon></button>
+                  <button class="grid h-9 w-9 place-items-center rounded-xl bg-cream text-ink/50 hover:text-ink transition-colors"><iconify-icon icon="ph:export-bold"></iconify-icon></button>
+                </div>
+              </div>
+              <div class="hidden sm:grid grid-cols-[1.7fr,1fr,1.4fr,0.9fr] gap-3 px-6 py-3 bg-cream/70 text-[0.66rem] font-bold uppercase tracking-wider text-ink/40">
+                <span>Member</span><span>Status</span><span>Onboarding</span><span class="text-right">Due</span>
+              </div>
+              <div class="divide-y divide-ink/5">
+                <div class="row-hover grid grid-cols-[1.7fr,1fr,1.4fr,0.9fr] gap-3 px-6 py-4 items-center">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="relative shrink-0">
+                      <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=47" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+                      <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 ring-2 ring-white"></span>
+                    </span>
+                    <span class="min-w-0">
+                      <span class="block text-sm font-semibold truncate">Mara Lindqvist</span>
+                      <span class="block text-xs text-ink/45 truncate">Acme Studio · Pro</span>
+                    </span>
+                  </div>
+                  <div><span class="badge bg-emerald-50 text-emerald-600"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Active</span></div>
+                  <div>
+                    <div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold text-ink">92%</span><span class="text-ink/40">11 of 12</span></div>
+                    <div class="progress-track h-2"><div class="progress-bar bg-sky" style="width:92%"></div></div>
+                  </div>
+                  <div class="text-right"><span class="badge bg-sky-soft text-sky-deep">Jul 02</span></div>
+                </div>
+                <div class="row-hover grid grid-cols-[1.7fr,1fr,1.4fr,0.9fr] gap-3 px-6 py-4 items-center">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="relative shrink-0">
+                      <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=15" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+                      <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-amber-400 ring-2 ring-white"></span>
+                    </span>
+                    <span class="min-w-0">
+                      <span class="block text-sm font-semibold truncate">Diego Marchetti</span>
+                      <span class="block text-xs text-ink/45 truncate">Northwind · Team</span>
+                    </span>
+                  </div>
+                  <div><span class="badge bg-amber-50 text-amber-600"><span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>At risk</span></div>
+                  <div>
+                    <div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold text-ink">48%</span><span class="text-ink/40">6 of 12</span></div>
+                    <div class="progress-track h-2"><div class="progress-bar bg-amber-400" style="width:48%"></div></div>
+                  </div>
+                  <div class="text-right"><span class="badge bg-coral-soft text-coral-deep">Jun 21</span></div>
+                </div>
+                <div class="row-hover grid grid-cols-[1.7fr,1fr,1.4fr,0.9fr] gap-3 px-6 py-4 items-center">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="relative shrink-0">
+                      <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=68" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+                      <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-coral ring-2 ring-white"></span>
+                    </span>
+                    <span class="min-w-0">
+                      <span class="block text-sm font-semibold truncate">Priya Nadkarni</span>
+                      <span class="block text-xs text-ink/45 truncate">Helios Labs · Free</span>
+                    </span>
+                  </div>
+                  <div><span class="badge bg-coral-soft text-coral-deep"><span class="h-1.5 w-1.5 rounded-full bg-coral"></span>Churning</span></div>
+                  <div>
+                    <div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold text-ink">23%</span><span class="text-ink/40">3 of 12</span></div>
+                    <div class="progress-track h-2"><div class="progress-bar bg-coral" style="width:23%"></div></div>
+                  </div>
+                  <div class="text-right"><span class="badge bg-cream text-ink/55">Overdue</span></div>
+                </div>
+                <div class="row-hover grid grid-cols-[1.7fr,1fr,1.4fr,0.9fr] gap-3 px-6 py-4 items-center">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="relative shrink-0">
+                      <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=26" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+                      <span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 ring-2 ring-white"></span>
+                    </span>
+                    <span class="min-w-0">
+                      <span class="block text-sm font-semibold truncate">Tomás Okafor</span>
+                      <span class="block text-xs text-ink/45 truncate">Vertex · Pro</span>
+                    </span>
+                  </div>
+                  <div><span class="badge bg-emerald-50 text-emerald-600"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Active</span></div>
+                  <div>
+                    <div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold text-ink">76%</span><span class="text-ink/40">9 of 12</span></div>
+                    <div class="progress-track h-2"><div class="progress-bar bg-sky" style="width:76%"></div></div>
+                  </div>
+                  <div class="text-right"><span class="badge bg-sky-soft text-sky-deep">Jul 14</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -bottom-5 -left-4 hidden sm:flex items-center gap-2.5 rounded-2xl bg-ink px-4 py-3 text-white shadow-lift">
+              <iconify-icon icon="ph:chat-circle-dots-fill" class="text-coral text-lg"></iconify-icon>
+              <span class="text-xs font-medium">"a CRM board with status badges + progress"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="border-y border-ink/5 bg-white/60">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 py-7">
+        <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-ink/35">
+          <span class="text-xs font-semibold uppercase tracking-widest text-ink/40">Drop-in ready for</span>
+          <span class="inline-flex items-center gap-2 font-bold text-ink/55"><iconify-icon icon="ph:atom-bold" class="text-xl"></iconify-icon> React</span>
+          <span class="inline-flex items-center gap-2 font-bold text-ink/55"><iconify-icon icon="simple-icons:vuedotjs" class="text-lg"></iconify-icon> Vue</span>
+          <span class="inline-flex items-center gap-2 font-bold text-ink/55"><iconify-icon icon="simple-icons:svelte" class="text-lg"></iconify-icon> Svelte</span>
+          <span class="inline-flex items-center gap-2 font-bold text-ink/55"><iconify-icon icon="simple-icons:tailwindcss" class="text-lg"></iconify-icon> Tailwind</span>
+          <span class="inline-flex items-center gap-2 font-bold text-ink/55"><iconify-icon icon="ph:figma-logo-bold" class="text-xl"></iconify-icon> Figma</span>
+        </div>
+      </div>
+    </section>
+    <section id="showcase" class="mx-auto max-w-7xl px-6 lg:px-8 py-20 lg:py-28">
+      <div class="max-w-2xl">
+        <span class="badge bg-coral-soft text-coral-deep"><iconify-icon icon="ph:squares-four-fill"></iconify-icon> The showcase</span>
+        <h2 class="mt-5 text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">Every cell type, styled to match.</h2>
+        <p class="mt-4 text-lg text-ink/60">Avatars with presence dots, semantic status badges, usage bars and due-date chips. Generated once, perfectly aligned across the whole grid.</p>
+      </div>
+      <div class="mt-12 rounded-4xl bg-white shadow-soft ring-1 ring-ink/5 overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 lg:px-8 py-5 border-b border-ink/5">
+          <div class="flex items-center gap-3">
+            <span class="grid h-10 w-10 place-items-center rounded-xl bg-sky-soft text-sky-deep"><iconify-icon icon="ph:users-three-bold" class="text-xl"></iconify-icon></span>
+            <div>
+              <h3 class="font-bold">Customer roster</h3>
+              <p class="text-xs text-ink/45">128 members · 6 shown</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="hidden sm:flex items-center gap-2 rounded-full bg-cream px-4 py-2 text-sm text-ink/45">
+              <iconify-icon icon="ph:magnifying-glass-bold"></iconify-icon> Search members
+            </div>
+            <button class="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white"><iconify-icon icon="ph:plus-bold"></iconify-icon> Add</button>
+          </div>
+        </div>
+        <div class="hidden lg:grid grid-cols-[2fr,1fr,1fr,1.7fr,1.2fr,0.5fr] gap-4 px-6 lg:px-8 py-3.5 bg-cream/70 text-[0.66rem] font-bold uppercase tracking-wider text-ink/40">
+          <span>Member</span><span>Plan</span><span>Status</span><span>Usage</span><span class="text-right">Renews</span><span></span>
+        </div>
+        <div class="divide-y divide-ink/5">
+          <div class="row-hover grid grid-cols-2 lg:grid-cols-[2fr,1fr,1fr,1.7fr,1.2fr,0.5fr] gap-x-3 gap-y-4 lg:gap-4 px-6 lg:px-8 py-5 lg:py-4 lg:items-center">
+            <div class="col-span-2 lg:col-span-1 flex items-center gap-3.5 min-w-0">
+              <span class="relative shrink-0"><img class="h-11 w-11 rounded-full object-cover" src="https://i.pravatar.cc/96?img=47" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/44x44/1a1a1a/888?text=Image';"><span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 ring-2 ring-white"></span></span>
+              <span class="min-w-0"><span class="block text-sm font-semibold truncate">Mara Lindqvist</span><span class="block text-xs text-ink/45 truncate">mara@acmestudio.io</span></span>
+            </div>
+            <div><span class="fld-label">Plan</span><span class="badge bg-sky-soft text-sky-deep">Pro</span></div>
+            <div><span class="fld-label">Status</span><span class="badge bg-emerald-50 text-emerald-600"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Active</span></div>
+            <div class="col-span-2 lg:col-span-1"><span class="fld-label">Usage</span><div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold">8.4k / 10k credits</span><span class="text-ink/40">84%</span></div><div class="progress-track h-2"><div class="progress-bar bg-sky" style="width:84%"></div></div></div>
+            <div class="lg:text-right"><span class="fld-label">Renews</span><span class="text-sm text-ink/60">Aug 12, 2026</span></div>
+            <div class="hidden lg:block lg:text-right text-ink/30"><iconify-icon icon="ph:dots-three-bold" class="text-xl"></iconify-icon></div>
+          </div>
+          <div class="row-hover grid grid-cols-2 lg:grid-cols-[2fr,1fr,1fr,1.7fr,1.2fr,0.5fr] gap-x-3 gap-y-4 lg:gap-4 px-6 lg:px-8 py-5 lg:py-4 lg:items-center">
+            <div class="col-span-2 lg:col-span-1 flex items-center gap-3.5 min-w-0">
+              <span class="relative shrink-0"><img class="h-11 w-11 rounded-full object-cover" src="https://i.pravatar.cc/96?img=15" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/44x44/1a1a1a/888?text=Image';"><span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-amber-400 ring-2 ring-white"></span></span>
+              <span class="min-w-0"><span class="block text-sm font-semibold truncate">Diego Marchetti</span><span class="block text-xs text-ink/45 truncate">diego@northwind.co</span></span>
+            </div>
+            <div><span class="fld-label">Plan</span><span class="badge bg-cream text-ink/60">Team</span></div>
+            <div><span class="fld-label">Status</span><span class="badge bg-amber-50 text-amber-600"><span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>At risk</span></div>
+            <div class="col-span-2 lg:col-span-1"><span class="fld-label">Usage</span><div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold">4.8k / 10k credits</span><span class="text-ink/40">48%</span></div><div class="progress-track h-2"><div class="progress-bar bg-amber-400" style="width:48%"></div></div></div>
+            <div class="lg:text-right"><span class="fld-label">Renews</span><span class="text-sm text-ink/60">Jun 21, 2026</span></div>
+            <div class="hidden lg:block lg:text-right text-ink/30"><iconify-icon icon="ph:dots-three-bold" class="text-xl"></iconify-icon></div>
+          </div>
+          <div class="row-hover grid grid-cols-2 lg:grid-cols-[2fr,1fr,1fr,1.7fr,1.2fr,0.5fr] gap-x-3 gap-y-4 lg:gap-4 px-6 lg:px-8 py-5 lg:py-4 lg:items-center">
+            <div class="col-span-2 lg:col-span-1 flex items-center gap-3.5 min-w-0">
+              <span class="relative shrink-0"><img class="h-11 w-11 rounded-full object-cover" src="https://i.pravatar.cc/96?img=68" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/44x44/1a1a1a/888?text=Image';"><span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-coral ring-2 ring-white"></span></span>
+              <span class="min-w-0"><span class="block text-sm font-semibold truncate">Priya Nadkarni</span><span class="block text-xs text-ink/45 truncate">priya@helioslabs.dev</span></span>
+            </div>
+            <div><span class="fld-label">Plan</span><span class="badge bg-cream text-ink/60">Free</span></div>
+            <div><span class="fld-label">Status</span><span class="badge bg-coral-soft text-coral-deep"><span class="h-1.5 w-1.5 rounded-full bg-coral"></span>Churning</span></div>
+            <div class="col-span-2 lg:col-span-1"><span class="fld-label">Usage</span><div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold">2.3k / 10k credits</span><span class="text-ink/40">23%</span></div><div class="progress-track h-2"><div class="progress-bar bg-coral" style="width:23%"></div></div></div>
+            <div class="lg:text-right"><span class="fld-label">Renews</span><span class="badge bg-coral-soft text-coral-deep">Overdue</span></div>
+            <div class="hidden lg:block lg:text-right text-ink/30"><iconify-icon icon="ph:dots-three-bold" class="text-xl"></iconify-icon></div>
+          </div>
+          <div class="row-hover grid grid-cols-2 lg:grid-cols-[2fr,1fr,1fr,1.7fr,1.2fr,0.5fr] gap-x-3 gap-y-4 lg:gap-4 px-6 lg:px-8 py-5 lg:py-4 lg:items-center">
+            <div class="col-span-2 lg:col-span-1 flex items-center gap-3.5 min-w-0">
+              <span class="relative shrink-0"><img class="h-11 w-11 rounded-full object-cover" src="https://i.pravatar.cc/96?img=26" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/44x44/1a1a1a/888?text=Image';"><span class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 ring-2 ring-white"></span></span>
+              <span class="min-w-0"><span class="block text-sm font-semibold truncate">Tomás Okafor</span><span class="block text-xs text-ink/45 truncate">tomas@vertex.app</span></span>
+            </div>
+            <div><span class="fld-label">Plan</span><span class="badge bg-sky-soft text-sky-deep">Pro</span></div>
+            <div><span class="fld-label">Status</span><span class="badge bg-emerald-50 text-emerald-600"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Active</span></div>
+            <div class="col-span-2 lg:col-span-1"><span class="fld-label">Usage</span><div class="flex items-center justify-between text-xs mb-1.5"><span class="font-bold">7.6k / 10k credits</span><span class="text-ink/40">76%</span></div><div class="progress-track h-2"><div class="progress-bar bg-sky" style="width:76%"></div></div></div>
+            <div class="lg:text-right"><span class="fld-label">Renews</span><span class="text-sm text-ink/60">Jul 14, 2026</span></div>
+            <div class="hidden lg:block lg:text-right text-ink/30"><iconify-icon icon="ph:dots-three-bold" class="text-xl"></iconify-icon></div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between px-6 lg:px-8 py-4 border-t border-ink/5 text-sm text-ink/50">
+          <span>Showing <b class="text-ink">1–6</b> of 128</span>
+          <div class="flex items-center gap-1.5">
+            <button class="grid h-8 w-8 place-items-center rounded-lg hover:bg-cream"><iconify-icon icon="ph:caret-left-bold"></iconify-icon></button>
+            <button class="grid h-8 w-8 place-items-center rounded-lg bg-sky text-white font-semibold">1</button>
+            <button class="grid h-8 w-8 place-items-center rounded-lg hover:bg-cream font-medium">2</button>
+            <button class="grid h-8 w-8 place-items-center rounded-lg hover:bg-cream font-medium">3</button>
+            <button class="grid h-8 w-8 place-items-center rounded-lg hover:bg-cream"><iconify-icon icon="ph:caret-right-bold"></iconify-icon></button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="kit" class="bg-white border-y border-ink/5">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 py-20 lg:py-28">
+        <div class="text-center max-w-2xl mx-auto">
+          <span class="badge bg-sky-soft text-sky-deep mx-auto"><iconify-icon icon="ph:stack-fill"></iconify-icon> The cell library</span>
+          <h2 class="mt-5 text-4xl sm:text-5xl font-extrabold tracking-tight">Mix and match the parts.</h2>
+          <p class="mt-4 text-lg text-ink/60">Four primitives cover almost every table you'll ever build.</p>
+        </div>
+        <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="rounded-3xl bg-cream p-7 ring-1 ring-ink/5 hover:shadow-soft transition-shadow">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-sky-deep shadow-soft"><iconify-icon icon="ph:identification-badge-bold" class="text-xl"></iconify-icon></span>
+            <h3 class="mt-5 font-bold text-lg">Avatar cells</h3>
+            <p class="mt-1.5 text-sm text-ink/55">Photo, name, secondary line and a live presence dot.</p>
+            <div class="mt-5 flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-soft">
+              <span class="relative"><img class="h-9 w-9 rounded-full object-cover" src="https://i.pravatar.cc/64?img=47" alt="" / onerror="this.onerror=null;this.src='https://placehold.co/36x36/1a1a1a/888?text=Image';"><span class="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white"></span></span>
+              <span><span class="block text-xs font-semibold">Mara L.</span><span class="block text-[0.65rem] text-ink/45">Online</span></span>
+            </div>
+          </div>
+          <div class="rounded-3xl bg-cream p-7 ring-1 ring-ink/5 hover:shadow-soft transition-shadow">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-coral-deep shadow-soft"><iconify-icon icon="ph:seal-check-bold" class="text-xl"></iconify-icon></span>
+            <h3 class="mt-5 font-bold text-lg">Status badges</h3>
+            <p class="mt-1.5 text-sm text-ink/55">Semantic colors that read at a glance, never guess.</p>
+            <div class="mt-5 flex flex-wrap gap-2 rounded-2xl bg-white p-3.5 shadow-soft">
+              <span class="badge bg-emerald-50 text-emerald-600"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Active</span>
+              <span class="badge bg-amber-50 text-amber-600"><span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>At risk</span>
+              <span class="badge bg-coral-soft text-coral-deep"><span class="h-1.5 w-1.5 rounded-full bg-coral"></span>Churn</span>
+            </div>
+          </div>
+          <div class="rounded-3xl bg-cream p-7 ring-1 ring-ink/5 hover:shadow-soft transition-shadow">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-sky-deep shadow-soft"><iconify-icon icon="ph:chart-bar-horizontal-bold" class="text-xl"></iconify-icon></span>
+            <h3 class="mt-5 font-bold text-lg">Progress bars</h3>
+            <p class="mt-1.5 text-sm text-ink/55">Usage, completion or quota with an inline percentage.</p>
+            <div class="mt-5 space-y-2.5 rounded-2xl bg-white p-3.5 shadow-soft">
+              <div><div class="flex justify-between text-[0.65rem] mb-1"><span class="font-bold">Credits</span><span class="text-ink/40">84%</span></div><div class="progress-track h-1.5"><div class="progress-bar bg-sky" style="width:84%"></div></div></div>
+              <div><div class="flex justify-between text-[0.65rem] mb-1"><span class="font-bold">Seats</span><span class="text-ink/40">36%</span></div><div class="progress-track h-1.5"><div class="progress-bar bg-coral" style="width:36%"></div></div></div>
+            </div>
+          </div>
+          <div class="rounded-3xl bg-cream p-7 ring-1 ring-ink/5 hover:shadow-soft transition-shadow">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-coral-deep shadow-soft"><iconify-icon icon="ph:calendar-dots-bold" class="text-xl"></iconify-icon></span>
+            <h3 class="mt-5 font-bold text-lg">Due-date chips</h3>
+            <p class="mt-1.5 text-sm text-ink/55">Relative or absolute, with overdue states baked in.</p>
+            <div class="mt-5 flex flex-wrap gap-2 rounded-2xl bg-white p-3.5 shadow-soft">
+              <span class="badge bg-sky-soft text-sky-deep"><iconify-icon icon="ph:clock-bold"></iconify-icon>Jul 02</span>
+              <span class="badge bg-cream text-ink/55">Tomorrow</span>
+              <span class="badge bg-coral-soft text-coral-deep"><iconify-icon icon="ph:warning-bold"></iconify-icon>Overdue</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="flow" class="mx-auto max-w-7xl px-6 lg:px-8 py-20 lg:py-28">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1">
+          <span class="badge bg-coral-soft text-coral-deep"><iconify-icon icon="ph:path-fill"></iconify-icon> Three steps</span>
+          <h2 class="mt-5 text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">From sentence to shipped.</h2>
+          <p class="mt-4 text-lg text-ink/60">No drag-and-drop, no fiddling with column widths. You describe it, we draw it.</p>
+          <a href="#" id="flow-try-link" class="mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-coral to-coral-deep px-6 py-3 text-sm font-semibold text-white shadow-lift hover:-translate-y-0.5 transition-transform">
+            Try a prompt <iconify-icon icon="ph:arrow-right-bold"></iconify-icon>
+          </a>
+        </div>
+        <div class="lg:col-span-2 grid sm:grid-cols-3 gap-5">
+          <div class="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-ink/5">
+            <span class="text-5xl font-extrabold text-sky/30">01</span>
+            <h3 class="mt-2 font-bold text-lg">Describe</h3>
+            <p class="mt-1.5 text-sm text-ink/55">"A customer table with avatars, status and usage."</p>
+          </div>
+          <div class="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-ink/5">
+            <span class="text-5xl font-extrabold text-coral/30">02</span>
+            <h3 class="mt-2 font-bold text-lg">Tune</h3>
+            <p class="mt-1.5 text-sm text-ink/55">Nudge colors, density and states on the canvas.</p>
+          </div>
+          <div class="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-ink/5">
+            <span class="text-5xl font-extrabold text-sky/30">03</span>
+            <h3 class="mt-2 font-bold text-lg">Export</h3>
+            <p class="mt-1.5 text-sm text-ink/55">Copy clean React, Vue or Tailwind in one click.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="pricing" class="bg-white border-t border-ink/5">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 py-20 lg:py-24">
+        <div class="relative overflow-hidden rounded-[2.4rem] bg-gradient-to-br from-ink to-[#3a3852] px-8 lg:px-16 py-14 lg:py-20 text-center">
+          <div class="absolute -top-16 -right-10 h-60 w-60 rounded-full bg-sky/30 blur-3xl"></div>
+          <div class="absolute -bottom-16 -left-10 h-60 w-60 rounded-full bg-coral/30 blur-3xl"></div>
+          <div class="relative">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">Stop hand-building tables.</h2>
+            <p class="mt-4 text-lg text-white/65 max-w-xl mx-auto">Your first 20 tables are free. Start with a prompt, ship the markup before lunch.</p>
+            <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+              <a href="#" id="cta-start-free-link" class="inline-flex items-center gap-2 rounded-full bg-sky px-8 py-4 text-base font-semibold text-white shadow-card hover:-translate-y-0.5 transition-transform">
+                <iconify-icon icon="ph:magic-wand-fill" class="text-lg"></iconify-icon> Start free
+              </a>
+              <a href="#" id="cta-demo-link" class="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-8 py-4 text-base font-semibold text-white ring-1 ring-white/20 hover:bg-white/15 transition-colors">
+                Book a demo
+              </a>
+            </div>
+            <p class="mt-5 text-xs text-white/45">No credit card · cancel anytime</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="bg-cream">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <a href="#" id="footer-logo-link" class="flex items-center gap-2.5">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-sky to-sky-deep text-white shadow-card"><iconify-icon icon="ph:table-bold" class="text-xl"></iconify-icon></span>
+            <span class="text-lg font-extrabold tracking-tight">Tablecloth</span>
+          </a>
+          <div class="flex items-center gap-7 text-sm font-medium text-ink/55">
+            <a href="#showcase" id="footer-showcase-link" class="hover:text-ink transition-colors">Showcase</a>
+            <a href="#kit" id="footer-kit-link" class="hover:text-ink transition-colors">Components</a>
+            <a href="#pricing" id="footer-pricing-link" class="hover:text-ink transition-colors">Pricing</a>
+            <a href="#" id="footer-docs-link" class="hover:text-ink transition-colors">Docs</a>
+          </div>
+          <div class="flex items-center gap-3 text-ink/40">
+            <a href="#" id="footer-x-link" class="grid h-9 w-9 place-items-center rounded-full bg-white shadow-soft hover:text-ink transition-colors"><iconify-icon icon="ph:x-logo-bold"></iconify-icon></a>
+            <a href="#" id="footer-github-link" class="grid h-9 w-9 place-items-center rounded-full bg-white shadow-soft hover:text-ink transition-colors"><iconify-icon icon="ph:github-logo-bold"></iconify-icon></a>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-ink/10 text-center text-xs text-ink/40">© 2026 Tablecloth. Designed on an infinite canvas.</div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

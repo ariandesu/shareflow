@@ -1,0 +1,72 @@
+# Tablet — Data tables, in graphite (minimal monochrome data-table prompt page)
+
+**Category:** Dashboard  
+**Tags:** table, data-table, monochrome, graphite, minimal, dashboard, transactions, shadcn  
+**Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)  
+**Live Preview:** [https://p.superdesign.dev/draft/52ece0b8-1299-4b21-b52a-dfee8aeaed35](https://p.superdesign.dev/draft/52ece0b8-1299-4b21-b52a-dfee8aeaed35)  
+**Local Standalone Preview:** `previews/tablet-data-tables-in-graphite-minimal-monochrome-data-table-prompt-page.html`
+
+---
+
+## Architectural & Aesthetic Breakdown
+A minimal monochrome data-table prompt page: graphite ink on warm paper, hairline dividers, sortable headers, no zebra stripes, and a single platinum accent for the in-flight state. Inter + JetBrains Mono.
+
+---
+
+## Production System Prompt Specification
+Copy and paste this into Cursor Composer, Claude 3.5 Sonnet, v0, Bolt.new, or Windsurf:
+
+```markdown
+{
+  "summary": "A restrained, monochrome single-page prompt-library layout for a transactions data table. Graphite ink (#1c1c1e) on warm off-white paper (#f6f5f3), hairline 1px/8%-ink dividers, no zebra striping, generous 16px row padding, quiet uppercase sortable headers with only the active sort column in full ink, and a single platinum (#c7c7cc) accent reserved for the in-flight processing state. Inter for UI, JetBrains Mono for figures and code.",
+  "style": {
+    "description": "Calm, premium, deliberate monochrome. Everything is graphite ink on warm paper; the only non-grey moment is a platinum accent on the in-flight row. Hairlines instead of heavy borders, a faint dot-grain texture on the page, soft long-shadow lift on the table card, and tight negative letter-spacing on display type.",
+    "prompt": "Build a minimal monochrome page on a warm off-white base #f6f5f3 (paper) with card surfaces #fbfbfa. All text is graphite: ink #1c1c1e (graphite-900), surface #2c2c2e (800), then 700 #3a3a3c, 600 #48484a, 500 #636366, 400 #6e6e73 for descending hierarchy. The one accent is platinum #c7c7cc, used ONLY for the in-flight 'processing' state pill/dot. Dividers are 'hairlines': 1px borders at rgba(28,28,30,0.08), never heavy. Add a barely-there dot grain (radial-gradient rgba(28,28,30,0.018) 1px dots on a 4px grid) over the whole page. Display headings use Inter 700 with tight tracking (letter-spacing -0.035em); body uses Inter 400/500 at graphite-500. All numbers, card-last-4 and code use JetBrains Mono. Selection highlight is inverted: background #1c1c1e, text #f6f5f3. Cards get a soft long shadow (0 24px 48px -32px rgba(28,28,30,0.35)) and lift -2px on hover. No bright colors, no gradients except a faint card\u2192paper hero wash and one platinum 10%-opacity blurred glow in the dark CTA."
+  },
+  "layout_and_structure": {
+    "description": "Single-column, centered max-w-6xl content column, full-bleed section bands alternating paper and card. Order: sticky translucent nav, full-bleed hero, centered table preview, full-bleed anatomy band (4-up grid), a 5-col prompt+palette split, a dark full-bleed CTA, and a slim footer. Mobile reflows the table into a horizontal-scroll region with a right-edge fade hint; multi-column grids collapse to one column.",
+    "prompts": [
+      {
+        "part": "Sticky nav",
+        "prompt": "Sticky top translucent header: bg paper at 80% opacity with backdrop-blur and a bottom hairline. Left: a 28px rounded-md graphite-900 square holding a white lucide:table-2 icon, then wordmark 'Tablet' (Inter 600, tight tracking). Center (hidden on mobile): nav links Patterns / Preview / Prompt / Tokens at 13.5px graphite-500, hover to graphite-900. Right: a 'Library' text link plus a solid graphite-900 pill button 'Use this prompt' with a lucide:arrow-up-right icon."
+      },
+      {
+        "part": "Hero",
+        "prompt": "Full-bleed hero with a subtle top-to-bottom card\u2192paper gradient and a bottom hairline. A small rounded-full pill badge ('\u00b7 Prompt Library \u00b7 Data display') with a tiny graphite dot. Huge headline up to 64px, Inter 700, tracking -0.035em: 'Data tables that get' in ink then 'out of the way.' in graphite-500. Subhead at graphite-500, max-w-xl. Two CTAs: solid graphite-900 'Generate this in the canvas' (lucide:sparkles) and a bordered card 'See it live'. Below, a row of four 12.5px check-marked feature labels: Sortable headers / Row selection / Column toggles / Keyboard ready."
+      },
+      {
+        "part": "Table preview",
+        "prompt": "Centered section: a small uppercase eyebrow 'The pattern' (graphite-400, tracking 0.18em) and an h2 'Transactions' (28-34px bold), with a supporting paragraph aligned to the right on desktop. The hero piece is a rounded-2xl card with hairline border and soft long shadow. Toolbar row: a search input ('Filter emails\u2026') with a leading lucide:search icon, plus 'Status' (lucide:list-filter) and 'Columns' (lucide:chevron-down) outline buttons. Table (min-w-640, horizontal scroll on mobile): columns = checkbox / Status / Email (active sort, full ink, lucide:chevrons-up-down) / Method / Amount (right-aligned, mono) / row-actions (lucide:more-horizontal). Headers are 11.5px uppercase tracking-0.1em graphite-400. Five rows separated by top hairlines, 16px vertical padding, hover tint rgba(28,28,30,0.025). Status uses a solid graphite dot + 'Success', a platinum-30% pill with pulsing dot for 'Processing', and a hollow-ring dot for 'Failed'. The selected (processing) row gets a 2px graphite left-edge bar and a checked graphite-900 checkbox. Footer row: '1 of 5 row(s) selected.' on the left, disabled 'Previous' + active 'Next' buttons on the right."
+      },
+      {
+        "part": "Anatomy band",
+        "prompt": "Full-bleed card-colored band with top+bottom hairlines. Eyebrow 'Anatomy' and h2 'Four rules, nothing more.' Then a 4-up grid (1\u21922\u21924 cols) built as gap-px tiles over a graphite-7%-opacity background so the gaps read as hairlines, rounded-2xl clipped. Each tile: a 36px rounded-lg graphite-900 square with a white lucide icon (minus, move-vertical, arrow-up-down, circle), a 16px semibold title, and a graphite-500 body line. Titles: Hairline dividers / Generous space / Sortable heads / One accent."
+      },
+      {
+        "part": "Prompt + palette split",
+        "prompt": "Two-column grid on desktop (5-col grid: prompt spans 3, palette spans 2). Left: eyebrow 'The prompt', h2 'Paste it. Get the table.', then a dark code card: rounded-2xl, bg graphite-900, text platinum. Card header has a lucide:terminal icon + 'prompt.txt' on the left and a translucent white 'Copy' button (lucide:copy) on the right; a monospace whitespace-pre-wrap prompt body with select keywords highlighted in full paper white. Below, four rounded-full tag chips (#data-table #monochrome #dashboard #minimal). Right: eyebrow 'The palette', h2 'Graphite on paper.', then a stack of swatch rows (40px rounded chip + name + mono hex/role) for Graphite 900 #1c1c1e \u00b7 ink, Graphite 800 #2c2c2e \u00b7 surface, Platinum #c7c7cc \u00b7 accent, Paper #f6f5f3 \u00b7 base, and a type card naming Inter (UI) and JetBrains Mono (figures)."
+      },
+      {
+        "part": "Dark CTA",
+        "prompt": "Full-bleed graphite-900 section, paper text, with one platinum-10%-opacity blurred circular glow offset top-right. Centered h2 up to 44px 'Build this table on the canvas in one prompt.', a platinum subhead, and two centered buttons: solid paper 'Open in Superdesign' (lucide:sparkles, hover\u2192platinum) and a bordered-white-15% 'Copy the prompt'."
+      },
+      {
+        "part": "Footer",
+        "prompt": "Slim footer inside the max-w-6xl column: left, a 24px graphite-900 rounded square with white lucide:table-2 + 'Tablet, a Superdesign prompt pattern' (graphite-500). Right, a muted meta line 'Data display \u00b7 Monochrome \u00b7 2026' in graphite-400, 13px. Stacks to center on mobile."
+      }
+    ]
+  },
+  "special_ui_components": [
+    "Status indicators as monochrome dots/pills: solid graphite dot = Success, platinum-30% pill with a pulsing (animate-pulse) graphite-500 dot = Processing, hollow ring dot = Failed",
+    "Selected row treatment: 2px graphite-900 left-edge bar + filled graphite-900 checkbox with a paper check icon + faint row tint",
+    "Hairline system: every divider/border is 1px at rgba(28,28,30,0.08); the 4-up anatomy grid fakes hairlines via gap-px over a 7%-ink background",
+    "Dark terminal-style code card with header chrome (terminal icon + filename + Copy button) and inline keyword highlighting in full white against platinum body text",
+    "Horizontal-scroll table wrapper with a right-edge gradient fade (rgba(251,251,250,0)\u21920.96) that hides at the md breakpoint to hint scrollability on narrow viewports",
+    "Color swatch rows pairing a 40px chip with a mono hex + semantic role label"
+  ],
+  "special_notes": "Monochrome discipline is the whole point: do not introduce any hue except the single platinum accent, and reserve that accent strictly for the in-flight 'processing' state. Keep borders as hairlines, never solid heavy lines. Right-align and monospace all numeric/amount cells. Display type must carry tight negative tracking (-0.035em); body stays at graphite-500 so the active sort column and amounts read as the darkest ink on screen. Keep the faint dot-grain and the inverted graphite selection color, they sell the 'premium, deliberate' feel."
+}
+```
+
+---
+*Generated by ShareFlow Design Prompt Library · © 2026 Mahir Faisal (MHR3D)*

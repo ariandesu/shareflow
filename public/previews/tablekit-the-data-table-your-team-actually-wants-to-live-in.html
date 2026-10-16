@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tablekit — Dense Admin Data Table</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700;800&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+        colors: {
+          ink: '#0f172a',
+          slate: { 450: '#7c899c' },
+          cobalt: {
+            50: '#eef4ff', 100: '#dbe6ff', 200: '#bdd1ff', 300: '#93b4ff',
+            400: '#608dff', 500: '#3b6bff', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af',
+          },
+        },
+        boxShadow: {
+          card: '0 1px 2px 0 rgba(15,23,42,0.04), 0 1px 3px 0 rgba(15,23,42,0.06)',
+          panel: '0 1px 3px rgba(15,23,42,0.06), 0 8px 24px -12px rgba(15,23,42,0.12)',
+          pop: '0 10px 30px -10px rgba(37,99,235,0.35)',
+        },
+        letterSpacing: { tightish: '-0.012em' },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; font-feature-settings: 'cv05' 1, 'ss01' 1, 'tnum' 1; }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .grid-bg {
+    background-image: radial-gradient(circle at 1px 1px, rgba(37,99,235,0.10) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+  .hero-fade { -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent); mask-image: linear-gradient(to bottom, black 60%, transparent); }
+  .ck {
+    appearance: none; -webkit-appearance: none;
+    width: 15px; height: 15px; border: 1.5px solid #cbd5e1; border-radius: 4px;
+    background: #fff; cursor: pointer; position: relative; transition: all .12s ease; flex: none;
+  }
+  .ck:hover { border-color: #2563eb; }
+  .ck:checked { background: #2563eb; border-color: #2563eb; }
+  .ck:checked::after {
+    content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px;
+    border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(40deg);
+  }
+  .ck.ind { background: #2563eb; border-color: #2563eb; }
+  .ck.ind::after { content:''; position:absolute; left:3px; top:6px; width:7px; height:2px; background:#fff; border:0; transform:none; }
+  .row:hover { background: #f6f9ff; }
+  .row.sel { background: #eef4ff; }
+  .seg { transition: background .15s, color .15s, box-shadow .15s; }
+  .nav-blur { backdrop-filter: saturate(180%) blur(12px); }
+  ::selection { background: #bdd1ff; }
+</style>
+
+<meta name="preview-version" content="77cc5332-fcd8-484a-a80a-513daef7d5b5" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:44.309Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "77cc5332-fcd8-484a-a80a-513daef7d5b5");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "77cc5332-fcd8-484a-a80a-513daef7d5b5",
+      timestamp: "2026-10-16T14:07:44.309Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "77cc5332-fcd8-484a-a80a-513daef7d5b5";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen bg-[#f8fafc] text-ink font-sans antialiased">
+    <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 nav-blur">
+      <div class="mx-auto flex h-14 max-w-[1240px] items-center gap-3 px-5 sm:px-8">
+        <a href="#" id="nav-logo-link" class="flex items-center gap-2.5 shrink-0">
+          <span class="grid h-7 w-7 place-items-center rounded-[8px] bg-cobalt-600 shadow-pop">
+            <iconify-icon icon="lucide:table-2" class="text-white text-[15px]"></iconify-icon>
+          </span>
+          <span class="text-[15px] font-[700] tracking-tightish">Tablekit</span>
+          <span class="hidden sm:inline-flex items-center rounded-full border border-cobalt-200 bg-cobalt-50 px-2 py-0.5 text-[10px] font-[600] uppercase tracking-wide text-cobalt-700">Beta</span>
+        </a>
+        <nav class="ml-4 hidden items-center gap-1 text-[13.5px] font-[500] text-slate-600 md:flex">
+          <a href="#table" id="nav-tasks-link" class="rounded-md px-3 py-1.5 text-ink hover:bg-slate-100">Tasks</a>
+          <a href="#" id="nav-views-link" class="rounded-md px-3 py-1.5 hover:bg-slate-100">Views</a>
+          <a href="#" id="nav-automations-link" class="rounded-md px-3 py-1.5 hover:bg-slate-100">Automations</a>
+          <a href="#" id="nav-docs-link" class="rounded-md px-3 py-1.5 hover:bg-slate-100">Docs</a>
+        </nav>
+        <div class="ml-auto flex items-center gap-2">
+          <div class="relative hidden lg:block">
+            <iconify-icon icon="lucide:search" class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[14px] text-slate-400"></iconify-icon>
+            <input type="text" placeholder="Search…" class="h-8 w-44 rounded-lg border border-slate-200 bg-slate-50 pl-8 pr-8 text-[13px] text-ink placeholder:text-slate-400 focus:border-cobalt-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cobalt-100" />
+            <kbd class="absolute right-2 top-1/2 -translate-y-1/2 rounded border border-slate-200 bg-white px-1.5 text-[10px] font-[500] text-slate-400">⌘K</kbd>
+          </div>
+          <button class="grid h-8 w-8 place-items-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-ink" aria-label="Notifications">
+            <iconify-icon icon="lucide:bell" class="text-[16px]"></iconify-icon>
+          </button>
+          <button class="hidden sm:inline-flex h-8 items-center gap-1.5 rounded-lg bg-cobalt-600 px-3 text-[13px] font-[600] text-white shadow-pop hover:bg-cobalt-700">
+            <iconify-icon icon="lucide:plus" class="text-[15px]"></iconify-icon>
+            New task
+          </button>
+          <span class="ml-0.5 grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-cobalt-500 to-cobalt-700 text-[12px] font-[700] text-white ring-2 ring-white">TM</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="relative overflow-hidden border-b border-slate-200 bg-white">
+      <div class="absolute inset-0 grid-bg hero-fade opacity-70"></div>
+      <div class="absolute -right-24 -top-28 h-72 w-72 rounded-full bg-cobalt-200/40 blur-3xl"></div>
+      <div class="relative mx-auto max-w-[1240px] px-5 py-12 sm:px-8 sm:py-16">
+        <div class="flex items-center gap-2 text-[12.5px] font-[500] text-slate-500">
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 shadow-card">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 2,184 tasks synced
+          </span>
+          <span class="hidden sm:inline">·</span>
+          <span class="hidden sm:inline">Updated 2 min ago</span>
+        </div>
+        <h1 class="mt-5 max-w-2xl text-[34px] font-[800] leading-[1.08] tracking-tightish sm:text-[44px]">
+          The data table your team<br class="hidden sm:block" /> actually wants to live in.
+        </h1>
+        <p class="mt-4 max-w-xl text-[15px] leading-relaxed text-slate-600">
+          Tablekit is a prompt-built admin surface: dense rows, fast filters, bulk actions, and a sticky header that never loses your place. Describe the table, ship the table.
+        </p>
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <a href="#table" id="cta-workspace-btn" class="inline-flex h-10 items-center gap-2 rounded-xl bg-cobalt-600 px-5 text-[14px] font-[600] text-white shadow-pop hover:bg-cobalt-700">
+            Open the workspace
+            <iconify-icon icon="lucide:arrow-right" class="text-[16px]"></iconify-icon>
+          </a>
+          <a href="#" id="cta-demo-btn" class="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 text-[14px] font-[600] text-ink shadow-card hover:bg-slate-50">
+            <iconify-icon icon="lucide:play" class="text-[14px] text-cobalt-600"></iconify-icon>
+            Watch 90s demo
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <main id="table" class="mx-auto max-w-[1240px] px-5 py-10 sm:px-8 sm:py-12 relative">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="text-[20px] font-[700] tracking-tightish">Tasks</h2>
+          <p class="mt-0.5 text-[13px] text-slate-500">Here is a list of your tasks for this cycle.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-[13px] font-[500] text-slate-600 shadow-card hover:bg-slate-50">
+            <iconify-icon icon="lucide:download" class="text-[15px]"></iconify-icon>
+            <span class="hidden sm:inline">Export</span>
+          </button>
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-cobalt-600 px-3.5 text-[13px] font-[600] text-white shadow-pop hover:bg-cobalt-700">
+            <iconify-icon icon="lucide:plus" class="text-[15px]"></iconify-icon>
+            New task
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-panel">
+        <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50/60 px-3 py-3 sm:px-4">
+          <div class="relative">
+            <iconify-icon icon="lucide:search" class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[14px] text-slate-400"></iconify-icon>
+            <input type="text" placeholder="Filter tasks…" class="h-9 w-48 rounded-lg border border-slate-200 bg-white pl-8 pr-3 text-[13px] text-ink placeholder:text-slate-400 focus:border-cobalt-400 focus:outline-none focus:ring-2 focus:ring-cobalt-100 sm:w-60" />
+          </div>
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-dashed border-slate-300 bg-white px-2.5 text-[13px] font-[500] text-slate-600 hover:border-cobalt-300 hover:text-cobalt-700">
+            <iconify-icon icon="lucide:circle-dashed" class="text-[14px]"></iconify-icon>
+            Status
+            <span class="ml-1 hidden items-center gap-1 border-l border-slate-200 pl-2 sm:inline-flex">
+              <span class="rounded bg-cobalt-50 px-1.5 py-0.5 text-[11px] font-[600] text-cobalt-700">In Progress</span>
+              <span class="rounded bg-cobalt-50 px-1.5 py-0.5 text-[11px] font-[600] text-cobalt-700">Todo</span>
+            </span>
+          </button>
+          <button class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-dashed border-slate-300 bg-white px-2.5 text-[13px] font-[500] text-slate-600 hover:border-cobalt-300 hover:text-cobalt-700">
+            <iconify-icon icon="lucide:signal" class="text-[14px]"></iconify-icon>
+            Priority
+          </button>
+          <button class="hidden h-9 items-center gap-1.5 rounded-lg px-2 text-[13px] font-[500] text-slate-500 hover:text-ink sm:inline-flex">
+            Reset <iconify-icon icon="lucide:x" class="text-[14px]"></iconify-icon>
+          </button>
+          <div class="ml-auto flex items-center gap-2">
+            <div class="hidden items-center rounded-lg border border-slate-200 bg-white p-0.5 sm:flex">
+              <button class="seg flex h-7 w-8 items-center justify-center rounded-md bg-cobalt-600 text-white" aria-label="Table view"><iconify-icon icon="lucide:rows-3" class="text-[15px]"></iconify-icon></button>
+              <button class="seg flex h-7 w-8 items-center justify-center rounded-md text-slate-400 hover:text-ink" aria-label="Board view"><iconify-icon icon="lucide:layout-grid" class="text-[15px]"></iconify-icon></button>
+            </div>
+            <button class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 text-[13px] font-[500] text-slate-600 shadow-card hover:bg-slate-50">
+              <iconify-icon icon="lucide:sliders-horizontal" class="text-[14px]"></iconify-icon>
+              <span class="hidden sm:inline">View</span>
+              <iconify-icon icon="lucide:chevron-down" class="text-[13px] text-slate-400"></iconify-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 border-b border-cobalt-200 bg-cobalt-50 px-3 py-2.5 sm:px-4">
+          <span class="inline-flex items-center gap-1.5 text-[13px] font-[600] text-cobalt-800">
+            <span class="grid h-5 w-5 place-items-center rounded-md bg-cobalt-600 text-[11px] text-white tnum">3</span>
+            selected
+          </span>
+          <span class="hidden text-[12.5px] text-cobalt-700/70 sm:inline">of 2,184 tasks</span>
+          <div class="ml-auto flex items-center gap-1.5">
+            <button class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-cobalt-200 bg-white px-2.5 text-[12.5px] font-[600] text-cobalt-700 hover:bg-cobalt-100/60">
+              <iconify-icon icon="lucide:circle-check" class="text-[14px]"></iconify-icon>
+              <span class="hidden sm:inline">Set status</span>
+            </button>
+            <button class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-cobalt-200 bg-white px-2.5 text-[12.5px] font-[600] text-cobalt-700 hover:bg-cobalt-100/60">
+              <iconify-icon icon="lucide:user-plus" class="text-[14px]"></iconify-icon>
+              <span class="hidden sm:inline">Assign</span>
+            </button>
+            <button class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-cobalt-200 bg-white px-2.5 text-[12.5px] font-[600] text-cobalt-700 hover:bg-cobalt-100/60">
+              <iconify-icon icon="lucide:tags" class="text-[14px]"></iconify-icon>
+              <span class="hidden sm:inline">Label</span>
+            </button>
+            <span class="mx-1 h-5 w-px bg-cobalt-200"></span>
+            <button class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-rose-200 bg-white px-2.5 text-[12.5px] font-[600] text-rose-600 hover:bg-rose-50">
+              <iconify-icon icon="lucide:trash-2" class="text-[14px]"></iconify-icon>
+              <span class="hidden sm:inline">Delete</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="max-h-[560px] overflow-auto">
+          <table class="w-full min-w-[760px] border-collapse text-left">
+            <thead class="sticky top-0 z-20">
+              <tr class="border-b border-slate-200 bg-slate-50 text-[11px] font-[600] uppercase tracking-wide text-slate-450 shadow-[0_1px_0_0_rgba(226,232,240,1)]">
+                <th class="w-11 py-2.5 pl-4 pr-2"><input type="checkbox" class="ck ind" aria-label="Select all" /></th>
+                <th class="w-32 py-2.5 pr-3 font-[600]">Task</th>
+                <th class="py-2.5 pr-3 font-[600]">Title</th>
+                <th class="w-40 py-2.5 pr-3 font-[600]">Status</th>
+                <th class="w-32 py-2.5 pr-3 font-[600]">Priority</th>
+                <th class="w-24 py-2.5 pr-3 font-[600]">Assignee</th>
+                <th class="w-10 py-2.5 pr-4"></th>
+              </tr>
+            </thead>
+            <tbody class="text-[13px] tnum">
+              <tr class="row sel border-b border-slate-100">
+                <td class="py-2.5 pl-4 pr-2"><input type="checkbox" class="ck" checked /></td>
+                <td class="py-2.5 pr-3 font-[600] text-slate-500">TBK-8901</td>
+                <td class="py-2.5 pr-3">
+                  <div class="flex items-center gap-2">
+                    <span class="rounded-md border border-cobalt-200 bg-cobalt-50 px-1.5 py-0.5 text-[10.5px] font-[600] text-cobalt-700">Feature</span>
+                    <span class="truncate font-[500] text-ink">Ship infinite-scroll virtualization for the rows table</span>
+                  </div>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-slate-600"><iconify-icon icon="lucide:circle-dot" class="text-[14px] text-cobalt-600"></iconify-icon>In Progress</span>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-rose-600"><iconify-icon icon="lucide:arrow-up" class="text-[13px]"></iconify-icon>High</span>
+                </td>
+                <td class="py-2.5 pr-3"><span class="grid h-6 w-6 place-items-center rounded-full bg-cobalt-100 text-[10px] font-[700] text-cobalt-700">AR</span></td>
+                <td class="py-2.5 pr-4"><button class="grid h-7 w-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-ink"><iconify-icon icon="lucide:more-horizontal" class="text-[16px]"></iconify-icon></button></td>
+              </tr>
+              <tr class="row sel border-b border-slate-100">
+                <td class="py-2.5 pl-4 pr-2"><input type="checkbox" class="ck" checked /></td>
+                <td class="py-2.5 pr-3 font-[600] text-slate-500">TBK-8900</td>
+                <td class="py-2.5 pr-3">
+                  <div class="flex items-center gap-2">
+                    <span class="rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[10.5px] font-[600] text-amber-700">Bug</span>
+                    <span class="truncate font-[500] text-ink">Sticky header drifts 1px on Safari when scrolling fast</span>
+                  </div>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-slate-600"><iconify-icon icon="lucide:circle" class="text-[14px] text-slate-400"></iconify-icon>Todo</span>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-amber-600"><iconify-icon icon="lucide:minus" class="text-[13px]"></iconify-icon>Medium</span>
+                </td>
+                <td class="py-2.5 pr-3"><span class="grid h-6 w-6 place-items-center rounded-full bg-slate-100 text-[10px] font-[700] text-slate-600">JL</span></td>
+                <td class="py-2.5 pr-4"><button class="grid h-7 w-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-ink"><iconify-icon icon="lucide:more-horizontal" class="text-[16px]"></iconify-icon></button></td>
+              </tr>
+              <tr class="row sel border-b border-slate-100">
+                <td class="py-2.5 pl-4 pr-2"><input type="checkbox" class="ck" checked /></td>
+                <td class="py-2.5 pr-3 font-[600] text-slate-500">TBK-8898</td>
+                <td class="py-2.5 pr-3">
+                  <div class="flex items-center gap-2">
+                    <span class="rounded-md border border-violet-200 bg-violet-50 px-1.5 py-0.5 text-[10.5px] font-[600] text-violet-700">Docs</span>
+                    <span class="truncate font-[500] text-ink">Write the bulk-action API reference for /v2/tasks/batch</span>
+                  </div>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-emerald-700"><iconify-icon icon="lucide:circle-check" class="text-[14px] text-emerald-600"></iconify-icon>Done</span>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-slate-500"><iconify-icon icon="lucide:arrow-down" class="text-[13px]"></iconify-icon>Low</span>
+                </td>
+                <td class="py-2.5 pr-3"><span class="grid h-6 w-6 place-items-center rounded-full bg-emerald-100 text-[10px] font-[700] text-emerald-700">MK</span></td>
+                <td class="py-2.5 pr-4"><button class="grid h-7 w-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-ink"><iconify-icon icon="lucide:more-horizontal" class="text-[16px]"></iconify-icon></button></td>
+              </tr>
+              <tr class="row border-b border-slate-100">
+                <td class="py-2.5 pl-4 pr-2"><input type="checkbox" class="ck" /></td>
+                <td class="py-2.5 pr-3 font-[600] text-slate-500">TBK-8895</td>
+                <td class="py-2.5 pr-3">
+                  <div class="flex items-center gap-2">
+                    <span class="rounded-md border border-cobalt-200 bg-cobalt-50 px-1.5 py-0.5 text-[10.5px] font-[600] text-cobalt-700">Feature</span>
+                    <span class="truncate font-[500] text-ink">Add column resize handles with persisted widths per view</span>
+                  </div>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-slate-600"><iconify-icon icon="lucide:circle-dot" class="text-[14px] text-cobalt-600"></iconify-icon>In Progress</span>
+                </td>
+                <td class="py-2.5 pr-3">
+                  <span class="inline-flex items-center gap-1.5 text-[12.5px] font-[500] text-amber-600"><iconify-icon icon="lucide:minus" class="text-[13px]"></iconify-icon>Medium</span>
+                </td>
+                <td class="py-2.5 pr-3"><span class="grid h-6 w-6 place-items-center rounded-full bg-cobalt-100 text-[10px] font-[700] text-cobalt-700">AR</span></td>
+                <td class="py-2.5 pr-4"><button class="grid h-7 w-7 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-ink"><iconify-icon icon="lucide:more-horizontal" class="text-[16px]"></iconify-icon></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 border-t border-slate-200 bg-slate-50/60 px-4 py-3">
+          <span class="text-[12.5px] text-slate-500"><span class="font-[600] text-slate-600">3</span> of <span class="tnum">2,184</span> row(s) selected.</span>
+          <div class="ml-auto flex items-center gap-4 sm:gap-6">
+            <div class="hidden items-center gap-2 text-[12.5px] text-slate-500 sm:flex">
+              Rows per page
+              <button class="inline-flex h-7 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 font-[500] text-ink hover:bg-slate-50">25 <iconify-icon icon="lucide:chevrons-up-down" class="text-[12px] text-slate-400"></iconify-icon></button>
+            </div>
+            <span class="text-[12.5px] font-[500] text-slate-600">Page 1 of 88</span>
+            <div class="flex items-center gap-1">
+              <button class="grid h-7 w-7 place-items-center rounded-md border border-slate-200 bg-white text-slate-300" disabled><iconify-icon icon="lucide:chevrons-left" class="text-[15px]"></iconify-icon></button>
+              <button class="grid h-7 w-7 place-items-center rounded-md border border-slate-200 bg-white text-slate-300" disabled><iconify-icon icon="lucide:chevron-left" class="text-[15px]"></iconify-icon></button>
+              <button class="grid h-7 w-7 place-items-center rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-ink"><iconify-icon icon="lucide:chevron-right" class="text-[15px]"></iconify-icon></button>
+              <button class="grid h-7 w-7 place-items-center rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-ink"><iconify-icon icon="lucide:chevrons-right" class="text-[15px]"></iconify-icon></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="mt-4 text-center text-[12px] text-slate-400">Tablekit · prompt-built admin tables · designed in the assigned cobalt-on-light system</p>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-[1240px] flex-col items-center justify-between gap-3 px-5 py-6 text-[12.5px] text-slate-500 sm:flex-row sm:px-8">
+        <div class="flex items-center gap-2">
+          <span class="grid h-5 w-5 place-items-center rounded-md bg-cobalt-600"><iconify-icon icon="lucide:table-2" class="text-white text-[12px]"></iconify-icon></span>
+          <span class="font-[600] text-ink">Tablekit</span>
+          <span>© 2026</span>
+        </div>
+        <div class="flex items-center gap-5">
+          <a href="#" id="footer-changelog-link" class="hover:text-ink">Changelog</a>
+          <a href="#" id="footer-api-link" class="hover:text-ink">API</a>
+          <a href="#" id="footer-status-link" class="hover:text-ink">Status</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

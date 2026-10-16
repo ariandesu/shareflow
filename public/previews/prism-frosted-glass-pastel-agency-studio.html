@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prism · Agency Website Design</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        colors: {
+          ink: '#15161b',
+          slate2: '#5c606e',
+          peach: '#ffd8c2',
+          sky: '#cfe3ff',
+          mint: '#d3f5e3',
+        },
+        letterSpacing: { tightest: '-0.045em' },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .glass {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+  }
+  .glass-deep {
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(28px) saturate(150%);
+    -webkit-backdrop-filter: blur(28px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+  }
+  /* Soft pastel gradient mesh */
+  .mesh {
+    background-color: #fbfcff;
+    background-image:
+      radial-gradient(58% 52% at 12% 8%, rgba(255, 216, 194, 0.9) 0%, rgba(255, 216, 194, 0) 60%),
+      radial-gradient(55% 50% at 88% 14%, rgba(207, 227, 255, 0.95) 0%, rgba(207, 227, 255, 0) 62%),
+      radial-gradient(60% 55% at 78% 72%, rgba(211, 245, 227, 0.9) 0%, rgba(211, 245, 227, 0) 60%),
+      radial-gradient(48% 44% at 30% 88%, rgba(255, 216, 194, 0.55) 0%, rgba(255, 216, 194, 0) 60%);
+  }
+  .mesh-band {
+    background-image:
+      radial-gradient(50% 80% at 8% 50%, rgba(211, 245, 227, 0.85) 0%, rgba(211, 245, 227, 0) 60%),
+      radial-gradient(50% 80% at 95% 30%, rgba(207, 227, 255, 0.9) 0%, rgba(207, 227, 255, 0) 60%),
+      radial-gradient(45% 70% at 60% 95%, rgba(255, 216, 194, 0.7) 0%, rgba(255, 216, 194, 0) 60%);
+  }
+  .shadow-soft { box-shadow: 0 24px 60px -28px rgba(60, 70, 110, 0.35), 0 4px 16px -8px rgba(60, 70, 110, 0.12); }
+  .shadow-float { box-shadow: 0 40px 90px -36px rgba(50, 60, 105, 0.45); }
+  .btn-dark { background: #15161b; box-shadow: 0 10px 26px -10px rgba(21,22,27,0.5); }
+  .grain::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px);
+    background-size: 4px 4px; opacity: 0.18; mix-blend-mode: overlay;
+  }
+  ::selection { background: #ffd8c2; color: #15161b; }
+</style>
+
+<meta name="preview-version" content="db4b7bf0-75f4-4c1b-8685-9794085cda62" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:12.767Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "db4b7bf0-75f4-4c1b-8685-9794085cda62");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "db4b7bf0-75f4-4c1b-8685-9794085cda62",
+      timestamp: "2026-10-16T14:07:12.767Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "db4b7bf0-75f4-4c1b-8685-9794085cda62";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+<div class="mesh font-sans text-ink antialiased overflow-x-hidden min-h-screen">
+
+<!-- ============ STICKY NAV ============ -->
+<header class="sticky top-0 z-50 w-full">
+  <div class="px-5 pt-4">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between rounded-full glass shadow-soft px-3 py-2.5">
+      <a id="nav-logo" href="#" class="flex items-center gap-2.5 pl-1.5">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl btn-dark text-white">
+          <iconify-icon icon="ph:triangle-fill" class="text-[15px] rotate-180"></iconify-icon>
+        </span>
+        <span class="text-[17px] font-extrabold tracking-tightest">Prism</span>
+      </a>
+      <div class="hidden items-center gap-1 rounded-full bg-white/45 px-1.5 py-1 md:flex">
+        <a id="nav-work" href="#work" class="rounded-full px-4 py-2 text-[14px] font-medium text-slate2 transition hover:bg-white hover:text-ink">Work</a>
+        <a id="nav-services" href="#services" class="rounded-full px-4 py-2 text-[14px] font-medium text-slate2 transition hover:bg-white hover:text-ink">Services</a>
+        <a id="nav-clients" href="#clients" class="rounded-full px-4 py-2 text-[14px] font-medium text-slate2 transition hover:bg-white hover:text-ink">Clients</a>
+        <a id="nav-contact-link" href="#contact" class="rounded-full px-4 py-2 text-[14px] font-medium text-slate2 transition hover:bg-white hover:text-ink">Contact</a>
+      </div>
+      <a id="nav-cta-btn" href="#contact" class="flex items-center gap-2 rounded-full btn-dark px-5 py-2.5 text-[14px] font-semibold text-white transition hover:opacity-90">
+        Start a project
+        <span class="h-1.5 w-1.5 rounded-full bg-mint"></span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="relative">
+  <div class="mx-auto max-w-6xl px-5 pt-24 pb-8 text-center md:pt-32">
+    <!-- pill badges -->
+    <div class="mb-7 flex flex-wrap items-center justify-center gap-2.5">
+      <span class="flex items-center gap-2 rounded-full glass shadow-soft px-4 py-2 text-[13.5px] font-semibold">
+        <iconify-icon icon="ph:sparkle-fill" class="text-[15px] text-[#e88a5a]"></iconify-icon> Brand-first
+      </span>
+      <span class="flex items-center gap-2 rounded-full glass shadow-soft px-4 py-2 text-[13.5px] font-semibold">
+        <iconify-icon icon="ph:lightning-fill" class="text-[15px] text-[#4f8cd6]"></iconify-icon> Ships in weeks
+      </span>
+      <span class="flex items-center gap-2 rounded-full glass shadow-soft px-4 py-2 text-[13.5px] font-semibold">
+        <iconify-icon icon="ph:check-circle-fill" class="text-[15px] text-[#3fae7a]"></iconify-icon> Conversion-built
+      </span>
+    </div>
+
+    <h1 class="mx-auto max-w-4xl text-[52px] font-black leading-[0.96] tracking-tightest sm:text-[68px] md:text-[88px]">
+      Websites that make<br class="hidden sm:block" /> brands look inevitable
+    </h1>
+    <p class="mx-auto mt-7 max-w-xl text-[17px] leading-relaxed text-slate2 md:text-[19px]">
+      Prism is a design studio for ambitious teams. We turn raw ideas into sites that
+      <span class="font-semibold text-ink">convert, scale, and feel premium</span>. No agency fluff, no six-month timelines.
+    </p>
+
+    <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a id="hero-kickoff-cta" href="#contact" class="flex items-center gap-2.5 rounded-full btn-dark px-7 py-3.5 text-[15px] font-semibold text-white transition hover:opacity-90">
+        Book a kickoff call
+        <iconify-icon icon="ph:arrow-up-right-bold" class="text-[16px] "></iconify-icon>
+      </a>
+      <a id="hero-work-cta" href="#work" class="flex items-center gap-2.5 rounded-full glass shadow-soft px-7 py-3.5 text-[15px] font-semibold text-ink transition hover:bg-white">
+        See the work
+        <span class="h-1.5 w-1.5 rounded-full bg-ink"></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Floating frosted-glass cards (fanned, overlapping) -->
+  <div class="relative mx-auto mt-2 h-[300px] max-w-6xl px-5 sm:h-[380px] md:h-[440px]">
+    <!-- left card (mint tint) -->
+    <div class="absolute left-[3%] top-[18%] w-[40%] -rotate-6 rounded-[26px] glass-deep shadow-float grain overflow-hidden md:left-[8%]"
+         style="background: linear-gradient(160deg, rgba(211,245,227,0.85), rgba(255,255,255,0.35));">
+      <div class="p-5 md:p-7">
+        <div class="mb-4 h-3 w-2/5 rounded-full bg-white/80"></div>
+        <div class="mb-2 h-2.5 w-4/5 rounded-full bg-white/55"></div>
+        <div class="mb-2 h-2.5 w-3/5 rounded-full bg-white/45"></div>
+        <div class="mt-6 grid grid-cols-2 gap-2.5">
+          <div class="h-14 rounded-xl bg-white/65"></div>
+          <div class="h-14 rounded-xl bg-white/45"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- right card (sky tint) -->
+    <div class="absolute right-[3%] top-[18%] w-[40%] rotate-6 rounded-[26px] glass-deep shadow-float grain overflow-hidden md:right-[8%]"
+         style="background: linear-gradient(200deg, rgba(207,227,255,0.85), rgba(255,255,255,0.35));">
+      <div class="p-5 md:p-7">
+        <div class="mb-4 flex items-center gap-2">
+          <div class="h-7 w-7 rounded-lg bg-white/80"></div>
+          <div class="h-2.5 w-1/3 rounded-full bg-white/60"></div>
+        </div>
+        <div class="mb-2 h-2.5 w-full rounded-full bg-white/55"></div>
+        <div class="mb-2 h-2.5 w-2/3 rounded-full bg-white/45"></div>
+        <div class="mt-6 h-16 rounded-xl bg-white/55"></div>
+      </div>
+    </div>
+
+    <!-- center card (frosted, on top) -->
+    <div class="absolute left-1/2 top-0 w-[46%] max-w-[420px] -translate-x-1/2 rounded-[28px] glass-deep shadow-float grain overflow-hidden">
+      <div class="flex items-center gap-1.5 border-b border-white/50 px-6 py-3.5">
+        <span class="h-2.5 w-2.5 rounded-full bg-peach"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-sky"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-mint"></span>
+        <span class="ml-3 h-2 w-1/3 rounded-full bg-white/70"></span>
+      </div>
+      <div class="grid grid-cols-5 gap-4 p-6">
+        <div class="col-span-2 h-24 rounded-xl bg-white/75"></div>
+        <div class="col-span-3 space-y-2.5 py-1">
+          <div class="h-3 w-3/4 rounded-full bg-white/80"></div>
+          <div class="h-2.5 w-full rounded-full bg-white/55"></div>
+          <div class="h-2.5 w-5/6 rounded-full bg-white/45"></div>
+          <div class="mt-4 h-7 w-2/5 rounded-full bg-ink/85"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP ============ -->
+<section class="relative">
+  <div class="mx-auto max-w-6xl px-5 py-12">
+    <p class="mb-7 text-center text-[13px] font-semibold uppercase tracking-[0.18em] text-slate2/80">Trusted by teams shipping fast</p>
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 opacity-70 md:gap-x-16">
+      <div class="flex items-center gap-2 text-[20px] font-extrabold tracking-tight"><iconify-icon icon="ph:planet-fill"></iconify-icon> Northwind</div>
+      <div class="flex items-center gap-2 text-[20px] font-extrabold tracking-tight"><iconify-icon icon="ph:hexagon-fill"></iconify-icon> Lumen</div>
+      <div class="flex items-center gap-2 text-[20px] font-extrabold tracking-tight"><iconify-icon icon="ph:circles-three-fill"></iconify-icon> Cadence</div>
+      <div class="flex items-center gap-2 text-[20px] font-extrabold tracking-tight"><iconify-icon icon="ph:cube-fill"></iconify-icon> Vellum</div>
+      <div class="flex items-center gap-2 text-[20px] font-extrabold tracking-tight"><iconify-icon icon="ph:flower-lotus-fill"></iconify-icon> Orchid</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENTO WORK GRID ============ -->
+<section id="work" class="relative">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <div class="mb-12 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
+      <div>
+        <span class="mb-3 inline-flex items-center gap-2 rounded-full glass shadow-soft px-4 py-1.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-slate2">
+          <span class="h-1.5 w-1.5 rounded-full bg-peach"></span> Selected work
+        </span>
+        <h2 class="max-w-2xl text-[36px] font-black leading-[1.02] tracking-tightest md:text-[52px]">
+          Every detail engineered<br class="hidden md:block" /> around your goals
+        </h2>
+      </div>
+      <a id="view-all-work-btn" href="#" class="flex items-center gap-2 rounded-full glass shadow-soft px-5 py-3 text-[14px] font-semibold transition hover:bg-white">
+        View all projects <iconify-icon icon="ph:arrow-right-bold"></iconify-icon>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-6 md:auto-rows-[230px]">
+      <!-- big feature -->
+      <article class="group relative overflow-hidden rounded-[28px] glass shadow-soft grain md:col-span-4 md:row-span-2"
+               style="background: linear-gradient(150deg, rgba(207,227,255,0.65), rgba(255,255,255,0.4) 60%, rgba(211,245,227,0.55));">
+        <div class="relative flex h-full flex-col justify-between p-8">
+          <div class="flex items-start justify-between">
+            <span class="rounded-full bg-white/70 px-3.5 py-1.5 text-[12.5px] font-semibold">Fintech · Full site</span>
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-ink text-white transition group-hover:rotate-45"><iconify-icon icon="ph:arrow-up-right-bold"></iconify-icon></span>
+          </div>
+          <!-- mini browser mock -->
+          <div class="my-6 hidden flex-1 items-end gap-3 md:flex">
+            <div class="h-32 w-40 rounded-2xl bg-white/75 p-4 shadow-soft">
+              <div class="mb-2 h-2.5 w-2/3 rounded-full bg-sky"></div>
+              <div class="mb-1.5 h-2 w-full rounded-full bg-ink/10"></div>
+              <div class="mb-1.5 h-2 w-4/5 rounded-full bg-ink/10"></div>
+              <div class="mt-4 h-7 w-3/5 rounded-full bg-ink/85"></div>
+            </div>
+            <div class="flex h-24 flex-1 items-end gap-1.5 rounded-2xl bg-white/55 p-4">
+              <div class="h-1/3 flex-1 rounded-t-md bg-peach"></div>
+              <div class="h-2/3 flex-1 rounded-t-md bg-sky"></div>
+              <div class="h-1/2 flex-1 rounded-t-md bg-mint"></div>
+              <div class="h-full flex-1 rounded-t-md bg-ink/80"></div>
+              <div class="h-3/5 flex-1 rounded-t-md bg-peach"></div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-[26px] font-extrabold tracking-tight md:text-[30px]">Northwind, a banking site people trust</h3>
+            <p class="mt-2 max-w-md text-[15px] leading-relaxed text-slate2">Rebuilt the marketing site and onboarding flow. Sign-up conversion up 2.4x in the first quarter.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- stat card -->
+      <article class="relative overflow-hidden rounded-[28px] grain shadow-soft md:col-span-2"
+               style="background: linear-gradient(160deg, #15161b, #2a2c38);">
+        <div class="flex h-full flex-col justify-between p-7 text-white">
+          <iconify-icon icon="ph:trend-up-bold" class="text-[26px] text-mint"></iconify-icon>
+          <div>
+            <div class="text-[46px] font-black leading-none tracking-tightest">+240%</div>
+            <p class="mt-2 text-[14px] text-white/65">avg. lift in lead conversion across launches</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- small work -->
+      <article class="group relative overflow-hidden rounded-[28px] glass shadow-soft grain md:col-span-2"
+               style="background: linear-gradient(160deg, rgba(255,216,194,0.7), rgba(255,255,255,0.4));">
+        <div class="flex h-full flex-col justify-between p-7">
+          <span class="w-fit rounded-full bg-white/70 px-3.5 py-1.5 text-[12.5px] font-semibold">SaaS · Brand</span>
+          <div>
+            <h3 class="text-[19px] font-extrabold tracking-tight">Lumen Analytics</h3>
+            <p class="mt-1 text-[13.5px] text-slate2">Identity + dashboard system</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- wide work -->
+      <article class="group relative overflow-hidden rounded-[28px] glass shadow-soft grain md:col-span-3"
+               style="background: linear-gradient(160deg, rgba(211,245,227,0.7), rgba(255,255,255,0.4));">
+        <div class="flex h-full items-center justify-between p-7">
+          <div>
+            <span class="w-fit rounded-full bg-white/70 px-3.5 py-1.5 text-[12.5px] font-semibold">E-commerce</span>
+            <h3 class="mt-4 text-[21px] font-extrabold tracking-tight">Orchid storefront</h3>
+            <p class="mt-1 text-[13.5px] text-slate2">Headless redesign, 1.8x faster checkout</p>
+          </div>
+          <div class="hidden h-28 w-28 shrink-0 flex-col justify-between rounded-2xl bg-white/75 p-3.5 shadow-soft sm:flex">
+            <div class="h-10 w-10 rounded-xl" style="background: rgba(211,245,227,0.95);"></div>
+            <div class="space-y-1.5">
+              <div class="h-2 w-full rounded-full bg-ink/10"></div>
+              <div class="h-2 w-3/5 rounded-full bg-ink/10"></div>
+              <div class="mt-1 h-5 w-2/3 rounded-full" style="background:#3fae7a;"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- small work 2 -->
+      <article class="group relative overflow-hidden rounded-[28px] glass shadow-soft grain md:col-span-3"
+               style="background: linear-gradient(160deg, rgba(207,227,255,0.7), rgba(255,255,255,0.4));">
+        <div class="flex h-full items-center justify-between p-7">
+          <div>
+            <span class="w-fit rounded-full bg-white/70 px-3.5 py-1.5 text-[12.5px] font-semibold">Web app</span>
+            <h3 class="mt-4 text-[21px] font-extrabold tracking-tight">Cadence scheduling</h3>
+            <p class="mt-1 text-[13.5px] text-slate2">Product UX + design system in 5 weeks</p>
+          </div>
+          <div class="hidden h-28 w-28 shrink-0 flex-col justify-between rounded-2xl bg-white/75 p-3.5 shadow-soft sm:flex">
+            <div class="grid grid-cols-3 gap-1">
+              <div class="h-4 rounded bg-ink/10"></div><div class="h-4 rounded bg-ink/10"></div><div class="h-4 rounded" style="background:#4f8cd6;"></div>
+              <div class="h-4 rounded bg-ink/10"></div><div class="h-4 rounded" style="background:rgba(207,227,255,0.95);"></div><div class="h-4 rounded bg-ink/10"></div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-2 w-full rounded-full bg-ink/10"></div>
+              <div class="h-2 w-1/2 rounded-full bg-ink/10"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GLASS SERVICES PANEL ============ -->
+<section id="services" class="relative">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <div class="relative overflow-hidden rounded-[36px] glass-deep shadow-float grain mesh-band p-8 md:p-14">
+      <div class="mb-12 max-w-2xl">
+        <span class="mb-4 inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-slate2">
+          <span class="h-1.5 w-1.5 rounded-full bg-sky"></span> What we do
+        </span>
+        <h2 class="text-[34px] font-black leading-[1.02] tracking-tightest md:text-[48px]">
+          One studio, the whole journey from idea to launch
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <!-- service 1 -->
+        <div class="rounded-3xl glass shadow-soft p-7 transition hover:-translate-y-1">
+          <span class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-[24px]" style="background: rgba(255,216,194,0.7); color:#d9743f;">
+            <iconify-icon icon="ph:compass-tool-fill"></iconify-icon>
+          </span>
+          <h3 class="text-[19px] font-extrabold tracking-tight">Brand &amp; identity</h3>
+          <p class="mt-2 text-[14.5px] leading-relaxed text-slate2">Logo, type, color, voice. A complete system your whole team can build on with confidence.</p>
+          <ul class="mt-5 space-y-2 text-[13.5px] text-slate2">
+            <li class="flex items-center gap-2"><iconify-icon icon="ph:check-bold" class="text-[#3fae7a]"></iconify-icon> Visual identity</li>
+            <li class="flex items-center gap-2"><iconify-icon icon="ph:check-bold" class="text-[#3fae7a]"></iconify-icon> Messaging &amp; voice</li>
+          </ul>
+        </div>
+        <!-- service 2 (highlighted) -->
+        <div class="relative rounded-3xl shadow-float grain p-7 text-white transition hover:-translate-y-1" style="background: linear-gradient(165deg, #15161b, #2c2e3b);">
+          <span class="absolute right-6 top-6 rounded-full bg-mint px-3 py-1 text-[11.5px] font-bold uppercase tracking-wide text-ink">Most loved</span>
+          <span class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-[24px] text-sky">
+            <iconify-icon icon="ph:browsers-fill"></iconify-icon>
+          </span>
+          <h3 class="text-[19px] font-extrabold tracking-tight">Website design</h3>
+          <p class="mt-2 text-[14.5px] leading-relaxed text-white/65">Marketing sites and product UI that feel premium and convert. Designed in Figma, built to ship.</p>
+          <ul class="mt-5 space-y-2 text-[13.5px] text-white/75">
+            <li class="flex items-center gap-2"><iconify-icon icon="ph:check-bold" class="text-mint"></iconify-icon> Landing &amp; full sites</li>
+            <li class="flex items-center gap-2"><iconify-icon icon="ph:check-bold" class="text-mint"></iconify-icon> Design systems</li>
+          </ul>
+        </div>
+        <!-- service 3 -->
+        <div class="rounded-3xl glass shadow-soft p-7 transition hover:-translate-y-1">
+          <span class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-[24px]" style="background: rgba(207,227,255,0.7); color:#3f72c4;">
+            <iconify-icon icon="ph:code-fill"></iconify-icon>
+          </span>
+          <h3 class="text-[19px] font-extrabold tracking-tight">Build &amp; ship</h3>
+          <p class="mt-2 text-[14.5px] leading-relaxed text-slate2">Pixel-true front-end in React or Webflow, handed off clean or shipped live by us.</p>
+          <ul class="mt-5 space-y-2 text-[13.5px] text-slate2">
+            <li class="flex items-center gap-2"><iconify-icon icon="ph:check-bold" class="text-[#3fae7a]"></iconify-icon> React / Webflow</li>
+            <li class="flex items-center gap-2"><iconify-icon icon="ph:check-bold" class="text-[#3fae7a]"></iconify-icon> Analytics &amp; CMS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLIENTS / TESTIMONIAL ROW ============ -->
+<section id="clients" class="relative">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+    <div class="mb-12 text-center">
+      <span class="mb-3 inline-flex items-center gap-2 rounded-full glass shadow-soft px-4 py-1.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-slate2">
+        <span class="h-1.5 w-1.5 rounded-full bg-mint"></span> Founders on Prism
+      </span>
+      <h2 class="mx-auto max-w-2xl text-[34px] font-black leading-[1.04] tracking-tightest md:text-[48px]">
+        What teams say after we ship
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+      <!-- testimonial 1 -->
+      <figure class="rounded-[26px] glass shadow-soft p-7">
+        <div class="mb-4 flex gap-0.5 text-peach">
+          <iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon>
+        </div>
+        <blockquote class="text-[15.5px] leading-relaxed text-ink">"They understood the product faster than our last agency did in a month. The new site just feels like us."</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          <span class="flex h-11 w-11 items-center justify-center rounded-full bg-sky text-ink font-bold">MR</span>
+          <div><div class="text-[14px] font-bold">Maya Reyes</div><div class="text-[13px] text-slate2">CEO, Northwind</div></div>
+        </figcaption>
+      </figure>
+
+      <!-- testimonial 2 (tall feature) -->
+      <figure class="rounded-[26px] grain shadow-float p-8 text-white md:row-span-1" style="background: linear-gradient(160deg, #15161b, #2a2c38);">
+        <iconify-icon icon="ph:quotes-fill" class="text-[34px] text-mint"></iconify-icon>
+        <blockquote class="mt-4 text-[18px] font-semibold leading-snug">"We raised our seed two weeks after launch. Investors kept mentioning the site. That's not a coincidence."</blockquote>
+        <figcaption class="mt-7 flex items-center gap-3">
+          <span class="flex h-11 w-11 items-center justify-center rounded-full bg-mint text-ink font-bold">JT</span>
+          <div><div class="text-[14px] font-bold">Jonah Tan</div><div class="text-[13px] text-white/55">Founder, Cadence</div></div>
+        </figcaption>
+      </figure>
+
+      <!-- testimonial 3 -->
+      <figure class="rounded-[26px] glass shadow-soft p-7">
+        <div class="mb-4 flex gap-0.5 text-peach">
+          <iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon><iconify-icon icon="ph:star-fill"></iconify-icon>
+        </div>
+        <blockquote class="text-[15.5px] leading-relaxed text-ink">"Fast, opinionated, and zero fluff. We had a polished, on-brand storefront live in five weeks flat."</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          <span class="flex h-11 w-11 items-center justify-center rounded-full bg-mint text-ink font-bold">EL</span>
+          <div><div class="text-[14px] font-bold">Elena Liu</div><div class="text-[13px] text-slate2">Head of Growth, Orchid</div></div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT CTA ============ -->
+<section id="contact" class="relative">
+  <div class="mx-auto max-w-6xl px-5 pb-20 pt-4">
+    <div class="relative overflow-hidden rounded-[40px] glass-deep shadow-float grain mesh-band p-10 text-center md:p-20">
+      <span class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-slate2">
+        <span class="h-1.5 w-1.5 rounded-full bg-peach"></span> Booking Q3 now
+      </span>
+      <h2 class="mx-auto max-w-3xl text-[40px] font-black leading-[0.98] tracking-tightest md:text-[64px]">
+        Let's build something<br class="hidden sm:block" /> worth staring at
+      </h2>
+      <p class="mx-auto mt-6 max-w-lg text-[16px] leading-relaxed text-slate2 md:text-[18px]">
+        Tell us what you're launching. We'll send back a clear scope, timeline, and fixed price within two days.
+      </p>
+      <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a id="cta-project-btn" href="#" class="flex items-center gap-2.5 rounded-full btn-dark px-8 py-4 text-[15.5px] font-semibold text-white transition hover:opacity-90">
+          Start a project <iconify-icon icon="ph:arrow-up-right-bold"></iconify-icon>
+        </a>
+        <a id="cta-email-btn" href="#" class="flex items-center gap-2.5 rounded-full glass shadow-soft px-8 py-4 text-[15.5px] font-semibold text-ink transition hover:bg-white">
+          <iconify-icon icon="ph:envelope-simple-bold"></iconify-icon> hello@prism.studio
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative border-t border-white/60">
+  <div class="mx-auto max-w-6xl px-5 py-14">
+    <div class="flex flex-col items-start justify-between gap-10 md:flex-row">
+      <div class="max-w-xs">
+        <a id="footer-logo" href="#" class="flex items-center gap-2.5">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl btn-dark text-white">
+            <iconify-icon icon="ph:triangle-fill" class="text-[15px] rotate-180"></iconify-icon>
+          </span>
+          <span class="text-[17px] font-extrabold tracking-tightest">Prism</span>
+        </a>
+        <p class="mt-4 text-[14px] leading-relaxed text-slate2">A design studio building websites that make ambitious brands look inevitable.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-x-14 gap-y-8 sm:grid-cols-3">
+        <div>
+          <h4 class="mb-4 text-[12.5px] font-bold uppercase tracking-[0.14em] text-ink">Studio</h4>
+          <ul class="space-y-2.5 text-[14px] text-slate2">
+            <li><a id="footer-work" href="#work" class="hover:text-ink">Work</a></li>
+            <li><a id="footer-services" href="#services" class="hover:text-ink">Services</a></li>
+            <li><a id="footer-clients" href="#clients" class="hover:text-ink">Clients</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="mb-4 text-[12.5px] font-bold uppercase tracking-[0.14em] text-ink">Company</h4>
+          <ul class="space-y-2.5 text-[14px] text-slate2">
+            <li><a id="footer-about" href="#" class="hover:text-ink">About</a></li>
+            <li><a id="footer-process" href="#" class="hover:text-ink">Process</a></li>
+            <li><a id="footer-journal" href="#" class="hover:text-ink">Journal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="mb-4 text-[12.5px] font-bold uppercase tracking-[0.14em] text-ink">Social</h4>
+          <ul class="space-y-2.5 text-[14px] text-slate2">
+            <li><a id="footer-twitter" href="#" class="hover:text-ink">Twitter / X</a></li>
+            <li><a id="footer-dribbble" href="#" class="hover:text-ink">Dribbble</a></li>
+            <li><a id="footer-linkedin" href="#" class="hover:text-ink">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/60 pt-7 text-[13px] text-slate2 sm:flex-row">
+      <p>© 2026 Prism Studio. All rights reserved.</p>
+      <p class="flex items-center gap-2">Crafted with care <span class="h-1.5 w-1.5 rounded-full bg-peach"></span><span class="h-1.5 w-1.5 rounded-full bg-sky"></span><span class="h-1.5 w-1.5 rounded-full bg-mint"></span></p>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

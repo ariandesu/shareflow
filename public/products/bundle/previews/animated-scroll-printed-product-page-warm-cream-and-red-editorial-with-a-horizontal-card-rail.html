@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fallow Row · Heirloom Seed House</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Martian+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#ef493c; --red-deep:#b92725; --cream:#e7e2d8; --ink:#171717; --white:#fffdf8;
+  --bg:#241a12;
+  --line:rgba(23,23,23,.16); --line-2:rgba(23,23,23,.08);
+  --muted:rgba(23,23,23,.56); --muted-2:rgba(23,23,23,.34);
+  --display:"Anton",Impact,"Arial Narrow","Helvetica Neue",sans-serif;
+  --mono:"Martian Mono",ui-monospace,monospace;
+  --pad:clamp(20px,5vw,86px);
+  --ease:cubic-bezier(.22,1,.36,1); --ease-cine:cubic-bezier(.65,0,.35,1);
+  /* every one of these is written from the single scroll handler */
+  --page-progress:0;
+  --hero-type-y:0px; --hero-type-scale:1; --hero-type-alpha:1;
+  --manifesto-wipe:0%; --manifesto-scale:1;
+  --rows-x:0px; --rows-progress:0;
+  --packet-alpha:0; --packet-enter:38px; --packet-scale:.78; --packet-cut:0;
+  --packet-front:0; --packet-copy-alpha:1; --packet-copy-x:0px; --packet-meter:0%;
+  --season-y:-4%; --season-scale:1.1; --season-progress:0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--cream);color:var(--ink);font-family:"Inter",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted)}
+.wrap{width:100%;max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+.dsp{font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:.86;
+  letter-spacing:-.02em}
+
+#rail{position:fixed;top:0;left:0;height:3px;z-index:90;background:var(--red);
+  width:calc(var(--page-progress) * 100%)}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;height:54px;display:flex;align-items:center;
+  background:rgba(231,226,216,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-2)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav__brand{font-family:var(--display);font-size:19px;letter-spacing:.01em;text-transform:uppercase}
+.nav__brand i{font-style:normal;color:var(--red)}
+.nav__links{display:flex;gap:24px}
+@media(max-width:880px){.nav__links{display:none}}
+
+.stage{position:relative}
+.pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;
+  justify-content:center}
+
+/* ── A · hero, type driven by three separate vars ── */
+#top{height:280svh}
+#top .pin{background:var(--bg);color:var(--white)}
+#top .pin canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.55}
+.hero__type{position:relative;z-index:2;text-align:center;
+  transform:translateY(var(--hero-type-y)) scale(var(--hero-type-scale));
+  opacity:var(--hero-type-alpha)}
+/* STANDING RULE across this batch: a poster line is sized from its OWN character count.
+   A bare vw fits whatever word the anchor happened to use and silently wraps or clips
+   anything longer, and overflow:hidden on the pin hides that from a page overflow check.
+   Anton runs ~.44em average advance. */
+.hero__type .l1{display:block;white-space:nowrap;
+  font-size:min(clamp(42px,8vw,124px), calc(92vw / (var(--c1,15) * .44)))}
+.hero__type .l2{display:block;color:var(--red);letter-spacing:-.045em;line-height:.86;
+  white-space:nowrap;
+  font-size:min(clamp(110px,25vw,390px), calc(92vw / (var(--c2,10) * .44)))}
+.hero__strap{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(20px,4vw,44px);z-index:3;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  color:rgba(255,253,248,.72);opacity:calc(1 - var(--page-progress) * 3)}
+.hero__strap .mono{color:inherit}
+
+/* ── B · manifesto, a bottom-up clip wipe ── */
+#manifesto{height:260svh}
+#manifesto .pin{background:var(--cream);justify-content:center}
+.man{width:100%;max-width:1280px;margin:0 auto;padding:0 var(--pad);position:relative}
+.man__type{font-size:clamp(34px,5.6vw,78px);line-height:1.0;max-width:16ch;
+  color:var(--muted-2);position:relative;transform:scale(var(--manifesto-scale))}
+.man__type .cut{position:absolute;inset:0;color:var(--ink);
+  clip-path:inset(calc(100% - var(--manifesto-wipe)) 0 0)}
+.man__foot{margin-top:clamp(24px,4vw,44px);display:flex;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+
+/* ── C · varieties, a horizontal rail driven by scroll ── */
+#rows{height:340svh}
+#rows .pin{background:var(--cream)}
+.rows__head{position:absolute;top:clamp(64px,10vh,110px);left:var(--pad);right:var(--pad);z-index:3;
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.rail{display:flex;gap:clamp(14px,2vw,28px);padding:0 var(--pad);align-items:center;
+  transform:translateX(var(--rows-x));will-change:transform}
+.card{flex:0 0 clamp(230px,26vw,330px);border:1.5px solid var(--ink);background:var(--white);
+  padding:16px;display:flex;flex-direction:column;gap:12px}
+.card canvas{width:100%;aspect-ratio:3/4;display:block;border:1px solid var(--line)}
+.card b{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:.01em;
+  line-height:1}
+.card .meta{display:flex;justify-content:space-between;gap:10px}
+.card .price{font-family:var(--mono);font-size:12px;color:var(--red)}
+.rows__meter{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(22px,4vh,44px);
+  height:2px;background:var(--line);z-index:3}
+.rows__meter i{display:block;height:2px;background:var(--red);
+  width:calc(var(--rows-progress) * 100%)}
+
+/* ── D · the packet, printed as you scroll ── */
+#packet{height:420svh}
+#packet .pin{background:var(--bg);color:var(--white);justify-content:center}
+.pk{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,5vw,70px);align-items:center;
+  width:100%;max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+.pk__copy{transform:translateX(var(--packet-copy-x));opacity:var(--packet-copy-alpha)}
+.pk__copy h2{font-family:var(--display);font-size:clamp(34px,5vw,72px);text-transform:uppercase;
+  line-height:.9;letter-spacing:-.02em}
+.pk__copy p{margin-top:18px;max-width:38ch;color:rgba(255,253,248,.7);line-height:1.6;font-size:15px}
+.pk__cues{margin-top:26px;display:flex;flex-direction:column;gap:2px}
+.pk__cue{padding:9px 0 9px 14px;border-left:2px solid rgba(255,253,248,.16);opacity:.34;
+  transition:opacity .5s var(--ease),border-color .5s var(--ease);font-size:14px}
+.pk__cue.on{opacity:1;border-left-color:var(--red)}
+.pk__art{position:relative;aspect-ratio:3/4;max-height:70svh;margin:0 auto;width:100%;
+  transform:translateY(var(--packet-enter)) scale(var(--packet-scale));
+  opacity:var(--packet-alpha)}
+.pk__paper{position:absolute;inset:0;background:var(--white);border:1.5px solid var(--ink);
+  display:flex;flex-direction:column;color:var(--ink);overflow:hidden}
+.pk__top{padding:16px 16px 12px;border-bottom:1.5px solid var(--ink)}
+.pk__top b{display:block;font-family:var(--display);font-size:clamp(26px,3.4vw,44px);
+  text-transform:uppercase;line-height:.92;letter-spacing:-.01em}
+.pk__body{flex:1;position:relative}
+.pk__body canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pk__rows{padding:12px 16px;border-top:1.5px solid var(--ink);display:flex;flex-direction:column;gap:6px}
+.pk__row{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase}
+.pk__row span:last-child{color:var(--red)}
+/* the perforation: a dashed tear line that opens as --packet-cut advances */
+.pk__tear{position:absolute;left:0;right:0;bottom:24%;height:0;border-top:2px dashed var(--ink);
+  z-index:3;transform:translateY(calc(var(--packet-cut) * 14px));opacity:calc(.35 + var(--packet-cut) * .65)}
+.pk__meter{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(20px,4vh,40px);
+  height:2px;background:rgba(255,253,248,.18);z-index:3}
+.pk__meter i{display:block;height:2px;background:var(--red);width:var(--packet-meter)}
+.pk__status{position:absolute;left:var(--pad);bottom:clamp(34px,5vh,58px);z-index:3;color:var(--red)}
+@media(max-width:900px){.pk{grid-template-columns:1fr;gap:22px}.pk__art{max-height:46svh}}
+
+/* ── E · season band, a scaled plate behind copy ── */
+#season{height:300svh}
+#season .pin{background:var(--cream);justify-content:flex-end}
+.season__plate{position:absolute;inset:0;z-index:0;overflow:hidden}
+.season__plate canvas{position:absolute;inset:0;width:100%;height:100%;display:block;
+  transform:translateY(var(--season-y)) scale(var(--season-scale))}
+.season__in{position:relative;z-index:2;padding:0 var(--pad) clamp(48px,8vh,96px);
+  max-width:1280px;margin:0 auto;width:100%}
+.season__in h2{font-family:var(--display);font-size:clamp(34px,6vw,96px);text-transform:uppercase;
+  line-height:.88;letter-spacing:-.02em;max-width:15ch}
+.season__chap{display:flex;gap:clamp(14px,3vw,40px);margin-top:24px;flex-wrap:wrap}
+.season__chap div{opacity:.3;transition:opacity .5s var(--ease);max-width:24ch}
+.season__chap div.on{opacity:1}
+.season__chap b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--red);margin-bottom:6px}
+.season__chap p{font-size:14px;line-height:1.55}
+
+/* ── normal bands ── */
+.sec{padding:clamp(64px,9vw,120px) 0;border-top:1px solid var(--line)}
+.sec h2{font-family:var(--display);font-size:clamp(30px,4.6vw,64px);text-transform:uppercase;
+  line-height:.92;letter-spacing:-.02em;max-width:18ch}
+.lede{margin-top:18px;max-width:50ch;color:var(--muted);line-height:1.65;font-size:15px}
+.tbl{margin-top:clamp(28px,4vw,50px);border-top:1.5px solid var(--ink)}
+.tbl__row{display:grid;grid-template-columns:1fr auto auto;gap:clamp(12px,3vw,40px);
+  align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+.tbl__row b{font-family:var(--display);font-size:19px;text-transform:uppercase;letter-spacing:.01em}
+.tbl__row .m{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.tbl__row .p{font-family:var(--mono);font-size:13px;color:var(--red)}
+@media(max-width:700px){.tbl__row{grid-template-columns:1fr auto}.tbl__row .m{display:none}}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:18px 0;display:flex;justify-content:space-between;
+  gap:16px;align-items:center;font-weight:600;font-size:16px;transition:color .3s}
+summary::-webkit-details-marker{display:none}
+summary:hover{color:var(--red)}
+summary i{flex:none;width:12px;height:12px;position:relative;font-style:normal}
+summary i::before,summary i::after{content:"";position:absolute;background:currentColor;
+  transition:transform .35s var(--ease)}
+summary i::before{left:0;top:5.5px;width:12px;height:1px}
+summary i::after{left:5.5px;top:0;width:1px;height:12px}
+details[open] summary i::after{transform:scaleY(0)}
+details p{padding:0 0 20px;max-width:62ch;font-size:14px;line-height:1.7;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;background:var(--red);
+  color:var(--white);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;border:1.5px solid var(--red);transition:transform .3s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.foot{background:var(--ink);color:var(--cream);padding:32px 0}
+.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot .mono{color:rgba(231,226,216,.6)}
+
+/* per-atom motion */
+.w{display:inline-block;opacity:0;transform:translateY(.42em);
+  transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.w.in{opacity:1;transform:none}
+[data-rev]{opacity:0;transform:translateY(22px);
+  transition:opacity .85s var(--ease),transform .85s var(--ease);transition-delay:var(--d,0ms)}
+[data-rev].in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .w,[data-rev]{opacity:1!important;transform:none!important}
+  .stage{height:auto!important}
+  .pin{position:static;height:auto;padding:clamp(56px,9vw,100px) 0}
+  .hero__type,.hero__strap{transform:none!important;opacity:1!important}
+  .man__type{transform:none!important}
+  .man__type .cut{clip-path:none!important}
+  .rail{transform:none!important;flex-wrap:wrap;justify-content:center}
+  .rows__head{position:static;margin-bottom:24px}
+  .pk__art{transform:none!important;opacity:1!important}
+  .pk__copy{transform:none!important;opacity:1!important}
+  .pk__cue{opacity:1!important;border-left-color:var(--red)!important}
+  .season__plate canvas{transform:none!important}
+  .season__chap div{opacity:1!important}
+  .rows__meter i,.pk__meter i{width:100%!important}
+  #rail{display:none}
+}
+</style>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>window.tailwind=window.tailwind||{};window.tailwind.config={corePlugins:{preflight:false}};</script>
+
+<meta name="preview-version" content="5b4306a0-f3b2-4b33-92be-06a8154e6636" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:09.310Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "5b4306a0-f3b2-4b33-92be-06a8154e6636");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "5b4306a0-f3b2-4b33-92be-06a8154e6636",
+      timestamp: "2026-10-16T14:07:09.310Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "5b4306a0-f3b2-4b33-92be-06a8154e6636";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+<div id="page">
+
+<div id="rail"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a id="nav-brand" class="nav__brand" href="#top">Fallow <i>Row</i></a>
+    <nav class="nav__links mono" aria-label="Sections">
+      <a id="nav-varieties" href="#rows">Varieties</a>
+      <a id="nav-packet" href="#packet">The packet</a>
+      <a id="nav-season" href="#season">Season</a>
+      <a id="nav-prices" href="#prices">Prices</a>
+    </nav>
+    <a id="nav-cta" href="#prices" class="mono">Order a packet</a>
+  </div>
+</header>
+
+<main>
+
+<section class="stage" id="top">
+  <div class="pin">
+    <canvas id="soil"></canvas>
+    <div class="hero__type dsp" style="--c1:15;--c2:10">
+      <span class="l1">Open pollinated</span>
+      <span class="l2">Fallow Row</span>
+    </div>
+    <div class="hero__strap">
+      <span class="mono">Heirloom seed house</span>
+      <span class="mono">Est. 1961 · Dorset</span>
+      <span class="mono">148 varieties · none hybrid</span>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="manifesto">
+  <div class="pin">
+    <div class="man">
+      <div class="man__type dsp">A seed you cannot save is a seed you have to buy again.<span class="cut dsp" aria-hidden="true">A seed you cannot save is a seed you have to buy again.</span></div>
+      <div class="man__foot">
+        <span class="mono">Every variety here breeds true</span>
+        <span class="mono">Save it, swap it, sell it. We do not mind.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="rows">
+  <div class="pin">
+    <div class="rows__head">
+      <h2 class="dsp" style="font-size:clamp(28px,4vw,56px)">This season's row</h2>
+      <span class="mono">Scroll to move along the bed</span>
+    </div>
+    <div class="rail" id="rail-track">
+      <div class="card"><canvas class="seedplate" data-seed="1"></canvas><b>Crimson Flowered</b>
+        <div class="meta"><span class="mono">Broad bean</span><span class="price">£3.40</span></div></div>
+      <div class="card"><canvas class="seedplate" data-seed="2"></canvas><b>Bath Cos</b>
+        <div class="meta"><span class="mono">Lettuce</span><span class="price">£2.80</span></div></div>
+      <div class="card"><canvas class="seedplate" data-seed="3"></canvas><b>Ashleaf Kidney</b>
+        <div class="meta"><span class="mono">Potato</span><span class="price">£4.10</span></div></div>
+      <div class="card"><canvas class="seedplate" data-seed="4"></canvas><b>Painted Lady</b>
+        <div class="meta"><span class="mono">Runner bean</span><span class="price">£3.20</span></div></div>
+      <div class="card"><canvas class="seedplate" data-seed="5"></canvas><b>Long Red Florence</b>
+        <div class="meta"><span class="mono">Onion</span><span class="price">£2.60</span></div></div>
+      <div class="card"><canvas class="seedplate" data-seed="6"></canvas><b>Green Nutmeg</b>
+        <div class="meta"><span class="mono">Melon</span><span class="price">£3.90</span></div></div>
+    </div>
+    <div class="rows__meter"><i></i></div>
+  </div>
+</section>
+
+<section class="stage" id="packet">
+  <div class="pin">
+    <div class="pk">
+      <div class="pk__copy">
+        <h2>Your packet is printed, not picked</h2>
+        <p>Nothing sits on a shelf in a pre-filled envelope. The packet is run when you order it, with the lot, the germination test and your own sowing window on the front.</p>
+        <div class="pk__cues">
+          <div class="pk__cue" data-c="0">Lot drawn from this year's harvest</div>
+          <div class="pk__cue" data-c="1">Germination tested, result printed</div>
+          <div class="pk__cue" data-c="2">Sowing window set to your postcode</div>
+          <div class="pk__cue" data-c="3">Perforated, so the packet becomes the label</div>
+        </div>
+      </div>
+      <div class="pk__art">
+        <div class="pk__paper">
+          <div class="pk__top">
+            <span class="mono">Open pollinated · saves true</span>
+            <b>Crimson<br>Flowered</b>
+          </div>
+          <div class="pk__body"><canvas id="packetArt"></canvas><div class="pk__tear"></div></div>
+          <div class="pk__rows">
+            <div class="pk__row"><span>Lot</span><span id="pkLot">FR-2026-041</span></div>
+            <div class="pk__row"><span>Germination</span><span id="pkGerm">94 percent</span></div>
+            <div class="pk__row"><span>Sow</span><span id="pkSow">Mar to May</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="pk__status mono" id="pkStatus">Scroll to run the packet</span>
+    <div class="pk__meter"><i></i></div>
+  </div>
+</section>
+
+<section class="stage" id="season">
+  <div class="pin">
+    <div class="season__plate"><canvas id="seasonArt"></canvas></div>
+    <div class="season__in">
+      <h2>The bed does not care what month you think it is</h2>
+      <div class="season__chap">
+        <div data-ch="0"><b>Early</b><p>Broad beans and shallots go in while the ground is still cold and nothing else will take.</p></div>
+        <div data-ch="1"><b>Middle</b><p>The row fills. Lettuce every fortnight, never all at once, or you eat lettuce for a week and then none.</p></div>
+        <div data-ch="2"><b>Late</b><p>Leave the best plant standing. That one is not dinner, it is next year's packet.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="prices">
+  <div class="wrap">
+    <h2>Prices, and what a packet holds</h2>
+    <p class="lede">Counts are minimums after the germination test, not before it. If a lot tests under 80 percent we do not sell it, we compost it.</p>
+    <div class="tbl">
+      <div class="tbl__row"><b>Broad bean</b><span class="m">40 seed · lot tested</span><span class="p">£3.40</span></div>
+      <div class="tbl__row"><b>Lettuce</b><span class="m">600 seed · lot tested</span><span class="p">£2.80</span></div>
+      <div class="tbl__row"><b>Seed potato</b><span class="m">1.5 kg · certified</span><span class="p">£4.10</span></div>
+      <div class="tbl__row"><b>Runner bean</b><span class="m">35 seed · lot tested</span><span class="p">£3.20</span></div>
+      <div class="tbl__row"><b>Onion</b><span class="m">400 seed · lot tested</span><span class="p">£2.60</span></div>
+      <div class="tbl__row"><b>Whole row</b><span class="m">Six packets, one sowing plan</span><span class="p">£17.40</span></div>
+    </div>
+    <div style="margin-top:34px;display:flex;gap:12px;flex-wrap:wrap">
+      <a id="cta-order" href="#" class="btn">Order a packet</a>
+      <a id="cta-catalogue" href="#" class="btn btn--ghost">Read the catalogue</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <h2>Asked at the gate</h2>
+    <div style="margin-top:clamp(24px,4vw,44px);border-top:1.5px solid var(--ink)">
+      <details open><summary>Can I really save the seed?<i></i></summary>
+        <p>Yes, that is the whole point. Everything here is open pollinated, so it breeds true if you keep varieties apart. The catalogue tells you which ones cross and how far apart to grow them.</p></details>
+      <details><summary>Why is the germination printed?<i></i></summary>
+        <p>Because a count means nothing without it. We test every lot, print the result, and refuse to sell anything under 80 percent rather than quietly pad the packet.</p></details>
+      <details><summary>What if the sowing window is wrong for me?<i></i></summary>
+        <p>Tell us your postcode at checkout and the window on the packet is set from it. If your ground runs cold, say so and we will move it back a fortnight by hand.</p></details>
+      <details><summary>Do you ship abroad?<i></i></summary>
+        <p>Within the UK only for now. Seed crosses borders under phytosanitary rules we would rather follow properly than approximate.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span class="mono">Fallow Row · Dorset</span>
+    <span class="mono">148 varieties, none hybrid</span>
+    <span class="mono">Save it, swap it, sell it</span>
+  </div>
+</footer>
+
+</div><!-- /#page -->
+
+<script>
+(function(){
+  "use strict";
+  var RM=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root=document.documentElement;
+  function fit(c){var d=Math.min(window.devicePixelRatio||1,2),r=c.getBoundingClientRect();
+    c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);return d;}
+  function cl(v){return v<0?0:v>1?1:v;}
+
+  /* hero: a drifting tilled-soil field of short strokes */
+  (function(){
+    var c=document.getElementById("soil"),x=c.getContext("2d"),d=fit(c);
+    window.addEventListener("resize",function(){d=fit(c);},{passive:true});
+    (function draw(t){
+      var w=c.width,h=c.height;x.clearRect(0,0,w,h);
+      var rows=18,cols=30;
+      for(var r=0;r<rows;r++)for(var q=0;q<cols;q++){
+        var u=q/cols,v=r/rows;
+        var yy=h*(v*1.06-.03)+Math.sin(t*.35+q*.4+r)*3*d;
+        var xx=w*(u*1.06-.03)+Math.cos(t*.22+r*.6)*4*d;
+        var a=.05+Math.abs(Math.sin(q*.3+r*.5+t*.3))*.14;
+        x.strokeStyle="rgba(239,73,60,"+a.toFixed(3)+")";
+        x.lineWidth=1.2*d;x.beginPath();x.moveTo(xx,yy);x.lineTo(xx+w*.022,yy+h*.006);x.stroke();
+      }
+      if(!RM)requestAnimationFrame(function(n){draw(n*0.001);});
+    })(0);
+  })();
+
+  /* variety plates + the packet plate: deterministic seeded fields */
+  function plate(c,seed,dark){
+    var x=c.getContext("2d"),d=fit(c);
+    window.addEventListener("resize",function(){d=fit(c);},{passive:true});
+    (function draw(t){
+      var w=c.width,h=c.height;x.clearRect(0,0,w,h);
+      x.fillStyle=dark?"rgba(36,26,18,.05)":"rgba(23,23,23,.04)";x.fillRect(0,0,w,h);
+      var n=7+seed;
+      for(var i=0;i<n;i++){
+        var a0=(i/n)*Math.PI*2+t*.12+seed;
+        var cx=w*(.5+Math.cos(a0)*.24),cy=h*(.5+Math.sin(a0*1.3)*.26);
+        var rr=Math.min(w,h)*(.07+((i*seed)%4)*.028);
+        x.beginPath();x.ellipse(cx,cy,rr,rr*.72,a0,0,Math.PI*2);
+        x.fillStyle= i%3===seed%3 ? "rgba(239,73,60,.62)" : "rgba(23,23,23,.24)";
+        x.fill();
+        x.strokeStyle="rgba(23,23,23,.30)";x.lineWidth=1*d;x.stroke();
+      }
+      if(!RM)requestAnimationFrame(function(nn){draw(nn*0.001);});
+    })(0);
+  }
+  [].slice.call(document.querySelectorAll("canvas.seedplate")).forEach(function(c){
+    plate(c,+c.dataset.seed,false);});
+  plate(document.getElementById("packetArt"),3,false);
+
+  /* season plate: slow contour bands */
+  (function(){
+    var c=document.getElementById("seasonArt"),x=c.getContext("2d"),d=fit(c);
+    window.addEventListener("resize",function(){d=fit(c);},{passive:true});
+    (function draw(t){
+      var w=c.width,h=c.height;x.clearRect(0,0,w,h);
+      for(var i=0;i<22;i++){
+        x.beginPath();
+        for(var px=0;px<=w;px+=8){
+          var u=px/w;
+          var y=h*(i/22)+Math.sin(u*3.2+i*.42+t*.18)*h*.035+Math.sin(u*7.1+t*.1)*h*.012;
+          px?x.lineTo(px,y):x.moveTo(px,y);
+        }
+        x.strokeStyle= i%5===0 ? "rgba(239,73,60,.30)" : "rgba(23,23,23,.11)";
+        x.lineWidth=(i%5===0?1.6:1)*d;x.stroke();
+      }
+      if(!RM)requestAnimationFrame(function(n){draw(n*0.001);});
+    })(0);
+  })();
+
+  /* ══ one rAF-throttled handler writes every custom property ══ */
+  var topEl=document.getElementById("top"),manEl=document.getElementById("manifesto"),
+      rowsEl=document.getElementById("rows"),pkEl=document.getElementById("packet"),
+      seasonEl=document.getElementById("season"),
+      track=document.getElementById("rail-track"),
+      cues=[].slice.call(document.querySelectorAll(".pk__cue")),
+      chaps=[].slice.call(document.querySelectorAll(".season__chap div")),
+      pkStatus=document.getElementById("pkStatus"),
+      pkLot=document.getElementById("pkLot"),pkGerm=document.getElementById("pkGerm");
+  var PHASE=["Drawing the lot","Testing germination","Setting your sowing window","Perforating"];
+  var LOTS=["FR-2026-041","FR-2026-041","FR-2026-041","FR-2026-041"];
+  var lastPk=-1,lastCh=-1;
+  function P(el){var r=el.getBoundingClientRect();
+    return cl(-r.top/Math.max(1,r.height-window.innerHeight));}
+  function sync(){
+    var S=root.style;
+    S.setProperty("--page-progress",
+      (window.scrollY/Math.max(1,root.scrollHeight-window.innerHeight)).toFixed(5));
+
+    var hp=P(topEl);
+    S.setProperty("--hero-type-y",(hp*-90).toFixed(1)+"px");
+    S.setProperty("--hero-type-scale",(1-hp*.26).toFixed(4));
+    S.setProperty("--hero-type-alpha",cl(1-hp*1.3).toFixed(3));
+
+    var mp=P(manEl);
+    S.setProperty("--manifesto-wipe",(cl(mp*1.25)*100).toFixed(2)+"%");
+    S.setProperty("--manifesto-scale",(1+mp*.05).toFixed(4));
+
+    var rp=P(rowsEl);
+    S.setProperty("--rows-progress",rp.toFixed(4));
+    if(track){
+      var over=Math.max(0,track.scrollWidth-window.innerWidth);
+      S.setProperty("--rows-x",(-rp*over).toFixed(1)+"px");
+    }
+
+    var pp=P(pkEl);
+    S.setProperty("--packet-alpha",cl(pp*3.2).toFixed(3));
+    S.setProperty("--packet-enter",((1-cl(pp*2.4))*38).toFixed(1)+"px");
+    S.setProperty("--packet-scale",(.78+cl(pp*1.9)*.22).toFixed(4));
+    S.setProperty("--packet-cut",cl((pp-.62)/.3).toFixed(4));
+    S.setProperty("--packet-meter",(pp*100).toFixed(2)+"%");
+    S.setProperty("--packet-copy-x",(pp*-16).toFixed(1)+"px");
+    S.setProperty("--packet-copy-alpha",cl(1-Math.max(0,pp-.86)*4).toFixed(3));
+    var pi=pp<.22?0:pp<.48?1:pp<.70?2:3;
+    if(pi!==lastPk){
+      lastPk=pi;
+      cues.forEach(function(n,i){n.classList.toggle("on",i<=pi);});
+      pkStatus.textContent=PHASE[pi];
+      pkLot.textContent=LOTS[pi];
+      pkGerm.textContent=pi>=1?"94 percent":"pending";
+    }
+
+    var sp=P(seasonEl);
+    S.setProperty("--season-progress",sp.toFixed(4));
+    S.setProperty("--season-y",(-4+sp*8).toFixed(2)+"%");
+    S.setProperty("--season-scale",(1.10-sp*.045).toFixed(4));
+    var ci=Math.min(2,Math.floor(sp*3));
+    if(ci!==lastCh){lastCh=ci;chaps.forEach(function(n,i){n.classList.toggle("on",i===ci);});}
+  }
+  var ticking=false;
+  function onScroll(){if(ticking)return;ticking=true;
+    requestAnimationFrame(function(){sync();ticking=false;});}
+  if(!RM){window.addEventListener("scroll",onScroll,{passive:true});
+    window.addEventListener("resize",onScroll,{passive:true});sync();}
+  else{cues.forEach(function(n){n.classList.add("on");});
+    chaps.forEach(function(n){n.classList.add("on");});
+    pkStatus.textContent=PHASE[3];}
+
+  /* atomise */
+  function splitWords(el){
+    if(!el||el.dataset.split)return;el.dataset.split="1";
+    var parts=[];
+    [].slice.call(el.childNodes).forEach(function(node){
+      if(node.nodeType===3){
+        node.textContent.split(/(\s+)/).forEach(function(tok){
+          if(!tok)return;
+          if(/^\s+$/.test(tok)){parts.push(document.createTextNode(tok));return;}
+          var s=document.createElement("span");s.className="w";s.textContent=tok;parts.push(s);});
+      } else parts.push(node);});
+    el.replaceChildren.apply(el,parts);
+    [].slice.call(el.querySelectorAll(":scope > .w")).forEach(function(s,i){
+      s.style.transitionDelay=(i*38)+"ms";});
+  }
+  [].slice.call(document.querySelectorAll(
+    ".man__type, .man__type .cut, .sec h2, .lede, .pk__copy h2, .pk__copy p, .season__in h2, .rows__head h2"
+  )).forEach(splitWords);
+
+  function stagger(sel,step){
+    [].slice.call(document.querySelectorAll(sel)).forEach(function(n,i){
+      if(n.hasAttribute("data-rev"))return;
+      n.setAttribute("data-rev","");n.style.setProperty("--d",(i*(step||70))+"ms");});
+  }
+  stagger(".card",80); stagger(".card b, .card .meta, .card .price",45);
+  stagger(".tbl__row",65); stagger(".tbl__row b, .tbl__row .m, .tbl__row .p",40);
+  stagger("#faq details",70); stagger("#faq summary",50);
+  stagger(".pk__cue",80); stagger(".pk__row",70);
+  stagger(".season__chap div",90); stagger(".season__chap b, .season__chap p",50);
+  stagger(".man__foot .mono",100); stagger(".hero__strap .mono",90);
+  stagger(".btn",90); stagger(".foot .mono",90); stagger(".nav__links a",60);
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});
+  },{threshold:.12,rootMargin:"0px 0px -5% 0px"});
+  [].slice.call(document.querySelectorAll(".w,[data-rev]")).forEach(function(n){
+    RM?n.classList.add("in"):io.observe(n);});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html><html lang="vi"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Quản lý Học tập LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0d6efd',
+                        secondary: '#f97316',
+                        success: '#10b981',
+                        background: '#f8f9fc',
+                        surface: '#ffffff',
+                        textMain: '#1e293b',
+                        textMuted: '#64748b'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .chart-bar {
+            transition: height 0.3s ease;
+        }
+    </style>
+
+<meta name="preview-version" content="be9f7411-3ae4-4fa6-ab6a-28963737b700" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:47.058Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "be9f7411-3ae4-4fa6-ab6a-28963737b700");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "be9f7411-3ae4-4fa6-ab6a-28963737b700",
+      timestamp: "2026-10-16T14:07:47.058Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "be9f7411-3ae4-4fa6-ab6a-28963737b700";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body class="bg-gray-100 p-4 md:p-8 min-h-screen flex items-center justify-center">
+
+    <!-- Main App Container -->
+    <div class="w-full max-w-[1440px] h-[900px] bg-white rounded-3xl shadow-2xl overflow-hidden flex font-sans" data-sd-id="1">
+
+        <!-- Left Sidebar -->
+        <aside class="w-64 bg-surface border-r border-gray-100 flex flex-col pt-8 pb-6 px-6" data-sd-id="2">
+            <!-- Logo -->
+            <div class="flex items-center gap-3 mb-10" data-sd-id="3">
+                <div class="flex space-x-1" data-sd-id="4">
+                    <div class="w-4 h-4 rounded-full border-2 border-primary" data-sd-id="5"></div>
+                    <div class="w-4 h-4 rounded-full border-2 border-primary" data-sd-id="6"></div>
+                </div>
+                <div data-sd-id="7">
+                    <h1 class="font-bold text-textMain text-lg leading-tight" data-sd-id="8">learn.LMS</h1>
+                    <p class="text-[10px] text-textMuted" data-sd-id="9">Hệ thống Quản lý Học tập</p>
+                </div>
+            </div>
+
+            <!-- Organization Selector -->
+            <button class="flex items-center justify-between w-full bg-orange-50/50 hover:bg-orange-50 border border-orange-100 rounded-xl px-4 py-2.5 mb-8 transition-colors" data-sd-id="10">
+                <div class="flex items-center gap-2" data-sd-id="11">
+                    <div class="w-6 h-6 bg-orange-100 rounded flex items-center justify-center" data-sd-id="12">
+                        <iconify-icon icon="lucide:graduation-cap" class="text-secondary text-sm"></iconify-icon>
+                    </div>
+                    <span class="text-sm font-semibold text-textMain" data-sd-id="13">Đại học Quốc gia</span>
+                </div>
+                <iconify-icon icon="lucide:chevron-down" class="text-textMuted"></iconify-icon>
+            </button>
+
+            <!-- Navigation -->
+            <div class="text-xs font-bold text-gray-400 mb-4 uppercase tracking-wider" data-sd-id="14">Menu</div>
+            <nav class="flex flex-col gap-2" data-sd-id="15">
+                <a href="#" id="nav-overview" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-primary font-semibold relative" data-sd-id="16">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" data-sd-id="17"></div>
+                    <iconify-icon icon="lucide:layout-dashboard" class="text-lg"></iconify-icon>
+                    <span data-sd-id="18">Tổng quan</span>
+                </a>
+                <a href="#" id="nav-courses" class="flex items-center gap-3 px-4 py-3 rounded-xl text-textMuted hover:bg-gray-50 hover:text-textMain font-medium transition-colors" data-sd-id="19">
+                    <iconify-icon icon="lucide:book-open" class="text-lg"></iconify-icon>
+                    <span data-sd-id="20">Khóa học</span>
+                </a>
+                <a href="#" id="nav-assignments" class="flex items-center gap-3 px-4 py-3 rounded-xl text-textMuted hover:bg-gray-50 hover:text-textMain font-medium transition-colors" data-sd-id="21">
+                    <iconify-icon icon="lucide:pen-tool" class="text-lg"></iconify-icon>
+                    <span data-sd-id="22">Bài tập</span>
+                </a>
+                <a href="#" id="nav-board" class="flex items-center gap-3 px-4 py-3 rounded-xl text-textMuted hover:bg-gray-50 hover:text-textMain font-medium transition-colors" data-sd-id="23">
+                    <iconify-icon icon="lucide:kanban-square" class="text-lg"></iconify-icon>
+                    <span data-sd-id="24">Bảng công việc</span>
+                </a>
+                <a href="#" id="nav-messages" class="flex items-center gap-3 px-4 py-3 rounded-xl text-textMuted hover:bg-gray-50 hover:text-textMain font-medium transition-colors" data-sd-id="25">
+                    <iconify-icon icon="lucide:message-square" class="text-lg"></iconify-icon>
+                    <span data-sd-id="26">Tin nhắn</span>
+                </a>
+            </nav>
+
+            <div class="mt-auto" data-sd-id="27">
+                <!-- Promo Card -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-2xl text-center relative overflow-hidden" data-sd-id="28">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm mx-auto mb-3 flex items-center justify-center relative z-10" data-sd-id="29">
+                        <iconify-icon icon="lucide:award" class="text-3xl text-yellow-500"></iconify-icon>
+                        <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center border-2 border-white" data-sd-id="30">
+                            <iconify-icon icon="lucide:star" class="text-white text-[10px]"></iconify-icon>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-textMain text-sm mb-1 relative z-10" data-sd-id="31">Chứng chỉ Pro!</h3>
+                    <p class="text-xs text-textMuted mb-4 relative z-10" data-sd-id="32">Nhận chứng chỉ uy tín từ đối tác đại học.</p>
+                    <button id="btn-learn-more" class="bg-primary text-white text-xs font-semibold py-2 px-4 rounded-lg w-full hover:bg-blue-700 transition-colors relative z-10" data-sd-id="33">
+                        Tìm hiểu thêm
+                    </button>
+                    <!-- Decorative blobs -->
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-blue-100 rounded-full blur-xl -translate-y-1/2 translate-x-1/2" data-sd-id="34"></div>
+                    <div class="absolute bottom-0 left-0 w-20 h-20 bg-indigo-100 rounded-full blur-xl translate-y-1/2 -translate-x-1/2" data-sd-id="35"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Main Content -->
+        <main class="flex-1 bg-background p-8 overflow-y-auto relative" data-sd-id="36">
+            <!-- Header -->
+            <header class="flex justify-between items-end mb-8" data-sd-id="37">
+                <div data-sd-id="38">
+                    <p class="text-textMuted font-medium mb-1" data-sd-id="39">Buổi sáng tốt lành,</p>
+                    <h2 class="text-3xl font-bold text-textMain flex items-center gap-2" data-sd-id="40">
+                        Minh Anh Nguyễn <span data-sd-id="41">☁️</span>
+                    </h2>
+                </div>
+                <div class="flex items-center gap-4" data-sd-id="42">
+                    <div class="relative" data-sd-id="43">
+                        <iconify-icon icon="lucide:search" class="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted"></iconify-icon>
+                        <input type="text" placeholder="Tìm kiếm..." class="bg-white border-none rounded-full py-2.5 pl-11 pr-4 w-64 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm" data-sd-id="44">
+                    </div>
+                    <button class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-white shadow-md hover:bg-orange-600 transition-colors relative" data-sd-id="45">
+                        <iconify-icon icon="lucide:bell" class="text-lg"></iconify-icon>
+                        <span class="absolute top-2 right-2.5 w-2 h-2 bg-white rounded-full" data-sd-id="46"></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Top Stats & Chart Row -->
+            <div class="flex gap-6 mb-8" data-sd-id="47">
+                <!-- Left Stats Column -->
+                <div class="w-64 flex flex-col gap-4" data-sd-id="48">
+                    <!-- Stat Card 1 -->
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4 hover:shadow-md transition-shadow" data-sd-id="49">
+                        <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center" data-sd-id="50">
+                            <iconify-icon icon="lucide:monitor-play" class="text-pink-500 text-xl"></iconify-icon>
+                        </div>
+                        <div data-sd-id="51">
+                            <div class="font-bold text-xl text-textMain" data-sd-id="52">40</div>
+                            <div class="text-xs text-textMuted font-medium" data-sd-id="53">Tổng khóa học</div>
+                        </div>
+                    </div>
+                    <!-- Stat Card 2 -->
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4 hover:shadow-md transition-shadow relative overflow-hidden" data-sd-id="54">
+                        
+                        <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center" data-sd-id="56">
+                            <iconify-icon icon="lucide:clipboard-list" class="text-secondary text-xl"></iconify-icon>
+                        </div>
+                        <div data-sd-id="57">
+                            <div class="font-bold text-xl text-textMain" data-sd-id="58">24</div>
+                            <div class="text-xs text-textMuted font-medium" data-sd-id="59">Tổng bài tập</div>
+                        </div>
+                    </div>
+                    <!-- Stat Card 3 -->
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4 hover:shadow-md transition-shadow" data-sd-id="60">
+                        <div class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center" data-sd-id="61">
+                            <iconify-icon icon="lucide:help-circle" class="text-success text-xl"></iconify-icon>
+                        </div>
+                        <div data-sd-id="62">
+                            <div class="font-bold text-xl text-textMain" data-sd-id="63">8</div>
+                            <div class="text-xs text-textMuted font-medium" data-sd-id="64">Bài kiểm tra</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Chart Area -->
+                <div class="flex-1 bg-white p-6 rounded-3xl shadow-sm border border-gray-50 flex flex-col" data-sd-id="65">
+                    <div class="flex justify-between items-center mb-6" data-sd-id="66">
+                        <h3 class="font-bold text-lg text-textMain" data-sd-id="67">Thời gian học tập</h3>
+                        <div class="flex items-center gap-2 text-xs font-medium text-textMuted" data-sd-id="68">
+                            <span class="w-2 h-2 rounded-full bg-secondary" data-sd-id="69"></span> Tập trung
+                        </div>
+                    </div>
+                    <!-- Simple CSS Bar Chart -->
+                    <div class="flex-1 flex items-end justify-between px-4 pb-2 relative" data-sd-id="70">
+                        <!-- Grid lines -->
+                        <div class="absolute inset-0 flex flex-col justify-between pointer-events-none z-0 pb-8" data-sd-id="71">
+                            <div class="border-b border-gray-100 border-dashed h-full" data-sd-id="72"></div>
+                            <div class="border-b border-gray-100 border-dashed h-full" data-sd-id="73"></div>
+                            <div class="border-b border-gray-100 border-dashed h-full" data-sd-id="74"></div>
+                        </div>
+                        
+                        <!-- Bars -->
+                        <div class="flex flex-col items-center gap-3 z-10" data-sd-id="75">
+                            <div class="w-14 h-40 bg-secondary rounded-xl chart-bar relative group" data-sd-id="76">
+                                <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" data-sd-id="77">5h 20m</div>
+                            </div>
+                            <span class="text-xs text-textMuted font-medium" data-sd-id="78">2 Th5</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-3 z-10" data-sd-id="79">
+                            <div class="w-14 h-24 bg-gray-100 rounded-xl chart-bar relative group" data-sd-id="80">
+                                 <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" data-sd-id="81">2h 10m</div>
+                            </div>
+                            <span class="text-xs text-textMuted font-medium" data-sd-id="82">3 Th5</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-3 z-10 relative" data-sd-id="83">
+                            <!-- Highlighted bar -->
+                            <div class="absolute -top-12 bg-white shadow-md border border-gray-100 px-3 py-1.5 rounded-lg text-xs font-bold text-textMain whitespace-nowrap z-20 flex items-center gap-1" data-sd-id="84">
+                                🔥 3h 40m
+                                <span class="block text-[10px] text-textMuted font-normal w-full absolute -bottom-4 left-0 text-center" data-sd-id="85">On-fire</span>
+                            </div>
+                            <div class="w-14 h-32 bg-primary rounded-xl chart-bar relative shadow-lg shadow-primary/30 flex items-center justify-center" data-sd-id="86">
+                                <iconify-icon icon="lucide:book-open" class="text-white opacity-50"></iconify-icon>
+                            </div>
+                            <span class="text-xs text-textMain font-bold" data-sd-id="87">4 Th5</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-3 z-10" data-sd-id="88">
+                            <div class="w-14 h-20 bg-gray-100 rounded-xl chart-bar relative group" data-sd-id="89">
+                                <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" data-sd-id="90">1h 45m</div>
+                            </div>
+                            <span class="text-xs text-textMuted font-medium" data-sd-id="91">5 Th5</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-3 z-10" data-sd-id="92">
+                            <div class="w-14 h-28 bg-success rounded-xl chart-bar relative group" data-sd-id="93">
+                                <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" data-sd-id="94">4h 00m</div>
+                            </div>
+                            <span class="text-xs text-textMuted font-medium" data-sd-id="95">6 Th5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Courses Section -->
+            <div class="mb-8" data-sd-id="96">
+                <div class="flex justify-between items-end mb-4" data-sd-id="97">
+                    <div data-sd-id="98">
+                        <h3 class="text-xl font-bold text-textMain" data-sd-id="99">Khóa học đang mở</h3>
+                        <p class="text-sm text-textMuted mt-1" data-sd-id="100">Dưới đây là các khóa học bạn đang tham gia</p>
+                    </div>
+                    <button class="text-sm font-semibold text-textMain bg-white px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors" data-sd-id="101">Xem tất cả</button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6" data-sd-id="102">
+                    <!-- Join Course Card -->
+                    <div class="bg-[#fff7ed] rounded-3xl p-6 border border-orange-100 flex flex-col justify-between relative overflow-hidden" data-sd-id="103">
+                        <!-- Decorative shape -->
+                        <div class="absolute right-[-20px] top-[20px] opacity-20" data-sd-id="104">
+                            <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" data-sd-id="105">
+                              <path fill="#f97316" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,81.1,-46.2C90.4,-33.3,96,-16.6,96.3,0.2C96.6,17,91.6,33.9,81.8,47.7C71.9,61.6,57.2,72.4,41.2,78.5C25.2,84.7,7.9,86.2,-8.1,82.4C-24.1,78.6,-38.8,69.5,-52.1,58.3C-65.4,47.1,-77.3,33.8,-83.1,18.1C-88.9,2.4,-88.6,-15.7,-81.4,-30.9C-74.1,-46,-60,-58.3,-45,-65.4C-30,-72.6,-15,-74.6,1.1,-76.4C17.2,-78.2,30.6,-83.6,44.7,-76.4Z" transform="translate(100 100)"></path>
+                            </svg>
+                        </div>
+                        
+                        <div data-sd-id="106">
+                            <div class="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4" data-sd-id="107">
+                                <iconify-icon icon="lucide:users" class="text-blue-500 text-xl"></iconify-icon>
+                            </div>
+                            <h4 class="font-bold text-lg text-textMain mb-1" data-sd-id="108">Mã khóa học</h4>
+                            <p class="text-xs text-textMuted mb-4" data-sd-id="109">Nhập mã để tham gia khóa học mới</p>
+                        </div>
+                        <div class="flex bg-white rounded-xl p-1 border border-orange-100" data-sd-id="110">
+                            <input type="text" placeholder="Nhập mã..." class="flex-1 bg-transparent border-none text-sm px-3 focus:outline-none" data-sd-id="111">
+                            <button class="bg-secondary text-white text-xs font-bold py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors" data-sd-id="112">
+                                Tham gia
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 1 -->
+                    <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm flex flex-col" data-sd-id="113">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mb-4" data-sd-id="114">
+                            <iconify-icon icon="lucide:layout" class="text-primary"></iconify-icon>
+                        </div>
+                        <h4 class="font-bold text-textMain text-base mb-1 line-clamp-2" data-sd-id="115">UI Design: Từ con số 0 đến chuyên gia</h4>
+                        <div class="mt-auto" data-sd-id="116">
+                            <div class="flex items-center gap-4 mb-3 border-t border-gray-50 pt-4 mt-4" data-sd-id="117">
+                                <div class="flex items-center gap-1.5 text-xs font-medium text-textMuted" data-sd-id="118">
+                                    <iconify-icon icon="lucide:book-open" class="text-primary"></iconify-icon> 19 bài học
+                                </div>
+                                <div class="flex items-center gap-1.5 text-xs font-medium text-textMuted" data-sd-id="119">
+                                    <iconify-icon icon="lucide:clock" class="text-success"></iconify-icon> 2h 4m
+                                </div>
+                            </div>
+                            <!-- Progress bar -->
+                            <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden" data-sd-id="120">
+                                <div class="bg-primary h-full w-[45%] rounded-full" data-sd-id="121"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 2 -->
+                    <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm flex flex-col relative" data-sd-id="122">
+                        <!-- New Badge -->
+                        <div class="absolute top-5 right-5 w-2 h-2 bg-pink-500 rounded-full" data-sd-id="123"></div>
+                        
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center mb-4" data-sd-id="124">
+                            <iconify-icon icon="lucide:film" class="text-purple-500"></iconify-icon>
+                        </div>
+                        <h4 class="font-bold text-textMain text-base mb-1 line-clamp-2" data-sd-id="125">After Effects: Cẩm nang cho người mới</h4>
+                        <div class="mt-auto" data-sd-id="126">
+                            <div class="flex items-center gap-4 mb-3 border-t border-gray-50 pt-4 mt-4" data-sd-id="127">
+                                <div class="flex items-center gap-1.5 text-xs font-medium text-textMuted" data-sd-id="128">
+                                    <iconify-icon icon="lucide:book-open" class="text-primary"></iconify-icon> 15 bài học
+                                </div>
+                                <div class="flex items-center gap-1.5 text-xs font-medium text-textMuted" data-sd-id="129">
+                                    <iconify-icon icon="lucide:clock" class="text-success"></iconify-icon> 3h 15m
+                                </div>
+                            </div>
+                            <!-- Progress bar -->
+                            <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden" data-sd-id="130">
+                                <div class="bg-purple-500 h-full w-[15%] rounded-full" data-sd-id="131"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments Section -->
+            <div data-sd-id="132">
+                <div class="flex justify-between items-end mb-4" data-sd-id="133">
+                    <div data-sd-id="134">
+                        <h3 class="text-xl font-bold text-textMain" data-sd-id="135">Bài tập của bạn</h3>
+                        <p class="text-sm text-textMuted mt-1" data-sd-id="136">Một số bài tập cần được hoàn thành sớm</p>
+                    </div>
+                    <button class="text-sm font-semibold text-textMain bg-white px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors" data-sd-id="137">Xem tất cả</button>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden" data-sd-id="138">
+                    <table class="w-full text-left border-collapse" data-sd-id="139">
+                        <thead data-sd-id="140">
+                            <tr class="border-b border-gray-100 text-xs text-textMuted font-medium" data-sd-id="141">
+                                <th class="py-3 px-6 font-medium" data-sd-id="142">Bài tập <iconify-icon icon="lucide:arrow-down-up" class="inline align-middle ml-1"></iconify-icon></th>
+                                <th class="py-3 px-6 font-medium" data-sd-id="143">Hạn nộp <iconify-icon icon="lucide:arrow-down-up" class="inline align-middle ml-1"></iconify-icon></th>
+                                <th class="py-3 px-6 font-medium" data-sd-id="144">Điểm <iconify-icon icon="lucide:arrow-down-up" class="inline align-middle ml-1"></iconify-icon></th>
+                                <th class="py-3 px-6 font-medium" data-sd-id="145">Giảng viên <iconify-icon icon="lucide:arrow-down-up" class="inline align-middle ml-1"></iconify-icon></th>
+                                <th class="py-3 px-6 font-medium text-right" data-sd-id="146">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody data-sd-id="147">
+                            <tr class="hover:bg-gray-50 transition-colors" data-sd-id="148">
+                                <td class="py-4 px-6" data-sd-id="149">
+                                    <div class="flex items-center gap-3" data-sd-id="150">
+                                        <div class="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center" data-sd-id="151">
+                                            <iconify-icon icon="lucide:figma" class="text-secondary"></iconify-icon>
+                                        </div>
+                                        <div data-sd-id="152">
+                                            <div class="font-bold text-sm text-textMain" data-sd-id="153">Thiết kế Logo</div>
+                                            <div class="text-xs text-textMuted" data-sd-id="154">Design 101</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-textMain" data-sd-id="155">T2, 20 Th5</td>
+                                <td class="py-4 px-6 text-sm text-textMuted" data-sd-id="156">-</td>
+                                <td class="py-4 px-6" data-sd-id="157">
+                                    <div class="flex items-center gap-2" data-sd-id="158">
+                                        <img src="https://i.pravatar.cc/150?u=brody" alt="Instructor" class="w-6 h-6 rounded-full" data-sd-id="159" onerror="this.onerror=null;this.src='https://placehold.co/24x24/1a1a1a/888?text=Image';">
+                                        <span class="text-sm font-medium text-textMain" data-sd-id="160">Thầy Hùng</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 text-right" data-sd-id="161">
+                                    <button class="text-xs font-bold text-textMain border border-gray-200 bg-white px-4 py-1.5 rounded-lg hover:bg-gray-50 transition-colors" data-sd-id="162">
+                                        Nộp bài
+                                    </button>
+                                </td>
+                            </tr>
+                             <tr class="hover:bg-gray-50 transition-colors border-t border-gray-50" data-sd-id="163">
+                                <td class="py-4 px-6" data-sd-id="164">
+                                    <div class="flex items-center gap-3" data-sd-id="165">
+                                        <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center" data-sd-id="166">
+                                            <iconify-icon icon="lucide:code" class="text-primary"></iconify-icon>
+                                        </div>
+                                        <div data-sd-id="167">
+                                            <div class="font-bold text-sm text-textMain" data-sd-id="168">HTML Basic Layout</div>
+                                            <div class="text-xs text-textMuted" data-sd-id="169">Web Dev 101</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-textMain" data-sd-id="170">T4, 22 Th5</td>
+                                <td class="py-4 px-6 text-sm font-bold text-success" data-sd-id="171">9.5</td>
+                                <td class="py-4 px-6" data-sd-id="172">
+                                    <div class="flex items-center gap-2" data-sd-id="173">
+                                        <img src="https://i.pravatar.cc/150?u=sarah" alt="Instructor" class="w-6 h-6 rounded-full" data-sd-id="174" onerror="this.onerror=null;this.src='https://placehold.co/24x24/1a1a1a/888?text=Image';">
+                                        <span class="text-sm font-medium text-textMain" data-sd-id="175">Cô Lan</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 text-right" data-sd-id="176">
+                                    <span class="text-xs font-bold text-success bg-green-50 px-3 py-1.5 rounded-lg" data-sd-id="177">
+                                        Đã nộp
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="w-[320px] bg-white border-l border-gray-100 p-8 overflow-y-auto flex flex-col" data-sd-id="178">
+            <!-- Profile Section -->
+            <div class="text-center mb-8 relative" data-sd-id="179">
+                <!-- Decorative sparkles -->
+                <iconify-icon icon="lucide:sparkles" class="absolute top-0 right-4 text-emerald-400 text-xl"></iconify-icon>
+                <iconify-icon icon="lucide:star" class="absolute top-4 left-6 text-blue-300 text-sm"></iconify-icon>
+                
+                <div class="w-24 h-24 mx-auto bg-gray-100 rounded-3xl mb-4 overflow-hidden border-4 border-white shadow-lg" data-sd-id="180">
+                    <img src="https://i.pravatar.cc/300?u=cecilia" alt="Profile" class="w-full h-full object-cover" data-sd-id="181" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/888?text=Image';">
+                </div>
+                <h3 class="text-xl font-bold text-textMain" data-sd-id="182">Minh Anh Nguyễn</h3>
+                <p class="text-sm text-textMuted mb-6" data-sd-id="183">@minhanh.stu</p>
+
+                <div class="bg-gray-50 rounded-2xl p-4 mb-6" data-sd-id="184">
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200/60" data-sd-id="185">
+                        <span class="text-xs text-textMuted font-medium" data-sd-id="186">Khóa:</span>
+                        <span class="text-sm font-bold text-textMain" data-sd-id="187">K2021</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200/60" data-sd-id="188">
+                        <span class="text-xs text-textMuted font-medium" data-sd-id="189">Chuyên ngành:</span>
+                        <span class="text-sm font-bold text-textMain text-right" data-sd-id="190">Hệ thống TT</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2" data-sd-id="191">
+                        <span class="text-xs text-textMuted font-medium" data-sd-id="192">GPA:</span>
+                        <span class="text-sm font-bold text-textMain" data-sd-id="193">3.98</span>
+                    </div>
+                </div>
+
+                <button class="w-full bg-primary text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-primary/20" data-sd-id="194">
+                    Chỉnh sửa hồ sơ
+                </button>
+            </div>
+
+            <!-- Calendar Widget -->
+            <div class="mb-8" data-sd-id="195">
+                <div class="flex justify-between items-center mb-4" data-sd-id="196">
+                    <button class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50" data-sd-id="197">
+                        <iconify-icon icon="lucide:chevron-left" class="text-sm text-textMain"></iconify-icon>
+                    </button>
+                    <h4 class="font-bold text-textMain" data-sd-id="198">Tháng 5 2024</h4>
+                    <button class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50" data-sd-id="199">
+                        <iconify-icon icon="lucide:chevron-right" class="text-sm text-textMain"></iconify-icon>
+                    </button>
+                </div>
+                <div class="flex justify-between text-center" data-sd-id="200">
+                    <div class="flex flex-col gap-2" data-sd-id="201">
+                        <span class="text-[11px] font-semibold text-textMuted" data-sd-id="202">T4</span>
+                        <span class="text-sm font-bold text-textMain" data-sd-id="203">08</span>
+                    </div>
+                    <div class="flex flex-col gap-2" data-sd-id="204">
+                        <span class="text-[11px] font-semibold text-textMuted" data-sd-id="205">T5</span>
+                        <span class="text-sm font-bold text-textMain" data-sd-id="206">09</span>
+                    </div>
+                    <!-- Active Day -->
+                    <div class="flex flex-col gap-1 bg-pink-500 text-white rounded-xl py-2 px-3 shadow-md shadow-pink-500/30 transform -translate-y-1" data-sd-id="207">
+                        <span class="text-[11px] font-semibold opacity-90" data-sd-id="208">T6</span>
+                        <span class="text-sm font-bold" data-sd-id="209">10</span>
+                    </div>
+                    <div class="flex flex-col gap-2" data-sd-id="210">
+                        <span class="text-[11px] font-semibold text-textMuted" data-sd-id="211">T7</span>
+                        <span class="text-sm font-bold text-textMain" data-sd-id="212">11</span>
+                    </div>
+                    <div class="flex flex-col gap-2" data-sd-id="213">
+                        <span class="text-[11px] font-semibold text-textMuted" data-sd-id="214">CN</span>
+                        <span class="text-sm font-bold text-textMain opacity-50" data-sd-id="215">12</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Class -->
+            <div class="mb-8" data-sd-id="216">
+                <h4 class="font-bold text-sm text-textMain mb-4" data-sd-id="217">Lớp học sắp tới</h4>
+                <div class="flex flex-col gap-3" data-sd-id="218">
+                    <!-- Class Item 1 -->
+                    <div class="flex items-center gap-3 p-3 bg-white border border-gray-100 rounded-xl shadow-sm relative overflow-hidden" data-sd-id="219">
+                        
+                        <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center shrink-0" data-sd-id="221">
+                            <iconify-icon icon="lucide:monitor" class="text-secondary"></iconify-icon>
+                        </div>
+                        <div data-sd-id="222">
+                            <h5 class="font-bold text-sm text-textMain line-clamp-1" data-sd-id="223">Web Design Master</h5>
+                            <div class="flex items-center gap-2 text-[10px] text-textMuted mt-1" data-sd-id="224">
+                                <span class="flex items-center gap-1 text-red-500 font-semibold" data-sd-id="225">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500" data-sd-id="226"></span> Offline
+                                </span>
+                                <span data-sd-id="227">• Phòng AG07</span>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Class Item 2 -->
+                    <div class="flex items-center gap-3 p-3 bg-white border border-gray-100 rounded-xl shadow-sm relative overflow-hidden" data-sd-id="228">
+                        
+                        <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center shrink-0" data-sd-id="230">
+                            <iconify-icon icon="lucide:code-2" class="text-success"></iconify-icon>
+                        </div>
+                        <div data-sd-id="231">
+                            <h5 class="font-bold text-sm text-textMain line-clamp-1" data-sd-id="232">HTML Basic</h5>
+                            <div class="flex items-center gap-2 text-[10px] text-textMuted mt-1" data-sd-id="233">
+                                <span class="flex items-center gap-1 text-success font-semibold" data-sd-id="234">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-success" data-sd-id="235"></span> Online
+                                </span>
+                                <span data-sd-id="236">• Zoom Link</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- To Do List -->
+            <div class="mt-auto" data-sd-id="237">
+                <h4 class="font-bold text-sm text-textMain mb-3" data-sd-id="238">Danh sách việc cần làm</h4>
+                <div class="flex flex-col gap-3" data-sd-id="239">
+                    <label class="flex items-center gap-3 cursor-pointer group" data-sd-id="240">
+                        <div class="w-5 h-5 rounded border border-gray-300 flex items-center justify-center group-hover:border-primary transition-colors bg-white" data-sd-id="241"></div>
+                        <span class="text-xs font-medium text-textMuted group-hover:text-textMain" data-sd-id="242">Chuẩn bị Mascot cho dự án</span>
+                    </label>
+                    
+                    <label class="flex items-center gap-3 cursor-pointer group" data-sd-id="243">
+                        <div class="w-5 h-5 rounded border border-primary bg-primary flex items-center justify-center shadow-sm" data-sd-id="244">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs"></iconify-icon>
+                        </div>
+                        <span class="text-xs font-bold text-textMain line-through opacity-70" data-sd-id="245">Hoàn thành bài tập Logo 🤬</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 cursor-pointer group" data-sd-id="246">
+                         <div class="w-5 h-5 rounded border border-gray-300 flex items-center justify-center group-hover:border-primary transition-colors bg-white" data-sd-id="247"></div>
+                        <span class="text-xs font-medium text-textMuted group-hover:text-textMain" data-sd-id="248">Tìm team cho bài Web Design</span>
+                    </label>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+</body></html>

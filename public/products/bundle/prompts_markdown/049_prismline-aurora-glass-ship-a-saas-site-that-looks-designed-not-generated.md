@@ -1,0 +1,90 @@
+# Prismline — Aurora Glass: Ship a SaaS Site That Looks Designed, Not Generated
+
+**Category:** Animation  
+**Tags:** saas-website, landing-page, glassmorphism, aurora, dark, gradient, pricing, hero, bento, responsive  
+**Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)  
+**Live Preview:** [https://p.superdesign.dev/draft/cd842deb-0450-4805-b73d-6e4eddb73875](https://p.superdesign.dev/draft/cd842deb-0450-4805-b73d-6e4eddb73875)  
+**Local Standalone Preview:** `previews/prismline-aurora-glass-ship-a-saas-site-that-looks-designed-not-generated.html`
+
+---
+
+## Architectural & Aesthetic Breakdown
+A premium dark aurora-glass SaaS marketing site: frosted pill nav, duotone aqua-to-magenta hero, a floating infinite-canvas mockup, a 6-card feature grid, bento showcase, 3-tier pricing with a featured Pro plan, and a glass footer.
+
+---
+
+## Production System Prompt Specification
+Copy and paste this into Cursor Composer, Claude 3.5 Sonnet, v0, Bolt.new, or Windsurf:
+
+```markdown
+{
+  "summary": "Build a premium dark glassmorphic SaaS marketing site for 'Prismline' on a near-black page (#0b0f14) lit by soft aqua-to-magenta aurora blobs. A sticky frosted-glass pill nav floats over a centered hero with duotone gradient text, a floating frosted dashboard-canvas mockup, a logo strip, a 6-card feature grid, a bento showcase, a 3-tier pricing block with a featured Pro plan, a big glass CTA, and a 5-column glass footer.",
+  "style": {
+    "description": "Dark aurora-glass aesthetic: a single near-black canvas under soft, blurred aqua and magenta light fields, with frosted translucent panels, hairline borders, and duotone aqua-to-magenta gradient accents on headings, badges and buttons. Premium, luminous, restrained: glass surfaces never go opaque, accents stay in the aqua/cyan/magenta family only (no generic indigo or violet).",
+    "prompt": "Palette: page base #0b0f14 (also the dark button label color), body text #e7ecf2 with muted whites (white/65, white/55, white/45, white/35). Accent family only: aqua #2dd4bf, aqua-soft #5eead4, cyan #22d3ee, magenta #e879f9. Frosted glass surfaces: .glass = linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)) with backdrop-filter blur(18px) saturate(140%) and a 1px rgba(255,255,255,0.10) border; .glass-strong = linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03)) with blur(26px) saturate(150%) and a 1px rgba(255,255,255,0.14) border. Duotone gradient text (.duo-text) = linear-gradient(100deg, #2dd4bf 0%, #5eead4 35%, #e879f9 100%) clipped to text. Primary CTA buttons = linear-gradient(135deg, #5eead4, #2dd4bf) with #0b0f14 label text; secondary = glass with white/80 text. Aurora blobs = large blurred (filter blur(90px)) ~0.2-0.55 opacity circles of #2dd4bf, #e879f9 and #22d3ee scattered behind sections. Subtle 56px x 56px grid texture (rgba(255,255,255,0.04) lines) radially masked at section tops, plus a faint fractal-noise overlay at ~0.035 opacity. Gradient ring borders use a 135deg aqua->magenta mask trick. Fonts via Google Fonts: Space Grotesk (display, weights 400-700) for the wordmark, all headings, badges and buttons; Inter (body, weights 400-700) for paragraphs and lists. Tight display tracking, leading ~1.02 on the big hero. Mood: premium, frosted, luminous-on-dark; antialiased."
+  },
+  "layout_and_structure": {
+    "description": "A single full-width responsive marketing page, max-w-6xl centered container with px-5/px-6, stacked sections separated by generous top padding (pt-24 / sm:pt-32). Sticky glass pill nav at top, centered hero with a floating mockup, then features, bento showcase, pricing, CTA, and footer. Reflows from a 12-col desktop grid down to single-column at 390px.",
+    "prompts": [
+      {
+        "part": "Global background",
+        "prompt": "Fixed full-viewport -z-10 layer holding 6 large blurred aurora blobs (aqua/magenta/cyan, opacity 0.20-0.42) at varying top offsets, a top vignette gradient (rgba(11,15,20,0.85) -> transparent over h-44) so the nav rests on a calm field, and a faint fractal-noise overlay."
+      },
+      {
+        "part": "Sticky nav",
+        "prompt": "A sticky top-0 z-50 header; inside a max-w-6xl container with mt-4, a .glass rounded-2xl pill (h-14, px-4/px-5) flex justify-between: left = gradient sparkle logo tile (w-8 h-8 rounded-lg, linear-gradient(135deg,#2dd4bf,#e879f9), ph:sparkle-fill icon in #0b0f14) plus 'Prismline' wordmark in Space Grotesk 600; center (hidden md:flex) = nav links Features / Showcase / Pricing / Library in white/65 with hover:white; right = a text 'Sign in' link and a gradient 'Start free' pill button."
+      },
+      {
+        "part": "Hero",
+        "prompt": "Centered section, pt-28, with a radial grid-fade behind it. A small .glass rounded-full badge ('NEW' gradient chip + '320+ aurora-glass website prompts' + arrow). H1 in Space Grotesk 700, 44/64/76px responsive: 'Ship a SaaS site that' on line one, then a duo-text span 'looks designed, not generated'. A max-w-xl white/60 subhead. Two CTAs: gradient 'Generate my site' and a glass 'See the canvas' with a play icon."
+      },
+      {
+        "part": "Floating dashboard mockup",
+        "prompt": "Below the hero, a max-w-5xl .glass-strong gradient-ring rounded-[28px] frame (p-2.5/p-3) with a back glow (radial aqua + magenta). Inside, a dark rounded panel with a mock toolbar (cursor icon + 'prismline / canvas', plus 'Generate' and gradient 'Export' chips) over a min-h ~340px canvas: a 12-col grid of small .glass cards labeled Hero / Pricing ($29 in duo-text) / a +38% metric tile / a Bento grid tile / an avatar+lines tile, over a faint grid texture."
+      },
+      {
+        "part": "Logo strip",
+        "prompt": "An eyebrow 'Designed in Prismline, shipped by teams at' (uppercase, tracking-[0.2em], white/35) above a flex-wrap row of 6 wordmark logos (Northwind, Vectary, Cobalt, Lumen, Driftly, Halcyon) in Space Grotesk 600, white/40."
+      },
+      {
+        "part": "Feature grid",
+        "prompt": "Section #features: centered glass badge eyebrow + H2 'Packed with the parts of a [great SaaS site]' (duo-text span). A responsive 1/2/3-col grid of 6 .glass rounded-2xl cards; each card has an 11px rounded gradient icon tile (alternating aqua/magenta tints) with a Phosphor icon, a Space Grotesk 600 title, and a white/55 description. Cards: Prompt to layout, Bento composer, Glass tokens, Responsive by default, Clean export, Prompt library."
+      },
+      {
+        "part": "Bento showcase",
+        "prompt": "Section #bento: a big .glass rounded-3xl card split lg:grid-cols-2 (left = 'Live canvas' eyebrow, H3 with duo-text 'infinite canvas', copy, and a 3-item check list; right = a nested glass-strong mini canvas mockup with floating tiles), followed by a two-up row of two .glass rounded-3xl cards ('Duotone aurora themes' with a swatch row, 'From idea to deploy' with a main -> deployed pill flow). Each card carries its own corner aurora blob."
+      },
+      {
+        "part": "Pricing",
+        "prompt": "Section #pricing: centered magenta glass badge + H2 'Pick a plan, [start shipping]'. A md:grid-cols-3 items-stretch row of 3 plan cards. Starter ($0/mo, .glass) and Team ($89/mo, .glass) are plain; Pro ($29/mo, duo-text price) is the featured center card: .glass-strong + gradient ring + scale-[1.02] + corner auroras + a gradient 'POPULAR' pill. Each card: plan name, one-line descriptor, big Space Grotesk 700 price + /mo, a check list (ph:check in aqua), and a CTA (gradient for Pro, glass-strong for the others)."
+      },
+      {
+        "part": "CTA band",
+        "prompt": "A .glass-strong gradient-ring rounded-[32px] band (p-10/p-16) centered, with aqua + magenta corner auroras: H2 'Your next site is [one prompt away]' (duo-text span), a max-w-lg white/60 subline, and two buttons (gradient 'Create your account' + glass 'Browse the library')."
+      },
+      {
+        "part": "Footer",
+        "prompt": "A .glass rounded-3xl footer in a 5-col grid: a 2-col brand block (logo tile + wordmark, one-line description, X/GitHub/YouTube icon links) and three link columns (Product, Library, Company). A top hairline (border-white/[0.07]) above a bottom row: copyright left, Privacy/Terms links + an 'All systems normal' aqua-dot status indicator right; stacks on mobile."
+      },
+      {
+        "part": "Responsive reflow",
+        "prompt": "Desktop (1280): full 12-col grids, 3-col features, 3-col pricing, lg:grid-cols-2 bento. Tablet (768): features 2-col, mockup grids tighten, nav center links may hide below md. Mobile (390): single column throughout, CTAs go full-width stacked, nav collapses to logo + 'Start free', hero type scales to 44px, paddings reduce."
+      }
+    ]
+  },
+  "special_ui_components": [
+    "Sticky frosted-glass pill navbar that floats with a top margin over an aurora field (not a flush bar).",
+    "Duotone gradient text (.duo-text aqua->aqua-soft->magenta) used on hero, section headings and the Pro price.",
+    "Gradient-ring border trick (135deg aqua->magenta) on the mockup frame, Pro pricing card and CTA band.",
+    "Floating frosted 'infinite canvas' mockup: glass-strong frame, mock toolbar, and a grid of placeholder glass tiles over a faint 56px grid texture.",
+    "Layered aurora light field: large blurred (90px) aqua/magenta/cyan blobs behind every major section, with per-section corner blobs.",
+    "Gradient pill badges ('NEW', 'POPULAR') and gradient CTA buttons with dark (#0b0f14) label text.",
+    "Status indicator: small aqua dot + 'All systems normal' in the footer.",
+    "Phosphor (iconify) icons throughout: ph:sparkle-fill, ph:magic-wand-fill, ph:squares-four-fill, ph:check, ph:rocket-launch-fill, etc."
+  ],
+  "special_notes": "Keep accents strictly in the aqua / aqua-soft / cyan / magenta family on the near-black #0b0f14 base; do not introduce generic indigo or violet AI-slop gradients. Glass panels must stay translucent (backdrop-blur) with 1px hairline borders, never solid fills. All gradient-on-dark text and white/xx body copy must remain WCAG-legible. Load Space Grotesk + Inter from Google Fonts and Phosphor icons via iconify. No em-dashes in any copy. Render the full page faithfully with responsive rules at 1280 / 768 / 390."
+}
+```
+
+---
+*Generated by ShareFlow Design Prompt Library · © 2026 Mahir Faisal (MHR3D)*

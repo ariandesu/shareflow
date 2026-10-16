@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperDesign Project</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        #root {
+            width: 100%;
+            min-height: 100vh;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "modern-screenshot": "https://esm.sh/modern-screenshot@4.6.6",
+          "react": "https://esm.sh/react@18.3.1?dev",
+          "react-dom": "https://esm.sh/react-dom@18.3.1?dev",
+          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?dev",
+          "scheduler": "https://esm.sh/scheduler@0.23.2",
+          "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime?dev",
+          "react-is": "https://esm.sh/react-is@18.3.1?dev",
+          "react-router-dom": "https://esm.sh/react-router-dom@6.28.0?dev"
+        }
+      }
+    </script>
+
+<meta name="preview-version" content="19e01937-f656-476a-a2ce-f321506213b3" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:36.040Z" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Georgia:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: 25 78% 80%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 25 82% 87%;
+  --secondary-foreground: 0 0% 0%;
+  --accent: 25 78% 80%;
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --background: 27 100% 96%;
+  --foreground: 0 0% 10%;
+  --muted: 20 43% 93%;
+  --muted-foreground: 25 5% 45%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 4%;
+  --border: 21 34% 85%;
+  --input: 240 6% 90%;
+  --ring: 240 6% 10%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 240 5% 26%;
+  --sidebar-primary: 240 6% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 5% 96%;
+  --sidebar-accent-foreground: 240 6% 10%;
+  --sidebar-border: 240 6% 90%;
+  --sidebar-ring: 240 5% 65%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --font-sans: "Outfit";
+  --font-serif: "Georgia";
+  --font-mono: "monospace";
+  --font-size: 16;
+  --line-height: 1.5;
+  --letter-spacing-body: 0;
+  --letter-spacing-heading: -0.02em;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --radius: 0.625rem;
+  --box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --primary: 25 78% 80%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 21 14% 32%;
+  --secondary-foreground: 0 0% 96%;
+  --accent: 25 78% 80%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+  --background: 21 20% 14%;
+  --foreground: 0 0% 96%;
+  --muted: 20 15% 23%;
+  --muted-foreground: 24 5% 64%;
+  --card: 21 19% 18%;
+  --card-foreground: 0 0% 96%;
+  --popover: 240 10% 4%;
+  --popover-foreground: 0 0% 98%;
+  --border: 20 15% 23%;
+  --input: 240 4% 16%;
+  --ring: 240 5% 84%;
+  --sidebar: 240 6% 10%;
+  --sidebar-foreground: 240 5% 65%;
+  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4% 16%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-border: 240 4% 16%;
+  --sidebar-ring: 240 5% 26%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}</style>
+<style>@font-face {
+  font-family: 'Aktura';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/aktura/Aktura-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alpino';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/alpino/Alpino-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amulya';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/amulya/Amulya-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amulya';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/amulya/Amulya-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anton';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/anton/Anton-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/archivo/Archivo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/archivo/Archivo-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Array';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/array/Array-Bold.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Asap';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/asap/Asap-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Asap';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/asap/Asap-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Author';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/author/Author-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Author';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/author/Author-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AzeretMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/azeretmono/AzeretMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AzeretMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/azeretmono/AzeretMono-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BeVietnamPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevietnampro/BeVietnamPro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BeVietnamPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevietnampro/BeVietnamPro-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bebasneue/BebasNeue-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokesans/BespokeSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokesans/BespokeSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSerif';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeserif/BespokeSerif-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSerif';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeserif/BespokeSerif-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeslab/BespokeSlab-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeslab/BespokeSlab-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeStencil';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokestencil/BespokeStencil-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeStencil';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokestencil/BespokeStencil-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bevellier';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevellier/Bevellier-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bevellier';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevellier/Bevellier-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bonny';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bonny/Bonny-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boska/Boska-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boska/Boska-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boxing';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boxing/Boxing-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Britney';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/britney/Britney-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CabinetGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/cabinetgrotesk/CabinetGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chillax';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chillax/Chillax-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chubbo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chubbo/Chubbo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chubbo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chubbo/Chubbo-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/clashgrotesk/ClashGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Comico';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/comico/Comico-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CrimsonPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/crimsonpro/CrimsonPro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CrimsonPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/crimsonpro/CrimsonPro-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DancingScript';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/dancingscript/DancingScript-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Epilogue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/epilogue/Epilogue-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Epilogue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/epilogue/Epilogue-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Erode';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/erode/Erode-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Erode';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/erode/Erode-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Excon';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/excon/Excon-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Expose';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/expose/Expose-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FamiljenGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/familjengrotesk/FamiljenGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FamiljenGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/familjengrotesk/FamiljenGrotesk-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/firasans/FiraSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/firasans/FiraSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambarino';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambarino/Gambarino-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambetta/Gambetta-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambetta/Gambetta-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeneralSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/generalsans/GeneralSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeneralSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/generalsans/GeneralSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hind';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/hind/Hind-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hoover';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/hoover/Hoover-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/jetbrainsmono/JetBrainsMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/jetbrainsmono/JetBrainsMono-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kalam';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kalam/Kalam-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karma';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/karma/Karma-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Khand';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/khand/Khand-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kihim';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kihim/Kihim-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KohinoorZerone';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kohinoorzerone/KohinoorZerone-One.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kola';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kola/Kola-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Literata';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/literata/Literata-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Literata';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/literata/Literata-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/lora/Lora-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/lora/Lora-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/manrope/Manrope-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Melodrama';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/melodrama/Melodrama-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/merriweathersans/MerriweatherSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/merriweathersans/MerriweatherSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/montserrat/Montserrat-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/montserrat/Montserrat-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neco';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/neco/Neco-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neco';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/neco/Neco-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NewTitle';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/newtitle/NewTitle-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nippo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nippo/Nippo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nunito/Nunito-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nunito/Nunito-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/oswald/Oswald-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/outfit/Outfit-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pally';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pally/Pally-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Panchang';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/panchang/Panchang-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Paquito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/paquito/Paquito-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pencerio';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pencerio/Pencerio-Hairline.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PilcrowRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pilcrowrounded/PilcrowRounded-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plein';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plein/Plein-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plein';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plein/Plein-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plusjakartasans/PlusJakartaSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plusjakartasans/PlusJakartaSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/poppins/Poppins-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/poppins/Poppins-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PramukhRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pramukhrounded/PramukhRounded-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PramukhRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pramukhrounded/PramukhRounded-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PublicSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/publicsans/PublicSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PublicSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/publicsans/PublicSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/quicksand/Quicksand-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quilon';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/quilon/Quilon-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RX100';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rx100/RX100-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rajdhani';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rajdhani/Rajdhani-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ranade';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/ranade/Ranade-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ranade';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/ranade/Ranade-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recia';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/recia/Recia-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recia';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/recia/Recia-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/redhatdisplay/RedHatDisplay-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/redhatdisplay/RedHatDisplay-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rosaline';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rosaline/Rosaline-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roundo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/roundo/Roundo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rowan';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rowan/Rowan-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rowan';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rowan/Rowan-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/satoshi/Satoshi-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/satoshi/Satoshi-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Segment';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/segment/Segment-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sentient';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sentient/Sentient-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sentient';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sentient/Sentient-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sharpie';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sharpie/Sharpie-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sora/Sora-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sora/Sora-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/spacegrotesk/SpaceGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SplineSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/splinesans/SplineSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Stardom';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/stardom/Stardom-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Striper';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/striper/Striper-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Styro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/styro/Styro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/supreme/Supreme-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/supreme/Supreme-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/switzer/Switzer-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/switzer/Switzer-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Synonym';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/synonym/Synonym-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tabular';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tabular/Tabular-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tabular';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tabular/Tabular-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tanker';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tanker/Tanker-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Technor';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/technor/Technor-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teko';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/teko/Teko-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Telma';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/telma/Telma-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TrenchSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/trenchslab/TrenchSlab-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/worksans/WorkSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/worksans/WorkSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zina';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zina/Zina-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zodiak';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zodiak/Zodiak-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zodiak';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zodiak/Zodiak-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}</style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    if (window.tailwind) {
+      window.tailwind.config = {
+        ...(window.tailwind.config || {}),
+        theme: {
+          extend: {"colors":{"border":"hsl(var(--border))","input":"hsl(var(--input))","ring":"hsl(var(--ring))","background":"hsl(var(--background))","foreground":"hsl(var(--foreground))","primary":{"DEFAULT":"hsl(var(--primary))","foreground":"hsl(var(--primary-foreground))"},"secondary":{"DEFAULT":"hsl(var(--secondary))","foreground":"hsl(var(--secondary-foreground))"},"destructive":{"DEFAULT":"hsl(var(--destructive))","foreground":"hsl(var(--destructive-foreground))"},"muted":{"DEFAULT":"hsl(var(--muted))","foreground":"hsl(var(--muted-foreground))"},"accent":{"DEFAULT":"hsl(var(--accent))","foreground":"hsl(var(--accent-foreground))"},"popover":{"DEFAULT":"hsl(var(--popover))","foreground":"hsl(var(--popover-foreground))"},"card":{"DEFAULT":"hsl(var(--card))","foreground":"hsl(var(--card-foreground))"},"sidebar":{"DEFAULT":"hsl(var(--sidebar-background))","foreground":"hsl(var(--sidebar-foreground))","primary":"hsl(var(--sidebar-primary))","primary-foreground":"hsl(var(--sidebar-primary-foreground))","accent":"hsl(var(--sidebar-accent))","accent-foreground":"hsl(var(--sidebar-accent-foreground))","border":"hsl(var(--sidebar-border))"},"chart":{"1":"hsl(var(--chart-1))","2":"hsl(var(--chart-2))","3":"hsl(var(--chart-3))","4":"hsl(var(--chart-4))","5":"hsl(var(--chart-5))"}},"borderRadius":{"lg":"var(--radius)","md":"calc(var(--radius) - 2px)","sm":"calc(var(--radius) - 4px)"},"fontFamily":{"sans":["var(--font-sans)","system-ui","sans-serif"],"serif":["var(--font-serif)","Georgia","serif"],"mono":["var(--font-mono)","monospace"]}}
+        }
+      };
+    }
+  </script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "19e01937-f656-476a-a2ce-f321506213b3");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "19e01937-f656-476a-a2ce-f321506213b3",
+      timestamp: "2026-10-16T14:07:36.040Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          setTimeout(function() { window.__SUPERDESIGN_PREVIEW__.autoCapture(); }, 3000);
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="module">
+      (async function() {
+        const depModules = {};
+        function isMobileDevice() {
+          return /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent);
+        }
+        async function loadReact() {
+          if (!depModules["react"]) {
+            try {
+              const [React, ReactDOMClient, jsxRuntime, ReactDOMUtils, modernScreenshot] = await Promise.all([
+                import("https://esm.sh/react@18.3.1?dev"),
+                import("https://esm.sh/react-dom@18.3.1/client?dev"),
+                import("https://esm.sh/react@18.3.1/jsx-runtime?dev"),
+                import("https://esm.sh/react-dom@18.3.1?dev"),
+                import("https://esm.sh/modern-screenshot@4.6.6")
+              ]);
+              window.React = React;
+              window.modernScreenshot = modernScreenshot;
+              window.ReactDOM = {
+                ...ReactDOMClient,
+                ...ReactDOMUtils
+              };
+              depModules["react"] = {
+                default: React,
+                ...React,
+              };
+              depModules["react-dom"] = {
+                default: ReactDOM,
+                ...ReactDOM,
+              };
+              depModules["react/jsx-runtime"] = {
+                default: jsxRuntime,
+                ...jsxRuntime,
+              };
+            } catch (error) {
+              console.error('Failed to load React dependencies:', error);
+            }
+          }
+        }
+        async function loadDep(depName) {
+          if (!depModules[depName]) {
+            try {
+              const module = await import(depName);
+              depModules[depName] = module;
+              if (!module.default) {
+                depModules[depName] = {
+                  default: module,
+                  ...module,
+                };
+              }
+            } catch (error) {
+              console.error('Failed to load dependency:', depName, error);
+            }
+          }
+        }
+        // Load dependencies concurrently
+        await Promise.all([
+          loadReact()
+        ]);
+        
+        // Execute JS Bundle
+        var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// <define:import.meta>
+var init_define_import_meta = __esm({
+  "<define:import.meta>"() {
+  }
+});
+
+// <define:process.env>
+var init_define_process_env = __esm({
+  "<define:process.env>"() {
+  }
+});
+
+// external-global-plugin:react
+var require_react = __commonJS({
+  "external-global-plugin:react"(exports, module) {
+    init_define_import_meta();
+    init_define_process_env();
+    module.exports = window.React;
+  }
+});
+
+// external-global-plugin:react-dom/client
+var require_client = __commonJS({
+  "external-global-plugin:react-dom/client"(exports, module) {
+    init_define_import_meta();
+    init_define_process_env();
+    module.exports = window.ReactDOM;
+  }
+});
+
+// ../../../../../../_superdesign_entry_.tsx
+init_define_import_meta();
+init_define_process_env();
+var import_react3 = __toESM(require_react());
+var import_client = __toESM(require_client());
+
+// ../../../../../../src/App.tsx
+init_define_import_meta();
+init_define_process_env();
+var import_react2 = __toESM(require_react());
+
+// ../../../../../../src/Component
+init_define_import_meta();
+init_define_process_env();
+var import_react = __toESM(require_react());
+
+// ../../../../../../src/styles.css
+init_define_import_meta();
+init_define_process_env();
+var style = document.createElement("style");
+style.setAttribute("data-path", "/src/styles.css");
+style.innerHTML = '@font-face {\n  font-family: "Aeonik Pro Regular";\n  src: url("https://db.onlinewebfonts.com/t/12ff62164c9778917bddb93c6379cf47.eot");\n  src: url("https://db.onlinewebfonts.com/t/12ff62164c9778917bddb93c6379cf47.eot?#iefix") format("embedded-opentype"),\n       url("https://db.onlinewebfonts.com/t/12ff62164c9778917bddb93c6379cf47.woff2") format("woff2"),\n       url("https://db.onlinewebfonts.com/t/12ff62164c9778917bddb93c6379cf47.woff") format("woff"),\n       url("https://db.onlinewebfonts.com/t/12ff62164c9778917bddb93c6379cf47.ttf") format("truetype"),\n       url("https://db.onlinewebfonts.com/t/12ff62164c9778917bddb93c6379cf47.svg#Aeonik Pro Regular") format("svg");\n}\n\n.luminous-card {\n  --sz: clamp(10px, min(2vw, 3vh), 24px);\n  font-size: var(--sz);\n  font-family: "Aeonik Pro Regular", sans-serif;\n  position: relative;\n  background: radial-gradient(circle at 50% 0%, #3a3a3a 0%, #1a1a1a 64%);\n  box-shadow: inset 0 1.01rem 0.2rem -1rem #fff0,\n              inset 0 -1.01rem 0.2rem -1rem #0000, \n              0 -1.02rem 0.2rem -1rem #fff0,\n              0 1rem 0.2rem -1rem #0000, \n              0 0 0 1px #fff3, \n              0 4px 4px 0 #0004, \n              0 0 0 1px #333;\n  width: 18rem;\n  height: 24rem;\n  border-radius: 1.8rem;\n  color: #fff;\n  padding: 1rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: end;\n  transition: all 0.4s ease-in-out, translate 0.4s ease-out;\n  box-sizing: border-box;\n}\n\n.luminous-card * {\n  box-sizing: border-box;\n}\n\n.luminous-card::before {\n  content: "";\n  display: block;\n  --offset: 1rem;\n  width: calc(100% + 2 * var(--offset));\n  height: calc(100% + 2 * var(--offset));\n  position: absolute;\n  left: calc(-1 * var(--offset));\n  right: calc(-1 * var(--offset));\n  top: calc(-1 * var(--offset));\n  bottom: calc(-1 * var(--offset));\n  margin: auto;\n  box-shadow: inset 0 0 0px 0.06rem #fff2;\n  border-radius: 2.6rem;\n  --ax: 4rem;\n  clip-path: polygon(\n    var(--ax) 0,\n    0 0,\n    0 var(--ax),\n    var(--ax) var(--ax),\n    var(--ax) calc(100% - var(--ax)),\n    0 calc(100% - var(--ax)),\n    0 100%,\n    var(--ax) 100%,\n    var(--ax) calc(100% - var(--ax)),\n    calc(100% - var(--ax)) calc(100% - var(--ax)),\n    calc(100% - var(--ax)) 100%,\n    100% 100%,\n    100% calc(100% - var(--ax)),\n    calc(100% - var(--ax)) calc(100% - var(--ax)),\n    calc(100% - var(--ax)) var(--ax),\n    100% var(--ax),\n    100% 0,\n    calc(100% - var(--ax)) 0,\n    calc(100% - var(--ax)) var(--ax),\n    var(--ax) var(--ax)\n  );\n  transition: all 0.4s ease-in-out;\n  pointer-events: none;\n}\n\n.luminous-card:hover {\n  translate: 0 -0.2rem;\n}\n\n.luminous-card:hover::before {\n  --offset: 0.5rem;\n  --ax: 8rem;\n  border-radius: 2.2rem;\n  box-shadow: inset 0 0 0 0.08rem #fff1;\n}\n\n/* Light Layer */\n.luminous-card .light-layer {\n  position: absolute;\n  left: 0;\n  top: 0;\n  height: 100%;\n  width: 100%;\n  transform-style: preserve-3d;\n  perspective: 400px;\n  pointer-events: none;\n}\n\n.luminous-card .slit {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  margin: auto;\n  width: 64%;\n  height: 1.2rem;\n  transform: rotateX(-76deg);\n  background: #121212;\n  box-shadow: 0 0 4px 0 #fff0;\n  transition: all 0.4s ease-in-out;\n}\n\n.luminous-card .lumen {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  margin: auto;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n  perspective: 400px;\n  opacity: 0;\n  transition: opacity 0.4s ease-in-out;\n}\n\n.luminous-card .lumen .min {\n  width: 70%;\n  height: 3rem;\n  background: linear-gradient(#fff0, #fffa);\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 2.5rem;\n  margin: auto;\n  transform: rotateX(-42deg);\n  opacity: 0.4;\n}\n\n.luminous-card .lumen .mid {\n  width: 74%;\n  height: 13rem;\n  background: linear-gradient(#fff0, #fffa);\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 10em;\n  margin: auto;\n  transform: rotateX(-42deg);\n  filter: blur(1rem);\n  opacity: 0.8;\n  border-radius: 100% 100% 0 0;\n}\n\n.luminous-card .lumen .hi {\n  width: 50%;\n  height: 13rem;\n  background: linear-gradient(#fff0, #fffa);\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 12em;\n  margin: auto;\n  transform: rotateX(22deg);\n  filter: blur(1rem);\n  opacity: 0.6;\n  border-radius: 100% 100% 0 0;\n}\n\n/* Darken Layer */\n.luminous-card .darken {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  margin: auto;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n  perspective: 400px;\n  transition: opacity 0.4s ease-in-out;\n  opacity: 0.5;\n}\n\n.luminous-card .darken > * {\n  transition: opacity 0.4s ease-in-out;\n}\n\n.luminous-card .darken .sl {\n  width: 64%;\n  height: 10rem;\n  background: linear-gradient(#000, #0000);\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 9.6em;\n  bottom: 0;\n  margin: auto;\n  filter: blur(0.2rem);\n  opacity: 0.1;\n  border-radius: 0 0 100% 100%;\n  transform: rotateX(-22deg);\n}\n\n.luminous-card .darken .ll {\n  width: 62%;\n  height: 10rem;\n  background: linear-gradient(#000a, #0000);\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 11em;\n  bottom: 0;\n  margin: auto;\n  filter: blur(0.8rem);\n  opacity: 0.4;\n  border-radius: 0 0 100% 100%;\n  transform: rotateX(22deg);\n}\n\n.luminous-card .darken .slt {\n  width: 0.5rem;\n  height: 4rem;\n  background: linear-gradient(#0005, #0000);\n  position: absolute;\n  left: 0;\n  right: 11.5rem;\n  top: 3.9em;\n  bottom: 0;\n  margin: auto;\n  opacity: 0.6;\n  border-radius: 0 0 100% 100%;\n  transform: skewY(42deg);\n}\n\n.luminous-card .darken .srt {\n  width: 0.5rem;\n  height: 4rem;\n  background: linear-gradient(#0005, #0000);\n  position: absolute;\n  right: 0;\n  left: 11.5rem;\n  top: 3.9em;\n  bottom: 0;\n  margin: auto;\n  opacity: 0.6;\n  border-radius: 0 0 100% 100%;\n  transform: skewY(-42deg);\n}\n\n/* Content */\n.luminous-card .content .icon {\n  position: absolute;\n  top: 5rem;\n  left: 0;\n  right: 0;\n  margin: auto;\n  width: fit-content;\n  filter: drop-shadow(0 -1.2rem 1px transparent);\n  transition: filter 0.4s ease-in-out;\n}\n\n.luminous-card .content .bottom {\n  position: relative;\n}\n\n.luminous-card .content .bottom h4 {\n  margin: 0;\n  margin-bottom: 1rem;\n  font-size: 1.2rem;\n  color: #ccc;\n}\n\n.luminous-card .content .bottom p {\n  margin: 0;\n  padding-bottom: 0.6rem;\n  color: #fff4;\n  font-size: 0.6rem;\n  font-weight: 100;\n  border-bottom: 1px solid #fff1;\n  max-width: 64%;\n}\n\n/* Toggle Switch */\n.luminous-card .toggle {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  height: 2rem;\n  width: 4.8rem;\n  border-radius: 0.6rem;\n  background: #000;\n  box-shadow: inset 0 -8px 8px 0.3rem #0004, \n              inset 0 0 1px 0.3rem #ddd,\n              inset 0 -2px 1px 0.3rem #fff, \n              inset 0 1px 2px 0.3rem #0006,\n              inset 0 0 1px 0.8rem #aaa;\n  cursor: pointer;\n  transition: all 0.4s ease-in-out;\n}\n\n.luminous-card .toggle::before {\n  content: "";\n  display: block;\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  margin: auto;\n  width: 3.4rem;\n  height: 0.68rem;\n  border-radius: 0.2rem;\n  background: #000;\n  transition: all 0.4s ease-in-out;\n}\n\n.luminous-card .toggle .handle {\n  position: absolute;\n  top: 0;\n  bottom: 0.04rem;\n  margin: auto;\n  left: 0.68rem;\n  width: 40%;\n  height: 30%;\n  background: #aaa;\n  border-radius: 0.2rem;\n  box-shadow: inset 0 1px 4px 0 #fff, \n              inset 0 -1px 1px 0 #000a,\n              0 0 1px 1px #0003, \n              1px 3px 6px 1px #000a;\n  transition: all 0.4s ease-in-out;\n}\n\n.luminous-card .toggle.active .handle {\n  transform: translateX(1.58rem);\n}\n\n.luminous-card .toggle span {\n  pointer-events: none;\n  text-align: center;\n  position: absolute;\n  left: 0;\n  right: 0;\n  margin: auto;\n  bottom: calc(100% + 0.4rem);\n  font-size: 0.6rem;\n  font-weight: 100;\n  color: #555;\n  opacity: 0;\n  transition: opacity 0.4s ease-in-out;\n}\n\n.luminous-card .toggle:hover span {\n  opacity: 1;\n}\n\n.luminous-card .toggle:not(.active):hover .handle {\n  transform: translateX(0.2rem);\n}\n\n/* Active State Styles (equivalent to :has(.toggle.active)) */\n.luminous-card.is-active {\n  box-shadow: inset 0 1.01rem 0.1rem -1rem #fffa, \n              inset 0 -4rem 3rem -3rem #000a,\n              0 -1.02rem 0.2rem -1rem #fffa, \n              0 1rem 0.2rem -1rem #000, \n              0 0 0 1px #fff2,\n              0 4px 4px 0 #0004, \n              0 0 0 1px #333;\n}\n\n.luminous-card.is-active .slit {\n  background: #fff;\n  box-shadow: 0 0 4px 0 #fff;\n}\n\n.luminous-card.is-active .lumen {\n  opacity: 0.5;\n}\n\n.luminous-card.is-active .darken {\n  opacity: 0.8;\n}\n\n.luminous-card.is-active .darken .sl {\n  opacity: 0.2;\n}\n\n.luminous-card.is-active .darken .ll {\n  opacity: 1;\n}\n\n.luminous-card.is-active .darken .slt,\n.luminous-card.is-active .darken .srt {\n  opacity: 1;\n}\n\n.luminous-card.is-active .content .icon {\n  filter: drop-shadow(0 -1.2rem 2px #0003) brightness(1.64);\n}\n\n.luminous-card.is-active .toggle::before {\n  background: #fffc;\n  box-shadow: 0 0 0.3rem 0.2rem #fff7;\n}\n\n.luminous-card.is-active .toggle .handle {\n  box-shadow: inset 0 1px 12px 0 #fff, \n              inset 0 -1px 1px 0 #fffa,\n              0 0 2px 1px #4443, \n              1px 3px 6px 1px #0004;\n}\n';
+document.head.appendChild(style);
+
+// ../../../../../../src/Component
+var _jsxFileName = "/src/Component.tsx";
+function LuminousCard({
+  title = "Luminous Design",
+  description = "Light Folds Around Form \nRevealing Layers Of Depth",
+  toggleLabel = "Activate Lumen",
+  defaultActive = false,
+  onToggle
+}) {
+  const [isActive, setIsActive] = (0, import_react.useState)(defaultActive);
+  const handleToggle = () => {
+    const newState = !isActive;
+    setIsActive(newState);
+    if (onToggle) {
+      onToggle(newState);
+    }
+  };
+  return /* @__PURE__ */ import_react.default.createElement("div", {
+    className: `luminous-card ${isActive ? "is-active" : ""}`,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 53,
+      columnNumber: 5
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "light-layer",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 54,
+      columnNumber: 7
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "slit",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 55,
+      columnNumber: 9
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "lumen",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 56,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "min",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 57,
+      columnNumber: 11
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "mid",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 58,
+      columnNumber: 11
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "hi",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 59,
+      columnNumber: 11
+    }
+  })), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "darken",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 61,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "sl",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 62,
+      columnNumber: 11
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "ll",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 63,
+      columnNumber: 11
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "slt",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 64,
+      columnNumber: 11
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "srt",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 65,
+      columnNumber: 11
+    }
+  }))), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "content",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 68,
+      columnNumber: 7
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "icon",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 69,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "3.2rem",
+    height: "3.2rem",
+    viewBox: "0 0 1024 1024",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 70,
+      columnNumber: 11
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("path", {
+    fill: "url(#iconGradient)",
+    d: "M488.1 414.7V303.4L300.9 428l83.6 55.8zm254.1 137.7v-79.8l-59.8 39.9zM512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64m278 533c0 1.1-.1 2.1-.2 3.1c0 .4-.1.7-.2 1a14.2 14.2 0 0 1-.8 3.2c-.2.6-.4 1.2-.6 1.7c-.2.4-.4.8-.5 1.2c-.3.5-.5 1.1-.8 1.6c-.2.4-.4.7-.7 1.1c-.3.5-.7 1-1 1.5c-.3.4-.5.7-.8 1c-.4.4-.8.9-1.2 1.3c-.3.3-.6.6-1 .9c-.4.4-.9.8-1.4 1.1c-.4.3-.7.6-1.1.8c-.1.1-.3.2-.4.3L525.2 786c-4 2.7-8.6 4-13.2 4c-4.7 0-9.3-1.4-13.3-4L244.6 616.9c-.1-.1-.3-.2-.4-.3l-1.1-.8c-.5-.4-.9-.7-1.3-1.1c-.3-.3-.6-.6-1-.9c-.4-.4-.8-.8-1.2-1.3a7 7 0 0 1-.8-1c-.4-.5-.7-1-1-1.5c-.2-.4-.5-.7-.7-1.1c-.3-.5-.6-1.1-.8-1.6c-.2-.4-.4-.8-.5-1.2c-.2-.6-.4-1.2-.6-1.7c-.1-.4-.3-.8-.4-1.2c-.2-.7-.3-1.3-.4-2c-.1-.3-.1-.7-.2-1c-.1-1-.2-2.1-.2-3.1V427.9c0-1 .1-2.1.2-3.1c.1-.3.1-.7.2-1a14.2 14.2 0 0 1 .8-3.2c.2-.6.4-1.2.6-1.7c.2-.4.4-.8.5-1.2c.2-.5.5-1.1.8-1.6c.2-.4.4-.7.7-1.1c.6-.9 1.2-1.7 1.8-2.5c.4-.4.8-.9 1.2-1.3c.3-.3.6-.6 1-.9c.4-.4.9-.8 1.3-1.1s.7-.6 1.1-.8c.1-.1.3-.2.4-.3L498.7 239c8-5.3 18.5-5.3 26.5 0l254.1 169.1c.1.1.3.2.4.3l1.1.8l1.4 1.1c.3.3.6.6 1 .9c.4.4.8.8 1.2 1.3c.7.8 1.3 1.6 1.8 2.5c.2.4.5.7.7 1.1c.3.5.6 1 .8 1.6c.2.4.4.8.5 1.2c.2.6.4 1.2.6 1.7c.1.4.3.8.4 1.2c.2.7.3 1.3.4 2c.1.3.1.7.2 1c.1 1 .2 2.1.2 3.1zm-254.1 13.3v111.3L723.1 597l-83.6-55.8zM281.8 472.6v79.8l59.8-39.9zM512 456.1l-84.5 56.4l84.5 56.4l84.5-56.4zM723.1 428L535.9 303.4v111.3l103.6 69.1zM384.5 541.2L300.9 597l187.2 124.6V610.3z",
+    filter: "url(#strong-inner)",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 76,
+      columnNumber: 13
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("defs", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 81,
+      columnNumber: 13
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("linearGradient", {
+    id: "iconGradient",
+    x1: "0",
+    x2: "0",
+    y1: "-1",
+    y2: "0.8",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 82,
+      columnNumber: 15
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("stop", {
+    offset: "0%",
+    stopColor: "#bbb",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 83,
+      columnNumber: 17
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("stop", {
+    offset: "100%",
+    stopColor: "#555",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 84,
+      columnNumber: 17
+    }
+  })), /* @__PURE__ */ import_react.default.createElement("filter", {
+    id: "strong-inner",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 86,
+      columnNumber: 15
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("feFlood", {
+    floodColor: "#fff2",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 87,
+      columnNumber: 17
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("feComposite", {
+    operator: "out",
+    in2: "SourceGraphic",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 88,
+      columnNumber: 17
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("feMorphology", {
+    operator: "dilate",
+    radius: "8",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 89,
+      columnNumber: 17
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("feGaussianBlur", {
+    stdDeviation: "32",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 90,
+      columnNumber: 17
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("feComposite", {
+    operator: "atop",
+    in2: "SourceGraphic",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 91,
+      columnNumber: 17
+    }
+  }))))), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "bottom",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 96,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("h4", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 97,
+      columnNumber: 11
+    }
+  }, title), /* @__PURE__ */ import_react.default.createElement("p", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 98,
+      columnNumber: 11
+    }
+  }, description.split("\n").map((line, i) => /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, {
+    key: i,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 100,
+      columnNumber: 15
+    }
+  }, line, i < description.split("\n").length - 1 && /* @__PURE__ */ import_react.default.createElement("br", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 102,
+      columnNumber: 60
+    }
+  })))), /* @__PURE__ */ import_react.default.createElement("div", {
+    className: `toggle ${isActive ? "active" : ""}`,
+    onClick: handleToggle,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 106,
+      columnNumber: 11
+    }
+  }, /* @__PURE__ */ import_react.default.createElement("div", {
+    className: "handle",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 110,
+      columnNumber: 13
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("span", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 111,
+      columnNumber: 13
+    }
+  }, toggleLabel)))));
+}
+var Component_default = LuminousCard;
+
+// ../../../../../../src/App.tsx
+var _jsxFileName2 = "/src/App.tsx";
+function App() {
+  return /* @__PURE__ */ import_react2.default.createElement("div", {
+    style: {
+      display: "grid",
+      placeItems: "center",
+      minHeight: "100vh",
+      background: "radial-gradient(circle at 50% 30%, #2a2a2a 0%, #131313 64%)",
+      padding: "20px"
+    },
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 6,
+      columnNumber: 5
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement(Component_default, {
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 15,
+      columnNumber: 7
+    }
+  }));
+}
+
+// ../../../../../../_superdesign_entry_.tsx
+var _jsxFileName3 = "/_superdesign_entry_.tsx";
+var root = (0, import_client.createRoot)(document.getElementById("root"));
+root.render(/* @__PURE__ */ import_react3.default.createElement(App, {
+  __source: {
+    fileName: _jsxFileName3,
+    lineNumber: 8,
+    columnNumber: 3
+  }
+}));
+
+      })()
+    </script>
+</body>
+</html>

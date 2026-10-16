@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ledgerline — finance built for the speed of a startup</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+      colors: {
+        teal: {
+          950: '#0a2a2b',
+          900: '#0f3d3e',
+          800: '#134847',
+          700: '#1b5a58',
+          600: '#256a67',
+        },
+        mint: '#4fd1c5',
+        cream: '#eef5f0',
+      },
+      letterSpacing: { tightest: '-0.045em' },
+    },
+  },
+};
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .fz-sans { font-feature-settings: "ss01","cv11"; }
+  .grain {
+    background-image:
+      radial-gradient(120% 90% at 82% -12%, rgba(79,209,197,0.18) 0%, rgba(79,209,197,0) 56%),
+      radial-gradient(90% 70% at 6% 4%, rgba(79,209,197,0.07) 0%, rgba(79,209,197,0) 50%),
+      linear-gradient(180deg, rgba(10,42,43,0.55) 0%, rgba(15,61,62,0) 36%);
+  }
+  .ringline { box-shadow: inset 0 0 0 1px rgba(238,245,240,0.08); }
+  .softcard { box-shadow: 0 1px 0 rgba(238,245,240,0.06) inset, 0 24px 60px -28px rgba(0,0,0,0.7); }
+  .dash-shadow { box-shadow: 0 40px 90px -40px rgba(0,0,0,0.75), 0 0 0 1px rgba(238,245,240,0.06); }
+  .mint-glow { box-shadow: 0 10px 30px -10px rgba(79,209,197,0.5); }
+  .num-mono { font-variant-numeric: tabular-nums; }
+  .pill-line { background-image: repeating-linear-gradient(90deg, rgba(238,245,240,0.10) 0 1px, transparent 1px 7px); }
+  ::selection { background: rgba(79,209,197,0.3); color: #eef5f0; }
+</style>
+
+<meta name="preview-version" content="3a670a0f-717b-4a71-8a60-9fecba3a7207" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:13.723Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "3a670a0f-717b-4a71-8a60-9fecba3a7207");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "3a670a0f-717b-4a71-8a60-9fecba3a7207",
+      timestamp: "2026-10-16T14:07:13.723Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "3a670a0f-717b-4a71-8a60-9fecba3a7207";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+<div class="bg-teal-900 text-cream font-sans fz-sans antialiased">
+<header class="sticky top-0 z-50 bg-teal-900/85 backdrop-blur-md border-b border-cream/10">
+  <nav class="mx-auto max-w-7xl px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-9">
+      <a id="nav-logo" href="#" class="flex items-center gap-2.5 shrink-0">
+        <span class="grid place-items-center h-8 w-8 rounded-lg bg-mint text-teal-950">
+          <iconify-icon icon="ph:wave-sine-bold" width="19"></iconify-icon>
+        </span>
+        <span class="text-[17px] font-bold tracking-tightest">Ledgerline</span>
+      </a>
+      <div class="hidden lg:flex items-center gap-7 text-[13.5px] text-cream/70">
+        <a id="nav-platform" href="#features" class="hover:text-cream transition-colors">Platform</a>
+        <a id="nav-security" href="#security" class="hover:text-cream transition-colors">Security</a>
+        <a id="nav-customers" href="#traction" class="hover:text-cream transition-colors">Customers</a>
+        <a id="nav-pricing" href="#" class="hover:text-cream transition-colors">Pricing</a>
+        <a id="nav-docs" href="#" class="hover:text-cream transition-colors">Docs</a>
+      </div>
+    </div>
+    <div class="flex items-center gap-2.5">
+      <a id="nav-signin" href="#" class="hidden sm:inline-flex text-[13.5px] text-cream/75 hover:text-cream px-3 py-2 transition-colors">Sign in</a>
+      <a id="nav-cta-open" href="#cta" class="inline-flex items-center gap-1.5 rounded-full bg-mint text-teal-950 text-[13.5px] font-semibold pl-4 pr-3.5 py-2 hover:bg-mint/90 transition-colors">
+        Open an account
+        <iconify-icon icon="ph:arrow-right-bold" width="14"></iconify-icon>
+      </a>
+    </div>
+  </nav>
+</header>
+<section class="grain relative overflow-hidden">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 pt-16 lg:pt-24 pb-16 lg:pb-24">
+    <div class="grid lg:grid-cols-[1.04fr_1fr] gap-12 lg:gap-10 items-center">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full ringline bg-cream/[0.04] pl-2 pr-3.5 py-1.5 text-[12.5px] text-cream/80">
+          <span class="inline-flex items-center gap-1 rounded-full bg-mint text-teal-950 px-2 py-0.5 text-[11px] font-semibold tracking-wide">NEW</span>
+          Yield on idle cash, now at 4.18% APY
+        </span>
+        <h1 class="mt-6 text-[42px] leading-[1.04] sm:text-[54px] lg:text-[60px] font-extrabold tracking-tightest">
+          Finance built for<br class="hidden sm:block" />
+          the speed of a<br class="hidden sm:block" />
+          <span class="text-mint">startup.</span>
+        </h1>
+        <p class="mt-6 max-w-md text-[16px] leading-relaxed text-cream/70">
+          Corporate cards, banking, and spend controls in one calm account. Move money in seconds, close the books on time, and never lose a receipt again.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a id="hero-cta-open" href="#cta" class="inline-flex items-center gap-2 rounded-full bg-mint text-teal-950 text-[14.5px] font-semibold px-6 py-3.5 mint-glow hover:bg-mint/90 transition-colors">
+            Open an account
+            <iconify-icon icon="ph:arrow-right-bold" width="15"></iconify-icon>
+          </a>
+          <a id="hero-cta-demo" href="#features" class="inline-flex items-center gap-2 rounded-full ringline bg-cream/[0.04] text-cream text-[14.5px] font-medium px-6 py-3.5 hover:bg-cream/[0.08] transition-colors">
+            <iconify-icon icon="ph:play-circle" width="18" class="text-mint"></iconify-icon>
+            See it in motion
+          </a>
+        </div>
+        <div class="mt-9 flex items-center gap-6 text-[12.5px] text-cream/70">
+          <span class="inline-flex items-center gap-1.5"><iconify-icon icon="ph:shield-check-fill" width="15" class="text-mint"></iconify-icon> FDIC-insured to $3M</span>
+          <span class="inline-flex items-center gap-1.5"><iconify-icon icon="ph:clock-countdown-fill" width="15" class="text-mint"></iconify-icon> Live in 10 minutes</span>
+          <span class="hidden sm:inline-flex items-center gap-1.5"><iconify-icon icon="ph:credit-card-fill" width="15" class="text-mint"></iconify-icon> No monthly fees</span>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="absolute -inset-6 bg-mint/10 blur-3xl rounded-[40px]"></div>
+        <div class="relative rounded-2xl bg-teal-950/80 ringline dash-shadow overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-3.5 border-b border-cream/10">
+            <div class="flex items-center gap-2.5">
+              <span class="grid place-items-center h-7 w-7 rounded-md bg-mint/15 text-mint"><iconify-icon icon="ph:wallet-fill" width="15"></iconify-icon></span>
+              <div class="leading-tight">
+                <p class="text-[12px] font-semibold">Operating account</p>
+                <p class="text-[10.5px] text-cream/60">•••• 4471 · USD</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center gap-1 rounded-full bg-mint/12 text-mint text-[10.5px] font-medium px-2 py-1"><span class="h-1.5 w-1.5 rounded-full bg-mint"></span> Live</span>
+          </div>
+          <div class="px-5 pt-4 pb-2">
+            <p class="text-[11px] uppercase tracking-[0.14em] text-cream/60">Available balance</p>
+            <div class="mt-1 flex items-end justify-between">
+              <p class="text-[30px] font-extrabold tracking-tight num-mono">$2,841,205<span class="text-cream/40 text-[19px]">.60</span></p>
+              <span class="mb-1.5 inline-flex items-center gap-1 text-[12px] text-mint font-semibold num-mono"><iconify-icon icon="ph:trend-up-bold" width="13"></iconify-icon> +6.4%</span>
+            </div>
+            <div class="mt-3 h-[68px] w-full">
+              <svg viewBox="0 0 320 70" preserveAspectRatio="none" class="h-full w-full">
+                <defs>
+                  <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4fd1c5" stop-opacity="0.32" />
+                    <stop offset="100%" stop-color="#4fd1c5" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path d="M0,52 C30,48 44,40 70,42 C98,44 110,26 140,28 C168,30 182,16 212,20 C242,24 258,10 290,12 L320,9 L320,70 L0,70 Z" fill="url(#ar)" />
+                <path d="M0,52 C30,48 44,40 70,42 C98,44 110,26 140,28 C168,30 182,16 212,20 C242,24 258,10 290,12 L320,9" fill="none" stroke="#4fd1c5" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+          <div class="px-5 pb-5 pt-1 space-y-1">
+            <div class="flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-cream/[0.04] transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="grid place-items-center h-8 w-8 rounded-lg bg-cream/[0.06] text-cream/80"><iconify-icon icon="ph:cloud-fill" width="15"></iconify-icon></span>
+                <div class="leading-tight">
+                  <p class="text-[12.5px] font-medium">Amazon Web Services</p>
+                  <p class="text-[10.5px] text-cream/60">Infrastructure · auto-categorized</p>
+                </div>
+              </div>
+              <p class="text-[12.5px] font-semibold num-mono">-$8,420.00</p>
+            </div>
+            <div class="flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-cream/[0.04] transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="grid place-items-center h-8 w-8 rounded-lg bg-mint/15 text-mint"><iconify-icon icon="ph:arrow-down-left-bold" width="15"></iconify-icon></span>
+                <div class="leading-tight">
+                  <p class="text-[12.5px] font-medium">Stripe payout</p>
+                  <p class="text-[10.5px] text-cream/60">Revenue · settled today</p>
+                </div>
+              </div>
+              <p class="text-[12.5px] font-semibold num-mono text-mint">+$41,910.18</p>
+            </div>
+            <div class="flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-cream/[0.04] transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="grid place-items-center h-8 w-8 rounded-lg bg-cream/[0.06] text-cream/80"><iconify-icon icon="ph:airplane-tilt-fill" width="15"></iconify-icon></span>
+                <div class="leading-tight">
+                  <p class="text-[12.5px] font-medium">United Airlines</p>
+                  <p class="text-[10.5px] text-cream/60">Travel · receipt attached</p>
+                </div>
+              </div>
+              <p class="text-[12.5px] font-semibold num-mono">-$1,204.40</p>
+            </div>
+          </div>
+        </div>
+        <div class="hidden sm:block absolute -bottom-10 -left-7 lg:-left-12 w-[214px] rounded-xl bg-gradient-to-br from-teal-700 to-teal-800 ringline softcard p-4 rotate-[-6deg] z-10">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] text-cream/70 font-medium tracking-wide">Ledgerline</span>
+            <iconify-icon icon="ph:wave-sine-bold" width="16" class="text-mint"></iconify-icon>
+          </div>
+          <p class="mt-5 text-[14px] tracking-[0.16em] text-cream/85 num-mono">•••• &nbsp;•••• &nbsp;4471</p>
+          <div class="mt-1 flex items-center justify-between text-[10px] text-cream/65">
+            <span>VALID 08/29</span>
+            <span class="text-mint font-semibold">VIRTUAL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="border-y border-cream/10 bg-teal-950/40">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-center gap-4">
+      <span class="hidden sm:block h-px w-12 bg-gradient-to-r from-transparent to-cream/20"></span>
+      <p class="text-center text-[12px] uppercase tracking-[0.18em] text-cream/65">Trusted by 26,000+ ambitious teams</p>
+      <span class="hidden sm:block h-px w-12 bg-gradient-to-l from-transparent to-cream/20"></span>
+    </div>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-5 text-cream/70">
+      <span class="inline-flex items-center gap-2 text-[16px] font-semibold tracking-tight"><iconify-icon icon="ph:orbit-bold" width="20"></iconify-icon> Northwind</span>
+      <span class="inline-flex items-center gap-2 text-[16px] font-semibold tracking-tight"><iconify-icon icon="ph:hexagon-bold" width="20"></iconify-icon> Cedarworks</span>
+      <span class="inline-flex items-center gap-2 text-[16px] font-semibold tracking-tight"><iconify-icon icon="ph:triangle-bold" width="20"></iconify-icon> Apexlab</span>
+      <span class="inline-flex items-center gap-2 text-[16px] font-semibold tracking-tight"><iconify-icon icon="ph:square-bold" width="20"></iconify-icon> Bluepeak</span>
+      <span class="inline-flex items-center gap-2 text-[16px] font-semibold tracking-tight"><iconify-icon icon="ph:diamonds-four-bold" width="20"></iconify-icon> Fourier</span>
+      <span class="hidden md:inline-flex items-center gap-2 text-[16px] font-semibold tracking-tight"><iconify-icon icon="ph:circle-half-bold" width="20"></iconify-icon> Halcyon</span>
+    </div>
+  </div>
+</section>
+<section id="features" class="relative">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-20 lg:py-28">
+    <div class="max-w-2xl">
+      <p class="text-[13px] font-semibold tracking-[0.16em] uppercase text-mint">The account that does the busywork</p>
+      <h2 class="mt-3 text-[32px] sm:text-[40px] font-extrabold tracking-tightest leading-[1.07]">One place for every dollar you move.</h2>
+      <p class="mt-4 text-[16px] text-cream/65 leading-relaxed">From the first wire to the year-end audit, Ledgerline keeps your money organized and your team unblocked.</p>
+    </div>
+    <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <article class="md:col-span-2 lg:col-span-2 rounded-2xl bg-teal-800/60 ringline softcard p-7 lg:p-8 flex flex-col">
+        <div class="flex items-center gap-3">
+          <span class="grid place-items-center h-10 w-10 rounded-xl bg-mint/15 text-mint"><iconify-icon icon="ph:lightning-fill" width="20"></iconify-icon></span>
+          <h3 class="text-[19px] font-bold tracking-tight">Pay anyone, in seconds</h3>
+        </div>
+        <p class="mt-3 text-[14.5px] text-cream/65 leading-relaxed max-w-md">ACH, wires, and bill pay settle without the spreadsheet. Approvals route to the right person and clear before lunch.</p>
+        <div class="mt-6 rounded-xl bg-teal-950/70 ringline p-4 flex-1">
+          <div class="flex items-center justify-between text-[11px] text-cream/60">
+            <span class="uppercase tracking-[0.12em]">Outgoing wire</span>
+            <span class="inline-flex items-center gap-1 text-mint"><span class="h-1.5 w-1.5 rounded-full bg-mint"></span> Approved</span>
+          </div>
+          <div class="mt-3 flex items-center gap-3">
+            <div class="flex-1">
+              <p class="text-[11px] text-cream/60">To</p>
+              <p class="text-[14px] font-semibold">Ramp Studios LLC</p>
+            </div>
+            <iconify-icon icon="ph:arrow-right-bold" width="16" class="text-cream/35"></iconify-icon>
+            <div class="text-right">
+              <p class="text-[11px] text-cream/60">Amount</p>
+              <p class="text-[14px] font-semibold num-mono">$24,000.00</p>
+            </div>
+          </div>
+          <div class="mt-4 h-1.5 w-full rounded-full bg-cream/10 overflow-hidden">
+            <div class="h-full w-[88%] rounded-full bg-mint"></div>
+          </div>
+          <p class="mt-2 text-[11px] text-cream/60">Settling · arrives in ~8 seconds</p>
+        </div>
+      </article>
+      <article class="rounded-2xl bg-teal-800/60 ringline softcard p-7 flex flex-col">
+        <span class="grid place-items-center h-10 w-10 rounded-xl bg-mint/15 text-mint"><iconify-icon icon="ph:receipt-fill" width="20"></iconify-icon></span>
+        <h3 class="mt-4 text-[18px] font-bold tracking-tight">Receipts that catch themselves</h3>
+        <p class="mt-2.5 text-[14px] text-cream/65 leading-relaxed">Text a photo, forward an email, or let us match it. 96% of receipts reconcile with no human touch.</p>
+        <div class="mt-auto pt-6 flex items-center gap-2">
+          <span class="grid place-items-center h-8 w-8 rounded-lg bg-mint text-teal-950"><iconify-icon icon="ph:check-bold" width="15"></iconify-icon></span>
+          <div class="leading-tight">
+            <p class="text-[12.5px] font-semibold">412 matched today</p>
+            <p class="text-[11px] text-cream/60">0 needing review</p>
+          </div>
+        </div>
+      </article>
+      <article class="rounded-2xl bg-teal-800/60 ringline softcard p-7 flex flex-col">
+        <span class="grid place-items-center h-10 w-10 rounded-xl bg-mint/15 text-mint"><iconify-icon icon="ph:sliders-horizontal-fill" width="20"></iconify-icon></span>
+        <h3 class="mt-4 text-[18px] font-bold tracking-tight">Controls, per card</h3>
+        <p class="mt-2.5 text-[14px] text-cream/65 leading-relaxed">Set limits, lock categories, and freeze a card the moment something looks off. No support ticket needed.</p>
+        <div class="mt-auto pt-6 space-y-2">
+          <div class="flex items-center justify-between rounded-lg bg-teal-950/60 ringline px-3 py-2 text-[12px]"><span class="text-cream/70">SaaS budget</span><span class="font-semibold num-mono">$5,000/mo</span></div>
+          <div class="flex items-center justify-between rounded-lg bg-teal-950/60 ringline px-3 py-2 text-[12px]"><span class="text-cream/70">Travel</span><span class="text-mint font-semibold">Auto-approve</span></div>
+        </div>
+      </article>
+      <article class="md:col-span-2 rounded-2xl bg-teal-800/60 ringline softcard p-7 lg:p-8">
+        <div class="flex items-center gap-3">
+          <span class="grid place-items-center h-10 w-10 rounded-xl bg-mint/15 text-mint"><iconify-icon icon="ph:books-fill" width="20"></iconify-icon></span>
+          <h3 class="text-[19px] font-bold tracking-tight">Close the books in a day, not a week</h3>
+        </div>
+        <p class="mt-3 text-[14.5px] text-cream/65 leading-relaxed max-w-lg">Every transaction lands in your ledger pre-coded and synced to QuickBooks, Xero, or NetSuite. Month-end stops being a fire drill.</p>
+        <div class="mt-6 flex flex-wrap gap-2.5">
+          <span class="inline-flex items-center gap-2 rounded-lg ringline bg-teal-950/60 px-3 py-2 text-[12.5px] text-cream/75"><iconify-icon icon="ph:plugs-connected-fill" width="15" class="text-mint"></iconify-icon> QuickBooks</span>
+          <span class="inline-flex items-center gap-2 rounded-lg ringline bg-teal-950/60 px-3 py-2 text-[12.5px] text-cream/75"><iconify-icon icon="ph:plugs-connected-fill" width="15" class="text-mint"></iconify-icon> Xero</span>
+          <span class="inline-flex items-center gap-2 rounded-lg ringline bg-teal-950/60 px-3 py-2 text-[12.5px] text-cream/75"><iconify-icon icon="ph:plugs-connected-fill" width="15" class="text-mint"></iconify-icon> NetSuite</span>
+          <span class="inline-flex items-center gap-2 rounded-lg ringline bg-teal-950/60 px-3 py-2 text-[12.5px] text-cream/75"><iconify-icon icon="ph:plugs-connected-fill" width="15" class="text-mint"></iconify-icon> Slack alerts</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+<section id="traction" class="border-y border-cream/10 bg-teal-950/55 relative overflow-hidden">
+  <div class="absolute inset-0 grain opacity-70"></div>
+  <div class="relative mx-auto max-w-7xl px-6 lg:px-8 py-16 lg:py-20">
+    <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-16 items-center">
+      <div>
+        <p class="text-[13px] font-semibold tracking-[0.16em] uppercase text-mint">Traction</p>
+        <h2 class="mt-3 text-[30px] sm:text-[36px] font-extrabold tracking-tightest leading-[1.1]">Founders move faster on Ledgerline.</h2>
+        <p class="mt-4 text-[15.5px] text-cream/65 leading-relaxed max-w-sm">The numbers our customers report after switching from a legacy bank.</p>
+        <a id="traction-stories-link" href="#cta" class="mt-7 inline-flex items-center gap-2 rounded-full ringline bg-cream/[0.04] text-cream text-[14px] font-medium px-5 py-3 hover:bg-cream/[0.08] transition-colors">
+          Read the customer stories <iconify-icon icon="ph:arrow-up-right-bold" width="14"></iconify-icon>
+        </a>
+      </div>
+      <div class="grid grid-cols-2 gap-px rounded-2xl overflow-hidden ringline bg-cream/10">
+        <div class="bg-teal-900 p-7">
+          <p class="text-[40px] sm:text-[46px] font-extrabold tracking-tightest text-mint num-mono leading-none">$14B</p>
+          <p class="mt-2 text-[13.5px] text-cream/65 leading-snug">processed for startups last year</p>
+        </div>
+        <div class="bg-teal-900 p-7">
+          <p class="text-[40px] sm:text-[46px] font-extrabold tracking-tightest text-mint num-mono leading-none">11<span class="text-cream/40 text-[30px]">hrs</span></p>
+          <p class="mt-2 text-[13.5px] text-cream/65 leading-snug">saved on close, every month</p>
+        </div>
+        <div class="bg-teal-900 p-7">
+          <p class="text-[40px] sm:text-[46px] font-extrabold tracking-tightest text-mint num-mono leading-none">4.18<span class="text-cream/40 text-[30px]">%</span></p>
+          <p class="mt-2 text-[13.5px] text-cream/65 leading-snug">APY on idle operating cash</p>
+        </div>
+        <div class="bg-teal-900 p-7">
+          <p class="text-[40px] sm:text-[46px] font-extrabold tracking-tightest text-mint num-mono leading-none">99.99<span class="text-cream/40 text-[30px]">%</span></p>
+          <p class="mt-2 text-[13.5px] text-cream/65 leading-snug">uptime across the platform</p>
+        </div>
+      </div>
+    </div>
+    <figure class="mt-14 lg:mt-16 max-w-3xl">
+      <blockquote class="text-[22px] sm:text-[26px] font-semibold tracking-tight leading-snug">
+        <span class="text-mint">“</span>We switched the whole company over in an afternoon. Our controller got her evenings back, and I finally trust the number at the top of the dashboard.<span class="text-mint">”</span>
+      </blockquote>
+      <figcaption class="mt-5 flex items-center gap-3 text-[13.5px]">
+        <span class="grid place-items-center h-9 w-9 rounded-full bg-mint/15 text-mint font-bold">DK</span>
+        <span><span class="font-semibold">Dana Kerr</span> <span class="text-cream/70">· Co-founder & CEO, Cedarworks</span></span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+<section id="security" class="relative">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-20 lg:py-28">
+    <div class="grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-center">
+      <div>
+        <p class="text-[13px] font-semibold tracking-[0.16em] uppercase text-mint">Security & compliance</p>
+        <h2 class="mt-3 text-[32px] sm:text-[40px] font-extrabold tracking-tightest leading-[1.07]">Bank-grade by default, audited continuously.</h2>
+        <p class="mt-4 text-[16px] text-cream/65 leading-relaxed max-w-md">Your money sits with FDIC-member banks and your data is encrypted end to end. We hold the certifications your security team will ask for, and we keep them current.</p>
+        <ul class="mt-7 space-y-3.5">
+          <li class="flex items-start gap-3">
+            <iconify-icon icon="ph:lock-key-fill" width="18" class="text-mint mt-0.5"></iconify-icon>
+            <span class="text-[14.5px] text-cream/80"><span class="font-semibold text-cream">AES-256 encryption</span> at rest and in transit, on every record.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <iconify-icon icon="ph:fingerprint-fill" width="18" class="text-mint mt-0.5"></iconify-icon>
+            <span class="text-[14.5px] text-cream/80"><span class="font-semibold text-cream">SSO, SCIM, and granular roles</span> so access maps to your org.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <iconify-icon icon="ph:bank-fill" width="18" class="text-mint mt-0.5"></iconify-icon>
+            <span class="text-[14.5px] text-cream/80"><span class="font-semibold text-cream">FDIC insurance to $3M</span> swept across partner banks.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-teal-800/50 ringline softcard p-7 lg:p-8">
+        <div class="flex items-center justify-between">
+          <p class="text-[13px] uppercase tracking-[0.14em] text-cream/60">Certifications</p>
+          <span class="inline-flex items-center gap-1.5 text-[12px] text-mint font-medium"><iconify-icon icon="ph:seal-check-fill" width="15"></iconify-icon> All current</span>
+        </div>
+        <div class="mt-5 grid grid-cols-2 gap-3">
+          <div class="rounded-xl bg-teal-950/60 ringline p-4 flex items-center gap-3">
+            <span class="grid place-items-center h-10 w-10 rounded-lg bg-mint/12 text-mint"><iconify-icon icon="ph:shield-checkered-fill" width="20"></iconify-icon></span>
+            <div class="leading-tight"><p class="text-[13.5px] font-semibold">SOC 2 Type II</p><p class="text-[11px] text-cream/60">Renewed 2026</p></div>
+          </div>
+          <div class="rounded-xl bg-teal-950/60 ringline p-4 flex items-center gap-3">
+            <span class="grid place-items-center h-10 w-10 rounded-lg bg-mint/12 text-mint"><iconify-icon icon="ph:credit-card-fill" width="20"></iconify-icon></span>
+            <div class="leading-tight"><p class="text-[13.5px] font-semibold">PCI DSS</p><p class="text-[11px] text-cream/60">Level 1</p></div>
+          </div>
+          <div class="rounded-xl bg-teal-950/60 ringline p-4 flex items-center gap-3">
+            <span class="grid place-items-center h-10 w-10 rounded-lg bg-mint/12 text-mint"><iconify-icon icon="ph:globe-hemisphere-west-fill" width="20"></iconify-icon></span>
+            <div class="leading-tight"><p class="text-[13.5px] font-semibold">GDPR</p><p class="text-[11px] text-cream/60">EU & UK ready</p></div>
+          </div>
+          <div class="rounded-xl bg-teal-950/60 ringline p-4 flex items-center gap-3">
+            <span class="grid place-items-center h-10 w-10 rounded-lg bg-mint/12 text-mint"><iconify-icon icon="ph:certificate-fill" width="20"></iconify-icon></span>
+            <div class="leading-tight"><p class="text-[13.5px] font-semibold">ISO 27001</p><p class="text-[11px] text-cream/60">Certified</p></div>
+          </div>
+        </div>
+        <div class="mt-4 rounded-xl bg-teal-950/60 ringline p-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="grid place-items-center h-10 w-10 rounded-lg bg-mint/12 text-mint"><iconify-icon icon="ph:file-lock-fill" width="20"></iconify-icon></span>
+            <div class="leading-tight"><p class="text-[13.5px] font-semibold">Trust center</p><p class="text-[11px] text-cream/60">Live status, reports, and subprocessors</p></div>
+          </div>
+          <iconify-icon icon="ph:arrow-up-right-bold" width="16" class="text-cream/40"></iconify-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="cta" class="relative overflow-hidden bg-teal-950">
+  <div class="absolute inset-0 grain"></div>
+  <div class="absolute -bottom-24 left-1/2 -translate-x-1/2 h-72 w-[680px] bg-mint/12 blur-[120px] rounded-full"></div>
+  <div class="relative mx-auto max-w-7xl px-6 lg:px-8 py-20 lg:py-28">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="inline-flex items-center gap-2 rounded-full ringline bg-cream/[0.04] px-3.5 py-1.5 text-[12.5px] text-cream/70">
+        <iconify-icon icon="ph:clock-countdown-fill" width="15" class="text-mint"></iconify-icon> Approved in minutes, not weeks
+      </span>
+      <h2 class="mt-6 text-[36px] sm:text-[48px] font-extrabold tracking-tightest leading-[1.05]">Give your money the<br class="hidden sm:block" /> account it deserves.</h2>
+      <p class="mt-5 text-[16.5px] text-cream/70 leading-relaxed">No minimums, no monthly fees, no nonsense. Open a Ledgerline account today and move your first dollar before your coffee gets cold.</p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a id="bottom-cta-open" href="#" class="inline-flex items-center gap-2 rounded-full bg-mint text-teal-950 text-[15px] font-semibold px-7 py-4 mint-glow hover:bg-mint/90 transition-colors">
+          Open an account <iconify-icon icon="ph:arrow-right-bold" width="16"></iconify-icon>
+        </a>
+        <a id="bottom-cta-sales" href="#" class="inline-flex items-center gap-2 rounded-full ringline bg-cream/[0.04] text-cream text-[15px] font-medium px-7 py-4 hover:bg-cream/[0.08] transition-colors">
+          Talk to sales
+        </a>
+      </div>
+      <p class="mt-6 text-[12.5px] text-cream/65">Member FDIC · Ledgerline is a financial technology company, not a bank.</p>
+    </div>
+  </div>
+</section>
+<footer class="border-t border-cream/10 bg-teal-950">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-14">
+    <div class="grid md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10">
+      <div>
+        <a id="footer-logo" href="#" class="flex items-center gap-2.5">
+          <span class="grid place-items-center h-8 w-8 rounded-lg bg-mint text-teal-950"><iconify-icon icon="ph:wave-sine-bold" width="19"></iconify-icon></span>
+          <span class="text-[17px] font-bold tracking-tightest">Ledgerline</span>
+        </a>
+        <p class="mt-4 max-w-xs text-[13.5px] text-cream/70 leading-relaxed">The finance account for startups that would rather be building. Banking, cards, and spend, in one calm place.</p>
+        <div class="mt-5 flex items-center gap-2.5">
+          <a id="social-x" href="#" class="grid place-items-center h-9 w-9 rounded-lg ringline bg-cream/[0.04] text-cream/70 hover:text-mint hover:bg-cream/[0.08] transition-colors"><iconify-icon icon="ph:x-logo-bold" width="16"></iconify-icon></a>
+          <a id="social-linkedin" href="#" class="grid place-items-center h-9 w-9 rounded-lg ringline bg-cream/[0.04] text-cream/70 hover:text-mint hover:bg-cream/[0.08] transition-colors"><iconify-icon icon="ph:linkedin-logo-bold" width="16"></iconify-icon></a>
+          <a id="social-github" href="#" class="grid place-items-center h-9 w-9 rounded-lg ringline bg-cream/[0.04] text-cream/70 hover:text-mint hover:bg-cream/[0.08] transition-colors"><iconify-icon icon="ph:github-logo-bold" width="16"></iconify-icon></a>
+        </div>
+      </div>
+      <div>
+        <p class="text-[12px] uppercase tracking-[0.14em] text-cream/65">Product</p>
+        <ul class="mt-4 space-y-2.5 text-[13.5px] text-cream/65">
+          <li><a id="foot-banking" href="#" class="hover:text-cream transition-colors">Banking</a></li>
+          <li><a id="foot-cards" href="#" class="hover:text-cream transition-colors">Corporate cards</a></li>
+          <li><a id="foot-billpay" href="#" class="hover:text-cream transition-colors">Bill pay</a></li>
+          <li><a id="foot-treasury" href="#" class="hover:text-cream transition-colors">Treasury</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-[12px] uppercase tracking-[0.14em] text-cream/65">Company</p>
+        <ul class="mt-4 space-y-2.5 text-[13.5px] text-cream/65">
+          <li><a id="foot-about" href="#" class="hover:text-cream transition-colors">About</a></li>
+          <li><a id="foot-customers" href="#" class="hover:text-cream transition-colors">Customers</a></li>
+          <li><a id="foot-careers" href="#" class="hover:text-cream transition-colors">Careers</a></li>
+          <li><a id="foot-blog" href="#" class="hover:text-cream transition-colors">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-[12px] uppercase tracking-[0.14em] text-cream/65">Trust</p>
+        <ul class="mt-4 space-y-2.5 text-[13.5px] text-cream/65">
+          <li><a id="foot-security" href="#" class="hover:text-cream transition-colors">Security</a></li>
+          <li><a id="foot-compliance" href="#" class="hover:text-cream transition-colors">Compliance</a></li>
+          <li><a id="foot-trust" href="#" class="hover:text-cream transition-colors">Trust center</a></li>
+          <li><a id="foot-status" href="#" class="hover:text-cream transition-colors">Status</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-12 pt-6 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12.5px] text-cream/65">
+      <p>© 2026 Ledgerline Financial Technologies. Member FDIC.</p>
+      <div class="flex items-center gap-5">
+        <a id="foot-privacy" href="#" class="hover:text-cream/70 transition-colors">Privacy</a>
+        <a id="foot-terms" href="#" class="hover:text-cream/70 transition-colors">Terms</a>
+        <a id="foot-disclosures" href="#" class="hover:text-cream/70 transition-colors">Disclosures</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

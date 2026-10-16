@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MERIDIAN | Film + Motion Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Libre+Franklin', 'Franklin Gothic', Arial, sans-serif;
+      background-color: #FFFFFF;
+      color: #111111;
+      scroll-behavior: smooth;
+    }
+    .grayscale-image {
+      filter: grayscale(1);
+      transition: filter 0.5s ease;
+    }
+    .hairline-border {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+    .hairline-border-dark {
+      border: 1px solid #111111;
+    }
+    .letter-spacing-widest {
+      letter-spacing: 0.18em;
+    }
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .reveal-delay-1 { animation-delay: 0.2s; }
+    .reveal-delay-2 { animation-delay: 0.4s; }
+    .reveal-delay-3 { animation-delay: 0.6s; }
+  </style>
+
+<meta name="preview-version" content="6709ee78-15cf-497b-9073-3181cb21f8f8" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:46.646Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "6709ee78-15cf-497b-9073-3181cb21f8f8");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "6709ee78-15cf-497b-9073-3181cb21f8f8",
+      timestamp: "2026-10-16T14:07:46.646Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "6709ee78-15cf-497b-9073-3181cb21f8f8";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen bg-white overflow-x-hidden">
+    
+    <!-- HERO SECTION -->
+    <section class="relative h-screen w-full flex items-center justify-end overflow-hidden">
+      <!-- Background Image -->
+      <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1440" 
+             alt="Cinematic Portrait" 
+             class="w-full h-full object-cover grayscale-image" onerror="this.onerror=null;this.src='https://placehold.co/1440x400/1a1a1a/888?text=Image';">
+        <div class="absolute inset-0 bg-black/30"></div>
+      </div>
+
+      <!-- Nav Bar -->
+      <nav class="absolute top-0 w-full p-10 flex justify-between items-center z-10">
+        <div class="text-white font-bold text-xs letter-spacing-widest uppercase">MERIDIAN</div>
+        <div class="flex gap-8">
+          <a id="nav-work" href="#work" class="text-white text-[12px] letter-spacing-widest uppercase opacity-80 hover:opacity-100 transition-opacity">Projects</a>
+          <a id="nav-studio" href="#studio" class="text-white text-[12px] letter-spacing-widest uppercase opacity-80 hover:opacity-100 transition-opacity">Studio</a>
+          <a id="nav-contact" href="#contact" class="text-white text-[12px] letter-spacing-widest uppercase opacity-80 hover:opacity-100 transition-opacity">Contact</a>
+        </div>
+      </nav>
+
+      <!-- Right-third Hairline Box -->
+      <div class="relative w-full lg:w-1/3 h-3/4 mr-[5%] hairline-border p-12 flex flex-col justify-between text-white fade-in-up">
+        <div>
+          <span class="text-[12px] font-normal letter-spacing-widest uppercase mb-8 block opacity-80">Weavers of light and shadow</span>
+          <h1 class="text-[76px] leading-[0.95] flex flex-col">
+            <span class="font-bold uppercase tracking-tight">Meridian</span>
+            <span class="font-normal italic">Film + Motion Studio</span>
+          </h1>
+        </div>
+        
+        <div class="flex justify-between items-end">
+          <div class="text-[12px] font-normal letter-spacing-widest uppercase cursor-pointer hover:underline">
+            Showreel 2024
+          </div>
+          <a id="hero-scroll-cue" href="#intro" class="transition-transform hover:translate-y-1">
+            <iconify-icon icon="lucide:arrow-down" class="text-2xl"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO/ABOUT SECTION -->
+    <section id="intro" class="py-[120px] px-[5%] max-w-screen-xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+        <div class="aspect-[4/5] overflow-hidden bg-gray-100 fade-in-up">
+          <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800" 
+               alt="Director Portrait" 
+               class="w-full h-full object-cover grayscale-image" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1a1a1a/888?text=Image';">
+        </div>
+        <div class="fade-in-up reveal-delay-1">
+          <span class="text-[12px] font-normal letter-spacing-widest uppercase text-[#8A8A8A] block mb-6">Introduction</span>
+          <h2 class="text-[40px] font-bold leading-tight mb-8">Crafting visual narratives that linger long after the screen fades.</h2>
+          <p class="text-[16px] font-normal leading-relaxed text-[#111111] max-w-[60ch] mb-8">
+            Based in the quiet intersections of art and technology, Meridian is a boutique production studio dedicated to the pursuit of cinematic purity. We believe that emotion is found in the subtle shifts of light and the deliberate pacing of motion.
+          </p>
+          <div class="text-[14px] font-normal text-[#8A8A8A] italic">
+            Founder & Creative Director — Julian Vane
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BODY OF WORK (GRID) -->
+    <section id="work" class="bg-[#F4F4F4] py-[120px] px-[5%]">
+      <div class="max-w-screen-xl mx-auto">
+        <div class="mb-16 flex justify-between items-end">
+          <h2 class="text-[40px] font-bold">Body of Work</h2>
+          <span class="text-[12px] font-normal letter-spacing-widest uppercase text-[#8A8A8A]">2021—Present</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <!-- Project 1 -->
+          <div class="group fade-in-up">
+            <div class="aspect-video overflow-hidden mb-6">
+              <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=800" 
+                   alt="Project 01" class="w-full h-full object-cover grayscale-image group-hover:scale-105 transition-transform duration-700" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1a1a1a/888?text=Image';">
+            </div>
+            <div class="text-[12px] letter-spacing-widest uppercase font-bold">Ethereal Planes</div>
+            <div class="text-[10px] letter-spacing-widest uppercase text-[#8A8A8A] mt-1">Narrative Short — 2023</div>
+          </div>
+          <!-- Project 2 -->
+          <div class="group fade-in-up reveal-delay-1">
+            <div class="aspect-video overflow-hidden mb-6">
+              <img src="https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&q=80&w=800" 
+                   alt="Project 02" class="w-full h-full object-cover grayscale-image group-hover:scale-105 transition-transform duration-700" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1a1a1a/888?text=Image';">
+            </div>
+            <div class="text-[12px] letter-spacing-widest uppercase font-bold">The Quiet Architect</div>
+            <div class="text-[10px] letter-spacing-widest uppercase text-[#8A8A8A] mt-1">Documentary — 2024</div>
+          </div>
+          <!-- Project 3 -->
+          <div class="group fade-in-up reveal-delay-2">
+            <div class="aspect-video overflow-hidden mb-6">
+              <img src="https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&q=80&w=800" 
+                   alt="Project 03" class="w-full h-full object-cover grayscale-image group-hover:scale-105 transition-transform duration-700" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1a1a1a/888?text=Image';">
+            </div>
+            <div class="text-[12px] letter-spacing-widest uppercase font-bold">Vessels of Light</div>
+            <div class="text-[10px] letter-spacing-widest uppercase text-[#8A8A8A] mt-1">Commercial — 2022</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FULL BLEED PHOTO BREAK -->
+    <section class="h-[60vh] w-full relative overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=1440" 
+           alt="Film Grain Texture" class="w-full h-full object-cover grayscale-image" onerror="this.onerror=null;this.src='https://placehold.co/1440x400/1a1a1a/888?text=Image';">
+      <div class="absolute inset-0 bg-black/20"></div>
+    </section>
+
+    <!-- ACCOLADES / STATS -->
+    <section class="py-[120px] px-[5%]">
+      <div class="max-w-screen-xl mx-auto">
+        <div class="flex flex-col md:flex-row border-y border-[#111111] divide-y md:divide-y-0 md:divide-x divide-[#111111]">
+          <div class="flex-1 py-12 px-8 flex flex-col items-center justify-center text-center">
+            <span class="text-[56px] font-bold leading-none mb-2">12</span>
+            <span class="text-[12px] letter-spacing-widest uppercase text-[#8A8A8A]">Global Awards</span>
+          </div>
+          <div class="flex-1 py-12 px-8 flex flex-col items-center justify-center text-center">
+            <span class="text-[56px] font-bold leading-none mb-2">85+</span>
+            <span class="text-[12px] letter-spacing-widest uppercase text-[#8A8A8A]">Film Productions</span>
+          </div>
+          <div class="flex-1 py-12 px-8 flex flex-col items-center justify-center text-center">
+            <span class="text-[56px] font-bold leading-none mb-2">09</span>
+            <span class="text-[12px] letter-spacing-widest uppercase text-[#8A8A8A]">Years in Motion</span>
+          </div>
+          <div class="flex-1 py-12 px-8 flex flex-col items-center justify-center text-center">
+            <span class="text-[56px] font-bold leading-none mb-2">14</span>
+            <span class="text-[12px] letter-spacing-widest uppercase text-[#8A8A8A]">Festival Laurels</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRESS + CONTACT -->
+    <section id="contact" class="bg-[#F4F4F4] py-[120px] px-[5%]">
+      <div class="max-w-screen-xl mx-auto flex flex-col lg:flex-row justify-between items-start gap-24">
+        <div class="w-full lg:w-1/2">
+          <span class="text-[12px] font-normal letter-spacing-widest uppercase text-[#8A8A8A] block mb-12">Selected Recognition</span>
+          <ul class="space-y-6">
+            <li class="flex justify-between border-b border-[#111111]/10 pb-4">
+              <span class="text-[12px] uppercase font-bold tracking-widest">Vogue Cinematic</span>
+              <span class="text-[12px] text-[#8A8A8A]">Artist Profile / 2024</span>
+            </li>
+            <li class="flex justify-between border-b border-[#111111]/10 pb-4">
+              <span class="text-[12px] uppercase font-bold tracking-widest">Sight & Sound</span>
+              <span class="text-[12px] text-[#8A8A8A]">Digital Feature / 2023</span>
+            </li>
+            <li class="flex justify-between border-b border-[#111111]/10 pb-4">
+              <span class="text-[12px] uppercase font-bold tracking-widest">Hypebeast Arts</span>
+              <span class="text-[12px] text-[#8A8A8A]">Visual Study / 2023</span>
+            </li>
+            <li class="flex justify-between border-b border-[#111111]/10 pb-4">
+              <span class="text-[12px] uppercase font-bold tracking-widest">Aesthetica</span>
+              <span class="text-[12px] text-[#8A8A8A]">Shortlist / 2022</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="w-full lg:w-1/3 p-12 hairline-border-dark flex flex-col justify-between">
+           <div>
+            <span class="text-[12px] font-normal letter-spacing-widest uppercase text-[#8A8A8A] block mb-8">Work With Us</span>
+            <h3 class="text-[40px] font-bold leading-none mb-12 uppercase tracking-tight">Start the Conversation</h3>
+           </div>
+           <a id="cta-contact" href="mailto:hello@meridian.studio" class="block group">
+              <div class="flex justify-between items-center text-[12px] font-bold uppercase letter-spacing-widest border-b border-[#111111] pb-2 group-hover:pr-4 transition-all duration-300">
+                Connect
+                <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+              </div>
+           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 px-[5%] border-t border-[#111111]/10">
+      <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center">
+        <div class="text-[10px] letter-spacing-widest uppercase text-[#8A8A8A] mb-4 md:mb-0">
+          &copy; 2024 Meridian Studio. All Rights Reserved.
+        </div>
+        <div class="flex gap-10">
+          <a id="footer-ig" href="#" class="text-[10px] letter-spacing-widest uppercase font-bold hover:text-[#8A8A8A]">Instagram</a>
+          <a id="footer-vimeo" href="#" class="text-[10px] letter-spacing-widest uppercase font-bold hover:text-[#8A8A8A]">Vimeo</a>
+          <a id="footer-linkedin" href="#" class="text-[10px] letter-spacing-widest uppercase font-bold hover:text-[#8A8A8A]">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

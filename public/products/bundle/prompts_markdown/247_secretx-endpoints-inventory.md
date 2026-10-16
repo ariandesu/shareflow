@@ -1,0 +1,67 @@
+# SecretX Endpoints Inventory
+
+**Category:** Landing Page  
+**Tags:**   
+**Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)  
+**Live Preview:** [https://p.superdesign.dev/draft/1702517d-c851-4f6a-8357-982c0ab2ab24](https://p.superdesign.dev/draft/1702517d-c851-4f6a-8357-982c0ab2ab24)  
+**Local Standalone Preview:** `previews/secretx-endpoints-inventory.html`
+
+---
+
+## Architectural & Aesthetic Breakdown
+Enterprise-grade dark mode dashboard system optimized for endpoint monitoring, cybersecurity, and infrastructure management. The visual language features a high-contrast 'Golden & Obsidian' palette centered around a primary gold (#fac306) and deep black (#000000). The typography utilizes General Sans for a clean, professional aesthetic paired with JetBrains Mono for technical data and identifiers. Layout patterns include a bento-style stats grid, a responsive 280px filter sidebar, and high-density data tables with integrated performance sparklines. Ideal for SaaS dashboards, IT monitoring tools, FinTech platforms, and security operations centers (SOC).
+
+---
+
+## Production System Prompt Specification
+Copy and paste this into Cursor Composer, Claude 3.5 Sonnet, v0, Bolt.new, or Windsurf:
+
+```markdown
+{
+  "summary": "A sophisticated enterprise management interface utilizing a dark theme with vibrant gold accents, featuring modular data visualization, dense information tables, and technical typography for high-precision monitoring.",
+  "style": {
+    "description": "The 'SecretX' style essence is defined by its deep obsidian backgrounds (#000000) and layered translucent panels (rgba(15, 15, 15, 0.7)). It employs a 'Cyber-Industrial' aesthetic with a primary gold accent (#fac306) used for high-priority UI elements and status indicators. Typography is hierarchical: General Sans for UI headers and body text, while JetBrains Mono provides a technical feel for IDs, IPs, and code-like data. Micro-interactions include a rhythmic 'status-pulse' animation for active connections and a 'gold-glow' shadow effect for critical focus areas.",
+    "prompt": "Create a pixel-perfect design system based on a Dark Enterprise theme. \n- **Color Palette**: Primary Gold (#fac306), Pure Black (#000000), Surface Dark (#0f0f0f), Surface Elevated (#1a1a1a), Border Color (#262626), Secondary Text (#a3a3a3), and Emerald (#10b981) for success states.\n- **Typography**: Primary Font: 'General Sans' or 'Inter' (300, 400, 500, 600, 700 weight). Secondary Technical Font: 'JetBrains Mono' for serial numbers, IP addresses, and timestamps.\n- **Layout Components**: Glassmorphism panels using backdrop-filter: blur(12px) and 1px borders (#262626). Rounded corners at 16px (2xl) for cards and 8px (lg) for interactive elements.\n- **Animations**: A 'status-pulse' keyframe (0% { transform: scale(0.95); opacity: 0.5; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.5; }) applied to status dots. Smooth transitions (300ms cubic-bezier(0.4, 0, 0.2, 1)) for hover states.\n- **Shadows**: Use a custom gold glow: 'box-shadow: 0 0 20px rgba(250, 195, 6, 0.15)' for elevated gold elements."
+  },
+  "layout_and_structure": {
+    "description": "The interface follows a tiered hierarchy: a fixed 64px top navigation bar, a high-level statistical overview grid, and a split-view content area comprising a fixed-width sidebar for filtering and a flexible main table for data management.",
+    "prompts": [
+      {
+        "part": "Navigation Bar",
+        "prompt": "Design a fixed top navigation (h-16) with 80% opacity black background and backdrop-blur. Include a left-aligned logo (8x8 gold square icon with black vector), a centered flex-row of links (text-sm, Zinc-400, hover:white), and a right-aligned profile section including a status pill ('Server: Online') with a pulsing gold dot."
+      },
+      {
+        "part": "Hero Header",
+        "prompt": "Create a page header with a max-width of 1600px. Left side: Display a category label in gold (#fac306) text-xs uppercase tracking-widest, followed by a H1 (text-4xl, bold, tracking-tight). Right side: Place a button group including a secondary Zinc-900 border button and a primary Gold (#fac306) solid button with a plus-circle icon and bold text."
+      },
+      {
+        "part": "Statistical Grid",
+        "prompt": "Implement a 5-column grid (responsive to 2 and 4 columns). Each card should have a 1px border (#white/5), 20px padding, and 16px corner radius. Feature a large icon (left) and status label (right) on the top row, with a large bold value (text-3xl) and descriptive label (text-xs uppercase Zinc-500) below. Include a P2P connectivity card with a mini-progress bar (h-1, gold fill)."
+      },
+      {
+        "part": "Filter Sidebar",
+        "prompt": "A 280px sidebar containing vertical filter groups. Group headers: text-xs bold uppercase tracking-widest in Zinc-500. Filter items: Flexbox layout with text-sm labels and technical counts (JetBrains Mono). Include custom checkbox inputs accented in Gold (#fac306). Add a security warning box at the bottom (bg-red-500/5, border-red-500/10) for alerts."
+      },
+      {
+        "part": "Data Management Table",
+        "prompt": "A dense interactive table with themed styling. Header: black/40 background, text-10px bold uppercase Zinc-500. Body: Divide rows with #white/5 borders. Each row features a 40x40 icon container with a status dot overlay. Include performance columns with mini-sparkline progress bars (h-1) for CPU/RAM usage. Action column: Fixed-width right-aligned group with a primary gold 'CONNECT' button and a three-dot menu icon."
+      }
+    ]
+  },
+  "special_ui_components": [
+    {
+      "component": "Enterprise Auth Modal",
+      "description": "A high-security login overlay with glassmorphism and gold accents.",
+      "prompt": "Design a fixed overlay (bg-black/95) containing a max-w-md card (bg-zinc-900). Center a large gold square logo. Use input fields with bg-zinc-950 and border-white/10 that transition to border-gold (#fac306) on focus. Primary button: full-width, bg-gold (#fac306), black text, bold, with active:scale-95 transform. Include SSO options for Entra ID and Google with icon/label pairings."
+    },
+    {
+      "component": "Performance Sparkline",
+      "description": "Minimalist resource usage indicator for tables.",
+      "prompt": "Create a compact performance indicator. Top row: Label (e.g., CPU) left, value (e.g., 24%) right in text-[9px] bold uppercase. Bottom row: 4px height track (bg-zinc-950) with a colored fill (bg-gold or bg-red for high usage) representing the percentage width."
+    }
+  ]
+}
+```
+
+---
+*Generated by ShareFlow Design Prompt Library · © 2026 Mahir Faisal (MHR3D)*

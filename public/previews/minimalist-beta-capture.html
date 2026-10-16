@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superdesign | Join the Private Beta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: { fontFamily: {"serif":["'DM Serif Display'","serif"],"mono":["'Geist Mono'","monospace"]} } }
+}
+</script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist+Mono:wght@100..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="view-transition" content="same-origin">
+    <style>
+        @view-transition {
+            navigation: auto;
+        }
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation-duration: 0.4s;
+            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :root {
+            --obsidian: #080808;
+            --silver: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--obsidian);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'DM Serif Display', serif;
+        }
+
+        .font-mono {
+            font-family: 'Geist Mono', monospace;
+        }
+
+        .silver-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .silver-btn {
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            color: #000;
+            transition: all 0.3s ease;
+        }
+
+        .silver-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.15);
+        }
+
+        .noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .frosted-glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .bento-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bento-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-slide-up {
+            animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .fluid-width {
+            width: 92vw;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-clamp {
+            font-size: clamp(42px, 10vw, 140px);
+        }
+
+        .mobile-nav-blur {
+            backdrop-filter: blur(24px);
+            background: rgba(8, 8, 8, 0.85);
+            border-top: 1px solid rgba(226, 232, 240, 0.2);
+            box-shadow: 0 -10px 40px -10px rgba(0,0,0,0.5);
+        }
+    </style>
+
+<meta name="preview-version" content="ace14be0-7bef-49c3-bdc1-c13fd975c283" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:19.610Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "ace14be0-7bef-49c3-bdc1-c13fd975c283");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "ace14be0-7bef-49c3-bdc1-c13fd975c283",
+      timestamp: "2026-10-16T14:07:19.610Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "ace14be0-7bef-49c3-bdc1-c13fd975c283";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+    <div class="min-h-screen relative flex flex-col items-center">
+        <div class="noise fixed inset-0 z-0"></div>
+        
+        <!-- Navigation -->
+        <nav class="w-full px-[4vw] py-8 flex justify-between items-center z-50">
+            <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-lg tracking-widest uppercase">RAWLINE EVENTS</span>
+            </div>
+            <div class="hidden lg:flex items-center gap-px">
+                <a id="nav-about" href="#" class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono uppercase tracking-widest transition-colors">About</a>
+                <a id="nav-lineup" href="#" class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono uppercase tracking-widest transition-colors">Lineup</a>
+                <a id="nav-contact" href="#" class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono uppercase tracking-widest transition-colors">Contact</a>
+                <a id="nav-cta" href="#" class="ml-4 px-6 py-3 bg-white text-black text-xs font-mono font-bold uppercase tracking-widest">Join Beta</a>
+            </div>
+            <div class="lg:hidden flex items-center">
+                <button class="p-2 text-white" id="mobile-burger-btn">
+                    <iconify-icon icon="lucide:menu" class="text-2xl"></iconify-icon>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <main class="w-full flex flex-col items-center text-center relative z-10 py-12 md:py-24 lg:py-32">
+            
+            <div class="absolute inset-[4vw] md:inset-[10vw] lg:inset-[5vw] frosted-glass rounded-[2rem] md:rounded-[4rem] -z-10 opacity-30 pointer-events-none"></div>
+
+            <div class="w-full border-t border-b border-white/10 py-8 md:py-16 lg:py-24 mb-12 animate-slide-up">
+                <h1 class="hero-clamp font-serif leading-[0.85] italic tracking-tighter">
+                    Stop Redesigning.<br/>
+                    <span class="silver-gradient">Start Shipping.</span>
+                </h1>
+            </div>
+
+            <div class="fluid-width flex flex-col md:flex-row justify-between items-center md:items-end mb-16 font-mono text-[10px] md:text-sm tracking-[0.2em] uppercase text-white/50 animate-slide-up gap-6 md:gap-0">
+                <div class="text-center md:text-left">Est. 2024<br/>Beta Access</div>
+                <div class="max-w-xl text-center px-4 normal-case tracking-normal text-white/70 italic font-serif text-lg md:text-2xl leading-tight">
+                    The design engine for high-output builders. Create production-ready interfaces 10x faster.
+                </div>
+                <div class="text-center md:text-right">Limited Spots<br/>Remote/Global</div>
+            </div>
+
+            <!-- Hero Form -->
+            <div class="w-[92vw] max-w-2xl animate-slide-up" style="animation-delay: 0.2s">
+                <form class="flex flex-col sm:flex-row gap-3 p-2 frosted-glass rounded-2xl">
+                    <input 
+                        type="email" 
+                        placeholder="Enter your work email" 
+                        class="bg-transparent border-none focus:ring-0 px-6 py-4 text-white flex-grow font-mono text-sm placeholder:text-white/20"
+                        required
+                    >
+                    <button id="cta-hero-submit" class="silver-btn font-mono font-bold px-10 py-5 rounded-xl uppercase tracking-widest text-[10px] sm:text-xs">
+                        Join Beta
+                    </button>
+                </form>
+                <p class="mt-8 font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-white/40">
+                    Free access &bull; No credit card &bull; Immediate value
+                </p>
+            </div>
+
+            <!-- Countdown Timer + Early Adopters -->
+            <div class="mt-32 flex flex-col items-center animate-slide-up" style="animation-delay: 0.4s">
+                <span class="font-mono text-[10px] uppercase tracking-[0.4em] text-white/30 mb-6">Next Invitations Dispatching In:</span>
+                <div id="countdown" class="flex items-center gap-6 md:gap-12 font-serif text-5xl md:text-8xl lg:text-[120px] text-white/90">
+                    <div class="flex flex-col"><span id="hours">12</span></div>
+                    <span class="opacity-10">/</span>
+                    <div class="flex flex-col"><span id="minutes">04</span></div>
+                    <span class="opacity-10">/</span>
+                    <div class="flex flex-col"><span id="seconds">36</span></div>
+                </div>
+
+                <!-- Early Adopters Avatar Stack -->
+                <div class="mt-12 flex flex-col items-center">
+                    <div class="flex -space-x-2">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&q=80" class="w-8 h-8 rounded-full border-2 border-[#080808] ring-1 ring-white/20 grayscale contrast-125 object-cover" alt="Adopter 1" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/888?text=Image';">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&q=80" class="w-8 h-8 rounded-full border-2 border-[#080808] ring-1 ring-white/20 grayscale contrast-125 object-cover" alt="Adopter 2" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/888?text=Image';">
+                        <img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&h=100&fit=crop&q=80" class="w-8 h-8 rounded-full border-2 border-[#080808] ring-1 ring-white/20 grayscale contrast-125 object-cover" alt="Adopter 3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/888?text=Image';">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&q=80" class="w-8 h-8 rounded-full border-2 border-[#080808] ring-1 ring-white/20 grayscale contrast-125 object-cover" alt="Adopter 4" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/888?text=Image';">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&q=80" class="w-8 h-8 rounded-full border-2 border-[#080808] ring-1 ring-white/20 grayscale contrast-125 object-cover" alt="Adopter 5" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/888?text=Image';">
+                    </div>
+                    <p class="mt-4 font-mono text-[9px] uppercase tracking-[0.3em] text-white/30">Trusted by 2.4k+ high-output builders</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bento Box Grid - Full Width Desktop -->
+        <section class="w-full py-24 md:py-48 border-t border-white/5 bg-black/40 z-10 overflow-hidden">
+            <div class="fluid-width mb-20">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-12">
+                    <div class="max-w-3xl">
+                        <span class="font-mono text-[10px] uppercase tracking-[0.5em] text-white/30 block mb-6">Product Ethos</span>
+                        <h2 class="text-5xl md:text-8xl font-serif leading-[0.9] tracking-tighter">Stop Fighting Friction.</h2>
+                    </div>
+                    <p class="text-white/40 font-mono text-xs uppercase leading-[1.8] max-w-[280px] tracking-widest">
+                        Built for builders who value velocity over bureaucracy.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Edge-to-edge Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-y border-white/10">
+                <div class="p-12 lg:p-16 bento-card flex flex-col border-r border-white/10">
+                    <span class="font-mono text-[10px] text-white/30 mb-16 tracking-widest uppercase">01 / Efficiency</span>
+                    <h3 class="text-4xl font-serif mb-6">Instant Code</h3>
+                    <p class="text-white/40 text-sm leading-relaxed font-mono uppercase tracking-tight">Export production-ready code instantly. No translation layers. Pure execution.</p>
+                </div>
+                <div class="p-12 lg:p-16 bento-card flex flex-col md:border-r border-white/10 border-t md:border-t-0">
+                    <span class="font-mono text-[10px] text-white/30 mb-16 tracking-widest uppercase">02 / Intelligence</span>
+                    <h3 class="text-4xl font-serif mb-6">Smart Systems</h3>
+                    <p class="text-white/40 text-sm leading-relaxed font-mono uppercase tracking-tight">Quality-first AI that follows your exact brand constraints. Never hallucinating pixels.</p>
+                </div>
+                
+                <!-- Member Registry Bento Card -->
+                <div class="p-12 lg:p-16 bento-card flex flex-col lg:border-r border-white/10 border-t lg:border-t-0 frosted-glass relative overflow-hidden">
+                    <span class="font-mono text-[10px] text-white/30 mb-12 tracking-widest uppercase">03 / Community</span>
+                    <h3 class="text-4xl font-serif mb-8">Member Registry</h3>
+                    <div class="grid grid-cols-2 gap-y-6 gap-x-4">
+                        <div class="group flex items-center gap-3 transition-all duration-500 hover:translate-x-1 cursor-default">
+                            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=60&h=60&fit=crop&q=80" class="w-10 h-10 rounded-lg grayscale contrast-125 object-cover border border-white/10 group-hover:scale-110 transition-transform" alt="Member" onerror="this.onerror=null;this.src='https://placehold.co/60x60/1a1a1a/888?text=Image';">
+                            <span class="font-mono text-[8px] uppercase tracking-tighter text-white/40 leading-tight group-hover:text-white transition-colors">SR. DESIGNER</span>
+                        </div>
+                        <div class="group flex items-center gap-3 transition-all duration-500 hover:translate-x-1 cursor-default">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&h=60&fit=crop&q=80" class="w-10 h-10 rounded-lg grayscale contrast-125 object-cover border border-white/10 group-hover:scale-110 transition-transform" alt="Member" onerror="this.onerror=null;this.src='https://placehold.co/60x60/1a1a1a/888?text=Image';">
+                            <span class="font-mono text-[8px] uppercase tracking-tighter text-white/40 leading-tight group-hover:text-white transition-colors">LEAD ENG</span>
+                        </div>
+                        <div class="group flex items-center gap-3 transition-all duration-500 hover:translate-x-1 cursor-default">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=60&h=60&fit=crop&q=80" class="w-10 h-10 rounded-lg grayscale contrast-125 object-cover border border-white/10 group-hover:scale-110 transition-transform" alt="Member" onerror="this.onerror=null;this.src='https://placehold.co/60x60/1a1a1a/888?text=Image';">
+                            <span class="font-mono text-[8px] uppercase tracking-tighter text-white/40 leading-tight group-hover:text-white transition-colors">UX ARCHITECT</span>
+                        </div>
+                        <div class="group flex items-center gap-3 transition-all duration-500 hover:translate-x-1 cursor-default">
+                            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=60&h=60&fit=crop&q=80" class="w-10 h-10 rounded-lg grayscale contrast-125 object-cover border border-white/10 group-hover:scale-110 transition-transform" alt="Member" onerror="this.onerror=null;this.src='https://placehold.co/60x60/1a1a1a/888?text=Image';">
+                            <span class="font-mono text-[8px] uppercase tracking-tighter text-white/40 leading-tight group-hover:text-white transition-colors">PROD OWNER</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 right-0 p-8 opacity-5">
+                        <iconify-icon icon="lucide:id-card" class="text-6xl text-white"></iconify-icon>
+                    </div>
+                </div>
+
+                <div class="p-12 lg:p-16 bento-card flex flex-col border-t lg:border-t-0">
+                    <span class="font-mono text-[10px] text-white/30 mb-16 tracking-widest uppercase">04 / Precision</span>
+                    <h3 class="text-4xl font-serif mb-6">Spatial Canvas</h3>
+                    <p class="text-white/40 text-sm leading-relaxed font-mono uppercase tracking-tight">The precision of an IDE with the fluidity of a design tool. Minimalist and powerful.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Beta Value Section -->
+        <section class="w-full py-24 md:py-48 z-10">
+            <div class="fluid-width">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-px bg-white/5 border border-white/5">
+                    <div class="md:col-span-2 p-12 lg:p-20 bg-obsidian flex flex-col justify-between min-h-[400px]">
+                        <div>
+                            <h4 class="font-serif text-5xl lg:text-7xl mb-8 italic tracking-tighter">Early Access Benefit</h4>
+                            <p class="text-white/50 text-lg leading-relaxed max-w-md">Secure your spot months before the public release and define the tool's future.</p>
+                        </div>
+                        <span class="font-mono text-[10px] uppercase tracking-[0.4em] text-white/20 mt-12">Phase 01 / Priority</span>
+                    </div>
+                    <div class="p-12 bg-obsidian border-t md:border-t-0 md:border-l border-white/5 flex flex-col justify-between">
+                        <h4 class="font-serif text-3xl mb-4">Founder Circle</h4>
+                        <p class="text-white/30 font-mono text-xs uppercase tracking-wide leading-loose">Direct access to the core engineering team and private Discord community.</p>
+                        <iconify-icon icon="lucide:users" class="text-2xl text-white/10 mt-12"></iconify-icon>
+                    </div>
+                    <div class="p-12 bg-obsidian border-t lg:border-t-0 lg:border-l border-white/5 flex flex-col justify-between">
+                        <h4 class="font-serif text-3xl mb-4">Lifetime Perks</h4>
+                        <p class="text-white/30 font-mono text-xs uppercase tracking-wide leading-loose">Exclusive beta pricing locked in forever for all future core updates.</p>
+                        <iconify-icon icon="lucide:sparkles" class="text-2xl text-white/10 mt-12"></iconify-icon>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="w-full py-24 md:py-48 bg-white/[0.01] border-y border-white/5 z-10">
+            <div class="fluid-width">
+                <h2 class="text-5xl md:text-8xl font-serif mb-24 md:mb-40 italic text-center tracking-tighter opacity-80">Testimonials of Velocity</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-40">
+                    <div class="text-left space-y-12 border-l border-white/10 pl-8 lg:pl-16">
+                        <p class="text-3xl md:text-5xl font-serif text-white/90 leading-[1.1] italic">
+                            "Finally, a tool that respects how builders actually think. It doesn't just make things look good; it makes them work."
+                        </p>
+                        <div class="flex items-center gap-6">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&q=80" class="w-14 h-14 rounded-full border-2 border-white/10 grayscale contrast-125 object-cover" alt="Sarah Jenkins" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1a1a1a/888?text=Image';">
+                            <div>
+                                <div class="font-mono text-sm tracking-widest uppercase">Sarah Jenkins</div>
+                                <div class="font-mono text-[10px] text-white/30 uppercase tracking-[0.4em] mt-1">Vercel / Engineer</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left space-y-12 border-l border-white/10 pl-8 lg:pl-16">
+                        <p class="text-3xl md:text-5xl font-serif text-white/90 leading-[1.1] italic">
+                            "I've tried every AI design tool out there. This is the first one that doesn't feel like a toy. Unparalleled control."
+                        </p>
+                        <div class="flex items-center gap-6">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&q=80" class="w-14 h-14 rounded-full border-2 border-white/10 grayscale contrast-125 object-cover" alt="Marcus Thorne" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1a1a1a/888?text=Image';">
+                            <div>
+                                <div class="font-mono text-sm tracking-widest uppercase">Marcus Thorne</div>
+                                <div class="font-mono text-[10px] text-white/30 uppercase tracking-[0.4em] mt-1">Stripe / Designer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="w-full py-48 px-6 text-center z-10">
+            <div class="max-w-4xl mx-auto flex flex-col items-center space-y-16">
+                <h2 class="hero-clamp font-serif tracking-tighter italic leading-none">Join the Elite.</h2>
+                <div class="space-y-4">
+                    <p class="font-mono text-xs md:text-sm text-white/40 uppercase tracking-[0.4em]">Only 12 spots left in this cohort</p>
+                    <div class="w-24 h-px bg-white/10 mx-auto"></div>
+                </div>
+                <form class="w-full max-w-xl flex flex-col sm:flex-row gap-3 p-2 frosted-glass rounded-2xl">
+                    <input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        class="bg-transparent border-none focus:ring-0 px-6 py-4 text-white flex-grow font-mono text-sm placeholder:text-white/20"
+                    >
+                    <button id="cta-final-submit" class="silver-btn font-mono font-bold px-10 py-5 rounded-xl uppercase tracking-widest text-xs">
+                        Join Waitlist
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="w-full py-20 px-[4vw] border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-12 z-10 pb-32 lg:pb-20">
+            <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-sm tracking-[0.5em] uppercase">SUPERDESIGN &reg;</span>
+            </div>
+            <div class="font-mono text-[9px] md:text-[10px] text-white/20 uppercase tracking-[0.3em] text-center">
+                &copy; 2024 Superdesign Labs. All rights reserved. Built for high-output builders.
+            </div>
+            <div class="flex gap-12 font-mono text-[10px] uppercase tracking-[0.3em]">
+                <a id="footer-twitter" href="#" class="text-white/30 hover:text-white transition-colors">Twitter</a>
+                <a id="footer-github" href="#" class="text-white/30 hover:text-white transition-colors">Github</a>
+                <a id="footer-docs" href="#" class="text-white/30 hover:text-white transition-colors">Docs</a>
+            </div>
+        </footer>
+
+        <!-- Mobile Bottom Navigation -->
+        <div id="mobile-bottom-nav" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md mobile-nav-blur rounded-full px-8 py-4 z-[100] flex justify-between items-center lg:hidden shadow-2xl transition-all duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 translate-y-32 pointer-events-none">
+            <a id="mob-nav-home" href="#" class="text-white/60 hover:text-white flex flex-col items-center gap-1">
+                <iconify-icon icon="lucide:home" class="text-xl"></iconify-icon>
+                <span class="text-[8px] font-mono uppercase tracking-widest">Home</span>
+            </a>
+            <a id="mob-nav-features" href="#" class="text-white/60 hover:text-white flex flex-col items-center gap-1">
+                <iconify-icon icon="lucide:layers" class="text-xl"></iconify-icon>
+                <span class="text-[8px] font-mono uppercase tracking-widest">Specs</span>
+            </a>
+            <a id="mob-nav-cta" href="#" class="bg-white text-black px-6 py-2 rounded-full font-mono text-[10px] font-bold uppercase tracking-widest">
+                Join
+            </a>
+            <a id="mob-nav-about" href="#" class="text-white/60 hover:text-white flex flex-col items-center gap-1">
+                <iconify-icon icon="lucide:info" class="text-xl"></iconify-icon>
+                <span class="text-[8px] font-mono uppercase tracking-widest">About</span>
+            </a>
+            <a id="mob-nav-contact" href="#" class="text-white/60 hover:text-white flex flex-col items-center gap-1">
+                <iconify-icon icon="lucide:mail" class="text-xl"></iconify-icon>
+                <span class="text-[8px] font-mono uppercase tracking-widest">Mail</span>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        const timer = {
+            hours: 12,
+            minutes: 4,
+            seconds: 36
+        };
+
+        function updateTimer() {
+            if (timer.seconds > 0) {
+                timer.seconds--;
+            } else if (timer.minutes > 0) {
+                timer.minutes--;
+                timer.seconds = 59;
+            } else if (timer.hours > 0) {
+                timer.hours--;
+                timer.minutes = 59;
+                timer.seconds = 59;
+            }
+
+            document.getElementById('hours').innerText = String(timer.hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(timer.minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(timer.seconds).padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+
+        // Mobile Nav Visibility Logic
+        const mobileNav = document.getElementById('mobile-bottom-nav');
+        const heroSection = document.querySelector('main');
+        
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth < 1024) {
+                // Calculates the point where hero section ends + 150px
+                const threshold = heroSection.offsetTop + heroSection.offsetHeight + 150;
+                if (window.scrollY > threshold) {
+                    mobileNav.classList.remove('opacity-0', 'translate-y-32', 'pointer-events-none');
+                    mobileNav.classList.add('opacity-100', 'translate-y-0');
+                } else {
+                    mobileNav.classList.add('opacity-0', 'translate-y-32', 'pointer-events-none');
+                    mobileNav.classList.remove('opacity-100', 'translate-y-0');
+                }
+            }
+        });
+
+        const observerOptions = {
+            threshold: 0.05
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section, .bento-card, .fluid-width').forEach(el => {
+            el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-8');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

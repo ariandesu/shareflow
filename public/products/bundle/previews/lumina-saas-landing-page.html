@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaSy - The All-in-One Creator Toolkit</title>
+    <meta name="description" content="Turn your audience into a business with the ultimate toolkit for creators.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,500,700,400&f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Font Setup */
+        body {
+            font-family: 'Satoshi', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Cabinet Grotesk', sans-serif;
+        }
+        
+        /* Neo-Brutalist Shadow Utility */
+        .shadow-hard {
+            box-shadow: 4px 4px 0px 0px #000000;
+        }
+        .shadow-hard-lg {
+            box-shadow: 8px 8px 0px 0px #000000;
+        }
+        .shadow-hard-hover:hover {
+            box-shadow: 2px 2px 0px 0px #000000;
+            transform: translate(2px, 2px);
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 30s linear infinite;
+        }
+        
+        /* Custom Selection Color */
+        ::selection {
+            background-color: #171e19;
+            color: #ffe17c;
+        }
+    </style>
+
+<meta name="preview-version" content="7c559ec1-83bb-46c6-bd4b-3e0cf404de62" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:15.784Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "7c559ec1-83bb-46c6-bd4b-3e0cf404de62");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "7c559ec1-83bb-46c6-bd4b-3e0cf404de62",
+      timestamp: "2026-10-16T14:07:15.784Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "7c559ec1-83bb-46c6-bd4b-3e0cf404de62";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body class="antialiased bg-[#171e19]">
+    <!-- Main Container -->
+    <div class="w-full bg-white overflow-x-hidden">
+
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 border-b-2 border-black bg-[#ffe17c]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <!-- Logo -->
+                    <a href="#" id="nav-logo" class="flex items-center gap-2 group">
+                        <div class="w-10 h-10 bg-black text-[#ffe17c] flex items-center justify-center rounded-lg border-2 border-black group-hover:rotate-6 transition-transform">
+                            <iconify-icon icon="lucide:zap" width="24"></iconify-icon>
+                        </div>
+                        <span class="font-heading font-extrabold text-2xl tracking-tight text-black">LUMINA</span>
+                    </a>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#features" id="nav-features" class="text-black font-bold hover:underline decoration-2 underline-offset-4">Features</a>
+                        <a href="#how-it-works" id="nav-how" class="text-black font-bold hover:underline decoration-2 underline-offset-4">How it Works</a>
+                        <a href="#testimonials" id="nav-testimonials" class="text-black font-bold hover:underline decoration-2 underline-offset-4">Stories</a>
+                        <a href="#pricing" id="nav-pricing" class="text-black font-bold hover:underline decoration-2 underline-offset-4">Pricing</a>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="flex items-center gap-4">
+                        <a href="#login" id="nav-login" class="hidden md:block text-black font-bold hover:text-gray-700">Log In</a>
+                        <a href="#signup" id="nav-cta" class="bg-black text-white px-6 py-3 rounded-lg font-bold border-2 border-black shadow-hard hover:bg-[#272727] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
+                            Start Free Trial
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-[#ffe17c] border-b-2 border-black overflow-hidden">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#000 2px, transparent 2px); background-size: 32px 32px;"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                    <!-- Content -->
+                    <div class="text-center lg:text-left space-y-8">
+                        <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-black shadow-hard">
+                            <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="font-bold text-sm tracking-wide">NEW: AI Content Assistant 2.0</span>
+                        </div>
+                        
+                        <h1 class="font-heading text-5xl md:text-7xl lg:text-8xl font-black text-black leading-[0.9] tracking-tighter">
+                            SCALE YOUR <br>
+                            <span class="text-white drop-shadow-[4px_4px_0px_#000] stroke-black text-transparent bg-clip-text" style="-webkit-text-stroke: 2px black;">CHAOS</span> INTO <br>
+                            REVENUE.
+                        </h1>
+                        
+                        <p class="text-lg md:text-xl font-medium text-[#171e19] max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                            Stop juggling 12 different tools. Lumina brings your products, newsletters, and analytics into one vibrant workspace. 
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                            <a href="#start" id="hero-cta-primary" class="w-full sm:w-auto px-8 py-4 bg-black text-white text-lg font-bold rounded-xl border-2 border-black shadow-hard-lg hover:shadow-none hover:translate-x-[8px] hover:translate-y-[8px] transition-all text-center">
+                                Get Started for Free
+                            </a>
+                            <a href="#demo" id="hero-cta-secondary" class="w-full sm:w-auto px-8 py-4 bg-white text-black text-lg font-bold rounded-xl border-2 border-black shadow-hard hover:shadow-hard-hover transition-all flex items-center justify-center gap-2">
+                                <iconify-icon icon="lucide:play-circle" width="24"></iconify-icon>
+                                Watch Demo
+                            </a>
+                        </div>
+                        
+                        <p class="text-sm font-bold text-[#272727] flex items-center justify-center lg:justify-start gap-2">
+                            <iconify-icon icon="lucide:check-circle" class="text-black"></iconify-icon>
+                            14-day free trial
+                            <span class="mx-2">•</span>
+                            <iconify-icon icon="lucide:check-circle" class="text-black"></iconify-icon>
+                            No credit card required
+                        </p>
+                    </div>
+
+                    <!-- Visual -->
+                    <div class="relative lg:h-[600px] flex items-center justify-center">
+                        <!-- Decorative blobs/shapes -->
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-[#b7c6c2] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                        <div class="absolute bottom-0 left-10 w-64 h-64 bg-white rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                        
+                        <!-- App UI Mockup -->
+                        <div class="relative w-full max-w-lg bg-white rounded-2xl border-2 border-black shadow-[12px_12px_0px_0px_#000] overflow-hidden">
+                            <!-- Fake Browser Header -->
+                            <div class="bg-black px-4 py-3 flex items-center gap-2 border-b-2 border-black">
+                                <div class="w-3 h-3 rounded-full bg-[#ff5f57]"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#febc2e]"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#28c840]"></div>
+                                <div class="ml-4 bg-[#272727] h-6 rounded-md w-1/2"></div>
+                            </div>
+                            <!-- App Content -->
+                            <div class="p-6 grid gap-6">
+                                <div class="flex justify-between items-end">
+                                    <div>
+                                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Revenue</div>
+                                        <div class="text-4xl font-heading font-black text-black">$124,502.00</div>
+                                    </div>
+                                    <div class="bg-[#ffe17c] px-3 py-1 rounded-full border-2 border-black font-bold text-xs flex items-center gap-1 shadow-[2px_2px_0px_0px_#000]">
+                                        <iconify-icon icon="lucide:trending-up"></iconify-icon> +24%
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-[#f5f5f5] p-4 rounded-xl border-2 border-black">
+                                        <iconify-icon icon="lucide:users" class="text-2xl mb-2"></iconify-icon>
+                                        <div class="font-bold">Subscribers</div>
+                                        <div class="text-2xl font-black">8.5k</div>
+                                    </div>
+                                    <div class="bg-[#171e19] p-4 rounded-xl border-2 border-black text-white">
+                                        <iconify-icon icon="lucide:shopping-bag" class="text-2xl mb-2 text-[#ffe17c]"></iconify-icon>
+                                        <div class="font-bold">Sales</div>
+                                        <div class="text-2xl font-black">1,204</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-[#b7c6c2] h-32 rounded-xl border-2 border-black flex items-center justify-center relative overflow-hidden">
+                                     <iconify-icon icon="lucide:bar-chart-2" class="text-6xl text-black opacity-20 absolute"></iconify-icon>
+                                     <span class="relative font-bold z-10 bg-white border-2 border-black px-4 py-2 rounded-lg shadow-hard">Analytics View</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Element -->
+                        <div class="absolute -bottom-8 -right-4 lg:-right-8 bg-white p-4 rounded-xl border-2 border-black shadow-hard flex items-center gap-3">
+                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="User" class="w-10 h-10 rounded-full border-2 border-black" onerror="this.onerror=null;this.src='https://placehold.co/40x40/1a1a1a/888?text=Image';">
+                            <div>
+                                <div class="text-xs font-bold text-gray-500">Just signed up</div>
+                                <div class="font-bold">Sarah J.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof Marquee -->
+        <section class="py-10 bg-[#171e19] border-b-2 border-black overflow-hidden">
+            <div class="relative flex overflow-x-hidden group">
+                <div class="py-2 animate-marquee whitespace-nowrap flex items-center gap-16 md:gap-24">
+                    <!-- Logo Set 1 -->
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">ACME CORP</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">GLOBEX</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">SOYIENT</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">MASSIVE</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">Hooli</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">STRK IND</span>
+                    
+                    <!-- Logo Set 2 (Repeat) -->
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">ACME CORP</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">GLOBEX</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">SOYIENT</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">MASSIVE</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">Hooli</span>
+                    <span class="text-2xl md:text-3xl font-heading font-black text-[#b7c6c2] opacity-50">STRK IND</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem vs Solution -->
+        <section class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="font-heading text-4xl md:text-6xl font-black mb-6">STOP THE MADNESS.</h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Most creators spend 80% of their time managing tools and only 20% creating. It's time to flip the script.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-16">
+                    <!-- Problem -->
+                    <div class="bg-[#f4f4f5] p-8 md:p-12 rounded-3xl border-2 border-dashed border-gray-400 opacity-70 hover:opacity-100 transition-opacity">
+                        <h3 class="font-heading text-2xl font-bold text-gray-500 mb-6">THE OLD WAY</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:x" class="text-red-500 text-xl mt-1"></iconify-icon>
+                                <span class="font-medium text-gray-500">Spreadsheets that break</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:x" class="text-red-500 text-xl mt-1"></iconify-icon>
+                                <span class="font-medium text-gray-500">Scattered customer data</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:x" class="text-red-500 text-xl mt-1"></iconify-icon>
+                                <span class="font-medium text-gray-500">Manually sending invoices</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:x" class="text-red-500 text-xl mt-1"></iconify-icon>
+                                <span class="font-medium text-gray-500">Zero free time</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Solution -->
+                    <div class="bg-[#ffe17c] p-8 md:p-12 rounded-3xl border-2 border-black shadow-hard relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4">
+                            <iconify-icon icon="lucide:sparkles" class="text-4xl text-black animate-pulse"></iconify-icon>
+                        </div>
+                        <h3 class="font-heading text-2xl font-black text-black mb-6">THE LUMINA WAY</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <div class="bg-black text-[#ffe17c] rounded-full p-1">
+                                    <iconify-icon icon="lucide:check" class="text-sm"></iconify-icon>
+                                </div>
+                                <span class="font-bold text-black">One central dashboard</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="bg-black text-[#ffe17c] rounded-full p-1">
+                                    <iconify-icon icon="lucide:check" class="text-sm"></iconify-icon>
+                                </div>
+                                <span class="font-bold text-black">Automated workflows</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="bg-black text-[#ffe17c] rounded-full p-1">
+                                    <iconify-icon icon="lucide:check" class="text-sm"></iconify-icon>
+                                </div>
+                                <span class="font-bold text-black">Instant payments</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="bg-black text-[#ffe17c] rounded-full p-1">
+                                    <iconify-icon icon="lucide:check" class="text-sm"></iconify-icon>
+                                </div>
+                                <span class="font-bold text-black">Weekends are back</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Features -->
+        <section id="features" class="py-24 bg-[#ffe17c] border-y-2 border-black">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <span class="bg-black text-white px-4 py-2 rounded-full font-bold text-sm tracking-wider uppercase mb-4 inline-block">Features</span>
+                    <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl font-black">EVERYTHING YOU NEED.</h2>
+                    <p class="font-medium text-xl mt-4">No fluff. Just the power tools.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="bg-white p-8 rounded-2xl border-2 border-black shadow-hard hover:shadow-hard-hover transition-all group">
+                        <div class="w-16 h-16 bg-[#b7c6c2] rounded-xl border-2 border-black flex items-center justify-center mb-6 group-hover:bg-[#ffe17c] transition-colors">
+                            <iconify-icon icon="lucide:zap" class="text-3xl text-black"></iconify-icon>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-3">Smart Automation</h3>
+                        <p class="text-gray-600">Set it and forget it. Automate emails, invoices, and client onboarding with our visual builder.</p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="bg-white p-8 rounded-2xl border-2 border-black shadow-hard hover:shadow-hard-hover transition-all group">
+                        <div class="w-16 h-16 bg-[#b7c6c2] rounded-xl border-2 border-black flex items-center justify-center mb-6 group-hover:bg-[#ffe17c] transition-colors">
+                            <iconify-icon icon="lucide:users" class="text-3xl text-black"></iconify-icon>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-3">CRM & Audience</h3>
+                        <p class="text-gray-600">Know your fans. Track every interaction and purchase history in one unified profile view.</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="bg-white p-8 rounded-2xl border-2 border-black shadow-hard hover:shadow-hard-hover transition-all group">
+                        <div class="w-16 h-16 bg-[#b7c6c2] rounded-xl border-2 border-black flex items-center justify-center mb-6 group-hover:bg-[#ffe17c] transition-colors">
+                            <iconify-icon icon="lucide:bar-chart-3" class="text-3xl text-black"></iconify-icon>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-3">Real-time Analytics</h3>
+                        <p class="text-gray-600">Visualize your growth. Beautiful dashboards that show you exactly where your money is coming from.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section id="how-it-works" class="py-24 bg-[#171e19] text-[#b7c6c2]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div>
+                        <h2 class="font-heading text-4xl md:text-5xl font-black text-white mb-2">SIMPLE AS 1-2-3.</h2>
+                        <p class="text-xl opacity-80">Complex backend, simple frontend.</p>
+                    </div>
+                    <a href="#demo" class="text-[#ffe17c] font-bold text-lg hover:underline flex items-center gap-2">
+                        See full documentation <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                    </a>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-12 relative">
+                    <!-- Connecting Line (Desktop) -->
+                    <div class="hidden md:block absolute top-12 left-0 w-full h-1 bg-[#272727] -z-10"></div>
+
+                    <!-- Step 1 -->
+                    <div class="relative">
+                        <div class="w-24 h-24 bg-[#272727] text-white rounded-full border-4 border-[#171e19] flex items-center justify-center text-3xl font-black mb-8 mx-auto md:mx-0 shadow-[0px_0px_0px_4px_#b7c6c2]">
+                            1
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-3 text-center md:text-left">Connect</h3>
+                        <p class="text-center md:text-left">Link your existing tools (Stripe, Mailchimp, Notion) with one click. We handle the API magic.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative">
+                        <div class="w-24 h-24 bg-[#272727] text-white rounded-full border-4 border-[#171e19] flex items-center justify-center text-3xl font-black mb-8 mx-auto md:mx-0 shadow-[0px_0px_0px_4px_#ffe17c]">
+                            2
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-3 text-center md:text-left">Configure</h3>
+                        <p class="text-center md:text-left">Choose your workflows from our library of 500+ templates designed for creators.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative">
+                        <div class="w-24 h-24 bg-[#ffe17c] text-black rounded-full border-4 border-[#171e19] flex items-center justify-center text-3xl font-black mb-8 mx-auto md:mx-0 shadow-[0px_0px_0px_4px_#fff]">
+                            3
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold text-white mb-3 text-center md:text-left">Launch</h3>
+                        <p class="text-center md:text-left">Go live instantly. Watch the dashboard light up as you automate your revenue.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Case Personas -->
+        <section class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-heading text-4xl md:text-5xl font-black text-center mb-16">WHO IS LUMINA FOR?</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-[#b7c6c2] p-6 rounded-2xl border-2 border-black h-full flex flex-col">
+                        <div class="bg-white w-fit px-3 py-1 rounded-full border-2 border-black font-bold text-sm mb-4">For Designers</div>
+                        <h3 class="font-heading text-2xl font-bold mb-4">Freelancers</h3>
+                        <p class="font-medium mb-6 flex-grow">Manage client proposals, invoices, and asset delivery in one portal.</p>
+                        <div class="bg-white/50 p-4 rounded-xl border-2 border-black/10">
+                            <div class="flex items-center gap-2 font-bold">
+                                <iconify-icon icon="lucide:check"></iconify-icon> Asset Handoff
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-[#ffe17c] p-6 rounded-2xl border-2 border-black h-full flex flex-col shadow-hard">
+                        <div class="bg-black text-white w-fit px-3 py-1 rounded-full font-bold text-sm mb-4">Most Popular</div>
+                        <h3 class="font-heading text-2xl font-bold mb-4">Course Creators</h3>
+                        <p class="font-medium mb-6 flex-grow">Host videos, manage students, and automate drip emails seamlessly.</p>
+                        <div class="bg-white/50 p-4 rounded-xl border-2 border-black/10">
+                            <div class="flex items-center gap-2 font-bold">
+                                <iconify-icon icon="lucide:check"></iconify-icon> Student Portal
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-[#272727] text-white p-6 rounded-2xl border-2 border-black h-full flex flex-col">
+                        <div class="bg-white text-black w-fit px-3 py-1 rounded-full border-2 border-black font-bold text-sm mb-4">For Agencies</div>
+                        <h3 class="font-heading text-2xl font-bold mb-4">Small Teams</h3>
+                        <p class="font-medium mb-6 flex-grow">Assign tasks, track hours, and share revenue reports with your team.</p>
+                        <div class="bg-white/20 p-4 rounded-xl border-2 border-white/10">
+                            <div class="flex items-center gap-2 font-bold">
+                                <iconify-icon icon="lucide:check"></iconify-icon> Team Permissions
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="py-24 bg-[#b7c6c2] border-t-2 border-black">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="font-heading text-4xl md:text-5xl font-black text-center mb-16">LOVED BY 10,000+ CREATORS</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Review 1 -->
+                    <div class="bg-white p-8 rounded-tr-3xl rounded-bl-3xl rounded-tl-sm rounded-br-sm border-2 border-black shadow-hard">
+                        <div class="flex text-[#ffe17c] mb-4 text-xl">
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                        </div>
+                        <p class="font-bold text-lg mb-6">"I used to spend my weekends doing invoices. Now Lumina does it while I sleep. Absolute game changer."</p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://i.pravatar.cc/150?u=1" alt="User" class="w-12 h-12 rounded-full border-2 border-black" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1a1a1a/888?text=Image';">
+                            <div>
+                                <div class="font-black">Jessica K.</div>
+                                <div class="text-sm text-gray-500 font-bold">Digital Artist</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="bg-white p-8 rounded-tr-sm rounded-bl-sm rounded-tl-3xl rounded-br-3xl border-2 border-black shadow-hard md:translate-y-4">
+                        <div class="flex text-[#ffe17c] mb-4 text-xl">
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                        </div>
+                        <p class="font-bold text-lg mb-6">"The interface is just so fun to use. It doesn't feel like 'work software'. It feels like a toy that makes money."</p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://i.pravatar.cc/150?u=2" alt="User" class="w-12 h-12 rounded-full border-2 border-black" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1a1a1a/888?text=Image';">
+                            <div>
+                                <div class="font-black">Marcus R.</div>
+                                <div class="text-sm text-gray-500 font-bold">YouTuber</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="bg-white p-8 rounded-tr-3xl rounded-bl-3xl rounded-tl-sm rounded-br-sm border-2 border-black shadow-hard">
+                        <div class="flex text-[#ffe17c] mb-4 text-xl">
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                            <iconify-icon icon="lucide:star" class="text-[#ffbc2e]"></iconify-icon>
+                        </div>
+                        <p class="font-bold text-lg mb-6">"Migrated from 3 different tools into Lumina in under an hour. Support team is incredible."</p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://i.pravatar.cc/150?u=3" alt="User" class="w-12 h-12 rounded-full border-2 border-black" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1a1a1a/888?text=Image';">
+                            <div>
+                                <div class="font-black">Sarah L.</div>
+                                <div class="text-sm text-gray-500 font-bold">Course Creator</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="py-32 bg-[#ffe17c] border-t-2 border-black relative overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full mix-blend-overlay filter blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-64 h-64 bg-[#b7c6c2] rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
+
+            <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                <h2 class="font-heading text-5xl md:text-7xl font-black mb-8 leading-tight">
+                    READY TO GET <br> SERIOUSLY ORGANIZED?
+                </h2>
+                <p class="text-xl font-medium mb-10 max-w-2xl mx-auto">Join the waitlist for version 3.0 or start your free trial of V2 today. No commitment required.</p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#signup" id="footer-cta" class="w-full sm:w-auto px-10 py-5 bg-black text-[#ffe17c] text-xl font-bold rounded-xl border-2 border-black shadow-hard-lg hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
+                        Start My Free Trial
+                    </a>
+                    <a href="#pricing" class="w-full sm:w-auto px-10 py-5 bg-white text-black text-xl font-bold rounded-xl border-2 border-black shadow-hard hover:shadow-hard-hover transition-all">
+                        View Pricing
+                    </a>
+                </div>
+                <p class="mt-6 text-sm font-bold opacity-70">No credit card required. Cancel anytime.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-[#171e19] text-white pt-20 pb-10 border-t-2 border-black">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+                    <div class="col-span-2 md:col-span-1">
+                         <a href="#" class="flex items-center gap-2 mb-6">
+                            <div class="w-8 h-8 bg-[#ffe17c] text-black flex items-center justify-center rounded-lg border-2 border-white">
+                                <iconify-icon icon="lucide:zap"></iconify-icon>
+                            </div>
+                            <span class="font-heading font-extrabold text-2xl tracking-tight">LUMINA</span>
+                        </a>
+                        <p class="text-[#b7c6c2] text-sm">The operating system for the next generation of digital creators.</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold mb-6 text-[#ffe17c]">Product</h4>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                            <li><a href="#" class="hover:text-white hover:underline">Features</a></li>
+                            <li><a href="#" class="hover:text-white hover:underline">Integrations</a></li>
+                            <li><a href="#" class="hover:text-white hover:underline">Pricing</a></li>
+                            <li><a href="#" class="hover:text-white hover:underline">Changelog</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold mb-6 text-[#ffe17c]">Company</h4>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                            <li><a href="#" class="hover:text-white hover:underline">About</a></li>
+                            <li><a href="#" class="hover:text-white hover:underline">Careers</a></li>
+                            <li><a href="#" class="hover:text-white hover:underline">Blog</a></li>
+                            <li><a href="#" class="hover:text-white hover:underline">Legal</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold mb-6 text-[#ffe17c]">Social</h4>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-10 h-10 bg-[#272727] flex items-center justify-center rounded-lg border border-gray-700 hover:bg-[#ffe17c] hover:text-black hover:border-black transition-colors">
+                                <iconify-icon icon="lucide:twitter"></iconify-icon>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-[#272727] flex items-center justify-center rounded-lg border border-gray-700 hover:bg-[#ffe17c] hover:text-black hover:border-black transition-colors">
+                                <iconify-icon icon="lucide:instagram"></iconify-icon>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-[#272727] flex items-center justify-center rounded-lg border border-gray-700 hover:bg-[#ffe17c] hover:text-black hover:border-black transition-colors">
+                                <iconify-icon icon="lucide:linkedin"></iconify-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                    <p>&copy; 2023 Lumina Inc. All rights reserved.</p>
+                    <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-white">Privacy Policy</a>
+                        <a href="#" class="hover:text-white">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>

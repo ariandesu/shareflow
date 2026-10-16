@@ -1,0 +1,3826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperDesign Project</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        #root {
+            width: 100%;
+            min-height: 100vh;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "modern-screenshot": "https://esm.sh/modern-screenshot@4.6.6",
+          "react": "https://esm.sh/react@18.3.1?dev",
+          "react-dom": "https://esm.sh/react-dom@18.3.1?dev",
+          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?dev",
+          "scheduler": "https://esm.sh/scheduler@0.23.2",
+          "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime?dev",
+          "react-is": "https://esm.sh/react-is@18.3.1?dev",
+          "react-router-dom": "https://esm.sh/react-router-dom@6.28.0?dev"
+        }
+      }
+    </script>
+
+<meta name="preview-version" content="0c9caa93-79d8-47df-8ed1-ab207ce762c7" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:38.430Z" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Merriweather:wght@300;400;500;600;700;800;900&family=Fira%20Code:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: 240 2% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 240 2% 10%;
+  --accent: 240 2% 10%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --background: 0 0% 98%;
+  --foreground: 240 2% 10%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 2% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 4%;
+  --border: 214 32% 91%;
+  --input: 240 6% 90%;
+  --ring: 240 6% 10%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 240 5% 26%;
+  --sidebar-primary: 240 6% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 5% 96%;
+  --sidebar-accent-foreground: 240 6% 10%;
+  --sidebar-border: 240 6% 90%;
+  --sidebar-ring: 240 5% 65%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --font-sans: "Inter";
+  --font-serif: "Merriweather";
+  --font-mono: "Fira Code";
+  --font-size: 16;
+  --line-height: 1.5;
+  --letter-spacing-body: 0;
+  --letter-spacing-heading: -0.02em;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --radius: 1.5rem;
+  --box-shadow: 0 40px 80px -20px rgba(0,0,0,0.1);
+}
+
+.dark {
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 2% 10%;
+  --secondary: 0 0% 20%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 0 0% 100%;
+  --accent-foreground: 240 2% 10%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+  --background: 240 2% 10%;
+  --foreground: 0 0% 98%;
+  --muted: 240 1% 17%;
+  --muted-foreground: 0 0% 63%;
+  --card: 240 2% 10%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 4%;
+  --popover-foreground: 0 0% 98%;
+  --border: 0 0% 20%;
+  --input: 240 4% 16%;
+  --ring: 240 5% 84%;
+  --sidebar: 240 6% 10%;
+  --sidebar-foreground: 240 5% 65%;
+  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4% 16%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-border: 240 4% 16%;
+  --sidebar-ring: 240 5% 26%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}</style>
+<style>@font-face {
+  font-family: 'Aktura';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/aktura/Aktura-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alpino';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/alpino/Alpino-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amulya';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/amulya/Amulya-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amulya';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/amulya/Amulya-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anton';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/anton/Anton-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/archivo/Archivo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/archivo/Archivo-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Array';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/array/Array-Bold.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Asap';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/asap/Asap-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Asap';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/asap/Asap-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Author';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/author/Author-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Author';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/author/Author-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AzeretMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/azeretmono/AzeretMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AzeretMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/azeretmono/AzeretMono-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BeVietnamPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevietnampro/BeVietnamPro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BeVietnamPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevietnampro/BeVietnamPro-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bebasneue/BebasNeue-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokesans/BespokeSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokesans/BespokeSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSerif';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeserif/BespokeSerif-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSerif';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeserif/BespokeSerif-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeslab/BespokeSlab-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokeslab/BespokeSlab-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeStencil';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokestencil/BespokeStencil-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeStencil';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bespokestencil/BespokeStencil-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bevellier';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevellier/Bevellier-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bevellier';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bevellier/Bevellier-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bonny';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/bonny/Bonny-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boska/Boska-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boska/Boska-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Boxing';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/boxing/Boxing-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Britney';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/britney/Britney-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CabinetGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/cabinetgrotesk/CabinetGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chillax';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chillax/Chillax-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chubbo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chubbo/Chubbo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chubbo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/chubbo/Chubbo-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/clashgrotesk/ClashGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Comico';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/comico/Comico-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CrimsonPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/crimsonpro/CrimsonPro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CrimsonPro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/crimsonpro/CrimsonPro-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DancingScript';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/dancingscript/DancingScript-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Epilogue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/epilogue/Epilogue-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Epilogue';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/epilogue/Epilogue-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Erode';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/erode/Erode-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Erode';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/erode/Erode-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Excon';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/excon/Excon-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Expose';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/expose/Expose-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FamiljenGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/familjengrotesk/FamiljenGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FamiljenGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/familjengrotesk/FamiljenGrotesk-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/firasans/FiraSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/firasans/FiraSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambarino';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambarino/Gambarino-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambetta/Gambetta-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gambetta';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/gambetta/Gambetta-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeneralSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/generalsans/GeneralSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeneralSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/generalsans/GeneralSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hind';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/hind/Hind-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hoover';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/hoover/Hoover-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/jetbrainsmono/JetBrainsMono-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/jetbrainsmono/JetBrainsMono-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kalam';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kalam/Kalam-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karma';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/karma/Karma-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Khand';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/khand/Khand-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kihim';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kihim/Kihim-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KohinoorZerone';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kohinoorzerone/KohinoorZerone-One.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kola';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/kola/Kola-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Literata';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/literata/Literata-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Literata';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/literata/Literata-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/lora/Lora-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/lora/Lora-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/manrope/Manrope-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Melodrama';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/melodrama/Melodrama-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/merriweathersans/MerriweatherSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/merriweathersans/MerriweatherSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/montserrat/Montserrat-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/montserrat/Montserrat-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neco';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/neco/Neco-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neco';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/neco/Neco-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NewTitle';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/newtitle/NewTitle-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nippo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nippo/Nippo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nunito/Nunito-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/nunito/Nunito-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/oswald/Oswald-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/outfit/Outfit-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pally';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pally/Pally-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Panchang';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/panchang/Panchang-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Paquito';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/paquito/Paquito-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pencerio';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pencerio/Pencerio-Hairline.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PilcrowRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pilcrowrounded/PilcrowRounded-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plein';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plein/Plein-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plein';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plein/Plein-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plusjakartasans/PlusJakartaSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/plusjakartasans/PlusJakartaSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/poppins/Poppins-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/poppins/Poppins-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PramukhRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pramukhrounded/PramukhRounded-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PramukhRounded';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/pramukhrounded/PramukhRounded-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PublicSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/publicsans/PublicSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PublicSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/publicsans/PublicSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/quicksand/Quicksand-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quilon';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/quilon/Quilon-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RX100';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rx100/RX100-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rajdhani';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rajdhani/Rajdhani-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ranade';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/ranade/Ranade-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ranade';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/ranade/Ranade-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recia';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/recia/Recia-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recia';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/recia/Recia-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/redhatdisplay/RedHatDisplay-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/redhatdisplay/RedHatDisplay-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rosaline';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rosaline/Rosaline-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roundo';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/roundo/Roundo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rowan';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rowan/Rowan-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rowan';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/rowan/Rowan-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/satoshi/Satoshi-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/satoshi/Satoshi-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Segment';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/segment/Segment-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sentient';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sentient/Sentient-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sentient';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sentient/Sentient-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sharpie';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sharpie/Sharpie-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sora/Sora-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/sora/Sora-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/spacegrotesk/SpaceGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SplineSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/splinesans/SplineSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Stardom';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/stardom/Stardom-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Striper';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/striper/Striper-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Styro';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/styro/Styro-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/supreme/Supreme-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Supreme';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/supreme/Supreme-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/switzer/Switzer-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/switzer/Switzer-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Synonym';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/synonym/Synonym-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tabular';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tabular/Tabular-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tabular';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tabular/Tabular-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tanker';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/tanker/Tanker-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Technor';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/technor/Technor-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teko';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/teko/Teko-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Telma';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/telma/Telma-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TrenchSlab';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/trenchslab/TrenchSlab-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/worksans/WorkSans-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/worksans/WorkSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zina';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zina/Zina-Regular.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zodiak';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zodiak/Zodiak-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zodiak';
+  src: url('https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/system/fonts/zodiak/Zodiak-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}</style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    if (window.tailwind) {
+      window.tailwind.config = {
+        ...(window.tailwind.config || {}),
+        theme: {
+          extend: {"colors":{"border":"hsl(var(--border))","input":"hsl(var(--input))","ring":"hsl(var(--ring))","background":"hsl(var(--background))","foreground":"hsl(var(--foreground))","primary":{"DEFAULT":"hsl(var(--primary))","foreground":"hsl(var(--primary-foreground))"},"secondary":{"DEFAULT":"hsl(var(--secondary))","foreground":"hsl(var(--secondary-foreground))"},"destructive":{"DEFAULT":"hsl(var(--destructive))","foreground":"hsl(var(--destructive-foreground))"},"muted":{"DEFAULT":"hsl(var(--muted))","foreground":"hsl(var(--muted-foreground))"},"accent":{"DEFAULT":"hsl(var(--accent))","foreground":"hsl(var(--accent-foreground))"},"popover":{"DEFAULT":"hsl(var(--popover))","foreground":"hsl(var(--popover-foreground))"},"card":{"DEFAULT":"hsl(var(--card))","foreground":"hsl(var(--card-foreground))"},"sidebar":{"DEFAULT":"hsl(var(--sidebar-background))","foreground":"hsl(var(--sidebar-foreground))","primary":"hsl(var(--sidebar-primary))","primary-foreground":"hsl(var(--sidebar-primary-foreground))","accent":"hsl(var(--sidebar-accent))","accent-foreground":"hsl(var(--sidebar-accent-foreground))","border":"hsl(var(--sidebar-border))"},"chart":{"1":"hsl(var(--chart-1))","2":"hsl(var(--chart-2))","3":"hsl(var(--chart-3))","4":"hsl(var(--chart-4))","5":"hsl(var(--chart-5))"}},"borderRadius":{"lg":"var(--radius)","md":"calc(var(--radius) - 2px)","sm":"calc(var(--radius) - 4px)"},"fontFamily":{"sans":["var(--font-sans)","system-ui","sans-serif"],"serif":["var(--font-serif)","Georgia","serif"],"mono":["var(--font-mono)","monospace"]}}
+        }
+      };
+    }
+  </script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "0c9caa93-79d8-47df-8ed1-ab207ce762c7");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "0c9caa93-79d8-47df-8ed1-ab207ce762c7",
+      timestamp: "2026-10-16T14:07:38.430Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          setTimeout(function() { window.__SUPERDESIGN_PREVIEW__.autoCapture(); }, 3000);
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="module">
+      (async function() {
+        const depModules = {};
+        function isMobileDevice() {
+          return /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent);
+        }
+        async function loadReact() {
+          if (!depModules["react"]) {
+            try {
+              const [React, ReactDOMClient, jsxRuntime, ReactDOMUtils, modernScreenshot] = await Promise.all([
+                import("https://esm.sh/react@18.3.1?dev"),
+                import("https://esm.sh/react-dom@18.3.1/client?dev"),
+                import("https://esm.sh/react@18.3.1/jsx-runtime?dev"),
+                import("https://esm.sh/react-dom@18.3.1?dev"),
+                import("https://esm.sh/modern-screenshot@4.6.6")
+              ]);
+              window.React = React;
+              window.modernScreenshot = modernScreenshot;
+              window.ReactDOM = {
+                ...ReactDOMClient,
+                ...ReactDOMUtils
+              };
+              depModules["react"] = {
+                default: React,
+                ...React,
+              };
+              depModules["react-dom"] = {
+                default: ReactDOM,
+                ...ReactDOM,
+              };
+              depModules["react/jsx-runtime"] = {
+                default: jsxRuntime,
+                ...jsxRuntime,
+              };
+            } catch (error) {
+              console.error('Failed to load React dependencies:', error);
+            }
+          }
+        }
+        async function loadDep(depName) {
+          if (!depModules[depName]) {
+            try {
+              const module = await import(depName);
+              depModules[depName] = module;
+              if (!module.default) {
+                depModules[depName] = {
+                  default: module,
+                  ...module,
+                };
+              }
+            } catch (error) {
+              console.error('Failed to load dependency:', depName, error);
+            }
+          }
+        }
+        // Load dependencies concurrently
+        await Promise.all([
+          loadReact()
+        ]);
+        
+        // Execute JS Bundle
+        var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// <define:import.meta>
+var init_define_import_meta = __esm({
+  "<define:import.meta>"() {
+  }
+});
+
+// <define:process.env>
+var init_define_process_env = __esm({
+  "<define:process.env>"() {
+  }
+});
+
+// external-global-plugin:react
+var require_react = __commonJS({
+  "external-global-plugin:react"(exports, module) {
+    init_define_import_meta();
+    init_define_process_env();
+    module.exports = window.React;
+  }
+});
+
+// external-global-plugin:react-dom/client
+var require_client = __commonJS({
+  "external-global-plugin:react-dom/client"(exports, module) {
+    init_define_import_meta();
+    init_define_process_env();
+    module.exports = window.ReactDOM;
+  }
+});
+
+// ../../../../../../_superdesign_entry_.tsx
+init_define_import_meta();
+init_define_process_env();
+var import_react3 = __toESM(require_react());
+var import_client = __toESM(require_client());
+
+// ../../../../../../src/App.tsx
+init_define_import_meta();
+init_define_process_env();
+var import_react2 = __toESM(require_react());
+
+// ../../../../../../src/Component
+init_define_import_meta();
+init_define_process_env();
+var import_react = __toESM(require_react());
+
+// http-url:https://esm.sh/ogl@^0.0.116?bundle&external=react,react-dom
+init_define_import_meta();
+init_define_process_env();
+
+// http-url:https://esm.sh/ogl@0.0.116/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/ogl.bundle.mjs
+init_define_import_meta();
+init_define_process_env();
+function Yt(r5) {
+  let t = r5[0], e = r5[1], i = r5[2];
+  return Math.sqrt(t * t + e * e + i * i);
+}
+function Rt(r5, t) {
+  return r5[0] = t[0], r5[1] = t[1], r5[2] = t[2], r5;
+}
+function or(r5, t, e, i) {
+  return r5[0] = t, r5[1] = e, r5[2] = i, r5;
+}
+function Ht(r5, t, e) {
+  return r5[0] = t[0] + e[0], r5[1] = t[1] + e[1], r5[2] = t[2] + e[2], r5;
+}
+function Qt(r5, t, e) {
+  return r5[0] = t[0] - e[0], r5[1] = t[1] - e[1], r5[2] = t[2] - e[2], r5;
+}
+function hr(r5, t, e) {
+  return r5[0] = t[0] * e[0], r5[1] = t[1] * e[1], r5[2] = t[2] * e[2], r5;
+}
+function lr(r5, t, e) {
+  return r5[0] = t[0] / e[0], r5[1] = t[1] / e[1], r5[2] = t[2] / e[2], r5;
+}
+function zt(r5, t, e) {
+  return r5[0] = t[0] * e, r5[1] = t[1] * e, r5[2] = t[2] * e, r5;
+}
+function cr(r5, t) {
+  let e = t[0] - r5[0], i = t[1] - r5[1], s = t[2] - r5[2];
+  return Math.sqrt(e * e + i * i + s * s);
+}
+function fr(r5, t) {
+  let e = t[0] - r5[0], i = t[1] - r5[1], s = t[2] - r5[2];
+  return e * e + i * i + s * s;
+}
+function Kt(r5) {
+  let t = r5[0], e = r5[1], i = r5[2];
+  return t * t + e * e + i * i;
+}
+function ur(r5, t) {
+  return r5[0] = -t[0], r5[1] = -t[1], r5[2] = -t[2], r5;
+}
+function pr(r5, t) {
+  return r5[0] = 1 / t[0], r5[1] = 1 / t[1], r5[2] = 1 / t[2], r5;
+}
+function Lt(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = e * e + i * i + s * s;
+  return n > 0 && (n = 1 / Math.sqrt(n)), r5[0] = t[0] * n, r5[1] = t[1] * n, r5[2] = t[2] * n, r5;
+}
+function Zt(r5, t) {
+  return r5[0] * t[0] + r5[1] * t[1] + r5[2] * t[2];
+}
+function $t(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = e[0], o = e[1], h = e[2];
+  return r5[0] = s * h - n * o, r5[1] = n * a - i * h, r5[2] = i * o - s * a, r5;
+}
+function St(r5, t, e, i) {
+  let s = t[0], n = t[1], a = t[2];
+  return r5[0] = s + i * (e[0] - s), r5[1] = n + i * (e[1] - n), r5[2] = a + i * (e[2] - a), r5;
+}
+function dr(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = e[3] * i + e[7] * s + e[11] * n + e[15];
+  return a = a || 1, r5[0] = (e[0] * i + e[4] * s + e[8] * n + e[12]) / a, r5[1] = (e[1] * i + e[5] * s + e[9] * n + e[13]) / a, r5[2] = (e[2] * i + e[6] * s + e[10] * n + e[14]) / a, r5;
+}
+function mr(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = e[3] * i + e[7] * s + e[11] * n + e[15];
+  return a = a || 1, r5[0] = (e[0] * i + e[4] * s + e[8] * n) / a, r5[1] = (e[1] * i + e[5] * s + e[9] * n) / a, r5[2] = (e[2] * i + e[6] * s + e[10] * n) / a, r5;
+}
+function gr(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2];
+  return r5[0] = i * e[0] + s * e[3] + n * e[6], r5[1] = i * e[1] + s * e[4] + n * e[7], r5[2] = i * e[2] + s * e[5] + n * e[8], r5;
+}
+function xr(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = e[0], o = e[1], h = e[2], l = e[3], c = o * n - h * s, f = h * i - a * n, p = a * s - o * i, u = o * p - h * f, m = h * c - a * p, x = a * f - o * c, d = l * 2;
+  return c *= d, f *= d, p *= d, u *= 2, m *= 2, x *= 2, r5[0] = i + c + u, r5[1] = s + f + m, r5[2] = n + p + x, r5;
+}
+var yr = /* @__PURE__ */ function() {
+  let r5 = [0, 0, 0], t = [0, 0, 0];
+  return function(e, i) {
+    Rt(r5, e), Rt(t, i), Lt(r5, r5), Lt(t, t);
+    let s = Zt(r5, t);
+    return s > 1 ? 0 : s < -1 ? Math.PI : Math.acos(s);
+  };
+}();
+function wr(r5, t) {
+  return r5[0] === t[0] && r5[1] === t[1] && r5[2] === t[2];
+}
+var M = class r extends Array {
+  constructor(t = 0, e = t, i = t) {
+    return super(t, e, i), this;
+  }
+  get x() {
+    return this[0];
+  }
+  get y() {
+    return this[1];
+  }
+  get z() {
+    return this[2];
+  }
+  set x(t) {
+    this[0] = t;
+  }
+  set y(t) {
+    this[1] = t;
+  }
+  set z(t) {
+    this[2] = t;
+  }
+  set(t, e = t, i = t) {
+    return t.length ? this.copy(t) : (or(this, t, e, i), this);
+  }
+  copy(t) {
+    return Rt(this, t), this;
+  }
+  add(t, e) {
+    return e ? Ht(this, t, e) : Ht(this, this, t), this;
+  }
+  sub(t, e) {
+    return e ? Qt(this, t, e) : Qt(this, this, t), this;
+  }
+  multiply(t) {
+    return t.length ? hr(this, this, t) : zt(this, this, t), this;
+  }
+  divide(t) {
+    return t.length ? lr(this, this, t) : zt(this, this, 1 / t), this;
+  }
+  inverse(t = this) {
+    return pr(this, t), this;
+  }
+  len() {
+    return Yt(this);
+  }
+  distance(t) {
+    return t ? cr(this, t) : Yt(this);
+  }
+  squaredLen() {
+    return Kt(this);
+  }
+  squaredDistance(t) {
+    return t ? fr(this, t) : Kt(this);
+  }
+  negate(t = this) {
+    return ur(this, t), this;
+  }
+  cross(t, e) {
+    return e ? $t(this, t, e) : $t(this, this, t), this;
+  }
+  scale(t) {
+    return zt(this, this, t), this;
+  }
+  normalize() {
+    return Lt(this, this), this;
+  }
+  dot(t) {
+    return Zt(this, t);
+  }
+  equals(t) {
+    return wr(this, t);
+  }
+  applyMatrix3(t) {
+    return gr(this, this, t), this;
+  }
+  applyMatrix4(t) {
+    return dr(this, this, t), this;
+  }
+  scaleRotateMatrix4(t) {
+    return mr(this, this, t), this;
+  }
+  applyQuaternion(t) {
+    return xr(this, this, t), this;
+  }
+  angle(t) {
+    return yr(this, t);
+  }
+  lerp(t, e) {
+    return St(this, this, t, e), this;
+  }
+  clone() {
+    return new r(this[0], this[1], this[2]);
+  }
+  fromArray(t, e = 0) {
+    return this[0] = t[e], this[1] = t[e + 1], this[2] = t[e + 2], this;
+  }
+  toArray(t = [], e = 0) {
+    return t[e] = this[0], t[e + 1] = this[1], t[e + 2] = this[2], t;
+  }
+  transformDirection(t) {
+    let e = this[0], i = this[1], s = this[2];
+    return this[0] = t[0] * e + t[4] * i + t[8] * s, this[1] = t[1] * e + t[5] * i + t[9] * s, this[2] = t[2] * e + t[6] * i + t[10] * s, this.normalize();
+  }
+};
+var Mr = new M();
+var os = 1;
+var hs = 1;
+var Er = false;
+var O = class {
+  constructor(t, e = {}) {
+    t.canvas || console.error("gl not passed as first argument to Geometry"), this.gl = t, this.attributes = e, this.id = os++, this.VAOs = {}, this.drawRange = { start: 0, count: 0 }, this.instancedCount = 0, this.gl.renderer.bindVertexArray(null), this.gl.renderer.currentGeometry = null, this.glState = this.gl.renderer.state;
+    for (let i in e)
+      this.addAttribute(i, e[i]);
+  }
+  addAttribute(t, e) {
+    if (this.attributes[t] = e, e.id = hs++, e.size = e.size || 1, e.type = e.type || (e.data.constructor === Float32Array ? this.gl.FLOAT : e.data.constructor === Uint16Array ? this.gl.UNSIGNED_SHORT : this.gl.UNSIGNED_INT), e.target = t === "index" ? this.gl.ELEMENT_ARRAY_BUFFER : this.gl.ARRAY_BUFFER, e.normalized = e.normalized || false, e.stride = e.stride || 0, e.offset = e.offset || 0, e.count = e.count || (e.stride ? e.data.byteLength / e.stride : e.data.length / e.size), e.divisor = e.instanced || 0, e.needsUpdate = false, e.usage = e.usage || this.gl.STATIC_DRAW, e.buffer || this.updateAttribute(e), e.divisor) {
+      if (this.isInstanced = true, this.instancedCount && this.instancedCount !== e.count * e.divisor)
+        return console.warn("geometry has multiple instanced buffers of different length"), this.instancedCount = Math.min(this.instancedCount, e.count * e.divisor);
+      this.instancedCount = e.count * e.divisor;
+    } else
+      t === "index" ? this.drawRange.count = e.count : this.attributes.index || (this.drawRange.count = Math.max(this.drawRange.count, e.count));
+  }
+  updateAttribute(t) {
+    let e = !t.buffer;
+    e && (t.buffer = this.gl.createBuffer()), this.glState.boundBuffer !== t.buffer && (this.gl.bindBuffer(t.target, t.buffer), this.glState.boundBuffer = t.buffer), e ? this.gl.bufferData(t.target, t.data, t.usage) : this.gl.bufferSubData(t.target, 0, t.data), t.needsUpdate = false;
+  }
+  setIndex(t) {
+    this.addAttribute("index", t);
+  }
+  setDrawRange(t, e) {
+    this.drawRange.start = t, this.drawRange.count = e;
+  }
+  setInstancedCount(t) {
+    this.instancedCount = t;
+  }
+  createVAO(t) {
+    this.VAOs[t.attributeOrder] = this.gl.renderer.createVertexArray(), this.gl.renderer.bindVertexArray(this.VAOs[t.attributeOrder]), this.bindAttributes(t);
+  }
+  bindAttributes(t) {
+    t.attributeLocations.forEach((e, { name: i, type: s }) => {
+      if (!this.attributes[i]) {
+        console.warn(`active attribute ${i} not being supplied`);
+        return;
+      }
+      let n = this.attributes[i];
+      this.gl.bindBuffer(n.target, n.buffer), this.glState.boundBuffer = n.buffer;
+      let a = 1;
+      s === 35674 && (a = 2), s === 35675 && (a = 3), s === 35676 && (a = 4);
+      let o = n.size / a, h = a === 1 ? 0 : a * a * 4, l = a === 1 ? 0 : a * 4;
+      for (let c = 0; c < a; c++)
+        this.gl.vertexAttribPointer(e + c, o, n.type, n.normalized, n.stride + h, n.offset + c * l), this.gl.enableVertexAttribArray(e + c), this.gl.renderer.vertexAttribDivisor(e + c, n.divisor);
+    }), this.attributes.index && this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.attributes.index.buffer);
+  }
+  draw({ program: t, mode: e = this.gl.TRIANGLES }) {
+    this.gl.renderer.currentGeometry !== `${this.id}_${t.attributeOrder}` && (this.VAOs[t.attributeOrder] || this.createVAO(t), this.gl.renderer.bindVertexArray(this.VAOs[t.attributeOrder]), this.gl.renderer.currentGeometry = `${this.id}_${t.attributeOrder}`), t.attributeLocations.forEach((s, { name: n }) => {
+      let a = this.attributes[n];
+      a.needsUpdate && this.updateAttribute(a);
+    });
+    let i = 2;
+    this.attributes.index?.type === this.gl.UNSIGNED_INT && (i = 4), this.isInstanced ? this.attributes.index ? this.gl.renderer.drawElementsInstanced(e, this.drawRange.count, this.attributes.index.type, this.attributes.index.offset + this.drawRange.start * i, this.instancedCount) : this.gl.renderer.drawArraysInstanced(e, this.drawRange.start, this.drawRange.count, this.instancedCount) : this.attributes.index ? this.gl.drawElements(e, this.drawRange.count, this.attributes.index.type, this.attributes.index.offset + this.drawRange.start * i) : this.gl.drawArrays(e, this.drawRange.start, this.drawRange.count);
+  }
+  getPosition() {
+    let t = this.attributes.position;
+    if (t.data)
+      return t;
+    if (!Er)
+      return console.warn("No position buffer data found to compute bounds"), Er = true;
+  }
+  computeBoundingBox(t) {
+    t || (t = this.getPosition());
+    let e = t.data, i = t.size;
+    this.bounds || (this.bounds = { min: new M(), max: new M(), center: new M(), scale: new M(), radius: 1 / 0 });
+    let s = this.bounds.min, n = this.bounds.max, a = this.bounds.center, o = this.bounds.scale;
+    s.set(1 / 0), n.set(-1 / 0);
+    for (let h = 0, l = e.length; h < l; h += i) {
+      let c = e[h], f = e[h + 1], p = e[h + 2];
+      s.x = Math.min(c, s.x), s.y = Math.min(f, s.y), s.z = Math.min(p, s.z), n.x = Math.max(c, n.x), n.y = Math.max(f, n.y), n.z = Math.max(p, n.z);
+    }
+    o.sub(n, s), a.add(s, n).divide(2);
+  }
+  computeBoundingSphere(t) {
+    t || (t = this.getPosition());
+    let e = t.data, i = t.size;
+    this.bounds || this.computeBoundingBox(t);
+    let s = 0;
+    for (let n = 0, a = e.length; n < a; n += i)
+      Mr.fromArray(e, n), s = Math.max(s, this.bounds.center.squaredDistance(Mr));
+    this.bounds.radius = Math.sqrt(s);
+  }
+  remove() {
+    for (let t in this.VAOs)
+      this.gl.renderer.deleteVertexArray(this.VAOs[t]), delete this.VAOs[t];
+    for (let t in this.attributes)
+      this.gl.deleteBuffer(this.attributes[t].buffer), delete this.attributes[t];
+  }
+};
+var ls = 1;
+var Ar = {};
+var U = class {
+  constructor(t, { vertex: e, fragment: i, uniforms: s = {}, transparent: n = false, cullFace: a = t.BACK, frontFace: o = t.CCW, depthTest: h = true, depthWrite: l = true, depthFunc: c = t.LESS } = {}) {
+    t.canvas || console.error("gl not passed as first argument to Program"), this.gl = t, this.uniforms = s, this.id = ls++, e || console.warn("vertex shader not supplied"), i || console.warn("fragment shader not supplied"), this.transparent = n, this.cullFace = a, this.frontFace = o, this.depthTest = h, this.depthWrite = l, this.depthFunc = c, this.blendFunc = {}, this.blendEquation = {}, this.transparent && !this.blendFunc.src && (this.gl.renderer.premultipliedAlpha ? this.setBlendFunc(this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA) : this.setBlendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA));
+    let f = t.createShader(t.VERTEX_SHADER);
+    t.shaderSource(f, e), t.compileShader(f), t.getShaderInfoLog(f) !== "" && console.warn(`${t.getShaderInfoLog(f)}
+Vertex Shader
+${vr(e)}`);
+    let p = t.createShader(t.FRAGMENT_SHADER);
+    if (t.shaderSource(p, i), t.compileShader(p), t.getShaderInfoLog(p) !== "" && console.warn(`${t.getShaderInfoLog(p)}
+Fragment Shader
+${vr(i)}`), this.program = t.createProgram(), t.attachShader(this.program, f), t.attachShader(this.program, p), t.linkProgram(this.program), !t.getProgramParameter(this.program, t.LINK_STATUS))
+      return console.warn(t.getProgramInfoLog(this.program));
+    t.deleteShader(f), t.deleteShader(p), this.uniformLocations = /* @__PURE__ */ new Map();
+    let u = t.getProgramParameter(this.program, t.ACTIVE_UNIFORMS);
+    for (let d = 0; d < u; d++) {
+      let g = t.getActiveUniform(this.program, d);
+      this.uniformLocations.set(g, t.getUniformLocation(this.program, g.name));
+      let y = g.name.match(/(\w+)/g);
+      g.uniformName = y[0], y.length === 3 ? (g.isStructArray = true, g.structIndex = Number(y[1]), g.structProperty = y[2]) : y.length === 2 && isNaN(Number(y[1])) && (g.isStruct = true, g.structProperty = y[1]);
+    }
+    this.attributeLocations = /* @__PURE__ */ new Map();
+    let m = [], x = t.getProgramParameter(this.program, t.ACTIVE_ATTRIBUTES);
+    for (let d = 0; d < x; d++) {
+      let g = t.getActiveAttrib(this.program, d), y = t.getAttribLocation(this.program, g.name);
+      y !== -1 && (m[y] = g.name, this.attributeLocations.set(g, y));
+    }
+    this.attributeOrder = m.join("");
+  }
+  setBlendFunc(t, e, i, s) {
+    this.blendFunc.src = t, this.blendFunc.dst = e, this.blendFunc.srcAlpha = i, this.blendFunc.dstAlpha = s, t && (this.transparent = true);
+  }
+  setBlendEquation(t, e) {
+    this.blendEquation.modeRGB = t, this.blendEquation.modeAlpha = e;
+  }
+  applyState() {
+    this.depthTest ? this.gl.renderer.enable(this.gl.DEPTH_TEST) : this.gl.renderer.disable(this.gl.DEPTH_TEST), this.cullFace ? this.gl.renderer.enable(this.gl.CULL_FACE) : this.gl.renderer.disable(this.gl.CULL_FACE), this.blendFunc.src ? this.gl.renderer.enable(this.gl.BLEND) : this.gl.renderer.disable(this.gl.BLEND), this.cullFace && this.gl.renderer.setCullFace(this.cullFace), this.gl.renderer.setFrontFace(this.frontFace), this.gl.renderer.setDepthMask(this.depthWrite), this.gl.renderer.setDepthFunc(this.depthFunc), this.blendFunc.src && this.gl.renderer.setBlendFunc(this.blendFunc.src, this.blendFunc.dst, this.blendFunc.srcAlpha, this.blendFunc.dstAlpha), this.gl.renderer.setBlendEquation(this.blendEquation.modeRGB, this.blendEquation.modeAlpha);
+  }
+  use({ flipFaces: t = false } = {}) {
+    let e = -1;
+    this.gl.renderer.state.currentProgram === this.id || (this.gl.useProgram(this.program), this.gl.renderer.state.currentProgram = this.id), this.uniformLocations.forEach((s, n) => {
+      let a = n.uniformName, o = this.uniforms[a];
+      if (n.isStruct && (o = o[n.structProperty], a += `.${n.structProperty}`), n.isStructArray && (o = o[n.structIndex][n.structProperty], a += `[${n.structIndex}].${n.structProperty}`), !o)
+        return br(`Active uniform ${a} has not been supplied`);
+      if (o && o.value === void 0)
+        return br(`${a} uniform is missing a value parameter`);
+      if (o.value.texture)
+        return e = e + 1, o.value.update(e), Jt(this.gl, n.type, s, e);
+      if (o.value.length && o.value[0].texture) {
+        let h = [];
+        return o.value.forEach((l) => {
+          e = e + 1, l.update(e), h.push(e);
+        }), Jt(this.gl, n.type, s, h);
+      }
+      Jt(this.gl, n.type, s, o.value);
+    }), this.applyState(), t && this.gl.renderer.setFrontFace(this.frontFace === this.gl.CCW ? this.gl.CW : this.gl.CCW);
+  }
+  remove() {
+    this.gl.deleteProgram(this.program);
+  }
+};
+function Jt(r5, t, e, i) {
+  i = i.length ? cs(i) : i;
+  let s = r5.renderer.state.uniformLocations.get(e);
+  if (i.length)
+    if (s === void 0 || s.length !== i.length)
+      r5.renderer.state.uniformLocations.set(e, i.slice(0));
+    else {
+      if (fs(s, i))
+        return;
+      s.set ? s.set(i) : us(s, i), r5.renderer.state.uniformLocations.set(e, s);
+    }
+  else {
+    if (s === i)
+      return;
+    r5.renderer.state.uniformLocations.set(e, i);
+  }
+  switch (t) {
+    case 5126:
+      return i.length ? r5.uniform1fv(e, i) : r5.uniform1f(e, i);
+    case 35664:
+      return r5.uniform2fv(e, i);
+    case 35665:
+      return r5.uniform3fv(e, i);
+    case 35666:
+      return r5.uniform4fv(e, i);
+    case 35670:
+    case 5124:
+    case 35678:
+    case 35680:
+      return i.length ? r5.uniform1iv(e, i) : r5.uniform1i(e, i);
+    case 35671:
+    case 35667:
+      return r5.uniform2iv(e, i);
+    case 35672:
+    case 35668:
+      return r5.uniform3iv(e, i);
+    case 35673:
+    case 35669:
+      return r5.uniform4iv(e, i);
+    case 35674:
+      return r5.uniformMatrix2fv(e, false, i);
+    case 35675:
+      return r5.uniformMatrix3fv(e, false, i);
+    case 35676:
+      return r5.uniformMatrix4fv(e, false, i);
+  }
+}
+function vr(r5) {
+  let t = r5.split(`
+`);
+  for (let e = 0; e < t.length; e++)
+    t[e] = e + 1 + ": " + t[e];
+  return t.join(`
+`);
+}
+function cs(r5) {
+  let t = r5.length, e = r5[0].length;
+  if (e === void 0)
+    return r5;
+  let i = t * e, s = Ar[i];
+  s || (Ar[i] = s = new Float32Array(i));
+  for (let n = 0; n < t; n++)
+    s.set(r5[n], n * e);
+  return s;
+}
+function fs(r5, t) {
+  if (r5.length !== t.length)
+    return false;
+  for (let e = 0, i = r5.length; e < i; e++)
+    if (r5[e] !== t[e])
+      return false;
+  return true;
+}
+function us(r5, t) {
+  for (let e = 0, i = r5.length; e < i; e++)
+    r5[e] = t[e];
+}
+var te = 0;
+function br(r5) {
+  te > 100 || (console.warn(r5), te++, te > 100 && console.warn("More than 100 program warnings - stopping logs."));
+}
+var ee = new M();
+var ps = 1;
+var re = class {
+  constructor({ canvas: t = document.createElement("canvas"), width: e = 300, height: i = 150, dpr: s = 1, alpha: n = false, depth: a = true, stencil: o = false, antialias: h = false, premultipliedAlpha: l = false, preserveDrawingBuffer: c = false, powerPreference: f = "default", autoClear: p = true, webgl: u = 2 } = {}) {
+    let m = { alpha: n, depth: a, stencil: o, antialias: h, premultipliedAlpha: l, preserveDrawingBuffer: c, powerPreference: f };
+    this.dpr = s, this.alpha = n, this.color = true, this.depth = a, this.stencil = o, this.premultipliedAlpha = l, this.autoClear = p, this.id = ps++, u === 2 && (this.gl = t.getContext("webgl2", m)), this.isWebgl2 = !!this.gl, this.gl || (this.gl = t.getContext("webgl", m)), this.gl || console.error("unable to create webgl context"), this.gl.renderer = this, this.setSize(e, i), this.state = {}, this.state.blendFunc = { src: this.gl.ONE, dst: this.gl.ZERO }, this.state.blendEquation = { modeRGB: this.gl.FUNC_ADD }, this.state.cullFace = null, this.state.frontFace = this.gl.CCW, this.state.depthMask = true, this.state.depthFunc = this.gl.LESS, this.state.premultiplyAlpha = false, this.state.flipY = false, this.state.unpackAlignment = 4, this.state.framebuffer = null, this.state.viewport = { x: 0, y: 0, width: null, height: null }, this.state.textureUnits = [], this.state.activeTextureUnit = 0, this.state.boundBuffer = null, this.state.uniformLocations = /* @__PURE__ */ new Map(), this.state.currentProgram = null, this.extensions = {}, this.isWebgl2 ? (this.getExtension("EXT_color_buffer_float"), this.getExtension("OES_texture_float_linear")) : (this.getExtension("OES_texture_float"), this.getExtension("OES_texture_float_linear"), this.getExtension("OES_texture_half_float"), this.getExtension("OES_texture_half_float_linear"), this.getExtension("OES_element_index_uint"), this.getExtension("OES_standard_derivatives"), this.getExtension("EXT_sRGB"), this.getExtension("WEBGL_depth_texture"), this.getExtension("WEBGL_draw_buffers")), this.getExtension("WEBGL_compressed_texture_astc"), this.getExtension("EXT_texture_compression_bptc"), this.getExtension("WEBGL_compressed_texture_s3tc"), this.getExtension("WEBGL_compressed_texture_etc1"), this.getExtension("WEBGL_compressed_texture_pvrtc"), this.getExtension("WEBKIT_WEBGL_compressed_texture_pvrtc"), this.vertexAttribDivisor = this.getExtension("ANGLE_instanced_arrays", "vertexAttribDivisor", "vertexAttribDivisorANGLE"), this.drawArraysInstanced = this.getExtension("ANGLE_instanced_arrays", "drawArraysInstanced", "drawArraysInstancedANGLE"), this.drawElementsInstanced = this.getExtension("ANGLE_instanced_arrays", "drawElementsInstanced", "drawElementsInstancedANGLE"), this.createVertexArray = this.getExtension("OES_vertex_array_object", "createVertexArray", "createVertexArrayOES"), this.bindVertexArray = this.getExtension("OES_vertex_array_object", "bindVertexArray", "bindVertexArrayOES"), this.deleteVertexArray = this.getExtension("OES_vertex_array_object", "deleteVertexArray", "deleteVertexArrayOES"), this.drawBuffers = this.getExtension("WEBGL_draw_buffers", "drawBuffers", "drawBuffersWEBGL"), this.parameters = {}, this.parameters.maxTextureUnits = this.gl.getParameter(this.gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS), this.parameters.maxAnisotropy = this.getExtension("EXT_texture_filter_anisotropic") ? this.gl.getParameter(this.getExtension("EXT_texture_filter_anisotropic").MAX_TEXTURE_MAX_ANISOTROPY_EXT) : 0;
+  }
+  setSize(t, e) {
+    this.width = t, this.height = e, this.gl.canvas.width = t * this.dpr, this.gl.canvas.height = e * this.dpr, this.gl.canvas.style && Object.assign(this.gl.canvas.style, { width: t + "px", height: e + "px" });
+  }
+  setViewport(t, e, i = 0, s = 0) {
+    this.state.viewport.width === t && this.state.viewport.height === e || (this.state.viewport.width = t, this.state.viewport.height = e, this.state.viewport.x = i, this.state.viewport.y = s, this.gl.viewport(i, s, t, e));
+  }
+  setScissor(t, e, i = 0, s = 0) {
+    this.gl.scissor(i, s, t, e);
+  }
+  enable(t) {
+    this.state[t] !== true && (this.gl.enable(t), this.state[t] = true);
+  }
+  disable(t) {
+    this.state[t] !== false && (this.gl.disable(t), this.state[t] = false);
+  }
+  setBlendFunc(t, e, i, s) {
+    this.state.blendFunc.src === t && this.state.blendFunc.dst === e && this.state.blendFunc.srcAlpha === i && this.state.blendFunc.dstAlpha === s || (this.state.blendFunc.src = t, this.state.blendFunc.dst = e, this.state.blendFunc.srcAlpha = i, this.state.blendFunc.dstAlpha = s, i !== void 0 ? this.gl.blendFuncSeparate(t, e, i, s) : this.gl.blendFunc(t, e));
+  }
+  setBlendEquation(t, e) {
+    t = t || this.gl.FUNC_ADD, !(this.state.blendEquation.modeRGB === t && this.state.blendEquation.modeAlpha === e) && (this.state.blendEquation.modeRGB = t, this.state.blendEquation.modeAlpha = e, e !== void 0 ? this.gl.blendEquationSeparate(t, e) : this.gl.blendEquation(t));
+  }
+  setCullFace(t) {
+    this.state.cullFace !== t && (this.state.cullFace = t, this.gl.cullFace(t));
+  }
+  setFrontFace(t) {
+    this.state.frontFace !== t && (this.state.frontFace = t, this.gl.frontFace(t));
+  }
+  setDepthMask(t) {
+    this.state.depthMask !== t && (this.state.depthMask = t, this.gl.depthMask(t));
+  }
+  setDepthFunc(t) {
+    this.state.depthFunc !== t && (this.state.depthFunc = t, this.gl.depthFunc(t));
+  }
+  activeTexture(t) {
+    this.state.activeTextureUnit !== t && (this.state.activeTextureUnit = t, this.gl.activeTexture(this.gl.TEXTURE0 + t));
+  }
+  bindFramebuffer({ target: t = this.gl.FRAMEBUFFER, buffer: e = null } = {}) {
+    this.state.framebuffer !== e && (this.state.framebuffer = e, this.gl.bindFramebuffer(t, e));
+  }
+  getExtension(t, e, i) {
+    return e && this.gl[e] ? this.gl[e].bind(this.gl) : (this.extensions[t] || (this.extensions[t] = this.gl.getExtension(t)), e ? this.extensions[t] ? this.extensions[t][i].bind(this.extensions[t]) : null : this.extensions[t]);
+  }
+  sortOpaque(t, e) {
+    return t.renderOrder !== e.renderOrder ? t.renderOrder - e.renderOrder : t.program.id !== e.program.id ? t.program.id - e.program.id : t.zDepth !== e.zDepth ? t.zDepth - e.zDepth : e.id - t.id;
+  }
+  sortTransparent(t, e) {
+    return t.renderOrder !== e.renderOrder ? t.renderOrder - e.renderOrder : t.zDepth !== e.zDepth ? e.zDepth - t.zDepth : e.id - t.id;
+  }
+  sortUI(t, e) {
+    return t.renderOrder !== e.renderOrder ? t.renderOrder - e.renderOrder : t.program.id !== e.program.id ? t.program.id - e.program.id : e.id - t.id;
+  }
+  getRenderList({ scene: t, camera: e, frustumCull: i, sort: s }) {
+    let n = [];
+    if (e && i && e.updateFrustum(), t.traverse((a) => {
+      if (!a.visible)
+        return true;
+      a.draw && (i && a.frustumCulled && e && !e.frustumIntersectsMesh(a) || n.push(a));
+    }), s) {
+      let a = [], o = [], h = [];
+      n.forEach((l) => {
+        l.program.transparent ? l.program.depthTest ? o.push(l) : h.push(l) : a.push(l), l.zDepth = 0, !(l.renderOrder !== 0 || !l.program.depthTest || !e) && (l.worldMatrix.getTranslation(ee), ee.applyMatrix4(e.projectionViewMatrix), l.zDepth = ee.z);
+      }), a.sort(this.sortOpaque), o.sort(this.sortTransparent), h.sort(this.sortUI), n = a.concat(o, h);
+    }
+    return n;
+  }
+  render({ scene: t, camera: e, target: i = null, update: s = true, sort: n = true, frustumCull: a = true, clear: o }) {
+    i === null ? (this.bindFramebuffer(), this.setViewport(this.width * this.dpr, this.height * this.dpr)) : (this.bindFramebuffer(i), this.setViewport(i.width, i.height)), (o || this.autoClear && o !== false) && (this.depth && (!i || i.depth) && (this.enable(this.gl.DEPTH_TEST), this.setDepthMask(true)), this.gl.clear((this.color ? this.gl.COLOR_BUFFER_BIT : 0) | (this.depth ? this.gl.DEPTH_BUFFER_BIT : 0) | (this.stencil ? this.gl.STENCIL_BUFFER_BIT : 0))), s && t.updateMatrixWorld(), e && e.updateMatrixWorld(), this.getRenderList({ scene: t, camera: e, frustumCull: a, sort: n }).forEach((l) => {
+      l.draw({ camera: e });
+    });
+  }
+};
+function Pt(r5, t) {
+  return r5[0] = t[0], r5[1] = t[1], r5[2] = t[2], r5[3] = t[3], r5;
+}
+function Ct(r5, t, e, i, s) {
+  return r5[0] = t, r5[1] = e, r5[2] = i, r5[3] = s, r5;
+}
+function Nt(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[3], a = e * e + i * i + s * s + n * n;
+  return a > 0 && (a = 1 / Math.sqrt(a)), r5[0] = e * a, r5[1] = i * a, r5[2] = s * a, r5[3] = n * a, r5;
+}
+function It(r5, t) {
+  return r5[0] * t[0] + r5[1] * t[1] + r5[2] * t[2] + r5[3] * t[3];
+}
+function Tr(r5) {
+  return r5[0] = 0, r5[1] = 0, r5[2] = 0, r5[3] = 1, r5;
+}
+function _r(r5, t, e) {
+  e = e * 0.5;
+  let i = Math.sin(e);
+  return r5[0] = i * t[0], r5[1] = i * t[1], r5[2] = i * t[2], r5[3] = Math.cos(e), r5;
+}
+function se(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = e[0], h = e[1], l = e[2], c = e[3];
+  return r5[0] = i * c + a * o + s * l - n * h, r5[1] = s * c + a * h + n * o - i * l, r5[2] = n * c + a * l + i * h - s * o, r5[3] = a * c - i * o - s * h - n * l, r5;
+}
+function Rr(r5, t, e) {
+  e *= 0.5;
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = Math.sin(e), h = Math.cos(e);
+  return r5[0] = i * h + a * o, r5[1] = s * h + n * o, r5[2] = n * h - s * o, r5[3] = a * h - i * o, r5;
+}
+function Lr(r5, t, e) {
+  e *= 0.5;
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = Math.sin(e), h = Math.cos(e);
+  return r5[0] = i * h - n * o, r5[1] = s * h + a * o, r5[2] = n * h + i * o, r5[3] = a * h - s * o, r5;
+}
+function zr(r5, t, e) {
+  e *= 0.5;
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = Math.sin(e), h = Math.cos(e);
+  return r5[0] = i * h + s * o, r5[1] = s * h - i * o, r5[2] = n * h + a * o, r5[3] = a * h - n * o, r5;
+}
+function Sr(r5, t, e, i) {
+  let s = t[0], n = t[1], a = t[2], o = t[3], h = e[0], l = e[1], c = e[2], f = e[3], p, u, m, x, d;
+  return u = s * h + n * l + a * c + o * f, u < 0 && (u = -u, h = -h, l = -l, c = -c, f = -f), 1 - u > 1e-6 ? (p = Math.acos(u), m = Math.sin(p), x = Math.sin((1 - i) * p) / m, d = Math.sin(i * p) / m) : (x = 1 - i, d = i), r5[0] = x * s + d * h, r5[1] = x * n + d * l, r5[2] = x * a + d * c, r5[3] = x * o + d * f, r5;
+}
+function Pr(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[3], a = e * e + i * i + s * s + n * n, o = a ? 1 / a : 0;
+  return r5[0] = -e * o, r5[1] = -i * o, r5[2] = -s * o, r5[3] = n * o, r5;
+}
+function Cr(r5, t) {
+  return r5[0] = -t[0], r5[1] = -t[1], r5[2] = -t[2], r5[3] = t[3], r5;
+}
+function Nr(r5, t) {
+  let e = t[0] + t[4] + t[8], i;
+  if (e > 0)
+    i = Math.sqrt(e + 1), r5[3] = 0.5 * i, i = 0.5 / i, r5[0] = (t[5] - t[7]) * i, r5[1] = (t[6] - t[2]) * i, r5[2] = (t[1] - t[3]) * i;
+  else {
+    let s = 0;
+    t[4] > t[0] && (s = 1), t[8] > t[s * 3 + s] && (s = 2);
+    let n = (s + 1) % 3, a = (s + 2) % 3;
+    i = Math.sqrt(t[s * 3 + s] - t[n * 3 + n] - t[a * 3 + a] + 1), r5[s] = 0.5 * i, i = 0.5 / i, r5[3] = (t[n * 3 + a] - t[a * 3 + n]) * i, r5[n] = (t[n * 3 + s] + t[s * 3 + n]) * i, r5[a] = (t[a * 3 + s] + t[s * 3 + a]) * i;
+  }
+  return r5;
+}
+function Ir(r5, t, e = "YXZ") {
+  let i = Math.sin(t[0] * 0.5), s = Math.cos(t[0] * 0.5), n = Math.sin(t[1] * 0.5), a = Math.cos(t[1] * 0.5), o = Math.sin(t[2] * 0.5), h = Math.cos(t[2] * 0.5);
+  return e === "XYZ" ? (r5[0] = i * a * h + s * n * o, r5[1] = s * n * h - i * a * o, r5[2] = s * a * o + i * n * h, r5[3] = s * a * h - i * n * o) : e === "YXZ" ? (r5[0] = i * a * h + s * n * o, r5[1] = s * n * h - i * a * o, r5[2] = s * a * o - i * n * h, r5[3] = s * a * h + i * n * o) : e === "ZXY" ? (r5[0] = i * a * h - s * n * o, r5[1] = s * n * h + i * a * o, r5[2] = s * a * o + i * n * h, r5[3] = s * a * h - i * n * o) : e === "ZYX" ? (r5[0] = i * a * h - s * n * o, r5[1] = s * n * h + i * a * o, r5[2] = s * a * o - i * n * h, r5[3] = s * a * h + i * n * o) : e === "YZX" ? (r5[0] = i * a * h + s * n * o, r5[1] = s * n * h + i * a * o, r5[2] = s * a * o - i * n * h, r5[3] = s * a * h - i * n * o) : e === "XZY" && (r5[0] = i * a * h - s * n * o, r5[1] = s * n * h - i * a * o, r5[2] = s * a * o + i * n * h, r5[3] = s * a * h + i * n * o), r5;
+}
+var Or = Pt;
+var Br = Ct;
+var Vr = It;
+var Dr = Nt;
+var K = class extends Array {
+  constructor(t = 0, e = 0, i = 0, s = 1) {
+    return super(t, e, i, s), this.onChange = () => {
+    }, this;
+  }
+  get x() {
+    return this[0];
+  }
+  get y() {
+    return this[1];
+  }
+  get z() {
+    return this[2];
+  }
+  get w() {
+    return this[3];
+  }
+  set x(t) {
+    this[0] = t, this.onChange();
+  }
+  set y(t) {
+    this[1] = t, this.onChange();
+  }
+  set z(t) {
+    this[2] = t, this.onChange();
+  }
+  set w(t) {
+    this[3] = t, this.onChange();
+  }
+  identity() {
+    return Tr(this), this.onChange(), this;
+  }
+  set(t, e, i, s) {
+    return t.length ? this.copy(t) : (Br(this, t, e, i, s), this.onChange(), this);
+  }
+  rotateX(t) {
+    return Rr(this, this, t), this.onChange(), this;
+  }
+  rotateY(t) {
+    return Lr(this, this, t), this.onChange(), this;
+  }
+  rotateZ(t) {
+    return zr(this, this, t), this.onChange(), this;
+  }
+  inverse(t = this) {
+    return Pr(this, t), this.onChange(), this;
+  }
+  conjugate(t = this) {
+    return Cr(this, t), this.onChange(), this;
+  }
+  copy(t) {
+    return Or(this, t), this.onChange(), this;
+  }
+  normalize(t = this) {
+    return Dr(this, t), this.onChange(), this;
+  }
+  multiply(t, e) {
+    return e ? se(this, t, e) : se(this, this, t), this.onChange(), this;
+  }
+  dot(t) {
+    return Vr(this, t);
+  }
+  fromMatrix3(t) {
+    return Nr(this, t), this.onChange(), this;
+  }
+  fromEuler(t) {
+    return Ir(this, t, t.order), this;
+  }
+  fromAxisAngle(t, e) {
+    return _r(this, t, e), this.onChange(), this;
+  }
+  slerp(t, e) {
+    return Sr(this, this, t, e), this.onChange(), this;
+  }
+  fromArray(t, e = 0) {
+    return this[0] = t[e], this[1] = t[e + 1], this[2] = t[e + 2], this[3] = t[e + 3], this.onChange(), this;
+  }
+  toArray(t = [], e = 0) {
+    return t[e] = this[0], t[e + 1] = this[1], t[e + 2] = this[2], t[e + 3] = this[3], t;
+  }
+};
+function Ur(r5, t) {
+  return r5[0] = t[0], r5[1] = t[1], r5[2] = t[2], r5[3] = t[3], r5[4] = t[4], r5[5] = t[5], r5[6] = t[6], r5[7] = t[7], r5[8] = t[8], r5[9] = t[9], r5[10] = t[10], r5[11] = t[11], r5[12] = t[12], r5[13] = t[13], r5[14] = t[14], r5[15] = t[15], r5;
+}
+function Gr(r5, t, e, i, s, n, a, o, h, l, c, f, p, u, m, x, d) {
+  return r5[0] = t, r5[1] = e, r5[2] = i, r5[3] = s, r5[4] = n, r5[5] = a, r5[6] = o, r5[7] = h, r5[8] = l, r5[9] = c, r5[10] = f, r5[11] = p, r5[12] = u, r5[13] = m, r5[14] = x, r5[15] = d, r5;
+}
+function kr(r5) {
+  return r5[0] = 1, r5[1] = 0, r5[2] = 0, r5[3] = 0, r5[4] = 0, r5[5] = 1, r5[6] = 0, r5[7] = 0, r5[8] = 0, r5[9] = 0, r5[10] = 1, r5[11] = 0, r5[12] = 0, r5[13] = 0, r5[14] = 0, r5[15] = 1, r5;
+}
+function qr(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[3], a = t[4], o = t[5], h = t[6], l = t[7], c = t[8], f = t[9], p = t[10], u = t[11], m = t[12], x = t[13], d = t[14], g = t[15], y = e * o - i * a, w = e * h - s * a, b = e * l - n * a, A = i * h - s * o, E = i * l - n * o, T = s * l - n * h, v = c * x - f * m, R = c * d - p * m, z = c * g - u * m, P = f * d - p * x, _ = f * g - u * x, S = p * g - u * d, F = y * S - w * _ + b * P + A * z - E * R + T * v;
+  return F ? (F = 1 / F, r5[0] = (o * S - h * _ + l * P) * F, r5[1] = (s * _ - i * S - n * P) * F, r5[2] = (x * T - d * E + g * A) * F, r5[3] = (p * E - f * T - u * A) * F, r5[4] = (h * z - a * S - l * R) * F, r5[5] = (e * S - s * z + n * R) * F, r5[6] = (d * b - m * T - g * w) * F, r5[7] = (c * T - p * b + u * w) * F, r5[8] = (a * _ - o * z + l * v) * F, r5[9] = (i * z - e * _ - n * v) * F, r5[10] = (m * E - x * b + g * y) * F, r5[11] = (f * b - c * E - u * y) * F, r5[12] = (o * R - a * P - h * v) * F, r5[13] = (e * P - i * R + s * v) * F, r5[14] = (x * w - m * A - d * y) * F, r5[15] = (c * A - f * w + p * y) * F, r5) : null;
+}
+function jr(r5) {
+  let t = r5[0], e = r5[1], i = r5[2], s = r5[3], n = r5[4], a = r5[5], o = r5[6], h = r5[7], l = r5[8], c = r5[9], f = r5[10], p = r5[11], u = r5[12], m = r5[13], x = r5[14], d = r5[15], g = t * a - e * n, y = t * o - i * n, w = t * h - s * n, b = e * o - i * a, A = e * h - s * a, E = i * h - s * o, T = l * m - c * u, v = l * x - f * u, R = l * d - p * u, z = c * x - f * m, P = c * d - p * m, _ = f * d - p * x;
+  return g * _ - y * P + w * z + b * R - A * v + E * T;
+}
+function ne(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = t[4], h = t[5], l = t[6], c = t[7], f = t[8], p = t[9], u = t[10], m = t[11], x = t[12], d = t[13], g = t[14], y = t[15], w = e[0], b = e[1], A = e[2], E = e[3];
+  return r5[0] = w * i + b * o + A * f + E * x, r5[1] = w * s + b * h + A * p + E * d, r5[2] = w * n + b * l + A * u + E * g, r5[3] = w * a + b * c + A * m + E * y, w = e[4], b = e[5], A = e[6], E = e[7], r5[4] = w * i + b * o + A * f + E * x, r5[5] = w * s + b * h + A * p + E * d, r5[6] = w * n + b * l + A * u + E * g, r5[7] = w * a + b * c + A * m + E * y, w = e[8], b = e[9], A = e[10], E = e[11], r5[8] = w * i + b * o + A * f + E * x, r5[9] = w * s + b * h + A * p + E * d, r5[10] = w * n + b * l + A * u + E * g, r5[11] = w * a + b * c + A * m + E * y, w = e[12], b = e[13], A = e[14], E = e[15], r5[12] = w * i + b * o + A * f + E * x, r5[13] = w * s + b * h + A * p + E * d, r5[14] = w * n + b * l + A * u + E * g, r5[15] = w * a + b * c + A * m + E * y, r5;
+}
+function Wr(r5, t, e) {
+  let i = e[0], s = e[1], n = e[2], a, o, h, l, c, f, p, u, m, x, d, g;
+  return t === r5 ? (r5[12] = t[0] * i + t[4] * s + t[8] * n + t[12], r5[13] = t[1] * i + t[5] * s + t[9] * n + t[13], r5[14] = t[2] * i + t[6] * s + t[10] * n + t[14], r5[15] = t[3] * i + t[7] * s + t[11] * n + t[15]) : (a = t[0], o = t[1], h = t[2], l = t[3], c = t[4], f = t[5], p = t[6], u = t[7], m = t[8], x = t[9], d = t[10], g = t[11], r5[0] = a, r5[1] = o, r5[2] = h, r5[3] = l, r5[4] = c, r5[5] = f, r5[6] = p, r5[7] = u, r5[8] = m, r5[9] = x, r5[10] = d, r5[11] = g, r5[12] = a * i + c * s + m * n + t[12], r5[13] = o * i + f * s + x * n + t[13], r5[14] = h * i + p * s + d * n + t[14], r5[15] = l * i + u * s + g * n + t[15]), r5;
+}
+function Xr(r5, t, e) {
+  let i = e[0], s = e[1], n = e[2];
+  return r5[0] = t[0] * i, r5[1] = t[1] * i, r5[2] = t[2] * i, r5[3] = t[3] * i, r5[4] = t[4] * s, r5[5] = t[5] * s, r5[6] = t[6] * s, r5[7] = t[7] * s, r5[8] = t[8] * n, r5[9] = t[9] * n, r5[10] = t[10] * n, r5[11] = t[11] * n, r5[12] = t[12], r5[13] = t[13], r5[14] = t[14], r5[15] = t[15], r5;
+}
+function Yr(r5, t, e, i) {
+  let s = i[0], n = i[1], a = i[2], o = Math.hypot(s, n, a), h, l, c, f, p, u, m, x, d, g, y, w, b, A, E, T, v, R, z, P, _, S, F, C;
+  return Math.abs(o) < 1e-6 ? null : (o = 1 / o, s *= o, n *= o, a *= o, h = Math.sin(e), l = Math.cos(e), c = 1 - l, f = t[0], p = t[1], u = t[2], m = t[3], x = t[4], d = t[5], g = t[6], y = t[7], w = t[8], b = t[9], A = t[10], E = t[11], T = s * s * c + l, v = n * s * c + a * h, R = a * s * c - n * h, z = s * n * c - a * h, P = n * n * c + l, _ = a * n * c + s * h, S = s * a * c + n * h, F = n * a * c - s * h, C = a * a * c + l, r5[0] = f * T + x * v + w * R, r5[1] = p * T + d * v + b * R, r5[2] = u * T + g * v + A * R, r5[3] = m * T + y * v + E * R, r5[4] = f * z + x * P + w * _, r5[5] = p * z + d * P + b * _, r5[6] = u * z + g * P + A * _, r5[7] = m * z + y * P + E * _, r5[8] = f * S + x * F + w * C, r5[9] = p * S + d * F + b * C, r5[10] = u * S + g * F + A * C, r5[11] = m * S + y * F + E * C, t !== r5 && (r5[12] = t[12], r5[13] = t[13], r5[14] = t[14], r5[15] = t[15]), r5);
+}
+function Hr(r5, t) {
+  return r5[0] = t[12], r5[1] = t[13], r5[2] = t[14], r5;
+}
+function ae(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[4], a = t[5], o = t[6], h = t[8], l = t[9], c = t[10];
+  return r5[0] = Math.hypot(e, i, s), r5[1] = Math.hypot(n, a, o), r5[2] = Math.hypot(h, l, c), r5;
+}
+function Qr(r5) {
+  let t = r5[0], e = r5[1], i = r5[2], s = r5[4], n = r5[5], a = r5[6], o = r5[8], h = r5[9], l = r5[10], c = t * t + e * e + i * i, f = s * s + n * n + a * a, p = o * o + h * h + l * l;
+  return Math.sqrt(Math.max(c, f, p));
+}
+var Kr = /* @__PURE__ */ function() {
+  let r5 = [0, 0, 0];
+  return function(t, e) {
+    let i = r5;
+    ae(i, e);
+    let s = 1 / i[0], n = 1 / i[1], a = 1 / i[2], o = e[0] * s, h = e[1] * n, l = e[2] * a, c = e[4] * s, f = e[5] * n, p = e[6] * a, u = e[8] * s, m = e[9] * n, x = e[10] * a, d = o + f + x, g = 0;
+    return d > 0 ? (g = Math.sqrt(d + 1) * 2, t[3] = 0.25 * g, t[0] = (p - m) / g, t[1] = (u - l) / g, t[2] = (h - c) / g) : o > f && o > x ? (g = Math.sqrt(1 + o - f - x) * 2, t[3] = (p - m) / g, t[0] = 0.25 * g, t[1] = (h + c) / g, t[2] = (u + l) / g) : f > x ? (g = Math.sqrt(1 + f - o - x) * 2, t[3] = (u - l) / g, t[0] = (h + c) / g, t[1] = 0.25 * g, t[2] = (p + m) / g) : (g = Math.sqrt(1 + x - o - f) * 2, t[3] = (h - c) / g, t[0] = (u + l) / g, t[1] = (p + m) / g, t[2] = 0.25 * g), t;
+  };
+}();
+function Zr(r5, t, e, i) {
+  let s = t[0], n = t[1], a = t[2], o = t[3], h = s + s, l = n + n, c = a + a, f = s * h, p = s * l, u = s * c, m = n * l, x = n * c, d = a * c, g = o * h, y = o * l, w = o * c, b = i[0], A = i[1], E = i[2];
+  return r5[0] = (1 - (m + d)) * b, r5[1] = (p + w) * b, r5[2] = (u - y) * b, r5[3] = 0, r5[4] = (p - w) * A, r5[5] = (1 - (f + d)) * A, r5[6] = (x + g) * A, r5[7] = 0, r5[8] = (u + y) * E, r5[9] = (x - g) * E, r5[10] = (1 - (f + m)) * E, r5[11] = 0, r5[12] = e[0], r5[13] = e[1], r5[14] = e[2], r5[15] = 1, r5;
+}
+function $r(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[3], a = e + e, o = i + i, h = s + s, l = e * a, c = i * a, f = i * o, p = s * a, u = s * o, m = s * h, x = n * a, d = n * o, g = n * h;
+  return r5[0] = 1 - f - m, r5[1] = c + g, r5[2] = p - d, r5[3] = 0, r5[4] = c - g, r5[5] = 1 - l - m, r5[6] = u + x, r5[7] = 0, r5[8] = p + d, r5[9] = u - x, r5[10] = 1 - l - f, r5[11] = 0, r5[12] = 0, r5[13] = 0, r5[14] = 0, r5[15] = 1, r5;
+}
+function Jr(r5, t, e, i, s) {
+  let n = 1 / Math.tan(t / 2), a = 1 / (i - s);
+  return r5[0] = n / e, r5[1] = 0, r5[2] = 0, r5[3] = 0, r5[4] = 0, r5[5] = n, r5[6] = 0, r5[7] = 0, r5[8] = 0, r5[9] = 0, r5[10] = (s + i) * a, r5[11] = -1, r5[12] = 0, r5[13] = 0, r5[14] = 2 * s * i * a, r5[15] = 0, r5;
+}
+function ti(r5, t, e, i, s, n, a) {
+  let o = 1 / (t - e), h = 1 / (i - s), l = 1 / (n - a);
+  return r5[0] = -2 * o, r5[1] = 0, r5[2] = 0, r5[3] = 0, r5[4] = 0, r5[5] = -2 * h, r5[6] = 0, r5[7] = 0, r5[8] = 0, r5[9] = 0, r5[10] = 2 * l, r5[11] = 0, r5[12] = (t + e) * o, r5[13] = (s + i) * h, r5[14] = (a + n) * l, r5[15] = 1, r5;
+}
+function ei(r5, t, e, i) {
+  let s = t[0], n = t[1], a = t[2], o = i[0], h = i[1], l = i[2], c = s - e[0], f = n - e[1], p = a - e[2], u = c * c + f * f + p * p;
+  u === 0 ? p = 1 : (u = 1 / Math.sqrt(u), c *= u, f *= u, p *= u);
+  let m = h * p - l * f, x = l * c - o * p, d = o * f - h * c;
+  return u = m * m + x * x + d * d, u === 0 && (l ? o += 1e-6 : h ? l += 1e-6 : h += 1e-6, m = h * p - l * f, x = l * c - o * p, d = o * f - h * c, u = m * m + x * x + d * d), u = 1 / Math.sqrt(u), m *= u, x *= u, d *= u, r5[0] = m, r5[1] = x, r5[2] = d, r5[3] = 0, r5[4] = f * d - p * x, r5[5] = p * m - c * d, r5[6] = c * x - f * m, r5[7] = 0, r5[8] = c, r5[9] = f, r5[10] = p, r5[11] = 0, r5[12] = s, r5[13] = n, r5[14] = a, r5[15] = 1, r5;
+}
+function oe(r5, t, e) {
+  return r5[0] = t[0] + e[0], r5[1] = t[1] + e[1], r5[2] = t[2] + e[2], r5[3] = t[3] + e[3], r5[4] = t[4] + e[4], r5[5] = t[5] + e[5], r5[6] = t[6] + e[6], r5[7] = t[7] + e[7], r5[8] = t[8] + e[8], r5[9] = t[9] + e[9], r5[10] = t[10] + e[10], r5[11] = t[11] + e[11], r5[12] = t[12] + e[12], r5[13] = t[13] + e[13], r5[14] = t[14] + e[14], r5[15] = t[15] + e[15], r5;
+}
+function he(r5, t, e) {
+  return r5[0] = t[0] - e[0], r5[1] = t[1] - e[1], r5[2] = t[2] - e[2], r5[3] = t[3] - e[3], r5[4] = t[4] - e[4], r5[5] = t[5] - e[5], r5[6] = t[6] - e[6], r5[7] = t[7] - e[7], r5[8] = t[8] - e[8], r5[9] = t[9] - e[9], r5[10] = t[10] - e[10], r5[11] = t[11] - e[11], r5[12] = t[12] - e[12], r5[13] = t[13] - e[13], r5[14] = t[14] - e[14], r5[15] = t[15] - e[15], r5;
+}
+function ri(r5, t, e) {
+  return r5[0] = t[0] * e, r5[1] = t[1] * e, r5[2] = t[2] * e, r5[3] = t[3] * e, r5[4] = t[4] * e, r5[5] = t[5] * e, r5[6] = t[6] * e, r5[7] = t[7] * e, r5[8] = t[8] * e, r5[9] = t[9] * e, r5[10] = t[10] * e, r5[11] = t[11] * e, r5[12] = t[12] * e, r5[13] = t[13] * e, r5[14] = t[14] * e, r5[15] = t[15] * e, r5;
+}
+var D = class extends Array {
+  constructor(t = 1, e = 0, i = 0, s = 0, n = 0, a = 1, o = 0, h = 0, l = 0, c = 0, f = 1, p = 0, u = 0, m = 0, x = 0, d = 1) {
+    return super(t, e, i, s, n, a, o, h, l, c, f, p, u, m, x, d), this;
+  }
+  get x() {
+    return this[12];
+  }
+  get y() {
+    return this[13];
+  }
+  get z() {
+    return this[14];
+  }
+  get w() {
+    return this[15];
+  }
+  set x(t) {
+    this[12] = t;
+  }
+  set y(t) {
+    this[13] = t;
+  }
+  set z(t) {
+    this[14] = t;
+  }
+  set w(t) {
+    this[15] = t;
+  }
+  set(t, e, i, s, n, a, o, h, l, c, f, p, u, m, x, d) {
+    return t.length ? this.copy(t) : (Gr(this, t, e, i, s, n, a, o, h, l, c, f, p, u, m, x, d), this);
+  }
+  translate(t, e = this) {
+    return Wr(this, e, t), this;
+  }
+  rotate(t, e, i = this) {
+    return Yr(this, i, t, e), this;
+  }
+  scale(t, e = this) {
+    return Xr(this, e, typeof t == "number" ? [t, t, t] : t), this;
+  }
+  add(t, e) {
+    return e ? oe(this, t, e) : oe(this, this, t), this;
+  }
+  sub(t, e) {
+    return e ? he(this, t, e) : he(this, this, t), this;
+  }
+  multiply(t, e) {
+    return t.length ? e ? ne(this, t, e) : ne(this, this, t) : ri(this, this, t), this;
+  }
+  identity() {
+    return kr(this), this;
+  }
+  copy(t) {
+    return Ur(this, t), this;
+  }
+  fromPerspective({ fov: t, aspect: e, near: i, far: s } = {}) {
+    return Jr(this, t, e, i, s), this;
+  }
+  fromOrthogonal({ left: t, right: e, bottom: i, top: s, near: n, far: a }) {
+    return ti(this, t, e, i, s, n, a), this;
+  }
+  fromQuaternion(t) {
+    return $r(this, t), this;
+  }
+  setPosition(t) {
+    return this.x = t[0], this.y = t[1], this.z = t[2], this;
+  }
+  inverse(t = this) {
+    return qr(this, t), this;
+  }
+  compose(t, e, i) {
+    return Zr(this, t, e, i), this;
+  }
+  getRotation(t) {
+    return Kr(t, this), this;
+  }
+  getTranslation(t) {
+    return Hr(t, this), this;
+  }
+  getScaling(t) {
+    return ae(t, this), this;
+  }
+  getMaxScaleOnAxis() {
+    return Qr(this);
+  }
+  lookAt(t, e, i) {
+    return ei(this, t, e, i), this;
+  }
+  determinant() {
+    return jr(this);
+  }
+  fromArray(t, e = 0) {
+    return this[0] = t[e], this[1] = t[e + 1], this[2] = t[e + 2], this[3] = t[e + 3], this[4] = t[e + 4], this[5] = t[e + 5], this[6] = t[e + 6], this[7] = t[e + 7], this[8] = t[e + 8], this[9] = t[e + 9], this[10] = t[e + 10], this[11] = t[e + 11], this[12] = t[e + 12], this[13] = t[e + 13], this[14] = t[e + 14], this[15] = t[e + 15], this;
+  }
+  toArray(t = [], e = 0) {
+    return t[e] = this[0], t[e + 1] = this[1], t[e + 2] = this[2], t[e + 3] = this[3], t[e + 4] = this[4], t[e + 5] = this[5], t[e + 6] = this[6], t[e + 7] = this[7], t[e + 8] = this[8], t[e + 9] = this[9], t[e + 10] = this[10], t[e + 11] = this[11], t[e + 12] = this[12], t[e + 13] = this[13], t[e + 14] = this[14], t[e + 15] = this[15], t;
+  }
+};
+function ii(r5, t, e = "YXZ") {
+  return e === "XYZ" ? (r5[1] = Math.asin(Math.min(Math.max(t[8], -1), 1)), Math.abs(t[8]) < 0.99999 ? (r5[0] = Math.atan2(-t[9], t[10]), r5[2] = Math.atan2(-t[4], t[0])) : (r5[0] = Math.atan2(t[6], t[5]), r5[2] = 0)) : e === "YXZ" ? (r5[0] = Math.asin(-Math.min(Math.max(t[9], -1), 1)), Math.abs(t[9]) < 0.99999 ? (r5[1] = Math.atan2(t[8], t[10]), r5[2] = Math.atan2(t[1], t[5])) : (r5[1] = Math.atan2(-t[2], t[0]), r5[2] = 0)) : e === "ZXY" ? (r5[0] = Math.asin(Math.min(Math.max(t[6], -1), 1)), Math.abs(t[6]) < 0.99999 ? (r5[1] = Math.atan2(-t[2], t[10]), r5[2] = Math.atan2(-t[4], t[5])) : (r5[1] = 0, r5[2] = Math.atan2(t[1], t[0]))) : e === "ZYX" ? (r5[1] = Math.asin(-Math.min(Math.max(t[2], -1), 1)), Math.abs(t[2]) < 0.99999 ? (r5[0] = Math.atan2(t[6], t[10]), r5[2] = Math.atan2(t[1], t[0])) : (r5[0] = 0, r5[2] = Math.atan2(-t[4], t[5]))) : e === "YZX" ? (r5[2] = Math.asin(Math.min(Math.max(t[1], -1), 1)), Math.abs(t[1]) < 0.99999 ? (r5[0] = Math.atan2(-t[9], t[5]), r5[1] = Math.atan2(-t[2], t[0])) : (r5[0] = 0, r5[1] = Math.atan2(t[8], t[10]))) : e === "XZY" && (r5[2] = Math.asin(-Math.min(Math.max(t[4], -1), 1)), Math.abs(t[4]) < 0.99999 ? (r5[0] = Math.atan2(t[6], t[5]), r5[1] = Math.atan2(t[8], t[0])) : (r5[0] = Math.atan2(-t[9], t[10]), r5[1] = 0)), r5;
+}
+var si = new D();
+var dt = class extends Array {
+  constructor(t = 0, e = t, i = t, s = "YXZ") {
+    return super(t, e, i), this.order = s, this.onChange = () => {
+    }, this;
+  }
+  get x() {
+    return this[0];
+  }
+  get y() {
+    return this[1];
+  }
+  get z() {
+    return this[2];
+  }
+  set x(t) {
+    this[0] = t, this.onChange();
+  }
+  set y(t) {
+    this[1] = t, this.onChange();
+  }
+  set z(t) {
+    this[2] = t, this.onChange();
+  }
+  set(t, e = t, i = t) {
+    return t.length ? this.copy(t) : (this[0] = t, this[1] = e, this[2] = i, this.onChange(), this);
+  }
+  copy(t) {
+    return this[0] = t[0], this[1] = t[1], this[2] = t[2], this.onChange(), this;
+  }
+  reorder(t) {
+    return this.order = t, this.onChange(), this;
+  }
+  fromRotationMatrix(t, e = this.order) {
+    return ii(this, t, e), this.onChange(), this;
+  }
+  fromQuaternion(t, e = this.order) {
+    return si.fromQuaternion(t), this.fromRotationMatrix(si, e);
+  }
+  fromArray(t, e = 0) {
+    return this[0] = t[e], this[1] = t[e + 1], this[2] = t[e + 2], this;
+  }
+  toArray(t = [], e = 0) {
+    return t[e] = this[0], t[e + 1] = this[1], t[e + 2] = this[2], t;
+  }
+};
+var H = class {
+  constructor() {
+    this.parent = null, this.children = [], this.visible = true, this.matrix = new D(), this.worldMatrix = new D(), this.matrixAutoUpdate = true, this.position = new M(), this.quaternion = new K(), this.scale = new M(1), this.rotation = new dt(), this.up = new M(0, 1, 0), this.rotation.onChange = () => this.quaternion.fromEuler(this.rotation), this.quaternion.onChange = () => this.rotation.fromQuaternion(this.quaternion);
+  }
+  setParent(t, e = true) {
+    this.parent && t !== this.parent && this.parent.removeChild(this, false), this.parent = t, e && t && t.addChild(this, false);
+  }
+  addChild(t, e = true) {
+    ~this.children.indexOf(t) || this.children.push(t), e && t.setParent(this, false);
+  }
+  removeChild(t, e = true) {
+    ~this.children.indexOf(t) && this.children.splice(this.children.indexOf(t), 1), e && t.setParent(null, false);
+  }
+  updateMatrixWorld(t) {
+    this.matrixAutoUpdate && this.updateMatrix(), (this.worldMatrixNeedsUpdate || t) && (this.parent === null ? this.worldMatrix.copy(this.matrix) : this.worldMatrix.multiply(this.parent.worldMatrix, this.matrix), this.worldMatrixNeedsUpdate = false, t = true);
+    for (let e = 0, i = this.children.length; e < i; e++)
+      this.children[e].updateMatrixWorld(t);
+  }
+  updateMatrix() {
+    this.matrix.compose(this.quaternion, this.position, this.scale), this.worldMatrixNeedsUpdate = true;
+  }
+  traverse(t) {
+    if (!t(this))
+      for (let e = 0, i = this.children.length; e < i; e++)
+        this.children[e].traverse(t);
+  }
+  decompose() {
+    this.matrix.getTranslation(this.position), this.matrix.getRotation(this.quaternion), this.matrix.getScaling(this.scale), this.rotation.fromQuaternion(this.quaternion);
+  }
+  lookAt(t, e = false) {
+    e ? this.matrix.lookAt(this.position, t, this.up) : this.matrix.lookAt(t, this.position, this.up), this.matrix.getRotation(this.quaternion), this.rotation.fromQuaternion(this.quaternion);
+  }
+};
+var xs = new D();
+var ys = new M();
+var ws = new M();
+var mt = class extends H {
+  constructor(t, { near: e = 0.1, far: i = 100, fov: s = 45, aspect: n = 1, left: a, right: o, bottom: h, top: l, zoom: c = 1 } = {}) {
+    super(), Object.assign(this, { near: e, far: i, fov: s, aspect: n, left: a, right: o, bottom: h, top: l, zoom: c }), this.projectionMatrix = new D(), this.viewMatrix = new D(), this.projectionViewMatrix = new D(), this.worldPosition = new M(), this.type = a || o ? "orthographic" : "perspective", this.type === "orthographic" ? this.orthographic() : this.perspective();
+  }
+  perspective({ near: t = this.near, far: e = this.far, fov: i = this.fov, aspect: s = this.aspect } = {}) {
+    return Object.assign(this, { near: t, far: e, fov: i, aspect: s }), this.projectionMatrix.fromPerspective({ fov: i * (Math.PI / 180), aspect: s, near: t, far: e }), this.type = "perspective", this;
+  }
+  orthographic({ near: t = this.near, far: e = this.far, left: i = this.left, right: s = this.right, bottom: n = this.bottom, top: a = this.top, zoom: o = this.zoom } = {}) {
+    return Object.assign(this, { near: t, far: e, left: i, right: s, bottom: n, top: a, zoom: o }), i /= o, s /= o, n /= o, a /= o, this.projectionMatrix.fromOrthogonal({ left: i, right: s, bottom: n, top: a, near: t, far: e }), this.type = "orthographic", this;
+  }
+  updateMatrixWorld() {
+    return super.updateMatrixWorld(), this.viewMatrix.inverse(this.worldMatrix), this.worldMatrix.getTranslation(this.worldPosition), this.projectionViewMatrix.multiply(this.projectionMatrix, this.viewMatrix), this;
+  }
+  lookAt(t) {
+    return super.lookAt(t, true), this;
+  }
+  project(t) {
+    return t.applyMatrix4(this.viewMatrix), t.applyMatrix4(this.projectionMatrix), this;
+  }
+  unproject(t) {
+    return t.applyMatrix4(xs.inverse(this.projectionMatrix)), t.applyMatrix4(this.worldMatrix), this;
+  }
+  updateFrustum() {
+    this.frustum || (this.frustum = [new M(), new M(), new M(), new M(), new M(), new M()]);
+    let t = this.projectionViewMatrix;
+    this.frustum[0].set(t[3] - t[0], t[7] - t[4], t[11] - t[8]).constant = t[15] - t[12], this.frustum[1].set(t[3] + t[0], t[7] + t[4], t[11] + t[8]).constant = t[15] + t[12], this.frustum[2].set(t[3] + t[1], t[7] + t[5], t[11] + t[9]).constant = t[15] + t[13], this.frustum[3].set(t[3] - t[1], t[7] - t[5], t[11] - t[9]).constant = t[15] - t[13], this.frustum[4].set(t[3] - t[2], t[7] - t[6], t[11] - t[10]).constant = t[15] - t[14], this.frustum[5].set(t[3] + t[2], t[7] + t[6], t[11] + t[10]).constant = t[15] + t[14];
+    for (let e = 0; e < 6; e++) {
+      let i = 1 / this.frustum[e].distance();
+      this.frustum[e].multiply(i), this.frustum[e].constant *= i;
+    }
+  }
+  frustumIntersectsMesh(t, e = t.worldMatrix) {
+    if (!t.geometry.attributes.position || ((!t.geometry.bounds || t.geometry.bounds.radius === 1 / 0) && t.geometry.computeBoundingSphere(), !t.geometry.bounds))
+      return true;
+    let i = ys;
+    i.copy(t.geometry.bounds.center), i.applyMatrix4(e);
+    let s = t.geometry.bounds.radius * e.getMaxScaleOnAxis();
+    return this.frustumIntersectsSphere(i, s);
+  }
+  frustumIntersectsSphere(t, e) {
+    let i = ws;
+    for (let s = 0; s < 6; s++) {
+      let n = this.frustum[s];
+      if (i.copy(n).dot(t) + n.constant < -e)
+        return false;
+    }
+    return true;
+  }
+};
+function ni(r5, t) {
+  return r5[0] = t[0], r5[1] = t[1], r5[2] = t[2], r5[3] = t[4], r5[4] = t[5], r5[5] = t[6], r5[6] = t[8], r5[7] = t[9], r5[8] = t[10], r5;
+}
+function ai(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[3], a = e + e, o = i + i, h = s + s, l = e * a, c = i * a, f = i * o, p = s * a, u = s * o, m = s * h, x = n * a, d = n * o, g = n * h;
+  return r5[0] = 1 - f - m, r5[3] = c - g, r5[6] = p + d, r5[1] = c + g, r5[4] = 1 - l - m, r5[7] = u - x, r5[2] = p - d, r5[5] = u + x, r5[8] = 1 - l - f, r5;
+}
+function oi(r5, t) {
+  return r5[0] = t[0], r5[1] = t[1], r5[2] = t[2], r5[3] = t[3], r5[4] = t[4], r5[5] = t[5], r5[6] = t[6], r5[7] = t[7], r5[8] = t[8], r5;
+}
+function hi(r5, t, e, i, s, n, a, o, h, l) {
+  return r5[0] = t, r5[1] = e, r5[2] = i, r5[3] = s, r5[4] = n, r5[5] = a, r5[6] = o, r5[7] = h, r5[8] = l, r5;
+}
+function li(r5) {
+  return r5[0] = 1, r5[1] = 0, r5[2] = 0, r5[3] = 0, r5[4] = 1, r5[5] = 0, r5[6] = 0, r5[7] = 0, r5[8] = 1, r5;
+}
+function ci(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[3], a = t[4], o = t[5], h = t[6], l = t[7], c = t[8], f = c * a - o * l, p = -c * n + o * h, u = l * n - a * h, m = e * f + i * p + s * u;
+  return m ? (m = 1 / m, r5[0] = f * m, r5[1] = (-c * i + s * l) * m, r5[2] = (o * i - s * a) * m, r5[3] = p * m, r5[4] = (c * e - s * h) * m, r5[5] = (-o * e + s * n) * m, r5[6] = u * m, r5[7] = (-l * e + i * h) * m, r5[8] = (a * e - i * n) * m, r5) : null;
+}
+function le(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = t[4], h = t[5], l = t[6], c = t[7], f = t[8], p = e[0], u = e[1], m = e[2], x = e[3], d = e[4], g = e[5], y = e[6], w = e[7], b = e[8];
+  return r5[0] = p * i + u * a + m * l, r5[1] = p * s + u * o + m * c, r5[2] = p * n + u * h + m * f, r5[3] = x * i + d * a + g * l, r5[4] = x * s + d * o + g * c, r5[5] = x * n + d * h + g * f, r5[6] = y * i + w * a + b * l, r5[7] = y * s + w * o + b * c, r5[8] = y * n + w * h + b * f, r5;
+}
+function fi(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = t[4], h = t[5], l = t[6], c = t[7], f = t[8], p = e[0], u = e[1];
+  return r5[0] = i, r5[1] = s, r5[2] = n, r5[3] = a, r5[4] = o, r5[5] = h, r5[6] = p * i + u * a + l, r5[7] = p * s + u * o + c, r5[8] = p * n + u * h + f, r5;
+}
+function ui(r5, t, e) {
+  let i = t[0], s = t[1], n = t[2], a = t[3], o = t[4], h = t[5], l = t[6], c = t[7], f = t[8], p = Math.sin(e), u = Math.cos(e);
+  return r5[0] = u * i + p * a, r5[1] = u * s + p * o, r5[2] = u * n + p * h, r5[3] = u * a - p * i, r5[4] = u * o - p * s, r5[5] = u * h - p * n, r5[6] = l, r5[7] = c, r5[8] = f, r5;
+}
+function pi(r5, t, e) {
+  let i = e[0], s = e[1];
+  return r5[0] = i * t[0], r5[1] = i * t[1], r5[2] = i * t[2], r5[3] = s * t[3], r5[4] = s * t[4], r5[5] = s * t[5], r5[6] = t[6], r5[7] = t[7], r5[8] = t[8], r5;
+}
+function di(r5, t) {
+  let e = t[0], i = t[1], s = t[2], n = t[3], a = t[4], o = t[5], h = t[6], l = t[7], c = t[8], f = t[9], p = t[10], u = t[11], m = t[12], x = t[13], d = t[14], g = t[15], y = e * o - i * a, w = e * h - s * a, b = e * l - n * a, A = i * h - s * o, E = i * l - n * o, T = s * l - n * h, v = c * x - f * m, R = c * d - p * m, z = c * g - u * m, P = f * d - p * x, _ = f * g - u * x, S = p * g - u * d, F = y * S - w * _ + b * P + A * z - E * R + T * v;
+  return F ? (F = 1 / F, r5[0] = (o * S - h * _ + l * P) * F, r5[1] = (h * z - a * S - l * R) * F, r5[2] = (a * _ - o * z + l * v) * F, r5[3] = (s * _ - i * S - n * P) * F, r5[4] = (e * S - s * z + n * R) * F, r5[5] = (i * z - e * _ - n * v) * F, r5[6] = (x * T - d * E + g * A) * F, r5[7] = (d * b - m * T - g * w) * F, r5[8] = (m * E - x * b + g * y) * F, r5) : null;
+}
+var et = class extends Array {
+  constructor(t = 1, e = 0, i = 0, s = 0, n = 1, a = 0, o = 0, h = 0, l = 1) {
+    return super(t, e, i, s, n, a, o, h, l), this;
+  }
+  set(t, e, i, s, n, a, o, h, l) {
+    return t.length ? this.copy(t) : (hi(this, t, e, i, s, n, a, o, h, l), this);
+  }
+  translate(t, e = this) {
+    return fi(this, e, t), this;
+  }
+  rotate(t, e = this) {
+    return ui(this, e, t), this;
+  }
+  scale(t, e = this) {
+    return pi(this, e, t), this;
+  }
+  multiply(t, e) {
+    return e ? le(this, t, e) : le(this, this, t), this;
+  }
+  identity() {
+    return li(this), this;
+  }
+  copy(t) {
+    return oi(this, t), this;
+  }
+  fromMatrix4(t) {
+    return ni(this, t), this;
+  }
+  fromQuaternion(t) {
+    return ai(this, t), this;
+  }
+  fromBasis(t, e, i) {
+    return this.set(t[0], t[1], t[2], e[0], e[1], e[2], i[0], i[1], i[2]), this;
+  }
+  inverse(t = this) {
+    return ci(this, t), this;
+  }
+  getNormalMatrix(t) {
+    return di(this, t), this;
+  }
+};
+var Es = 0;
+var B = class extends H {
+  constructor(t, { geometry: e, program: i, mode: s = t.TRIANGLES, frustumCulled: n = true, renderOrder: a = 0 } = {}) {
+    super(), t.canvas || console.error("gl not passed as first argument to Mesh"), this.gl = t, this.id = Es++, this.geometry = e, this.program = i, this.mode = s, this.frustumCulled = n, this.renderOrder = a, this.modelViewMatrix = new D(), this.normalMatrix = new et(), this.beforeRenderCallbacks = [], this.afterRenderCallbacks = [];
+  }
+  onBeforeRender(t) {
+    return this.beforeRenderCallbacks.push(t), this;
+  }
+  onAfterRender(t) {
+    return this.afterRenderCallbacks.push(t), this;
+  }
+  draw({ camera: t } = {}) {
+    t && (this.program.uniforms.modelMatrix || Object.assign(this.program.uniforms, { modelMatrix: { value: null }, viewMatrix: { value: null }, modelViewMatrix: { value: null }, normalMatrix: { value: null }, projectionMatrix: { value: null }, cameraPosition: { value: null } }), this.program.uniforms.projectionMatrix.value = t.projectionMatrix, this.program.uniforms.cameraPosition.value = t.worldPosition, this.program.uniforms.viewMatrix.value = t.viewMatrix, this.modelViewMatrix.multiply(t.viewMatrix, this.worldMatrix), this.normalMatrix.getNormalMatrix(this.modelViewMatrix), this.program.uniforms.modelMatrix.value = this.worldMatrix, this.program.uniforms.modelViewMatrix.value = this.modelViewMatrix, this.program.uniforms.normalMatrix.value = this.normalMatrix), this.beforeRenderCallbacks.forEach((i) => i && i({ mesh: this, camera: t }));
+    let e = this.program.cullFace && this.worldMatrix.determinant() < 0;
+    this.program.use({ flipFaces: e }), this.geometry.draw({ mode: this.mode, program: this.program }), this.afterRenderCallbacks.forEach((i) => i && i({ mesh: this, camera: t }));
+  }
+};
+var mi = new Uint8Array(4);
+function gi(r5) {
+  return (r5 & r5 - 1) === 0;
+}
+var As = 1;
+var q = class {
+  constructor(t, { image: e, target: i = t.TEXTURE_2D, type: s = t.UNSIGNED_BYTE, format: n = t.RGBA, internalFormat: a = n, wrapS: o = t.CLAMP_TO_EDGE, wrapT: h = t.CLAMP_TO_EDGE, generateMipmaps: l = true, minFilter: c = l ? t.NEAREST_MIPMAP_LINEAR : t.LINEAR, magFilter: f = t.LINEAR, premultiplyAlpha: p = false, unpackAlignment: u = 4, flipY: m = i == t.TEXTURE_2D, anisotropy: x = 0, level: d = 0, width: g, height: y = g } = {}) {
+    this.gl = t, this.id = As++, this.image = e, this.target = i, this.type = s, this.format = n, this.internalFormat = a, this.minFilter = c, this.magFilter = f, this.wrapS = o, this.wrapT = h, this.generateMipmaps = l, this.premultiplyAlpha = p, this.unpackAlignment = u, this.flipY = m, this.anisotropy = Math.min(x, this.gl.renderer.parameters.maxAnisotropy), this.level = d, this.width = g, this.height = y, this.texture = this.gl.createTexture(), this.store = { image: null }, this.glState = this.gl.renderer.state, this.state = {}, this.state.minFilter = this.gl.NEAREST_MIPMAP_LINEAR, this.state.magFilter = this.gl.LINEAR, this.state.wrapS = this.gl.REPEAT, this.state.wrapT = this.gl.REPEAT, this.state.anisotropy = 0;
+  }
+  bind() {
+    this.glState.textureUnits[this.glState.activeTextureUnit] !== this.id && (this.gl.bindTexture(this.target, this.texture), this.glState.textureUnits[this.glState.activeTextureUnit] = this.id);
+  }
+  update(t = 0) {
+    let e = !(this.image === this.store.image && !this.needsUpdate);
+    if ((e || this.glState.textureUnits[t] !== this.id) && (this.gl.renderer.activeTexture(t), this.bind()), !!e) {
+      if (this.needsUpdate = false, this.flipY !== this.glState.flipY && (this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, this.flipY), this.glState.flipY = this.flipY), this.premultiplyAlpha !== this.glState.premultiplyAlpha && (this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this.premultiplyAlpha), this.glState.premultiplyAlpha = this.premultiplyAlpha), this.unpackAlignment !== this.glState.unpackAlignment && (this.gl.pixelStorei(this.gl.UNPACK_ALIGNMENT, this.unpackAlignment), this.glState.unpackAlignment = this.unpackAlignment), this.minFilter !== this.state.minFilter && (this.gl.texParameteri(this.target, this.gl.TEXTURE_MIN_FILTER, this.minFilter), this.state.minFilter = this.minFilter), this.magFilter !== this.state.magFilter && (this.gl.texParameteri(this.target, this.gl.TEXTURE_MAG_FILTER, this.magFilter), this.state.magFilter = this.magFilter), this.wrapS !== this.state.wrapS && (this.gl.texParameteri(this.target, this.gl.TEXTURE_WRAP_S, this.wrapS), this.state.wrapS = this.wrapS), this.wrapT !== this.state.wrapT && (this.gl.texParameteri(this.target, this.gl.TEXTURE_WRAP_T, this.wrapT), this.state.wrapT = this.wrapT), this.anisotropy && this.anisotropy !== this.state.anisotropy && (this.gl.texParameterf(this.target, this.gl.renderer.getExtension("EXT_texture_filter_anisotropic").TEXTURE_MAX_ANISOTROPY_EXT, this.anisotropy), this.state.anisotropy = this.anisotropy), this.image) {
+        if (this.image.width && (this.width = this.image.width, this.height = this.image.height), this.target === this.gl.TEXTURE_CUBE_MAP)
+          for (let i = 0; i < 6; i++)
+            this.gl.texImage2D(this.gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, this.level, this.internalFormat, this.format, this.type, this.image[i]);
+        else if (ArrayBuffer.isView(this.image))
+          this.gl.texImage2D(this.target, this.level, this.internalFormat, this.width, this.height, 0, this.format, this.type, this.image);
+        else if (this.image.isCompressedTexture)
+          for (let i = 0; i < this.image.length; i++)
+            this.gl.compressedTexImage2D(this.target, i, this.internalFormat, this.image[i].width, this.image[i].height, 0, this.image[i].data);
+        else
+          this.gl.texImage2D(this.target, this.level, this.internalFormat, this.format, this.type, this.image);
+        this.generateMipmaps && (!this.gl.renderer.isWebgl2 && (!gi(this.image.width) || !gi(this.image.height)) ? (this.generateMipmaps = false, this.wrapS = this.wrapT = this.gl.CLAMP_TO_EDGE, this.minFilter = this.gl.LINEAR) : this.gl.generateMipmap(this.target)), this.onUpdate && this.onUpdate();
+      } else if (this.target === this.gl.TEXTURE_CUBE_MAP)
+        for (let i = 0; i < 6; i++)
+          this.gl.texImage2D(this.gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, this.gl.RGBA, 1, 1, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, mi);
+      else
+        this.width ? this.gl.texImage2D(this.target, this.level, this.internalFormat, this.width, this.height, 0, this.format, this.type, null) : this.gl.texImage2D(this.target, 0, this.gl.RGBA, 1, 1, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, mi);
+      this.store.image = this.image;
+    }
+  }
+};
+function wi(r5, t) {
+  return r5[0] = t[0], r5[1] = t[1], r5;
+}
+function Mi(r5, t, e) {
+  return r5[0] = t, r5[1] = e, r5;
+}
+function fe(r5, t, e) {
+  return r5[0] = t[0] + e[0], r5[1] = t[1] + e[1], r5;
+}
+function ue(r5, t, e) {
+  return r5[0] = t[0] - e[0], r5[1] = t[1] - e[1], r5;
+}
+function Ei(r5, t, e) {
+  return r5[0] = t[0] * e[0], r5[1] = t[1] * e[1], r5;
+}
+function Ai(r5, t, e) {
+  return r5[0] = t[0] / e[0], r5[1] = t[1] / e[1], r5;
+}
+function Ot(r5, t, e) {
+  return r5[0] = t[0] * e, r5[1] = t[1] * e, r5;
+}
+function vi(r5, t) {
+  var e = t[0] - r5[0], i = t[1] - r5[1];
+  return Math.sqrt(e * e + i * i);
+}
+function bi(r5, t) {
+  var e = t[0] - r5[0], i = t[1] - r5[1];
+  return e * e + i * i;
+}
+function pe(r5) {
+  var t = r5[0], e = r5[1];
+  return Math.sqrt(t * t + e * e);
+}
+function Fi(r5) {
+  var t = r5[0], e = r5[1];
+  return t * t + e * e;
+}
+function Ti(r5, t) {
+  return r5[0] = -t[0], r5[1] = -t[1], r5;
+}
+function _i(r5, t) {
+  return r5[0] = 1 / t[0], r5[1] = 1 / t[1], r5;
+}
+function Ri(r5, t) {
+  var e = t[0], i = t[1], s = e * e + i * i;
+  return s > 0 && (s = 1 / Math.sqrt(s)), r5[0] = t[0] * s, r5[1] = t[1] * s, r5;
+}
+function Li(r5, t) {
+  return r5[0] * t[0] + r5[1] * t[1];
+}
+function de(r5, t) {
+  return r5[0] * t[1] - r5[1] * t[0];
+}
+function zi(r5, t, e, i) {
+  var s = t[0], n = t[1];
+  return r5[0] = s + i * (e[0] - s), r5[1] = n + i * (e[1] - n), r5;
+}
+function Si(r5, t, e) {
+  var i = t[0], s = t[1];
+  return r5[0] = e[0] * i + e[3] * s + e[6], r5[1] = e[1] * i + e[4] * s + e[7], r5;
+}
+function Pi(r5, t, e) {
+  let i = t[0], s = t[1];
+  return r5[0] = e[0] * i + e[4] * s + e[12], r5[1] = e[1] * i + e[5] * s + e[13], r5;
+}
+function Ci(r5, t) {
+  return r5[0] === t[0] && r5[1] === t[1];
+}
+var k = class r2 extends Array {
+  constructor(t = 0, e = t) {
+    return super(t, e), this;
+  }
+  get x() {
+    return this[0];
+  }
+  get y() {
+    return this[1];
+  }
+  set x(t) {
+    this[0] = t;
+  }
+  set y(t) {
+    this[1] = t;
+  }
+  set(t, e = t) {
+    return t.length ? this.copy(t) : (Mi(this, t, e), this);
+  }
+  copy(t) {
+    return wi(this, t), this;
+  }
+  add(t, e) {
+    return e ? fe(this, t, e) : fe(this, this, t), this;
+  }
+  sub(t, e) {
+    return e ? ue(this, t, e) : ue(this, this, t), this;
+  }
+  multiply(t) {
+    return t.length ? Ei(this, this, t) : Ot(this, this, t), this;
+  }
+  divide(t) {
+    return t.length ? Ai(this, this, t) : Ot(this, this, 1 / t), this;
+  }
+  inverse(t = this) {
+    return _i(this, t), this;
+  }
+  len() {
+    return pe(this);
+  }
+  distance(t) {
+    return t ? vi(this, t) : pe(this);
+  }
+  squaredLen() {
+    return this.squaredDistance();
+  }
+  squaredDistance(t) {
+    return t ? bi(this, t) : Fi(this);
+  }
+  negate(t = this) {
+    return Ti(this, t), this;
+  }
+  cross(t, e) {
+    return e ? de(t, e) : de(this, t);
+  }
+  scale(t) {
+    return Ot(this, this, t), this;
+  }
+  normalize() {
+    return Ri(this, this), this;
+  }
+  dot(t) {
+    return Li(this, t);
+  }
+  equals(t) {
+    return Ci(this, t);
+  }
+  applyMatrix3(t) {
+    return Si(this, this, t), this;
+  }
+  applyMatrix4(t) {
+    return Pi(this, this, t), this;
+  }
+  lerp(t, e) {
+    return zi(this, this, t, e), this;
+  }
+  clone() {
+    return new r2(this[0], this[1]);
+  }
+  fromArray(t, e = 0) {
+    return this[0] = t[e], this[1] = t[e + 1], this;
+  }
+  toArray(t = [], e = 0) {
+    return t[e] = this[0], t[e + 1] = this[1], t;
+  }
+};
+var tt = class r3 extends O {
+  constructor(t, { width: e = 1, height: i = 1, widthSegments: s = 1, heightSegments: n = 1, attributes: a = {} } = {}) {
+    let o = s, h = n, l = (o + 1) * (h + 1), c = o * h * 6, f = new Float32Array(l * 3), p = new Float32Array(l * 3), u = new Float32Array(l * 2), m = c > 65536 ? new Uint32Array(c) : new Uint16Array(c);
+    r3.buildPlane(f, p, u, m, e, i, 0, o, h), Object.assign(a, { position: { size: 3, data: f }, normal: { size: 3, data: p }, uv: { size: 2, data: u }, index: { data: m } }), super(t, a);
+  }
+  static buildPlane(t, e, i, s, n, a, o, h, l, c = 0, f = 1, p = 2, u = 1, m = -1, x = 0, d = 0) {
+    let g = x, y = n / h, w = a / l;
+    for (let b = 0; b <= l; b++) {
+      let A = b * w - a / 2;
+      for (let E = 0; E <= h; E++, x++) {
+        let T = E * y - n / 2;
+        if (t[x * 3 + c] = T * u, t[x * 3 + f] = A * m, t[x * 3 + p] = o / 2, e[x * 3 + c] = 0, e[x * 3 + f] = 0, e[x * 3 + p] = o >= 0 ? 1 : -1, i[x * 2] = E / h, i[x * 2 + 1] = 1 - b / l, b === l || E === h)
+          continue;
+        let v = g + E + b * (h + 1), R = g + E + (b + 1) * (h + 1), z = g + E + (b + 1) * (h + 1) + 1, P = g + E + b * (h + 1) + 1;
+        s[d * 6] = v, s[d * 6 + 1] = R, s[d * 6 + 2] = P, s[d * 6 + 3] = R, s[d * 6 + 4] = z, s[d * 6 + 5] = P, d++;
+      }
+    }
+  }
+};
+var st = new M();
+var Z = new k();
+var $ = new k();
+var _s = new k();
+var Rs = new k();
+var Ls = new k();
+var Ni = new M();
+var Ii = new M();
+var Oi = new M();
+var zs = new M();
+var Ss = new M();
+var Ps = new M();
+var Bi = new M();
+var we = new M();
+var Vi = new M();
+var Di = new M();
+var Cs = new M();
+var Ui = new D();
+var Ee = "catmullrom";
+var Ae = "cubicbezier";
+var ji = "quadraticbezier";
+var ot = new M();
+var ht = new M();
+var Bt = new M();
+var Gi = new M();
+function Ns(r5, t, e = 0.168, i = 0.168) {
+  if (t < 1 ? ot.sub(r5[1], r5[0]).scale(e).add(r5[0]) : ot.sub(r5[t + 1], r5[t - 1]).scale(e).add(r5[t]), t > r5.length - 3) {
+    let s = r5.length - 1;
+    ht.sub(r5[s - 1], r5[s]).scale(i).add(r5[s]);
+  } else
+    ht.sub(r5[t], r5[t + 2]).scale(i).add(r5[t + 1]);
+  return [ot.clone(), ht.clone()];
+}
+function ki(r5, t, e, i) {
+  let s = 1 - r5;
+  ot.copy(t).scale(s ** 2), ht.copy(e).scale(2 * s * r5), Bt.copy(i).scale(r5 ** 2);
+  let n = new M();
+  return n.add(ot, ht).add(Bt), n;
+}
+function qi(r5, t, e, i, s) {
+  let n = 1 - r5;
+  ot.copy(t).scale(n ** 3), ht.copy(e).scale(3 * n ** 2 * r5), Bt.copy(i).scale(3 * n * r5 ** 2), Gi.copy(s).scale(r5 ** 3);
+  let a = new M();
+  return a.add(ot, ht).add(Bt).add(Gi), a;
+}
+var ft = class r4 {
+  constructor({ points: t = [new M(0, 0, 0), new M(0, 1, 0), new M(1, 1, 0), new M(1, 0, 0)], divisions: e = 12, type: i = Ee } = {}) {
+    this.points = t, this.divisions = e, this.type = i;
+  }
+  _getQuadraticBezierPoints(t = this.divisions) {
+    let e = [], i = this.points.length;
+    if (i < 3)
+      return console.warn("Not enough points provided."), [];
+    let s = this.points[0], n = this.points[1], a = this.points[2];
+    for (let h = 0; h <= t; h++) {
+      let l = ki(h / t, s, n, a);
+      e.push(l);
+    }
+    let o = 3;
+    for (; i - o > 0; ) {
+      s.copy(a), n = a.scale(2).sub(n), a = this.points[o];
+      for (let h = 1; h <= t; h++) {
+        let l = ki(h / t, s, n, a);
+        e.push(l);
+      }
+      o++;
+    }
+    return e;
+  }
+  _getCubicBezierPoints(t = this.divisions) {
+    let e = [], i = this.points.length;
+    if (i < 4)
+      return console.warn("Not enough points provided."), [];
+    let s = this.points[0], n = this.points[1], a = this.points[2], o = this.points[3];
+    for (let l = 0; l <= t; l++) {
+      let c = qi(l / t, s, n, a, o);
+      e.push(c);
+    }
+    let h = 4;
+    for (; i - h > 1; ) {
+      s.copy(o), n = o.scale(2).sub(a), a = this.points[h], o = this.points[h + 1];
+      for (let l = 1; l <= t; l++) {
+        let c = qi(l / t, s, n, a, o);
+        e.push(c);
+      }
+      h += 2;
+    }
+    return e;
+  }
+  _getCatmullRomPoints(t = this.divisions, e = 0.168, i = 0.168) {
+    let s = [];
+    if (this.points.length <= 2)
+      return this.points;
+    let a;
+    return this.points.forEach((o, h) => {
+      if (h === 0)
+        a = o;
+      else {
+        let [l, c] = Ns(this.points, h - 1, e, i), f = new r4({ points: [a, l, c, o], type: Ae });
+        s.pop(), s.push(...f.getPoints(t)), a = o;
+      }
+    }), s;
+  }
+  getPoints(t = this.divisions, e = 0.168, i = 0.168) {
+    let s = this.type;
+    return s === ji ? this._getQuadraticBezierPoints(t) : s === Ae ? this._getCubicBezierPoints(t) : s === Ee ? this._getCatmullRomPoints(t, e, i) : this.points;
+  }
+};
+ft.CATMULLROM = Ee;
+ft.CUBICBEZIER = Ae;
+ft.QUADRATICBEZIER = ji;
+var Is = new M();
+var Os = new M();
+var Bs = new M();
+var lt = new M();
+var Hi = new D();
+var Ut = new M();
+var ct = new M();
+var Le = new k();
+var Gt = new M();
+var Pe = new M();
+var Ce = new K();
+var Ne = new M();
+var Qi = new M();
+var Ki = new K();
+var Zi = new M();
+var $i = new D();
+var pt = new M();
+var ts = new M();
+var Js = new M();
+var tn = new M();
+var en = new M();
+var es = new K();
+var rn = new K();
+var sn = new K();
+var nn = new K();
+var rs = new D();
+var an = new D();
+var Tt = new M();
+var jt = new M();
+var _t = new M();
+var $e = new M();
+var Je = new M();
+
+// ../../../../../../src/Component
+var _jsxFileName = "/src/Component.tsx";
+function _extends() {
+  return _extends = Object.assign ? Object.assign.bind() : function(n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r5 in t)
+        ({}).hasOwnProperty.call(t, r5) && (n[r5] = t[r5]);
+    }
+    return n;
+  }, _extends.apply(null, arguments);
+}
+var vertexShader = `
+precision highp float;
+attribute vec3 position;
+attribute vec2 uv;
+attribute vec3 normal;
+
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+uniform mat3 normalMatrix;
+
+uniform float uPosition;
+uniform float uTime;
+uniform float uSpeed;
+uniform vec3 distortionAxis;
+uniform vec3 rotationAxis;
+uniform float uDistortion;
+
+varying vec2 vUv;
+varying vec3 vNormal;
+
+float PI = 3.141592653589793238;
+
+mat4 rotationMatrix(vec3 axis, float angle) {
+    axis = normalize(axis);
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1.0 - c;
+    
+    return mat4(
+      oc * axis.x * axis.x + c,         oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+      oc * axis.x * axis.y + axis.z * s,oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+      oc * axis.z * axis.x - axis.y * s,oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+      0.0,                              0.0,                                0.0,                                1.0
+    );
+}
+
+vec3 rotate(vec3 v, vec3 axis, float angle) {
+  mat4 m = rotationMatrix(axis, angle);
+  return (m * vec4(v, 1.0)).xyz;
+}
+
+float qinticInOut(float t) {
+  return t < 0.5
+    ? 16.0 * pow(t, 5.0)
+    : -0.5 * abs(pow(2.0 * t - 2.0, 5.0)) + 1.0;
+}
+
+void main() {
+  vUv = uv;
+  
+  float norm = 0.5;
+  vec3 newpos = position;
+  float offset = (dot(distortionAxis, position) + norm / 2.) / norm;
+  float localprogress = clamp(
+    (fract(uPosition * 5.0 * 0.01) - 0.01 * uDistortion * offset) / (1. - 0.01 * uDistortion),
+    0.,
+    2.
+  );
+  localprogress = qinticInOut(localprogress) * PI;
+  newpos = rotate(newpos, rotationAxis, localprogress);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(newpos, 1.0);
+}
+`;
+var fragmentShader = `
+precision highp float;
+uniform vec2 uImageSize;
+uniform vec2 uPlaneSize;
+uniform sampler2D tMap;
+varying vec2 vUv;
+
+void main() {
+  vec2 imageSize = uImageSize;
+  vec2 planeSize = uPlaneSize;
+  float imageAspect = imageSize.x / imageSize.y;
+  float planeAspect = planeSize.x / planeSize.y;
+  vec2 scale = vec2(1.0, 1.0);
+  if (planeAspect > imageAspect) {
+      scale.x = imageAspect / planeAspect;
+  } else {
+      scale.y = planeAspect / imageAspect;
+  }
+  vec2 uv = vUv * scale + (1.0 - scale) * 0.5;
+  gl_FragColor = texture2D(tMap, uv);
+}
+`;
+function AutoBind(self, {
+  include,
+  exclude
+} = {}) {
+  const getAllProperties = (object) => {
+    const properties = /* @__PURE__ */ new Set();
+    do {
+      for (const key of Reflect.ownKeys(object)) {
+        properties.add([object, key]);
+      }
+    } while ((object = Reflect.getPrototypeOf(object)) && object !== Object.prototype);
+    return properties;
+  };
+  const filter = (key) => {
+    const match = (pattern) => typeof pattern === "string" ? key === pattern : pattern.test(key.toString());
+    if (include)
+      return include.some(match);
+    if (exclude)
+      return !exclude.some(match);
+    return true;
+  };
+  for (const [object, key] of getAllProperties(self.constructor.prototype)) {
+    if (key === "constructor" || !filter(key))
+      continue;
+    const descriptor = Reflect.getOwnPropertyDescriptor(object, key);
+    if (descriptor && typeof descriptor.value === "function") {
+      self[key] = self[key].bind(self);
+    }
+  }
+  return self;
+}
+function lerp(p1, p2, t) {
+  return p1 + (p2 - p1) * t;
+}
+function map(num, min1, max1, min2, max2, round = false) {
+  const num1 = (num - min1) / (max1 - min1);
+  const num2 = num1 * (max2 - min2) + min2;
+  return round ? Math.round(num2) : num2;
+}
+var Media = class {
+  extra = 0;
+  padding = 0;
+  height = 0;
+  heightTotal = 0;
+  y = 0;
+  constructor({
+    gl,
+    geometry,
+    scene,
+    screen,
+    viewport,
+    image,
+    length,
+    index,
+    planeWidth,
+    planeHeight,
+    distortion
+  }) {
+    this.gl = gl;
+    this.geometry = geometry;
+    this.scene = scene;
+    this.screen = screen;
+    this.viewport = viewport;
+    this.image = image;
+    this.length = length;
+    this.index = index;
+    this.planeWidth = planeWidth;
+    this.planeHeight = planeHeight;
+    this.distortion = distortion;
+    this.createShader();
+    this.createMesh();
+    this.onResize();
+  }
+  createShader() {
+    const texture = new q(this.gl, {
+      generateMipmaps: false
+    });
+    this.program = new U(this.gl, {
+      depthTest: false,
+      depthWrite: false,
+      fragment: fragmentShader,
+      vertex: vertexShader,
+      uniforms: {
+        tMap: {
+          value: texture
+        },
+        uPosition: {
+          value: 0
+        },
+        uPlaneSize: {
+          value: [0, 0]
+        },
+        uImageSize: {
+          value: [0, 0]
+        },
+        uSpeed: {
+          value: 0
+        },
+        rotationAxis: {
+          value: [0, 1, 0]
+        },
+        distortionAxis: {
+          value: [1, 1, 0]
+        },
+        uDistortion: {
+          value: this.distortion
+        },
+        uViewportSize: {
+          value: [this.viewport.width, this.viewport.height]
+        },
+        uTime: {
+          value: 0
+        }
+      },
+      cullFace: false
+    });
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = this.image;
+    img.onload = () => {
+      texture.image = img;
+      this.program.uniforms.uImageSize.value = [img.naturalWidth, img.naturalHeight];
+    };
+  }
+  createMesh() {
+    this.plane = new B(this.gl, {
+      geometry: this.geometry,
+      program: this.program
+    });
+    this.plane.setParent(this.scene);
+  }
+  setScale() {
+    this.plane.scale.x = this.viewport.width * this.planeWidth / this.screen.width;
+    this.plane.scale.y = this.viewport.height * this.planeHeight / this.screen.height;
+    this.plane.position.x = 0;
+    this.program.uniforms.uPlaneSize.value = [this.plane.scale.x, this.plane.scale.y];
+  }
+  onResize({
+    screen,
+    viewport
+  } = {}) {
+    if (screen)
+      this.screen = screen;
+    if (viewport) {
+      this.viewport = viewport;
+      this.program.uniforms.uViewportSize.value = [viewport.width, viewport.height];
+    }
+    this.setScale();
+    this.padding = 5;
+    this.height = this.plane.scale.y + this.padding;
+    this.heightTotal = this.height * this.length;
+    this.y = -this.heightTotal / 2 + (this.index + 0.5) * this.height;
+  }
+  update(scroll) {
+    this.plane.position.y = this.y - scroll.current - this.extra;
+    const position = map(this.plane.position.y, -this.viewport.height, this.viewport.height, 5, 15);
+    this.program.uniforms.uPosition.value = position;
+    this.program.uniforms.uTime.value += 0.04;
+    this.program.uniforms.uSpeed.value = scroll.current;
+    const planeHeight = this.plane.scale.y;
+    const viewportHeight = this.viewport.height;
+    const topEdge = this.plane.position.y + planeHeight / 2;
+    const bottomEdge = this.plane.position.y - planeHeight / 2;
+    if (topEdge < -viewportHeight / 2) {
+      this.extra -= this.heightTotal;
+    } else if (bottomEdge > viewportHeight / 2) {
+      this.extra += this.heightTotal;
+    }
+  }
+};
+var Canvas = class {
+  isDown = false;
+  start = 0;
+  loaded = 0;
+  rafId = 0;
+  constructor({
+    container,
+    canvas,
+    items,
+    planeWidth,
+    planeHeight,
+    distortion,
+    scrollEase,
+    cameraFov,
+    cameraZ
+  }) {
+    this.container = container;
+    this.canvas = canvas;
+    this.items = items;
+    this.planeWidth = planeWidth;
+    this.planeHeight = planeHeight;
+    this.distortion = distortion;
+    this.scroll = {
+      ease: scrollEase,
+      current: 0,
+      target: 0,
+      last: 0
+    };
+    this.cameraFov = cameraFov;
+    this.cameraZ = cameraZ;
+    AutoBind(this);
+    this.createRenderer();
+    this.createCamera();
+    this.createScene();
+    this.onResize();
+    this.createGeometry();
+    this.createMedias();
+    this.update();
+    this.addEventListeners();
+    this.createPreloader();
+  }
+  createRenderer() {
+    this.renderer = new re({
+      canvas: this.canvas,
+      alpha: true,
+      antialias: true,
+      dpr: Math.min(window.devicePixelRatio, 2)
+    });
+    this.gl = this.renderer.gl;
+  }
+  createCamera() {
+    this.camera = new mt(this.gl);
+    this.camera.fov = this.cameraFov;
+    this.camera.position.z = this.cameraZ;
+  }
+  createScene() {
+    this.scene = new H();
+  }
+  createGeometry() {
+    this.planeGeometry = new tt(this.gl, {
+      heightSegments: 1,
+      widthSegments: 100
+    });
+  }
+  createMedias() {
+    this.medias = this.items.map((image, index) => new Media({
+      gl: this.gl,
+      geometry: this.planeGeometry,
+      scene: this.scene,
+      screen: this.screen,
+      viewport: this.viewport,
+      image,
+      length: this.items.length,
+      index,
+      planeWidth: this.planeWidth,
+      planeHeight: this.planeHeight,
+      distortion: this.distortion
+    }));
+  }
+  createPreloader() {
+    this.loaded = 0;
+    this.items.forEach((src) => {
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+      image.src = src;
+      image.onload = () => {
+        if (++this.loaded === this.items.length) {
+        }
+      };
+    });
+  }
+  onResize() {
+    if (!this.container)
+      return;
+    const rect = this.container.getBoundingClientRect();
+    this.screen = {
+      width: rect.width,
+      height: rect.height
+    };
+    this.renderer.setSize(this.screen.width, this.screen.height);
+    this.camera.perspective({
+      aspect: this.gl.canvas.width / this.gl.canvas.height
+    });
+    const fov = this.camera.fov * Math.PI / 180;
+    const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+    const width = height * this.camera.aspect;
+    this.viewport = {
+      width,
+      height
+    };
+    this.medias?.forEach((media) => media.onResize({
+      screen: this.screen,
+      viewport: this.viewport
+    }));
+  }
+  onTouchDown(e) {
+    this.isDown = true;
+    this.scroll.position = this.scroll.current;
+    this.start = e instanceof TouchEvent ? e.touches[0].clientY : e.clientY;
+  }
+  onTouchMove(e) {
+    if (!this.isDown || this.scroll.position === void 0)
+      return;
+    const y = e instanceof TouchEvent ? e.touches[0].clientY : e.clientY;
+    const distance = (this.start - y) * 0.1;
+    this.scroll.target = this.scroll.position + distance;
+  }
+  onTouchUp() {
+    this.isDown = false;
+  }
+  onWheel(e) {
+    this.scroll.target += e.deltaY * 5e-3;
+  }
+  update() {
+    this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+    this.medias?.forEach((media) => media.update(this.scroll));
+    this.renderer.render({
+      scene: this.scene,
+      camera: this.camera
+    });
+    this.scroll.last = this.scroll.current;
+    this.rafId = requestAnimationFrame(this.update);
+  }
+  addEventListeners() {
+    window.addEventListener("resize", this.onResize);
+    window.addEventListener("wheel", this.onWheel, {
+      passive: false
+    });
+    window.addEventListener("mousedown", this.onTouchDown);
+    window.addEventListener("mousemove", this.onTouchMove);
+    window.addEventListener("mouseup", this.onTouchUp);
+    window.addEventListener("touchstart", this.onTouchDown, {
+      passive: false
+    });
+    window.addEventListener("touchmove", this.onTouchMove, {
+      passive: false
+    });
+    window.addEventListener("touchend", this.onTouchUp);
+  }
+  destroy() {
+    window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("wheel", this.onWheel);
+    window.removeEventListener("mousedown", this.onTouchDown);
+    window.removeEventListener("mousemove", this.onTouchMove);
+    window.removeEventListener("mouseup", this.onTouchUp);
+    window.removeEventListener("touchstart", this.onTouchDown);
+    window.removeEventListener("touchmove", this.onTouchMove);
+    window.removeEventListener("touchend", this.onTouchUp);
+    cancelAnimationFrame(this.rafId);
+  }
+};
+function FlyingPosters({
+  items = ["https://picsum.photos/500/500?grayscale&sig=1", "https://picsum.photos/600/600?grayscale&sig=2", "https://picsum.photos/400/400?grayscale&sig=3", "https://picsum.photos/500/700?grayscale&sig=4", "https://picsum.photos/700/500?grayscale&sig=5"],
+  planeWidth = 320,
+  planeHeight = 440,
+  distortion = 3,
+  scrollEase = 0.05,
+  cameraFov = 45,
+  cameraZ = 20,
+  className = "",
+  ...props
+}) {
+  const containerRef = (0, import_react.useRef)(null);
+  const canvasRef = (0, import_react.useRef)(null);
+  const instanceRef = (0, import_react.useRef)(null);
+  (0, import_react.useEffect)(() => {
+    if (!containerRef.current || !canvasRef.current)
+      return;
+    const timeoutId = setTimeout(() => {
+      if (!containerRef.current || !canvasRef.current)
+        return;
+      instanceRef.current = new Canvas({
+        container: containerRef.current,
+        canvas: canvasRef.current,
+        items,
+        planeWidth,
+        planeHeight,
+        distortion,
+        scrollEase,
+        cameraFov,
+        cameraZ
+      });
+    }, 100);
+    return () => {
+      clearTimeout(timeoutId);
+      instanceRef.current?.destroy();
+      instanceRef.current = null;
+    };
+  }, [items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ]);
+  return /* @__PURE__ */ import_react.default.createElement("div", _extends({
+    ref: containerRef,
+    className: `w-full h-full overflow-hidden relative select-none bg-background ${className}`
+  }, props, {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 585,
+      columnNumber: 5
+    }
+  }), /* @__PURE__ */ import_react.default.createElement("canvas", {
+    ref: canvasRef,
+    className: "block w-full h-full",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 590,
+      columnNumber: 7
+    }
+  }));
+}
+
+// ../../../../../../src/App.tsx
+var _jsxFileName2 = "/src/App.tsx";
+function App() {
+  const images = ["https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop", "https://images.unsplash.com/photo-1550684399-3f41d5d1942d?q=80&w=800&auto=format&fit=crop", "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=800&auto=format&fit=crop", "https://images.unsplash.com/photo-1550684847-75bdda21cc95?q=80&w=800&auto=format&fit=crop", "https://images.unsplash.com/photo-1550684400-9dd93645b274?q=80&w=800&auto=format&fit=crop", "https://images.unsplash.com/photo-1550684399-3f41d5d1942d?q=80&w=800&auto=format&fit=crop"];
+  return /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "min-h-screen bg-[#1A1A1B] flex flex-col items-center justify-center p-20 font-sans",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 23,
+      columnNumber: 5
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "w-full max-w-4xl aspect-[4/5] relative rounded-3xl overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 24,
+      columnNumber: 7
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement(FlyingPosters, {
+    items: images,
+    planeWidth: 400,
+    planeHeight: 540,
+    distortion: 4,
+    scrollEase: 0.06,
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 25,
+      columnNumber: 9
+    }
+  }), /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "absolute top-12 left-12 z-10",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 34,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("h1", {
+    className: "text-white text-2xl font-medium tracking-tight opacity-90",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 35,
+      columnNumber: 11
+    }
+  }, "Flying Posters"), /* @__PURE__ */ import_react2.default.createElement("p", {
+    className: "text-white/40 text-sm mt-2 font-normal",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 38,
+      columnNumber: 11
+    }
+  }, "WebGL 3D Distortion Gallery")), /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "absolute bottom-12 right-12 z-10 flex flex-col items-end",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 44,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("span", {
+    className: "text-white/30 text-xs uppercase tracking-[0.2em] mb-2",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 45,
+      columnNumber: 11
+    }
+  }, "Scroll to explore"), /* @__PURE__ */ import_react2.default.createElement("div", {
+    className: "w-px h-12 bg-gradient-to-b from-white/40 to-transparent",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 46,
+      columnNumber: 11
+    }
+  })), /* @__PURE__ */ import_react2.default.createElement("button", {
+    className: "absolute bottom-12 left-12 z-10 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white px-6 py-3 rounded-full text-sm font-medium transition-all border border-white/10 flex items-center gap-2",
+    onClick: () => window.location.reload(),
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 50,
+      columnNumber: 9
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("svg", {
+    width: "16",
+    height: "16",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 54,
+      columnNumber: 11
+    }
+  }, /* @__PURE__ */ import_react2.default.createElement("path", {
+    d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 55,
+      columnNumber: 13
+    }
+  }), /* @__PURE__ */ import_react2.default.createElement("path", {
+    d: "M3 3v5h5",
+    __source: {
+      fileName: _jsxFileName2,
+      lineNumber: 56,
+      columnNumber: 13
+    }
+  })), "Replay")));
+}
+
+// ../../../../../../_superdesign_entry_.tsx
+var _jsxFileName3 = "/_superdesign_entry_.tsx";
+var root = (0, import_client.createRoot)(document.getElementById("root"));
+root.render(/* @__PURE__ */ import_react3.default.createElement(App, {
+  __source: {
+    fileName: _jsxFileName3,
+    lineNumber: 8,
+    columnNumber: 3
+  }
+}));
+
+      })()
+    </script>
+</body>
+</html>

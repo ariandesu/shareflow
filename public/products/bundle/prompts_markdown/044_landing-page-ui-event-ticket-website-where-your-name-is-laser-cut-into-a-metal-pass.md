@@ -1,0 +1,99 @@
+# Landing Page UI: Event Ticket Website Where Your Name Is Laser-Cut Into a Metal Pass
+
+**Category:** Landing Page  
+**Tags:** landing-page, event, event-website, ticketing, event-ticketing, credential, festival, machine-plate, industrial, sage-green, acid-lime, monospace, laser-etched, anodised, contenteditable, no-javascript, pure-css, interactive, constraint, responsive, flat, high-contrast  
+**Price:** ৳49 BDT (SupportKori: https://www.supportkori.com/mhr3d)  
+**Live Preview:** [https://p.superdesign.dev/draft/b76ffad9-c56b-48ea-afb2-1a2560026459](https://p.superdesign.dev/draft/b76ffad9-c56b-48ea-afb2-1a2560026459)  
+**Local Standalone Preview:** `previews/landing-page-ui-event-ticket-website-where-your-name-is-laser-cut-into-a-metal-pass.html`
+
+---
+
+## Architectural & Aesthetic Breakdown
+An event ticketing landing page where the pass is a laser-etched metal plate instead of a paper ticket. Type your name straight into the plate and the cutter stops at the plate's edge, because the field is 20 characters wide and metal does not stretch. Every plate on the page is live, it is pure HTML and CSS with no JavaScript, and the whole thing runs off one millimetre custom property so the spec printed on the page is literally the spec drawing it. A good starting point for any event, ticketing, festival or credential landing page that needs a real point of view instead of a hero image and a tier table.
+
+---
+
+## Production System Prompt Specification
+Copy and paste this into Cursor Composer, Claude 3.5 Sonnet, v0, Bolt.new, or Windsurf:
+
+```markdown
+{
+  "summary": "A full, scrolling EVENT TICKETING / CREDENTIAL CLAIM page for a three-night festival whose pass is not a paper ticket but a LASER-ETCHED BLACK ANODISED ALUMINIUM PLATE on a lanyard. The page's entire argument is a physical CONSTRAINT: the etcher's field is a fixed width, cut once at 0.08 mm with no second pass, so what you type either fits on the plate or the cutter reaches the plate's edge and stops. Build it in PURE HTML + CSS with NO JAVASCRIPT: every etch field is a `contenteditable=\"plaintext-only\"` span sized in `ch` units on a monospaced face, with `overflow: hidden` and `white-space: nowrap`, so the plate's edge physically clips what you type. Drive the WHOLE page from ONE CSS custom property `--mm` (a millimetre), so plate lengths, blank margins, etch font-size and field widths are all derived from real millimetres and the geometry on screen IS the spec printed on the page: character pitch 2.6 mm at 8 mm cap height, a 4 mm blank margin at each end, capacity = (plate length - 8 mm) / 2.6 mm, giving a 60 mm plate 20 characters, an 85 mm plate 29 and a 110 mm plate 39. Set the etch font-size to `calc(var(--mm) * 2.6 / 0.6)` so that 1ch equals exactly 2.6 mm and a 20ch field is exactly 52 mm, which is a 60 mm plate minus its two margins. Ground the page in a muted SAGE GREEN #CCD3BA (a darker #C3CCAE for alternating bands) and make every object on it out of the same plate material: near-black #111 with a 1px cream inset chamfer, etched type in acid LIME #B7F03E, and ORANGE #F0622A used consistently and only to mean 'the limit' (the cut rule at the field's end, the character the cutter never reached, the characters that are not on the wheel). Sections, top to bottom: a compact masthead (event name, venue, dates, crew accreditation, one plain text link); a HERO that is the plate itself at full size, pre-filled with a name that is already too long so a static render shows the cut before anyone types, with the typed-versus-etched pair printed beneath it and the primary action directly under it made of the same plate material; the machine's own riveted SPEC PLATE listing pitch, margin, capacity and depth in lime with the refused character set in orange; THREE PLATE LENGTHS that replace a ticket-tier perk table (each a real priced plate at its true proportional length, each carrying a different name chosen because it sits exactly at that plate's limit); a CREW ROSTER of six people on identical 60 mm plates where three names fit, two are cut with the dropped character rendered as a small separate offcut, and one is refused outright because its character is not on the cutter's wheel; a plain COLLECT block with the gate, the time and the lock date; and a one-line footer. Every plate on the page is live. Invent an original event, venue, crew and prices; keep one currency, one locale and one date format, and make every character count on the page arithmetically true against the string beside it.",
+  "style": {
+    "description": "Machine-plate industrial: a muted sage-green ground carrying objects made entirely of black anodised metal, with acid-lime laser etching and a single orange that always means 'the limit'. The personality is fabrication honesty rather than decoration. There are no gradients, no shadows beyond a 1px inset chamfer, no white surfaces, no floating cards and no rounded soft UI (radii max 3px, because a machined plate has a small chamfer). Type is a heavy condensed display face used sparingly for the wordmark and one declarative statement, a monospaced face doing all the etched names and every spec value, and a plain workaday sans in sentence case for body copy. The restraint is the point: the only saturated colour on the page is the etch itself.",
+    "prompt": "Design a full, scrolling EVENT TICKETING / CREDENTIAL CLAIM page in a MACHINE-PLATE INDUSTRIAL register, as a generically-branded original. Ground the page in muted SAGE GREEN #CCD3BA with a darker #C3CCAE for alternating bands. Make every object on the page out of the same material: near-black #111 plates with a 1px inset cream chamfer (`box-shadow: inset 0 0 0 1px rgba(243,238,221,.16)`) and 3px radii, carrying type LASER-ETCHED in acid LIME #B7F03E. Use ORANGE #F0622A consistently and ONLY to mean 'the limit': the cut rule at the end of an etch field, the character that did not make it, the characters that are not on the cutter's wheel. Use NO other accent colour, and specifically NO violet, indigo or purple. NO gradients anywhere, NO shadows beyond the 1px chamfer, NO white surfaces, NO floating cards on the ground, NO soft rounded UI. Type: a heavy condensed display face (Anton) for the wordmark and ONE declarative statement only, never for section headings; IBM Plex Mono 700 uppercase for every etched name and every spec value; IBM Plex Sans in sentence case for all body copy. Section headings are plain semibold sans at around 22px, not display type. Ration uppercase letter-spaced micro-labels to at most four on the entire page. The primary action must itself be made of plate material - a black slab with a lime etched label - and must sit directly under the field the user typed into, never as a coloured pill floating beside the argument."
+  },
+  "layout_and_structure": {
+    "description": "A full-width scrolling page on a sage ground, alternating between the base sage and a slightly darker sage band, divided by hairline rules. Top to bottom: a compact masthead row (wordmark, venue and dates, one plain text link); a two-column HERO (the full-size plate plus the typed/etched readout plus the primary action on the left, the argument in large body type on the right); a darker band holding the machine's spec plate and one large declarative statement; a section of three priced plates at their true proportional lengths, each with its meta to the right; a darker band holding a six-row crew roster, each row a plate on the left and the person plus outcome on the right; a plain collect block with the action repeated; a one-line footer. Everything is driven from a single `--mm` custom property that is re-declared per section with `clamp()`, so plates scale fluidly while the etch fields stay sized in `ch` and the character limit is identical at every width. At 390px every section stacks to one column and no plate exceeds the viewport.",
+    "prompts": [
+      {
+        "part": "The millimetre system (do this first)",
+        "prompt": "Declare `--mm: 4px` on `:root` and derive EVERYTHING from it. A plate is `width: calc(var(--mm) * 60)` for 60 mm, with `padding-inline: calc(var(--mm) * 4)` for the blank margin at each end. The etch field is a span with `font-family: 'IBM Plex Mono'; font-weight: 700; text-transform: uppercase; letter-spacing: 0; white-space: nowrap; overflow: hidden; font-size: calc(var(--mm) * 2.6 / 0.6)` and `width: 20ch`, so 1ch equals exactly 2.6 mm and the field is exactly 52 mm, which is the plate minus its two margins. Re-declare `--mm` per section with `clamp()` (for example `clamp(4.4px, 1.28vw + 0.6px, 14px)` on the hero) so plates scale with the viewport while the character limit never changes. Do NOT add letter-spacing to an etch field: it would break the `ch` arithmetic that the whole page rests on."
+      },
+      {
+        "part": "The plate component",
+        "prompt": "Build a reusable PLATE: a `position: relative` block with `background: #111`, `border-radius: 3px` and `box-shadow: inset 0 0 0 1px rgba(243,238,221,.16)` as a chamfer cut to bright metal. Punch a lanyard hole at each end with `::before` and `::after` - small circles filled in the SECTION'S ground colour so they read as holes through the plate, positioned at `calc(var(--mm) * 1.2)` from each edge. Inside, place the etch field span, and absolutely position a 1px ORANGE #F0622A CUT RULE at `left: calc(var(--mm) * 56)` - the 4 mm margin plus the 52 mm field - so it sits exactly where the field ends. On `:focus-within`, turn the plate's chamfer lime and thicken the cut rule to 2px."
+      },
+      {
+        "part": "Hero: the plate, live, already cut",
+        "prompt": "Make the HERO a two-column grid (single column below xl). Left: one full-size 60 mm plate whose etch field is `contenteditable=\"plaintext-only\"` and PRE-FILLED with a name that is already longer than the field, so a static render shows the cut before anyone touches it. Beneath it, two monospaced lines printing the checkable pair - the field capacity against what was typed, then the string that will actually be etched. Beneath that, the primary action as a black plate-material slab with a lime etched label and a small muted mono meta line carrying the price, the plate length and the character count. Right: the argument in large body type - one sentence saying the cutter stops at the edge and does not shrink the letters to fit, then a short paragraph saying the credential is an etched plate rather than a wristband and that every plate on the page is live. NO hero image, NO headline describing the idea, NO centred headline-subhead-button stack."
+      },
+      {
+        "part": "The machine's spec plate",
+        "prompt": "On the darker sage band, place ONE wide plate-material slab holding the machine's own specification, the way a spec plate is riveted to a machine. Left half: four label/value pairs in mono - character pitch, blank margin, field capacity as a formula, etch depth - with the labels in muted cream and the values etched in LIME. Right half: two columns headed 'On the wheel' and 'Not on the wheel', the permitted character set etched in LIME and the refused set in ORANGE, so orange keeps meaning 'the limit'. Below the slab, one small muted line explaining WHY one class of character is refused. Then, on the ground, one large declarative statement in the condensed display face across two lines, saying the plate is cut once and there is no second pass. Do NOT build this as a bordered table with leader rules - the spec lives on the metal."
+      },
+      {
+        "part": "Three plate lengths (this replaces the ticket-tier table)",
+        "prompt": "Three rows, each a real plate at its TRUE proportional length - 60, 85 and 110 mm - with fields of 20ch, 29ch and 39ch and its cut rule at the matching offset. Each field is contenteditable so a visitor can feel the difference rather than read about it. Each plate carries a DIFFERENT name chosen because it sits exactly at that plate's limit; the longest plate carries the hero's over-long name, whole, which pays off the top of the page. To the right of each plate, a mono meta line with the length, the capacity and the price, then one short muted sentence naming why that name is on that plate. Introduce the section with one line: a longer plate buys you characters, that is the whole difference. Write NO perk list anywhere on this page."
+      },
+      {
+        "part": "The crew roster - the argument at scale",
+        "prompt": "On the darker band, a six-row list under one sentence-case header rail, each row a live 60 mm plate on the left and the person plus what happens on the right. Three names FIT and say so. Two names are one character over: the field genuinely clips them, and the character the cutter never reached is rendered as a SMALL SEPARATE OFFCUT - its own tiny plate-material chip with a gap between it and the plate, in orange - so the six plates still read as one length. One name is REFUSED: its field carries the name as a dim un-etched ghost with an orange rule struck through it, and the row explains in plain body copy which character is not on the wheel and what the two real options are. Do NOT make the outcomes a colour-coded status badge system; the plate itself is the status."
+      },
+      {
+        "part": "Collect and footer",
+        "prompt": "A plain collect block: where and when to pick the plate up, and the lock date after which the file runs exactly as typed. Repeat the same plate-material action slab once here, with the identical label - never give one action two names. Close with a single-line footer carrying the event, the place, the dates and the accreditation type. Keep this whole tail compact: it is canonical furniture and should be a small fraction of page height."
+      },
+      {
+        "part": "Responsive and integrity",
+        "prompt": "Must work with no horizontal overflow and no clipping at BOTH 390px and 1440px. Every section re-declares `--mm` with its own `clamp()` so that no plate ever exceeds the viewport minus the page padding; the etch fields stay in `ch` so the character limit is identical at every width. The page must genuinely SCROLL - it is a full page, never a single 100vh hero - and carry no `overflow: hidden` or `h-screen` on the page or hero shell. Use no `<input>`, no `<select>`, no `:checked` and no JavaScript of any kind. Keep one currency, one locale and one date format, verify every weekday you name against a real calendar, and make every character count you print arithmetically true against the string beside it."
+      }
+    ]
+  },
+  "special_ui_components": [
+    {
+      "component": "Millimetre-true etch field",
+      "description": "A live text field whose character limit is enforced by the physical edge of the object it sits on, with no JavaScript and no counter.",
+      "prompt": "Build a `contenteditable=\"plaintext-only\"` span with `font-family: 'IBM Plex Mono'; font-weight: 700; text-transform: uppercase; letter-spacing: 0; white-space: nowrap; overflow: hidden; outline: none; display: block`, `font-size: calc(var(--mm) * 2.6 / 0.6)` and `width: 20ch`. Because the face is monospaced and the font-size is derived from the millimetre unit, 1ch is exactly 2.6 mm and the field is exactly 52 mm wide - which is the 60 mm plate minus its two 4 mm margins. Typing past the twentieth character is clipped by the plate's own edge, live, with nothing to compute. Pre-fill it with a string longer than the field so a static screenshot already shows the constraint working. Never add letter-spacing to this element."
+    },
+    {
+      "component": "Cut rule",
+      "description": "A one-pixel orange line marking exactly where the cutter stops, positioned by the same millimetre arithmetic as the field itself.",
+      "prompt": "Absolutely position a 1px orange #F0622A rule inside the plate at `left: calc(var(--mm) * 56)` for a 20ch field, `calc(var(--mm) * 79.4)` for 29ch and `calc(var(--mm) * 105.4)` for 39ch - in each case the 4 mm margin plus the field's true width in millimetres. Inset it vertically by `calc(var(--mm) * 1.6)` and give it `pointer-events: none`. On the plate's `:focus-within`, thicken it to 2px. Because both the field width and the rule's offset come from the same `--mm`, the rule lands on the field's last character at every viewport width without a single media query."
+    },
+    {
+      "component": "Offcut chip",
+      "description": "The character the cutter never reached, rendered as a small separate piece of the same material sitting just past the plate's edge.",
+      "prompt": "Wrap the plate and the chip in a flex row with `gap: calc(var(--mm) * 1.6)`. The chip carries the same background, radius and 1px inset chamfer as the plate, the same mono etch font-size, and holds the dropped character in orange #F0622A. The gap is doing the work: it keeps the chip reading as a separate offcut rather than extending the plate, so a row of plates still reads as one uniform length. Reusable anywhere a typed value is truncated by a real object - engraving, embroidery, name tags, jersey printing, luggage tags."
+    },
+    {
+      "component": "Refused plate",
+      "description": "A plate the machine will not run at all, distinct from one that merely gets cut short.",
+      "prompt": "Render the name in the etch field in `rgba(243,238,221,.30)` instead of lime, so it reads as a file sitting there un-etched rather than cut metal. Add a `::after` rule 2px high in orange #F0622A across exactly the field's width - `left: calc(var(--mm) * 4); width: calc(var(--mm) * 52)` - striking the name out. Leave this one field NOT editable: the cutter will not start this file, so the plate should not respond. Explain the refusal in plain body copy beside it, naming the exact character and giving two real options, never a generic error string."
+    },
+    {
+      "component": "Plate-material action",
+      "description": "A primary call to action made of the same metal as the thing being bought, sitting directly under the field the visitor typed into.",
+      "prompt": "Build the action as an anchor with the plate's background, 3px radius and 1px inset cream chamfer, laid out as an inline flex column: a lime mono uppercase label on the first line and a small muted cream mono meta line under it carrying the price, the plate length and the character capacity. On hover, raise the chamfer to lime. Place it immediately beneath the editable field so the action and the thing it acts on are visibly the same object. This is deliberately not a coloured pill: the page has one material and the button is made of it."
+    },
+    {
+      "component": "Machine spec plate",
+      "description": "The specification the whole page obeys, etched onto the metal instead of set as a table.",
+      "prompt": "One wide plate-material slab in a two-column grid. Left: label/value pairs in mono with muted cream labels and lime values - character pitch, blank margin, the capacity formula, etch depth. Right: two short lists headed 'On the wheel' and 'Not on the wheel', the permitted set in lime and the refused set in orange. No borders, no leader rules, no zebra striping: the slab is the container. Because the numbers on this plate are the same numbers that drive the page's CSS custom property, the specification is not a claim about the design, it is the design's source."
+    }
+  ]
+}
+```
+
+---
+*Generated by ShareFlow Design Prompt Library · © 2026 Mahir Faisal (MHR3D)*

@@ -1,0 +1,1050 @@
+<!DOCTYPE html><html lang="en-GB"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gridwork Help Centre</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&amp;family=Plus+Jakarta+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ground: '#0a2e0e', paper: '#faf5e8', primary: '#fcab79', secondary: '#c7e5f2',
+            ink: '#181d26', 'muted-ink': '#333840', rule: '#214224', accent: '#254fad',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'monospace'],
+          },
+          fontSize: {
+            'lead': ['34px', { lineHeight: '42px', fontWeight: '400' }],
+            'section': ['22px', { lineHeight: '28px', fontWeight: '400' }],
+            'body': ['15px', { lineHeight: '24px', fontWeight: '400' }],
+            'label': ['13px', { lineHeight: '18px', fontWeight: '500' }],
+            'micro': ['12px', { lineHeight: '16px', fontWeight: '400' }],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Palette is fixed at 8 measured hexes. Every tint below is a transparency
+       of the rule green #214224 or of the cream #faf5e8 - no new colour. */
+    :root{
+      --hair: rgba(33,66,36,.18);
+      --wash: rgba(33,66,36,.05);
+      --cream-quiet: rgba(250,245,232,.78);
+    }
+    body { margin: 0; background: #0a2e0e; }
+    /* ONE content measure, held by every band top to bottom */
+    .gw-measure{ width:100%; margin-left:auto; margin-right:auto; }
+    @media (min-width:1280px){ .gw-measure{ max-width:1180px; } }
+    /* --- the product panel -------------------------------------------- */
+    .gw-row{ display:grid; grid-template-columns:22px 1fr 28px 126px; align-items:center; }
+    .gw-blank{ display:none; }
+    .gw-ticon{ display:none; }
+    @media (min-width:640px){
+      .gw-row{ grid-template-columns:32px 1fr 64px 150px; }
+      .gw-ticon{ display:block; }
+    }
+    @media (min-width:1280px){
+      .gw-row{ grid-template-columns:40px 230px 140px 210px 1fr; }
+      .gw-blank{ display:block; }
+    }
+    .gw-cell{ padding-right:12px; min-width:0; }
+    @media (max-width:639px){
+      .gw-panel .gw-cell{ padding-right:6px; }
+      .gw-panel .text-label{ font-size:12px; line-height:16px; }
+    }
+    /* peach is only 1.72:1 on cream, so every load-bearing peach shape
+       carries a 1px ink ring to define its edge (15.5:1). */
+    .gw-mark{ box-shadow:0 0 0 1px #181d26; }
+    /* --- worked-example callouts --------------------------------------- */
+    .gw-chip{
+      background:#faf5e8; color:#181d26; border:1px solid #fcab79;
+      border-radius:6px; padding:6px 10px; font-size:12px; line-height:16px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .gw-stem{ display:none; background:#fcab79; position:absolute; }
+    @media (min-width:1280px){
+      .gw-annot{ position:relative; padding-top:56px; }
+      .gw-chip{ position:absolute; width:max-content; max-width:260px; transform:translateY(-50%); }
+      .gw-chip .gw-badge{ display:none; }
+      .gw-stem{ display:block; }
+      #chip1{ left:416px; top:28px; }
+      #stem1{ left:456px; top:44px; width:1px; height:32px; }
+      #chip2{ left:690px; top:127px; }
+      #stem2{ left:643px; top:127px; width:47px; height:1px; }
+      #chip3{ left:690px; top:208px; }
+      #stem3{ left:517px; top:208px; width:173px; height:1px; }
+    }
+    @media (max-width:1279px){
+      .gw-chips{ display:flex; flex-direction:column; gap:8px; margin-top:16px; }
+      .gw-chip{ position:static; width:100%; transform:none; }
+    }
+  </style>
+
+<meta name="preview-version" content="ae0ab1fc-5716-48be-aad1-57ed4e0f5298" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:15.301Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "ae0ab1fc-5716-48be-aad1-57ed4e0f5298");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "ae0ab1fc-5716-48be-aad1-57ed4e0f5298",
+      timestamp: "2026-10-16T14:07:15.301Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "ae0ab1fc-5716-48be-aad1-57ed4e0f5298";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="bg-ground text-paper font-sans" data-sd-id="1">
+
+    <!-- 1. MASTHEAD + SEARCH -->
+    <div class="px-6 pt-6 pb-2 md:px-12" data-sd-id="2">
+      <div class="gw-measure flex flex-col gap-8" data-sd-id="178">
+        <header class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center" data-sd-id="3">
+          <div class="text-body font-medium tracking-tight" data-sd-id="4">Gridwork</div>
+          <nav class="flex gap-6 text-body" data-sd-id="5">
+            <a id="nav-docs" href="#" class="hover:text-primary transition-colors" data-sd-id="6">Docs</a>
+            <a id="nav-api" href="#" class="hover:text-primary transition-colors" data-sd-id="7">API</a>
+            <a id="nav-status" href="#status" class="hover:text-primary transition-colors" data-sd-id="8">Status</a>
+            <a id="nav-login" href="#" class="hover:text-primary transition-colors" data-sd-id="9">Log in</a>
+          </nav>
+        </header>
+
+        <div class="flex flex-col gap-4" data-sd-id="10">
+          <h1 class="text-lead" data-sd-id="11">Gridwork help</h1>
+          <div class="relative" data-sd-id="155">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="#333840" stroke-width="1.4" stroke-linecap="round" class="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" data-sd-id="156">
+              <circle cx="7" cy="7" r="4.6"></circle><path d="M10.4 10.4 14 14"></path>
+            </svg>
+            <input id="search" type="text" aria-label="Search Gridwork help" placeholder="Search Gridwork help" class="w-full bg-paper text-ink rounded-[12px] pl-11 pr-4 py-3 text-body outline-none placeholder-muted-ink border border-rule" data-sd-id="12">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="px-6 md:px-12 pt-10 pb-12 flex flex-col gap-12 md:gap-16" data-sd-id="13">
+
+      <!-- 2. HERO: NAVIGATE BY LOCATION -->
+      <section class="gw-measure flex flex-col gap-6" data-sd-id="64">
+        <h2 class="text-section" data-sd-id="65">Where each answer lives</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-10" data-sd-id="66">
+          <div class="flex flex-col gap-3" data-sd-id="401">
+            <svg viewBox="0 0 360 200" class="w-full h-auto block" data-sd-id="421">
+              <defs><clipPath id="tc1"><rect x="0" y="0" width="360" height="200" rx="12"/></clipPath></defs>
+              <g clip-path="url(#tc1)"><rect x="0" y="0" width="360" height="200" fill="#faf5e8"/><rect x="0" y="0" width="8" height="200" fill="#214224"/><rect x="8" y="0" width="352" height="0" fill="#214224" fill-opacity=".05"/><text x="28" y="40" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Competitors</text><rect x="26" y="50" width="86" height="2" fill="#181d26"/><text x="150" y="40" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Recent news</text><rect x="8" y="64" width="352" height="1" fill="#214224" fill-opacity=".18"/><rect x="8" y="65" width="352" height="44" fill="#214224" fill-opacity=".05"/><rect x="8" y="109" width="352" height="1" fill="#214224" fill-opacity=".18"/><circle cx="30" cy="85" r="3.6" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M24.5 94c.7-2.8 2.6-4.2 5.5-4.2s4.8 1.4 5.5 4.2" fill="none" stroke="#333840" stroke-width="1.3"/><text x="46" y="93" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Company</text><text x="28" y="138" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Halden Foods</text><rect x="8" y="154" width="352" height="1" fill="#214224" fill-opacity=".18"/><text x="28" y="182" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Rivet Labs</text><circle cx="126" cy="32" r="14" fill="#fcab79" stroke="#181d26" stroke-width="1"/></g>
+              <rect x=".5" y=".5" width="359" height="199" rx="11.5" fill="none" stroke="#214224" stroke-opacity=".28"/>
+            </svg>
+            <div class="flex items-baseline justify-between gap-4" data-sd-id="441">
+              <span class="text-body" data-sd-id="461">Rename a view</span>
+              <span class="text-label shrink-0" style="color:var(--cream-quiet)" data-sd-id="481">2 steps</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3" data-sd-id="402">
+            <svg viewBox="0 0 360 200" class="w-full h-auto block" data-sd-id="422">
+              <defs><clipPath id="tc2"><rect x="0" y="0" width="360" height="200" rx="12"/></clipPath></defs>
+              <g clip-path="url(#tc2)"><rect x="0" y="0" width="360" height="200" fill="#faf5e8"/><text x="20" y="40" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Price comparison</text><text x="166" y="40" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">+ Add</text><rect x="0" y="64" width="360" height="1" fill="#214224" fill-opacity=".18"/><rect x="0" y="65" width="360" height="44" fill="#214224" fill-opacity=".05"/><rect x="0" y="109" width="360" height="1" fill="#214224" fill-opacity=".18"/><circle cx="24" cy="86" r="7" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M21.2 84.6l2.8 2.8 2.8-2.8" fill="none" stroke="#333840" stroke-width="1.3"/><text x="38" y="92" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Market position</text><rect x="24" y="128" width="80" height="22" rx="11" fill="#c7e5f2"/><text x="34" y="143" font-size="11" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Challenger</text><rect x="0" y="156" width="360" height="1" fill="#214224" fill-opacity=".18"/><rect x="24" y="170" width="60" height="22" rx="11" fill="#214224"/><text x="34" y="185" font-size="11" fill="#faf5e8" font-family="Plus Jakarta Sans, sans-serif">Leader</text><circle cx="238" cy="32" r="14" fill="#fcab79" stroke="#181d26" stroke-width="1"/></g>
+              <rect x=".5" y=".5" width="359" height="199" rx="11.5" fill="none" stroke="#214224" stroke-opacity=".28"/>
+            </svg>
+            <div class="flex items-baseline justify-between gap-4" data-sd-id="442">
+              <span class="text-body" data-sd-id="462">Duplicate a whole view and its filters</span>
+              <span class="text-label shrink-0" style="color:var(--cream-quiet)" data-sd-id="482">2 steps</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3" data-sd-id="403">
+            <svg viewBox="0 0 360 200" class="w-full h-auto block" data-sd-id="423">
+              <defs><clipPath id="tc3"><rect x="0" y="0" width="360" height="200" rx="12"/></clipPath></defs>
+              <g clip-path="url(#tc3)"><rect x="0" y="0" width="360" height="200" fill="#faf5e8"/><rect x="0" y="0" width="8" height="200" fill="#214224"/><rect x="8" y="26" width="352" height="1" fill="#214224" fill-opacity=".18"/><rect x="8" y="27" width="352" height="46" fill="#214224" fill-opacity=".05"/><rect x="8" y="73" width="352" height="1" fill="#214224" fill-opacity=".18"/><rect x="24" y="42" width="13" height="13" rx="2.5" fill="none" stroke="#333840" stroke-width="1.3"/><circle cx="64" cy="47" r="3.6" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M58.5 56c.7-2.8 2.6-4.2 5.5-4.2s4.8 1.4 5.5 4.2" fill="none" stroke="#333840" stroke-width="1.3"/><text x="80" y="55" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Company</text><rect x="209" y="43" width="14" height="12" rx="2" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M210.5 53l4-4 3.2 2.6 2.2-1.7 2 1.7" fill="none" stroke="#333840" stroke-width="1.3"/><text x="230" y="55" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Logo</text><rect x="48" y="27" width="1" height="173" fill="#214224" fill-opacity=".35"/><rect x="204" y="27" width="1" height="173" fill="#214224" fill-opacity=".30"/><text x="26" y="108" font-size="12" fill="#333840" font-family="IBM Plex Mono, monospace">1</text><text x="64" y="108" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Halden Foods</text><rect x="8" y="124" width="352" height="1" fill="#214224" fill-opacity=".18"/><text x="26" y="154" font-size="12" fill="#333840" font-family="IBM Plex Mono, monospace">2</text><text x="64" y="154" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Rivet Labs</text><rect x="8" y="170" width="352" height="1" fill="#214224" fill-opacity=".18"/><text x="26" y="196" font-size="12" fill="#333840" font-family="IBM Plex Mono, monospace">3</text><text x="64" y="196" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Marlow & Co</text><circle cx="170" cy="50" r="14" fill="#fcab79" stroke="#181d26" stroke-width="1"/></g>
+              <rect x=".5" y=".5" width="359" height="199" rx="11.5" fill="none" stroke="#214224" stroke-opacity=".28"/>
+            </svg>
+            <div class="flex items-baseline justify-between gap-4" data-sd-id="443">
+              <span class="text-body" data-sd-id="463">Pin the Company column to the left</span>
+              <span class="text-label shrink-0" style="color:var(--cream-quiet)" data-sd-id="483">2 steps</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3" data-sd-id="404">
+            <svg viewBox="0 0 360 200" class="w-full h-auto block" data-sd-id="424">
+              <defs><clipPath id="tc4"><rect x="0" y="0" width="360" height="200" rx="12"/></clipPath></defs>
+              <g clip-path="url(#tc4)"><rect x="0" y="0" width="360" height="200" fill="#faf5e8"/><rect x="0" y="18" width="360" height="1" fill="#214224" fill-opacity=".18"/><rect x="0" y="19" width="360" height="46" fill="#214224" fill-opacity=".05"/><rect x="0" y="65" width="360" height="1" fill="#214224" fill-opacity=".18"/><rect x="17" y="35" width="14" height="12" rx="2" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M18.5 45l4-4 3.2 2.6 2.2-1.7 2 1.7" fill="none" stroke="#333840" stroke-width="1.3"/><text x="38" y="47" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Logo</text><circle cx="120" cy="41" r="7" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M117.2 39.6l2.8 2.8 2.8-2.8" fill="none" stroke="#333840" stroke-width="1.3"/><text x="136" y="47" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Market position</text><rect x="20" y="80" width="26" height="26" rx="5" fill="#faf5e8" stroke="#214224" stroke-opacity=".25"/><text x="28" y="98" font-size="12" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">H</text><rect x="120" y="82" width="80" height="22" rx="11" fill="#c7e5f2"/><text x="130" y="97" font-size="11" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Challenger</text><rect x="0" y="120" width="360" height="1" fill="#214224" fill-opacity=".18"/><rect x="20" y="134" width="26" height="26" rx="5" fill="#faf5e8" stroke="#214224" stroke-opacity=".25"/><text x="28" y="152" font-size="12" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">R</text><rect x="120" y="136" width="60" height="22" rx="11" fill="#214224"/><text x="130" y="151" font-size="11" fill="#faf5e8" font-family="Plus Jakarta Sans, sans-serif">Leader</text><rect x="0" y="174" width="360" height="1" fill="#214224" fill-opacity=".18"/><circle cx="296" cy="41" r="14" fill="#fcab79" stroke="#181d26" stroke-width="1"/></g>
+              <rect x=".5" y=".5" width="359" height="199" rx="11.5" fill="none" stroke="#214224" stroke-opacity=".28"/>
+            </svg>
+            <div class="flex items-baseline justify-between gap-4" data-sd-id="444">
+              <span class="text-body" data-sd-id="464">Sort records by more than one field</span>
+              <span class="text-label shrink-0" style="color:var(--cream-quiet)" data-sd-id="484">4 steps</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3" data-sd-id="405">
+            <svg viewBox="0 0 360 200" class="w-full h-auto block" data-sd-id="425">
+              <defs><clipPath id="tc5"><rect x="0" y="0" width="360" height="200" rx="12"/></clipPath></defs>
+              <g clip-path="url(#tc5)"><rect x="0" y="0" width="360" height="200" fill="#faf5e8"/><rect x="0" y="0" width="8" height="200" fill="#214224"/><rect x="8" y="0" width="352" height="40" fill="#214224" fill-opacity=".05"/><rect x="8" y="40" width="352" height="1" fill="#214224" fill-opacity=".18"/><rect x="24" y="14" width="13" height="13" rx="2.5" fill="none" stroke="#333840" stroke-width="1.3"/><circle cx="70" cy="19" r="3.6" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M64.5 28c.7-2.8 2.6-4.2 5.5-4.2s4.8 1.4 5.5 4.2" fill="none" stroke="#333840" stroke-width="1.3"/><text x="86" y="27" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Company</text><rect x="48" y="0" width="1" height="200" fill="#214224" fill-opacity=".35"/><text x="26" y="76" font-size="12" fill="#333840" font-family="IBM Plex Mono, monospace">1</text><text x="70" y="76" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Halden Foods</text><rect x="8" y="94" width="352" height="1" fill="#214224" fill-opacity=".18"/><text x="26" y="130" font-size="12" fill="#333840" font-family="IBM Plex Mono, monospace">2</text><text x="70" y="130" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Rivet Labs</text><rect x="8" y="148" width="352" height="1" fill="#214224" fill-opacity=".18"/><text x="26" y="184" font-size="12" fill="#333840" font-family="IBM Plex Mono, monospace">3</text><text x="70" y="184" font-size="13" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Marlow & Co</text><circle cx="28" cy="130" r="14" fill="#fcab79" stroke="#181d26" stroke-width="1"/></g>
+              <rect x=".5" y=".5" width="359" height="199" rx="11.5" fill="none" stroke="#214224" stroke-opacity=".28"/>
+            </svg>
+            <div class="flex items-baseline justify-between gap-4" data-sd-id="445">
+              <span class="text-body" data-sd-id="465">Select several rows at once</span>
+              <span class="text-label shrink-0" style="color:var(--cream-quiet)" data-sd-id="485">2 steps</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3" data-sd-id="406">
+            <svg viewBox="0 0 360 200" class="w-full h-auto block" data-sd-id="426">
+              <defs><clipPath id="tc6"><rect x="0" y="0" width="360" height="200" rx="12"/></clipPath></defs>
+              <g clip-path="url(#tc6)"><rect x="0" y="0" width="360" height="200" fill="#faf5e8"/><rect x="0" y="18" width="360" height="1" fill="#214224" fill-opacity=".18"/><rect x="0" y="19" width="360" height="46" fill="#214224" fill-opacity=".05"/><rect x="0" y="65" width="360" height="1" fill="#214224" fill-opacity=".18"/><circle cx="24" cy="41" r="7" fill="none" stroke="#333840" stroke-width="1.3"/><path d="M21.2 39.6l2.8 2.8 2.8-2.8" fill="none" stroke="#333840" stroke-width="1.3"/><text x="40" y="47" font-size="13" fill="#333840" font-family="Plus Jakarta Sans, sans-serif">Market position</text><rect x="24" y="82" width="80" height="22" rx="11" fill="#c7e5f2"/><text x="34" y="97" font-size="11" fill="#181d26" font-family="Plus Jakarta Sans, sans-serif">Challenger</text><rect x="0" y="120" width="360" height="1" fill="#214224" fill-opacity=".18"/><rect x="24" y="136" width="60" height="22" rx="11" fill="#214224"/><text x="34" y="151" font-size="11" fill="#faf5e8" font-family="Plus Jakarta Sans, sans-serif">Leader</text><rect x="0" y="174" width="360" height="1" fill="#214224" fill-opacity=".18"/><circle cx="56" cy="182" r="14" fill="#fcab79" stroke="#181d26" stroke-width="1"/></g>
+              <rect x=".5" y=".5" width="359" height="199" rx="11.5" fill="none" stroke="#214224" stroke-opacity=".28"/>
+            </svg>
+            <div class="flex items-baseline justify-between gap-4" data-sd-id="446">
+              <span class="text-body" data-sd-id="466">Filter out records with an empty cell</span>
+              <span class="text-label shrink-0" style="color:var(--cream-quiet)" data-sd-id="486">3 steps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. ONE WORKED EXAMPLE -->
+      <section class="gw-measure flex flex-col gap-5" data-sd-id="14">
+        <h2 class="text-section" data-sd-id="200">Change a status option</h2>
+        <div class="text-body" style="color:var(--cream-quiet)" data-sd-id="15">Three steps, on the Competitors view.</div>
+
+        <div class="gw-annot" data-sd-id="157">
+          <div class="gw-panel relative bg-paper rounded-[16px] border border-rule flex text-ink" data-sd-id="16">
+            <div class="w-2 shrink-0 rounded-l-[15px]" style="background:#214224" data-sd-id="17"></div>
+            <div class="flex-1 min-w-0 flex flex-col" data-sd-id="18">
+
+              <div class="flex flex-wrap px-3 sm:px-4 pt-4" style="border-bottom:1px solid var(--hair)" data-sd-id="19">
+                <div class="px-3 xl:px-0 xl:w-[110px] xl:text-center py-2 text-label text-ink" style="border-bottom:2px solid #181d26" data-sd-id="20">Competitors</div>
+                <div class="px-3 xl:px-0 xl:w-[110px] xl:text-center py-2 text-label text-muted-ink" data-sd-id="21">Recent news</div>
+                <div class="px-3 xl:px-0 xl:w-[137px] xl:text-center py-2 text-label text-muted-ink" data-sd-id="22">Price comparison</div>
+                <div class="relative pl-3 pr-6 xl:px-0 xl:w-[74px] xl:text-center py-2 text-label text-muted-ink" data-sd-id="23">
+                  + Add
+                  <div class="gw-mark absolute w-[28px] h-[28px] bg-primary rounded-full flex items-center justify-center font-mono text-ink" style="font-size:12px;right:-14px;top:50%;transform:translateY(-50%);z-index:5" data-sd-id="24">1</div>
+                </div>
+              </div>
+
+              <div class="gw-row px-3 sm:px-4 py-2 text-label text-muted-ink" style="background:var(--wash);border-bottom:1px solid var(--hair)" data-sd-id="28">
+                <div class="gw-cell" data-sd-id="29">
+                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#333840" stroke-width="1.4" class="gw-ticon" data-sd-id="158"><rect x="3" y="3" width="10" height="10" rx="2"></rect></svg>
+                </div>
+                <div class="gw-cell flex items-center gap-2 min-w-0" data-sd-id="30">
+                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#333840" stroke-width="1.4" stroke-linecap="round" class="gw-ticon shrink-0" data-sd-id="159"><circle cx="8" cy="5.5" r="2.6"></circle><path d="M3.2 13c.6-2.4 2.5-3.6 4.8-3.6S12.2 10.6 12.8 13"></path></svg>
+                  <span class="truncate" data-sd-id="160">Company</span>
+                </div>
+                <div class="gw-cell flex items-center gap-2 min-w-0" data-sd-id="31">
+                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#333840" stroke-width="1.4" class="gw-ticon shrink-0" data-sd-id="161"><rect x="2.5" y="3.5" width="11" height="9" rx="1.6"></rect><circle cx="6" cy="6.8" r="1"></circle><path d="M3 11.2 6.4 8.4l3.2 2.6 1.8-1.4 1.6 1.3"></path></svg>
+                  <span class="truncate" data-sd-id="162">Logo</span>
+                </div>
+                <div class="gw-cell relative flex items-center gap-2 min-w-0" data-sd-id="32">
+                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#333840" stroke-width="1.4" stroke-linecap="round" class="gw-ticon shrink-0" data-sd-id="163"><circle cx="8" cy="8" r="5.6"></circle><path d="m5.9 7 2.1 2.2L10.1 7"></path></svg>
+                  <span class="truncate" data-sd-id="164">Market position</span>
+                  <div class="gw-mark absolute w-[28px] h-[28px] bg-primary rounded-full flex items-center justify-center font-mono text-ink" style="font-size:12px;right:2px;top:50%;transform:translateY(-50%);z-index:5" data-sd-id="33">2</div>
+                </div>
+                <div class="gw-blank" data-sd-id="165"></div>
+              </div>
+
+              <div class="flex flex-col" data-sd-id="37">
+                <div class="gw-row px-3 sm:px-4" style="height:48px" data-sd-id="38">
+                  <div class="gw-cell font-mono text-muted-ink" style="font-size:12px" data-sd-id="39">1</div>
+                  <div class="gw-cell text-label truncate" data-sd-id="40">Halden Foods</div>
+                  <div class="gw-cell" data-sd-id="41">
+                    <div class="w-6 h-6 rounded flex items-center justify-center text-label" style="background:#c7e5f2;color:#181d26" data-sd-id="42">H</div>
+                  </div>
+                  <div class="gw-cell" data-sd-id="43">
+                    <span class="inline-block px-2 py-1 rounded-full" style="font-size:12px;line-height:14px;background:#c7e5f2;color:#181d26" data-sd-id="44">Challenger</span>
+                  </div>
+                  <div class="gw-blank" data-sd-id="166"></div>
+                </div>
+                <div style="border-bottom:1px solid var(--hair)" data-sd-id="190"></div>
+
+                <div class="gw-row px-3 sm:px-4" style="height:48px" data-sd-id="45">
+                  <div class="gw-cell font-mono text-muted-ink" style="font-size:12px" data-sd-id="46">2</div>
+                  <div class="gw-cell text-label truncate" data-sd-id="47">Rivet Labs</div>
+                  <div class="gw-cell" data-sd-id="48">
+                    <div class="w-6 h-6 rounded flex items-center justify-center text-label" style="background:#faf5e8;border:1px solid var(--hair);color:#333840" data-sd-id="49">R</div>
+                  </div>
+                  <div class="gw-cell relative" data-sd-id="50">
+                    <span class="inline-block px-2 py-1 rounded-full" style="font-size:12px;line-height:14px;background:#214224;color:#faf5e8" data-sd-id="51">Leader</span>
+                    <div class="gw-mark absolute w-[28px] h-[28px] bg-primary rounded-full flex items-center justify-center font-mono text-ink" style="font-size:12px;left:54px;top:-10px;z-index:5" data-sd-id="52">3</div>
+                  </div>
+                  <div class="gw-blank" data-sd-id="167"></div>
+                </div>
+                <div style="border-bottom:1px solid var(--hair)" data-sd-id="191"></div>
+
+                <div class="gw-row px-3 sm:px-4" style="height:48px" data-sd-id="56">
+                  <div class="gw-cell font-mono text-muted-ink" style="font-size:12px" data-sd-id="57">3</div>
+                  <div class="gw-cell text-label truncate" data-sd-id="58">Marlow &amp; Co</div>
+                  <div class="gw-cell" data-sd-id="59">
+                    <div class="w-6 h-6 rounded flex items-center justify-center text-label" style="background:#faf5e8;border:1px solid var(--hair);color:#333840" data-sd-id="60">M</div>
+                  </div>
+                  <div class="gw-cell" data-sd-id="61">
+                    <span class="inline-block px-2 py-1 rounded-full" style="font-size:12px;line-height:14px;background:#faf5e8;border:1px solid #214224;color:#333840" data-sd-id="62">Niche</span>
+                  </div>
+                  <div class="gw-blank" data-sd-id="168"></div>
+                </div>
+              </div>
+              <div style="height:16px" data-sd-id="169"></div>
+            </div>
+          </div>
+
+          <div id="stem1" class="gw-stem" data-sd-id="26"></div>
+          <div id="stem2" class="gw-stem" data-sd-id="36"></div>
+          <div id="stem3" class="gw-stem" data-sd-id="54"></div>
+
+          <div class="gw-chips" data-sd-id="170">
+            <div id="chip1" class="gw-chip" data-sd-id="27">
+              <span class="gw-badge gw-mark shrink-0 w-[28px] h-[28px] bg-primary rounded-full flex items-center justify-center font-mono" style="font-size:12px" data-sd-id="171">1</span>
+              <span data-sd-id="172">Open this menu, choose Single select</span>
+            </div>
+            <div id="chip2" class="gw-chip" data-sd-id="35">
+              <span class="gw-badge gw-mark shrink-0 w-[28px] h-[28px] bg-primary rounded-full flex items-center justify-center font-mono" style="font-size:12px" data-sd-id="173">2</span>
+              <span data-sd-id="174">Open this header, then Edit options</span>
+            </div>
+            <div id="chip3" class="gw-chip" data-sd-id="55">
+              <span class="gw-badge gw-mark shrink-0 w-[28px] h-[28px] bg-primary rounded-full flex items-center justify-center font-mono" style="font-size:12px" data-sd-id="175">3</span>
+              <span data-sd-id="176">Rename this option</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. BILLING AND ACCOUNT -->
+      <section class="gw-measure flex flex-col gap-5" data-sd-id="116">
+        <h2 class="text-section" data-sd-id="117">Billing and account</h2>
+        <div class="flex flex-col" data-sd-id="118">
+          <div class="py-4 text-body" style="border-bottom:1px solid #214224" data-sd-id="119">How the billing cycle is calculated</div>
+          <div class="py-4 text-body" style="border-bottom:1px solid #214224" data-sd-id="120">Export limits on the starter plan</div>
+          <div class="py-4 text-body" style="border-bottom:1px solid #214224" data-sd-id="121">Adding and removing seats mid-cycle</div>
+          <div class="py-4 text-body" style="border-bottom:1px solid #214224" data-sd-id="122">How long we keep deleted data</div>
+        </div>
+      </section>
+
+      <!-- 5. STATUS -->
+      <section id="status" class="gw-measure" data-sd-id="123">
+        <div class="py-4" style="border-top:1px solid #214224;border-bottom:1px solid #214224" data-sd-id="179">
+          <div class="font-mono" style="font-size:12px;line-height:16px;color:var(--cream-quiet)" data-sd-id="124">All systems operational. Sync last checked 4 minutes ago.</div>
+        </div>
+      </section>
+
+      <!-- 6. STILL STUCK -->
+      <section class="gw-measure bg-paper text-ink rounded-[16px] p-8 md:p-10 flex flex-col md:flex-row md:items-start gap-8 md:gap-16" data-sd-id="125">
+        <div class="flex flex-col gap-5 items-start md:flex-1" data-sd-id="180">
+          <h2 class="text-section" data-sd-id="126">Still stuck? Send us the screen.</h2>
+          <p class="text-body max-w-md" data-sd-id="128">Put these four things in the ticket and we can usually answer on the first reply:</p>
+          <a id="btn-ticket" href="#" class="bg-primary text-ink text-label px-6 py-3 rounded-[12px] inline-block" style="border:1px solid #181d26" data-sd-id="134">Open a ticket</a>
+        </div>
+        <div class="text-body md:flex-1 md:max-w-md" data-sd-id="127">
+          <ul class="list-disc pl-5 space-y-2" data-sd-id="129">
+            <li data-sd-id="130">Your workspace name</li>
+            <li data-sd-id="131">The view you were on</li>
+            <li data-sd-id="132">The control you clicked</li>
+            <li data-sd-id="133">What happened instead</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- 7. FOOTER -->
+    <footer class="px-6 md:px-12 pt-10 pb-12 flex flex-col gap-8" data-sd-id="135">
+      <div class="gw-measure" style="height:1px;background:#214224" data-sd-id="136"></div>
+      <div class="gw-measure flex flex-col md:flex-row gap-10 md:gap-24" data-sd-id="137">
+        <div class="text-body font-medium tracking-tight" data-sd-id="138">Gridwork</div>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-16 w-full text-body" data-sd-id="139">
+          <div class="flex flex-col gap-3" data-sd-id="140">
+            <div class="text-label" style="color:var(--cream-quiet)" data-sd-id="141">Product</div>
+            <a id="ft-features" href="#" class="hover:text-primary transition-colors" data-sd-id="142">Features</a>
+            <a id="ft-pricing" href="#" class="hover:text-primary transition-colors" data-sd-id="143">Pricing</a>
+            <a id="ft-changelog" href="#" class="hover:text-primary transition-colors" data-sd-id="144">Changelog</a>
+          </div>
+          <div class="flex flex-col gap-3" data-sd-id="145">
+            <div class="text-label" style="color:var(--cream-quiet)" data-sd-id="146">Developers</div>
+            <a id="ft-api" href="#" class="hover:text-primary transition-colors" data-sd-id="147">API</a>
+            <a id="ft-webhooks" href="#" class="hover:text-primary transition-colors" data-sd-id="148">Webhooks</a>
+            <a id="ft-status" href="#status" class="hover:text-primary transition-colors" data-sd-id="149">Status</a>
+          </div>
+          <div class="flex flex-col gap-3" data-sd-id="150">
+            <div class="text-label" style="color:var(--cream-quiet)" data-sd-id="151">Company</div>
+            <a id="ft-about" href="#" class="hover:text-primary transition-colors" data-sd-id="152">About</a>
+            <a id="ft-blog" href="#" class="hover:text-primary transition-colors" data-sd-id="153">Blog</a>
+            <a id="ft-careers" href="#" class="hover:text-primary transition-colors" data-sd-id="154">Careers</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</body></html>

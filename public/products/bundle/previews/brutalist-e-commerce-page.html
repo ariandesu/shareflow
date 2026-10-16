@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster Campaign E-Commerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+    <meta name="view-transition" content="same-origin">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        base: '#E4E2DD',
+                        primary: '#1E1E1E',
+                        'accent-red': '#DB4A2B',
+                        'accent-orange': '#F8A348',
+                        'accent-pink': '#FF89A9',
+                        muted: '#444444',
+                    },
+                    fontFamily: {
+                        sans: ['Satoshi', 'sans-serif'],
+                        display: ['Clash Display', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar to match aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E4E2DD;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #DB4A2B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1E1E1E;
+        }
+        
+        .text-outline {
+            -webkit-text-stroke: 1px #1E1E1E;
+            color: transparent;
+        }
+        
+        .blend-multiply {
+            mix-blend-mode: multiply;
+        }
+        
+        /* Smooth reveal animations */
+        @keyframes slide-up {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .animate-enter {
+            animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        /* Custom cursor interaction */
+        .hover-trigger:hover .hover-target {
+            transform: scaleX(1);
+        }
+    </style>
+
+<meta name="preview-version" content="da34d4ac-cb7e-4391-af07-ec9085970f46" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:16.253Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "da34d4ac-cb7e-4391-af07-ec9085970f46");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "da34d4ac-cb7e-4391-af07-ec9085970f46",
+      timestamp: "2026-10-16T14:07:16.253Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "da34d4ac-cb7e-4391-af07-ec9085970f46";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body class="bg-base text-primary font-sans antialiased overflow-x-hidden selection:bg-accent-red selection:text-white">
+    <div class="min-h-screen flex flex-col relative">
+        
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-6 md:px-12 mix-blend-difference text-white md:mix-blend-normal md:text-primary">
+            <div class="flex items-center gap-2">
+                <a href="#" id="nav-logo" class="font-display font-bold text-2xl tracking-tighter uppercase z-50 relative hover:text-accent-red transition-colors duration-300">Studio/Raw</a>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm tracking-widest uppercase">
+                <a href="#shop" class="hover:text-accent-red transition-colors">Collection</a>
+                <a href="#campaign" class="hover:text-accent-red transition-colors">Campaign</a>
+                <a href="#about" class="hover:text-accent-red transition-colors">Archive</a>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <a href="#search" class="hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:search" width="20"></iconify-icon>
+                </a>
+                <a href="#cart" class="relative hover:scale-110 transition-transform">
+                    <iconify-icon icon="lucide:shopping-bag" width="20"></iconify-icon>
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-accent-red rounded-full"></span>
+                </a>
+                <button class="md:hidden">
+                    <iconify-icon icon="lucide:menu" width="24"></iconify-icon>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="relative min-h-screen flex flex-col justify-end pb-12 md:pb-24 overflow-hidden">
+            <!-- Gradient Background Blobs -->
+            <div class="absolute inset-0 z-0 opacity-90">
+                <div class="absolute top-[10%] left-[20%] w-[60vw] h-[60vw] bg-accent-red rounded-full mix-blend-multiply filter blur-[100px] md:blur-[140px] animate-pulse" style="animation-duration: 8s;"></div>
+                <div class="absolute bottom-[10%] right-[10%] w-[50vw] h-[50vw] bg-accent-orange rounded-full mix-blend-multiply filter blur-[80px] md:blur-[120px] opacity-80"></div>
+                <div class="absolute top-[40%] left-[40%] w-[30vw] h-[30vw] bg-accent-pink rounded-full mix-blend-multiply filter blur-[60px] opacity-40"></div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 px-4 md:px-12 w-full">
+                <div class="max-w-[95%] mx-auto md:mx-0">
+                    <!-- Massive Headline -->
+                    <h1 class="font-display font-bold text-[18vw] leading-[0.75] tracking-tighter uppercase text-primary animate-enter">
+                        Raw<br>
+                        <span class="ml-[10vw] md:ml-[15vw] block">Form.</span>
+                    </h1>
+                    
+                    <div class="flex flex-col md:flex-row items-start md:items-end justify-between mt-12 md:mt-4 gap-8 animate-enter delay-100">
+                        <div class="max-w-xs md:max-w-sm">
+                            <p class="text-lg md:text-xl font-medium leading-snug">
+                                Functionality stripped to its core. <br>
+                                No excess. Just pure utility for the modern nomad.
+                            </p>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                            <a href="#shop-now" id="hero-cta-primary" class="group relative overflow-hidden bg-primary text-base px-8 py-4 font-bold uppercase tracking-wide min-w-[160px] text-center">
+                                <span class="relative z-10 group-hover:text-accent-red transition-colors duration-300">Shop Now</span>
+                                <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out z-0"></div>
+                            </a>
+                            <a href="#explore" id="hero-cta-secondary" class="flex items-center justify-center gap-2 px-8 py-4 text-accent-red font-bold uppercase tracking-wide hover:opacity-70 transition-opacity">
+                                <span>Explore Lookbook</span>
+                                <iconify-icon icon="lucide:arrow-right" class="transform group-hover:translate-x-1 transition-transform"></iconify-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 md:right-12 md:left-auto md:translate-x-0 animate-bounce">
+                <iconify-icon icon="lucide:arrow-down" width="24" class="text-primary"></iconify-icon>
+            </div>
+        </header>
+
+        <!-- Category Divider 1 -->
+        <section class="relative py-24 md:py-32 overflow-hidden border-t border-primary/10">
+             <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-full pointer-events-none z-0">
+                <div class="absolute left-[10%] w-[40vw] h-[40vw] bg-accent-orange/20 rounded-full filter blur-[100px]"></div>
+            </div>
+            <div class="container mx-auto px-4 md:px-12 relative z-10">
+                <h2 class="font-display font-bold text-[12vw] leading-none tracking-tighter text-primary uppercase opacity-90">
+                    Outerwear
+                </h2>
+            </div>
+        </section>
+
+        <!-- Product Grid -->
+        <section class="px-4 md:px-12 pb-32">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-16">
+                
+                <!-- Product 1 -->
+                <div class="group cursor-pointer">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-gray-200 mb-6">
+                        <img src="https://images.unsplash.com/photo-1544923246-77307dd654cb?q=80&w=1287&auto=format&fit=crop" 
+                             alt="Structure Coat" 
+                             class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/1287x400/1a1a1a/888?text=Image';">
+                        <div class="absolute top-4 right-4 bg-accent-red text-white text-xs font-bold px-2 py-1 uppercase tracking-wider">
+                            New Arrival
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold uppercase tracking-[0.15em] text-sm md:text-base group-hover:text-accent-pink transition-colors duration-300">
+                                Structure Coat
+                            </h3>
+                            <p class="text-muted text-xs mt-1 uppercase tracking-wide">Heavyweight Canvas</p>
+                        </div>
+                        <span class="text-muted font-medium">$450</span>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="group cursor-pointer">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-gray-200 mb-6">
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1336&auto=format&fit=crop" 
+                             alt="Utility Jacket" 
+                             class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/1336x400/1a1a1a/888?text=Image';">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold uppercase tracking-[0.15em] text-sm md:text-base group-hover:text-accent-pink transition-colors duration-300">
+                                Utility Jacket 02
+                            </h3>
+                            <p class="text-muted text-xs mt-1 uppercase tracking-wide">Technical Nylon</p>
+                        </div>
+                        <span class="text-muted font-medium">$280</span>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="group cursor-pointer">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-gray-200 mb-6">
+                        <img src="https://images.unsplash.com/photo-1550614000-4b9519e02a48?q=80&w=1287&auto=format&fit=crop" 
+                             alt="Field Overshirt" 
+                             class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/1287x400/1a1a1a/888?text=Image';">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold uppercase tracking-[0.15em] text-sm md:text-base group-hover:text-accent-pink transition-colors duration-300">
+                                Field Overshirt
+                            </h3>
+                            <p class="text-muted text-xs mt-1 uppercase tracking-wide">Brushed Cotton</p>
+                        </div>
+                        <span class="text-muted font-medium">$195</span>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="group cursor-pointer">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-gray-200 mb-6">
+                        <img src="https://images.unsplash.com/photo-1620799140408-ed5341cd2431?q=80&w=1322&auto=format&fit=crop" 
+                             alt="Modular Vest" 
+                             class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/1322x400/1a1a1a/888?text=Image';">
+                        <div class="absolute top-4 left-4 text-accent-pink mix-blend-difference">
+                             <iconify-icon icon="lucide:zap" width="20"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold uppercase tracking-[0.15em] text-sm md:text-base group-hover:text-accent-pink transition-colors duration-300">
+                                Modular Vest
+                            </h3>
+                            <p class="text-muted text-xs mt-1 uppercase tracking-wide">Recycled Mesh</p>
+                        </div>
+                        <span class="text-muted font-medium">$140</span>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="group cursor-pointer">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-gray-200 mb-6">
+                        <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1287&auto=format&fit=crop" 
+                             alt="Pleated Trouser" 
+                             class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/1287x400/1a1a1a/888?text=Image';">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold uppercase tracking-[0.15em] text-sm md:text-base group-hover:text-accent-pink transition-colors duration-300">
+                                Pleated Trouser
+                            </h3>
+                            <p class="text-muted text-xs mt-1 uppercase tracking-wide">Wool Blend</p>
+                        </div>
+                        <span class="text-muted font-medium">$220</span>
+                    </div>
+                </div>
+
+                <!-- Product 6 - Banner -->
+                <div class="relative bg-primary text-base p-8 flex flex-col justify-center items-center text-center aspect-[3/4] group overflow-hidden">
+                    <div class="absolute inset-0 bg-accent-red opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+                    <div class="relative z-10">
+                         <h3 class="font-display text-4xl font-bold uppercase mb-4 text-white">
+                            Full<br>Archive
+                        </h3>
+                        <a href="#collection" class="inline-flex items-center gap-2 text-white/80 hover:text-white uppercase tracking-widest text-sm border-b border-white/30 pb-1">
+                            View All 
+                            <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Campaign Block -->
+        <section class="bg-[#D9D6D0] py-32 px-4 md:px-12 border-t border-primary/10 relative overflow-hidden">
+             <div class="absolute right-0 bottom-0 w-[40vw] h-[40vw] bg-accent-red/10 rounded-full filter blur-[120px] pointer-events-none"></div>
+             
+             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+                 <div class="lg:col-span-8">
+                     <h2 class="font-display font-bold text-[8vw] md:text-[6vw] leading-[0.9] uppercase tracking-tighter mb-8">
+                         Designed for <br>
+                         <span class="text-accent-red">Movement.</span>
+                     </h2>
+                     <p class="text-xl md:text-2xl font-sans max-w-2xl leading-relaxed">
+                         Our latest series focuses on the space between the body and the fabric. 
+                         Garments that breathe, adapt, and endure the rhythm of the city.
+                     </p>
+                 </div>
+                 <div class="lg:col-span-4 flex flex-col gap-6">
+                     <div class="w-full h-px bg-primary/20"></div>
+                     <div class="flex justify-between items-center group cursor-pointer">
+                         <span class="font-bold uppercase tracking-widest">Read the Story</span>
+                         <span class="w-12 h-12 rounded-full border border-primary flex items-center justify-center group-hover:bg-primary group-hover:text-base transition-all duration-300">
+                             <iconify-icon icon="lucide:arrow-up-right" width="20"></iconify-icon>
+                         </span>
+                     </div>
+                     <div class="w-full h-px bg-primary/20"></div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- Category Divider 2 -->
+        <section class="relative py-24 md:py-32 overflow-hidden border-t border-primary/10">
+             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-full h-full pointer-events-none z-0">
+                <div class="absolute right-[10%] w-[50vw] h-[50vw] bg-accent-pink/20 rounded-full filter blur-[100px]"></div>
+            </div>
+            <div class="container mx-auto px-4 md:px-12 relative z-10 text-right">
+                <h2 class="font-display font-bold text-[12vw] leading-none tracking-tighter text-primary uppercase opacity-90">
+                    Objects
+                </h2>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-primary text-base py-20 px-4 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-24 mb-20">
+                <div class="md:col-span-2">
+                    <h3 class="font-display font-bold text-4xl mb-6">STUDIO/RAW</h3>
+                    <p class="max-w-md text-white/60 mb-8">Experimental commerce platform focused on quality over quantity. Founded 2024.</p>
+                    <div class="flex gap-4">
+                        <a href="#" id="social-ig" class="text-white/60 hover:text-white transition-colors">
+                            <iconify-icon icon="lucide:instagram" width="24"></iconify-icon>
+                        </a>
+                        <a href="#" id="social-tw" class="text-white/60 hover:text-white transition-colors">
+                            <iconify-icon icon="lucide:twitter" width="24"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold uppercase tracking-widest mb-6 text-sm">Service</h4>
+                    <ul class="space-y-3 text-white/60 text-sm">
+                        <li><a href="#" class="hover:text-accent-orange transition-colors">Shipping & Returns</a></li>
+                        <li><a href="#" class="hover:text-accent-orange transition-colors">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-accent-orange transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-accent-orange transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold uppercase tracking-widest mb-6 text-sm">Legal</h4>
+                    <ul class="space-y-3 text-white/60 text-sm">
+                        <li><a href="#" class="hover:text-accent-orange transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-accent-orange transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-end border-t border-white/10 pt-8">
+                <div class="text-[10vw] md:text-[8vw] font-display font-bold leading-none text-white/10 select-none pointer-events-none">
+                    2024
+                </div>
+                <div class="text-white/40 text-xs uppercase tracking-widest mb-2">
+                    © All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

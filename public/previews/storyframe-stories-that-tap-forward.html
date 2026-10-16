@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyframe — Fullscreen Story Carousels</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { DEFAULT: '#0b1f3a', 900: '#081627', 800: '#0b1f3a', 700: '#122e54', 600: '#1b3e6e' },
+        cream: { DEFAULT: '#f6f1e3', soft: '#e9e1cc', dim: '#bcb4a0' },
+        amber: { DEFAULT: '#f0b429', soft: '#f8cf67', deep: '#c98a12' },
+      },
+      fontFamily: { sans: ['Inter', 'sans-serif'] },
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #0b1f3a; color: #f6f1e3; -webkit-font-smoothing: antialiased; }
+  .grain { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"); }
+  .glow-amber { box-shadow: 0 0 0 1px rgba(240,180,41,0.25), 0 24px 60px -20px rgba(240,180,41,0.35); }
+  .slide-shadow { box-shadow: 0 40px 90px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(246,241,227,0.06); }
+  .seg { background: rgba(246,241,227,0.22); }
+  .seg-fill { background: #f0b429; }
+  .seg-anim { transform-origin: left; animation: fillbar 5s linear forwards; }
+  @keyframes fillbar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) { .seg-anim { animation: none; } * { scroll-behavior: auto; } }
+  .tap-hint { background: linear-gradient(90deg, rgba(11,31,58,0) 0%, rgba(240,180,41,0.10) 100%); }
+  .tap-hint-l { background: linear-gradient(270deg, rgba(11,31,58,0) 0%, rgba(240,180,41,0.10) 100%); }
+  ::selection { background: #f0b429; color: #081627; }
+  .mask-fade { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 100%); }
+</style>
+
+<meta name="preview-version" content="78bddb22-cced-40b1-9bfa-a256f071860b" />
+<meta name="preview-timestamp" content="2026-10-16T14:07:15.510Z" />
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "78bddb22-cced-40b1-9bfa-a256f071860b");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "78bddb22-cced-40b1-9bfa-a256f071860b",
+      timestamp: "2026-10-16T14:07:15.510Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script  src="https://cdn.jsdelivr.net/npm/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "78bddb22-cced-40b1-9bfa-a256f071860b";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+</head>
+<body>
+  <div class="min-h-screen bg-navy overflow-x-hidden">
+    <!-- ===== STICKY NAV ===== -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-navy-900/80 border-b border-cream/10">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+        <a href="#" id="nav-brand-logo" class="flex items-center gap-2.5">
+          <span class="grid place-items-center w-9 h-9 rounded-xl bg-amber text-navy-900 shadow-lg shadow-amber/30">
+            <iconify-icon icon="solar:posts-carousel-vertical-bold" width="20"></iconify-icon>
+          </span>
+          <span class="text-lg font-extrabold tracking-tight">Storyframe</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-cream-dim">
+          <a href="#showcase" id="nav-showcase-link" class="hover:text-cream transition">Showcase</a>
+          <a href="#prompts" id="nav-prompts-link" class="hover:text-cream transition">Prompt Library</a>
+          <a href="#craft" id="nav-craft-link" class="hover:text-cream transition">Craft</a>
+          <a href="#start" id="nav-pricing-link" class="hover:text-cream transition">Pricing</a>
+        </nav>
+        <div class="flex items-center gap-3">
+          <a href="#" id="nav-signin-link" class="hidden sm:inline text-sm font-medium text-cream-dim hover:text-cream transition">Sign in</a>
+          <a href="#start" id="nav-start-btn" class="text-sm font-semibold px-4 py-2 rounded-full bg-amber text-navy-900 hover:bg-amber-soft transition shadow-lg shadow-amber/20">
+            Start free
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 grain opacity-[0.04] pointer-events-none"></div>
+      <div class="absolute -top-40 -left-40 w-[34rem] h-[34rem] rounded-full bg-amber/10 blur-[120px] pointer-events-none"></div>
+      <div class="absolute top-20 right-0 w-[28rem] h-[28rem] rounded-full bg-navy-600/40 blur-[120px] pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-12 lg:pt-24 lg:pb-20">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div class="max-w-xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber/30 bg-amber/5 text-amber-soft text-xs font-semibold tracking-wide mb-7">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber animate-pulse"></span>
+              FULLSCREEN STORY CAROUSEL · NEW PATTERN
+            </div>
+            <h1 class="text-[2.7rem] leading-[1.05] sm:text-6xl font-black tracking-tight">
+              Stories that<br>
+              <span class="text-amber">tap forward.</span>
+            </h1>
+            <p class="mt-6 text-lg text-cream-soft/80 leading-relaxed">
+              Immersive, full-bleed story carousels with segmented progress bars and tap-to-advance zones. Prompt it, drop it in, ship the kind of cinematic onboarding people actually finish.
+            </p>
+            <div class="mt-9 flex flex-wrap items-center gap-3">
+              <a href="#start" id="cta-generate-btn" class="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-amber text-navy-900 font-bold hover:bg-amber-soft transition glow-amber">
+                Generate a story carousel
+                <iconify-icon icon="solar:arrow-right-linear" width="18" class="group-hover:translate-x-1 transition"></iconify-icon>
+              </a>
+              <a href="#showcase" id="cta-live-btn" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-cream/15 text-cream font-semibold hover:border-cream/35 hover:bg-cream/5 transition">
+                <iconify-icon icon="solar:play-circle-bold" width="18" class="text-amber"></iconify-icon>
+                See it live
+              </a>
+            </div>
+            <div class="mt-10 flex items-center gap-6 text-sm text-cream-dim">
+              <div class="flex items-center gap-2"><iconify-icon icon="solar:bolt-bold" class="text-amber" width="16"></iconify-icon> Copy-paste React + Tailwind</div>
+              <div class="flex items-center gap-2"><iconify-icon icon="solar:hand-shake-bold" class="text-amber" width="16"></iconify-icon> Touch + keyboard ready</div>
+            </div>
+          </div>
+
+          <div class="relative flex justify-center lg:justify-end">
+            <div class="relative w-[300px] sm:w-[340px] aspect-[9/16] rounded-[2rem] overflow-hidden slide-shadow bg-navy-700">
+              <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?q=80&w=1200&auto=format&fit=crop" alt="Cliffside village" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/1200x400/1a1a1a/888?text=Image';">
+              <div class="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-navy-900/10 to-navy-900/40"></div>
+              <div class="absolute inset-0 bg-gradient-to-r from-navy-900/30 to-transparent"></div>
+              <div class="absolute top-4 left-4 right-4 flex gap-1.5 z-20">
+                <div class="seg h-1 rounded-full flex-1 overflow-hidden"><div class="seg-fill h-full w-full rounded-full"></div></div>
+                <div class="seg h-1 rounded-full flex-1 overflow-hidden"><div class="seg-fill seg-anim h-full w-full rounded-full"></div></div>
+                <div class="seg h-1 rounded-full flex-1"></div>
+                <div class="seg h-1 rounded-full flex-1"></div>
+                <div class="seg h-1 rounded-full flex-1"></div>
+              </div>
+              <div class="absolute top-9 left-4 right-4 flex items-center justify-between z-20">
+                <div class="flex items-center gap-2.5">
+                  <span class="grid place-items-center w-8 h-8 rounded-full bg-amber text-navy-900 text-xs font-black ring-2 ring-cream/30">SF</span>
+                  <div class="leading-tight">
+                    <p class="text-[13px] font-bold text-cream">Storyframe</p>
+                    <p class="text-[11px] text-cream-dim">2 of 5 · 4s</p>
+                  </div>
+                </div>
+                <button class="grid place-items-center w-8 h-8 rounded-full bg-navy-900/40 backdrop-blur text-cream/80">
+                  <iconify-icon icon="solar:menu-dots-bold" width="18"></iconify-icon>
+                </button>
+              </div>
+              <div class="absolute inset-y-0 left-0 w-1/3 z-10 tap-hint-l flex items-center pl-2 opacity-0 hover:opacity-100 transition">
+                <span class="grid place-items-center w-9 h-9 rounded-full bg-navy-900/50 backdrop-blur text-cream"><iconify-icon icon="solar:alt-arrow-left-linear" width="18"></iconify-icon></span>
+              </div>
+              <div class="absolute inset-y-0 right-0 w-1/3 z-10 tap-hint flex items-center justify-end pr-2 opacity-0 hover:opacity-100 transition">
+                <span class="grid place-items-center w-9 h-9 rounded-full bg-navy-900/50 backdrop-blur text-cream"><iconify-icon icon="solar:alt-arrow-right-linear" width="18"></iconify-icon></span>
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+                <span class="inline-block px-2.5 py-1 rounded-md bg-amber/90 text-navy-900 text-[10px] font-extrabold tracking-widest uppercase mb-3">Chapter 02</span>
+                <h3 class="text-2xl font-black text-cream leading-tight">The Golden Hour</h3>
+                <p class="mt-1.5 text-sm text-cream-soft/80 leading-snug">Where the cliffs catch fire and the sea goes quiet. Tap right to keep the story moving.</p>
+                <div class="mt-4 flex items-center gap-3">
+                  <button class="flex-1 py-2.5 rounded-full bg-cream text-navy-900 text-sm font-bold">Continue</button>
+                  <button class="grid place-items-center w-10 h-10 rounded-full border border-cream/25 text-cream"><iconify-icon icon="solar:bookmark-linear" width="18"></iconify-icon></button>
+                </div>
+              </div>
+            </div>
+            <div class="hidden sm:flex absolute -left-6 bottom-16 items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-navy-800/90 backdrop-blur border border-cream/10 slide-shadow">
+              <iconify-icon icon="solar:cursor-bold" class="text-amber" width="18"></iconify-icon>
+              <span class="text-xs font-semibold text-cream">tap → advance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRUST STRIP ===== -->
+    <section class="border-y border-cream/10 bg-navy-900/40">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-cream-dim">
+        <span class="text-xs font-semibold uppercase tracking-widest text-cream-dim/70">Shipped by teams at</span>
+        <div class="flex items-center gap-2 font-bold text-cream/70"><iconify-icon icon="solar:planet-bold" width="18"></iconify-icon> Orbital</div>
+        <div class="flex items-center gap-2 font-bold text-cream/70"><iconify-icon icon="solar:black-hole-bold" width="18"></iconify-icon> Lumen</div>
+        <div class="flex items-center gap-2 font-bold text-cream/70"><iconify-icon icon="solar:cardholder-bold" width="18"></iconify-icon> Folio</div>
+        <div class="flex items-center gap-2 font-bold text-cream/70"><iconify-icon icon="solar:diploma-bold" width="18"></iconify-icon> Northwind</div>
+        <div class="flex items-center gap-2 font-bold text-cream/70"><iconify-icon icon="solar:atom-bold" width="18"></iconify-icon> Atomic</div>
+      </div>
+    </section>
+
+    <!-- ===== SHOWCASE ===== -->
+    <section id="showcase" class="relative max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-28">
+      <div class="max-w-2xl mb-12">
+        <p class="text-amber font-bold text-sm tracking-widest uppercase mb-3">The Showcase</p>
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Three stories, one pattern.</h2>
+        <p class="mt-4 text-cream-soft/70 text-lg">Every frame is full-bleed, every step is a tap. Swap the photos, rewrite the captions, the motion stays buttery.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="group relative aspect-[3/4] rounded-3xl overflow-hidden slide-shadow">
+          <img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?q=80&w=900&auto=format&fit=crop" alt="Aerial coastline" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.onerror=null;this.src='https://placehold.co/900x400/1a1a1a/888?text=Image';">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-transparent to-navy-900/20"></div>
+          <div class="absolute top-4 left-4 right-4 flex gap-1.5">
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg h-1 rounded-full flex-1"></div>
+            <div class="seg h-1 rounded-full flex-1"></div>
+          </div>
+          <div class="absolute bottom-0 p-6">
+            <span class="inline-block px-2 py-0.5 rounded bg-amber text-navy-900 text-[10px] font-extrabold tracking-widest uppercase mb-2">Travel</span>
+            <h3 class="text-xl font-black">Coastline Escape</h3>
+            <p class="text-sm text-cream-soft/70 mt-1">A 4-frame drift along the shore.</p>
+          </div>
+        </article>
+        <article class="group relative aspect-[3/4] rounded-3xl overflow-hidden slide-shadow">
+          <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=900&auto=format&fit=crop" alt="Mountain lake" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.onerror=null;this.src='https://placehold.co/900x400/1a1a1a/888?text=Image';">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-transparent to-navy-900/20"></div>
+          <div class="absolute top-4 left-4 right-4 flex gap-1.5">
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg h-1 rounded-full flex-1"></div>
+          </div>
+          <div class="absolute bottom-0 p-6">
+            <span class="inline-block px-2 py-0.5 rounded bg-cream text-navy-900 text-[10px] font-extrabold tracking-widest uppercase mb-2">Product</span>
+            <h3 class="text-xl font-black">Alpine Launch</h3>
+            <p class="text-sm text-cream-soft/70 mt-1">Onboarding that feels like a trailer.</p>
+          </div>
+        </article>
+        <article class="group relative aspect-[3/4] rounded-3xl overflow-hidden slide-shadow">
+          <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=900&auto=format&fit=crop" alt="Mountain lake dusk" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.onerror=null;this.src='https://placehold.co/900x400/1a1a1a/888?text=Image';">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-transparent to-navy-900/20"></div>
+          <div class="absolute top-4 left-4 right-4 flex gap-1.5">
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+            <div class="seg-fill h-1 rounded-full flex-1"></div>
+          </div>
+          <div class="absolute bottom-0 p-6">
+            <span class="inline-block px-2 py-0.5 rounded bg-amber text-navy-900 text-[10px] font-extrabold tracking-widest uppercase mb-2">Editorial</span>
+            <h3 class="text-xl font-black">Into the Mist</h3>
+            <p class="text-sm text-cream-soft/70 mt-1">Longform reads, one tap at a time.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== PROMPT LIBRARY ===== -->
+    <section id="prompts" class="relative bg-navy-900/60 border-y border-cream/10 overflow-hidden">
+      <div class="absolute -right-32 top-0 w-[30rem] h-[30rem] rounded-full bg-amber/10 blur-[130px] pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-28">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <div class="lg:col-span-5">
+            <p class="text-amber font-bold text-sm tracking-widest uppercase mb-3">Prompt Library</p>
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight leading-tight">Describe the story.<br>We frame it.</h2>
+            <p class="mt-5 text-cream-soft/70 text-lg leading-relaxed">Start from a tested prompt, tune the vibe, and get a production-ready component. No fighting with gesture handlers or progress timers.</p>
+            <ul class="mt-7 space-y-3.5">
+              <li class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" class="text-amber mt-0.5" width="20"></iconify-icon><span class="text-cream-soft/85">Auto-advance timers with pause-on-hold</span></li>
+              <li class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" class="text-amber mt-0.5" width="20"></iconify-icon><span class="text-cream-soft/85">Segmented bars that map to slide count</span></li>
+              <li class="flex items-start gap-3"><iconify-icon icon="solar:check-circle-bold" class="text-amber mt-0.5" width="20"></iconify-icon><span class="text-cream-soft/85">Left / right tap zones, keyboard, and swipe</span></li>
+            </ul>
+            <a href="#start" id="library-browse-btn" class="mt-8 inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-amber text-navy-900 font-bold hover:bg-amber-soft transition glow-amber">
+              Browse the library <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon>
+            </a>
+          </div>
+          <div class="lg:col-span-7">
+            <div class="rounded-3xl border border-cream/10 bg-navy-800/80 backdrop-blur overflow-hidden slide-shadow">
+              <div class="flex items-center justify-between px-5 py-3.5 border-b border-cream/10 bg-navy-900/40">
+                <div class="flex items-center gap-2 text-cream-dim text-sm">
+                  <iconify-icon icon="solar:magic-stick-3-bold" class="text-amber" width="18"></iconify-icon>
+                  <span class="font-semibold text-cream">story-carousel.prompt</span>
+                </div>
+                <button class="flex items-center gap-1.5 text-xs font-semibold text-navy-900 bg-amber px-3 py-1.5 rounded-full hover:bg-amber-soft transition">
+                  <iconify-icon icon="solar:copy-bold" width="14"></iconify-icon> Copy prompt
+                </button>
+              </div>
+              <div class="p-6 font-mono text-[13.5px] leading-relaxed text-cream-soft/90">
+                <p><span class="text-amber-soft">Build</span> a fullscreen story carousel:</p>
+                <p class="mt-2 pl-4">&bull; segmented progress bars across the top,</p>
+                <p class="pl-4">&bull; full-bleed image slide with bottom caption,</p>
+                <p class="pl-4">&bull; left/right tap zones to step through,</p>
+                <p class="pl-4">&bull; auto-advance every <span class="text-amber">5s</span>, pause on hold.</p>
+                <p class="mt-2">Palette: <span class="text-amber">deep navy</span>, cream text, amber accent. Immersive, cinematic, Inter.</p>
+              </div>
+              <div class="px-6 pb-6 flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded-full bg-cream/5 border border-cream/10 text-xs text-cream-dim">#story</span>
+                <span class="px-3 py-1 rounded-full bg-cream/5 border border-cream/10 text-xs text-cream-dim">#fullscreen</span>
+                <span class="px-3 py-1 rounded-full bg-cream/5 border border-cream/10 text-xs text-cream-dim">#tap-zones</span>
+                <span class="px-3 py-1 rounded-full bg-cream/5 border border-cream/10 text-xs text-cream-dim">#progress-bars</span>
+                <span class="px-3 py-1 rounded-full bg-amber/15 border border-amber/30 text-xs text-amber-soft font-semibold">★ 4.9 · 12k uses</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CRAFT ===== -->
+    <section id="craft" class="max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-28">
+      <div class="max-w-2xl mb-14">
+        <p class="text-amber font-bold text-sm tracking-widest uppercase mb-3">The Craft</p>
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Details that earn the tap.</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cream/10 rounded-3xl overflow-hidden border border-cream/10">
+        <div class="bg-navy-800 p-8 hover:bg-navy-700 transition">
+          <span class="grid place-items-center w-12 h-12 rounded-2xl bg-amber/15 text-amber mb-5"><iconify-icon icon="solar:chart-2-bold" width="24"></iconify-icon></span>
+          <h3 class="text-lg font-bold mb-2">Segmented progress</h3>
+          <p class="text-cream-soft/65 text-sm leading-relaxed">Bars fill in real time and snap to your slide count, so viewers always know how much story is left.</p>
+        </div>
+        <div class="bg-navy-800 p-8 hover:bg-navy-700 transition">
+          <span class="grid place-items-center w-12 h-12 rounded-2xl bg-amber/15 text-amber mb-5"><iconify-icon icon="solar:hand-stars-bold" width="24"></iconify-icon></span>
+          <h3 class="text-lg font-bold mb-2">Tap & hold zones</h3>
+          <p class="text-cream-soft/65 text-sm leading-relaxed">Tap right to advance, left to rewind, press and hold to pause. The gestures everyone already knows.</p>
+        </div>
+        <div class="bg-navy-800 p-8 hover:bg-navy-700 transition">
+          <span class="grid place-items-center w-12 h-12 rounded-2xl bg-amber/15 text-amber mb-5"><iconify-icon icon="solar:full-screen-square-bold" width="24"></iconify-icon></span>
+          <h3 class="text-lg font-bold mb-2">True full-bleed</h3>
+          <p class="text-cream-soft/65 text-sm leading-relaxed">Edge-to-edge slides with layered gradients keep captions legible over any photo you throw at it.</p>
+        </div>
+        <div class="bg-navy-800 p-8 hover:bg-navy-700 transition">
+          <span class="grid place-items-center w-12 h-12 rounded-2xl bg-amber/15 text-amber mb-5"><iconify-icon icon="solar:smartphone-2-bold" width="24"></iconify-icon></span>
+          <h3 class="text-lg font-bold mb-2">Responsive by default</h3>
+          <p class="text-cream-soft/65 text-sm leading-relaxed">From 390 to 1280 the frame, type, and tap zones rescale cleanly. No awkward in-between states.</p>
+        </div>
+        <div class="bg-navy-800 p-8 hover:bg-navy-700 transition">
+          <span class="grid place-items-center w-12 h-12 rounded-2xl bg-amber/15 text-amber mb-5"><iconify-icon icon="solar:accessibility-bold" width="24"></iconify-icon></span>
+          <h3 class="text-lg font-bold mb-2">Keyboard & a11y</h3>
+          <p class="text-cream-soft/65 text-sm leading-relaxed">Arrow keys, focus rings, reduced-motion fallbacks, and ARIA roles baked in from the start.</p>
+        </div>
+        <div class="bg-navy-800 p-8 hover:bg-navy-700 transition">
+          <span class="grid place-items-center w-12 h-12 rounded-2xl bg-amber/15 text-amber mb-5"><iconify-icon icon="solar:code-square-bold" width="24"></iconify-icon></span>
+          <h3 class="text-lg font-bold mb-2">Clean source</h3>
+          <p class="text-cream-soft/65 text-sm leading-relaxed">One component, zero dependencies beyond your framework. Read it in a minute, own it forever.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section id="start" class="relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-navy-700 via-navy-800 to-navy-900"></div>
+      <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-[40rem] h-[40rem] rounded-full bg-amber/12 blur-[130px] pointer-events-none"></div>
+      <div class="absolute inset-0 grain opacity-[0.04] pointer-events-none"></div>
+      <div class="relative max-w-3xl mx-auto px-6 lg:px-8 py-24 lg:py-32 text-center">
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber/30 bg-amber/5 text-amber-soft text-xs font-semibold tracking-wide mb-7">
+          <iconify-icon icon="solar:magic-stick-3-bold" width="14"></iconify-icon> No credit card to start
+        </span>
+        <h2 class="text-4xl sm:text-5xl font-black tracking-tight leading-[1.05]">Ship a story carousel<br><span class="text-amber">before your coffee's cold.</span></h2>
+        <p class="mt-6 text-lg text-cream-soft/75 max-w-xl mx-auto">Generate it from a prompt, tune it on the canvas, paste the code. That's the whole loop.</p>
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href="#" id="final-cta-btn" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-amber text-navy-900 font-bold text-lg hover:bg-amber-soft transition glow-amber">
+            Start free <iconify-icon icon="solar:arrow-right-linear" width="20"></iconify-icon>
+          </a>
+          <a href="#showcase" id="final-secondary-btn" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-cream/20 text-cream font-semibold text-lg hover:bg-cream/5 transition">
+            Explore the gallery
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="border-t border-cream/10 bg-navy-900">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <a href="#" id="footer-brand-logo" class="flex items-center gap-2.5">
+            <span class="grid place-items-center w-9 h-9 rounded-xl bg-amber text-navy-900"><iconify-icon icon="solar:posts-carousel-vertical-bold" width="20"></iconify-icon></span>
+            <span class="text-lg font-extrabold tracking-tight">Storyframe</span>
+          </a>
+          <nav class="flex items-center gap-7 text-sm text-cream-dim">
+            <a href="#showcase" id="footer-showcase-link" class="hover:text-cream transition">Showcase</a>
+            <a href="#prompts" id="footer-library-link" class="hover:text-cream transition">Library</a>
+            <a href="#craft" id="footer-craft-link" class="hover:text-cream transition">Craft</a>
+            <a href="#" id="footer-docs-link" class="hover:text-cream transition">Docs</a>
+          </nav>
+          <div class="flex items-center gap-4 text-cream-dim">
+            <a href="#" id="social-github" class="hover:text-amber transition"><iconify-icon icon="mdi:github" width="22"></iconify-icon></a>
+            <a href="#" id="social-twitter" class="hover:text-amber transition"><iconify-icon icon="ri:twitter-x-fill" width="20"></iconify-icon></a>
+            <a href="#" id="social-discord" class="hover:text-amber transition"><iconify-icon icon="mdi:discord" width="22"></iconify-icon></a>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-cream-dim/70">
+          <p>&copy; 2026 Storyframe. Stories that tap forward.</p>
+          <p>Crafted for the prompt library.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
