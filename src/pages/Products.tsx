@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   Monitor,
   Smartphone,
+  Tablet,
   Layers,
   Code2,
   Palette,
@@ -24,7 +25,9 @@ import {
   SlidersHorizontal,
   CreditCard,
   ShoppingBag,
-  Clock
+  Clock,
+  Search,
+  Maximize2
 } from "lucide-react";
 import initialPrompts from "../../data/prompts.json";
 import initialWallpapers from "../../data/wallpapers.json";
@@ -41,7 +44,9 @@ export function Products() {
   const [prompts, setPrompts] = useState<PromptItem[]>(initialPrompts as unknown as PromptItem[]);
   const [promptCategory, setPromptCategory] = useState<string>("All");
   const [promptTool, setPromptTool] = useState<string>("All");
-  const [promptFilterType, setPromptFilterType] = useState<"all" | "free" | "paid">("all");
+  const [promptSearch, setPromptSearch] = useState<string>("");
+  const [previewPrompt, setPreviewPrompt] = useState<PromptItem | null>(null);
+  const [previewViewport, setPreviewViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [selectedPrompt, setSelectedPrompt] = useState<PromptItem | null>(null);
   const [unlockedPromptId, setUnlockedPromptId] = useState<string | null>(null);
   const [copiedPromptText, setCopiedPromptText] = useState(false);
@@ -84,8 +89,13 @@ export function Products() {
   const filteredPrompts = prompts.filter((p) => {
     if (promptCategory !== "All" && p.category !== promptCategory) return false;
     if (promptTool !== "All" && p.targetTool !== promptTool) return false;
-    if (promptFilterType === "free" && !p.isFree) return false;
-    if (promptFilterType === "paid" && p.isFree) return false;
+    if (promptSearch.trim()) {
+      const q = promptSearch.toLowerCase();
+      const matchTitle = (p.title || "").toLowerCase().includes(q);
+      const matchDesc = (p.description || "").toLowerCase().includes(q);
+      const matchTags = Array.isArray(p.tags) && p.tags.some((t) => t.toLowerCase().includes(q));
+      if (!matchTitle && !matchDesc && !matchTags) return false;
+    }
     return true;
   });
 
@@ -195,18 +205,14 @@ export function Products() {
       {/* Hero Header */}
       <div className="text-center pt-4 sm:pt-6 flex flex-col items-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8] border border-[#d2d2d7]/50 dark:border-[#27272a] mb-4 shadow-xs">
-          <Clock className="w-3.5 h-3.5 text-amber-500" />
-          <span>SHAREFLOW DIGITAL GOODS STORE • COMING SOON</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#0071e3]" />
+          <span>SHAREFLOW DIGITAL GOODS • 110+ AI PROMPTS LIVE</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1d1d1f] dark:text-white max-w-3xl leading-tight">
           AI Website Design Prompts &amp; Lossless 8K Wallpapers.
         </h1>
-        <div className="mt-4 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-extrabold text-sm uppercase tracking-widest border border-amber-500/20 shadow-xs">
-          <Clock className="w-4 h-4 text-amber-500" />
-          <span>Coming Soon • Store Opening Soon</span>
-        </div>
         <p className="text-sm sm:text-base text-[#6e6e73] dark:text-[#a1a1aa] max-w-2xl mt-3 leading-relaxed">
-          Our digital goods catalog is preparing for launch. Browse the upcoming collection below. All prompt blueprints and wallpaper bundles will be unlocked soon.
+          Production-tested architecture blueprints engineered for v0, Bolt.new, Lovable &amp; Cursor. Explore live interactive previews before unlocking on SupportKori for just ৳49.
         </p>
 
         {/* Master Catalog Switcher Tabs */}
@@ -251,10 +257,10 @@ export function Products() {
       {activeTab === "prompts" && (
         <div className="flex flex-col gap-6 max-w-7xl mx-auto w-full">
           {/* Sub-Filters Ribbon */}
-          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] shadow-xs">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] shadow-xs">
             {/* Tool Filter */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-              <span className="text-xs font-semibold text-[#86868b] dark:text-[#71717a] mr-1 flex items-center gap-1">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+              <span className="text-xs font-semibold text-[#86868b] dark:text-[#71717a] mr-1 flex items-center gap-1 shrink-0">
                 <Code2 className="w-3.5 h-3.5" /> Engine:
               </span>
               {["All", "v0", "Bolt.new", "Lovable", "Cursor", "Claude", "Universal"].map((tool) => (
@@ -262,7 +268,7 @@ export function Products() {
                   key={tool}
                   type="button"
                   onClick={() => setPromptTool(tool)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 ${
                     promptTool === tool
                       ? "bg-[#0071e3] text-white shadow-xs"
                       : "bg-[#f5f5f7] dark:bg-[#181a20] text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
@@ -273,54 +279,51 @@ export function Products() {
               ))}
             </div>
 
-            {/* Free vs Paid Toggle */}
-            <div className="flex items-center gap-1 bg-[#f5f5f7] dark:bg-[#181a20] p-1 rounded-xl">
-              <button
-                type="button"
-                onClick={() => setPromptFilterType("all")}
-                className={`px-3 py-1 text-xs font-medium rounded-lg transition-all ${
-                  promptFilterType === "all" ? "bg-white dark:bg-[#27272a] text-[#1d1d1f] dark:text-white shadow-xs" : "text-[#6e6e73] dark:text-[#a1a1aa]"
-                }`}
-              >
-                All
-              </button>
-              <button
-                type="button"
-                onClick={() => setPromptFilterType("free")}
-                className={`px-3 py-1 text-xs font-medium rounded-lg transition-all ${
-                  promptFilterType === "free" ? "bg-[#34c759] text-white shadow-xs" : "text-[#6e6e73] dark:text-[#a1a1aa]"
-                }`}
-              >
-                🎁 Free SuperDesign
-              </button>
-              <button
-                type="button"
-                onClick={() => setPromptFilterType("paid")}
-                className={`px-3 py-1 text-xs font-medium rounded-lg transition-all ${
-                  promptFilterType === "paid" ? "bg-[#0071e3] text-white shadow-xs" : "text-[#6e6e73] dark:text-[#a1a1aa]"
-                }`}
-              >
-                💎 SupportKori Packs
-              </button>
+            {/* Search Input Bar */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="w-4 h-4 text-[#86868b] dark:text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                type="text"
+                value={promptSearch}
+                onChange={(e) => setPromptSearch(e.target.value)}
+                placeholder="Search 110+ prompts (e.g. SaaS, Fintech, Bento, 3D)..."
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] text-[#1d1d1f] dark:text-white placeholder-[#86868b] dark:placeholder-[#71717a] focus:outline-none focus:border-[#0071e3] transition-colors"
+              />
+              {promptSearch && (
+                <button
+                  type="button"
+                  onClick={() => setPromptSearch("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-white"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Category Filter Chips */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-            {["All", "Landing Page", "Dashboard", "E-Commerce", "Portfolio", "Micro-SaaS", "Mobile UI"].map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setPromptCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  promptCategory === cat
-                    ? "bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f]"
-                    : "bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] text-[#6e6e73] dark:text-[#a1a1aa] hover:border-[#0071e3]"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          {/* Category Filter Chips & Counter */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {["All", "Landing Page", "Dashboard", "Micro-SaaS", "E-Commerce", "Portfolio", "Mobile UI"].map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setPromptCategory(cat)}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                    promptCategory === cat
+                      ? "bg-[#0071e3] text-white shadow-xs"
+                      : "bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] text-[#6e6e73] dark:text-[#a1a1aa] hover:border-[#0071e3]"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            <div className="text-xs font-medium text-[#86868b] dark:text-[#71717a] flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Showing <strong>{filteredPrompts.length}</strong> of {prompts.length} Prompts • ৳49 BDT on SupportKori</span>
+            </div>
           </div>
 
           {/* Prompts Grid */}
@@ -328,71 +331,107 @@ export function Products() {
             {filteredPrompts.map((prompt) => (
               <div
                 key={prompt.id}
-                className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] rounded-3xl overflow-hidden flex flex-col justify-between shadow-xs select-none pointer-events-none cursor-not-allowed opacity-90 transition-all duration-200"
+                className="bg-white dark:bg-[#12141a] border border-[#e5e5ea] dark:border-[#27272a] hover:border-[#0071e3]/60 dark:hover:border-[#0071e3]/60 rounded-3xl overflow-hidden flex flex-col justify-between shadow-xs hover:shadow-xl transition-all duration-300 group"
               >
-                {/* Visual Header / Mockup Image */}
+                {/* Visual Header / Mockup Preview */}
                 <div className="relative aspect-video w-full overflow-hidden bg-[#090D16]">
-                  <img
-                    src={prompt.previewImage}
-                    alt={prompt.title}
-                    className="w-full h-full object-cover opacity-90"
+                  <iframe
+                    src={`/previews/${prompt.id}.html`}
+                    title={prompt.title}
                     loading="lazy"
+                    className="w-[200%] h-[200%] transform scale-50 origin-top-left pointer-events-none select-none opacity-80 group-hover:opacity-100 transition-opacity"
+                    sandbox="allow-scripts allow-same-origin"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
+
                   {/* Badges on preview */}
-                  <div className="absolute top-3 left-3 flex items-center gap-2">
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20">
+                  <div className="absolute top-3 left-3 flex items-center gap-2 z-10">
+                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-white border border-white/20">
                       {prompt.targetTool}
                     </span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-slate-300 border border-white/10">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-slate-300 border border-white/10">
                       {prompt.category}
                     </span>
                   </div>
 
-                  <div className="absolute top-3 right-3">
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500 text-white shadow-xs flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      <span>Coming Soon</span>
+                  <div className="absolute top-3 right-3 z-10">
+                    <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-[#0071e3] text-white shadow-md flex items-center gap-1">
+                      <span>৳49 BDT</span>
                     </span>
                   </div>
 
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white/90 text-xs">
-                    <span className="text-[11px] font-mono text-cyan-300">
-                      {prompt.copyCount.toLocaleString()} builders waitlist
+                  {/* Hover Overlay button for Live Preview */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-[2px] z-20">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPreviewPrompt(prompt);
+                        setPreviewViewport("desktop");
+                      }}
+                      className="px-4 py-2 rounded-xl bg-white/95 dark:bg-[#181a20]/95 text-[#1d1d1f] dark:text-white font-bold text-xs shadow-lg flex items-center gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform cursor-pointer"
+                    >
+                      <Eye className="w-4 h-4 text-[#0071e3]" />
+                      <span>Interactive Live Preview</span>
+                    </button>
+                  </div>
+
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white/90 text-xs z-10">
+                    <span className="text-[11px] font-mono text-cyan-300 flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" />
+                      <span>SupportKori Exclusive</span>
                     </span>
-                    <span className="text-[10px] font-semibold text-white/70">
-                      {prompt.isFree ? "Free Blueprint" : `৳${prompt.priceBdt} / $${prompt.priceUsd}`}
+                    <span className="text-[10px] font-medium text-white/70">
+                      Full Blueprint Included
                     </span>
                   </div>
                 </div>
 
                 {/* Content Body */}
                 <div className="p-6 flex flex-col gap-4 flex-1 justify-between">
-                  <div>
-                    <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white leading-snug">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white group-hover:text-[#0071e3] transition-colors line-clamp-1">
                       {prompt.title}
                     </h3>
-                    <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-2 leading-relaxed line-clamp-2">
+                    <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] line-clamp-2 leading-relaxed">
                       {prompt.description}
                     </p>
 
-                    <div className="mt-4 pt-3 border-t border-[#e5e5ea] dark:border-[#27272a] flex flex-col gap-1.5">
+                    {/* Feature Pills */}
+                    <div className="flex flex-wrap gap-1.5 mt-2">
                       {prompt.features.slice(0, 3).map((feat, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-[#1d1d1f] dark:text-[#e4e4e7]">
-                          <Check className="w-3.5 h-3.5 text-[#34c759] flex-shrink-0" />
-                          <span className="truncate">{feat}</span>
-                        </div>
+                        <span
+                          key={i}
+                          className="text-[10px] px-2 py-0.5 rounded-md bg-[#f5f5f7] dark:bg-[#181a20] text-[#6e6e73] dark:text-[#a1a1aa] border border-[#e5e5ea] dark:border-[#27272a]"
+                        >
+                          {feat}
+                        </span>
                       ))}
                     </div>
                   </div>
 
-                  {/* Actions Area - Unclickable Coming Soon */}
-                  <div className="pt-2">
-                    <div className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#f5f5f7] dark:bg-[#1a1d24] text-[#86868b] dark:text-[#71717a] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 border border-[#e5e5ea] dark:border-[#27272a] shadow-xs cursor-not-allowed">
-                      <Clock className="w-3.5 h-3.5 text-amber-500" />
-                      <span>Coming Soon</span>
-                    </div>
+                  {/* Action Buttons */}
+                  <div className="pt-3 border-t border-[#e5e5ea]/60 dark:border-[#27272a]/60 flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPreviewPrompt(prompt);
+                        setPreviewViewport("desktop");
+                      }}
+                      className="flex-1 py-2.5 px-3 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-[#e5e5ea] dark:border-[#27272a] cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5 text-[#0071e3]" />
+                      <span>Live Preview</span>
+                    </button>
+
+                    <a
+                      href={prompt.supportKoriUrl || "https://www.supportkori.com/mhr3d"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2.5 px-3 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95 text-center"
+                    >
+                      <span>Buy ৳49</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -604,96 +643,144 @@ export function Products() {
       )}
 
       {/* ========================================================================= */}
-      {/* MODAL 2: FULL AI PROMPT INSPECTION & 1-CLICK CLIPBOARD COPY              */}
+      {/* MODAL 2: INTERACTIVE LIVE PREVIEW MODAL (FULL SCREEN / DEVICE TOGGLE)      */}
       {/* ========================================================================= */}
-      {selectedPrompt && (unlockedPromptId === selectedPrompt.id || selectedPrompt.isFree === false) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-white dark:bg-[#12141a] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-[#e5e5ea] dark:border-[#27272a] relative text-left max-h-[90vh] flex flex-col">
-            <button
-              onClick={() => setSelectedPrompt(null)}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#86868b] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white flex items-center justify-center text-sm font-bold"
-            >
-              ✕
-            </button>
-
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#eafaf1] dark:bg-[#34c759]/15 text-[#34c759]">
-                Ready to Generate
-              </span>
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#f5f5f7] dark:bg-[#181a20] text-[#0071e3] dark:text-[#38bdf8]">
-                {selectedPrompt.targetTool}
-              </span>
-              <span className="text-[11px] font-medium text-[#86868b] dark:text-[#71717a]">
-                {selectedPrompt.category}
-              </span>
-            </div>
-
-            <h3 className="text-xl font-bold text-[#1d1d1f] dark:text-white pr-8">
-              {selectedPrompt.title}
-            </h3>
-
-            {/* Scrollable Prompt Viewer */}
-            <div className="mt-4 overflow-y-auto pr-1 flex flex-col gap-4 flex-1">
-              {selectedPrompt.systemInstruction && (
-                <div className="p-3.5 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a]">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-bold text-[#6e6e73] dark:text-[#a1a1aa] flex items-center gap-1.5">
-                      <Terminal className="w-3.5 h-3.5 text-[#0071e3]" /> System Persona / Instruction:
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleCopySystemInstruction(selectedPrompt.systemInstruction!)}
-                      className="text-[11px] font-semibold text-[#0071e3] dark:text-[#38bdf8] hover:underline"
-                    >
-                      {copiedSystemText ? "Copied!" : "Copy Persona"}
-                    </button>
-                  </div>
-                  <p className="text-xs font-mono text-[#1d1d1f] dark:text-slate-300 leading-relaxed">
-                    {selectedPrompt.systemInstruction}
-                  </p>
-                </div>
-              )}
-
-              <div className="p-4 rounded-2xl bg-[#090D16] border border-[#27272a] text-slate-200">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
-                    <Code2 className="w-3.5 h-3.5" /> Prompt Specification (Ready for AI Generator):
+      {previewPrompt && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-[#12141a] rounded-3xl max-w-6xl w-full h-[90vh] shadow-2xl border border-[#e5e5ea] dark:border-[#27272a] flex flex-col overflow-hidden relative">
+            {/* Header */}
+            <div className="p-4 sm:px-6 py-3.5 border-b border-[#e5e5ea] dark:border-[#27272a] flex flex-wrap items-center justify-between gap-3 bg-[#fafafc] dark:bg-[#15171f]">
+              {/* Title & Badges */}
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#0071e3] text-white">
+                    {previewPrompt.targetTool}
+                  </span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#f5f5f7] dark:bg-[#20232b] text-[#6e6e73] dark:text-[#a1a1aa] border border-[#e5e5ea] dark:border-[#27272a]">
+                    {previewPrompt.category}
                   </span>
                 </div>
-                <pre className="text-xs font-mono whitespace-pre-wrap leading-relaxed text-slate-300 select-all max-h-64 overflow-y-auto">
-                  {selectedPrompt.promptContent}
-                </pre>
+                <h3 className="text-sm sm:text-base font-bold text-[#1d1d1f] dark:text-white truncate">
+                  {previewPrompt.title}
+                </h3>
+              </div>
+
+              {/* Viewport Controls & Actions */}
+              <div className="flex items-center gap-2">
+                {/* Viewport Toggles */}
+                <div className="hidden sm:flex items-center gap-1 bg-[#f5f5f7] dark:bg-[#181a20] p-1 rounded-xl border border-[#e5e5ea] dark:border-[#27272a]">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewViewport("desktop")}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition-all cursor-pointer ${
+                      previewViewport === "desktop"
+                        ? "bg-white dark:bg-[#27272a] text-[#0071e3] dark:text-[#38bdf8] shadow-xs"
+                        : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
+                    }`}
+                    title="Desktop Preview"
+                  >
+                    <Monitor className="w-3.5 h-3.5" />
+                    <span className="text-[11px]">Desktop</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewViewport("tablet")}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition-all cursor-pointer ${
+                      previewViewport === "tablet"
+                        ? "bg-white dark:bg-[#27272a] text-[#0071e3] dark:text-[#38bdf8] shadow-xs"
+                        : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
+                    }`}
+                    title="Tablet Preview"
+                  >
+                    <Tablet className="w-3.5 h-3.5" />
+                    <span className="text-[11px]">Tablet</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewViewport("mobile")}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1 transition-all cursor-pointer ${
+                      previewViewport === "mobile"
+                        ? "bg-white dark:bg-[#27272a] text-[#0071e3] dark:text-[#38bdf8] shadow-xs"
+                        : "text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
+                    }`}
+                    title="Mobile Viewport"
+                  >
+                    <Smartphone className="w-3.5 h-3.5" />
+                    <span className="text-[11px]">Mobile</span>
+                  </button>
+                </div>
+
+                {/* Open in full tab button */}
+                <a
+                  href={`/previews/${previewPrompt.id}.html`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white border border-[#e5e5ea] dark:border-[#27272a] transition-colors"
+                  title="Open Preview in New Tab"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                </a>
+
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={() => setPreviewPrompt(null)}
+                  className="w-8 h-8 rounded-full bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#86868b] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+                >
+                  ✕
+                </button>
               </div>
             </div>
 
-            {/* Modal Bottom Actions */}
-            <div className="mt-6 pt-4 border-t border-[#e5e5ea] dark:border-[#27272a] flex flex-wrap items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={() => handleDownloadPrompt(selectedPrompt)}
-                className="py-2.5 px-4 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            {/* Interactive Preview Canvas */}
+            <div className="flex-1 bg-[#090D16] p-2 sm:p-4 overflow-hidden flex items-center justify-center relative">
+              <div
+                className={`transition-all duration-300 h-full flex items-center justify-center overflow-hidden ${
+                  previewViewport === "desktop"
+                    ? "w-full rounded-xl"
+                    : previewViewport === "tablet"
+                    ? "w-[768px] max-w-full rounded-2xl shadow-2xl border-4 border-[#27272a]"
+                    : "w-[390px] max-w-full rounded-3xl shadow-2xl border-4 border-[#27272a]"
+                }`}
               >
-                <Download className="w-4 h-4" />
-                <span>Save .txt</span>
-              </button>
+                <iframe
+                  src={`/previews/${previewPrompt.id}.html`}
+                  title={previewPrompt.title}
+                  className="w-full h-full bg-[#0a0f1d] border-0 rounded-lg"
+                  sandbox="allow-scripts allow-same-origin"
+                />
+              </div>
+            </div>
 
-              <button
-                type="button"
-                onClick={() => handleCopyPromptText(selectedPrompt.promptContent)}
-                className="flex-1 py-2.5 px-6 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all"
-              >
-                {copiedPromptText ? (
-                  <>
-                    <CheckCircle2 className="w-4 h-4 text-white" />
-                    <span>Copied to Clipboard!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4 text-white" />
-                    <span>Copy Full Prompt to Clipboard</span>
-                  </>
-                )}
-              </button>
+            {/* Footer Bar */}
+            <div className="p-4 sm:px-6 py-3 border-t border-[#e5e5ea] dark:border-[#27272a] bg-white dark:bg-[#12141a] flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="px-3 py-1 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-xs border border-emerald-500/20">
+                  ৳49 BDT Only
+                </div>
+                <div className="text-xs text-[#6e6e73] dark:text-[#a1a1aa]">
+                  <span className="font-semibold text-[#1d1d1f] dark:text-white">SupportKori Blueprint:</span> Complete prompt specification unlocked upon payment.
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => setPreviewPrompt(null)}
+                  className="py-2.5 px-4 rounded-xl bg-[#f5f5f7] dark:bg-[#181a20] hover:bg-[#e5e5ea] dark:hover:bg-[#27272a] text-[#1d1d1f] dark:text-white text-xs font-semibold transition-colors cursor-pointer"
+                >
+                  Close Preview
+                </button>
+                <a
+                  href={previewPrompt.supportKoriUrl || "https://www.supportkori.com/mhr3d"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 sm:flex-initial py-2.5 px-6 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm text-center"
+                >
+                  <span>Unlock Prompt on SupportKori (৳49)</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
