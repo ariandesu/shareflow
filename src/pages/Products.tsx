@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Sparkles,
   ExternalLink,
@@ -19,6 +19,8 @@ import {
   Palette,
   X,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import initialPrompts from "../../data/prompts.json";
 import initialWallpapers from "../../data/wallpapers.json";
@@ -97,6 +99,8 @@ export function Products() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortBy, setSortBy] = useState<"recent" | "popular" | "alpha">("recent");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const gridRef = useRef<HTMLDivElement | null>(null);
 
   // Wallpapers Tab State (Preserved)
   const [wallpapers] = useState<WallpaperBundle[]>(initialWallpapers as unknown as WallpaperBundle[]);
@@ -213,6 +217,53 @@ export function Products() {
     }
     return list; // "recent" preserves curated bundle order
   }, [prompts, selectedCategory, searchQuery, selectedTag, sortBy]);
+
+  // Pagination Configuration & State
+  const ITEMS_PER_PAGE = 20;
+
+  // Reset to page 1 whenever search, category, tag, or sorting changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory, selectedTag, sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredPrompts.length / ITEMS_PER_PAGE));
+  const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
+  const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredPrompts.length);
+
+  const paginatedPrompts = useMemo(() => {
+    return filteredPrompts.slice(startIndex, endIndex);
+  }, [filteredPrompts, startIndex, endIndex]);
+
+  const handlePageChange = (newPage: number) => {
+    const clamped = Math.min(Math.max(newPage, 1), totalPages);
+    setCurrentPage(clamped);
+    if (gridRef.current) {
+      const headerOffset = 90;
+      const elementPosition = gridRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (safeCurrentPage <= 4) {
+        pages.push(1, 2, 3, 4, 5, "...", totalPages);
+      } else if (safeCurrentPage >= totalPages - 3) {
+        pages.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        pages.push(1, "...", safeCurrentPage - 1, safeCurrentPage, safeCurrentPage + 1, "...", totalPages);
+      }
+    }
+    return pages;
+  };
 
   // Compute category counts
   const categoryCounts = useMemo(() => {
@@ -474,15 +525,98 @@ export function Products() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
-              {filteredPrompts.map((item) => (
-                <PromptCard
-                  key={item.id || item.slug}
-                  item={item}
-                  isSelected={selectedPrompt?.id === item.id}
-                  onClick={() => handleSelectPrompt(item)}
-                />
-              ))}
+            <div ref={gridRef} className="flex flex-col gap-6 scroll-mt-24">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
+                {paginatedPrompts.map((item) => (
+                  <PromptCard
+                    key={item.id || item.slug}
+                    item={item}
+                    isSelected={selectedPrompt?.id === item.id}
+                    onClick={() => handleSelectPrompt(item)}
+                  />
+                ))}
+              </div>
+
+              {/* Responsive, Accessible Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-4 pt-6 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">
+                    Showing <span className="font-semibold text-zinc-900 dark:text-zinc-100">{startIndex + 1}</span>–<span className="font-semibold text-zinc-900 dark:text-zinc-100">{endIndex}</span> of{" "}
+                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">{filteredPrompts.length}</span> components
+                  </div>
+
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    {/* Previous Button */}
+                    <button
+                      type="button"
+                      aria-label="Previous Page"
+                      onClick={() => handlePageChange(safeCurrentPage - 1)}
+                      disabled={safeCurrentPage <= 1}
+                      className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                        safeCurrentPage <= 1
+                          ? "bg-zinc-100 dark:bg-zinc-800/40 text-zinc-400 dark:text-zinc-600 border border-zinc-200/50 dark:border-zinc-800/50 cursor-not-allowed"
+                          : "bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-300/80 dark:border-zinc-700/80 cursor-pointer shadow-xs"
+                      }`}
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                      <span>Prev</span>
+                    </button>
+
+                    {/* Numeric Page Buttons (Desktop/Tablet) */}
+                    <div className="hidden sm:flex items-center gap-1">
+                      {getPageNumbers().map((page, idx) => {
+                        if (page === "...") {
+                          return (
+                            <span
+                              key={`ellipsis-${idx}`}
+                              className="px-2 py-1 text-xs text-zinc-400 dark:text-zinc-600 select-none"
+                            >
+                              ...
+                            </span>
+                          );
+                        }
+                        const pageNum = Number(page);
+                        const isCurrent = pageNum === safeCurrentPage;
+                        return (
+                          <button
+                            key={`page-${pageNum}`}
+                            type="button"
+                            onClick={() => handlePageChange(pageNum)}
+                            className={`min-w-[32px] h-8 px-2.5 rounded-xl text-xs font-semibold transition-all ${
+                              isCurrent
+                                ? "bg-[#0071e3] text-white shadow-blue-500/20 keep-white"
+                                : "bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-300/80 dark:border-zinc-700/80 cursor-pointer"
+                            }`}
+                          >
+                            {pageNum}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Mobile Page Indicator */}
+                    <div className="sm:hidden px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800">
+                      {safeCurrentPage} / {totalPages}
+                    </div>
+
+                    {/* Next Button */}
+                    <button
+                      type="button"
+                      aria-label="Next Page"
+                      onClick={() => handlePageChange(safeCurrentPage + 1)}
+                      disabled={safeCurrentPage >= totalPages}
+                      className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                        safeCurrentPage >= totalPages
+                          ? "bg-zinc-100 dark:bg-zinc-800/40 text-zinc-400 dark:text-zinc-600 border border-zinc-200/50 dark:border-zinc-800/50 cursor-not-allowed"
+                          : "bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-300/80 dark:border-zinc-700/80 cursor-pointer shadow-xs"
+                      }`}
+                    >
+                      <span>Next</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
