@@ -370,7 +370,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-950/90 text-white gap-2">
                     <RotateCw className="w-6 h-6 animate-spin text-blue-500" />
                     <span className="text-xs font-medium text-zinc-400">
-                      Loading interactive Superdesign preview...
+                      Loading interactive preview...
                     </span>
                   </div>
                 )}
