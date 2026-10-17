@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Sparkles, Eye, Zap, Copy, Check } from "lucide-react";
+import { Sparkles, Eye, Zap, ExternalLink } from "lucide-react";
 import { PromptItem } from "../types/prompt";
 import { getPromptMedia } from "../utils/promptMedia";
 
@@ -18,23 +18,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [copied, setCopied] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  const handleCopyPrompt = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    try {
-      if (typeof window !== "undefined" && navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(item.prompt);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      } else {
-        throw new Error("Clipboard API unavailable");
-      }
-    } catch (err) {
-      console.warn("Unable to copy prompt to clipboard:", err);
-    }
-  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -62,6 +46,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
   // Determine pricing label
   const isFree = Boolean(item.isFree);
   const priceDisplay = isFree ? "Free" : `৳${item.priceBdt || 49} BDT`;
+  const supportKoriUrl = item.buyUrl || "https://supportkori.com/creator/mahirfaisal";
 
   return (
     <div
@@ -118,33 +103,33 @@ export const PromptCard: React.FC<PromptCardProps> = ({
         {/* Top Badges */}
         <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 pointer-events-none">
           {/* Category Pill */}
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium backdrop-blur-md bg-black/60 text-white/90 border border-white/10 shadow-sm">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold backdrop-blur-md bg-black/70 text-white border border-white/20 shadow-sm keep-white">
             {item.category || "UI"}
           </span>
 
           {/* Pricing Pill */}
           <span
-            className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-semibold backdrop-blur-md shadow-sm ${
+            className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-bold backdrop-blur-md shadow-sm keep-white ${
               isFree
-                ? "bg-emerald-500/80 text-white border border-emerald-400/30"
-                : "bg-blue-600/90 text-white border border-blue-400/30"
+                ? "bg-emerald-600 text-white border border-emerald-400/30"
+                : "bg-blue-600 text-white border border-blue-400/30"
             }`}
           >
-            {!isFree && <Zap className="w-2.5 h-2.5 fill-white/80" />}
+            {!isFree && <Zap className="w-2.5 h-2.5 fill-white" />}
             {priceDisplay}
           </span>
         </div>
 
         {/* Bottom Interactive / Live Indicator Badge */}
         <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-black/50 backdrop-blur-md text-white/80 border border-white/10">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-black/70 backdrop-blur-md text-white border border-white/20 keep-white">
             <Sparkles className="w-2.5 h-2.5 text-blue-400" />
             Interactive
           </span>
 
           {/* Hover "Open Preview" Pill */}
           <span
-            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-blue-600 text-white shadow-md transition-all duration-200 ${
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white shadow-md keep-white transition-all duration-200 ${
               isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
             }`}
           >
@@ -155,17 +140,17 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       </div>
 
       {/* Card Metadata Footer */}
-      <div className="p-3.5 flex flex-col justify-between flex-grow">
+      <div className="p-3.5 flex flex-col justify-between flex-grow bg-white dark:bg-[#12141a]">
         <div>
           <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
             {item.title}
           </h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mt-1 leading-relaxed">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 line-clamp-2 mt-1 leading-relaxed">
             {item.description || "Production-ready prompt and interactive design component."}
           </p>
         </div>
 
-        {/* Tags, Tool row & Quick Actions */}
+        {/* Tags, Tool row & SupportKori Quick Action */}
         <div className="mt-2.5 pt-2 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800/60 text-[11px]">
           <span className="text-zinc-500 dark:text-zinc-400 font-mono">
             {item.targetTool || "Universal"}
@@ -176,18 +161,17 @@ export const PromptCard: React.FC<PromptCardProps> = ({
                 #{item.tags[0]}
               </span>
             )}
-            <button
-              type="button"
-              onClick={handleCopyPrompt}
-              className={`p-1 rounded-md transition-colors ${
-                copied
-                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                  : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
-              }`}
-              title="Copy prompt text"
+            <a
+              href={supportKoriUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-500/10 hover:bg-blue-600 hover:text-white text-blue-600 dark:text-blue-400 dark:hover:bg-blue-600 dark:hover:text-white font-semibold text-[10px] transition-colors"
+              title="Unlock prompt on SupportKori (৳49)"
             >
-              {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-            </button>
+              <span>Get Prompt</span>
+              <ExternalLink className="w-2.5 h-2.5" />
+            </a>
           </div>
         </div>
       </div>

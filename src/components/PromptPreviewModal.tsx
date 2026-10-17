@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
   X,
   ExternalLink,
-  Copy,
-  Check,
   RotateCw,
   Laptop,
   Tablet,
@@ -15,6 +13,8 @@ import {
   Sparkles,
   Layers,
   Image as ImageIcon,
+  Share2,
+  Check,
 } from "lucide-react";
 import { PromptItem } from "../types/prompt";
 
@@ -44,8 +44,6 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
   const [iframeLoading, setIframeLoading] = useState<boolean>(true);
   const [iframeKey, setIframeKey] = useState<number>(0);
   const [copiedUrl, setCopiedUrl] = useState<boolean>(false);
-  const [copiedPrompt, setCopiedPrompt] = useState<boolean>(false);
-  const [copiedSpecNotice, setCopiedSpecNotice] = useState<boolean>(false);
 
   // Reset state when prompt changes
   useEffect(() => {
@@ -94,6 +92,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
 
   const liveUrl = prompt.localPreviewUrl || prompt.previewUrl;
   const screenshot = prompt.screenshotUrl || (prompt.slug ? `/screenshots/${prompt.slug}.png` : null);
+  const buyUrl = prompt.buyUrl || supportKoriUrl;
 
   const handleReload = () => {
     setIframeLoading(true);
@@ -116,29 +115,6 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
     }
   };
 
-  const handleCopyPrompt = async () => {
-    if (!prompt?.prompt) return;
-    try {
-      if (typeof window !== "undefined" && navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(prompt.prompt);
-        setCopiedPrompt(true);
-        setTimeout(() => setCopiedPrompt(false), 2000);
-      }
-    } catch (err) {
-      console.warn("Failed to copy prompt:", err);
-    }
-  };
-
-  const handleCopyLockedNotice = () => {
-    setCopiedSpecNotice(true);
-    setTimeout(() => {
-      setCopiedSpecNotice(false);
-      if (typeof window !== "undefined") {
-        window.open(supportKoriUrl, "_blank");
-      }
-    }, 800);
-  };
-
   return (
     <div
       role="dialog"
@@ -154,9 +130,9 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
       />
 
       {/* Main Modal Window */}
-      <div className="relative w-full max-w-6xl max-h-[94vh] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-10">
+      <div className="relative w-full max-w-6xl max-h-[94vh] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-10">
         {/* Modal Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/80 dark:bg-zinc-900/50">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800/80 bg-zinc-50 dark:bg-zinc-900/50">
           {/* Left: Component Title & Badges */}
           <div className="flex items-center gap-3 min-w-0">
             {/* Nav Arrows */}
@@ -166,7 +142,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                 onClick={onPrev}
                 disabled={!hasPrev}
                 title="Previous prompt (Left Arrow)"
-                className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed text-zinc-600 dark:text-zinc-300 transition-colors"
+                className="p-1.5 rounded-lg border border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed text-zinc-700 dark:text-zinc-300 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -175,7 +151,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                 onClick={onNext}
                 disabled={!hasNext}
                 title="Next prompt (Right Arrow)"
-                className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed text-zinc-600 dark:text-zinc-300 transition-colors"
+                className="p-1.5 rounded-lg border border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed text-zinc-700 dark:text-zinc-300 transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -193,7 +169,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                   {prompt.category}
                 </span>
                 {prompt.targetTool && (
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-200/80 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-400">
                     {prompt.targetTool}
                   </span>
                 )}
@@ -201,17 +177,17 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
             </div>
           </div>
 
-          {/* Right: Viewport Controls, Reload, Share, Close */}
+          {/* Right: Viewport Controls, Reload, Share, Unlock Action, Close */}
           <div className="flex items-center gap-2 flex-wrap justify-end">
             {/* Mode Switcher: Interactive vs Screenshot */}
-            <div className="flex items-center bg-zinc-200/70 dark:bg-zinc-800/80 p-0.5 rounded-lg text-xs">
+            <div className="flex items-center bg-zinc-200/70 dark:bg-zinc-800/80 p-0.5 rounded-lg text-xs border border-zinc-300 dark:border-zinc-700">
               <button
                 type="button"
                 onClick={() => setDisplayMode("interactive")}
                 className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
                   displayMode === "interactive"
                     ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow-xs"
-                    : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                    : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
                 }`}
               >
                 <Sparkles className="w-3 h-3 text-blue-500" />
@@ -224,7 +200,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                   className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
                     displayMode === "screenshot"
                       ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow-xs"
-                      : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                      : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
                   }`}
                 >
                   <ImageIcon className="w-3 h-3" />
@@ -235,7 +211,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
 
             {/* Responsive Viewport Switcher (Interactive Mode only) */}
             {displayMode === "interactive" && (
-              <div className="hidden sm:flex items-center bg-zinc-200/70 dark:bg-zinc-800/80 p-0.5 rounded-lg">
+              <div className="hidden sm:flex items-center bg-zinc-200/70 dark:bg-zinc-800/80 p-0.5 rounded-lg border border-zinc-300 dark:border-zinc-700">
                 <button
                   type="button"
                   onClick={() => setViewport("desktop")}
@@ -243,7 +219,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                   className={`p-1.5 rounded-md transition-all ${
                     viewport === "desktop"
                       ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow-xs"
-                      : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+                      : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400"
                   }`}
                 >
                   <Laptop className="w-3.5 h-3.5" />
@@ -255,7 +231,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                   className={`p-1.5 rounded-md transition-all ${
                     viewport === "tablet"
                       ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow-xs"
-                      : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+                      : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400"
                   }`}
                 >
                   <Tablet className="w-3.5 h-3.5" />
@@ -267,7 +243,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                   className={`p-1.5 rounded-md transition-all ${
                     viewport === "mobile"
                       ? "bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow-xs"
-                      : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+                      : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400"
                   }`}
                 >
                   <Smartphone className="w-3.5 h-3.5" />
@@ -281,40 +257,18 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                 type="button"
                 onClick={handleReload}
                 title="Reload live canvas"
-                className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300 transition-colors"
+                className="p-1.5 rounded-lg border border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors"
               >
                 <RotateCw className={`w-3.5 h-3.5 ${iframeLoading ? "animate-spin text-blue-500" : ""}`} />
               </button>
             )}
 
-            {/* Copy Prompt Action */}
-            {prompt.prompt && (
-              <button
-                type="button"
-                onClick={handleCopyPrompt}
-                title="Copy prompt text to clipboard"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100 text-xs font-semibold shadow-xs transition-all"
-              >
-                {copiedPrompt ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400 dark:text-emerald-600" />
-                    <span>Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copy Prompt</span>
-                  </>
-                )}
-              </button>
-            )}
-
-            {/* Copy Share Link */}
+            {/* Share Link */}
             <button
               type="button"
               onClick={handleCopyLink}
               title="Copy link to component"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-xs text-zinc-600 dark:text-zinc-300 font-medium transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 font-medium transition-colors"
             >
               {copiedUrl ? (
                 <>
@@ -323,11 +277,24 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5" />
+                  <Share2 className="w-3.5 h-3.5" />
                   <span className="hidden md:inline">Share</span>
                 </>
               )}
             </button>
+
+            {/* Direct Unlock via SupportKori Action */}
+            <a
+              href={buyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] keep-white"
+              title="Unlock prompt on SupportKori (৳49)"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Get Prompt (৳{prompt.priceBdt || 49})</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
 
             {/* Open In New Tab */}
             {liveUrl && (
@@ -336,10 +303,9 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Open live component in standalone tab"
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold transition-colors"
+                className="p-1.5 rounded-lg border border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Open Tab</span>
               </a>
             )}
 
@@ -348,7 +314,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
               type="button"
               onClick={onClose}
               title="Close modal (Escape)"
-              className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300 transition-colors ml-1"
+              className="p-1.5 rounded-lg border border-zinc-300 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition-colors ml-1"
             >
               <X className="w-4 h-4" />
             </button>
@@ -440,11 +406,11 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                 <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                   Production System Prompt & Bundle
                 </span>
-                <span className="px-2 py-0.2 rounded-full text-[10px] font-extrabold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                   ৳{prompt.priceBdt || 49} BDT
                 </span>
               </div>
-              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 line-clamp-1 max-w-xl">
+              <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5 line-clamp-1 max-w-xl">
                 {prompt.description ||
                   "Production-grade prompt specifications, design tokens, and source assets."}
               </p>
@@ -452,21 +418,23 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto justify-end flex-shrink-0">
-            <button
-              type="button"
-              onClick={handleCopyLockedNotice}
-              className="px-3 py-1.5 rounded-xl border border-zinc-300 dark:border-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-            >
-              {copiedSpecNotice ? "Redirecting..." : "View Spec Details"}
-            </button>
-
             <a
-              href={supportKoriUrl}
+              href={buyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-zinc-300 dark:border-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shadow-xs"
             >
-              <span>Unlock for ৳{prompt.priceBdt || 49}</span>
+              <span>SupportKori Store</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+
+            <a
+              href={buyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98] keep-white"
+            >
+              <span>Unlock for ৳{prompt.priceBdt || 49} BDT</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
