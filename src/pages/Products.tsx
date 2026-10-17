@@ -10,17 +10,15 @@ import {
   Zap,
   Search,
   RotateCw,
-  Copy,
-  Check,
-  CreditCard,
-  CheckCircle2,
   SlidersHorizontal,
   Filter,
   Palette,
   X,
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
+  Clock,
+  Monitor,
+  Layers,
 } from "lucide-react";
 import initialPrompts from "../../data/prompts.json";
 import initialWallpapers from "../../data/wallpapers.json";
@@ -30,8 +28,6 @@ import { PromptCard } from "../components/PromptCard";
 import { PromptPreviewModal } from "../components/PromptPreviewModal";
 
 const SUPPORTKORI_URL = "https://www.supportkori.com/mhr3d";
-const ADSTERRA_SMART_LINK =
-  "https://beta.publishers.adsterra.com/referral/b6a2f8c6e1de56807b87c3a70dbbe50e";
 
 const CATEGORIES = [
   "All",
@@ -102,13 +98,9 @@ export function Products() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const gridRef = useRef<HTMLDivElement | null>(null);
 
-  // Wallpapers Tab State (Preserved)
+  // Wallpapers Tab State
   const [wallpapers] = useState<WallpaperBundle[]>(initialWallpapers as unknown as WallpaperBundle[]);
   const [wallpaperCategory, setWallpaperCategory] = useState<string>("All");
-  const [adStep, setAdStep] = useState<number>(1);
-  const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
-  const [couponCode, setCouponCode] = useState<string>("");
-  const [copiedCoupon, setCopiedCoupon] = useState<boolean>(false);
 
   // Sync with URL Query Parameters (?selected=slug&category=cat&tab=...)
   useEffect(() => {
@@ -314,29 +306,13 @@ export function Products() {
     }
   };
 
-  // Wallpapers Tab Filtering & Logic (Preserved)
+  // Wallpapers Tab Filtering & Logic (Coming Soon Vault)
   const filteredWallpapers = useMemo(() => {
     return wallpapers.filter((w) => {
       if (wallpaperCategory === "All") return true;
       return w.category === wallpaperCategory;
     });
   }, [wallpapers, wallpaperCategory]);
-
-  const handleStartAdStep = () => {
-    window.open(ADSTERRA_SMART_LINK, "_blank");
-    if (adStep < 4) {
-      setAdStep(adStep + 1);
-    } else {
-      setIsUnlocked(true);
-      setCouponCode("SF-100-FREE");
-    }
-  };
-
-  const handleCopyCoupon = () => {
-    navigator.clipboard.writeText(couponCode);
-    setCopiedCoupon(true);
-    setTimeout(() => setCopiedCoupon(false), 2000);
-  };
 
   return (
     <div className="w-full flex flex-col gap-5 pb-16">
@@ -372,7 +348,10 @@ export function Products() {
             }`}
           >
             <Palette className="w-4 h-4" />
-            <span>8K Wallpapers ({wallpapers.length})</span>
+            <span>8K Wallpapers</span>
+            <span className="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-md bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/25">
+              Coming Soon
+            </span>
           </button>
         </div>
 
@@ -635,133 +614,163 @@ export function Products() {
       )}
 
       {/* ─────────────────────────────────────────────────────────────
-          TAB 2: 8K WALLPAPERS (PRESERVED CATALOG & ADSTERRA UNLOCK)
+          TAB 2: 8K WALLPAPERS (COMING SOON PREVIEW VAULT)
          ───────────────────────────────────────────────────────────── */}
       {activeTab === "wallpapers" && (
-        <div className="flex flex-col gap-6">
-          {/* Wallpaper Categories */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-            {["All", "Minimal", "Nature", "Abstract", "Cyberpunk", "Space", "Anime"].map(
-              (cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setWallpaperCategory(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${
-                    wallpaperCategory === cat
-                      ? "bg-[#0071e3] text-white shadow-xs"
-                      : "bg-[#f5f5f7] dark:bg-[#181a20] text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
-                  }`}
-                >
-                  {cat}
-                </button>
-              )
-            )}
+        <div className="flex flex-col gap-8">
+          {/* Coming Soon Hero Showcase */}
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-zinc-900 via-zinc-900 to-zinc-950 border border-zinc-800 p-6 sm:p-8 md:p-10 text-white shadow-2xl">
+            {/* Ambient Background Glows */}
+            <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#0071e3]/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 max-w-3xl flex flex-col gap-4">
+              {/* Status Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30 w-fit">
+                <Clock className="w-3.5 h-3.5 animate-pulse" />
+                <span>IN PRODUCTION • COMING SOON</span>
+              </div>
+
+              {/* Headline */}
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                Lossless 8K & OLED Wallpaper Vault
+              </h2>
+
+              {/* Description */}
+              <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
+                We are rendering and color-calibrating an exclusive library of uncompressed 8K (7680×4320) master wallpapers and true #000000 AMOLED visuals. Rendered with HDR10 dynamic range and DCI-P3 color profiles for Retina, multi-monitor, and 21:9 ultrawide screens.
+              </p>
+
+              {/* Spec Highlights Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-sm">
+                  <Monitor className="w-5 h-5 text-[#0071e3] shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-bold text-white">Lossless 8K Masters</div>
+                    <div className="text-[11px] text-zinc-400 leading-snug">Native 7680×4320 renders with zero compression artifacts.</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-sm">
+                  <Layers className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-bold text-white">True OLED Pure Black</div>
+                    <div className="text-[11px] text-zinc-400 leading-snug">85%+ true #000000 black depth for zero battery drain.</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-sm">
+                  <Sparkles className="w-5 h-5 text-purple-400 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-xs font-bold text-white">HDR10 & Ultrawide</div>
+                    <div className="text-[11px] text-zinc-400 leading-snug">Tailored aspect ratios for 16:9, 21:9 ultrawide, and multi-display.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Wallpapers Grid */}
+          {/* Categories Filter Bar */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {["All", "Minimal", "Nature", "Abstract", "Cyberpunk", "Space", "Anime"].map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setWallpaperCategory(cat)}
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${
+                  wallpaperCategory === cat
+                    ? "bg-[#0071e3] text-white shadow-xs"
+                    : "bg-[#f5f5f7] dark:bg-[#181a20] text-[#6e6e73] dark:text-[#a1a1aa] hover:text-[#1d1d1f] dark:hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Wallpapers Teaser Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredWallpapers.map((bundle) => (
               <div
                 key={bundle.id}
-                className="bg-white dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col group"
+                className="bg-white dark:bg-[#181a20] border border-[#e5e5ea] dark:border-[#27272a] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col group relative"
               >
-                <div className="relative aspect-[16/10] overflow-hidden bg-zinc-200 dark:bg-zinc-800">
+                {/* Preview Image with Coming Soon Badges */}
+                <div className="relative aspect-[16/10] overflow-hidden bg-zinc-950">
                   <img
                     src={bundle.previewUrl}
                     alt={bundle.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                     loading="lazy"
                   />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-black/60 text-white backdrop-blur-md">
-                    {bundle.category}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                    <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500 text-black shadow-xs">
+                      Coming Soon
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-black/60 text-white backdrop-blur-sm border border-white/10">
+                      {bundle.resolution || "8K UHD"}
+                    </span>
                   </div>
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500 text-white">
-                    {bundle.resolution}
+
+                  <div className="absolute top-3 right-3">
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-black/60 text-zinc-300 backdrop-blur-sm border border-white/10">
+                      {bundle.category}
+                    </span>
+                  </div>
+
+                  {/* Bottom overlay info */}
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs">
+                    <span className="font-mono text-[11px] text-zinc-300">
+                      Lossless 8K
+                    </span>
+                    <span className="text-[11px] font-semibold text-zinc-300">
+                      Master Bundle
+                    </span>
                   </div>
                 </div>
 
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white mb-1.5">
+                {/* Card Content */}
+                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <h4 className="text-sm sm:text-base font-bold text-[#1d1d1f] dark:text-white line-clamp-1 group-hover:text-[#0071e3] transition-colors">
                       {bundle.title}
-                    </h3>
+                    </h4>
                     <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] line-clamp-2 leading-relaxed">
                       {bundle.description}
                     </p>
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-[#e5e5ea] dark:border-[#27272a] flex items-center justify-between">
-                    <span className="text-sm font-extrabold text-[#1d1d1f] dark:text-white">
-                      {bundle.price}
-                    </span>
-                    <a
-                      href={SUPPORTKORI_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold transition-all"
+                  {/* Features */}
+                  {bundle.features && bundle.features.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {bundle.features.slice(0, 3).map((f, i) => (
+                        <span
+                          key={i}
+                          className="px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800/80 text-[10px] text-zinc-600 dark:text-zinc-400 font-medium border border-zinc-200/50 dark:border-zinc-700/50"
+                        >
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Coming Soon Button */}
+                  <div className="pt-2 border-t border-[#f2f2f7] dark:border-zinc-800">
+                    <button
+                      type="button"
+                      disabled
+                      className="w-full py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 font-semibold text-xs transition-all flex items-center justify-center gap-1.5 cursor-not-allowed border border-zinc-200 dark:border-zinc-700/50"
                     >
-                      <span>Unlock on SupportKori</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                      <Clock className="w-3.5 h-3.5 text-amber-500" />
+                      <span>Releasing Soon</span>
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Adsterra Smart-Link Coupon Unlock Card */}
-          <div className="bg-white dark:bg-[#121316] border border-[#e5e5ea] dark:border-[#27272a] rounded-2xl p-6 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
-                <CreditCard className="w-6 h-6" />
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-base font-bold text-[#1d1d1f] dark:text-white flex items-center gap-2">
-                  <span>Get 100% OFF Coupon Code</span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 font-bold">
-                    FREE
-                  </span>
-                </h3>
-                <p className="text-xs text-[#6e6e73] dark:text-[#a1a1aa] mt-0.5 max-w-lg">
-                  Complete 4 quick sponsor actions to unlock an instant 100% discount coupon applicable on any Gumroad wallpaper bundle.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              {!isUnlocked ? (
-                <button
-                  type="button"
-                  onClick={handleStartAdStep}
-                  className="px-5 py-2.5 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs transition-all shadow-xs flex items-center gap-2"
-                >
-                  <span>
-                    {adStep === 1 ? "Start Unlock Steps" : `Step ${adStep} of 4: Continue`}
-                  </span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              ) : (
-                <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-xl">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                  <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                    {couponCode}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleCopyCoupon}
-                    className="p-1 rounded hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 transition-colors ml-1"
-                    title="Copy coupon code"
-                  >
-                    {copiedCoupon ? (
-                      <Check className="w-3.5 h-3.5" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5" />
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       )}

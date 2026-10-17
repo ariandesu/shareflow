@@ -38,6 +38,7 @@ export interface PromptItem {
   localPreviewUrl?: string;
   screenshotUrl?: string;
   livePreviewUrl?: string;
+  buyUrl?: string;
   previewDevice?: "desktop" | "tablet" | "mobile" | string;
   supportKoriUrl?: string;
   gumroadUrl?: string;
