@@ -26,14 +26,39 @@ import { LiquidEther } from "./LiquidEther";
 
 export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
-  // Close mobile drawer on route change
+  // Close mobile drawer and sync preview modal on route change
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsPreviewModalOpen(false);
+    if (typeof document !== "undefined") {
+      document.body.classList.remove("preview-modal-open");
+    }
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  // Sync state with interactive preview modal open/closed
+  useEffect(() => {
+    if (
+      typeof document !== "undefined" &&
+      document.body.classList.contains("preview-modal-open")
+    ) {
+      setIsPreviewModalOpen(true);
+    }
+
+    const handleModalToggle = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isOpen?: boolean }>;
+      setIsPreviewModalOpen(Boolean(customEvent.detail?.isOpen));
+    };
+
+    window.addEventListener("preview-modal-toggle", handleModalToggle);
+    return () => {
+      window.removeEventListener("preview-modal-toggle", handleModalToggle);
+    };
+  }, []);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -84,8 +109,9 @@ export function Layout() {
       </div>
 
       {/* Cupertino Frosted Header */}
-      <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/75 dark:bg-[#0b0c0e]/80 border-b border-[#e5e5ea]/80 dark:border-[#27272a]/80 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      {!isPreviewModalOpen && (
+        <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/75 dark:bg-[#0b0c0e]/80 border-b border-[#e5e5ea]/80 dark:border-[#27272a]/80 transition-all">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo - Clickable (Instagram Reel Item #17) */}
           <Link
             to="/"
@@ -175,9 +201,10 @@ export function Layout() {
           </div>
         </div>
       </header>
+      )}
 
       {/* Mobile Drawer (Instagram Reel Item #3) */}
-      {isMenuOpen && (
+      {!isPreviewModalOpen && isMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden flex flex-col justify-end">
           {/* Backdrop */}
           <div
@@ -285,8 +312,9 @@ export function Layout() {
       </main>
 
       {/* Cupertino Light Multi-Column Footer (Instagram Reel Items #7, #9, #18, #19) */}
-      <footer className="relative z-10 border-t border-[#e5e5ea]/80 dark:border-[#27272a]/80 bg-white/80 dark:bg-[#0b0c0e]/85 backdrop-blur-md pt-14 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-[#6e6e73] dark:text-[#a1a1aa] transition-colors">
-        <div className="max-w-7xl mx-auto">
+      {!isPreviewModalOpen && (
+        <footer className="relative z-10 border-t border-[#e5e5ea]/80 dark:border-[#27272a]/80 bg-white/80 dark:bg-[#0b0c0e]/85 backdrop-blur-md pt-14 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-[#6e6e73] dark:text-[#a1a1aa] transition-colors">
+          <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
             {/* Col 1: Brand & Mission */}
             <div className="lg:col-span-2 flex flex-col gap-4">
@@ -373,8 +401,9 @@ export function Layout() {
           </div>
         </div>
       </footer>
+      )}
 
-      <FeedbackModal />
+      {!isPreviewModalOpen && <FeedbackModal />}
     </div>
   );
 }

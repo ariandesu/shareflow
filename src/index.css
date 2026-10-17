@@ -343,3 +343,10 @@ html:not(.dark) {
   }
 }
 
+/* Hide navbar and footer when interactive preview modal is open */
+body.preview-modal-open header,
+body.preview-modal-open footer,
+body.preview-modal-open [aria-label="Send Feedback"] {
+  display: none !important;
+}
+

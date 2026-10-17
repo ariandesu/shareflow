@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import {
   X,
   ExternalLink,
@@ -75,18 +76,30 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // Lock body scroll when modal is open
+  // Lock body scroll and notify layout when modal is open
   useEffect(() => {
     if (typeof document === "undefined") return;
-    if (isOpen) {
+    if (isOpen && prompt) {
       document.body.style.overflow = "hidden";
+      document.body.classList.add("preview-modal-open");
+      window.dispatchEvent(
+        new CustomEvent("preview-modal-toggle", { detail: { isOpen: true } })
+      );
     } else {
       document.body.style.overflow = "";
+      document.body.classList.remove("preview-modal-open");
+      window.dispatchEvent(
+        new CustomEvent("preview-modal-toggle", { detail: { isOpen: false } })
+      );
     }
     return () => {
       document.body.style.overflow = "";
+      document.body.classList.remove("preview-modal-open");
+      window.dispatchEvent(
+        new CustomEvent("preview-modal-toggle", { detail: { isOpen: false } })
+      );
     };
-  }, [isOpen]);
+  }, [isOpen, prompt]);
 
   if (!isOpen || !prompt) return null;
 
@@ -115,12 +128,12 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
     }
   };
 
-  return (
+  const modalContent = (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="prompt-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
     >
       {/* Backdrop click to close */}
       <div
@@ -442,4 +455,8 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
       </div>
     </div>
   );
+
+  return typeof document !== "undefined"
+    ? createPortal(modalContent, document.body)
+    : modalContent;
 };
