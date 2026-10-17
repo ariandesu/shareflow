@@ -133,7 +133,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="prompt-modal-title"
-      className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-1 sm:p-2 md:p-3 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
     >
       {/* Backdrop click to close */}
       <div
@@ -143,9 +143,9 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
       />
 
       {/* Main Modal Window */}
-      <div className="relative w-full max-w-6xl max-h-[94vh] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-10">
+      <div className="relative w-full max-w-[98vw] 2xl:max-w-[1720px] h-[96vh] max-h-[97vh] flex flex-col bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-10">
         {/* Modal Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800/80 bg-zinc-50 dark:bg-zinc-900/50">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-2 sm:py-2.5 border-b border-zinc-200 dark:border-zinc-800/80 bg-zinc-50 dark:bg-zinc-900/50 flex-shrink-0">
           {/* Left: Component Title & Badges */}
           <div className="flex items-center gap-3 min-w-0">
             {/* Nav Arrows */}
@@ -335,9 +335,9 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
         </div>
 
         {/* Viewport Canvas Area */}
-        <div className="flex-1 w-full bg-zinc-950 flex flex-col items-center justify-center overflow-hidden min-h-[420px] sm:min-h-[520px]">
+        <div className="flex-1 min-h-0 w-full bg-zinc-950 flex flex-col items-center justify-center overflow-hidden">
           {/* Simulated Browser Bar */}
-          <div className="w-full h-7 bg-zinc-900/90 border-b border-zinc-800/80 px-3 flex items-center justify-between text-zinc-400 text-[10px] font-mono select-none">
+          <div className="w-full h-7 flex-shrink-0 bg-zinc-900/90 border-b border-zinc-800/80 px-3 flex items-center justify-between text-zinc-400 text-[10px] font-mono select-none">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-red-500/80 inline-block" />
               <span className="w-2 h-2 rounded-full bg-amber-500/80 inline-block" />
@@ -356,16 +356,16 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
 
           {/* Canvas Wrapper */}
           <div
-            className={`flex-1 w-full flex items-center justify-center transition-all duration-300 relative overflow-hidden ${
+            className={`flex-1 min-h-0 w-full flex items-center justify-center transition-all duration-300 relative overflow-hidden ${
               viewport === "desktop" || displayMode === "screenshot"
-                ? "w-full"
+                ? "w-full h-full"
                 : viewport === "tablet"
-                ? "w-full max-w-[768px] shadow-2xl border-x border-zinc-800"
-                : "w-full max-w-[390px] shadow-2xl border-x border-zinc-800"
+                ? "w-full max-w-[768px] h-full shadow-2xl border-x border-zinc-800"
+                : "w-full max-w-[420px] h-full shadow-2xl border-x border-zinc-800"
             }`}
           >
             {displayMode === "interactive" ? (
-              <div className="relative w-full h-[460px] sm:h-[540px] bg-zinc-950">
+              <div className="relative w-full h-full bg-zinc-950 flex flex-col">
                 {iframeLoading && (
                   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-950/90 text-white gap-2">
                     <RotateCw className="w-6 h-6 animate-spin text-blue-500" />
@@ -380,7 +380,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                     src={liveUrl}
                     title={prompt.title}
                     sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
-                    className="w-full h-full border-none bg-zinc-950"
+                    className="w-full h-full flex-1 border-none bg-zinc-950"
                     onLoad={() => setIframeLoading(false)}
                   />
                 ) : (
@@ -390,7 +390,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
                 )}
               </div>
             ) : (
-              <div className="w-full h-[460px] sm:h-[540px] overflow-y-auto bg-zinc-950 scrollbar-thin scrollbar-thumb-zinc-700">
+              <div className="w-full h-full overflow-y-auto bg-zinc-950 scrollbar-thin scrollbar-thumb-zinc-700 flex flex-col">
                 {screenshot ? (
                   <img
                     src={screenshot}
@@ -409,7 +409,7 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
         </div>
 
         {/* Modal Bottom: Production Prompt Specification & SupportKori Unlock */}
-        <div className="p-3 sm:p-4 bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="p-2.5 sm:px-4 sm:py-2.5 bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 flex-shrink-0">
           <div className="flex items-start gap-3 w-full sm:w-auto">
             <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
               <Lock className="w-4 h-4" />
