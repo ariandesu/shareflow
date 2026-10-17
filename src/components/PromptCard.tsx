@@ -1,0 +1,196 @@
+import React, { useState, useRef } from "react";
+import { Sparkles, Eye, Zap, Copy, Check } from "lucide-react";
+import { PromptItem } from "../types/prompt";
+import { getPromptMedia } from "../utils/promptMedia";
+
+interface PromptCardProps {
+  item: PromptItem;
+  isSelected?: boolean;
+  onClick: () => void;
+}
+
+export const PromptCard: React.FC<PromptCardProps> = ({
+  item,
+  isSelected = false,
+  onClick,
+}) => {
+  const media = getPromptMedia(item);
+  const [isHovered, setIsHovered] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const handleCopyPrompt = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      if (typeof window !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(item.prompt);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        throw new Error("Clipboard API unavailable");
+      }
+    } catch (err) {
+      console.warn("Unable to copy prompt to clipboard:", err);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (videoRef.current && !videoError) {
+      videoRef.current.play().catch(() => {
+        // Autoplay policy or interrupt safely ignored
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (videoRef.current && !videoError) {
+      videoRef.current.pause();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
+  // Determine pricing label
+  const isFree = Boolean(item.isFree);
+  const priceDisplay = isFree ? "Free" : `৳${item.priceBdt || 49} BDT`;
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`group relative flex flex-col text-left rounded-2xl overflow-hidden transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer ${
+        isSelected
+          ? "ring-2 ring-blue-500 shadow-lg shadow-blue-500/10 bg-zinc-50 dark:bg-zinc-900 border border-blue-500/40"
+          : "bg-white dark:bg-zinc-900/70 hover:bg-zinc-50/90 dark:hover:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-300 dark:hover:border-zinc-700 shadow-sm hover:shadow-xl"
+      }`}
+    >
+      {/* 1:1 Square Media Preview Container */}
+      <div className="relative w-full aspect-square overflow-hidden bg-zinc-950/20 dark:bg-zinc-950/60 rounded-t-2xl">
+        {/* GIF Preview (Highest Priority for animated visual) */}
+        {media.gifUrl && !imageError ? (
+          <img
+            src={media.gifUrl}
+            alt={item.title}
+            onError={() => setImageError(true)}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : media.videoUrl && !videoError ? (
+          /* Video Looping Preview */
+          <video
+            ref={videoRef}
+            src={media.videoUrl}
+            poster={media.imageUrl}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onError={() => setVideoError(true)}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          /* Fallback Static Screenshot */
+          <img
+            src={imageError ? "/placeholder-preview.png" : media.imageUrl}
+            alt={item.title}
+            onError={() => setImageError(true)}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        )}
+
+        {/* Ambient Dark Gradient for Badge Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+
+        {/* Top Badges */}
+        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 pointer-events-none">
+          {/* Category Pill */}
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium backdrop-blur-md bg-black/60 text-white/90 border border-white/10 shadow-sm">
+            {item.category || "UI"}
+          </span>
+
+          {/* Pricing Pill */}
+          <span
+            className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-semibold backdrop-blur-md shadow-sm ${
+              isFree
+                ? "bg-emerald-500/80 text-white border border-emerald-400/30"
+                : "bg-blue-600/90 text-white border border-blue-400/30"
+            }`}
+          >
+            {!isFree && <Zap className="w-2.5 h-2.5 fill-white/80" />}
+            {priceDisplay}
+          </span>
+        </div>
+
+        {/* Bottom Interactive / Live Indicator Badge */}
+        <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-black/50 backdrop-blur-md text-white/80 border border-white/10">
+            <Sparkles className="w-2.5 h-2.5 text-blue-400" />
+            Interactive
+          </span>
+
+          {/* Hover "Open Preview" Pill */}
+          <span
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-blue-600 text-white shadow-md transition-all duration-200 ${
+              isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+            }`}
+          >
+            <Eye className="w-2.5 h-2.5" />
+            Preview
+          </span>
+        </div>
+      </div>
+
+      {/* Card Metadata Footer */}
+      <div className="p-3.5 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
+            {item.title}
+          </h3>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mt-1 leading-relaxed">
+            {item.description || "Production-ready prompt and interactive design component."}
+          </p>
+        </div>
+
+        {/* Tags, Tool row & Quick Actions */}
+        <div className="mt-2.5 pt-2 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800/60 text-[11px]">
+          <span className="text-zinc-500 dark:text-zinc-400 font-mono">
+            {item.targetTool || "Universal"}
+          </span>
+          <div className="flex items-center gap-1.5">
+            {item.tags && item.tags.length > 0 && (
+              <span className="text-zinc-500 dark:text-zinc-400 truncate max-w-[90px]">
+                #{item.tags[0]}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={handleCopyPrompt}
+              className={`p-1 rounded-md transition-colors ${
+                copied
+                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                  : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+              }`}
+              title="Copy prompt text"
+            >
+              {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

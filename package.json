@@ -10,6 +10,8 @@
     "preview": "npm run build && wrangler dev",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
+    "audit:demo": "node scripts/audit_demo_walkthrough.cjs",
+    "record:walkthrough": "node scripts/record_recordly_walkthrough.cjs",
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {

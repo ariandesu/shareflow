@@ -32,8 +32,8 @@ export interface PromptItem {
   promptContent?: string;
   prompt?: string;
   systemInstruction?: string;
-  previewImage?: string;
-  thumbnail?: string;
+  previewImage?: string | { url?: string; type?: string; storagePath?: string };
+  thumbnail?: string | { url?: string; type?: string; storagePath?: string };
   previewUrl?: string;
   localPreviewUrl?: string;
   screenshotUrl?: string;
