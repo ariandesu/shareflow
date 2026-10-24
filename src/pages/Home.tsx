@@ -139,8 +139,12 @@ export function Home() {
       {/* Minimal Dual Pod Hero Section */}
       <HeroVariant3 onNotify={showToast} />
 
-      {/* Flagship Bento Grid Section */}
-      <section className="w-full max-w-7xl mx-auto flex flex-col gap-6">
+      {/* Below the fold sections: deferred to keep main thread completely idle during hero initial paint */}
+      <div ref={sentinelRef} className="w-full h-1 -mt-4 pointer-events-none opacity-0" aria-hidden="true" />
+      {renderDeferred && (
+        <>
+          {/* Flagship Bento Grid Section */}
+          <section className="w-full max-w-7xl mx-auto flex flex-col gap-6">
         <div className="text-left">
           <span className="text-xs font-bold text-[#0071e3] dark:text-[#38bdf8] uppercase tracking-wider">
             Flagship Capabilities
@@ -320,10 +324,6 @@ export function Home() {
         </div>
       </section>
 
-      {/* Below the fold sections: deferred to keep main thread completely idle during hero initial paint */}
-      <div ref={sentinelRef} className="w-full h-1 -mt-4 pointer-events-none opacity-0" aria-hidden="true" />
-      {renderDeferred && (
-        <>
           {/* 40+ Built-in High-Performance Utilities Directory */}
           <section className="w-full max-w-7xl mx-auto flex flex-col gap-8 content-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

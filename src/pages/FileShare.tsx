@@ -43,7 +43,7 @@ export function FileShare() {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code") || (location.state as any)?.code;
     if (code) {
-      setReceiveCode(code.toUpperCase());
+      navigate(`/f/${encodeURIComponent(code.trim())}`, { replace: true });
     }
   }, [location]);
   

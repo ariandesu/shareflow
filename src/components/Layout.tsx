@@ -37,6 +37,7 @@ export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [loadFluid, setLoadFluid] = useState(false);
+  const [mountSecondary, setMountSecondary] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
@@ -72,6 +73,21 @@ export function Layout() {
     }
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  // Defer non-critical footer and feedback modal to allow instantaneous first paint
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("requestIdleCallback" in window) {
+        // @ts-ignore
+        const id = window.requestIdleCallback(() => setMountSecondary(true), { timeout: 300 });
+        // @ts-ignore
+        return () => window.cancelIdleCallback(id);
+      } else {
+        const id = setTimeout(() => setMountSecondary(true), 150);
+        return () => clearTimeout(id);
+      }
+    }
+  }, []);
 
   // Sync state with interactive preview modal open/closed
   useEffect(() => {
@@ -358,13 +374,13 @@ export function Layout() {
       </main>
 
       {/* Cupertino Light Multi-Column Footer (Lazy-loaded) */}
-      {!isPreviewModalOpen && (
+      {!isPreviewModalOpen && mountSecondary && (
         <Suspense fallback={null}>
           <Footer />
         </Suspense>
       )}
 
-      {!isPreviewModalOpen && (
+      {!isPreviewModalOpen && mountSecondary && (
         <Suspense fallback={null}>
           <FeedbackModal />
         </Suspense>

@@ -1,11 +1,24 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig} from 'vite';
+import {defineConfig, Plugin} from 'vite';
+
+function asyncCssPlugin(): Plugin {
+  return {
+    name: 'async-css',
+    apply: 'build',
+    transformIndexHtml(html: string) {
+      return html.replace(
+        /<link rel="stylesheet" crossorigin href="([^"]+)">/g,
+        '<link rel="preload" href="$1" as="style"><link rel="stylesheet" href="$1" media="print" onload="this.media=\'all\'"><noscript><link rel="stylesheet" href="$1"></noscript>'
+      );
+    },
+  };
+}
 
 export default defineConfig(() => {
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(), asyncCssPlugin()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -16,14 +29,7 @@ export default defineConfig(() => {
     },
     build: {
       cssMinify: 'lightningcss',
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-            'vendor-icons': ['lucide-react'],
-          },
-        },
-      },
+
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

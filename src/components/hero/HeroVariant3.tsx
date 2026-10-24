@@ -32,31 +32,99 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
   };
 
   const handleDigitChange = (index: number, val: string) => {
-    const cleaned = val.toUpperCase().slice(-1);
-    const newDigits = [...codeDigits];
-    newDigits[index] = cleaned;
-    setCodeDigits(newDigits);
+    const cleanAlphanumeric = val.replace(/[^a-zA-Z0-9]/g, "");
 
-    // Auto-advance input
-    if (cleaned && index < 3) {
-      const nextInput = document.getElementById(`digit-${index + 1}`);
-      nextInput?.focus();
+    // If multiple characters were entered (e.g. paste, autofill, or mobile clipboard)
+    if (cleanAlphanumeric.length > 1) {
+      let extracted = cleanAlphanumeric;
+      const urlMatch = val.match(/\/f\/([a-zA-Z0-9]+)/i);
+      if (urlMatch && urlMatch[1]) {
+        extracted = urlMatch[1];
+      }
+      const cleanChars = extracted.slice(0, 4);
+      if (cleanChars.length === 4) {
+        setCodeDigits([cleanChars[0], cleanChars[1], cleanChars[2], cleanChars[3]]);
+        notify(`Locating file room [${cleanChars}]...`, "success");
+        navigate(`/f/${encodeURIComponent(cleanChars)}`, { state: { code: cleanChars } });
+        return;
+      }
     }
 
-    // Auto-submit if all 4 digits entered
-    if (cleaned && index === 3 && newDigits.every((d) => d.length > 0)) {
-      const fullCode = newDigits.join("");
-      notify(`Joining peer room [${fullCode}]...`, "success");
-      setTimeout(() => {
-        navigate(`/file-share?code=${encodeURIComponent(fullCode)}`, { state: { code: fullCode } });
-      }, 400);
+    // Normal typing: take the last entered character
+    const char = cleanAlphanumeric.slice(-1);
+    if (val && !char) return; // Ignore non-alphanumeric
+
+    setCodeDigits((prev) => {
+      const next = [...prev];
+      next[index] = char;
+
+      // Auto-submit if all 4 digits are filled
+      if (char && next.every((d) => d.length === 1)) {
+        const fullCode = next.join("");
+        notify(`Locating file room [${fullCode}]...`, "success");
+        navigate(`/f/${encodeURIComponent(fullCode)}`, { state: { code: fullCode } });
+      }
+
+      return next;
+    });
+
+    // Auto-advance focus to next input if a character was entered
+    if (char && index < 3) {
+      const nextInput = document.getElementById(`digit-${index + 1}`) as HTMLInputElement | null;
+      nextInput?.focus();
+      nextInput?.select();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").trim();
+    if (!pasted) return;
+
+    let code = pasted;
+    const urlMatch = pasted.match(/\/f\/([a-zA-Z0-9]+)/i);
+    if (urlMatch && urlMatch[1]) {
+      code = urlMatch[1];
+    } else {
+      code = pasted.replace(/[^a-zA-Z0-9]/g, "");
+    }
+
+    const cleanChars = code.slice(0, 4);
+    if (!cleanChars) return;
+
+    const newDigits = [
+      cleanChars[0] || "",
+      cleanChars[1] || "",
+      cleanChars[2] || "",
+      cleanChars[3] || "",
+    ];
+    setCodeDigits(newDigits);
+
+    if (cleanChars.length === 4) {
+      notify(`Locating file room [${cleanChars}]...`, "success");
+      navigate(`/f/${encodeURIComponent(cleanChars)}`, { state: { code: cleanChars } });
+    } else {
+      const nextIdx = Math.min(cleanChars.length, 3);
+      const nextInput = document.getElementById(`digit-${nextIdx}`) as HTMLInputElement | null;
+      nextInput?.focus();
+      nextInput?.select();
     }
   };
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace" && !codeDigits[index] && index > 0) {
-      const prevInput = document.getElementById(`digit-${index - 1}`);
-      prevInput?.focus();
+    if (e.key === "Backspace") {
+      if (!codeDigits[index] && index > 0) {
+        e.preventDefault();
+        const prevIdx = index - 1;
+        setCodeDigits((prev) => {
+          const next = [...prev];
+          next[prevIdx] = "";
+          return next;
+        });
+        const prevInput = document.getElementById(`digit-${prevIdx}`) as HTMLInputElement | null;
+        prevInput?.focus();
+        prevInput?.select();
+      }
     }
   };
 
@@ -67,8 +135,8 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
       notify("Please enter a 4-digit code to connect.", "error");
       return;
     }
-    notify(`Joining peer room [${fullCode}]...`, "success");
-    navigate(`/file-share?code=${encodeURIComponent(fullCode)}`, { state: { code: fullCode } });
+    notify(`Locating file room [${fullCode}]...`, "success");
+    navigate(`/f/${encodeURIComponent(fullCode)}`, { state: { code: fullCode } });
   };
 
   const handleFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -196,11 +264,17 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
                     key={idx}
                     id={`digit-${idx}`}
                     type="text"
-                    maxLength={1}
+                    maxLength={4}
                     value={digit}
                     onChange={(e) => handleDigitChange(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
-                    className="w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border-2 border-[#e5e5ea] dark:border-[#27272a] text-center font-mono text-xl sm:text-2xl font-black text-[#1d1d1f] dark:text-white focus:outline-none focus:border-[#0071e3] dark:focus:border-[#38bdf8] focus:scale-110 focus:shadow-lg focus:shadow-[#0071e3]/20 transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105 uppercase"
+                    onPaste={handlePaste}
+                    onFocus={(e) => e.target.select()}
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    autoComplete="off"
+                    className="w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-[#f5f5f7] dark:bg-[#181a20] border-2 border-[#e5e5ea] dark:border-[#27272a] text-center font-mono text-xl sm:text-2xl font-black text-[#1d1d1f] dark:text-white focus:outline-none focus:border-[#0071e3] dark:focus:border-[#38bdf8] focus:scale-110 focus:shadow-lg focus:shadow-[#0071e3]/20 transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-105"
                     placeholder="•"
                   />
                 ))}

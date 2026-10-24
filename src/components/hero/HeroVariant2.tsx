@@ -56,12 +56,13 @@ export function HeroVariant2({ onNotify }: HeroVariant2Props) {
 
   const handleJoinPeer = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!peerCode.trim()) {
+    const cleanCode = peerCode.trim();
+    if (!cleanCode) {
       notify("Please enter a valid 4-character room code.", "error");
       return;
     }
-    notify(`Connecting to peer node [${peerCode.toUpperCase()}]...`, "success");
-    navigate(`/f?code=${encodeURIComponent(peerCode.trim().toUpperCase())}`);
+    notify(`Locating file room [${cleanCode}]...`, "success");
+    navigate(`/f/${encodeURIComponent(cleanCode)}`);
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

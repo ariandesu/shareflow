@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Download, File as FileIcon, X, Loader2, Wifi, Check, ArrowRight, ArrowLeft, HelpCircle, BookOpen, ShieldCheck, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AdBanner } from "../components/AdBanner";
@@ -26,10 +26,14 @@ type FileMetadata = {
 
 export function FileReceive() {
   const { id } = useParams<{ id?: string }>();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const activeCode = id || searchParams.get("code") || (location.state as any)?.code || "";
+
   const navigate = useNavigate();
   const { toasts, showToast, dismissToast } = useCupertinoToast();
   
-  const [code, setCode] = useState(id || "");
+  const [code, setCode] = useState(activeCode);
   const [status, setStatus] = useState<"idle" | "fetching" | "ready" | "receiving" | "success" | "error">("idle");
   const [metadata, setMetadata] = useState<FileMetadata | null>(null);
   const [progress, setProgress] = useState(0);
@@ -47,13 +51,14 @@ export function FileReceive() {
   }, [status]);
 
   useEffect(() => {
-    if (id) {
-      fetchMetadata(id);
+    if (activeCode) {
+      setCode(activeCode);
+      fetchMetadata(activeCode);
     }
     return () => {
       cleanupWebRTC();
     };
-  }, [id]);
+  }, [activeCode]);
 
   const cleanupWebRTC = () => {
     if (pcRef.current) {
