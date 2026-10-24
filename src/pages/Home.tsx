@@ -80,11 +80,19 @@ export function Home() {
   const [renderDeferred, setRenderDeferred] = useState(false);
 
   useEffect(() => {
+    const enable = () => setRenderDeferred(true);
+    window.addEventListener("scroll", enable, { once: true, passive: true });
+    window.addEventListener("touchstart", enable, { once: true, passive: true });
+    window.addEventListener("mousemove", enable, { once: true, passive: true });
+
     // Yield to browser main thread so Hero paints and becomes interactive immediately
-    const t = setTimeout(() => {
-      setRenderDeferred(true);
-    }, 50);
-    return () => clearTimeout(t);
+    const t = setTimeout(enable, 1200);
+    return () => {
+      window.removeEventListener("scroll", enable);
+      window.removeEventListener("touchstart", enable);
+      window.removeEventListener("mousemove", enable);
+      clearTimeout(t);
+    };
   }, []);
 
   const showToast = (text: string, type: "success" | "error" = "success") => {
