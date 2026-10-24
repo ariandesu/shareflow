@@ -32,16 +32,26 @@ export function HeroVariant3({ onNotify }: HeroVariant3Props) {
   };
 
   const handleDigitChange = (index: number, val: string) => {
+    // If user enters or pastes a full URL
+    if (val.toLowerCase().startsWith("http") || val.includes("/")) {
+      const urlMatch = val.match(/\/f\/([a-zA-Z0-9]+)/i);
+      if (urlMatch && urlMatch[1]) {
+        const cleanChars = urlMatch[1].slice(0, 4);
+        if (cleanChars.length === 4) {
+          setCodeDigits([cleanChars[0], cleanChars[1], cleanChars[2], cleanChars[3]]);
+          notify(`Locating file room [${cleanChars}]...`, "success");
+          navigate(`/f/${encodeURIComponent(cleanChars)}`, { state: { code: cleanChars } });
+          return;
+        }
+      }
+      return;
+    }
+
     const cleanAlphanumeric = val.replace(/[^a-zA-Z0-9]/g, "");
 
     // If multiple characters were entered (e.g. paste, autofill, or mobile clipboard)
     if (cleanAlphanumeric.length > 1) {
-      let extracted = cleanAlphanumeric;
-      const urlMatch = val.match(/\/f\/([a-zA-Z0-9]+)/i);
-      if (urlMatch && urlMatch[1]) {
-        extracted = urlMatch[1];
-      }
-      const cleanChars = extracted.slice(0, 4);
+      const cleanChars = cleanAlphanumeric.slice(0, 4);
       if (cleanChars.length === 4) {
         setCodeDigits([cleanChars[0], cleanChars[1], cleanChars[2], cleanChars[3]]);
         notify(`Locating file room [${cleanChars}]...`, "success");
