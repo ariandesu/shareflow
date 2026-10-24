@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FileUp,
@@ -78,20 +78,43 @@ export function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
   const [renderDeferred, setRenderDeferred] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const enable = () => setRenderDeferred(true);
+    let triggered = false;
+    const enable = () => {
+      if (triggered) return;
+      triggered = true;
+      setRenderDeferred(true);
+    };
+
     window.addEventListener("scroll", enable, { once: true, passive: true });
     window.addEventListener("touchstart", enable, { once: true, passive: true });
-    window.addEventListener("mousemove", enable, { once: true, passive: true });
+    window.addEventListener("pointerdown", enable, { once: true, passive: true });
 
-    // Yield to browser main thread so Hero paints and becomes interactive immediately
-    const t = setTimeout(enable, 1200);
+    if (sentinelRef.current && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            enable();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "400px" }
+      );
+      observer.observe(sentinelRef.current);
+      return () => {
+        observer.disconnect();
+        window.removeEventListener("scroll", enable);
+        window.removeEventListener("touchstart", enable);
+        window.removeEventListener("pointerdown", enable);
+      };
+    }
+
     return () => {
       window.removeEventListener("scroll", enable);
       window.removeEventListener("touchstart", enable);
-      window.removeEventListener("mousemove", enable);
-      clearTimeout(t);
+      window.removeEventListener("pointerdown", enable);
     };
   }, []);
 
@@ -316,6 +339,7 @@ export function Home() {
       </section>
 
       {/* Below the fold sections: deferred to keep main thread completely idle during hero initial paint */}
+      <div ref={sentinelRef} className="w-full h-1 -mt-4 pointer-events-none opacity-0" aria-hidden="true" />
       {renderDeferred && (
         <>
           {/* 40+ Built-in High-Performance Utilities Directory */}
