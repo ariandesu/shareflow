@@ -88,33 +88,15 @@ export function Home() {
       setRenderDeferred(true);
     };
 
-    window.addEventListener("scroll", enable, { once: true, passive: true });
-    window.addEventListener("touchstart", enable, { once: true, passive: true });
-    window.addEventListener("pointerdown", enable, { once: true, passive: true });
-
-    if (sentinelRef.current && "IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            enable();
-            observer.disconnect();
-          }
-        },
-        { rootMargin: "400px" }
-      );
-      observer.observe(sentinelRef.current);
-      return () => {
-        observer.disconnect();
-        window.removeEventListener("scroll", enable);
-        window.removeEventListener("touchstart", enable);
-        window.removeEventListener("pointerdown", enable);
-      };
-    }
+    const events = ["scroll", "wheel", "touchstart", "pointerdown", "keydown"];
+    events.forEach((evt) => {
+      window.addEventListener(evt, enable, { once: true, passive: true });
+    });
 
     return () => {
-      window.removeEventListener("scroll", enable);
-      window.removeEventListener("touchstart", enable);
-      window.removeEventListener("pointerdown", enable);
+      events.forEach((evt) => {
+        window.removeEventListener(evt, enable);
+      });
     };
   }, []);
 

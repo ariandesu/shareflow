@@ -55,10 +55,7 @@ export function Layout() {
     window.addEventListener("scroll", startFluid, { once: true, passive: true });
     window.addEventListener("keydown", startFluid, { once: true, passive: true });
 
-    const timerId = setTimeout(startFluid, 4000);
-
     return () => {
-      clearTimeout(timerId);
       window.removeEventListener("pointermove", startFluid);
       window.removeEventListener("touchstart", startFluid);
       window.removeEventListener("scroll", startFluid);

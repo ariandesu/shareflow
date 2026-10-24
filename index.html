@@ -44,24 +44,6 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
-  <!-- Cloudflare Web Analytics (User interaction triggered injection) -->
-  <script>
-    (function() {
-      var loaded = false;
-      function loadBeacon() {
-        if (loaded) return;
-        loaded = true;
-        var s = document.createElement('script');
-        s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-        s.setAttribute('data-cf-beacon', '{"token": "154e62d39dd041ba823c11f4f1134f9b"}');
-        s.async = true;
-        document.body.appendChild(s);
-      }
-      ['scroll', 'touchstart', 'click'].forEach(function(e) {
-        window.addEventListener(e, loadBeacon, { once: true, passive: true });
-      });
-    })();
-  </script>
 </body>
 
 </html>
