@@ -12,7 +12,7 @@ export default defineConfig(() => {
       },
     },
     esbuild: {
-      drop: ['debugger'],
+      drop: ['console', 'debugger'],
     },
     build: {
       cssMinify: true,

@@ -21,7 +21,10 @@ import {
   Moon
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
-import { FeedbackModal } from "./FeedbackModal";
+
+const FeedbackModal = lazy(() =>
+  import("./FeedbackModal").then((mod) => ({ default: mod.FeedbackModal }))
+);
 
 // Lazy-load WebGL Fluid simulation so Three.js doesn't block the initial page load or audit
 const LiquidEther = lazy(() =>
@@ -447,7 +450,11 @@ export function Layout() {
       </footer>
       )}
 
-      {!isPreviewModalOpen && <FeedbackModal />}
+      {!isPreviewModalOpen && (
+        <Suspense fallback={null}>
+          <FeedbackModal />
+        </Suspense>
+      )}
     </div>
   );
 }
