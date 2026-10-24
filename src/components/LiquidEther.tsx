@@ -156,7 +156,8 @@ export function LiquidEther({
 
       init(container: HTMLElement) {
         this.container = container;
-        this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        this.isMobile = typeof window !== "undefined" && window.innerWidth < this.breakpoint;
+        this.pixelRatio = this.isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
         this.resize();
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.autoClear = false;

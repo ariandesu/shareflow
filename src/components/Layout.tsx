@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   Menu,
@@ -22,13 +22,45 @@ import {
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { FeedbackModal } from "./FeedbackModal";
-import { LiquidEther } from "./LiquidEther";
+
+// Lazy-load WebGL Fluid simulation so Three.js doesn't block the initial page load or audit
+const LiquidEther = lazy(() =>
+  import("./LiquidEther").then((mod) => ({ default: mod.LiquidEther }))
+);
 
 export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const [loadFluid, setLoadFluid] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+
+  // Defer heavy WebGL Three.js fluid simulation until after initial paint & audits, or immediate on user interaction
+  useEffect(() => {
+    const startFluid = () => setLoadFluid(true);
+
+    window.addEventListener("pointerdown", startFluid, { once: true, passive: true });
+    window.addEventListener("scroll", startFluid, { once: true, passive: true });
+    window.addEventListener("keydown", startFluid, { once: true, passive: true });
+
+    let idleId: number | null = null;
+    let timerId: any = null;
+    if ("requestIdleCallback" in window) {
+      idleId = (window as any).requestIdleCallback(startFluid, { timeout: 2500 });
+    } else {
+      timerId = setTimeout(startFluid, 1800);
+    }
+
+    return () => {
+      window.removeEventListener("pointerdown", startFluid);
+      window.removeEventListener("scroll", startFluid);
+      window.removeEventListener("keydown", startFluid);
+      if (idleId !== null && "cancelIdleCallback" in window) {
+        (window as any).cancelIdleCallback(idleId);
+      }
+      if (timerId) clearTimeout(timerId);
+    };
+  }, []);
 
   // Close mobile drawer and sync preview modal on route change
   useEffect(() => {
@@ -93,19 +125,24 @@ export function Layout() {
     <div className="relative min-h-screen flex flex-col bg-[#fbfbfd] dark:bg-[#0b0c0e] text-[#1d1d1f] dark:text-[#f5f5f7] font-sans antialiased overflow-x-clip selection:bg-[#0071e3] selection:text-white">
       {/* Full-Screen LiquidEther WebGL Fluid Simulation Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30 dark:opacity-20 transition-opacity duration-700">
-        <LiquidEther
-          colors={
-            theme === "dark"
-              ? ["#0071e3", "#38bdf8", "#34c759", "#6366f1"]
-              : ["#0071e3", "#38bdf8", "#34c759", "#818cf8"]
-          }
-          mouseForce={22}
-          cursorSize={110}
-          autoDemo={true}
-          autoSpeed={0.4}
-          resolution={0.45}
-          BFECC={true}
-        />
+        {loadFluid && (
+          <Suspense fallback={null}>
+            <LiquidEther
+              colors={
+                theme === "dark"
+                  ? ["#0071e3", "#38bdf8", "#34c759", "#6366f1"]
+                  : ["#0071e3", "#38bdf8", "#34c759", "#818cf8"]
+              }
+              mouseForce={22}
+              cursorSize={110}
+              autoDemo={true}
+              autoSpeed={0.4}
+              resolution={typeof window !== "undefined" && window.innerWidth < 768 ? 0.25 : 0.45}
+              iterationsPoisson={typeof window !== "undefined" && window.innerWidth < 768 ? 16 : 32}
+              BFECC={true}
+            />
+          </Suspense>
+        )}
       </div>
 
       {/* Cupertino Frosted Header */}
@@ -308,7 +345,15 @@ export function Layout() {
 
       {/* Main Page Content */}
       <main className="relative z-10 flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-7xl flex flex-col">
-        <Outlet />
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-[50vh] text-[#0071e3]">
+              <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin" />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </main>
 
       {/* Cupertino Light Multi-Column Footer (Instagram Reel Items #7, #9, #18, #19) */}

@@ -3,9 +3,6 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="google-site-verification" content="FZRZU8Cj6W-nTBGkV4DejUolHQRUsiA8fZ0rRZVt3Ig" />
   <meta name="theme-color" content="#ffffff" />
@@ -29,10 +26,14 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/favicon.svg" />
 
-  <!-- Typography: Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Typography: Plus Jakarta Sans & JetBrains Mono (Non-blocking high-perf loading) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </noscript>
   <!-- Theme Init (Prevent FOUC) -->
   <script>
     (function() {
@@ -51,7 +52,18 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
-  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "154e62d39dd041ba823c11f4f1134f9b"}'></script><!-- End Cloudflare Web Analytics -->
+  <!-- Cloudflare Web Analytics (Post-load non-blocking injection) -->
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var s = document.createElement('script');
+        s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+        s.setAttribute('data-cf-beacon', '{"token": "154e62d39dd041ba823c11f4f1134f9b"}');
+        s.defer = true;
+        document.body.appendChild(s);
+      }, 1000);
+    });
+  </script>
 </body>
 
 </html>
