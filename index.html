@@ -44,16 +44,16 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
-  <!-- Cloudflare Web Analytics (Post-load non-blocking injection) -->
+  <!-- Cloudflare Web Analytics (Deferred non-blocking injection) -->
   <script>
     window.addEventListener('load', function() {
-      (window.requestIdleCallback || setTimeout)(function() {
+      setTimeout(function() {
         var s = document.createElement('script');
         s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
         s.setAttribute('data-cf-beacon', '{"token": "154e62d39dd041ba823c11f4f1134f9b"}');
         s.defer = true;
         document.body.appendChild(s);
-      }, { timeout: 4000 });
+      }, 5000);
     });
   </script>
 </body>

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FileUp,
@@ -77,6 +77,15 @@ export function Home() {
   const [selectedCategory, setSelectedCategory] = useState<"all" | "dev" | "pdf" | "media" | "security">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [toastMessage, setToastMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  const [renderDeferred, setRenderDeferred] = useState(false);
+
+  useEffect(() => {
+    // Yield to browser main thread so Hero paints and becomes interactive immediately
+    const t = setTimeout(() => {
+      setRenderDeferred(true);
+    }, 50);
+    return () => clearTimeout(t);
+  }, []);
 
   const showToast = (text: string, type: "success" | "error" = "success") => {
     setToastMessage({ text, type });
@@ -298,8 +307,11 @@ export function Home() {
         </div>
       </section>
 
-      {/* 40+ Built-in High-Performance Utilities Directory */}
-      <section className="w-full max-w-7xl mx-auto flex flex-col gap-8 content-auto">
+      {/* Below the fold sections: deferred to keep main thread completely idle during hero initial paint */}
+      {renderDeferred && (
+        <>
+          {/* 40+ Built-in High-Performance Utilities Directory */}
+          <section className="w-full max-w-7xl mx-auto flex flex-col gap-8 content-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <span className="text-xs font-bold text-[#0071e3] dark:text-[#38bdf8] uppercase tracking-wider">
@@ -480,6 +492,8 @@ export function Home() {
           </table>
         </div>
       </section>
+        </>
+      )}
     </div>
   );
 }
