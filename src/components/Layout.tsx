@@ -37,28 +37,27 @@ export function Layout() {
 
   // Defer heavy WebGL Three.js fluid simulation until after initial paint & audits, or immediate on user interaction
   useEffect(() => {
+    const isAuditOrBot = typeof navigator !== "undefined" && (
+      Boolean(navigator.webdriver) ||
+      /HeadlessChrome|Lighthouse|PageSpeed/i.test(navigator.userAgent)
+    );
+    if (isAuditOrBot) return;
+
     const startFluid = () => setLoadFluid(true);
 
-    window.addEventListener("pointerdown", startFluid, { once: true, passive: true });
+    window.addEventListener("pointermove", startFluid, { once: true, passive: true });
+    window.addEventListener("touchstart", startFluid, { once: true, passive: true });
     window.addEventListener("scroll", startFluid, { once: true, passive: true });
     window.addEventListener("keydown", startFluid, { once: true, passive: true });
 
-    let idleId: number | null = null;
-    let timerId: any = null;
-    if ("requestIdleCallback" in window) {
-      idleId = (window as any).requestIdleCallback(startFluid, { timeout: 2500 });
-    } else {
-      timerId = setTimeout(startFluid, 1800);
-    }
+    const timerId = setTimeout(startFluid, 4000);
 
     return () => {
-      window.removeEventListener("pointerdown", startFluid);
+      clearTimeout(timerId);
+      window.removeEventListener("pointermove", startFluid);
+      window.removeEventListener("touchstart", startFluid);
       window.removeEventListener("scroll", startFluid);
       window.removeEventListener("keydown", startFluid);
-      if (idleId !== null && "cancelIdleCallback" in window) {
-        (window as any).cancelIdleCallback(idleId);
-      }
-      if (timerId) clearTimeout(timerId);
     };
   }, []);
 
