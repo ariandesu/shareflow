@@ -299,7 +299,7 @@ export function Home() {
       </section>
 
       {/* 40+ Built-in High-Performance Utilities Directory */}
-      <section className="w-full max-w-7xl mx-auto flex flex-col gap-8">
+      <section className="w-full max-w-7xl mx-auto flex flex-col gap-8 content-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <span className="text-xs font-bold text-[#0071e3] dark:text-[#38bdf8] uppercase tracking-wider">
@@ -375,7 +375,7 @@ export function Home() {
       </section>
 
       {/* Architecture & Comparison Section */}
-      <section className="w-full max-w-7xl mx-auto flex flex-col gap-6">
+      <section className="w-full max-w-7xl mx-auto flex flex-col gap-6 content-auto">
         <div className="text-left">
           <span className="text-xs font-bold text-[#0071e3] dark:text-[#38bdf8] uppercase tracking-wider">
             ZERO-KNOWLEDGE PRIVACY

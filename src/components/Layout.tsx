@@ -360,7 +360,7 @@ export function Layout() {
 
       {/* Cupertino Light Multi-Column Footer (Instagram Reel Items #7, #9, #18, #19) */}
       {!isPreviewModalOpen && (
-        <footer className="relative z-10 border-t border-[#e5e5ea]/80 dark:border-[#27272a]/80 bg-white/80 dark:bg-[#0b0c0e]/85 backdrop-blur-md pt-14 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-[#6e6e73] dark:text-[#a1a1aa] transition-colors">
+        <footer className="relative z-10 border-t border-[#e5e5ea]/80 dark:border-[#27272a]/80 bg-white/80 dark:bg-[#0b0c0e]/85 backdrop-blur-md pt-14 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-[#6e6e73] dark:text-[#a1a1aa] transition-colors content-auto">
           <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
             {/* Col 1: Brand & Mission */}

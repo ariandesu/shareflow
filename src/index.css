@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
-@plugin "@tailwindcss/typography";
 
 @theme {
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -134,7 +133,12 @@ img, svg, video, canvas, audio, iframe, embed, object {
   }
 }
 
-@keyframes float-gentle {
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+}
+
+@keyframes float {
   0%, 100% {
     transform: translateY(0);
   }

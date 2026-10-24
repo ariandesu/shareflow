@@ -57,7 +57,7 @@ export function MarkdownPreview() {
             <div className="px-6 py-4 border-b border-black/10 flex justify-between items-center">
               <h2 className="text-xs font-bold uppercase tracking-widest text-black/50">Preview</h2>
             </div>
-            <div className="flex-1 p-6 overflow-auto prose prose-slate max-w-none prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-a:text-black">
+            <div className="flex-1 p-6 overflow-auto max-w-none text-neutral-800 leading-relaxed [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:my-4 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:my-3 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:my-2 [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-blue-600 [&_a]:underline [&_code]:bg-neutral-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-sm [&_pre]:bg-neutral-900 [&_pre]:text-white [&_pre]:p-4 [&_pre]:rounded-lg [&_blockquote]:border-l-4 [&_blockquote]:border-neutral-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_hr]:my-4">
               <Markdown>{markdown}</Markdown>
             </div>
           </div>
